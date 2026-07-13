@@ -1,0 +1,380 @@
+\documentclass[12pt]{article}
+\linespread{1.25}
+\pagestyle{plain}
+\usepackage{graphicx}
+\usepackage[export]{adjustbox}
+\graphicspath{ {./images/} }
+\title{{\Huge{\textbf{Advanced Financial Models}}}}
+\author{Wei Chen}
+\date{\today}
+% -------------------------------------------------
+% Fonts, language, and general layout
+% -------------------------------------------------
+\usepackage[T1]{fontenc}
+\usepackage[english]{babel}
+\usepackage{mathpazo}
+\linespread{1.5}
+
+\usepackage[a4paper,
+  top=0.5in,
+  bottom=0.2in,
+  left=0.5in,
+  right=0.5in,
+  footskip=0.3in,
+  includefoot
+]{geometry}
+
+\pagestyle{plain}
+\setlength{\parindent}{0.2in}
+\setlength{\parskip}{0pt}
+\setlength{\columnseprule}{0pt}
+
+% -------------------------------------------------
+% Core packages
+% -------------------------------------------------
+\usepackage{graphicx}
+\usepackage[export]{adjustbox}
+\usepackage{array}
+\usepackage{wrapfig}
+\usepackage{multicol}
+\usepackage{framed}
+\usepackage{indentfirst}
+\usepackage[normalem]{ulem}
+\usepackage[inline,shortlabels]{enumitem}
+\usepackage[dvipsnames]{xcolor}
+\usepackage[bottom,multiple]{footmisc}
+
+% -------------------------------------------------
+% Mathematics
+% -------------------------------------------------
+\usepackage{amsmath,amsthm,amssymb}
+\usepackage{mathtools}
+\usepackage{mathrsfs}
+
+% -------------------------------------------------
+% TikZ and graphics
+% -------------------------------------------------
+\usepackage[most]{tcolorbox}
+\usepackage{tikz}
+\usepackage{tikz-3dplot}
+\usepackage{tikz-cd}
+\usepackage{tkz-tab}
+\usepackage{tkz-euclide}
+\usepackage{pgf}
+\usepackage{pgfplots}
+\pgfplotsset{compat=newest}
+
+% -------------------------------------------------
+% Hyperlinks and references
+% -------------------------------------------------
+\usepackage{hyperref}
+\hypersetup{
+  hypertex=true,
+  colorlinks=true,
+  linkcolor=blue,
+  anchorcolor=blue,
+  citecolor=blue
+}
+\usepackage[nameinlink]{cleveref}
+
+% -------------------------------------------------
+% Section and appendix formatting
+% -------------------------------------------------
+\usepackage[title,titletoc]{appendix}
+\usepackage[explicit]{titlesec}
+
+\titleformat{\chapter}
+  {\fontsize{22}{26}\normalfont\bfseries}
+  {Chapter \thechapter}
+  {22pt}
+  {\uline{#1}}
+
+\titleformat{\section}
+  {\fontsize{18}{30}\selectfont\bfseries}
+  {\thesection}
+  {16pt}
+  {#1}
+
+\titleformat{\subsection}
+  {\fontsize{14}{18}\sffamily\bfseries}
+  {\thesubsection}
+  {12pt}
+  {#1}
+
+\titleformat{\subsubsection}
+  {\fontsize{10}{12}\sffamily\large\bfseries}
+  {\thesubsubsection}
+  {8pt}
+  {#1}
+
+\titlespacing*{\section}{0pt}{5pt}{5pt}
+\titlespacing*{\subsection}{0pt}{5pt}{5pt}
+\titlespacing*{\subsubsection}{0pt}{5pt}{5pt}
+
+% -------------------------------------------------
+% Lists
+% -------------------------------------------------
+\setlist[enumerate,1]{label=(\alph*)., ref=\alph*}
+\setlist{topsep=2pt,itemsep=2pt,parsep=0pt,partopsep=0pt}
+
+% -------------------------------------------------
+% Common shortcuts
+% -------------------------------------------------
+\newcommand{\remind}[1]{\textcolor{red}{\textbf{#1}}}
+\newcommand{\hide}[1]{}
+\newcommand{\Disp}{\displaystyle}
+\newcommand{\qe}{\hfill\(\bigtriangledown\)}
+\newcommand{\mt}[1]{\texorpdfstring{$#1$}{Text}}
+\newcommand{\wt}[1]{\widetilde{#1}}
+\newcommand{\textblue}[1]{\textbf{\textcolor{blue}{#1}}}
+
+% -------------------------------------------------
+% Paired delimiters and notation
+% -------------------------------------------------
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+\newcommand{\inner}[2]{\left\langle #1, #2 \right\rangle}
+\DeclarePairedDelimiter{\paren}{(}{)}
+\DeclarePairedDelimiter{\brackets}{[}{]}
+\DeclarePairedDelimiter{\braces}{\lbrace}{\rbrace}
+\DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
+
+\newcommand{\floor}[1]{\left\lfloor #1 \right\rfloor}
+\newcommand{\ceil}[1]{\left\lceil #1 \right\rceil}
+\newcommand{\limit}[2]{\lim\limits_{#1 \rightarrow #2}}
+
+% -------------------------------------------------
+% Blackboard bold and calligraphic symbols
+% -------------------------------------------------
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\D}{\mathbb{D}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\pr}{\mathbb{P}}
+\newcommand{\eh}{\mathbb{H}}
+
+\newcommand{\X}{\mathcal{X}}
+\newcommand{\F}{\mathcal{F}}
+\newcommand{\A}{\mathcal{A}}
+\newcommand{\B}{\mathcal{B}}
+\newcommand{\M}{\mathcal{M}}
+\newcommand{\G}{\mathcal{G}}
+\newcommand{\es}{\mathcal{S}}
+\newcommand{\ml}{\mathcal{L}}
+
+% -------------------------------------------------
+% Text and symbol shortcuts
+% -------------------------------------------------
+\newcommand{\fat}{\operatorname{fat}}
+\newcommand{\VC}{\text{VC}}
+\newcommand{\var}{\operatorname{Var}}
+\newcommand{\prob}{\operatorname{Prob}}
+\newcommand{\argmin}{\operatornamewithlimits{argmin}}
+\newcommand{\argmax}{\operatornamewithlimits{argmax}}
+
+\newcommand{\ep}{\varepsilon}
+\newcommand{\vp}{\varphi}
+\newcommand{\lam}{\lambda}
+\newcommand{\Lam}{\Lambda}
+\newcommand{\ka}{\kappa}
+\newcommand{\e}{\varnothing}
+\renewcommand{\d}{\mathrm{d}}
+
+\newcommand{\ra}{"$\Rightarrow$"}
+\newcommand{\la}{"$\Leftarrow$"}
+\newcommand{\bs}{\backslash}
+\newcommand{\ind}{\large{1}}
+\newcommand{\indic}{{\large 1}}
+
+\DeclareMathAlphabet\mathbfcal{OMS}{cmsy}{b}{n}
+
+% -------------------------------------------------
+% Theorem styles
+% -------------------------------------------------
+\newtheoremstyle{mystyle}
+  {}{}{}{}{
+  \sffamily\bfseries}{.}{ }{}
+
+\newtheoremstyle{cstyle}
+  {}{}{}{}{
+  \sffamily\bfseries}{.}{ }{\thmnote{#3}}
+
+\makeatletter
+
+
+\theoremstyle{mystyle}
+\newtheorem{de}{Definition}[section]
+\newtheorem{prop}[de]{Proposition}
+\newtheorem{thm}[de]{Theorem}
+\newtheorem{lem}[de]{Lemma}
+\newtheorem{cor}[de]{Corollary}
+\newtheorem*{remark}{Remark}
+\newtheorem*{eg}{Example}
+
+\theoremstyle{cstyle}
+\newtheorem*{cthm}{}
+
+\newtheoremstyle{warn}
+  {}{}{}{}{\normalfont}{}{ }{}
+\theoremstyle{warn}
+\newtheorem*{warning}{\warningsign{0.2}\relax}
+
+% -------------------------------------------------
+% Warning symbol
+% -------------------------------------------------
+\newcommand{\warningsign}[1]{%
+  \tikz[scale=#1,every node/.style={transform shape}]{%
+    \draw[-,line width={#1*0.8mm},red,fill=yellow,
+      rounded corners={#1*2.5mm}]
+      (0,0)--(1,{-sqrt(3)})--(-1,{-sqrt(3)})--cycle;
+    \node at (0,-1) {\fontsize{48}{60}\selectfont\bfseries!};%
+  }%
+}
+
+% -------------------------------------------------
+% Theorem boxes
+% -------------------------------------------------
+\tcolorboxenvironment{de}{
+  boxrule=0pt,
+  boxsep=0pt,
+  colback=red!10,
+  left=8pt,
+  right=8pt,
+  enhanced jigsaw,
+  borderline west={2pt}{0pt}{red},
+  sharp corners,
+  before skip=10pt,
+  after skip=10pt,
+  breakable
+}
+
+\tcolorboxenvironment{prop}{
+  boxrule=0pt,
+  boxsep=0pt,
+  colback=Orange!10,
+  left=8pt,
+  right=8pt,
+  enhanced jigsaw,
+  borderline west={2pt}{0pt}{Orange},
+  sharp corners,
+  before skip=10pt,
+  after skip=10pt,
+  breakable
+}
+
+\tcolorboxenvironment{thm}{
+  boxrule=0pt,
+  boxsep=0pt,
+  colback=blue!10,
+  left=8pt,
+  right=8pt,
+  enhanced jigsaw,
+  borderline west={2pt}{0pt}{blue},
+  sharp corners,
+  before skip=10pt,
+  after skip=10pt,
+  breakable
+}
+
+\tcolorboxenvironment{lem}{
+  boxrule=0pt,
+  boxsep=0pt,
+  colback=Cyan!10,
+  left=8pt,
+  right=8pt,
+  enhanced jigsaw,
+  borderline west={2pt}{0pt}{Cyan},
+  sharp corners,
+  before skip=10pt,
+  after skip=10pt,
+  breakable
+}
+
+\tcolorboxenvironment{cor}{
+  boxrule=0pt,
+  boxsep=0pt,
+  colback=violet!10,
+  left=8pt,
+  right=8pt,
+  enhanced jigsaw,
+  borderline west={2pt}{0pt}{violet},
+  sharp corners,
+  before skip=10pt,
+  after skip=10pt,
+  breakable
+}
+
+\tcolorboxenvironment{proof}{
+  boxrule=0pt,
+  boxsep=0pt,
+  blanker,
+  borderline west={2pt}{0pt}{CadetBlue!80!white},
+  left=8pt,
+  right=8pt,
+  sharp corners,
+  before skip=10pt,
+  after skip=10pt,
+  breakable
+}
+
+\tcolorboxenvironment{remark}{
+  boxrule=0pt,
+  boxsep=0pt,
+  blanker,
+  borderline west={2pt}{0pt}{Green},
+  left=8pt,
+  right=8pt,
+  before skip=10pt,
+  after skip=10pt,
+  breakable
+}
+
+\tcolorboxenvironment{eg}{
+  boxrule=0pt,
+  boxsep=0pt,
+  blanker,
+  borderline west={2pt}{0pt}{Black},
+  left=8pt,
+  right=8pt,
+  sharp corners,
+  before skip=10pt,
+  after skip=10pt,
+  breakable
+}
+
+\tcolorboxenvironment{cthm}{
+  boxrule=0pt,
+  boxsep=0pt,
+  colback=gray!10,
+  left=8pt,
+  right=8pt,
+  enhanced jigsaw,
+  borderline west={2pt}{0pt}{gray},
+  sharp corners,
+  before skip=10pt,
+  after skip=10pt,
+  breakable
+}
+
+\newcommand{\for}{\operatorname{For}}
+\newcommand{\fut}{\operatorname{Fut}}
+\begin{document}
+	\maketitle
+	\allowdisplaybreaks
+	\pagenumbering{roman}
+	\setcounter{page}{1}
+	\begin{center}
+		\Large\textbf{Preface}
+    \end{center}~\
+    This is the note of the course \textit{Advanced financial models} in 2023 spring, which covers a large fraction of the content in the book \textit{Stochastic Calculus in Finance II} by Steven Shreve. Most of the content is based on the presentation of the instructor and written down in my understanding, so there are unavoidable mistakes and typos in the note. The note presumes basic knowledge in measure-based probability theory and discrete-time martingales, so the related contents in the lectures and the book are skipped or just stated without proof. Also some technical proofs in the book are also removed. Topics of the note include: basic probability and stochastic calculus, risk-neutral pricing theory, pricing of exotic options under Black-Scholes model, brief introductions to term-structure models and jump models.
+	
+	
+	\newpage
+	\tableofcontents
+	\clearpage
+    \include{Section 1.tex}
+    \include{Section 2.tex}
+    \include{Section 3.tex}
+    \include{Section 4.tex}
+\end{document}

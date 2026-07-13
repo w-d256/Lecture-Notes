@@ -1,0 +1,1190 @@
+\pagenumbering{arabic}
+\section{Review of probability and stochastic calculus}
+
+\subsection{Brownian motions}
+
+\begin{de}
+A stochastic process $\{W_t\}_{t\geq 0}$ is called a standard Brownian motion if:
+\begin{enumerate}
+    \item $W_0=0$ almost surely;
+    \item the map $t\mapsto W_t$ is continuous almost surely;
+    \item $W$ has independent increments: for every $0\leq t_0<t_1<\cdots<t_n$, the random variables
+    \[
+    W_{t_1}-W_{t_0},\ldots,W_{t_n}-W_{t_{n-1}}
+    \]
+    are independent; and
+    \item for every $0\leq s<t$,
+    \[
+    W_t-W_s\sim N(0,t-s).
+    \]
+\end{enumerate}
+\end{de}
+
+Brownian motion can be obtained as a scaling limit of a symmetric random walk. Let
+\[
+M_k=\sum_{i=1}^k X_i,
+\qquad
+\mathbb{P}(X_i=-1)=\mathbb{P}(X_i=1)=\frac12,
+\]
+and define
+\[
+W_t^{(n)}=\frac{1}{\sqrt n}M_{\lfloor nt\rfloor}.
+\]
+Donsker's invariance principle states that, after linear interpolation, $W^{(n)}$ converges in distribution to Brownian motion in the space of continuous paths on every compact time interval. This is convergence in law, not a pathwise limit on the original probability space.
+
+\begin{thm}
+Almost every Brownian path has the following properties.
+\begin{enumerate}
+    \item For every $T>0$ and every $\gamma<\frac12$, there is a finite random constant $C_{\gamma,T}$ such that
+    \[
+    |W_t-W_s|\leq C_{\gamma,T}|t-s|^\gamma,
+    \qquad 0\leq s,t\leq T.
+    \]
+    Thus Brownian paths are locally H\"older continuous of every order strictly smaller than $\frac12$.
+    \item The zero set
+    \[
+    \mathcal{Z}(\omega)=\{t\geq 0:W_t(\omega)=0\}
+    \]
+    is closed, unbounded, and has no isolated points. In particular, zeros and both positive and negative values occur arbitrarily close to time $0$.
+    \item The strong law and the law of the iterated logarithm give
+    \[
+    \lim_{t\to\infty}\frac{W_t}{t}=0,
+    \]
+    and
+    \[
+    \limsup_{t\downarrow 0}
+    \frac{W_t}{\sqrt{2t\log\log(1/t)}}=1,
+    \qquad
+    \liminf_{t\downarrow 0}
+    \frac{W_t}{\sqrt{2t\log\log(1/t)}}=-1.
+    \]
+\end{enumerate}
+\end{thm}
+
+\begin{de}
+Let $\Pi=\{0=t_0<t_1<\cdots<t_n=t\}$ be a partition of $[0,t]$, and let $X$ be a stochastic process. The $p$-variation sum of $X$ over $\Pi$ is
+\[
+V_t^{(p)}(\Pi,X)=\sum_{k=1}^n |X_{t_k}-X_{t_{k-1}}|^p.
+\]
+When these sums converge along a specified sequence of partitions whose mesh
+\[
+\|\Pi\|=\max_{1\leq k\leq n}(t_k-t_{k-1})
+\]
+tends to zero, the limit is called the $p$-variation along that sequence. For $p=2$, the limit is the quadratic variation and is denoted by $[X]_t=[X,X]_t$. For $p=1$, one obtains the total-variation sums; the total variation is the supremum of these sums over all partitions.
+\end{de}
+
+\begin{thm}
+Let $W$ be a Brownian motion. Along any nested sequence of partitions of $[0,t]$ whose mesh tends to zero,
+\[
+[W]_t=t
+\]
+almost surely. Brownian paths have infinite total variation on every nontrivial interval and are nowhere differentiable almost surely.
+\end{thm}
+
+\begin{de}
+Let $X$ and $Y$ be stochastic processes, and let $\Pi=\{0=t_0<t_1<\cdots<t_n=t\}$. If the limit exists, their quadratic covariation is
+\[
+[X,Y]_t
+=
+\lim_{\|\Pi\|\to 0}
+\sum_{i=1}^n
+(X_{t_i}-X_{t_{i-1}})(Y_{t_i}-Y_{t_{i-1}}).
+\]
+The mode of convergence and the sequence of partitions are understood from context.
+\end{de}
+
+\begin{thm}
+Let $W$ be a Brownian motion. Then
+\[
+[W,t]_t=0,
+\qquad
+[t,t]_t=0.
+\]
+If $W^{(1)}$ and $W^{(2)}$ are independent Brownian motions, then
+\[
+[W^{(1)},W^{(2)}]_t=0.
+\]
+In It\^o differential notation,
+\[
+(dW_t)^2=dt,
+\qquad
+dW_t\,dt=0,
+\qquad
+(dt)^2=0,
+\qquad
+dW_t^{(1)}\,dW_t^{(2)}=0.
+\]
+More generally, for Brownian motions with instantaneous correlation $\rho_t$,
+\[
+dW_t^{(1)}\,dW_t^{(2)}=\rho_t\,dt.
+\]
+\end{thm}
+
+\begin{de}
+Let $W$ be a Brownian motion on $(\Omega,\mathcal{F},\mathbb{P})$. A filtration $\{\mathcal{F}_t\}_{t\geq 0}$ is a Brownian filtration for $W$ if:
+\begin{enumerate}
+    \item $W_t$ is $\mathcal{F}_t$-measurable for every $t\geq 0$; and
+    \item for every $0\leq s<t$, the increment $W_t-W_s$ is independent of $\mathcal{F}_s$.
+\end{enumerate}
+Usually the filtration is also assumed to satisfy the usual conditions of completeness and right-continuity.
+\end{de}
+
+\begin{remark}
+The natural filtration of $W$ is
+\[
+\mathcal{F}_t^W=\sigma(W_s:0\leq s\leq t),
+\]
+usually completed and made right-continuous. A Brownian motion may also be adapted to larger filtrations, provided its future increments remain independent of the past.
+\end{remark}
+
+\begin{thm}
+Let $W$ be a standard Brownian motion with Brownian filtration $\{\mathcal{F}_t\}$. Then:
+\begin{enumerate}
+    \item for every $a>0$, the process $a^{-1/2}W_{at}$ is a standard Brownian motion;
+    \item
+    \[
+    \operatorname{Cov}(W_s,W_t)=s\wedge t;
+    \]
+    \item $W$ is a martingale:
+    \[
+    \mathbb{E}[W_t\mid\mathcal{F}_s]=W_s,
+    \qquad 0\leq s\leq t;
+    \]
+    \item $W$ is Markov: for every bounded Borel function $h$,
+    \[
+    \mathbb{E}[h(W_t)\mid\mathcal{F}_s]
+    =
+    (P_{t-s}h)(W_s),
+    \]
+    where
+    \[
+    (P_u h)(x)=\mathbb{E}[h(x+\sqrt{u}\,Z)]
+    \quad\text{and}\quad Z\sim N(0,1).
+    \]
+\end{enumerate}
+\end{thm}
+
+\subsection{More on Brownian motions}
+
+\begin{thm}
+Let $0<t_1<\cdots<t_m$, and let $W$ be a standard Brownian motion. The moment-generating function of
+\[
+(W_{t_1},\ldots,W_{t_m})
+\]
+is
+\[
+\begin{aligned}
+\varphi(u_1,\ldots,u_m)
+&=
+\mathbb{E}\exp\left(\sum_{j=1}^m u_jW_{t_j}\right)\\
+&=
+\exp\left\{
+\frac12\sum_{k=1}^m
+\left(\sum_{j=k}^m u_j\right)^2(t_k-t_{k-1})
+\right\},
+\end{aligned}
+\]
+where $t_0=0$.
+\end{thm}
+
+\begin{proof}
+Write
+\[
+\sum_{j=1}^m u_jW_{t_j}
+=
+\sum_{k=1}^m
+\left(\sum_{j=k}^m u_j\right)(W_{t_k}-W_{t_{k-1}}).
+\]
+The increments are independent and Gaussian, so their moment-generating functions multiply. Since
+\[
+W_{t_k}-W_{t_{k-1}}\sim N(0,t_k-t_{k-1}),
+\]
+the displayed formula follows.
+\end{proof}
+
+\begin{thm}[Exponential martingale]
+Let $W$ be a Brownian motion and let $\sigma\in\mathbb{R}$ be constant. Then
+\[
+Z_t=\exp\left(\sigma W_t-\frac12\sigma^2t\right),
+\qquad t\geq 0,
+\]
+is a martingale.
+\end{thm}
+
+\begin{proof}
+For $0\leq s\leq t$, independence of $W_t-W_s$ and $\mathcal{F}_s$ gives
+\[
+\begin{aligned}
+\mathbb{E}[Z_t\mid\mathcal{F}_s]
+&=
+\exp\left(\sigma W_s-\frac12\sigma^2t\right)
+\mathbb{E}\left[e^{\sigma(W_t-W_s)}\right]\\
+&=
+\exp\left(\sigma W_s-\frac12\sigma^2t\right)
+\exp\left(\frac12\sigma^2(t-s)\right)\\
+&=Z_s.
+\end{aligned}
+\]
+\end{proof}
+
+\begin{de}
+For $m\in\mathbb{R}$, define the first passage time to level $m$ by
+\[
+\tau_m=\inf\{t\geq 0:W_t=m\},
+\]
+with the convention $\inf\varnothing=\infty$.
+\end{de}
+
+\begin{thm}
+For every $m\in\mathbb{R}$, $\tau_m<\infty$ almost surely. Moreover, for every $\alpha>0$,
+\[
+\mathbb{E}\left[e^{-\alpha\tau_m}\right]
+=e^{-|m|\sqrt{2\alpha}}.
+\]
+For $m=0$, this is interpreted using $\tau_0=0$.
+\end{thm}
+
+\begin{proof}
+It is enough by symmetry to consider $m>0$. Let $\sigma>0$ and stop the exponential martingale at $t\wedge\tau_m$. Since $t\wedge\tau_m$ is bounded,
+\[
+1
+=
+\mathbb{E}\left[
+\exp\left(
+\sigma W_{t\wedge\tau_m}
+-\frac12\sigma^2(t\wedge\tau_m)
+\right)
+\right].
+\]
+Before $\tau_m$, continuity implies $W_{t\wedge\tau_m}\leq m$. Dominated convergence therefore gives, as $t\to\infty$,
+\[
+1
+=
+e^{\sigma m}
+\mathbb{E}\left[
+\mathbf{1}_{\{\tau_m<\infty\}}
+e^{-\frac12\sigma^2\tau_m}
+\right].
+\]
+Letting $\sigma\downarrow 0$ yields $\mathbb{P}(\tau_m<\infty)=1$. Hence
+\[
+\mathbb{E}\left[e^{-\frac12\sigma^2\tau_m}\right]
+=e^{-\sigma m}.
+\]
+Putting $\alpha=\sigma^2/2$ gives the stated formula for $m>0$, and symmetry gives the result for $m<0$.
+\end{proof}
+
+\begin{remark}
+Differentiating the Laplace transform for $m\neq 0$ gives
+\[
+\mathbb{E}\left[\tau_m e^{-\alpha\tau_m}\right]
+=
+\frac{|m|}{\sqrt{2\alpha}}
+ e^{-|m|\sqrt{2\alpha}},
+\qquad \alpha>0.
+\]
+Letting $\alpha\downarrow 0$ shows that $\mathbb{E}[\tau_m]=\infty$ for $m\neq 0$.
+\end{remark}
+
+\begin{thm}[Reflection principle]
+Let $m>0$ and $w\leq m$. Then
+\[
+\mathbb{P}(\tau_m\leq t,\,W_t\leq w)
+=
+\mathbb{P}(W_t\geq 2m-w).
+\]
+\end{thm}
+
+\begin{proof}
+Reflect each path after its first hitting time of $m$. This gives a measure-preserving bijection between paths satisfying $\tau_m\leq t$ and $W_t\leq w$ and paths satisfying $W_t\geq 2m-w$.
+\end{proof}
+
+\begin{thm}
+For $m\neq 0$ and $t>0$,
+\[
+\mathbb{P}(\tau_m\leq t)
+=
+2\left[1-\Phi\left(\frac{|m|}{\sqrt t}\right)\right]
+=
+\frac{2}{\sqrt{2\pi}}
+\int_{|m|/\sqrt t}^{\infty}e^{-y^2/2}\,dy,
+\]
+and $\tau_m$ has density
+\[
+f_{\tau_m}(t)
+=
+\frac{|m|}{\sqrt{2\pi t^3}}
+\exp\left(-\frac{m^2}{2t}\right),
+\qquad t>0.
+\]
+\end{thm}
+
+\begin{proof}
+For $m>0$, the reflection principle gives
+\[
+\mathbb{P}(\tau_m\leq t)
+=2\mathbb{P}(W_t\geq m).
+\]
+The formula follows from $W_t\sim N(0,t)$. The case $m<0$ follows by symmetry, and differentiation gives the density.
+\end{proof}
+
+\begin{thm}
+Let
+\[
+M_t=\max_{0\leq s\leq t}W_s.
+\]
+For $m>0$ and $w\leq m$,
+\[
+\mathbb{P}(M_t\geq m,\,W_t\leq w)
+=
+\mathbb{P}(W_t\geq 2m-w).
+\]
+The joint density of $(M_t,W_t)$ is
+\[
+f_{M_t,W_t}(m,w)
+=
+\frac{2(2m-w)}{t\sqrt{2\pi t}}
+\exp\left(-\frac{(2m-w)^2}{2t}\right),
+\qquad m\geq 0,\quad w\leq m,
+\]
+and is zero elsewhere.
+\end{thm}
+
+\begin{proof}
+The reflection identity gives
+\[
+\int_m^\infty\int_{-\infty}^w
+f_{M_t,W_t}(x,y)\,dy\,dx
+=
+\frac{1}{\sqrt{2\pi t}}
+\int_{2m-w}^{\infty}e^{-z^2/(2t)}\,dz.
+\]
+Differentiate first with respect to $m$ and then with respect to $w$.
+\end{proof}
+
+\subsection{It\^o integrals}
+
+Let $\mathcal{H}^2([0,T])$ denote the space of progressively measurable processes $X$ such that
+\[
+\|X\|_{\mathcal{H}^2}
+=
+\left(
+\mathbb{E}\int_0^T |X_s|^2\,ds
+\right)^{1/2}
+<\infty.
+\]
+
+\begin{de}
+An adapted simple process on $[0,T]$ has the form
+\[
+\phi_s
+=
+\sum_{i=0}^{n-1}
+A_i\mathbf{1}_{(t_i,t_{i+1}]}(s),
+\]
+where
+\[
+0=t_0<t_1<\cdots<t_n=T,
+\qquad
+A_i\in L^2(\Omega,\mathcal{F}_{t_i},\mathbb{P}).
+\]
+\end{de}
+
+\begin{de}
+For an adapted simple process $\phi$, define
+\[
+\int_0^t \phi_s\,dW_s
+=
+\sum_{i=0}^{n-1}
+A_i\bigl(W_{t\wedge t_{i+1}}-W_{t\wedge t_i}\bigr),
+\qquad 0\leq t\leq T.
+\]
+Equivalently, if $t\in(t_k,t_{k+1}]$, then
+\[
+\int_0^t \phi_s\,dW_s
+=
+\sum_{i=0}^{k-1}A_i(W_{t_{i+1}}-W_{t_i})
++A_k(W_t-W_{t_k}).
+\]
+\end{de}
+
+\begin{thm}[Density of simple processes]
+For every $X\in\mathcal{H}^2([0,T])$, there is a sequence of adapted simple processes $\phi^{(n)}$ such that
+\[
+\lim_{n\to\infty}
+\mathbb{E}\int_0^T
+|\phi_s^{(n)}-X_s|^2\,ds
+=0.
+\]
+\end{thm}
+
+\begin{de}
+For $X\in\mathcal{H}^2([0,T])$, choose adapted simple processes $\phi^{(n)}$ as above and define
+\[
+\int_0^t X_s\,dW_s
+=
+L^2(\Omega)\text{-}\lim_{n\to\infty}
+\int_0^t\phi_s^{(n)}\,dW_s.
+\]
+The It\^o isometry shows that this limit is independent of the approximating sequence.
+\end{de}
+
+\begin{thm}
+Let $X,Y\in\mathcal{H}^2([0,T])$ and $a,b\in\mathbb{R}$.
+\begin{enumerate}
+    \item The It\^o integral is linear:
+    \[
+    \int_0^t(aX_s+bY_s)\,dW_s
+    =
+    a\int_0^tX_s\,dW_s
+    +b\int_0^tY_s\,dW_s.
+    \]
+    \item The process
+    \[
+    I_t=\int_0^tX_s\,dW_s
+    \]
+    is a square-integrable martingale with $\mathbb{E}[I_t]=0$.
+    \item The It\^o isometry holds:
+    \[
+    \mathbb{E}\left[
+    \left(\int_0^tX_s\,dW_s\right)^2
+    \right]
+    =
+    \mathbb{E}\int_0^tX_s^2\,ds.
+    \]
+    \item The quadratic variation is
+    \[
+    [I]_t=\int_0^tX_s^2\,ds,
+    \]
+    or, in differential notation,
+    \[
+    (dI_t)^2=X_t^2\,dt.
+    \]
+\end{enumerate}
+\end{thm}
+
+\begin{de}
+An It\^o process is a process of the form
+\[
+X_t
+=
+X_0+
+\int_0^t b_s\,ds+
+\int_0^t\sigma_s\,dW_s,
+\]
+where the integrals are well defined. In differential notation,
+\[
+dX_t=b_t\,dt+\sigma_t\,dW_t.
+\]
+Its quadratic variation is
+\[
+[X]_t=\int_0^t\sigma_s^2\,ds.
+\]
+\end{de}
+
+\begin{de}
+If $X$ is the It\^o process above and $Y$ is progressively measurable with
+\[
+\int_0^t|Y_sb_s|\,ds<\infty
+\quad\text{and}\quad
+\mathbb{E}\int_0^tY_s^2\sigma_s^2\,ds<\infty,
+\]
+define
+\[
+\int_0^tY_s\,dX_s
+=
+\int_0^tY_sb_s\,ds+
+\int_0^tY_s\sigma_s\,dW_s.
+\]
+\end{de}
+
+\begin{thm}[It\^o's formula]
+Let
+\[
+dX_t=b_t\,dt+\sigma_t\,dW_t,
+\]
+and let $f\in C^{1,2}([0,T]\times\mathbb{R})$. Then
+\[
+\begin{aligned}
+f(t,X_t)
+={}&f(0,X_0)
++\int_0^t f_t(s,X_s)\,ds
++\int_0^t f_x(s,X_s)\,dX_s\\
+&+\frac12\int_0^t f_{xx}(s,X_s)\,d[X]_s.
+\end{aligned}
+\]
+Equivalently,
+\[
+df(t,X_t)
+=
+f_t(t,X_t)\,dt
++f_x(t,X_t)\,dX_t
++\frac12f_{xx}(t,X_t)(dX_t)^2.
+\]
+\end{thm}
+
+\begin{thm}[Integration by parts]
+Let $f:[0,T]\to\mathbb{R}$ be deterministic, continuous, and of bounded variation. Then
+\[
+f(t)W_t-f(0)W_0
+=
+\int_0^t f(s)\,dW_s+
+\int_0^t W_s\,df(s).
+\]
+Since $W_0=0$,
+\[
+\int_0^t f(s)\,dW_s
+=
+f(t)W_t-
+\int_0^t W_s\,df(s).
+\]
+\end{thm}
+
+\begin{eg}
+Let
+\[
+Y_t
+=
+\exp\left(
+-\frac12\int_0^t\theta_s^2\,ds
+-\int_0^t\theta_s\,dW_s
+\right).
+\]
+Set
+\[
+X_t
+=-\frac12\int_0^t\theta_s^2\,ds
+-\int_0^t\theta_s\,dW_s.
+\]
+Then $Y_t=e^{X_t}$ and It\^o's formula gives
+\[
+\begin{aligned}
+dY_t
+&=e^{X_t}\,dX_t+\frac12e^{X_t}(dX_t)^2\\
+&=e^{X_t}\left(-\frac12\theta_t^2\,dt-\theta_t\,dW_t\right)
++\frac12e^{X_t}\theta_t^2\,dt\\
+&=-Y_t\theta_t\,dW_t.
+\end{aligned}
+\]
+Hence
+\[
+Y_t=1-\int_0^tY_s\theta_s\,dW_s.
+\]
+Under an additional condition such as Novikov's condition, $Y$ is a true martingale; without such a condition, it is always a nonnegative local martingale.
+\end{eg}
+
+\begin{thm}[L\'evy's characterization]
+Let $M$ be a continuous local martingale such that
+\[
+M_0=0
+\quad\text{and}\quad
+[M]_t=t.
+\]
+Then $M$ is a standard Brownian motion with respect to the underlying filtration.
+\end{thm}
+
+\begin{de}
+A $d$-dimensional process
+\[
+W_t=(W_t^{(1)},\ldots,W_t^{(d)})^\top
+\]
+is a standard $d$-dimensional Brownian motion if it has continuous paths, $W_0=0$, independent increments, and
+\[
+W_t-W_s\sim N(0,(t-s)I_d)
+\]
+for $0\leq s<t$.
+\end{de}
+
+\begin{remark}
+A standard $d$-dimensional Brownian motion can be constructed by collecting $d$ independent one-dimensional Brownian motions into a vector.
+\end{remark}
+
+\begin{thm}[Multidimensional L\'evy characterization]
+Let $M=(M^{(1)},\ldots,M^{(d)})^\top$ be a continuous $d$-dimensional local martingale with $M_0=0$. If
+\[
+[M^{(i)},M^{(j)}]_t=t\delta_{ij}
+\]
+for every $i,j$, then $M$ is a standard $d$-dimensional Brownian motion.
+\end{thm}
+
+\begin{de}
+An $n$-dimensional It\^o process driven by a $d$-dimensional Brownian motion is a process
+\[
+X_t
+=
+X_0+
+\int_0^t b_s\,ds+
+\int_0^t\Sigma_s\,dW_s,
+\]
+where $b_s\in\mathbb{R}^n$ and $\Sigma_s\in\mathbb{R}^{n\times d}$ are progressively measurable and satisfy the required integrability conditions.
+\end{de}
+
+\begin{thm}[Multidimensional It\^o formula]
+Let $X$ be the $n$-dimensional It\^o process above, and let $f\in C^{1,2}([0,T]\times\mathbb{R}^n)$. Then
+\[
+\begin{aligned}
+f(t,X_t)
+={}&f(0,X_0)
++\int_0^t f_t(s,X_s)\,ds
++\int_0^t\nabla f(s,X_s)^\top\,dX_s\\
+&+\frac12\sum_{i,j=1}^n
+\int_0^t
+f_{x_ix_j}(s,X_s)\,d[X^{(i)},X^{(j)}]_s.
+\end{aligned}
+\]
+In differential notation,
+\[
+df(t,X_t)
+=
+f_t(t,X_t)\,dt
++\nabla f(t,X_t)^\top dX_t
++\frac12\sum_{i,j=1}^n
+f_{x_ix_j}(t,X_t)\,d[X^{(i)},X^{(j)}]_t.
+\]
+If $dX_t=b_t\,dt+\Sigma_t\,dW_t$, then
+\[
+d[X^{(i)},X^{(j)}]_t
+=(\Sigma_t\Sigma_t^\top)_{ij}\,dt.
+\]
+\end{thm}
+
+\begin{thm}[Product rule]
+For two continuous semimartingales $X$ and $Y$,
+\[
+d(X_tY_t)
+=X_t\,dY_t+Y_t\,dX_t+d[X,Y]_t.
+\]
+For It\^o processes, the last term is often written $dX_t\,dY_t$.
+\end{thm}
+
+\subsection{Brownian bridges}
+
+\begin{de}
+A stochastic process $X=\{X_t\}_{t\geq 0}$ is Gaussian if, for every finite collection of times $t_1,\ldots,t_n$, the random vector
+\[
+(X_{t_1},\ldots,X_{t_n})
+\]
+is jointly Gaussian.
+\end{de}
+
+\begin{eg}
+Let $\Delta$ be a deterministic function satisfying
+\[
+\int_0^T\Delta(s)^2\,ds<\infty
+\]
+for every $T>0$. Then
+\[
+I_t=\int_0^t\Delta(s)\,dW_s
+\]
+is a Gaussian process.
+\end{eg}
+
+\begin{de}
+Fix $T>0$. The Brownian bridge from $0$ to $0$ on $[0,T]$ is
+\[
+X_t=W_t-\frac{t}{T}W_T,
+\qquad 0\leq t\leq T.
+\]
+\end{de}
+
+\begin{thm}
+The Brownian bridge $X$ is a continuous Gaussian process with
+\[
+\mathbb{E}[X_t]=0
+\]
+and covariance
+\[
+\operatorname{Cov}(X_s,X_t)
+=s\wedge t-\frac{st}{T}.
+\]
+Moreover, $X_0=X_T=0$.
+\end{thm}
+
+\begin{proof}
+Every finite vector of bridge values is a linear transformation of a finite Gaussian vector of Brownian values, so it is jointly Gaussian. Also,
+\[
+\begin{aligned}
+\mathbb{E}[X_sX_t]
+&=
+\mathbb{E}\left[
+\left(W_s-\frac{s}{T}W_T\right)
+\left(W_t-\frac{t}{T}W_T\right)
+\right]\\
+&=s\wedge t-\frac{st}{T}.
+\end{aligned}
+\]
+Continuity follows from the continuity of $W$.
+\end{proof}
+
+\begin{remark}
+The process $X_t=W_t-(t/T)W_T$ is not adapted to the natural filtration of $W$ because it uses the future value $W_T$.
+\end{remark}
+
+\begin{de}
+For $a,b\in\mathbb{R}$, the Brownian bridge from $a$ to $b$ on $[0,T]$ is
+\[
+X_t^{a\to b}
+=
+a+\frac{b-a}{T}t+X_t.
+\]
+Its mean and covariance are
+\[
+\mathbb{E}[X_t^{a\to b}]
+=a+\frac{b-a}{T}t,
+\qquad
+\operatorname{Cov}(X_s^{a\to b},X_t^{a\to b})
+=s\wedge t-\frac{st}{T}.
+\]
+\end{de}
+
+An adapted version with the same law is
+\[
+Y_t
+=
+(T-t)\int_0^t\frac{1}{T-u}\,dW_u,
+\qquad 0\leq t<T.
+\]
+For $0\leq s\leq t<T$,
+\[
+\begin{aligned}
+\operatorname{Cov}(Y_s,Y_t)
+&=(T-s)(T-t)
+\int_0^s\frac{1}{(T-u)^2}\,du\\
+&=(T-s)(T-t)
+\left(\frac{1}{T-s}-\frac{1}{T}\right)\\
+&=s-\frac{st}{T}.
+\end{aligned}
+\]
+Thus $Y$ has the same finite-dimensional distributions as the Brownian bridge.
+
+\begin{thm}
+Define
+\[
+Y_t=
+\begin{cases}
+(T-t)\displaystyle\int_0^t\frac{1}{T-u}\,dW_u,
+&0\leq t<T,\\[1.2ex]
+0,&t=T.
+\end{cases}
+\]
+Then $Y$ has a continuous version on $[0,T]$ and has the same law as the Brownian bridge from $0$ to $0$.
+\end{thm}
+
+\begin{proof}
+The mean and covariance calculations above identify the finite-dimensional distributions. To verify continuity at $T$, note that the quadratic variation of
+\[
+I_t=\int_0^t\frac{1}{T-u}\,dW_u
+\]
+is
+\[
+q(t)=\frac{1}{T-t}-\frac1T.
+\]
+By the Dambis--Dubins--Schwarz time-change representation, $I_t=\widehat W_{q(t)}$ for a Brownian motion $\widehat W$. Since $\widehat W_s/s\to0$ almost surely as $s\to\infty$ and $(T-t)q(t)\to1$, it follows that $(T-t)I_t\to0$ almost surely as $t\uparrow T$.
+\end{proof}
+
+\begin{remark}
+For $t<T$, the adapted bridge satisfies
+\[
+dY_t=-\frac{Y_t}{T-t}\,dt+dW_t.
+\]
+The singular mean-reversion term forces the process toward zero as $t\uparrow T$.
+\end{remark}
+
+\subsection{Change of measure by random variables}
+
+\begin{thm}
+Let $Z$ be a nonnegative $\mathcal{F}$-measurable random variable on $(\Omega,\mathcal{F},\mathbb{P})$ with $\mathbb{E}_{\mathbb{P}}[Z]=1$. Then
+\[
+\widetilde{\mathbb{P}}(A)
+=
+\mathbb{E}_{\mathbb{P}}[Z\mathbf{1}_A]
+=
+\int_A Z\,d\mathbb{P},
+\qquad A\in\mathcal{F},
+\]
+defines a probability measure.
+\end{thm}
+
+\begin{de}
+If $\widetilde{\mathbb{P}}\ll\mathbb{P}$, the Radon--Nikodym derivative
+\[
+Z=\frac{d\widetilde{\mathbb{P}}}{d\mathbb{P}}
+\]
+is the nonnegative random variable satisfying
+\[
+\widetilde{\mathbb{P}}(A)=\int_A Z\,d\mathbb{P}
+\]
+for every $A\in\mathcal{F}$.
+\end{de}
+
+\begin{thm}
+If $X$ is integrable under $\widetilde{\mathbb{P}}$, then
+\[
+\widetilde{\mathbb{E}}[X]
+=
+\mathbb{E}[ZX].
+\]
+If $Z>0$ almost surely, so that $\widetilde{\mathbb{P}}$ and $\mathbb{P}$ are equivalent, then for every $\mathbb{P}$-integrable $X$,
+\[
+\mathbb{E}[X]
+=
+\widetilde{\mathbb{E}}\left[\frac{X}{Z}\right].
+\]
+\end{thm}
+
+\begin{de}
+Two probability measures $\mathbb{P}$ and $\widetilde{\mathbb{P}}$ on $(\Omega,\mathcal{F})$ are equivalent, written
+\[
+\widetilde{\mathbb{P}}\sim\mathbb{P},
+\]
+if they have the same null sets.
+\end{de}
+
+\begin{eg}
+Let $X\sim N(0,1)$ under $\mathbb{P}$ and set
+\[
+Z=e^{-\theta X-\frac12\theta^2}.
+\]
+Then $\mathbb{E}[Z]=1$, and the probability measure defined by $Z$ satisfies
+\[
+\begin{aligned}
+\widetilde{\mathbb{E}}[e^{iuX}]
+&=
+\mathbb{E}[Ze^{iuX}]\\
+&=
+\exp\left(-\frac12u^2-iu\theta\right).
+\end{aligned}
+\]
+Hence $X\sim N(-\theta,1)$ under $\widetilde{\mathbb{P}}$.
+\end{eg}
+
+\subsection{Change of measure by stochastic processes}
+
+Fix a terminal time $T$. Suppose $\widetilde{\mathbb{P}}\ll\mathbb{P}$ on $\mathcal{F}_T$, and define
+\[
+Z_T=\frac{d\widetilde{\mathbb{P}}}{d\mathbb{P}}
+\quad\text{and}\quad
+Z_t=\mathbb{E}_{\mathbb{P}}[Z_T\mid\mathcal{F}_t],
+\qquad 0\leq t\leq T.
+\]
+Then $Z$ is a nonnegative $\mathbb{P}$-martingale with $\mathbb{E}[Z_t]=1$, and
+\[
+Z_t
+=
+\left.
+\frac{d\widetilde{\mathbb{P}}}{d\mathbb{P}}
+\right|_{\mathcal{F}_t}.
+\]
+
+\begin{thm}[Bayes formula]
+Assume $\widetilde{\mathbb{P}}\sim\mathbb{P}$, so $Z_t>0$ almost surely. If $0\leq s\leq t\leq T$ and $Y$ is $\mathcal{F}_t$-measurable and integrable under $\widetilde{\mathbb{P}}$, then
+\[
+\widetilde{\mathbb{E}}[Y\mid\mathcal{F}_s]
+=
+\frac{1}{Z_s}
+\mathbb{E}[Z_tY\mid\mathcal{F}_s].
+\]
+\end{thm}
+
+\begin{proof}
+The right-hand side is $\mathcal{F}_s$-measurable. For every $A\in\mathcal{F}_s$,
+\[
+\begin{aligned}
+\widetilde{\mathbb{E}}\left[
+\mathbf{1}_A
+\frac{1}{Z_s}\mathbb{E}[Z_tY\mid\mathcal{F}_s]
+\right]
+&=
+\mathbb{E}\left[
+Z_s\mathbf{1}_A
+\frac{1}{Z_s}\mathbb{E}[Z_tY\mid\mathcal{F}_s]
+\right]\\
+&=
+\mathbb{E}[\mathbf{1}_AZ_tY]\\
+&=
+\widetilde{\mathbb{E}}[\mathbf{1}_AY].
+\end{aligned}
+\]
+\end{proof}
+
+\begin{thm}[Girsanov's theorem]
+Let $W$ be a Brownian motion under $\mathbb{P}$, and let $\theta$ be progressively measurable. Assume Novikov's condition
+\[
+\mathbb{E}\exp\left(
+\frac12\int_0^T\theta_s^2\,ds
+\right)<\infty.
+\]
+Define
+\[
+Z_t
+=
+\exp\left(
+-\int_0^t\theta_s\,dW_s
+-\frac12\int_0^t\theta_s^2\,ds
+\right).
+\]
+Then $Z$ is a strictly positive martingale. Define $\widetilde{\mathbb{P}}$ on $\mathcal{F}_T$ by
+\[
+\frac{d\widetilde{\mathbb{P}}}{d\mathbb{P}}=Z_T.
+\]
+The process
+\[
+\widetilde W_t
+=W_t+\int_0^t\theta_s\,ds
+\]
+is a Brownian motion under $\widetilde{\mathbb{P}}$.
+\end{thm}
+
+\begin{proof}
+It\^o's formula gives
+\[
+dZ_t=-Z_t\theta_t\,dW_t.
+\]
+Novikov's condition upgrades the stochastic exponential from a local martingale to a true martingale. Moreover,
+\[
+\begin{aligned}
+d(Z_t\widetilde W_t)
+&=Z_t\,d\widetilde W_t+
+\widetilde W_t\,dZ_t+d[Z,\widetilde W]_t\\
+&=Z_t(dW_t+\theta_t\,dt)
+-\widetilde W_tZ_t\theta_t\,dW_t
+-Z_t\theta_t\,dt\\
+&=Z_t(1-\widetilde W_t\theta_t)\,dW_t.
+\end{aligned}
+\]
+After localization, $Z_t\widetilde W_t$ is a $\mathbb{P}$-martingale. Bayes' formula therefore shows that $\widetilde W$ is a $\widetilde{\mathbb{P}}$-local martingale. Its quadratic variation is
+\[
+[\widetilde W]_t=[W]_t=t,
+\]
+so L\'evy's characterization implies that $\widetilde W$ is a Brownian motion under $\widetilde{\mathbb{P}}$.
+\end{proof}
+
+\subsection{Stochastic differential equations}
+
+\begin{de}
+Given $t\leq u\leq T$ and $X_t=x$, a solution of
+\[
+dX_u=\beta(u,X_u)\,du+\gamma(u,X_u)\,dW_u
+\]
+satisfies the integral equation
+\[
+X_u
+=
+x+
+\int_t^u\beta(s,X_s)\,ds+
+\int_t^u\gamma(s,X_s)\,dW_s.
+\]
+\end{de}
+
+\begin{remark}
+The Euler--Maruyama approximation with step size $\Delta t$ is
+\[
+X_{t+\Delta t}
+\approx
+X_t+
+\beta(t,X_t)\Delta t+
+\gamma(t,X_t)(W_{t+\Delta t}-W_t).
+\]
+It can be used to simulate approximate sample paths of $X$.
+\end{remark}
+
+\begin{eg}[Geometric Brownian motion]
+Suppose
+\[
+dS_t=\mu S_t\,dt+\sigma S_t\,dW_t,
+\qquad S_0>0.
+\]
+It\^o's formula applied to $\log S_t$ gives
+\[
+d\log S_t
+=
+\left(\mu-\frac12\sigma^2\right)dt+
+\sigma\,dW_t.
+\]
+Therefore,
+\[
+S_t
+=
+S_0\exp\left[
+\left(\mu-\frac12\sigma^2\right)t+
+\sigma W_t
+\right].
+\]
+\end{eg}
+
+\begin{eg}[Ornstein--Uhlenbeck process]
+Suppose
+\[
+dR_t=\kappa(\theta-R_t)\,dt+\sigma\,dW_t.
+\]
+Multiplying by $e^{\kappa t}$ gives
+\[
+d(e^{\kappa t}R_t)
+=
+\kappa\theta e^{\kappa t}\,dt+
+\sigma e^{\kappa t}\,dW_t.
+\]
+Hence
+\[
+R_t
+=
+\theta+(R_0-\theta)e^{-\kappa t}
++
+\sigma\int_0^t e^{-\kappa(t-s)}\,dW_s.
+\]
+\end{eg}
+
+\begin{eg}[Linear SDE]
+Consider
+\[
+dX_t
+=
+(a(t)+b(t)X_t)\,dt+
+(c(t)+h(t)X_t)\,dW_t.
+\]
+Define
+\[
+Y_t
+=
+\exp\left(
+\int_0^t\left(b(s)-\frac12h(s)^2\right)ds
++
+\int_0^t h(s)\,dW_s
+\right).
+\]
+Then
+\[
+X_t
+=
+Y_t\left[
+X_0+
+\int_0^t\frac{a(s)-c(s)h(s)}{Y_s}\,ds
++
+\int_0^t\frac{c(s)}{Y_s}\,dW_s
+\right].
+\]
+\end{eg}
+
+\begin{proof}
+It\^o's formula gives
+\[
+dY_t=b(t)Y_t\,dt+h(t)Y_t\,dW_t.
+\]
+Set
+\[
+Z_t
+=
+X_0+
+\int_0^t\frac{a(s)-c(s)h(s)}{Y_s}\,ds
++
+\int_0^t\frac{c(s)}{Y_s}\,dW_s.
+\]
+Since $X_t=Y_tZ_t$, the product rule gives
+\[
+\begin{aligned}
+dX_t
+&=Y_t\,dZ_t+Z_t\,dY_t+d[Y,Z]_t\\
+&=(a(t)+b(t)X_t)\,dt
++(c(t)+h(t)X_t)\,dW_t.
+\end{aligned}
+\]
+\end{proof}
+
+\begin{thm}[Markov property of SDE solutions]
+Suppose $\beta(t,x)$ and $\gamma(t,x)$ are deterministic coefficients satisfying conditions that guarantee a unique strong solution, such as global Lipschitz and linear-growth conditions. Then the solution of
+\[
+dX_t=\beta(t,X_t)\,dt+\gamma(t,X_t)\,dW_t
+\]
+is a time-inhomogeneous Markov process.
+\end{thm}
+
+\begin{thm}[Feynman--Kac formula]
+Let $X$ solve
+\[
+dX_s=\beta(s,X_s)\,ds+\gamma(s,X_s)\,dW_s,
+\qquad X_t=x.
+\]
+Under standard regularity and integrability assumptions, define
+\[
+f(t,x)
+=
+\mathbb{E}_{t,x}\left[
+\exp\left(-\int_t^T\kappa(u,X_u)\,du\right)
+ h(X_T)
+\right].
+\]
+If $f\in C^{1,2}$, then it solves the terminal-value problem
+\[
+\begin{cases}
+ f_t+\beta f_x+\dfrac12\gamma^2 f_{xx}-\kappa f=0,
+ &t<T,\\[0.8ex]
+ f(T,x)=h(x).
+\end{cases}
+\]
+\end{thm}
+
+\begin{proof}
+The process
+\[
+M_s
+=
+\exp\left(-\int_t^s\kappa(u,X_u)\,du\right)f(s,X_s),
+\qquad t\leq s\leq T,
+\]
+is a martingale by the tower property. Applying the product rule and It\^o's formula gives
+\[
+\begin{aligned}
+dM_s
+={}&
+\exp\left(-\int_t^s\kappa(u,X_u)\,du\right)
+\left(
+ f_t+\beta f_x+\frac12\gamma^2f_{xx}-\kappa f
+\right)(s,X_s)\,ds\\
+&+
+\exp\left(-\int_t^s\kappa(u,X_u)\,du\right)
+\gamma(s,X_s)f_x(s,X_s)\,dW_s.
+\end{aligned}
+\]
+The drift must vanish, and the terminal condition follows by setting $t=T$.
+\end{proof}
+
+\begin{remark}
+A common method for computing conditional expectations is to construct a martingale, apply It\^o's formula, and set the drift term equal to zero. This produces a partial differential equation.
+\end{remark}
+
+\begin{de}
+A multidimensional SDE has the form
+\[
+dX_t=b(t,X_t)\,dt+\Sigma(t,X_t)\,dW_t,
+\]
+where $X_t\in\mathbb{R}^m$, $W_t\in\mathbb{R}^d$, $b:[0,T]\times\mathbb{R}^m\to\mathbb{R}^m$, and $\Sigma:[0,T]\times\mathbb{R}^m\to\mathbb{R}^{m\times d}$.
+\end{de}
+
+\begin{thm}[Multidimensional Feynman--Kac formula]
+Let $X$ solve the multidimensional SDE above, and define
+\[
+f(t,x)
+=
+\mathbb{E}_{t,x}\left[
+\exp\left(-\int_t^T\kappa(u,X_u)\,du\right)
+ h(X_T)
+\right].
+\]
+Under standard regularity assumptions, $f$ solves
+\[
+\begin{cases}
+ f_t+b(t,x)^\top\nabla f
+ +\dfrac12\operatorname{tr}\!\left(
+ \Sigma(t,x)\Sigma(t,x)^\top D^2f
+ \right)
+ -\kappa(t,x)f=0,\\[1ex]
+ f(T,x)=h(x).
+\end{cases}
+\]
+Equivalently, the second-order term is
+\[
+\frac12\sum_{i,j=1}^m
+(\Sigma\Sigma^\top)_{ij}(t,x)
+\frac{\partial^2f}{\partial x_i\partial x_j}(t,x).
+\]
+\end{thm}

@@ -1,0 +1,704 @@
+\section{Exotic options}
+
+European calls and puts are often called \emph{vanilla} options because their payoffs depend only on the terminal value of the underlying asset. An option whose payoff or exercise rule depends on the path of the underlying asset is called \emph{path-dependent}; many such contracts are also called \emph{exotic options}.
+
+Throughout most of this section, the underlying stock follows the Black--Scholes dynamics under the risk-neutral measure $\widetilde{\mathbb{P}}$:
+\[
+dS_t=rS_t\,dt+\sigma S_t\,d\widetilde W_t,
+\qquad r>0,
+\quad \sigma>0.
+\]
+
+\subsection{Barrier options}
+
+A barrier option is activated or extinguished when the underlying reaches a specified level. A knock-out option becomes worthless after the barrier is reached, whereas a knock-in option becomes active only after the barrier is reached. The qualifiers \emph{up} and \emph{down} indicate whether the barrier lies above or below the initial stock price.
+
+The running maximum of a drifted Brownian motion is useful for pricing an up-and-out option.
+
+\begin{thm}
+Let
+\[
+\widehat W_t=\alpha t+\widetilde W_t,
+\qquad
+\widehat M_T=\max_{0\leq u\leq T}\widehat W_u.
+\]
+Under $\widetilde{\mathbb{P}}$, the joint density of $(\widehat M_T,\widehat W_T)$ is
+\[
+\widetilde f_{\widehat M_T,\widehat W_T}(m,w)
+=\frac{2(2m-w)}{T\sqrt{2\pi T}}
+ \exp\!\left(
+ \alpha w-\frac12\alpha^2T-
+ \frac{(2m-w)^2}{2T}
+ \right)
+\]
+for $m\geq0$ and $w\leq m$, and is zero elsewhere.
+\end{thm}
+
+\begin{proof}
+Define
+\[
+\widehat Z_t
+=\exp\!\left(-\alpha\widetilde W_t-\frac12\alpha^2t\right)
+=\exp\!\left(-\alpha\widehat W_t+\frac12\alpha^2t\right)
+\]
+and let $\widehat{\mathbb{P}}$ be given by
+\[
+\frac{d\widehat{\mathbb{P}}}{d\widetilde{\mathbb{P}}}
+\bigg|_{\mathcal{F}_T}=\widehat Z_T.
+\]
+Girsanov's theorem implies that $\widehat W$ is a standard Brownian motion under $\widehat{\mathbb{P}}$. By the reflection principle, its maximum and terminal value have joint density
+\[
+\widehat f_{\widehat M_T,\widehat W_T}(m,w)
+=\frac{2(2m-w)}{T\sqrt{2\pi T}}
+ \exp\!\left(-\frac{(2m-w)^2}{2T}\right)
+\]
+after restricting to $m\geq0$ and $w\leq m$. Since
+\[
+\frac{d\widetilde{\mathbb{P}}}{d\widehat{\mathbb{P}}}
+\bigg|_{\mathcal{F}_T}
+=\widehat Z_T^{-1}
+=\exp\!\left(\alpha\widehat W_T-\frac12\alpha^2T\right),
+\]
+the change-of-measure formula multiplies the preceding density by
+$\exp(\alpha w-\frac12\alpha^2T)$, giving the stated result.
+\end{proof}
+
+\begin{cor}
+For $m\geq0$,
+\[
+\widetilde{\mathbb{P}}(\widehat M_T\leq m)
+=N\!\left(\frac{m-\alpha T}{\sqrt T}\right)
+-e^{2\alpha m}
+ N\!\left(\frac{-m-\alpha T}{\sqrt T}\right).
+\]
+Its density is
+\[
+\widetilde f_{\widehat M_T}(m)
+=\frac{2}{\sqrt{2\pi T}}
+ \exp\!\left(-\frac{(m-\alpha T)^2}{2T}\right)
+-2\alpha e^{2\alpha m}
+ N\!\left(\frac{-m-\alpha T}{\sqrt T}\right),
+\qquad m\geq0.
+\]
+\end{cor}
+
+Now consider a continuously monitored up-and-out call with strike $K$, barrier $B$, and maturity $T$, where $0<S_0<B$. Under the risk-neutral measure,
+\[
+S_u
+=S_0\exp\!\left(
+(r-\tfrac12\sigma^2)u+\sigma\widetilde W_u
+\right)
+=S_0e^{\sigma\widehat W_u},
+\]
+where
+\[
+\alpha=\frac{r-\frac12\sigma^2}{\sigma}.
+\]
+Set
+\[
+k=\frac{1}{\sigma}\log\frac{K}{S_0},
+\qquad
+b=\frac{1}{\sigma}\log\frac{B}{S_0}.
+\]
+The payoff is
+\[
+V_T=(S_T-K)^+
+\mathbf{1}_{\{\max_{0\leq u\leq T}S_u<B\}}
+=\bigl(S_0e^{\sigma\widehat W_T}-K\bigr)
+ \mathbf{1}_{\{\widehat W_T\geq k,\ \widehat M_T<b\}}.
+\]
+If $K\geq B$, the continuously monitored up-and-out call is worthless. If $K<B$, its time-zero value can be written as
+\[
+\begin{aligned}
+V_0
+&=e^{-rT}
+ \int_k^b\int_{\max\{w,0\}}^b
+ \bigl(S_0e^{\sigma w}-K\bigr)
+ \widetilde f_{\widehat M_T,\widehat W_T}(m,w)
+ \,dm\,dw.
+\end{aligned}
+\]
+This integral can be reduced to normal distribution functions by completing squares.
+
+\subsubsection*{PDE characterization}
+
+Let
+\[
+\rho_B=\inf\{u\geq0:S_u\geq B\}
+\]
+be the first barrier-hitting time. Before knock-out, the discounted option value stopped at $\rho_B$ is a martingale.
+
+\begin{thm}
+Let $v(t,x)$ be the value at time $t$ of the up-and-out call conditional on $S_t=x$ and on no previous knock-out. In the continuation region
+\[
+0\leq t<T,
+\qquad 0<x<B,
+\]
+the function $v$ satisfies
+\[
+v_t+rxv_x+\frac12\sigma^2x^2v_{xx}-rv=0.
+\]
+The boundary and terminal conditions are
+\[
+\begin{aligned}
+v(t,0)&=0, &&0\leq t\leq T,\\
+v(t,B)&=0, &&0\leq t<T,\\
+v(T,x)&=(x-K)^+, &&0\leq x<B.
+\end{aligned}
+\]
+At the corner $(T,B)$, continuous monitoring makes the barrier condition authoritative: a path that reaches $B$ at maturity is knocked out.
+\end{thm}
+
+\begin{proof}
+For $t<\rho_B$, It\^o's formula gives
+\[
+\begin{aligned}
+d\bigl(e^{-rt}v(t,S_t)\bigr)
+&=e^{-rt}
+ \left(v_t+rS_tv_x+\frac12\sigma^2S_t^2v_{xx}-rv\right)dt\\
+&\quad+e^{-rt}\sigma S_tv_x\,d\widetilde W_t.
+\end{aligned}
+\]
+The stopped discounted value is a martingale, so the drift vanishes in the interior. The remaining conditions follow from the payoff and the knock-out rule.
+\end{proof}
+
+A replicating strategy before knock-out holds
+\[
+\Delta_t=v_x(t,S_t)
+\]
+shares of stock. The hedge is stopped at $T\wedge\rho_B$.
+
+\subsection{Lookback options}
+
+Let
+\[
+Y_t=\max_{0\leq u\leq t}S_u
+\]
+be the running maximum. The payoff
+\[
+Y_T-S_T
+\]
+is a floating-strike lookback \emph{put}; a floating-strike lookback call is based on the running minimum.
+
+The risk-neutral value is
+\[
+V_t
+=\widetilde{\mathbb{E}}\!\left[
+ e^{-r(T-t)}(Y_T-S_T)
+ \mid\mathcal{F}_t
+\right].
+\]
+Because $(S,Y)$ is Markov, there is a function $v$ such that
+\[
+V_t=v(t,S_t,Y_t).
+\]
+
+\begin{thm}
+For $0\leq t<T$ and $0<x<y$, the floating-strike lookback-put value satisfies
+\[
+v_t+rxv_x+\frac12\sigma^2x^2v_{xx}-rv=0.
+\]
+The boundary and terminal conditions are
+\[
+\begin{aligned}
+v(t,0,y)&=e^{-r(T-t)}y,
+    &&0\leq t\leq T,\ y\geq0,\\
+v_y(t,y,y)&=0,
+    &&0\leq t<T,\ y>0,\\
+v(T,x,y)&=y-x,
+    &&0\leq x\leq y.
+\end{aligned}
+\]
+\end{thm}
+
+\begin{proof}
+The running maximum $Y$ is continuous and nondecreasing, hence has finite variation and zero quadratic variation. Moreover, its Stieltjes measure $dY_t$ is supported on the set
+\[
+\{t:S_t=Y_t\};
+\]
+that is, $Y$ can increase only when the stock is at its current maximum.
+
+It\^o's formula yields
+\[
+\begin{aligned}
+d\bigl(e^{-rt}v(t,S_t,Y_t)\bigr)
+&=e^{-rt}
+ \left(v_t+rS_tv_x+\frac12\sigma^2S_t^2v_{xx}-rv\right)dt\\
+&\quad+e^{-rt}\sigma S_tv_x\,d\widetilde W_t
+ +e^{-rt}v_y(t,S_t,Y_t)\,dY_t.
+\end{aligned}
+\]
+The $dt$ drift vanishes in the interior. Since $dY_t$ is carried by $S_t=Y_t$, the finite-variation term disappears precisely when
+\[
+v_y(t,y,y)=0.
+\]
+The terminal condition is the payoff. If $S_t=0$ and the zero boundary is treated as absorbing, then $S_u=0$ and $Y_u=y$ for $u\geq t$, which gives $v(t,0,y)=e^{-r(T-t)}y$.
+\end{proof}
+
+Once the PDE and boundary conditions hold,
+\[
+d\bigl(e^{-rt}v(t,S_t,Y_t)\bigr)
+=e^{-rt}\sigma S_tv_x(t,S_t,Y_t)\,d\widetilde W_t,
+\]
+so the delta hedge is
+\[
+\Delta_t=v_x(t,S_t,Y_t).
+\]
+
+\subsection{Asian options}
+
+An Asian option depends on an average of the underlying price. A continuously sampled arithmetic average is
+\[
+\frac{1}{T}\int_0^TS_u\,du,
+\]
+whereas a discretely sampled average is
+\[
+\frac{1}{m}\sum_{j=1}^mS_{t_j},
+\qquad
+0<t_1<\cdots<t_m=T.
+\]
+
+Consider a fixed-strike continuously sampled Asian call with payoff
+\[
+V_T=\left(\frac1T\int_0^TS_u\,du-K\right)^+.
+\]
+Define the accumulated integral
+\[
+Y_t=\int_0^tS_u\,du,
+\qquad
+dY_t=S_t\,dt.
+\]
+The augmented state $(S_t,Y_t)$ is Markov, and
+\[
+V_t=v(t,S_t,Y_t)
+\]
+for some deterministic function $v$.
+
+\begin{thm}
+The Asian-call price function satisfies
+\[
+v_t+rxv_x+xv_y+\frac12\sigma^2x^2v_{xx}-rv=0,
+\qquad
+0\leq t<T,
+\quad x>0.
+\]
+Its terminal condition is
+\[
+v(T,x,y)=\left(\frac{y}{T}-K\right)^+.
+\]
+A natural boundary condition at $x=0$ is
+\[
+v(t,0,y)
+=e^{-r(T-t)}\left(\frac{y}{T}-K\right)^+.
+\]
+If the PDE is extended mathematically to $y\in\mathbb{R}$, an additional natural condition is
+\[
+\lim_{y\downarrow-\infty}v(t,x,y)=0.
+\]
+\end{thm}
+
+\begin{proof}
+Because $dY_t=S_tdt$, we have $dS_t\,dY_t=dY_t\,dY_t=0$. It\^o's formula gives
+\[
+\begin{aligned}
+d\bigl(e^{-rt}v(t,S_t,Y_t)\bigr)
+&=e^{-rt}
+ \left(v_t+rS_tv_x+S_tv_y
+ +\frac12\sigma^2S_t^2v_{xx}-rv\right)dt\\
+&\quad+e^{-rt}\sigma S_tv_x\,d\widetilde W_t.
+\end{aligned}
+\]
+The discounted price is a martingale, so the drift vanishes. The terminal and boundary conditions follow directly from the payoff and from the fact that $S$ remains at zero once the absorbing boundary is reached.
+\end{proof}
+
+The replicating delta is again
+\[
+\Delta_t=v_x(t,S_t,Y_t).
+\]
+
+\subsection{American options: perpetual options}
+
+The perpetual American put has no fixed maturity. If exercised at a stopping time $\tau$, it pays $(K-S_\tau)^+$. Let $\mathcal{T}$ denote the set of stopping times, including $\tau=\infty$, and interpret the discounted payoff as zero on $\{\tau=\infty\}$.
+
+\begin{de}
+For initial stock price $S_0=x$, the perpetual American put value is
+\[
+v_*(x)
+=\sup_{\tau\in\mathcal{T}}
+ \widetilde{\mathbb{E}}_x
+ \left[e^{-r\tau}(K-S_\tau)^+\right].
+\]
+\end{de}
+
+We first recall a first-passage formula.
+
+\begin{thm}[Laplace transform of a drifted-Brownian first-passage time]
+Let
+\[
+X_t=\mu t+\widetilde W_t,
+\qquad
+\tau_m=\inf\{t\geq0:X_t=m\},
+\quad m>0.
+\]
+Then, for $\lambda>0$,
+\[
+\widetilde{\mathbb{E}}\!\left[e^{-\lambda\tau_m}\right]
+=\exp\!\left[-m\left(-\mu+\sqrt{\mu^2+2\lambda}\right)\right],
+\]
+where $e^{-\lambda\tau_m}$ is interpreted as zero when $\tau_m=\infty$.
+\end{thm}
+
+Fix a candidate exercise threshold $L\in(0,K)$. The threshold strategy exercises immediately when $x\leq L$ and otherwise exercises at
+\[
+\tau_L=\inf\{t\geq0:S_t=L\}.
+\]
+
+\begin{thm}
+The value of the threshold-$L$ exercise strategy is
+\[
+v_L(x)
+=\begin{cases}
+K-x, & 0\leq x\leq L,\\[4pt]
+(K-L)\left(\dfrac{x}{L}\right)^{-\frac{2r}{\sigma^2}},
+& x>L.
+\end{cases}
+\]
+\end{thm}
+
+\begin{proof}
+For $x>L$,
+\[
+S_t=x\exp\!\left(
+(r-\tfrac12\sigma^2)t+\sigma\widetilde W_t
+\right).
+\]
+The event $S_t=L$ is equivalent to
+\[
+-\widetilde W_t
+-\frac{r-\frac12\sigma^2}{\sigma}t
+=\frac1\sigma\log\frac{x}{L}.
+\]
+Apply the first-passage theorem with
+\[
+\mu=-\frac{r-\frac12\sigma^2}{\sigma},
+\qquad
+m=\frac1\sigma\log\frac{x}{L},
+\qquad
+\lambda=r.
+\]
+Since
+\[
+-\mu+\sqrt{\mu^2+2r}=\frac{2r}{\sigma},
+\]
+we obtain
+\[
+\widetilde{\mathbb{E}}_x[e^{-r\tau_L}]
+=\left(\frac{x}{L}\right)^{-\frac{2r}{\sigma^2}}.
+\]
+At exercise, the payoff is $K-L$, which proves the formula.
+\end{proof}
+
+For fixed $x>L$, maximizing $v_L(x)$ is equivalent to maximizing
+\[
+g(L)=(K-L)L^{\frac{2r}{\sigma^2}}.
+\]
+The first-order condition gives the optimal threshold
+\[
+\boxed{L_*=\frac{2r}{2r+\sigma^2}K.}
+\]
+Thus the candidate value is
+\[
+v(x)=v_{L_*}(x)
+=\begin{cases}
+K-x, & 0\leq x\leq L_*,\\[4pt]
+(K-L_*)\left(\dfrac{x}{L_*}\right)^{-\frac{2r}{\sigma^2}},
+& x>L_*.
+\end{cases}
+\]
+It satisfies value matching and smooth pasting:
+\[
+v(L_*)=K-L_*,
+\qquad
+v'(L_*-) = v'(L_*+)=-1.
+\]
+Its derivatives away from $L_*$ are
+\[
+v'(x)
+=\begin{cases}
+-1, & 0<x<L_*,\\[4pt]
+-\dfrac{2r(K-L_*)}{\sigma^2x}
+ \left(\dfrac{x}{L_*}\right)^{-\frac{2r}{\sigma^2}},
+&x>L_*,
+\end{cases}
+\]
+and
+\[
+v''(x)
+=\begin{cases}
+0, & 0<x<L_*,\\[4pt]
+\dfrac{2r(2r+\sigma^2)(K-L_*)}{\sigma^4x^2}
+ \left(\dfrac{x}{L_*}\right)^{-\frac{2r}{\sigma^2}},
+&x>L_*.
+\end{cases}
+\]
+The second derivative has a jump at $L_*$, but $v$ is continuously differentiable.
+
+Let
+\[
+\mathcal{L}f(x)
+=rx f'(x)+\frac12\sigma^2x^2f''(x)
+\]
+be the risk-neutral generator. The value function satisfies the complementarity conditions
+\[
+\begin{aligned}
+v(x)&\geq(K-x)^+,\\
+rv(x)-\mathcal{L}v(x)&\geq0,\\
+\bigl(v(x)-(K-x)^+\bigr)
+\bigl(rv(x)-\mathcal{L}v(x)\bigr)&=0.
+\end{aligned}
+\]
+Equivalently,
+\[
+\min\bigl\{v(x)-(K-x)^+,\ rv(x)-\mathcal{L}v(x)\bigr\}=0.
+\]
+
+\begin{thm}[Verification for the perpetual put]
+Let
+\[
+\tau_*=\inf\{t\geq0:S_t\leq L_*\}.
+\]
+Then $e^{-rt}v(S_t)$ is a supermartingale, and
+\[
+e^{-r(t\wedge\tau_*)}v(S_{t\wedge\tau_*})
+\]
+is a martingale. Consequently,
+\[
+v(x)
+=\sup_{\tau\in\mathcal{T}}
+ \widetilde{\mathbb{E}}_x
+ \left[e^{-r\tau}(K-S_\tau)^+\right],
+\]
+and $\tau_*$ is optimal.
+\end{thm}
+
+\begin{proof}
+Because $v\in C^1$ and is piecewise $C^2$, the generalized It\^o formula applies. No local-time term appears because the first derivative is continuous at $L_*$. We obtain
+\[
+\begin{aligned}
+d\bigl(e^{-rt}v(S_t)\bigr)
+&=e^{-rt}\bigl(\mathcal{L}v(S_t)-rv(S_t)\bigr)dt\\
+&\quad+e^{-rt}\sigma S_tv'(S_t)d\widetilde W_t\\
+&=-e^{-rt}rK\mathbf{1}_{\{S_t<L_*\}}dt
+ +e^{-rt}\sigma S_tv'(S_t)d\widetilde W_t.
+\end{aligned}
+\]
+The nonpositive finite-variation term proves the supermartingale property. Before $\tau_*$, the stock is in the continuation region and the drift is zero, so the stopped process is a martingale.
+
+For any stopping time $\tau$, optional sampling and $v\geq(K-\cdot)^+$ give
+\[
+v(x)
+\geq\widetilde{\mathbb{E}}_x
+ \left[e^{-r\tau}v(S_\tau)\right]
+\geq\widetilde{\mathbb{E}}_x
+ \left[e^{-r\tau}(K-S_\tau)^+\right],
+\]
+after localization and passage to the limit. Since $0\leq v\leq K$, dominated convergence is available. For $\tau=\tau_*$, the stopped martingale and value matching give equality:
+\[
+v(x)
+=\widetilde{\mathbb{E}}_x
+ \left[e^{-r\tau_*}(K-S_{\tau_*})^+\right].
+\]
+\end{proof}
+
+The supermartingale decomposition also gives a hedging interpretation.
+
+\begin{cor}
+Start with capital $X_0=v(S_0)$, hold
+\[
+\Delta_t=v'(S_t)
+\]
+shares of stock, and consume at rate
+\[
+C_t=rK\mathbf{1}_{\{S_t<L_*\}}.
+\]
+Then, until exercise,
+\[
+X_t=v(S_t)\geq(K-S_t)^+.
+\]
+Thus the strategy finances a short position in the perpetual American put regardless of when the holder exercises.
+\end{cor}
+
+\begin{proof}
+A self-financing strategy with consumption satisfies
+\[
+dX_t=\Delta_t\,dS_t+r(X_t-\Delta_tS_t)dt-C_tdt.
+\]
+Hence
+\[
+d(e^{-rt}X_t)
+=e^{-rt}\Delta_t\sigma S_t\,d\widetilde W_t-e^{-rt}C_tdt.
+\]
+With the stated $\Delta$ and $C$, this equals the differential of $e^{-rt}v(S_t)$. Equality of initial values then implies $X_t=v(S_t)$ up to exercise.
+\end{proof}
+
+If the stock is below $L_*$ and the holder irrationally delays exercise, then $v(S_t)=K-S_t$, $\Delta_t=-1$, and the hedger has $K$ in the money-market account. The interest $rKdt$ can be consumed while preserving the hedge.
+
+\subsection{American options: finite maturity}
+
+Let $0\leq t\leq T$ and $S_t=x$. Denote by $\mathcal{T}_{t,T}$ the stopping times taking values in $[t,T]$.
+
+\begin{de}
+The finite-maturity American put value is
+\[
+v(t,x)
+=\sup_{\tau\in\mathcal{T}_{t,T}}
+ \widetilde{\mathbb{E}}_{t,x}
+ \left[e^{-r(\tau-t)}(K-S_\tau)^+\right].
+\]
+\end{de}
+
+Define the stopping and continuation regions by
+\[
+\mathcal{S}
+=\{(t,x):v(t,x)=(K-x)^+\},
+\qquad
+\mathcal{C}
+=\{(t,x):v(t,x)>(K-x)^+\}.
+\]
+Subject to the usual regularity, $v$ satisfies the variational inequality
+\[
+\begin{aligned}
+v(t,x)&\geq(K-x)^+,\\
+rv-v_t-rxv_x-\frac12\sigma^2x^2v_{xx}&\geq0,\\
+\bigl(v-(K-x)^+\bigr)
+\left(rv-v_t-rxv_x-\frac12\sigma^2x^2v_{xx}\right)&=0,
+\end{aligned}
+\]
+with terminal condition
+\[
+v(T,x)=(K-x)^+.
+\]
+Equivalently,
+\[
+\min\!\left\{
+ v-(K-x)^+,
+ rv-v_t-rxv_x-\frac12\sigma^2x^2v_{xx}
+\right\}=0.
+\]
+
+\begin{thm}[Verification principle]
+Assume $v$ has sufficient regularity for the generalized It\^o formula, satisfies the preceding variational inequality and growth conditions, and define
+\[
+\tau_*
+=\inf\{u\in[t,T]:(u,S_u)\in\mathcal{S}\}.
+\]
+Then
+\[
+e^{-r(u-t)}v(u,S_u),
+\qquad t\leq u\leq T,
+\]
+is a supermartingale, and the stopped process
+\[
+e^{-r((u\wedge\tau_*)-t)}
+ v(u\wedge\tau_*,S_{u\wedge\tau_*})
+\]
+is a martingale. In particular, $\tau_*$ is optimal.
+\end{thm}
+
+\begin{proof}
+It\^o's formula gives
+\[
+\begin{aligned}
+d\bigl(e^{-r(u-t)}v(u,S_u)\bigr)
+&=e^{-r(u-t)}
+ \left(v_u+rS_uv_x+\frac12\sigma^2S_u^2v_{xx}-rv\right)du\\
+&\quad+e^{-r(u-t)}\sigma S_uv_x\,d\widetilde W_u.
+\end{aligned}
+\]
+The variational inequality makes the drift nonpositive everywhere and zero in $\mathcal{C}$. The process stopped on first entry into $\mathcal{S}$ therefore has zero drift. Optional sampling, the payoff domination, and terminal value matching complete the verification argument.
+\end{proof}
+
+For the standard American put, the stopping region is typically of the form
+\[
+\mathcal{S}=\{(t,x):x\leq b(t)\}
+\]
+for an exercise boundary $b(t)$. If a holder delays exercise after the process enters the stopping region, the seller can continue the delta hedge
+\[
+\Delta_u=v_x(u,S_u)
+\]
+and consume at rate
+\[
+C_u=rK\mathbf{1}_{\{(u,S_u)\in\mathcal{S}\}}.
+\]
+The corresponding wealth satisfies
+\[
+X_u=v(u,S_u)\geq(K-S_u)^+
+\]
+until exercise or maturity.
+
+\subsection{American calls on non-dividend-paying stocks}
+
+The following convexity argument explains why a non-dividend-paying American call should not be exercised early.
+
+\begin{lem}
+Let $h:[0,\infty)\to[0,\infty)$ be convex with $h(0)=0$, and assume the relevant integrability. Then
+\[
+e^{-rt}h(S_t)
+\]
+is a submartingale under $\widetilde{\mathbb{P}}$.
+\end{lem}
+
+\begin{proof}
+Convexity and $h(0)=0$ imply
+\[
+h(\lambda x)\leq\lambda h(x),
+\qquad 0\leq\lambda\leq1.
+\]
+For $0\leq u\leq t$, set $\lambda=e^{-r(t-u)}$. Then conditional Jensen's inequality and the martingale property of $e^{-rt}S_t$ give
+\[
+\begin{aligned}
+\widetilde{\mathbb{E}}\!\left[
+ e^{-r(t-u)}h(S_t)\mid\mathcal{F}_u
+\right]
+&\geq
+\widetilde{\mathbb{E}}\!\left[
+ h(e^{-r(t-u)}S_t)\mid\mathcal{F}_u
+\right]\\
+&\geq
+h\!\left(
+ \widetilde{\mathbb{E}}[e^{-r(t-u)}S_t\mid\mathcal{F}_u]
+\right)\\
+&=h(S_u).
+\end{aligned}
+\]
+Multiplying by $e^{-ru}$ yields the submartingale property.
+\end{proof}
+
+\begin{thm}
+Let $h$ satisfy the assumptions of the lemma. The American claim with exercise payoff $h(S_t)$ and maturity $T$ has the same value as the European claim paying $h(S_T)$:
+\[
+\sup_{\tau\in\mathcal{T}_{t,T}}
+\widetilde{\mathbb{E}}\!\left[
+ e^{-r(\tau-t)}h(S_\tau)\mid\mathcal{F}_t
+\right]
+=
+\widetilde{\mathbb{E}}\!\left[
+ e^{-r(T-t)}h(S_T)\mid\mathcal{F}_t
+\right].
+\]
+In particular, an American call on a non-dividend-paying stock should not be exercised before maturity.
+\end{thm}
+
+\begin{proof}
+For every stopping time $\tau\in\mathcal{T}_{t,T}$, optional sampling for the submartingale $e^{-ru}h(S_u)$ gives
+\[
+\widetilde{\mathbb{E}}\!\left[
+ e^{-r\tau}h(S_\tau)\mid\mathcal{F}_t
+\right]
+\leq
+\widetilde{\mathbb{E}}\!\left[
+ e^{-rT}h(S_T)\mid\mathcal{F}_t
+\right].
+\]
+Equality is achieved by choosing $\tau=T$. The call payoff $h(x)=(x-K)^+$ is nonnegative, convex, and satisfies $h(0)=0$.
+\end{proof}

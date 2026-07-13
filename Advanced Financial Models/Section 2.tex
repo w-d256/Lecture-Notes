@@ -1,0 +1,1043 @@
+\section{Risk-neutral pricing}
+
+\subsection{Introduction}
+
+The purpose of an arbitrage-pricing model is to describe the prices of traded assets and to assign values to contingent claims in a way that is consistent with the absence of arbitrage. The main financial instruments considered in these notes are the following.
+
+\begin{itemize}
+    \item \textbf{Stocks.} A share of stock represents partial ownership of a company. Shareholders may receive dividends, and the stock price reflects market expectations about the firm's future cash flows and risks.
+    \item \textbf{Bonds.} A bond is a debt security issued by a corporation, government, or other entity. The issuer promises specified cash flows, such as coupons and principal repayment. Bond prices are sensitive to interest rates and credit risk.
+    \item \textbf{Bank deposits and money-market accounts.} Money invested in a bank account earns interest. In an idealized frictionless model, the money-market account is the locally risk-free traded asset.
+    \item \textbf{Commodities.} Commodities are physical goods such as oil, gold, and agricultural products. Their prices are affected by supply, demand, storage costs, convenience yields, and broader economic conditions.
+    \item \textbf{Financial derivatives.} A derivative is a contract whose payoff depends on one or more underlying assets or market variables. Examples include forwards, futures, and options.
+\end{itemize}
+
+A central restriction on any pricing model is the absence of arbitrage.
+
+\begin{de}
+Let $X$ be the wealth process of an admissible self-financing trading strategy. The strategy is an \emph{arbitrage} on $[0,T]$ if
+\[
+X_0=0,
+\qquad
+\mathbb{P}(X_T\geq 0)=1,
+\qquad
+\mathbb{P}(X_T>0)>0.
+\]
+Admissibility is imposed to exclude doubling strategies; for example, one may require the discounted wealth process to be bounded from below.
+\end{de}
+
+An equivalent martingale measure is the main tool used to rule out arbitrage.
+
+\begin{de}
+Let $B$ be a strictly positive numeraire, usually the money-market account, and let $S^{(1)},\ldots,S^{(m)}$ be traded assets. A probability measure $\widetilde{\mathbb{P}}$ is an \emph{equivalent martingale measure} for the numeraire $B$ if
+\begin{enumerate}
+    \item $\widetilde{\mathbb{P}}\sim\mathbb{P}$; and
+    \item every discounted traded-asset price $S_t^{(i)}/B_t$ is a $\widetilde{\mathbb{P}}$-local martingale, and a true martingale whenever the required integrability holds.
+\end{enumerate}
+When $B$ is the money-market account, $\widetilde{\mathbb{P}}$ is called a \emph{risk-neutral measure}.
+\end{de}
+
+\begin{thm}[First fundamental theorem of asset pricing, informal form]
+Under the usual admissibility and regularity assumptions, the existence of an equivalent local martingale measure implies that the market admits no arbitrage. In a general semimartingale model, the no-free-lunch-with-vanishing-risk condition is equivalent to the existence of an equivalent local martingale measure.
+\end{thm}
+
+\subsection{One-period model}
+
+Consider a market with $n$ possible terminal states and $m$ traded assets. Let
+\[
+p=(p_1,\ldots,p_m)^\top\in\mathbb{R}^m
+\]
+be the vector of time-zero prices, and let $X\in\mathbb{R}^{n\times m}$ be the payoff matrix, where $X_{ji}$ is the payoff of asset $i$ in state $j$. A portfolio $a\in\mathbb{R}^m$ costs $p^\top a$ at time zero and has terminal payoff vector $Xa$.
+
+\begin{de}
+A portfolio $a\in\mathbb{R}^m$ is an arbitrage if
+\[
+p^\top a\leq 0,
+\qquad
+Xa\geq 0,
+\]
+and at least one of these inequalities is strict. Inequalities between vectors are understood componentwise.
+\end{de}
+
+\begin{thm}[Finite-state fundamental theorem]
+The one-period market is arbitrage-free if and only if there exists a strictly positive state-price vector $y\in\mathbb{R}_{++}^n$ such that
+\[
+p=X^\top y.
+\]
+\end{thm}
+
+\begin{proof}
+This is a finite-dimensional separating-hyperplane result, equivalently a form of the Farkas--Stiemke lemma. If $p=X^\top y$ for some $y>0$ and $a$ were an arbitrage, then
+\[
+p^\top a=y^\top Xa.
+\]
+The right-hand side is nonnegative, and it is strictly positive whenever $Xa$ is nonzero and nonnegative. This contradicts the arbitrage inequalities. The converse follows from strict separation of the attainable payoff cone from the nonnegative orthant.
+\end{proof}
+
+Suppose the market contains a risk-free asset with time-zero price $1$ and terminal payoff $1+r$, where $r>-1$. If $p=X^\top y$, then the pricing equation for the risk-free asset gives
+\[
+1=(1+r)\sum_{j=1}^n y_j.
+\]
+Hence
+\[
+D:=\sum_{j=1}^n y_j=\frac{1}{1+r},
+\qquad
+q_j:=\frac{y_j}{D},
+\]
+defines a probability vector $q=(q_1,\ldots,q_n)$ with strictly positive components. For each traded asset,
+\[
+p_i=D\sum_{j=1}^n q_jX_{ji}
+   =\frac{1}{1+r}\,\widetilde{\mathbb{E}}[X_i].
+\]
+Thus $q$ is the one-period risk-neutral probability measure.
+
+If a new claim has payoff vector $v\in\mathbb{R}^n$, every state-price vector consistent with traded prices assigns it the value
+\[
+\pi(v)=y^\top v
+      =D\,\widetilde{\mathbb{E}}[v].
+\]
+When the state-price vector is not unique, a nonreplicable claim may have a range of arbitrage-free prices.
+
+\begin{de}
+The one-period market is \emph{complete} if every payoff vector $v\in\mathbb{R}^n$ can be replicated; that is, for every $v$ there exists $a\in\mathbb{R}^m$ such that
+\[
+Xa=v.
+\]
+Equivalently,
+\[
+\operatorname{rank}(X)=n.
+\]
+\end{de}
+
+Completeness requires $m\geq n$, although some assets may be redundant. If $m<n$, then $\operatorname{rank}(X)<n$ and the market is necessarily incomplete. The inequality $m>n$ does not itself create arbitrage: it merely permits redundancy, provided prices are mutually consistent.
+
+\begin{thm}[Second fundamental theorem in the finite-state model]
+Assume the market is arbitrage-free and contains the risk-free asset described above. The market is complete if and only if the equivalent risk-neutral probability measure is unique.
+\end{thm}
+
+\subsection{Diffusive market model}
+
+Let $(\Omega,\mathcal{F},(\mathcal{F}_t)_{t\geq 0},\mathbb{P})$ support a $d$-dimensional Brownian motion
+\[
+W_t=(W_t^{(1)},\ldots,W_t^{(d)})^\top.
+\]
+The money-market account satisfies
+\[
+dB_t=r_tB_t\,dt,
+\qquad
+B_0=1,
+\]
+so
+\[
+B_t=\exp\!\left(\int_0^t r_s\,ds\right),
+\qquad
+D_t:=B_t^{-1}=\exp\!\left(-\int_0^t r_s\,ds\right).
+\]
+The $m$ risky assets satisfy
+\[
+\frac{dS_t^{(i)}}{S_t^{(i)}}
+ =\alpha_t^{(i)}\,dt
+  +\sum_{j=1}^d\sigma_t^{(ij)}\,dW_t^{(j)},
+\qquad i=1,\ldots,m.
+\]
+In vector form,
+\[
+\frac{dS_t}{S_t}=\alpha_t\,dt+\sigma_t\,dW_t,
+\]
+where the division is componentwise, $\alpha_t\in\mathbb{R}^m$, and $\sigma_t\in\mathbb{R}^{m\times d}$.
+
+For asset $i$, the instantaneous variance is
+\[
+\operatorname{Var}_t\!\left(\frac{dS_t^{(i)}}{S_t^{(i)}}\right)
+ =\sum_{k=1}^d\bigl(\sigma_t^{(ik)}\bigr)^2dt,
+\]
+and, for assets $i$ and $\ell$,
+\[
+\operatorname{Cov}_t\!\left(
+\frac{dS_t^{(i)}}{S_t^{(i)}},
+\frac{dS_t^{(\ell)}}{S_t^{(\ell)}}
+\right)
+ =\sum_{k=1}^d\sigma_t^{(ik)}\sigma_t^{(\ell k)}dt.
+\]
+Consequently, whenever the denominators are nonzero, their instantaneous correlation is
+\[
+\rho_t^{i\ell}
+=\frac{\sum_{k=1}^d\sigma_t^{(ik)}\sigma_t^{(\ell k)}}
+{\sqrt{\sum_{k=1}^d(\sigma_t^{(ik)})^2}
+ \sqrt{\sum_{k=1}^d(\sigma_t^{(\ell k)})^2}}.
+\]
+
+Define the scalar instantaneous volatility of asset $i$ by
+\[
+\bar\sigma_t^{(i)}
+ =\left(\sum_{j=1}^d(\sigma_t^{(ij)})^2\right)^{1/2}.
+\]
+When $\bar\sigma_t^{(i)}>0$, the process
+\[
+B_t^{(i)}
+ =\int_0^t\sum_{j=1}^d
+   \frac{\sigma_s^{(ij)}}{\bar\sigma_s^{(i)}}\,dW_s^{(j)}
+\]
+is a Brownian motion by L\'evy's characterization, and
+\[
+\frac{dS_t^{(i)}}{S_t^{(i)}}
+ =\alpha_t^{(i)}dt+\bar\sigma_t^{(i)}dB_t^{(i)}.
+\]
+The Brownian motions $B^{(i)}$ need not be independent.
+
+\subsubsection*{Trading strategies}
+
+Let $\Delta_t^{(i)}$ be the number of shares held in risky asset $i$, let $\beta_t$ be the number of units held in the money-market account, and let
+\[
+X_t=\beta_tB_t+\sum_{i=1}^m\Delta_t^{(i)}S_t^{(i)}
+\]
+be total wealth. If consumption occurs at rate $c_t$, the self-financing-with-consumption condition is
+\[
+dX_t=\beta_t\,dB_t+\sum_{i=1}^m\Delta_t^{(i)}\,dS_t^{(i)}-c_t\,dt.
+\]
+Equivalently,
+\[
+dX_t
+=r_tX_t\,dt
++\sum_{i=1}^m\Delta_t^{(i)}
+  \bigl(dS_t^{(i)}-r_tS_t^{(i)}dt\bigr)
+-c_t\,dt.
+\]
+When $c\equiv0$, the strategy is self-financing, and the discounted wealth satisfies
+\[
+d(D_tX_t)
+ =\sum_{i=1}^m\Delta_t^{(i)}\,d(D_tS_t^{(i)}).
+\]
+
+\subsubsection*{Risk-neutral measures and Girsanov's theorem}
+
+Let $\theta_t\in\mathbb{R}^d$ be progressively measurable and suppose the stochastic exponential
+\[
+Z_t
+=\exp\!\left(
+ -\int_0^t\theta_s^\top dW_s
+ -\frac12\int_0^t\|\theta_s\|^2ds
+\right)
+\]
+is a true martingale on $[0,T]$; Novikov's condition is one sufficient criterion. Define
+\[
+\frac{d\widetilde{\mathbb{P}}}{d\mathbb{P}}
+\bigg|_{\mathcal{F}_T}=Z_T.
+\]
+Then
+\[
+\widetilde W_t=W_t+\int_0^t\theta_s\,ds
+\]
+is a $d$-dimensional Brownian motion under $\widetilde{\mathbb{P}}$. Substitution gives
+\[
+\frac{dS_t}{S_t}
+=\bigl(\alpha_t-\sigma_t\theta_t\bigr)dt
+ +\sigma_t\,d\widetilde W_t.
+\]
+Therefore $\widetilde{\mathbb{P}}$ is risk-neutral precisely when
+\[
+\boxed{\alpha_t-r_t\mathbf{1}_m=\sigma_t\theta_t}
+\]
+almost everywhere. Under this condition,
+\[
+\frac{dS_t^{(i)}}{S_t^{(i)}}
+=r_tdt+\sum_{j=1}^d\sigma_t^{(ij)}d\widetilde W_t^{(j)}.
+\]
+
+\begin{thm}[No arbitrage from an equivalent martingale measure]
+Suppose $\widetilde{\mathbb{P}}$ is an equivalent martingale measure and admissible discounted wealth processes are true martingales, or are local martingales bounded from below. Then no admissible self-financing arbitrage exists.
+\end{thm}
+
+\begin{proof}
+For an admissible self-financing strategy,
+\[
+d(D_tX_t)
+ =\sum_{i=1}^m\Delta_t^{(i)}d(D_tS_t^{(i)}).
+\]
+Thus $DX$ is a $\widetilde{\mathbb{P}}$-local martingale. Under the stated admissibility condition it is a supermartingale, and it is a martingale under the stronger integrability assumption. If $X_0=0$ and $X_T\geq0$ almost surely, then
+\[
+0\geq\widetilde{\mathbb{E}}[D_TX_T]\geq0,
+\]
+so $D_TX_T=0$ almost surely. Equivalence of the measures then rules out a strictly positive terminal payoff with positive $\mathbb{P}$-probability.
+\end{proof}
+
+\subsubsection*{Completeness}
+
+\begin{de}
+The market is complete on $[0,T]$ if every suitably integrable $\mathcal{F}_T$-measurable claim $H$ can be replicated by an admissible self-financing strategy; that is, there exists a wealth process $X$ such that $X_T=H$.
+\end{de}
+
+Assume that $(\mathcal{F}_t)$ is the augmented Brownian filtration generated by $\widetilde W$. If $D_TH\in L^2(\widetilde{\mathbb{P}})$, the martingale representation theorem gives a predictable process $\Gamma_t\in\mathbb{R}^d$ such that
+\[
+M_t:=\widetilde{\mathbb{E}}[D_TH\mid\mathcal{F}_t]
+=M_0+\int_0^t\Gamma_s^\top d\widetilde W_s.
+\]
+A self-financing strategy has discounted dynamics
+\[
+d(D_tX_t)
+=\sum_{i=1}^m\sum_{j=1}^d
+ \Delta_t^{(i)}D_tS_t^{(i)}\sigma_t^{(ij)}
+ \,d\widetilde W_t^{(j)}.
+\]
+Replication therefore requires
+\[
+\Gamma_t
+=\sigma_t^\top
+\begin{pmatrix}
+\Delta_t^{(1)}D_tS_t^{(1)}\\
+\vdots\\
+\Delta_t^{(m)}D_tS_t^{(m)}
+\end{pmatrix}.
+\]
+This linear system can be solved for every $\Gamma_t\in\mathbb{R}^d$ whenever
+\[
+\operatorname{rank}(\sigma_t)=d
+\]
+almost everywhere, which in particular requires $m\geq d$.
+
+\begin{thm}[Second fundamental theorem, diffusion form]
+Under the standard regularity assumptions for a Brownian diffusion market, the market is complete if and only if the equivalent martingale measure is unique. In the model above, this corresponds to the risk-premium equation
+\[
+\alpha_t-r_t\mathbf{1}_m=\sigma_t\theta_t
+\]
+having a unique solution $\theta_t$, equivalently $\sigma_t$ having full column rank $d$ almost everywhere.
+\end{thm}
+
+\subsection{Assets with dividends}
+
+\subsubsection*{Continuous dividend yield}
+
+Suppose one stock pays dividends continuously at rate $q_tS_tdt$, where $q_t\geq0$ is adapted. Under the physical measure, write its ex-dividend dynamics as
+\[
+\frac{dS_t}{S_t}=(\mu_t-q_t)dt+\sigma_t\,dW_t.
+\]
+The total gain from holding one share is
+\[
+dG_t=dS_t+q_tS_tdt
+     =\mu_tS_tdt+\sigma_tS_tdW_t.
+\]
+A portfolio holding $\Delta_t$ shares therefore satisfies
+\[
+dX_t
+=r_tX_tdt+\Delta_tS_t(\mu_t-r_t)dt
+ +\Delta_t\sigma_tS_tdW_t.
+\]
+With
+\[
+\theta_t=\frac{\mu_t-r_t}{\sigma_t},
+\qquad
+\widetilde W_t=W_t+\int_0^t\theta_sds,
+\]
+the risk-neutral dynamics become
+\[
+\boxed{\frac{dS_t}{S_t}=(r_t-q_t)dt+\sigma_t\,d\widetilde W_t.}
+\]
+Thus the ex-dividend discounted stock price need not be a martingale. Instead, the discounted gains process
+\[
+\frac{S_t}{B_t}+\int_0^t\frac{q_uS_u}{B_u}\,du
+\]
+is a $\widetilde{\mathbb{P}}$-martingale. Equivalently, when dividends are continuously reinvested, the total-return process
+\[
+\widehat S_t=S_t\exp\!\left(\int_0^tq_u\,du\right)
+\]
+has discounted value $D_t\widehat S_t$ equal to a local martingale, and a true martingale under suitable integrability.
+
+For a claim $H$ payable at $T$, risk-neutral valuation remains
+\[
+V_t
+=\frac{1}{D_t}\widetilde{\mathbb{E}}[D_TH\mid\mathcal{F}_t].
+\]
+The dividend yield changes the risk-neutral dynamics of the underlying, not the basic discounting formula.
+
+\subsubsection*{Discrete proportional dividends}
+
+Let
+\[
+0<t_1<\cdots<t_n<T
+\]
+be dividend dates. Suppose the stock pays the proportional dividend
+\[
+a_jS_{t_j-},
+\qquad 0\leq a_j\leq1,
+\]
+at time $t_j$, where $a_j$ is $\mathcal{F}_{t_j-}$-measurable. The no-arbitrage ex-dividend jump condition is
+\[
+S_{t_j}=(1-a_j)S_{t_j-}.
+\]
+Between dividend dates, suppose
+\[
+\frac{dS_t}{S_t}=\mu_tdt+\sigma_tdW_t.
+\]
+A shareholder receives the dividend at the same instant that the quoted ex-dividend price falls, so a self-financing portfolio's total value does not jump merely because of the payout. The discounted total gains process, rather than the discounted ex-dividend stock price alone, is the martingale under the risk-neutral measure.
+
+\subsection{Derivatives pricing: forwards and futures}
+
+\begin{de}
+A forward contract initiated at time $t$ on an asset with maturity $T$ and delivery price $K$ pays
+\[
+S_T-K
+\]
+to the long position at time $T$. The forward price $\operatorname{For}_S(t,T)$ is the value of $K$ that makes the contract's value zero at inception.
+\end{de}
+
+Let
+\[
+P(t,T)
+=\widetilde{\mathbb{E}}\!\left[
+\frac{D_T}{D_t}\,\bigg|\,\mathcal{F}_t
+\right]
+\]
+be the time-$t$ price of a zero-coupon bond paying one unit at $T$.
+
+\begin{thm}
+Assume the underlying is a non-dividend-paying traded asset and zero-coupon bonds are tradable. Then
+\[
+\boxed{\operatorname{For}_S(t,T)=\frac{S_t}{P(t,T)}.}
+\]
+\end{thm}
+
+\begin{proof}
+The value at time $t$ of a forward with delivery price $K$ is
+\[
+\frac{1}{D_t}
+\widetilde{\mathbb{E}}[D_T(S_T-K)\mid\mathcal{F}_t]
+=S_t-KP(t,T),
+\]
+because $D_tS_t$ is a martingale. Setting this value equal to zero gives the formula. Equivalently, one can buy the asset and finance it by shorting $S_t/P(t,T)$ units of the $T$-bond.
+\end{proof}
+
+For a dividend-paying asset, $S_t$ in this formula must be replaced by the time-$t$ prepaid-forward price, namely the current asset price minus the present value of dividends paid before $T$ when those dividends are known.
+
+\begin{de}
+A futures contract is marked to market. Its quoted price $\operatorname{Fut}_S(t,T)$ is reset through gains and losses in a margin account. Over an interval $(u,v]$, the long position receives
+\[
+\operatorname{Fut}_S(v,T)-\operatorname{Fut}_S(u,T).
+\]
+At maturity,
+\[
+\operatorname{Fut}_S(T,T)=S_T.
+\]
+\end{de}
+
+An increase in the futures quotation benefits the long position and harms the short position. Futures are standardized and exchange-traded; forwards are usually customized and traded over the counter. Over-the-counter contracts are still tradable, but they generally carry more counterparty-credit and liquidity risk.
+
+\begin{thm}
+Under continuous marking to market and the usual frictionless assumptions, the futures price is
+\[
+\boxed{\operatorname{Fut}_S(t,T)
+=\widetilde{\mathbb{E}}[S_T\mid\mathcal{F}_t].}
+\]
+In particular, the futures-price process is a $\widetilde{\mathbb{P}}$-martingale.
+\end{thm}
+
+\begin{proof}
+A futures contract has zero value immediately after each marking-to-market payment, and a position of $\Gamma_t$ contracts contributes the gain $\Gamma_t\,d\operatorname{Fut}_S(t,T)$ to wealth. For discounted wealth to remain a local martingale under the risk-neutral measure for arbitrary admissible $\Gamma$, the futures quotation must itself be a local martingale. The terminal condition then yields
+\[
+\operatorname{Fut}_S(t,T)
+=\widetilde{\mathbb{E}}[\operatorname{Fut}_S(T,T)\mid\mathcal{F}_t]
+=\widetilde{\mathbb{E}}[S_T\mid\mathcal{F}_t].
+\]
+\end{proof}
+
+If interest rates are deterministic, then
+\[
+\operatorname{For}_S(t,T)
+=\operatorname{Fut}_S(t,T).
+\]
+At time zero, with stochastic interest rates,
+\[
+\begin{aligned}
+\operatorname{For}_S(0,T)-\operatorname{Fut}_S(0,T)
+&=\frac{\widetilde{\mathbb{E}}[D_TS_T]}
+        {\widetilde{\mathbb{E}}[D_T]}
+  -\widetilde{\mathbb{E}}[S_T]\\
+&=\frac{\widetilde{\operatorname{Cov}}(D_T,S_T)}{P(0,T)}.
+\end{aligned}
+\]
+This covariance formula explains why stochastic rates can make forward and futures prices differ.
+
+\subsection{Derivatives pricing: options}
+
+\begin{de}
+A European call gives its holder the right, but not the obligation, to buy the underlying asset for the \emph{strike price} $K$ at maturity $T$. Its payoff is
+\[
+(S_T-K)^+.
+\]
+A European put gives the right to sell at $K$ and has payoff
+\[
+(K-S_T)^+.
+\]
+\end{de}
+
+For a European payoff $h(S_T)$, the arbitrage-free value in a complete market is
+\[
+V_t
+=\frac{1}{D_t}
+ \widetilde{\mathbb{E}}[D_Th(S_T)\mid\mathcal{F}_t].
+\]
+In an incomplete market this formula depends on the selected equivalent martingale measure unless the claim is replicable.
+
+\subsection{The Black--Scholes formula}
+
+Assume a non-dividend-paying stock with physical dynamics
+\[
+\frac{dS_t}{S_t}=\mu\,dt+\sigma\,dW_t,
+\qquad \sigma>0,
+\]
+and a constant risk-free rate $r$. Set
+\[
+\theta=\frac{\mu-r}{\sigma},
+\qquad
+Z_t=\exp\!\left(-\theta W_t-\frac12\theta^2t\right).
+\]
+Under the measure $\widetilde{\mathbb{P}}$ defined by $Z_T$, the process
+\[
+\widetilde W_t=W_t+\theta t
+\]
+is Brownian motion and
+\[
+\frac{dS_t}{S_t}=r\,dt+\sigma\,d\widetilde W_t.
+\]
+
+\begin{thm}[Black--Scholes formula]
+For $0\leq t<T$, the European call price is
+\[
+C_t=S_tN(d_1)-Ke^{-r(T-t)}N(d_2),
+\]
+where
+\[
+d_1
+=\frac{\log(S_t/K)+(r+\frac12\sigma^2)(T-t)}
+       {\sigma\sqrt{T-t}},
+\qquad
+d_2=d_1-\sigma\sqrt{T-t},
+\]
+and $N$ is the standard normal distribution function.
+\end{thm}
+
+\begin{proof}
+Let $\tau=T-t$. Under $\widetilde{\mathbb{P}}$,
+\[
+S_T
+=S_t\exp\!\left(
+(r-\tfrac12\sigma^2)\tau
++\sigma(\widetilde W_T-\widetilde W_t)
+\right).
+\]
+Decompose the payoff:
+\[
+C_t
+=\widetilde{\mathbb{E}}\!\left[
+ e^{-r\tau}S_T\mathbf{1}_{\{S_T>K\}}
+ \mid\mathcal{F}_t
+\right]
+-Ke^{-r\tau}
+ \widetilde{\mathbb{P}}(S_T>K\mid\mathcal{F}_t).
+\]
+For the first term, introduce the stock-numeraire measure $\mathbb{P}^S$ by the density process
+\[
+L_u^S=\frac{e^{-ru}S_u}{S_0},
+\qquad 0\leq u\leq T.
+\]
+Then Bayes' formula gives
+\[
+\widetilde{\mathbb{E}}\!\left[
+ e^{-r\tau}S_T\mathbf{1}_{\{S_T>K\}}
+ \mid\mathcal{F}_t
+\right]
+=S_t\mathbb{P}^S(S_T>K\mid\mathcal{F}_t).
+\]
+Under $\mathbb{P}^S$,
+\[
+W_t^S=\widetilde W_t-\sigma t
+\]
+is Brownian motion, and the conditional lognormal calculations yield
+\[
+\mathbb{P}^S(S_T>K\mid\mathcal{F}_t)=N(d_1),
+\qquad
+\widetilde{\mathbb{P}}(S_T>K\mid\mathcal{F}_t)=N(d_2).
+\]
+Substitution proves the formula.
+\end{proof}
+
+\begin{thm}[Put--call parity]
+For a non-dividend-paying stock and constant interest rate $r$,
+\[
+C_t-P_t=S_t-Ke^{-r(T-t)}.
+\]
+\end{thm}
+
+\begin{proof}
+The identity
+\[
+(S_T-K)^+-(K-S_T)^+=S_T-K
+\]
+and risk-neutral valuation imply
+\[
+C_t-P_t
+=e^{-r(T-t)}\widetilde{\mathbb{E}}[S_T-K\mid\mathcal{F}_t]
+=S_t-Ke^{-r(T-t)}.
+\]
+\end{proof}
+
+\begin{thm}[Black--Scholes PDE]
+If $C_t=c(t,S_t)$ and $c$ is sufficiently smooth, then
+\[
+c_t(t,x)+rx c_x(t,x)
++\frac12\sigma^2x^2c_{xx}(t,x)-rc(t,x)=0,
+\]
+with terminal condition
+\[
+c(T,x)=(x-K)^+.
+\]
+\end{thm}
+
+\begin{proof}
+Under the risk-neutral measure,
+\[
+dS_t=rS_tdt+\sigma S_td\widetilde W_t.
+\]
+It\^o's formula gives
+\[
+dc(t,S_t)
+=\left(c_t+rS_tc_x+\frac12\sigma^2S_t^2c_{xx}\right)dt
+ +\sigma S_tc_xd\widetilde W_t.
+\]
+Therefore
+\[
+\begin{aligned}
+d(e^{-rt}c(t,S_t))
+&=e^{-rt}
+ \left(c_t+rS_tc_x+\frac12\sigma^2S_t^2c_{xx}-rc\right)dt\\
+&\quad+e^{-rt}\sigma S_tc_xd\widetilde W_t.
+\end{aligned}
+\]
+The discounted option value is a martingale, so its drift must vanish.
+\end{proof}
+
+A replicating portfolio starts with $X_0=c(0,S_0)$ and holds
+\[
+\Delta_t=c_x(t,S_t)
+\]
+shares of stock. Indeed,
+\[
+d(e^{-rt}X_t)=e^{-rt}\sigma S_t\Delta_t\,d\widetilde W_t
+\]
+after matching the option's discounted diffusion term. For a Black--Scholes call,
+\[
+\Delta_t=N(d_1).
+\]
+
+The principal option sensitivities are
+\[
+\Delta=c_x,
+\qquad
+\Gamma=c_{xx},
+\qquad
+\Theta=c_t,
+\qquad
+\rho=\frac{\partial c}{\partial r},
+\qquad
+\mathcal{V}=\frac{\partial c}{\partial\sigma},
+\]
+where $\mathcal{V}$ is the vega.
+
+\subsection{Limitations of the Black--Scholes model}
+
+Market prices are commonly summarized by \emph{implied volatility}. For fixed $(t,S_t,K,T,r)$, the Black--Scholes call price is continuous and strictly increasing in $\sigma>0$. Hence a unique finite positive implied volatility exists when the observed call price lies strictly inside the model's no-arbitrage range
+\[
+(S_t-Ke^{-r(T-t)})^+<C_t^{\mathrm{mkt}}<S_t.
+\]
+At a boundary, the corresponding limiting volatility may be zero or infinite; outside the bounds, no Black--Scholes implied volatility exists.
+
+In the Black--Scholes model, one constant volatility must fit all strikes and maturities. Market implied volatilities instead vary with both strike and maturity, producing smiles or skews. Models designed to capture these patterns include local-volatility, stochastic-volatility, and jump models; interest-rate term-structure models address the evolution of rates rather than, by themselves, the equity implied-volatility surface.
+
+\begin{de}
+A local-volatility model has risk-neutral dynamics
+\[
+dS_t=rS_tdt+\sigma_{\mathrm{loc}}(t,S_t)S_t\,d\widetilde W_t.
+\]
+A common constant-elasticity-of-variance specification is
+\[
+dS_t=rS_tdt+\sigma_0S_t^{\gamma}\,d\widetilde W_t.
+\]
+When $\gamma<1$, the percentage volatility $\sigma_0S_t^{\gamma-1}$ rises as the stock price falls, producing a leverage effect.
+\end{de}
+
+\begin{de}
+A stochastic-volatility model has dynamics of the form
+\[
+\begin{aligned}
+dS_t&=rS_tdt+\sqrt{v_t}\,S_t\,d\widetilde W_t^{(1)},\\
+dv_t&=a(v_t)dt+b(v_t)d\widetilde W_t^{(2)},\\
+d\widetilde W_t^{(1)}d\widetilde W_t^{(2)}&=\rho\,dt.
+\end{aligned}
+\]
+The Heston model specifies
+\[
+dv_t=\kappa(\theta-v_t)dt+\xi\sqrt{v_t}\,d\widetilde W_t^{(2)}.
+\]
+A negative correlation $\rho$ generates a leverage effect and typically an equity-volatility skew.
+\end{de}
+
+\section{Change of numeraire}
+
+\subsection{Motivation and general properties}
+
+A martingale measure is always associated with a chosen numeraire. If the money-market account $B$ is used as numeraire, the corresponding risk-neutral measure $Q$ makes every discounted, non-dividend-paying traded-asset price $S_t/B_t$ a local martingale. In many applications, changing from $B$ to another strictly positive traded asset can simplify pricing calculations substantially.
+
+Consider an arbitrage-free market with asset prices
+\[
+S^0,S^1,\ldots,S^n,
+\]
+where the candidate numeraires are strictly positive and pay no dividends. When a Brownian representation is needed, suppose that under a reference measure the dynamics are
+\[
+\frac{dS_t^i}{S_t^i}
+=\mu_t^i\,dt+(\sigma_t^i)^\top dW_t,
+\qquad i=0,\ldots,n,
+\]
+where $W$ is multidimensional and the coefficient processes are adapted.
+
+A numeraire must be more than a positive deflator: it must be the value process of a strictly positive traded asset or self-financing portfolio. A nonfinancial index, a futures quotation, or the ex-dividend price of a dividend-paying asset cannot automatically be used as a numeraire without a separate argument.
+
+Suppose $Q^0$ is the martingale measure associated with $S^0$. Thus, for every traded asset price $\Pi$,
+\[
+\frac{\Pi_t}{S_t^0}
+\]
+is a $Q^0$-local martingale, and a true martingale under the integrability conditions used below. We seek the martingale measure associated with $S^1$ while preserving the same arbitrage-free price system.
+
+\begin{prop}[Change-of-numeraire theorem]
+Assume that $S^1/S^0$ is a strictly positive true $Q^0$-martingale on $[0,T]$. Define
+\[
+L_t^{01}
+=\frac{S_t^1/S_t^0}{S_0^1/S_0^0},
+\qquad 0\leq t\leq T,
+\]
+and define $Q^1$ on $\mathcal{F}_T$ by
+\[
+\frac{dQ^1}{dQ^0}\bigg|_{\mathcal{F}_T}=L_T^{01}.
+\]
+Then $Q^1$ is the martingale measure associated with the numeraire $S^1$, and $Q^0$ and $Q^1$ generate the same price system.
+\end{prop}
+
+\begin{proof}
+Let $\Pi$ be an arbitrage-free price process such that the required conditional expectations are finite. For $s\leq t$, Bayes' formula gives
+\[
+\begin{aligned}
+E^{1}\!\left[
+ \frac{\Pi_t}{S_t^1}\bigg|\mathcal{F}_s
+\right]
+&=\frac{1}{L_s^{01}}
+ E^{0}\!\left[
+ L_t^{01}\frac{\Pi_t}{S_t^1}
+ \bigg|\mathcal{F}_s
+ \right]\\
+&=\frac{1}{L_s^{01}}
+ \frac{S_0^0}{S_0^1}
+ E^{0}\!\left[
+ \frac{\Pi_t}{S_t^0}
+ \bigg|\mathcal{F}_s
+ \right]\\
+&=\frac{1}{L_s^{01}}
+ \frac{S_0^0}{S_0^1}
+ \frac{\Pi_s}{S_s^0}
+=\frac{\Pi_s}{S_s^1}.
+\end{aligned}
+\]
+Thus $\Pi/S^1$ is a $Q^1$-martingale.
+
+For a claim $X$ payable at $T$,
+\[
+\begin{aligned}
+S_t^1E^1\!\left[\frac{X}{S_T^1}\bigg|\mathcal{F}_t\right]
+&=S_t^1\frac{1}{L_t^{01}}
+ E^0\!\left[L_T^{01}\frac{X}{S_T^1}\bigg|\mathcal{F}_t\right]\\
+&=S_t^0E^0\!\left[\frac{X}{S_T^0}\bigg|\mathcal{F}_t\right],
+\end{aligned}
+\]
+so the two numeraires generate the same prices.
+\end{proof}
+
+\begin{cor}
+Let $Q$ be the risk-neutral measure associated with the money-market account $B$, and let $S$ be a strictly positive non-dividend-paying traded asset. The $S$-numeraire measure $Q^S$ has density process
+\[
+L_t^S
+=\frac{dQ^S}{dQ}\bigg|_{\mathcal{F}_t}
+=\frac{S_t/B_t}{S_0/B_0}.
+\]
+If $B_0=1$, this becomes
+\[
+L_t^S=\frac{S_t}{B_tS_0}.
+\]
+\end{cor}
+
+\subsubsection*{Girsanov kernels}
+
+Suppose that, under $Q^0$, the density process satisfies
+\[
+\frac{dL_t^{01}}{L_t^{01}}
+=(\sigma_t^1-\sigma_t^0)^\top dW_t^0.
+\]
+Then
+\[
+L_t^{01}
+=\mathcal{E}\!\left(
+ \int_0^t(\sigma_s^1-\sigma_s^0)^\top dW_s^0
+\right),
+\]
+and the $Q^1$-Brownian motion is
+\[
+W_t^1
+=W_t^0-
+ \int_0^t(\sigma_s^1-\sigma_s^0)\,ds.
+\]
+Thus, with the density convention above, the Girsanov kernel for the change from $Q^0$ to $Q^1$ is the volatility difference
+\[
+\varphi_t^{01}=\sigma_t^1-\sigma_t^0.
+\]
+
+In particular, suppose that under $Q$,
+\[
+\frac{dS_t}{S_t}=r_tdt+\sigma_t^\top dW_t^Q.
+\]
+Then
+\[
+\frac{dL_t^S}{L_t^S}=\sigma_t^\top dW_t^Q,
+\]
+and
+\[
+W_t^S=W_t^Q-\int_0^t\sigma_sds
+\]
+is Brownian motion under $Q^S$.
+
+\subsection{Forward measures}
+
+Fix a maturity $T$, and let $p(t,T)$ denote the time-$t$ price of a zero-coupon bond paying one unit at time $T$. The bond is strictly positive for $t\leq T$ and satisfies
+\[
+p(T,T)=1.
+\]
+
+\begin{de}
+The $T$-forward measure $Q^T$ is the martingale measure associated with the numeraire $p(t,T)$.
+\end{de}
+
+\begin{prop}
+Let $Q$ be the risk-neutral measure associated with $B$. The density process of $Q^T$ relative to $Q$ is
+\[
+L_t^T
+=\frac{dQ^T}{dQ}\bigg|_{\mathcal{F}_t}
+=\frac{p(t,T)/B_t}{p(0,T)/B_0}.
+\]
+If $B_0=1$, then
+\[
+L_t^T=\frac{p(t,T)}{B_tp(0,T)}.
+\]
+
+Suppose the $Q$-dynamics of the $T$-bond are
+\[
+\frac{dp(t,T)}{p(t,T)}
+=r_tdt+v(t,T)^\top dW_t^Q,
+\]
+where $v(t,T)\in\mathbb{R}^d$. Then
+\[
+\frac{dL_t^T}{L_t^T}
+=v(t,T)^\top dW_t^Q,
+\]
+and
+\[
+W_t^T
+=W_t^Q-\int_0^tv(s,T)ds
+\]
+is Brownian motion under $Q^T$.
+\end{prop}
+
+\begin{proof}
+The density formula is the change-of-numeraire theorem with $S=p(\cdot,T)$. Solving the bond SDE gives
+\[
+\begin{aligned}
+p(t,T)
+&=p(0,T)
+ \exp\!\left(
+ \int_0^t\left(r_s-\frac12\|v(s,T)\|^2\right)ds
+ +\int_0^tv(s,T)^\top dW_s^Q
+ \right).
+\end{aligned}
+\]
+Since
+\[
+B_t=B_0\exp\!\left(\int_0^tr_sds\right),
+\]
+we obtain
+\[
+L_t^T
+=\exp\!\left(
+ -\frac12\int_0^t\|v(s,T)\|^2ds
+ +\int_0^tv(s,T)^\top dW_s^Q
+\right),
+\]
+which has the claimed differential.
+\end{proof}
+
+\begin{prop}[Pricing under the forward measure]
+For any integrable claim $X$ payable at time $T$,
+\[
+\boxed{
+\Pi_t[X]
+=p(t,T)E^T[X\mid\mathcal{F}_t].}
+\]
+\end{prop}
+
+\begin{proof}
+Under the $T$-forward measure, every traded price divided by $p(\cdot,T)$ is a martingale. Since the claim has value $X$ at $T$ and $p(T,T)=1$,
+\[
+\frac{\Pi_t[X]}{p(t,T)}
+=E^T\!\left[
+ \frac{X}{p(T,T)}\bigg|\mathcal{F}_t
+\right]
+=E^T[X\mid\mathcal{F}_t].
+\]
+\end{proof}
+
+\subsection{The numeraire portfolio}
+
+Assume a money-market account $B$ and a fixed risk-neutral measure $Q$ have been chosen. Suppose an equivalent probability measure $Q^*$ is given, with density process
+\[
+L_t^*
+=\frac{dQ^*}{dQ}\bigg|_{\mathcal{F}_t}.
+\]
+Since $L^*$ is a strictly positive true $Q$-martingale with $L_0^*=1$, define
+\[
+N_t=\frac{B_t}{B_0}L_t^*.
+\]
+Then $N_0=1$ and
+\[
+\frac{N_t}{B_t}=\frac{L_t^*}{B_0}
+\]
+is a $Q$-martingale. Therefore $N$ is a strictly positive arbitrage-free price process in the price system generated by $Q$.
+
+\begin{prop}
+If the process $N$ defined above is the value process of a strictly positive traded self-financing portfolio, then it is a legitimate numeraire and
+\[
+Q^*=Q^N.
+\]
+In a complete market, every suitably integrable arbitrage-free price process is attainable, so this condition is automatic. In an incomplete market, attainability of $N$ must be checked separately.
+\end{prop}
+
+\begin{proof}
+The density of the $N$-numeraire measure relative to $Q$ is
+\[
+\frac{N_t/B_t}{N_0/B_0}
+=\frac{(L_t^*/B_0)}{1/B_0}
+=L_t^*.
+\]
+Hence the two measures agree on every $\mathcal{F}_t$. The fact that $L^*$ is a true martingale follows from its definition as a density process; it is not a consequence merely of working on a finite time horizon.
+\end{proof}
+
+\subsection{Application: a general option-pricing formula}
+
+Let $S$ be a strictly positive, non-dividend-paying traded asset, let $p(t,T)$ be the $T$-bond price, and consider a European call with payoff
+\[
+(S_T-K)^+.
+\]
+
+\begin{prop}[General option-pricing formula]
+The time-$t$ call price is
+\[
+\boxed{
+c_t
+=S_tQ^S(S_T\geq K\mid\mathcal{F}_t)
+-Kp(t,T)Q^T(S_T\geq K\mid\mathcal{F}_t).}
+\]
+\end{prop}
+
+\begin{proof}
+Write
+\[
+(S_T-K)^+
+=S_T\mathbf{1}_{\{S_T\geq K\}}
+-K\mathbf{1}_{\{S_T\geq K\}}.
+\]
+Use $S$ as numeraire for the first claim and the $T$-bond as numeraire for the second. The change-of-numeraire pricing formula gives
+\[
+\begin{aligned}
+\Pi_t\!\left[S_T\mathbf{1}_{\{S_T\geq K\}}\right]
+&=S_tQ^S(S_T\geq K\mid\mathcal{F}_t),\\
+\Pi_t\!\left[\mathbf{1}_{\{S_T\geq K\}}\right]
+&=p(t,T)Q^T(S_T\geq K\mid\mathcal{F}_t).
+\end{aligned}
+\]
+Subtracting the two values proves the result.
+\end{proof}
+
+Suppose the relative price
+\[
+Z_{S,T}(u)=\frac{S_u}{p(u,T)}
+\]
+has deterministic volatility $\sigma_{S,T}(u)\in\mathbb{R}^d$ on $[t,T]$. Define
+\[
+\Sigma_{S,T}^2(t,T)
+=\int_t^T\|\sigma_{S,T}(u)\|^2du.
+\]
+
+\begin{thm}[Geman--El Karoui--Rochet formula]
+Under the preceding deterministic-volatility assumption,
+\[
+c_t=S_tN(d_1)-Kp(t,T)N(d_2),
+\]
+where
+\[
+\begin{aligned}
+d_2
+&=\frac{
+ \log\!\left(\dfrac{S_t}{Kp(t,T)}\right)
+ -\frac12\Sigma_{S,T}^2(t,T)
+}{\sqrt{\Sigma_{S,T}^2(t,T)}},\\[4pt]
+d_1
+&=d_2+\sqrt{\Sigma_{S,T}^2(t,T)}.
+\end{aligned}
+\]
+\end{thm}
+
+\begin{proof}
+Under the $T$-forward measure, the relative price is a martingale and satisfies
+\[
+\frac{dZ_{S,T}(u)}{Z_{S,T}(u)}
+=\sigma_{S,T}(u)^\top dW_u^T.
+\]
+Hence
+\[
+Z_{S,T}(T)
+=\frac{S_t}{p(t,T)}
+ \exp\!\left(
+ -\frac12\Sigma_{S,T}^2(t,T)
+ +\int_t^T\sigma_{S,T}(u)^\top dW_u^T
+ \right).
+\]
+Since $p(T,T)=1$, the event $S_T\geq K$ is the event
+$Z_{S,T}(T)\geq K$. The stochastic integral is Gaussian with variance
+$\Sigma_{S,T}^2(t,T)$, so
+\[
+Q^T(S_T\geq K\mid\mathcal{F}_t)=N(d_2).
+\]
+
+Under the stock measure, the reciprocal process
+\[
+Y_{S,T}(u)=\frac{p(u,T)}{S_u}=\frac1{Z_{S,T}(u)}
+\]
+is a martingale with volatility $-\sigma_{S,T}(u)$. Thus
+\[
+Y_{S,T}(T)
+=\frac{p(t,T)}{S_t}
+ \exp\!\left(
+ -\frac12\Sigma_{S,T}^2(t,T)
+ -\int_t^T\sigma_{S,T}(u)^\top dW_u^S
+ \right).
+\]
+The event $S_T\geq K$ is equivalent to $Y_{S,T}(T)\leq1/K$, which yields
+\[
+Q^S(S_T\geq K\mid\mathcal{F}_t)=N(d_1).
+\]
+Substitution into the general option-pricing formula proves the result.
+\end{proof}
+
+

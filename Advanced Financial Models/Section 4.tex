@@ -1,0 +1,700 @@
+\section{Term-structure models}
+
+\subsection{Introduction}
+
+Fixed-income markets quote bond prices rather than a single directly observable interest rate. A coupon-bearing bond can be decomposed into zero-coupon cash flows, and the prices of those zero-coupon bonds determine yields and forward rates.
+
+Let $P(t,T)$ denote the time-$t$ price of a zero-coupon bond that pays one unit of currency at maturity $T$, where $0\leq t\leq T$. Its continuously compounded yield to maturity is
+\[
+y(t,T)
+=-\frac{\log P(t,T)}{T-t},
+\qquad t<T,
+\]
+so that
+\[
+P(t,T)=e^{-y(t,T)(T-t)}.
+\]
+
+If a bond pays deterministic cash flows $C_i$ at dates
+\[
+t<T_1<\cdots<T_n,
+\]
+then its no-arbitrage price is
+\[
+\Pi_t=\sum_{i=1}^n C_iP(t,T_i).
+\]
+Observed coupon-bond prices can therefore be used to bootstrap zero-coupon prices. For example, if bond $j$ pays $C_{j,i}$ at $T_i$, with $C_{j,j}\neq0$, then the triangular system
+\[
+\Pi_j=\sum_{i=1}^j C_{j,i}P(t,T_i),
+\qquad j=1,\ldots,n,
+\]
+can be solved successively for $P(t,T_1),\ldots,P(t,T_n)$.
+
+The map
+\[
+T\longmapsto y(t,T)
+\]
+is the yield curve observed at time $t$. It may be upward sloping, downward sloping, flat, or humped; none of these shapes is universal.
+
+For $t\leq T_1<T_2$, the simple forward rate fixed at time $t$ for lending over $[T_1,T_2]$ is
+\[
+L(t;T_1,T_2)
+=\frac{1}{T_2-T_1}
+ \left(\frac{P(t,T_1)}{P(t,T_2)}-1\right).
+\]
+Indeed, buying one $T_1$-bond and financing it by shorting
+$P(t,T_1)/P(t,T_2)$ units of the $T_2$-bond creates a loan from $T_1$ to $T_2$.
+
+The instantaneous forward rate is
+\[
+f(t,T)
+=-\frac{\partial}{\partial T}\log P(t,T),
+\]
+which implies
+\[
+P(t,T)
+=\exp\!\left(-\int_t^Tf(t,u)\,du\right).
+\]
+The short rate is
+\[
+r_t=f(t,t).
+\]
+
+There are two principal modeling approaches:
+\begin{enumerate}
+    \item specify the dynamics of the short rate or of a finite collection of state variables and derive bond prices; or
+    \item specify the dynamics of the entire forward-rate curve, as in the Heath--Jarrow--Morton framework.
+\end{enumerate}
+
+\subsection{Affine term-structure models}
+
+\subsubsection*{One-factor models}
+
+The Vasicek model specifies, under a risk-neutral measure $\widetilde{\mathbb{P}}$,
+\[
+dr_t=\kappa(\theta-r_t)dt+\sigma\,d\widetilde W_t,
+\qquad
+\kappa,\theta,\sigma>0.
+\]
+This Gaussian model is mean reverting but permits negative rates. The time-inhomogeneous extension
+\[
+dr_t=\bigl(\theta(t)-\kappa r_t\bigr)dt+\sigma\,d\widetilde W_t
+\]
+is commonly called the one-factor Hull--White model.
+
+The Cox--Ingersoll--Ross model is
+\[
+dr_t=\kappa(\theta-r_t)dt+\sigma\sqrt{r_t}\,d\widetilde W_t,
+\qquad
+\kappa,\theta,\sigma>0.
+\]
+Starting from $r_0\geq0$, the process remains nonnegative. The Feller condition
+\[
+2\kappa\theta\geq\sigma^2
+\]
+makes the boundary at zero unattainable when $r_0>0$, and hence ensures strict positivity.
+
+Suppose generally that, under $\widetilde{\mathbb{P}}$,
+\[
+dr_t=a(t,r_t)dt+b(t,r_t)d\widetilde W_t.
+\]
+The zero-coupon bond price is
+\[
+P(t,T)
+=\widetilde{\mathbb{E}}\!\left[
+ \exp\!\left(-\int_t^Tr_sds\right)
+ \bigg|\mathcal{F}_t
+\right]
+=v(t,r_t;T).
+\]
+By Feynman--Kac, $v$ solves
+\[
+\begin{cases}
+ v_t+a(t,r)v_r+\dfrac12b(t,r)^2v_{rr}-rv=0,
+    & t<T,\\[4pt]
+ v(T,r;T)=1.
+\end{cases}
+\]
+In affine models, the solution has exponential-affine form
+\[
+P(t,T)=A(t,T)e^{-C(t,T)r_t},
+\]
+so the yield
+\[
+y(t,T)
+=-\frac{\log A(t,T)}{T-t}
+ +\frac{C(t,T)}{T-t}r_t
+\]
+is affine in the current short rate.
+
+\subsubsection*{Two-factor Gaussian models}
+
+A two-factor Vasicek model may be written as
+\[
+\begin{aligned}
+dX_1(t)
+&=\bigl(a_1-b_{11}X_1(t)-b_{12}X_2(t)\bigr)dt
+ +\sigma_1d\widetilde W_1(t),\\
+dX_2(t)
+&=\bigl(a_2-b_{21}X_1(t)-b_{22}X_2(t)\bigr)dt
+ +\sigma_2d\widetilde W_2(t),\\
+r_t&=\delta_0+\delta_1X_1(t)+\delta_2X_2(t),
+\end{aligned}
+\]
+where
+\[
+d\widetilde W_1(t)d\widetilde W_2(t)=\rho\,dt,
+\qquad -1<\rho<1.
+\]
+After a linear transformation, one may often use a canonical form driven by independent Brownian motions, such as
+\[
+\begin{aligned}
+dY_1(t)&=-\lambda_1Y_1(t)dt+d\widetilde B_1(t),\\
+dY_2(t)&=-\lambda_{21}Y_1(t)dt-\lambda_2Y_2(t)dt+d\widetilde B_2(t),\\
+r_t&=\delta_0+\delta_1Y_1(t)+\delta_2Y_2(t).
+\end{aligned}
+\]
+
+\subsubsection*{Two-factor square-root models}
+
+A canonical two-factor square-root model is
+\[
+\begin{aligned}
+dY_1(t)
+&=\bigl(\mu_1-\lambda_{11}Y_1(t)-\lambda_{12}Y_2(t)\bigr)dt
+ +\sqrt{Y_1(t)}\,d\widetilde W_1(t),\\
+dY_2(t)
+&=\bigl(\mu_2-\lambda_{21}Y_1(t)-\lambda_{22}Y_2(t)\bigr)dt
+ +\sqrt{Y_2(t)}\,d\widetilde W_2(t),\\
+r_t&=\delta_0+\delta_1Y_1(t)+\delta_2Y_2(t).
+\end{aligned}
+\]
+Conditions such as
+\[
+\mu_1,\mu_2\geq0,
+\qquad
+\lambda_{12},\lambda_{21}\leq0
+\]
+make the drift point inward on the boundary of the nonnegative quadrant and help preserve nonnegativity. Mean reversion is a separate stability property: it requires the drift matrix
+\[
+\Lambda=
+\begin{pmatrix}
+\lambda_{11}&\lambda_{12}\\
+\lambda_{21}&\lambda_{22}
+\end{pmatrix}
+\]
+to have eigenvalues with positive real parts. Additional Feller-type restrictions are used when strict positivity is required.
+
+A mixed square-root/Gaussian specification is
+\[
+\begin{aligned}
+dY_1(t)
+&=\bigl(\mu-\lambda_1Y_1(t)\bigr)dt
+ +\sqrt{Y_1(t)}\,d\widetilde W_1(t),\\
+dY_2(t)
+&=-\lambda_2Y_2(t)dt
+ +\sigma_{21}\sqrt{Y_1(t)}\,d\widetilde W_1(t)
+ +\sqrt{\alpha+\beta Y_1(t)}\,d\widetilde W_2(t),\\
+r_t&=\delta_0+\delta_1Y_1(t)+\delta_2Y_2(t),
+\end{aligned}
+\]
+where $\widetilde W_1$ and $\widetilde W_2$ are independent and the parameters are chosen so that the square roots are well defined.
+
+In affine multi-factor models, the bond price generally has the form
+\[
+P(t,T)
+=\exp\!\left(
+ A(t,T)-C_1(t,T)Y_1(t)-C_2(t,T)Y_2(t)
+\right),
+\]
+with deterministic coefficient functions obtained from Riccati equations. The yield is affine in the factors.
+
+\subsection{Heath--Jarrow--Morton models}
+
+The Heath--Jarrow--Morton approach models the full instantaneous-forward curve. Under the physical measure $\mathbb{P}$, suppose
+\[
+df(t,T)
+=\alpha(t,T)dt+\sigma(t,T)^\top dW_t,
+\qquad 0\leq t\leq T,
+\]
+where $W$ is $d$-dimensional and $\sigma(t,T)\in\mathbb{R}^d$.
+
+Define
+\[
+\alpha^*(t,T)=\int_t^T\alpha(t,u)\,du,
+\qquad
+\sigma^*(t,T)=\int_t^T\sigma(t,u)\,du.
+\]
+Let
+\[
+g(t,T)=\int_t^Tf(t,u)\,du,
+\qquad
+P(t,T)=e^{-g(t,T)}.
+\]
+Leibniz's rule gives
+\[
+dg(t,T)
+=\bigl(-r_t+\alpha^*(t,T)\bigr)dt
+ +\sigma^*(t,T)^\top dW_t.
+\]
+It\^o's formula therefore yields
+\[
+\boxed{
+\frac{dP(t,T)}{P(t,T)}
+=\left(
+ r_t-\alpha^*(t,T)
+ +\frac12\|\sigma^*(t,T)\|^2
+ \right)dt
+-\sigma^*(t,T)^\top dW_t.}
+\]
+
+Let $\theta_t\in\mathbb{R}^d$ be the market price of Brownian risk and define
+\[
+dW_t^{\widetilde{\mathbb{P}}}=dW_t+\theta_tdt.
+\]
+Under the corresponding equivalent measure, substitution gives
+\[
+\frac{dP(t,T)}{P(t,T)}
+=\left(
+ r_t-\alpha^*(t,T)
+ +\frac12\|\sigma^*(t,T)\|^2
+ +\sigma^*(t,T)^\top\theta_t
+ \right)dt
+-\sigma^*(t,T)^\top dW_t^{\widetilde{\mathbb{P}}}.
+\]
+For discounted bond prices to be local martingales, the HJM drift restriction under $\mathbb{P}$ is
+\[
+\boxed{
+\alpha^*(t,T)
+=\sigma^*(t,T)^\top\theta_t
+ +\frac12\|\sigma^*(t,T)\|^2.}
+\]
+Differentiating with respect to $T$ gives
+\[
+\alpha(t,T)
+=\sigma(t,T)^\top\theta_t
+ +\sigma(t,T)^\top\sigma^*(t,T).
+\]
+Hence, under the risk-neutral measure,
+\[
+\boxed{
+df(t,T)
+=\sigma(t,T)^\top\sigma^*(t,T)dt
+ +\sigma(t,T)^\top dW_t^{\widetilde{\mathbb{P}}}.}
+\]
+The corresponding bond dynamics are
+\[
+\boxed{
+\frac{dP(t,T)}{P(t,T)}
+=r_tdt-\sigma^*(t,T)^\top dW_t^{\widetilde{\mathbb{P}}}.}
+\]
+Thus, once the forward-rate volatility is specified, absence of arbitrage determines the risk-neutral drift.
+
+\section{Jump models}
+
+\subsection{Review of Poisson processes}
+
+Diffusion models have continuous paths and therefore cannot generate sudden price moves. Jump models can capture discontinuities, heavier tails, and some features of implied-volatility smiles and skews.
+
+Let $\xi_1,\xi_2,\ldots$ be independent exponential random variables with parameter $\lambda>0$:
+\[
+\mathbb{P}(\xi_i>t)=e^{-\lambda t},
+\qquad
+\mathbb{E}[\xi_i]=\frac1\lambda.
+\]
+The exponential distribution is memoryless:
+\[
+\mathbb{P}(\xi_i>s+t\mid\xi_i>s)
+=\mathbb{P}(\xi_i>t).
+\]
+Define the $n$th arrival time by
+\[
+T_n=\sum_{i=1}^n\xi_i
+\]
+and the counting process by
+\[
+N_t=\max\{n\geq0:T_n\leq t\}.
+\]
+Then $N$ is a Poisson process of intensity $\lambda$ and
+\[
+\mathbb{P}(N_t=k)
+=e^{-\lambda t}\frac{(\lambda t)^k}{k!},
+\qquad
+\mathbb{E}[N_t]=\operatorname{Var}(N_t)=\lambda t.
+\]
+The arrival time $T_n$ has the Erlang density
+\[
+f_{T_n}(s)
+=\frac{\lambda^n s^{n-1}}{(n-1)!}e^{-\lambda s},
+\qquad s>0.
+\]
+The compensated process
+\[
+M_t=N_t-\lambda t
+\]
+is a martingale.
+
+Let $Y_1,Y_2,\ldots$ be i.i.d., independent of $N$, and suppose $\mathbb{E}|Y_1|<\infty$. The compound Poisson process is
+\[
+Q_t=\sum_{i=1}^{N_t}Y_i.
+\]
+A standard compound Poisson process has at most one arrival at any given time almost surely; the jump at an arrival may have a random size $Y_i$. If
+\[
+\beta=\mathbb{E}[Y_1],
+\]
+then
+\[
+Q_t-\lambda\beta t
+\]
+is a martingale. If $M_Y(u)=\mathbb{E}[e^{uY_1}]$ is finite, then
+\[
+\mathbb{E}[e^{uQ_t}]
+=\exp\!\left(\lambda t\bigl(M_Y(u)-1\bigr)\right).
+\]
+
+\subsection{Stochastic calculus for jump processes}
+
+For a compound Poisson process with jump sizes $Y_i$, define the random jump measure by
+\[
+J((0,t]\times A)
+=\sum_{i=1}^{N_t}\mathbf{1}_{\{Y_i\in A\}},
+\]
+for Borel sets $A\subseteq\mathbb{R}$. Then
+\[
+Q_t=\int_0^t\int_{\mathbb{R}}y\,J(ds,dy).
+\]
+If the jump-size distribution is $G(dy)$, the compensator is
+\[
+\nu(dy)ds=\lambda G(dy)ds,
+\]
+and the compensated jump measure is
+\[
+\widetilde J(ds,dy)=J(ds,dy)-\lambda G(dy)ds.
+\]
+For predictable integrands satisfying the appropriate integrability condition,
+\[
+\int_0^t\int H_s(y)\,\widetilde J(ds,dy)
+\]
+is a local martingale.
+
+A finite-activity jump diffusion may be written as
+\[
+X_t
+=X_0+\int_0^tb_sds+\int_0^t\gamma_s^\top dW_s
+ +\int_0^t\int_{\mathbb{R}}y\,J(ds,dy).
+\]
+Its continuous part is
+\[
+X_t^c
+=X_0+\int_0^tb_sds+\int_0^t\gamma_s^\top dW_s,
+\]
+and its jump at time $s$ is
+\[
+\Delta X_s=X_s-X_{s-}.
+\]
+Stochastic integrands are evaluated predictably, using left limits at jumps. For example,
+\[
+\int_0^tH_s\,dX_s
+=\int_0^tH_s b_sds
+ +\int_0^tH_s\gamma_s^\top dW_s
+ +\sum_{0<s\leq t}H_s\Delta X_s,
+\]
+where $H$ is predictable. If $X$ is a local martingale and $H$ is $X$-integrable, then $H\mathbin{\boldsymbol\cdot}X$ is a local martingale; predictability alone does not make an integral with respect to an arbitrary semimartingale a martingale.
+
+For semimartingales $X$ and $Y$,
+\[
+[X,Y]_t
+=[X^c,Y^c]_t
+ +\sum_{0<s\leq t}\Delta X_s\Delta Y_s.
+\]
+In particular,
+\[
+[X]_t=[X^c]_t+\sum_{0<s\leq t}(\Delta X_s)^2.
+\]
+
+\begin{thm}[It\^o formula with jumps]
+Let $f\in C^2(\mathbb{R})$ and let $X$ be a semimartingale. Then
+\[
+\begin{aligned}
+f(X_t)
+&=f(X_0)
+ +\int_0^tf'(X_{s-})\,dX_s
+ +\frac12\int_0^tf''(X_{s-})\,d[X^c]_s\\
+&\quad+\sum_{0<s\leq t}
+ \left(
+ f(X_s)-f(X_{s-})-f'(X_{s-})\Delta X_s
+ \right).
+\end{aligned}
+\]
+\end{thm}
+
+For a $C^{1,2}$ function $f(t,x)$, the time-dependent form is
+\[
+\begin{aligned}
+f(t,X_t)
+&=f(0,X_0)
+ +\int_0^tf_t(s,X_{s-})ds
+ +\int_0^tf_x(s,X_{s-})dX_s\\
+&\quad+\frac12\int_0^tf_{xx}(s,X_{s-})d[X^c]_s\\
+&\quad+\sum_{0<s\leq t}
+ \left(
+ f(s,X_s)-f(s,X_{s-})
+ -f_x(s,X_{s-})\Delta X_s
+ \right).
+\end{aligned}
+\]
+
+The product rule is
+\[
+d(X_tY_t)
+=X_{t-}\,dY_t+Y_{t-}\,dX_t+d[X,Y]_t.
+\]
+
+If $X_0=0$ and $\Delta X_t>-1$, the Dol\'eans--Dade exponential is
+\[
+\mathcal{E}(X)_t
+=\exp\!\left(X_t-\frac12[X^c]_t\right)
+ \prod_{0<s\leq t}(1+\Delta X_s)e^{-\Delta X_s}.
+\]
+It is the unique solution of
+\[
+dZ_t=Z_{t-}\,dX_t,
+\qquad Z_0=1.
+\]
+When $X$ is a local martingale, $\mathcal{E}(X)$ is a local martingale, but additional integrability is required for it to be a true martingale.
+
+\subsection{Changes of measure for Poisson processes}
+
+Suppose $N$ is Poisson with intensity $\lambda$ under $\mathbb{P}$, and let $\widetilde\lambda>0$. The process
+\[
+Z_t
+=\exp\!\bigl((\lambda-\widetilde\lambda)t\bigr)
+ \left(\frac{\widetilde\lambda}{\lambda}\right)^{N_t}
+\]
+is a martingale. Under the measure defined by
+\[
+\frac{d\widetilde{\mathbb{P}}}{d\mathbb{P}}
+\bigg|_{\mathcal{F}_T}=Z_T,
+\]
+the process $N$ is Poisson with intensity $\widetilde\lambda$.
+
+Now suppose the marks have density $g$ under $\mathbb{P}$, and choose a target density $\widetilde g$ that is absolutely continuous with respect to $g$; equivalently,
+\[
+g(y)=0\implies\widetilde g(y)=0
+\quad\text{for almost every }y.
+\]
+Then
+\[
+Z_t
+=\exp\!\bigl((\lambda-\widetilde\lambda)t\bigr)
+ \prod_{i=1}^{N_t}
+ \frac{\widetilde\lambda\,\widetilde g(Y_i)}
+      {\lambda g(Y_i)}
+\]
+changes the intensity to $\widetilde\lambda$ and the mark density to $\widetilde g$, provided $Z$ is a true martingale. The new measure is equivalent to $\mathbb{P}$ precisely when $g$ and $\widetilde g$ have the same support up to null sets.
+
+A Brownian change of drift can be combined with this jump change of measure. If
+\[
+Z_t^{W}
+=\exp\!\left(
+ -\int_0^t\theta_s^\top dW_s
+ -\frac12\int_0^t\|\theta_s\|^2ds
+\right)
+\]
+and $Z^J$ is the jump likelihood above, then, under appropriate martingale and dependence assumptions, $Z_t=Z_t^WZ_t^J$ defines a measure under which
+\[
+\widetilde W_t=W_t+\int_0^t\theta_sds
+\]
+is Brownian and the jump process has intensity $\widetilde\lambda$ and mark density $\widetilde g$.
+
+\subsection{Jump-diffusion asset models}
+
+Let
+\[
+Q_t=\sum_{i=1}^{N_t}Y_i,
+\qquad Y_i>-1,
+\qquad
+\beta=\mathbb{E}[Y_i].
+\]
+Under the physical measure, consider
+\[
+\frac{dS_t}{S_{t-}}
+=\alpha\,dt+\sigma\,dW_t+d(Q_t-\lambda\beta t).
+\]
+Equivalently,
+\[
+\frac{dS_t}{S_{t-}}
+=(\alpha-\lambda\beta)dt+\sigma dW_t+dQ_t.
+\]
+Its solution is
+\[
+S_t
+=S_0\exp\!\left(
+ (\alpha-\lambda\beta-\tfrac12\sigma^2)t
+ +\sigma W_t
+\right)
+\prod_{i=1}^{N_t}(1+Y_i).
+\]
+
+Under an equivalent measure $\widetilde{\mathbb{P}}$, suppose the Brownian kernel is $\theta$, the jump intensity is $\widetilde\lambda$, the mark density is $\widetilde g$, and
+\[
+\widetilde\beta
+=\widetilde{\mathbb{E}}[Y].
+\]
+With the convention
+\[
+d\widetilde W_t=dW_t+\theta_tdt,
+\]
+the discounted stock is a local martingale exactly when
+\[
+\boxed{
+\alpha-\lambda\beta-\sigma\theta_t
+=r-\widetilde\lambda\widetilde\beta.}
+\]
+Equivalently, under $\widetilde{\mathbb{P}}$,
+\[
+\frac{dS_t}{S_{t-}}
+=r\,dt+\sigma\,d\widetilde W_t
+ +\int_{(-1,\infty)}y\,\widetilde J(dt,dy),
+\]
+where
+\[
+\widetilde J(dt,dy)
+=J(dt,dy)-\widetilde\lambda\widetilde g(y)dy\,dt.
+\]
+In raw-jump form,
+\[
+\frac{dS_t}{S_{t-}}
+=(r-\widetilde\lambda\widetilde\beta)dt
+ +\sigma d\widetilde W_t
+ +\int_{(-1,\infty)}y\,J(dt,dy).
+\]
+
+There are generally many Brownian kernels, jump intensities, and mark densities satisfying the martingale condition. This nonuniqueness is a manifestation of market incompleteness: the stock and money-market account do not usually span all Brownian and jump risks.
+
+\subsection{Pricing derivatives driven by jump processes}
+
+Let $\tau=T-t$. Under $\widetilde{\mathbb{P}}$,
+\[
+S_T
+=S_t\exp\!\left(
+(r-\widetilde\lambda\widetilde\beta-\tfrac12\sigma^2)\tau
++\sigma(\widetilde W_T-\widetilde W_t)
+\right)
+\prod_{i=N_t+1}^{N_T}(1+Y_i).
+\]
+Define, conditional on $N_T-N_t=j$,
+\[
+R_j
+=e^{-\widetilde\lambda\widetilde\beta\tau}
+ \prod_{i=1}^j(1+Y_i),
+\qquad R_0=e^{-\widetilde\lambda\widetilde\beta\tau}.
+\]
+Conditional on the number and sizes of jumps, the remaining uncertainty is Black--Scholes lognormal risk. Therefore the European call price is the Poisson mixture
+\[
+\boxed{
+\begin{aligned}
+c(t,S_t)
+&=\sum_{j=0}^{\infty}
+ e^{-\widetilde\lambda\tau}
+ \frac{(\widetilde\lambda\tau)^j}{j!}
+ \widetilde{\mathbb{E}}\!\left[
+ C_{\mathrm{BS}}(\tau,S_tR_j;K,r,\sigma)
+ \right],
+\end{aligned}}
+\]
+where the expectation inside the sum is over $j$ independent marks with density $\widetilde g$. The notation $C_{\mathrm{BS}}$ denotes the Black--Scholes call-pricing function; its arguments are time to maturity $\tau$, spot $s$, strike $K$, rate $r$, and volatility $\sigma$.
+
+\subsubsection*{Partial integro-differential equation}
+
+Assume $c(t,x)$ is sufficiently smooth and has terminal condition
+\[
+c(T,x)=(x-K)^+.
+\]
+The risk-neutral generator of the stock in raw-jump form is
+\[
+\begin{aligned}
+\mathcal{L}c(t,x)
+&=(r-\widetilde\lambda\widetilde\beta)x c_x(t,x)
+ +\frac12\sigma^2x^2c_{xx}(t,x)\\
+&\quad+\widetilde\lambda
+ \int_{-1}^{\infty}
+ \bigl[c(t,x(1+y))-c(t,x)\bigr]
+ \widetilde g(y)\,dy.
+\end{aligned}
+\]
+The discounted option value is a martingale, so $c$ solves
+\[
+\boxed{
+\begin{aligned}
+0={}&c_t(t,x)
+ +(r-\widetilde\lambda\widetilde\beta)x c_x(t,x)
+ +\frac12\sigma^2x^2c_{xx}(t,x)-rc(t,x)\\
+&+\widetilde\lambda
+ \int_{-1}^{\infty}
+ \bigl[c(t,x(1+y))-c(t,x)\bigr]
+ \widetilde g(y)\,dy,
+\end{aligned}}
+\]
+with $c(T,x)=(x-K)^+$.
+
+Equivalently, using the compensated jump measure, the PIDE may be written
+\[
+\begin{aligned}
+0={}&c_t+rx c_x+\frac12\sigma^2x^2c_{xx}-rc\\
+&+\widetilde\lambda
+ \int_{-1}^{\infty}
+ \bigl[c(t,x(1+y))-c(t,x)-xyc_x(t,x)\bigr]
+ \widetilde g(y)\,dy.
+\end{aligned}
+\]
+
+\subsubsection*{Delta hedging and incompleteness}
+
+Suppose a self-financing portfolio holds $\Gamma_t$ shares of stock. In discounted terms,
+\[
+\begin{aligned}
+d(e^{-rt}X_t)
+&=e^{-rt}\Gamma_t\sigma S_{t-}\,d\widetilde W_t\\
+&\quad+e^{-rt}\Gamma_tS_{t-}
+ \int_{-1}^{\infty}y\,\widetilde J(dt,dy).
+\end{aligned}
+\]
+The discounted option value satisfies
+\[
+\begin{aligned}
+d(e^{-rt}c(t,S_t))
+&=e^{-rt}\sigma S_{t-}c_x(t,S_{t-})\,d\widetilde W_t\\
+&\quad+e^{-rt}
+ \int_{-1}^{\infty}
+ \bigl[c(t,S_{t-}(1+y))-c(t,S_{t-})\bigr]
+ \widetilde J(dt,dy).
+\end{aligned}
+\]
+Choosing
+\[
+\Gamma_t=c_x(t,S_{t-})
+\]
+removes the Brownian mismatch, but the jump mismatch remains:
+\[
+\begin{aligned}
+d\bigl(e^{-rt}(X_t-c(t,S_t))\bigr)
+=e^{-rt}\int_{-1}^{\infty}H_t(y)\,\widetilde J(dt,dy),
+\end{aligned}
+\]
+where
+\[
+H_t(y)
+=S_{t-}y\,c_x(t,S_{t-})
+-\bigl[c(t,S_{t-}(1+y))-c(t,S_{t-})\bigr].
+\]
+For a convex option value,
+\[
+c(t,x(1+y))-c(t,x)
+\geq xy\,c_x(t,x),
+\]
+so
+\[
+H_t(y)\leq0.
+\]
+Consequently, between jumps the compensator makes the delta-hedging error drift upward, so the stock hedge tends to outperform the option. At a jump, the error changes by $H_t(Y)\leq0$, so the hedge underperforms. A single stock position cannot in general eliminate both Brownian and jump-size risk; this is another direct demonstration that the jump-diffusion market is incomplete.
