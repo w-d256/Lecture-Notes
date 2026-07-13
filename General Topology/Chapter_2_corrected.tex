@@ -1,0 +1,1215 @@
+\section{Topological spaces}
+
+\subsection{Definitions and examples}
+
+\begin{de}
+A topological space is a pair $(X,\mathcal{T})$, where $X$ is a set and
+$\mathcal{T}$ is a collection of subsets of $X$ satisfying:
+
+(a) $\varnothing,X\in\mathcal{T}$;
+
+(b) if $\{G_i:i\in I\}\subseteq\mathcal{T}$, then
+$\bigcup_{i\in I}G_i\in\mathcal{T}$;
+
+(c) if $G_1,\ldots,G_n\in\mathcal{T}$, then
+$\bigcap_{k=1}^nG_k\in\mathcal{T}$.
+
+The collection $\mathcal{T}$ is called a topology on $X$, and its members are
+called open sets.
+
+For any set $X$, the collection
+\[
+\mathcal{T}=\{G\subseteq X:X\setminus G\text{ is finite}\}\cup\{\varnothing\}
+\]
+is the \emph{cofinite topology}. If $X$ is infinite, this topology is not
+Hausdorff.
+
+If $(X,\mathcal{T})$ is a topological space and $Y\subseteq X$, then
+\[
+\mathcal{T}_Y=\{Y\cap G:G\in\mathcal{T}\}
+\]
+is a topology on $Y$, called the subspace topology or relative topology. For
+a metric space, this agrees with the topology induced by the restricted
+metric.
+
+A topological space $X$ is Hausdorff if, whenever $x\neq y$, there are
+disjoint open sets $U$ and $V$ such that $x\in U$ and $y\in V$.
+\end{de}
+
+\textbf{Agreement.} Unless explicitly stated otherwise, all topological
+spaces below are assumed to be Hausdorff.
+
+A subset $F$ of a topological space $X$ is closed if $X\setminus F$ is open.
+
+\begin{thm}
+Let $X$ be a topological space, and let $\mathcal{F}$ be the collection of
+closed subsets of $X$.
+
+(a) $\varnothing,X\in\mathcal{F}$.
+
+(b) An arbitrary intersection of members of $\mathcal{F}$ belongs to
+$\mathcal{F}$.
+
+(c) A finite union of members of $\mathcal{F}$ belongs to $\mathcal{F}$.
+
+(d) If $X$ is Hausdorff, then every singleton $\{x\}$ is closed.
+\end{thm}
+
+\begin{proof}
+Parts (a)--(c) follow from De Morgan's laws. For (d), fix $x\in X$. For every
+$y\neq x$, choose an open set $U_y$ containing $y$ and disjoint from some open
+neighborhood of $x$. Then
+$X\setminus\{x\}=\bigcup_{y\neq x}U_y$ is open.
+\end{proof}
+
+\begin{de}
+Let $A\subseteq X$. Its interior, closure, and boundary are
+\[
+\operatorname{int}A=\bigcup\{G:G\text{ is open and }G\subseteq A\},
+\]
+\[
+\operatorname{cl}A=\bigcap\{F:F\text{ is closed and }A\subseteq F\},
+\]
+and
+\[
+\partial A=\operatorname{cl}A\cap\operatorname{cl}(X\setminus A).
+\]
+\end{de}
+
+\begin{thm}
+Let $A\subseteq X$.
+
+(a) $x\in\operatorname{int}A$ if and only if there is an open set $G$ such
+that $x\in G\subseteq A$.
+
+(b) $x\in\operatorname{cl}A$ if and only if every open set $G$ containing
+$x$ meets $A$.
+
+(c) $\operatorname{int}A$ is the largest open subset of $A$.
+
+(d) $\operatorname{cl}A$ is the smallest closed set containing $A$.
+\end{thm}
+
+\begin{proof}
+All four statements follow directly from the definitions.
+\end{proof}
+
+\begin{thm}
+Let $A\subseteq X$.
+
+(a) $A$ is closed if and only if $A=\operatorname{cl}A$.
+
+(b) $A$ is open if and only if $A=\operatorname{int}A$.
+
+(c) If $A_1,\ldots,A_n\subseteq X$, then
+\[
+\operatorname{cl}\left(\bigcup_{k=1}^nA_k\right)
+=\bigcup_{k=1}^n\operatorname{cl}A_k.
+\]
+\end{thm}
+
+\begin{proof}
+Parts (a) and (b) follow from the extremal properties in the preceding
+theorem. For (c), the right-hand side is a closed set containing the union,
+which gives one inclusion. Conversely, each $A_k$ is contained in the union,
+so each $\operatorname{cl}A_k$ is contained in the closure of the union.
+\end{proof}
+
+\begin{de}
+A subset $E$ of a topological space is dense if
+$\operatorname{cl}E=X$. A topological space is separable if it has a
+countable dense subset.
+\end{de}
+
+\begin{thm}
+A set $E$ is dense in $X$ if and only if every nonempty open subset of $X$
+meets $E$. Equivalently, every open neighborhood of every point meets $E$.
+\end{thm}
+
+\begin{de}
+A point $x\in X$ is a limit point of $A\subseteq X$ if every open
+neighborhood $G$ of $x$ satisfies
+\[
+(G\setminus\{x\})\cap A\neq\varnothing.
+\]
+\end{de}
+
+\begin{thm}
+Let $A\subseteq X$.
+
+(a) The set $A$ is closed if and only if it contains all its limit points.
+
+(b)
+\[
+\operatorname{cl}A=A\cup\{x:x\text{ is a limit point of }A\}.
+\]
+\end{thm}
+
+\begin{proof}
+If $x\in\operatorname{cl}A\setminus A$, then every neighborhood of $x$ meets
+$A$, and any such point of $A$ is different from $x$; hence $x$ is a limit
+point. Conversely, every limit point belongs to $\operatorname{cl}A$ because
+every neighborhood of it meets $A$. This proves (b), and (a) follows.
+\end{proof}
+
+\begin{thm}
+Let $Y\subseteq X$ have the subspace topology.
+
+(a) A subset $A\subseteq Y$ is closed in $Y$ if and only if
+$A=F\cap Y$ for some closed set $F\subseteq X$.
+
+(b) If $A\subseteq Y$, then
+\[
+\operatorname{cl}_Y A=Y\cap\operatorname{cl}_X A.
+\]
+
+(c) If $A\subseteq Y$, then
+\[
+Y\cap\operatorname{int}_X A\subseteq\operatorname{int}_Y A.
+\]
+The inclusion can be strict.
+\end{thm}
+
+\begin{proof}
+(a) The set $A$ is closed in $Y$ if and only if $Y\setminus A=Y\cap G$ for
+some open $G\subseteq X$. This is equivalent to
+$A=Y\cap(X\setminus G)$.
+
+(b) The set $Y\cap\operatorname{cl}_X A$ is closed in $Y$ and contains $A$.
+If $C$ is any closed subset of $Y$ containing $A$, write $C=Y\cap F$ with
+$F$ closed in $X$. Then $\operatorname{cl}_X A\subseteq F$, so
+$Y\cap\operatorname{cl}_X A\subseteq C$.
+
+(c) If $x\in Y\cap\operatorname{int}_X A$, choose an open set
+$G\subseteq X$ with $x\in G\subseteq A$. Then $G\cap Y$ is an open
+neighborhood of $x$ in $Y$ contained in $A$.
+\end{proof}
+
+\subsection{Bases and subbases}
+
+\begin{de}
+A collection $\mathcal{B}$ of subsets of $X$ is a base for a topology
+$\mathcal{T}$ if every open set is a union of members of $\mathcal{B}$.
+\end{de}
+
+\begin{thm}
+A collection $\mathcal{B}$ of subsets of $X$ is a base for a topology on $X$
+if and only if:
+
+(a) $X=\bigcup_{B\in\mathcal{B}}B$;
+
+(b) whenever $B_1,B_2\in\mathcal{B}$ and $x\in B_1\cap B_2$, there is a
+$B\in\mathcal{B}$ such that
+$x\in B\subseteq B_1\cap B_2$.
+
+The topology generated by $\mathcal{B}$ is Hausdorff if and only if, in
+addition,
+
+(c) for distinct $x,y\in X$, there are disjoint $A,B\in\mathcal{B}$ with
+$x\in A$ and $y\in B$.
+\end{thm}
+
+\begin{proof}
+If $\mathcal{B}$ is a base, (a) and (b) follow from the fact that $X$ and
+$B_1\cap B_2$ are open. Conversely, let $\mathcal{T}$ be the collection of
+all unions of members of $\mathcal{B}$. Conditions (a) and (b) give the empty
+set, the whole space, arbitrary unions, and finite intersections required of
+a topology. Condition (c) is exactly the Hausdorff separation condition
+expressed using basic neighborhoods.
+\end{proof}
+
+\begin{cor}
+Let $(X,d)$ be separable, let $\{a_1,a_2,\ldots\}$ be dense in $X$, and let
+$\{r_1,r_2,\ldots\}$ enumerate the positive rational numbers. Then
+\[
+\mathcal{B}=\{B(a_n;r_m):n,m\geq1\}
+\]
+is a countable base for the metric topology.
+\end{cor}
+
+\begin{proof}
+Let $G$ be open and $x\in G$. Choose $\varepsilon>0$ with
+$B(x;\varepsilon)\subseteq G$. Pick $a_n$ with
+$d(x,a_n)<\varepsilon/3$, and choose a positive rational $r_m$ satisfying
+\[
+d(x,a_n)<r_m<\varepsilon-d(x,a_n).
+\]
+Then $x\in B(a_n;r_m)\subseteq G$.
+\end{proof}
+
+\begin{cor}
+Let $\mathcal{S}$ be any collection of subsets of $X$. The collection
+$\mathcal{B}$ of all finite intersections of members of $\mathcal{S}$,
+including the empty intersection $X$, is a base for a topology on $X$.
+This topology is Hausdorff if $\mathcal{S}$ separates points in the following
+sense: for every $x\neq y$, there are disjoint $S,T\in\mathcal{S}$ with
+$x\in S$ and $y\in T$.
+\end{cor}
+
+\begin{proof}
+Finite intersections cover $X$ because the empty intersection is $X$, and
+the intersection of two finite intersections is again a finite intersection.
+The final assertion follows from part (c) of the basis theorem.
+\end{proof}
+
+\begin{de}
+A collection $\mathcal{S}$ of subsets of $X$ is called a subbase if the finite
+intersections of its members form a base. The resulting topology is the
+topology generated by $\mathcal{S}$.
+\end{de}
+
+\begin{ex}
+A partially ordered set is a pair $(X,\leq)$ in which $\leq$ is reflexive,
+transitive, and antisymmetric. It is linearly ordered if any two points are
+comparable.
+
+For $a\in X$, put
+\[
+(-\infty,a)=\{x\in X:x<a\},\qquad
+(a,\infty)=\{x\in X:a<x\}.
+\]
+Let $\mathcal{S}$ be the collection of all such rays.
+
+(a) Show that $\mathcal{S}$ generates a topology on every partially ordered
+set. This topology need not be Hausdorff.
+
+(b) Show that it is Hausdorff when the order is linear.
+
+(c) In the linearly ordered case, show that a base consists of the open
+intervals $(a,b)$ together with the rays $(-\infty,b)$ and $(a,\infty)$ that
+are needed at endpoints.
+\end{ex}
+
+\begin{proof}
+Part (a) follows from the subbase construction. For (b), let $x<y$. If there
+is a point $z$ with $x<z<y$, then $(-\infty,z)$ and $(z,\infty)$ separate
+$x$ and $y$. If no such $z$ exists, then $(-\infty,y)$ and $(x,\infty)$ do.
+Part (c) follows by listing the possible nonempty finite intersections of
+left and right rays.
+\end{proof}
+
+\subsection{Continuous functions}
+
+\begin{de}
+Let $X$ and $W$ be topological spaces. A function $f:X\to W$ is continuous
+at $x\in X$ if, for every neighborhood $U$ of $f(x)$, there is a neighborhood
+$G$ of $x$ such that $f(G)\subseteq U$. It is continuous if it is continuous
+at every point.
+\end{de}
+
+\begin{thm}
+For a function $f:X\to W$, the following are equivalent:
+
+(a) $f$ is continuous;
+
+(b) $f^{-1}(U)$ is open in $X$ for every open $U\subseteq W$;
+
+(c) $f^{-1}(C)$ is closed in $X$ for every closed $C\subseteq W$;
+
+(d) if $\mathcal{B}$ is a base for $W$, then $f^{-1}(B)$ is open for every
+$B\in\mathcal{B}$;
+
+(e) if $\mathcal{S}$ is a subbase for $W$, then $f^{-1}(S)$ is open for every
+$S\in\mathcal{S}$.
+\end{thm}
+
+\begin{proof}
+The equivalence of (a) and (b) follows from the neighborhood definition. The
+equivalence of (b) and (c) follows because inverse images commute with
+complements. Clearly (b) implies (d), and (d) implies (e) because subbasic
+sets are open. Finally, if (e) holds, inverse images of finite intersections
+of subbasic sets are open, and inverse images commute with arbitrary unions;
+therefore the inverse image of every open set is open.
+\end{proof}
+
+\begin{thm}
+The composition of continuous functions is continuous.
+\end{thm}
+
+\begin{proof}
+If $f:X\to Y$ and $g:Y\to W$ are continuous and $U\subseteq W$ is open,
+then
+\[
+(g\circ f)^{-1}(U)=f^{-1}(g^{-1}(U))
+\]
+is open.
+\end{proof}
+
+\begin{thm}[Pasting Lemma]
+Let $X=A\cup B$, and let $g:A\to W$ and $h:B\to W$ be continuous functions
+that agree on $A\cap B$. Define $f:X\to W$ by $f|_A=g$ and $f|_B=h$. If
+$A$ and $B$ are both open, or if they are both closed, then $f$ is
+continuous.
+\end{thm}
+
+\begin{proof}
+If $A$ and $B$ are open and $U\subseteq W$ is open, then $g^{-1}(U)$ is open
+in $A$ and hence in $X$; similarly for $h^{-1}(U)$. Thus
+$f^{-1}(U)=g^{-1}(U)\cup h^{-1}(U)$ is open.
+
+If $A$ and $B$ are closed, apply the same argument to inverse images of
+closed sets: a set closed in $A$ is closed in $X$ because $A$ is closed, and
+similarly for $B$.
+\end{proof}
+
+\begin{thm}
+Let $X_k$ be a topological space for $1\leq k\leq n$, and put
+$X=X_1\times\cdots\times X_n$. The collection
+\[
+\mathcal{B}=\{G_1\times\cdots\times G_n:G_k\text{ is open in }X_k\}
+\]
+is a base for a topology on $X$. This topology is the smallest topology for
+which every coordinate projection $\pi_k:X\to X_k$ is continuous.
+\end{thm}
+
+\begin{proof}
+The basis conditions are immediate. For an open set $U\subseteq X_k$,
+\[
+\pi_k^{-1}(U)=X_1\times\cdots\times X_{k-1}\times U\times
+X_{k+1}\times\cdots\times X_n
+\]
+is basic open, so every projection is continuous. Conversely, if a topology
+on $X$ makes all projections continuous, then
+\[
+G_1\times\cdots\times G_n=\bigcap_{k=1}^n\pi_k^{-1}(G_k)
+\]
+is open. Thus it contains the product topology.
+\end{proof}
+
+\begin{de}
+The topology in the preceding theorem is the product topology. The maps
+$\pi_k$ are the coordinate projections.
+\end{de}
+
+\begin{de}
+A function $f:X\to Z$ is an open map if $f(G)$ is open in $Z$ whenever $G$
+is open in $X$.
+\end{de}
+
+\begin{thm}
+Every coordinate projection from a finite product with the product topology
+is an open map.
+\end{thm}
+
+\begin{proof}
+If the product is empty, the assertion is immediate. Otherwise, every factor
+is nonempty, and the image under $\pi_k$ of a basic open set
+$G_1\times\cdots\times G_n$ is either empty or $G_k$. Since every open set
+is a union of basic open sets and projections commute with unions,
+$\pi_k$ is open.
+\end{proof}
+
+\begin{thm}
+Let $Y$ be a topological space and let
+$f:Y\to X_1\times\cdots\times X_n$. Then $f$ is continuous if and only if
+each coordinate function $\pi_k\circ f$ is continuous.
+\end{thm}
+
+\begin{proof}
+One direction follows by composition. Conversely, for a basic open set
+$G_1\times\cdots\times G_n$,
+\[
+f^{-1}(G_1\times\cdots\times G_n)
+=\bigcap_{k=1}^n(\pi_k\circ f)^{-1}(G_k),
+\]
+which is open.
+\end{proof}
+
+\begin{thm}
+If $f,g:X\to\mathbb{R}$ are continuous, then $f+g$ and $fg$ are continuous.
+\end{thm}
+
+\begin{proof}
+The map $x\mapsto(f(x),g(x))$ is continuous by the product criterion. Compose
+it with the continuous maps $(a,b)\mapsto a+b$ and $(a,b)\mapsto ab$.
+\end{proof}
+
+\begin{thm}
+If $f,g:X\to\mathbb{R}$ are continuous, then so are
+$f\vee g$, $f\wedge g$, and $|f|$.
+\end{thm}
+
+\begin{proof}
+The absolute-value function is continuous, and
+\[
+f\vee g=\frac{f+g+|f-g|}{2},\qquad
+f\wedge g=\frac{f+g-|f-g|}{2}.
+\]
+\end{proof}
+
+\begin{de}
+A homeomorphism between topological spaces $X$ and $Z$ is a bijection
+$f:X\to Z$ such that both $f$ and $f^{-1}$ are continuous.
+\end{de}
+
+\subsection{Compactness and connectedness}
+
+\begin{de}
+A subset $K$ of a topological space $X$ is compact if every open cover of
+$K$ has a finite subcover.
+\end{de}
+
+\begin{thm}
+Let $X$ be Hausdorff and let $K\subseteq X$.
+
+(a) If $K$ is compact, then $K$ is closed.
+
+(b) If $K$ is compact and $F\subseteq K$ is closed in $K$, then $F$ is
+compact.
+
+(c) The continuous image of a compact set is compact.
+\end{thm}
+
+\begin{proof}
+(a) Fix $x\notin K$. For each $z\in K$, choose disjoint open sets $U_z$ and
+$V_z$ with $x\in U_z$ and $z\in V_z$. Finitely many $V_{z_1},\ldots,V_{z_n}$
+cover $K$. Then $U=\bigcap_{k=1}^nU_{z_k}$ is an open neighborhood of $x$
+disjoint from $K$. Hence $X\setminus K$ is open.
+
+(b) By part (a), $K$ is closed in $X$. Since $F$ is closed in $K$, it is
+closed in $X$. Add $X\setminus F$ to any open cover of $F$ to obtain an open
+cover of $K$.
+
+(c) Pull an open cover of $f(K)$ back under $f$, choose a finite subcover of
+$K$, and push it forward.
+\end{proof}
+
+\begin{cor}
+If $X$ is nonempty and compact and $f:X\to\mathbb{R}$ is continuous,
+then $f$ attains its minimum and maximum.
+\end{cor}
+
+\begin{thm}
+A subset $K$ of a topological space is compact if and only if every collection
+of closed subsets of $K$ having the finite intersection property has
+nonempty intersection.
+\end{thm}
+
+\begin{proof}
+Take complements in $K$. A family of closed sets has the finite intersection
+property exactly when the corresponding family of open complements has no
+finite subcover; its total intersection is empty exactly when those
+complements cover $K$.
+\end{proof}
+
+\begin{thm}
+If $\mathcal{B}$ is a base for $X$, then $K\subseteq X$ is compact if and only
+if every cover of $K$ by members of $\mathcal{B}$ has a finite subcover.
+\end{thm}
+
+\begin{proof}
+Only the converse needs proof. Refine each member of an arbitrary open cover
+by basic open subsets. A finite subcover from the resulting basic cover gives
+a finite subcover from the original cover.
+\end{proof}
+
+\begin{thm}[Alexander's Subbase Theorem]
+If $\mathcal{S}$ is a subbase for the topology of $X$, then $X$ is compact if
+and only if every cover of $X$ by members of $\mathcal{S}$ has a finite
+subcover.
+\end{thm}
+
+\begin{proof}
+Only the reverse implication is nontrivial. Suppose every subbasic cover has
+a finite subcover, but $X$ is not compact. By Zorn's lemma, there is a maximal
+open cover $\mathcal{C}$ of $X$ having no finite subcover.
+
+We claim that $\mathcal{C}\cap\mathcal{S}$ covers $X$. Otherwise choose
+$x\in X$ that belongs to no subbasic member of $\mathcal{C}$. Since
+$\mathcal{C}$ covers $X$, choose $U\in\mathcal{C}$ with $x\in U$. There are
+$S_1,\ldots,S_n\in\mathcal{S}$ such that
+\[
+x\in S_1\cap\cdots\cap S_n\subseteq U.
+\]
+None of the $S_i$ belongs to $\mathcal{C}$. By maximality,
+$\mathcal{C}\cup\{S_i\}$ has a finite subcover for each $i$; hence
+$X=S_i\cup C_i$, where $C_i$ is a finite union of members of $\mathcal{C}$.
+It follows that
+\[
+X=\bigcap_{i=1}^n(S_i\cup C_i)
+\subseteq U\cup\bigcup_{i=1}^nC_i,
+\]
+which is a finite subcover drawn from $\mathcal{C}$, a contradiction. Thus
+$\mathcal{C}\cap\mathcal{S}$ is a subbasic cover, so it has a finite
+subcover, again a contradiction.
+\end{proof}
+
+\begin{de}
+A topological space is connected if its only clopen subsets are $X$ and
+$\varnothing$. A subset is connected if it is connected with its subspace
+topology.
+\end{de}
+
+\begin{thm}
+Let $X$ be a topological space.
+
+(i) The continuous image of a connected set is connected.
+
+(ii) If $\{E_i:i\in I\}$ is a family of connected subsets with
+$E_i\cap E_j\neq\varnothing$ for all $i,j$, then $\bigcup_iE_i$ is connected.
+If $(E_n)$ is a sequence of connected sets with
+$E_n\cap E_{n+1}\neq\varnothing$, then $\bigcup_nE_n$ is connected.
+
+(iii) The union of two intersecting connected sets is connected.
+
+(iv) Every connected set is contained in a component; distinct components
+are disjoint; and the components cover $X$.
+
+(v) If $C$ is connected and
+$C\subseteq Y\subseteq\operatorname{cl}C$, then $Y$ is connected.
+
+(vi) The closure of a connected set is connected, and every component is
+closed.
+\end{thm}
+
+\begin{proof}
+The proofs are the same as in metric spaces; they use only inverse images of
+open sets, relative topology, and the definition of closure.
+\end{proof}
+
+\begin{de}
+A topological space $X$ is locally connected if, for each $x\in X$ and each
+neighborhood $G$ of $x$, there is a connected open neighborhood $U$ of $x$
+with $U\subseteq G$.
+\end{de}
+
+\begin{thm}
+A topological space is locally connected if and only if it has a base
+consisting of connected open sets.
+\end{thm}
+
+\begin{proof}
+If $X$ is locally connected, let $\mathcal{B}$ be the collection of all
+connected open subsets. Given $x\in G_1\cap G_2$ with $G_1,G_2\in\mathcal{B}$,
+local connectedness applied to the neighborhood $G_1\cap G_2$ gives
+$B\in\mathcal{B}$ with $x\in B\subseteq G_1\cap G_2$. Thus $\mathcal{B}$ is
+a base. The converse follows immediately from the definition of a base.
+\end{proof}
+
+\begin{thm}
+If $X$ is locally connected, then every component of $X$ is both open and
+closed.
+\end{thm}
+
+\begin{proof}
+Components are closed in every topological space. If $C$ is a component and
+$x\in C$, local connectedness gives a connected open neighborhood $U$ of
+$x$. Since $U\cap C\neq\varnothing$, the set $U\cup C$ is connected, so
+maximality gives $U\subseteq C$. Therefore $C$ is open.
+\end{proof}
+
+\begin{thm}
+If $X$ is locally connected and $f:X\to Z$ is continuous, open, and
+surjective, then $Z$ is locally connected.
+\end{thm}
+
+\begin{proof}
+Let $z\in Z$ and let $G$ be an open neighborhood of $z$. Choose $x\in X$
+with $f(x)=z$. The set $f^{-1}(G)$ is an open neighborhood of $x$, so it
+contains a connected open neighborhood $U$ of $x$. Then $f(U)$ is connected,
+open, contains $z$, and is contained in $G$.
+\end{proof}
+
+\begin{eg}
+(a) A connected space need not be locally connected; the topologist's sine
+curve is a standard example.
+
+(b) A locally connected space need not be connected; any discrete space with
+more than one point is an example.
+\end{eg}
+
+\begin{ex}
+If $X$ is compact, $Z$ is Hausdorff, and $f:X\to Z$ is a continuous
+bijection, show that $f$ is a homeomorphism.
+\end{ex}
+
+\begin{proof}
+If $F\subseteq X$ is closed, then $F$ is compact, so $f(F)$ is compact and
+therefore closed in the Hausdorff space $Z$. Thus $f$ is a closed bijection,
+and $f^{-1}$ is continuous.
+\end{proof}
+
+\begin{ex}
+Use Alexander's Subbase Theorem to prove that a finite product of compact
+spaces is compact.
+\end{ex}
+
+\begin{proof}
+Use the standard subbase
+\[
+\{\pi_k^{-1}(U):1\leq k\leq n,\ U\text{ open in }X_k\}.
+\]
+Let $\mathcal{C}$ be a cover by such sets. For each $k$, let
+\[
+\mathcal{C}_k=\{U\subseteq X_k:\pi_k^{-1}(U)\in\mathcal{C}\}.
+\]
+At least one $\mathcal{C}_k$ covers $X_k$; otherwise choose
+$x_k\notin\bigcup\mathcal{C}_k$ for every $k$, and the point
+$(x_1,\ldots,x_n)$ would lie in no member of $\mathcal{C}$. Compactness of
+that factor supplies a finite subcover, whose inverse images form a finite
+subcover of the product.
+\end{proof}
+
+\begin{ex}
+Give $\{0,1\}$ the discrete topology. Show that $X$ is connected if and only
+if every continuous function $X\to\{0,1\}$ is constant.
+\end{ex}
+
+\begin{proof}
+For a continuous $f:X\to\{0,1\}$, the sets $f^{-1}(\{0\})$ and
+$f^{-1}(\{1\})$ are clopen and partition $X$. Thus a nonconstant $f$ gives a
+separation, and every separation gives such a nonconstant function.
+\end{proof}
+
+\begin{ex}
+Assume that $X_1,\ldots,X_n$ are nonempty. Show that the finite product
+$X_1\times\cdots\times X_n$ is locally connected if and only if every
+factor $X_k$ is locally connected.
+\end{ex}
+
+\begin{proof}
+If the product is locally connected, each factor is locally connected because
+its projection is continuous, open, and surjective. Conversely, let
+$x=(x_1,\ldots,x_n)$ belong to a basic neighborhood
+$G_1\times\cdots\times G_n$. Choose a connected open neighborhood
+$U_k$ of $x_k$ contained in $G_k$. The finite product
+$U_1\times\cdots\times U_n$ is connected and is an open neighborhood of $x$
+contained in the given basic neighborhood.
+\end{proof}
+
+\subsection{Pathwise connectedness}
+
+\begin{de}
+A path in $X$ from $p$ to $q$ is a continuous function
+$f:[0,1]\to X$ such that $f(0)=p$ and $f(1)=q$. A path with $p=q$ is a loop.
+A space is path connected if every pair of points can be joined by a path.
+\end{de}
+
+\begin{thm}
+If $f$ is a path from $a$ to $b$ and $g$ is a path from $b$ to $c$, then
+\[
+h(t)=
+\begin{cases}
+f(2t),&0\leq t\leq\tfrac12,\\
+g(2t-1),&\tfrac12\leq t\leq1
+\end{cases}
+\]
+is a path from $a$ to $c$.
+\end{thm}
+
+\begin{proof}
+The two formulas agree at $t=1/2$, so the Pasting Lemma gives continuity.
+\end{proof}
+
+\begin{thm}
+Let $X$ be a topological space.
+
+(a) Every path-connected space is connected.
+
+(b) A continuous image of a path-connected space is path connected; in
+particular, this holds for every continuous surjection.
+
+(c) If $\{E_i:i\in I\}$ is a collection of path-connected subsets with
+$E_i\cap E_j\neq\varnothing$ for all $i,j$, then $\bigcup_iE_i$ is path
+connected.
+
+(d) If $(E_n)$ is a sequence of path-connected subsets with
+$E_n\cap E_{n+1}\neq\varnothing$, then $\bigcup_nE_n$ is path connected.
+\end{thm}
+
+\begin{proof}
+(a) If $X=A\cup B$ were a separation and a path joined a point of $A$ to a
+point of $B$, its inverse images of $A$ and $B$ would separate $[0,1]$.
+
+(b) Choose preimages of the two target points and compose a path between them
+with the continuous map.
+
+(c) Fix a common reference set $E_{i_0}$. Join each point to a point of
+$E_{i_0}$ inside its own set, and concatenate with a path in $E_{i_0}$.
+
+(d) Concatenate paths through the successive nonempty intersections; between
+any two fixed points only finitely many sets are involved.
+\end{proof}
+
+\begin{thm}
+Every path-connected subset is contained in a maximal path-connected subset,
+called a path component. Distinct path components are disjoint, and the path
+components cover the space.
+\end{thm}
+
+\begin{proof}
+Use the union of all path-connected subsets containing a fixed point. All of
+these sets meet at that point, so their union is path connected and maximal.
+\end{proof}
+
+\begin{de}
+A space $X$ is locally path connected if, for each $x\in X$ and every
+neighborhood $G$ of $x$, there is a path-connected open neighborhood $U$ of
+$x$ with $U\subseteq G$.
+\end{de}
+
+Equivalently, $X$ has a base consisting of path-connected open sets.
+
+\begin{thm}
+If $X$ is locally path connected, then every open connected subset of $X$ is
+path connected.
+\end{thm}
+
+\begin{proof}
+Let $G\subseteq X$ be open. Every path component of $G$ is open in $G$:
+through each of its points there is a path-connected open neighborhood
+contained in $G$, and that neighborhood lies in the same path component. If
+$G$ were connected and had more than one path component, one path component
+and the union of the others would form a separation. Hence $G$ has one path
+component.
+\end{proof}
+
+\begin{cor}
+An open subset of $\mathbb{R}^q$ is connected if and only if it is path
+connected.
+\end{cor}
+
+\begin{proof}
+Euclidean space is locally path connected because open balls are path
+connected.
+\end{proof}
+
+\textbf{Remark.} Path connectedness does not imply local path connectedness,
+and local path connectedness does not imply path connectedness.
+
+\subsection{Infinite products}
+
+\begin{de}
+Let $I$ be nonempty and let each $X_i$ be nonempty. Their Cartesian product is
+\[
+\prod_{i\in I}X_i
+=\left\{x:I\to\bigcup_{i\in I}X_i:x(i)\in X_i\text{ for all }i\right\}.
+\]
+We write $x_i$ for $x(i)$. The coordinate projection is
+$\pi_i(x)=x_i$.
+\end{de}
+
+\begin{thm}
+Let $X$ be a set, let $X_i$ be topological spaces, and let
+$f_i:X\to X_i$ be functions. The collection
+\[
+\mathcal{S}=\{f_i^{-1}(G):i\in I,\ G\text{ open in }X_i\}
+\]
+is a subbase for a topology $\mathcal{T}$ on $X$. This is the smallest
+topology making every $f_i$ continuous. If the spaces $X_i$ are Hausdorff
+and the functions separate points, then $\mathcal{T}$ is Hausdorff.
+\end{thm}
+
+\begin{proof}
+The subbase construction gives a topology. Every $f_i$ is continuous by
+definition. Any topology making every $f_i$ continuous must contain every
+subbasic set and hence must contain $\mathcal{T}$. If $x\neq y$ and
+$f_i(x)\neq f_i(y)$ for some $i$, disjoint neighborhoods of these two images
+have disjoint inverse images separating $x$ and $y$.
+\end{proof}
+
+\begin{de}
+The topology in the preceding theorem is the weak topology defined by the
+family $\{f_i:i\in I\}$.
+\end{de}
+
+\begin{cor}
+If $Z$ is a topological space and $g:Z\to X$, where $X$ has the weak topology
+defined by $\{f_i\}$, then $g$ is continuous if and only if every
+$f_i\circ g$ is continuous.
+\end{cor}
+
+\begin{proof}
+One direction follows by composition. Conversely, the inverse image under
+$g$ of a subbasic set $f_i^{-1}(G)$ is
+$(f_i\circ g)^{-1}(G)$, which is open.
+\end{proof}
+
+\begin{de}
+For a family of topological spaces $\{X_i:i\in I\}$, the weak topology on
+$\prod_iX_i$ defined by the coordinate projections is the product topology.
+The sets $\pi_i^{-1}(G)$ form the standard subbase.
+\end{de}
+
+\begin{thm}
+Let $X=\prod_iX_i$ have the product topology.
+
+(a) Every projection $\pi_i:X\to X_i$ is open.
+
+(b) A map $g:Z\to X$ is continuous if and only if every coordinate map
+$\pi_i\circ g$ is continuous.
+\end{thm}
+
+\begin{proof}
+(a) The projection of a basic open set is open because all factors are
+nonempty. Projections preserve unions.
+
+(b) This is the weak-topology criterion.
+\end{proof}
+
+\begin{thm}
+Let $(X_n,d_n)$ be metric spaces and put $X=\prod_{n=1}^\infty X_n$. Then the
+product topology is induced by the metric
+\[
+D(x,y)=\sum_{n=1}^\infty2^{-n}
+\frac{d_n(x_n,y_n)}{1+d_n(x_n,y_n)}.
+\]
+\end{thm}
+
+\begin{proof}
+Each summand is a bounded metric after composing $d_n$ with
+$t\mapsto t/(1+t)$, so the convergent series defines a metric.
+
+Let $G$ be a basic product neighborhood of $x$, restricting only the
+coordinates $n_1,\ldots,n_k$, say
+$d_{n_j}(x_{n_j},y_{n_j})<r_j$. Choose $\varepsilon>0$ so small that
+\[
+2^{n_j}\varepsilon<\frac{r_j}{1+r_j}
+\qquad(1\leq j\leq k).
+\]
+Then $D(x,y)<\varepsilon$ implies all the required coordinate inequalities,
+so a $D$-ball lies in $G$.
+
+Conversely, let $B_D(x;\varepsilon)$ be a metric ball. Choose $N$ so that
+$\sum_{n>N}2^{-n}<\varepsilon/2$. Choose $\delta>0$ such that
+\[
+\sum_{n=1}^N2^{-n}\frac{\delta}{1+\delta}<\frac{\varepsilon}{2}.
+\]
+Then the basic product neighborhood
+\[
+\bigcap_{n=1}^N\pi_n^{-1}(B_{d_n}(x_n;\delta))
+\]
+is contained in $B_D(x;\varepsilon)$. Thus the two topologies agree.
+\end{proof}
+
+\begin{thm}[Tychonoff's Theorem]
+A product of nonempty topological spaces is compact if and only if every
+factor is compact.
+\end{thm}
+
+\begin{proof}
+If the product is compact, every factor is compact as the continuous image
+under a surjective projection.
+
+Conversely, suppose every $X_i$ is compact. By Alexander's Subbase Theorem it
+is enough to consider a cover $\mathcal{C}$ by sets of the form
+$\pi_i^{-1}(G)$. For each $i$, let
+\[
+\mathcal{C}_i=\{G\subseteq X_i:G\text{ is open and }
+\pi_i^{-1}(G)\in\mathcal{C}\}.
+\]
+Some $\mathcal{C}_i$ must cover $X_i$. Otherwise choose
+$x_i\in X_i\setminus\bigcup\mathcal{C}_i$ for every $i$; then
+$x=(x_i)$ lies in no member of $\mathcal{C}$. Compactness of that factor gives
+a finite subcover, whose inverse images form a finite subcover of the product.
+\end{proof}
+
+\begin{lem}
+Let $X=\prod_iX_i$, fix $a\in X$, and set
+\[
+D=\{x\in X:x_i=a_i\text{ for all but finitely many }i\}.
+\]
+Then $D$ is dense in $X$.
+\end{lem}
+
+\begin{proof}
+A nonempty basic open set restricts only finitely many coordinates. Choose a
+point satisfying those restrictions and set every unrestricted coordinate
+equal to the corresponding coordinate of $a$. The resulting point belongs to
+both the basic open set and $D$.
+\end{proof}
+
+\begin{thm}
+A product $\prod_iX_i$ is connected if and only if every factor $X_i$ is
+connected.
+\end{thm}
+
+\begin{proof}
+One direction follows from the projections. Conversely, fix $a\in X$. For
+each finite $J\subseteq I$, let
+\[
+X_J=\{x\in X:x_i=a_i\text{ for }i\notin J\}.
+\]
+The set $X_J$ is homeomorphic to the finite product $\prod_{i\in J}X_i$,
+which is connected. All the sets $X_J$ contain $a$, so their union $D$ is
+connected. By the lemma, $D$ is dense; therefore
+$X=\operatorname{cl}D$ is connected.
+\end{proof}
+
+\begin{thm}
+A product $\prod_iX_i$ is path connected if and only if every factor is path
+connected.
+\end{thm}
+
+\begin{proof}
+One direction follows from the projections. Conversely, for $x,y\in X$,
+choose a path $f_i:[0,1]\to X_i$ from $x_i$ to $y_i$ for every $i$. Define
+$f(t)=(f_i(t))_{i\in I}$. Every coordinate $\pi_i\circ f=f_i$ is continuous,
+so $f$ is continuous by the product criterion.
+\end{proof}
+
+\subsection{Nets}
+
+\begin{de}
+A directed set is a nonempty partially ordered set $I$ such that, for every
+$i,j\in I$, there is a $k\in I$ with $i\leq k$ and $j\leq k$.
+
+A net in a set $X$ is a function $x:I\to X$ from a directed set; it is usually
+written $(x_i)_{i\in I}$.
+
+A net in a topological space converges to $x$, written $x_i\to x$, if for
+every neighborhood $G$ of $x$ there is an $i_0$ such that $x_i\in G$ whenever
+$i\geq i_0$.
+
+The net clusters at $x$, written $x_i\to_{\mathrm{cl}}x$, if for every
+neighborhood $G$ of $x$ and every $j\in I$, there is an $i\geq j$ such that
+$x_i\in G$.
+\end{de}
+
+\begin{thm}
+(a) Every convergent net clusters at its limit.
+
+(b) In a Hausdorff space, a net has at most one limit.
+\end{thm}
+
+\begin{proof}
+Part (a) is immediate. For (b), suppose $x_i\to x$ and $x_i\to y$ with
+$x\neq y$. Choose disjoint neighborhoods $G$ of $x$ and $H$ of $y$. The net
+is eventually in each; choose an index larger than both corresponding
+indices to obtain a contradiction.
+\end{proof}
+
+\begin{thm}
+Let $X$ and $Z$ be topological spaces.
+
+(a) A function $f:X\to Z$ is continuous at $x$ if and only if
+$x_i\to x$ implies $f(x_i)\to f(x)$ for every net.
+
+(b) If $f$ is continuous at $x$ and $x_i\to_{\mathrm{cl}}x$, then
+$f(x_i)\to_{\mathrm{cl}}f(x)$.
+
+(c) A subset $F\subseteq X$ is closed if and only if every convergent net of
+points of $F$ has its limit in $F$.
+\end{thm}
+
+\begin{proof}
+The forward implications follow directly from the neighborhood definition.
+For the converse in (a), suppose $f$ is not continuous at $x$. There is a
+neighborhood $W$ of $f(x)$ such that no neighborhood of $x$ is contained in
+$f^{-1}(W)$. Direct the neighborhoods of $x$ by reverse inclusion, and for
+each neighborhood $U$ choose
+$x_U\in U\setminus f^{-1}(W)$. Then $x_U\to x$, but $f(x_U)$ is never in
+$W$, a contradiction.
+
+For (c), if $F$ is not closed and $x\in\operatorname{cl}F\setminus F$, direct
+the neighborhoods of $x$ by reverse inclusion and choose $x_U\in U\cap F$.
+Then $x_U\to x$.
+\end{proof}
+
+\begin{thm}
+A topological space $X$ is compact if and only if every net in $X$ has a
+cluster point.
+\end{thm}
+
+\begin{proof}
+Suppose first that every net has a cluster point. If an open cover
+$\mathcal{G}$ had no finite subcover, direct the finite subcollections
+$\mathcal{F}\subseteq\mathcal{G}$ by inclusion and choose
+\[
+x_{\mathcal{F}}\in X\setminus\bigcup\mathcal{F}.
+\]
+Let $x$ be a cluster point and choose $G\in\mathcal{G}$ with $x\in G$. Taking
+$\mathcal{F}_0=\{G\}$, the clustering property gives
+$\mathcal{F}\supseteq\mathcal{F}_0$ with $x_{\mathcal{F}}\in G$, contradicting
+the choice of $x_{\mathcal{F}}$.
+
+Conversely, let $(x_i)$ be a net in compact $X$, and put
+\[
+F_j=\operatorname{cl}\{x_i:i\geq j\}.
+\]
+The family $(F_j)$ has the finite intersection property, so choose
+$x\in\bigcap_jF_j$. Every neighborhood of $x$ meets every tail of the net;
+hence $x$ is a cluster point.
+\end{proof}
+
+\begin{thm}
+If $X$ is compact and a net $(x_i)$ has a unique cluster point $x$, then
+$x_i\to x$.
+\end{thm}
+
+\begin{proof}
+If the net did not converge to $x$, there would be a neighborhood $U$ of $x$
+such that every tail contains a point in the closed set $X\setminus U$. The
+closed sets
+\[
+(X\setminus U)\cap\operatorname{cl}\{x_j:j\geq i\}
+\]
+have the finite intersection property. Compactness would give a point
+$y\in X\setminus U$ belonging to all of them, and $y$ would be another
+cluster point.
+\end{proof}
+
+\begin{ex}
+Let $\mathcal{S}$ be a subbase for $X$.
+
+(a) Show that $x_i\to x$ if and only if, for every $S\in\mathcal{S}$ with
+$x\in S$, the net is eventually in $S$.
+
+(b) Find a subbase, a net, and a point $x$ such that the net is frequently in
+every subbasic neighborhood of $x$ but does not cluster at $x$.
+\end{ex}
+
+\begin{proof}
+(a) The forward implication is immediate. Conversely, a basic neighborhood
+of $x$ is a finite intersection $S_1\cap\cdots\cap S_n$ of subbasic
+neighborhoods. Choose a common upper bound for the finitely many indices after
+which the net lies in each $S_k$.
+
+(b) Let $X=\{1,2,3\}$ with the discrete topology and
+\[
+\mathcal{S}=\{\{1,2\},\{1,3\},\{2,3\}\}.
+\]
+This is a subbase. Let $x=1$ and let $x_n=2$ for even $n$ and $x_n=3$ for odd
+$n$. The net is frequently in each subbasic neighborhood of $1$, but it never
+enters the neighborhood $\{1\}$, so it does not cluster at $1$.
+\end{proof}
+
+\begin{ex}
+Let $X=\prod_{\alpha\in A}X^\alpha$, let $(x_i)$ be a net in $X$, and write
+$x_i=(x_i^\alpha)$ and $x=(x^\alpha)$.
+
+(a) Show that $x_i\to x$ if and only if
+$x_i^\alpha\to x^\alpha$ for every $\alpha$.
+
+(b) Give a sequence in $\mathbb{R}^2$ whose two coordinate sequences cluster
+at $x^1$ and $x^2$, respectively, but which does not cluster at
+$(x^1,x^2)$.
+\end{ex}
+
+\begin{proof}
+(a) This is the product continuity criterion applied to the coordinate
+projections, or directly the subbase criterion for nets.
+
+(b) Define
+\[
+x_n=
+\begin{cases}
+(1/n,0),&n\text{ even},\\
+(1,1-1/n),&n\text{ odd}.
+\end{cases}
+\]
+The first coordinate clusters at $0$, the second at $1$, but the sequence in
+$\mathbb{R}^2$ does not cluster at $(0,1)$.
+\end{proof}
+
+\subsection{Quotient spaces}
+
+\begin{de}
+An equivalence relation $\sim$ on a set $X$ is reflexive, symmetric, and
+transitive.
+\end{de}
+
+\begin{thm}
+The equivalence classes of an equivalence relation form a partition of $X$.
+Conversely, every partition of $X$ defines an equivalence relation by
+declaring two points equivalent when they lie in the same member of the
+partition.
+\end{thm}
+
+\begin{de}
+The set of equivalence classes is denoted $X/\!\sim$. The natural map
+$q:X\to X/\!\sim$ sends each point to its equivalence class and is called the
+quotient map.
+\end{de}
+
+\begin{thm}
+Let $X$ be a topological space with an equivalence relation $\sim$. The
+collection
+\[
+\mathcal{U}=\{U\subseteq X/\!\sim:q^{-1}(U)\text{ is open in }X\}
+\]
+is a topology on $X/\!\sim$, called the quotient topology. The map $q$ is
+continuous and surjective. The quotient need not be Hausdorff.
+\end{thm}
+
+\begin{proof}
+Inverse images preserve the empty set, the whole set, arbitrary unions, and
+finite intersections, so $\mathcal{U}$ is a topology. Continuity of $q$ is
+built into its definition.
+\end{proof}
+
+\begin{thm}
+Let $q:X\to X/\!\sim$ be a quotient map and let $f:X/\!\sim\to Z$. Then $f$
+is continuous if and only if $f\circ q:X\to Z$ is continuous.
+\end{thm}
+
+\begin{proof}
+One direction follows by composition. Conversely, if $U\subseteq Z$ is open,
+then
+\[
+q^{-1}(f^{-1}(U))=(f\circ q)^{-1}(U)
+\]
+is open in $X$. By the definition of the quotient topology,
+$f^{-1}(U)$ is open.
+\end{proof}
+
+\begin{ex}
+Let $q:X\to X/\!\sim$ be an open quotient map. If $X$ is locally connected,
+show that $X/\!\sim$ is locally connected.
+\end{ex}
+
+\begin{proof}
+The map $q$ is continuous, open, and surjective, so the result follows from
+the theorem on open continuous images of locally connected spaces.
+\end{proof}
+
+\begin{ex}
+If $X$ is path connected and $\sim$ is any equivalence relation, show that
+$X/\!\sim$ is path connected.
+\end{ex}
+
+\begin{proof}
+The quotient map is continuous and surjective, and continuous images of
+path-connected spaces are path connected.
+\end{proof}
+
+\begin{ex}
+A semimetric (or pseudometric) on $X$ is a function
+$\rho:X\times X\to[0,\infty)$ satisfying symmetry, the triangle inequality,
+and $\rho(x,x)=0$, but distinct points may have distance zero. Give $X$ the
+topology generated by the semimetric balls. Define $x\sim y$ when
+$\rho(x,y)=0$.
+
+(a) Show that $\sim$ is an equivalence relation.
+
+(b) Show that
+\[
+d(q(x),q(y))=\rho(x,y)
+\]
+is a well-defined metric on $X/\!\sim$.
+
+(c) Show that this metric induces the quotient topology.
+\end{ex}
+
+\begin{proof}
+(a) Reflexivity and symmetry are immediate. If $\rho(x,y)=0$ and
+$\rho(y,z)=0$, then the triangle inequality gives $\rho(x,z)=0$.
+
+(b) If $x\sim x'$ and $y\sim y'$, then
+\[
+\rho(x,y)\leq\rho(x,x')+\rho(x',y')+\rho(y',y)=\rho(x',y'),
+\]
+and the reverse inequality follows symmetrically. Thus $d$ is well defined.
+The metric axioms follow from those of $\rho$, and positive definiteness holds
+because distinct equivalence classes have positive semidistance.
+
+(c) For every $x\in X$ and $r>0$,
+\[
+q^{-1}(B_d(q(x);r))=B_\rho(x;r).
+\]
+Thus metric balls in the quotient are quotient-open. Conversely, if
+$U\subseteq X/\!\sim$ is quotient-open and $q(x)\in U$, then
+$q^{-1}(U)$ is an open neighborhood of $x$, so some
+$B_\rho(x;r)$ lies in $q^{-1}(U)$. Hence
+$B_d(q(x);r)\subseteq U$, proving that $U$ is metric-open.
+\end{proof}

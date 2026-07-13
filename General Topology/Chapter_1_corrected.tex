@@ -1,0 +1,1001 @@
+\section{Metric spaces}
+\pagenumbering{arabic}
+\subsection{Definitions and examples}
+
+\begin{de}
+A metric space is a pair $(X,d)$, where $X$ is a set and
+$d:X\times X\to[0,\infty)$ is a function, called a metric, satisfying the
+following properties for all $x,y,z\in X$:
+
+(a) $d(x,y)=d(y,x)$;
+
+(b) $d(x,y)=0$ if and only if $x=y$;
+
+(c) $d(x,y)\leq d(x,z)+d(z,y)$ (the triangle inequality).
+
+For $x\in X$ and $r>0$, write
+\[
+B(x;r)=\{y\in X:d(x,y)<r\},\qquad
+\overline{B}(x;r)=\{y\in X:d(x,y)\leq r\}.
+\]
+The set $B(x;r)$ is the open ball centered at $x$ with radius $r$, and
+$\overline{B}(x;r)$ is the closed ball centered at $x$ with radius $r$.
+\end{de}
+
+\begin{de}
+Let $(X,d)$ be a metric space. A subset $G\subseteq X$ is open if, for every
+$x\in G$, there is an $r>0$ such that $B(x;r)\subseteq G$. A subset
+$F\subseteq X$ is closed if its complement $X\setminus F$ is open.
+\end{de}
+
+\begin{de}
+If $(X,d)$ is a metric space and $Y\subseteq X$, then the restriction of $d$
+to $Y\times Y$ is a metric on $Y$. A subset $A\subseteq Y$ is relatively open
+(respectively, relatively closed) in $Y$ if it is open (respectively, closed)
+in the metric space $Y$.
+\end{de}
+
+\begin{thm}
+Let $(X,d)$ be a metric space and let $Y\subseteq X$.
+
+(a) A subset $G\subseteq Y$ is relatively open in $Y$ if and only if there is
+an open subset $U\subseteq X$ such that $G=U\cap Y$.
+
+(b) A subset $F\subseteq Y$ is relatively closed in $Y$ if and only if there
+is a closed subset $D\subseteq X$ such that $F=D\cap Y$.
+\end{thm}
+
+\begin{proof}
+(a) Suppose first that $G$ is relatively open in $Y$. For each $x\in G$, choose
+$r_x>0$ such that $B(x;r_x)\cap Y\subseteq G$, and set
+\[
+U=\bigcup_{x\in G}B(x;r_x).
+\]
+Then $U$ is open and $U\cap Y=G$. Conversely, if $G=U\cap Y$ with $U$ open in
+$X$, then for each $x\in G$ there is an $r>0$ such that $B(x;r)\subseteq U$.
+Hence $B(x;r)\cap Y\subseteq G$, so $G$ is relatively open in $Y$.
+
+(b) The set $F$ is relatively closed in $Y$ if and only if $Y\setminus F$ is
+relatively open in $Y$. By part (a), this is equivalent to
+$Y\setminus F=U\cap Y$ for some open set $U\subseteq X$. In that case,
+with $D=X\setminus U$, we have
+\[
+D\cap Y=(X\setminus U)\cap Y=Y\setminus(U\cap Y)=F.
+\]
+The converse follows by reversing this argument.
+\end{proof}
+
+\begin{thm}
+Let $(X,d)$ be a metric space.
+
+(a) For all $x,y,z\in X$,
+\[
+\bigl|d(x,y)-d(y,z)\bigr|\leq d(x,z).
+\]
+
+(b) A finite intersection of open sets is open.
+
+(c) An arbitrary union of open sets is open.
+
+(d) A finite union of closed sets is closed.
+
+(e) An arbitrary intersection of closed sets is closed.
+\end{thm}
+
+\begin{proof}
+For (a), the triangle inequality gives
+$d(x,y)\leq d(x,z)+d(z,y)$ and
+$d(y,z)\leq d(y,x)+d(x,z)$. Rearranging both inequalities gives the result.
+Parts (b)--(e) follow directly from the definitions and De Morgan's laws.
+\end{proof}
+
+\begin{de}
+Let $A\subseteq X$. The interior of $A$ is
+\[
+\operatorname{int}A=\bigcup\{G:G\text{ is open and }G\subseteq A\}.
+\]
+The closure of $A$ is
+\[
+\operatorname{cl}A=\bigcap\{F:F\text{ is closed and }A\subseteq F\}.
+\]
+The boundary of $A$ is
+\[
+\partial A=\operatorname{cl}A\cap\operatorname{cl}(X\setminus A).
+\]
+\end{de}
+
+\begin{thm}
+Let $A\subseteq X$.
+
+(a) A point $x$ belongs to $\operatorname{int}A$ if and only if there is an
+$r>0$ such that $B(x;r)\subseteq A$.
+
+(b) A point $x$ belongs to $\operatorname{cl}A$ if and only if
+$B(x;r)\cap A\neq\varnothing$ for every $r>0$.
+\end{thm}
+
+\begin{proof}
+Part (a) follows immediately from the definition of an open set and the fact
+that $\operatorname{int}A$ is the union of all open subsets of $A$.
+
+For (b), if $B(x;r)\cap A=\varnothing$ for some $r>0$, then
+$A\subseteq X\setminus B(x;r)$, where $X\setminus B(x;r)$ is closed and does
+not contain $x$. Thus $x\notin\operatorname{cl}A$. Conversely, if
+$x\notin\operatorname{cl}A$, then the open set
+$X\setminus\operatorname{cl}A$ contains $x$, so some ball centered at $x$ is
+disjoint from $A$.
+\end{proof}
+
+\begin{thm}
+Let $A\subseteq X$.
+
+(a) $A$ is closed if and only if $A=\operatorname{cl}A$.
+
+(b) $A$ is open if and only if $A=\operatorname{int}A$.
+
+(c)
+\[
+\operatorname{cl}A=X\setminus\operatorname{int}(X\setminus A),\qquad
+\operatorname{int}A=X\setminus\operatorname{cl}(X\setminus A),
+\]
+and
+\[
+\partial A=\operatorname{cl}A\setminus\operatorname{int}A.
+\]
+
+(d) If $A_1,\ldots,A_n\subseteq X$, then
+\[
+\operatorname{cl}\left(\bigcup_{k=1}^n A_k\right)
+=\bigcup_{k=1}^n\operatorname{cl}A_k.
+\]
+
+(e) If $A_1,\ldots,A_n\subseteq X$, then
+\[
+\operatorname{int}\left(\bigcap_{k=1}^n A_k\right)
+=\bigcap_{k=1}^n\operatorname{int}A_k.
+\]
+\end{thm}
+
+\begin{proof}
+Parts (a) and (b) follow from the fact that $\operatorname{cl}A$ is the
+smallest closed set containing $A$, whereas $\operatorname{int}A$ is the
+largest open set contained in $A$.
+
+For the first identity in (c), a point $x$ is outside $\operatorname{cl}A$ if
+and only if some open neighborhood of $x$ is contained in $X\setminus A$;
+this is equivalent to $x\in\operatorname{int}(X\setminus A)$. The second
+identity follows by replacing $A$ by $X\setminus A$. Finally,
+\[
+\partial A
+=\operatorname{cl}A\cap\operatorname{cl}(X\setminus A)
+=\operatorname{cl}A\cap\bigl(X\setminus\operatorname{int}A\bigr)
+=\operatorname{cl}A\setminus\operatorname{int}A.
+\]
+
+For (e), the inclusion from left to right is immediate. Conversely, if
+$x\in\bigcap_{k=1}^n\operatorname{int}A_k$, choose $r_k>0$ such that
+$B(x;r_k)\subseteq A_k$ and set $r=\min\{r_1,\ldots,r_n\}$. Then
+$B(x;r)\subseteq\bigcap_{k=1}^n A_k$. Part (d) follows from (c), (e), and De
+Morgan's laws.
+\end{proof}
+
+\begin{de}
+If $(X_1,d_1)$ and $(X_2,d_2)$ are metric spaces, define a metric on
+$X_1\times X_2$ by
+\[
+d\bigl((x_1,x_2),(y_1,y_2)\bigr)
+=d_1(x_1,y_1)+d_2(x_2,y_2).
+\]
+\end{de}
+
+\begin{thm}
+Adopt the preceding notation.
+
+(a) If $G_1\subseteq X_1$ and $G_2\subseteq X_2$ are open, then
+$G_1\times G_2$ is open in $X_1\times X_2$.
+
+(b) If $F_1\subseteq X_1$ and $F_2\subseteq X_2$ are closed, then
+$F_1\times F_2$ is closed in $X_1\times X_2$.
+
+(c) If $G$ is open in $X_1\times X_2$ and $(x_1,x_2)\in G$, then there is an
+$r>0$ such that
+\[
+B_{d_1}(x_1;r)\times B_{d_2}(x_2;r)\subseteq G.
+\]
+\end{thm}
+
+\begin{proof}
+(a) If $(x_1,x_2)\in G_1\times G_2$, choose $\varepsilon_i>0$ such that
+$B_{d_i}(x_i;\varepsilon_i)\subseteq G_i$ for $i=1,2$. Then the ball in the
+product metric of radius $\min\{\varepsilon_1,\varepsilon_2\}$ is contained
+in $G_1\times G_2$.
+
+(b) We have
+\[
+(X_1\times X_2)\setminus(F_1\times F_2)
+=((X_1\setminus F_1)\times X_2)\cup(X_1\times(X_2\setminus F_2)),
+\]
+which is open by part (a).
+
+(c) Choose $\varepsilon>0$ such that
+$B_d((x_1,x_2);\varepsilon)\subseteq G$, and put $r=\varepsilon/2$. If
+$d_1(x_1,y_1)<r$ and $d_2(x_2,y_2)<r$, then
+$d((x_1,x_2),(y_1,y_2))<\varepsilon$, proving the claim.
+\end{proof}
+
+\begin{de}
+A subset $E$ of a metric space $(X,d)$ is dense if
+$\operatorname{cl}E=X$. The metric space is separable if it has a countable
+dense subset.
+\end{de}
+
+\begin{thm}
+A set $E$ is dense in $(X,d)$ if and only if
+$B(x;r)\cap E\neq\varnothing$ for every $x\in X$ and every $r>0$.
+\end{thm}
+
+\begin{proof}
+This is the characterization of closure by open balls applied to the identity
+$\operatorname{cl}E=X$.
+\end{proof}
+
+\begin{ex}
+Let $\ell^\infty$ denote the set of all bounded sequences of real numbers;
+that is,
+\[
+\ell^\infty=\left\{(x_n):\sup_n|x_n|<\infty\right\}.
+\]
+If $x=(x_n)$ and $y=(y_n)$ belong to $\ell^\infty$, define
+\[
+d(x,y)=\sup_n|x_n-y_n|.
+\]
+
+(a) Show that $d$ is a metric on $\ell^\infty$.
+
+(b) If $e_n$ is the sequence with a $1$ in the $n$th coordinate and zeros
+elsewhere, show that
+$B(e_n;1/2)\cap B(e_m;1/2)=\varnothing$ whenever $n\neq m$.
+
+(c) Is the set $\{e_n:n\geq1\}$ closed?
+\end{ex}
+
+\begin{proof}
+(a) Symmetry and positive definiteness are immediate. For every coordinate,
+\[
+|x_n-y_n|\leq |x_n-z_n|+|z_n-y_n|.
+\]
+Taking suprema gives $d(x,y)\leq d(x,z)+d(z,y)$.
+
+(b) If $x$ belonged to both balls and $n\neq m$, then
+$|x_n-1|<1/2$ because $d(x,e_n)<1/2$, while $|x_n|<1/2$ because the $n$th
+coordinate of $e_m$ is zero. This is impossible.
+
+(c) Yes. If a sequence of points from $A=\{e_n:n\geq1\}$ converges, then it is
+Cauchy. Since $d(e_n,e_m)=1$ whenever $n\neq m$, that sequence must be
+eventually constant. Its limit therefore belongs to $A$, so $A$ is closed.
+\end{proof}
+
+\subsection{Sequences and completeness}
+
+\begin{de}
+A sequence $(x_n)$ in $X$ converges to $x$ if, for every $\varepsilon>0$,
+there is an integer $N$ such that $d(x_n,x)<\varepsilon$ whenever $n\geq N$.
+We write $x_n\to x$.
+
+If $A\subseteq X$, a point $x\in X$ is a limit point of $A$ if every ball
+centered at $x$ contains a point of $A$ different from $x$.
+
+For a set $A\subseteq X$, the distance from $x$ to $A$ is
+\[
+\operatorname{dist}(x,A)=\inf\{d(x,a):a\in A\},
+\]
+where we use the convention $\inf\varnothing=+\infty$. When $A$ is
+nonempty, it is possible that $\operatorname{dist}(x,A)=0$ even though
+$x\notin A$.
+
+A sequence $(x_n)$ is Cauchy if, for every $\varepsilon>0$, there is an
+integer $N$ such that $d(x_n,x_m)<\varepsilon$ whenever $m,n\geq N$. A metric
+space is complete if every Cauchy sequence converges.
+\end{de}
+
+\begin{thm}
+Let $(X,d)$ be a metric space.
+
+(1) A subset $F\subseteq X$ is closed if and only if every convergent sequence
+of points of $F$ has its limit in $F$.
+
+(2) Every subsequence of a sequence converging to $x$ also converges to $x$.
+
+(3) Let $A\subseteq X$.
+
+(a) A point $x$ is a limit point of $A$ if and only if there is a sequence of
+distinct points of $A$ converging to $x$.
+
+(b) The set $A$ is closed if and only if it contains all its limit points.
+
+(c)
+\[
+\operatorname{cl}A=A\cup\{x:x\text{ is a limit point of }A\}.
+\]
+
+(4)
+\[
+\operatorname{cl}A=\{x\in X:\operatorname{dist}(x,A)=0\}.
+\]
+
+(5) If $(x_n)$ is Cauchy and a subsequence converges to $x$, then $x_n\to x$.
+
+(6) The diameter of a nonempty set $E$ is
+\[
+\operatorname{diam}E=\sup\{d(x,y):x,y\in E\},
+\]
+where the value may be $+\infty$. Moreover,
+$\operatorname{diam}E=\operatorname{diam}(\operatorname{cl}E)$.
+\end{thm}
+
+The proofs are the same as the standard proofs for subsets and sequences in
+$\mathbb{R}$, with absolute value replaced by the metric.
+
+\begin{thm}[Cantor's Intersection Theorem]
+A metric space $(X,d)$ is complete if and only if every sequence $(F_n)$ of
+nonempty subsets satisfying
+
+(i) each $F_n$ is closed;
+
+(ii) $F_1\supseteq F_2\supseteq\cdots$;
+
+(iii) $\operatorname{diam}F_n\to0$
+
+has an intersection $\bigcap_{n=1}^\infty F_n$ consisting of exactly one
+point.
+\end{thm}
+
+\begin{proof}
+Suppose first that $X$ is complete. Choose $x_n\in F_n$. If $m,n\geq N$, then
+$x_m,x_n\in F_N$, so
+$d(x_m,x_n)\leq\operatorname{diam}F_N$. Thus $(x_n)$ is Cauchy and converges
+to some $x\in X$. For each fixed $N$, all $x_n$ with $n\geq N$ lie in the
+closed set $F_N$, so $x\in F_N$. Hence $x\in\bigcap_nF_n$. If $x$ and $y$
+both belong to the intersection, then
+$d(x,y)\leq\operatorname{diam}F_n$ for every $n$, so $x=y$.
+
+Conversely, let $(x_n)$ be Cauchy and set
+\[
+F_n=\operatorname{cl}\{x_m:m\geq n\}.
+\]
+The sets $F_n$ are nonempty, closed, and decreasing. The Cauchy property and
+$\operatorname{diam}(\operatorname{cl}E)=\operatorname{diam}E$ imply
+$\operatorname{diam}F_n\to0$. Let $\{x\}=\bigcap_nF_n$. Since
+$x_n,x\in F_n$, we have
+$d(x_n,x)\leq\operatorname{diam}F_n\to0$. Thus $x_n\to x$, and $X$ is
+complete.
+\end{proof}
+
+\begin{thm}
+Let $(X,d)$ be complete and let $Y\subseteq X$. Then $Y$, with the restricted
+metric, is complete if and only if $Y$ is closed in $X$.
+\end{thm}
+
+\begin{proof}
+If $Y$ is closed, every Cauchy sequence in $Y$ converges in $X$, and its limit
+belongs to $Y$. Thus $Y$ is complete.
+
+Conversely, suppose $Y$ is complete and $(y_n)$ is a sequence in $Y$ that
+converges in $X$ to $y$. The sequence is Cauchy in $Y$, so it converges in
+$Y$ to some $z\in Y$. Uniqueness of limits in $X$ gives $y=z\in Y$.
+Therefore $Y$ is closed.
+\end{proof}
+
+\begin{de}
+A subset $A$ of a metric space is bounded if $A=\varnothing$ or there are
+$x_0\in X$ and $R>0$ such that $A\subseteq B(x_0;R)$.
+\end{de}
+
+\begin{thm}
+(a) A subset $A$ of $(X,d)$ is bounded if and only if, for every $x\in X$,
+there is an $r>0$ such that $A\subseteq B(x;r)$.
+
+(b) A finite union of bounded sets is bounded.
+
+(c) The range of every Cauchy sequence is bounded.
+\end{thm}
+
+\begin{proof}
+These statements follow directly from the triangle inequality.
+\end{proof}
+
+\begin{ex}
+If $A\subseteq X$, show that
+\[
+\operatorname{int}A
+=\{x\in X:\operatorname{dist}(x,X\setminus A)>0\}.
+\]
+Give an analogous characterization of $\partial A$.
+\end{ex}
+
+\begin{proof}
+A point $x$ is in $\operatorname{int}A$ if and only if some ball centered at
+$x$ is contained in $A$, which is equivalent to
+$\operatorname{dist}(x,X\setminus A)>0$. Also,
+\[
+\partial A
+=\{x\in X:\operatorname{dist}(x,A)=0
+\text{ and }\operatorname{dist}(x,X\setminus A)=0\}.
+\]
+\end{proof}
+
+\begin{ex}
+Let $(X,d)$ be the Cartesian product of $(X_1,d_1)$ and $(X_2,d_2)$ with the
+sum metric.
+
+(a) Show that $((x_n^1,x_n^2))$ is Cauchy in $X$ if and only if $(x_n^1)$ is
+Cauchy in $X_1$ and $(x_n^2)$ is Cauchy in $X_2$.
+
+(b) Show that $X$ is complete if and only if both $X_1$ and $X_2$ are
+complete.
+\end{ex}
+
+\begin{proof}
+Part (a) follows from
+\[
+d_i(x_n^i,x_m^i)\leq d((x_n^1,x_n^2),(x_m^1,x_m^2))
+\]
+and from the definition of the sum metric. Part (b) follows from part (a) and
+the corresponding coordinatewise criterion for convergence.
+\end{proof}
+
+\subsection{Continuity}
+
+\begin{de}
+Let $(X,d)$ and $(Z,\rho)$ be metric spaces. A function $f:X\to Z$ is
+continuous at $a\in X$ if, for every $\varepsilon>0$, there is a $\delta>0$
+such that
+\[
+d(a,x)<\delta\quad\Longrightarrow\quad
+\rho(f(a),f(x))<\varepsilon.
+\]
+The function is continuous on $X$ if it is continuous at every point of $X$.
+\end{de}
+
+\begin{thm}[Sequential criterion]
+Let $(X,d)$ and $(Z,\rho)$ be metric spaces and let $f:X\to Z$. Then $f$ is
+continuous at $a$ if and only if $x_n\to a$ implies
+$f(x_n)\to f(a)$ for every sequence $(x_n)$ in $X$.
+\end{thm}
+
+\begin{thm}
+Let $f:X\to Z$ be a function between metric spaces. The following are
+equivalent:
+
+(a) $f$ is continuous;
+
+(b) $f^{-1}(U)$ is open in $X$ for every open set $U\subseteq Z$;
+
+(c) $f^{-1}(D)$ is closed in $X$ for every closed set $D\subseteq Z$.
+\end{thm}
+
+\begin{proof}
+This is the usual inverse-image characterization of continuity; (b) and (c)
+are equivalent because inverse images commute with complements.
+\end{proof}
+
+\begin{thm}
+If $A$ is a nonempty subset of the metric space $(X,d)$, then
+\[
+\bigl|\operatorname{dist}(x,A)-\operatorname{dist}(y,A)\bigr|
+\leq d(x,y)
+\]
+for all $x,y\in X$.
+\end{thm}
+
+\begin{proof}
+For every $a\in A$,
+\[
+d(x,a)\leq d(x,y)+d(y,a).
+\]
+Taking the infimum over $a\in A$ gives
+\[
+\operatorname{dist}(x,A)
+\leq d(x,y)+\operatorname{dist}(y,A).
+\]
+Interchanging $x$ and $y$ yields the reverse inequality and hence the stated
+estimate.
+\end{proof}
+
+\begin{cor}
+For every nonempty $A\subseteq X$, the function
+$f:X\to\mathbb{R}$ defined by $f(x)=\operatorname{dist}(x,A)$ is continuous.
+In fact, it is $1$-Lipschitz.
+\end{cor}
+
+\begin{thm}
+If $f,g:X\to\mathbb{R}$ are continuous, then $f+g$ and $fg$ are continuous.
+If $f(x)\neq0$ for every $x\in X$, then $1/f$ is continuous.
+\end{thm}
+
+\begin{thm}
+The composition of continuous functions is continuous.
+\end{thm}
+
+\begin{thm}[Urysohn's Lemma for metric spaces]
+If $A$ and $B$ are disjoint closed subsets of a metric space $X$, then there
+is a continuous function $f:X\to[0,1]$ such that $f=0$ on $A$ and $f=1$ on
+$B$.
+\end{thm}
+
+\begin{proof}
+If $A=\varnothing$, take $f\equiv1$; if $B=\varnothing$, take $f\equiv0$.
+Otherwise, define
+\[
+f(x)=\frac{\operatorname{dist}(x,A)}
+{\operatorname{dist}(x,A)+\operatorname{dist}(x,B)}.
+\]
+The denominator is positive at every point: if both distances were zero, the
+point would belong to both closed sets. The preceding distance theorem and
+the algebra of continuous functions show that $f$ is continuous. Its values
+on $A$ and $B$ are as required.
+\end{proof}
+
+\begin{cor}
+If $F$ is closed and $G$ is open with $F\subseteq G$, then there is a
+continuous function $f:X\to[0,1]$ such that $f=1$ on $F$ and $f=0$ on
+$X\setminus G$.
+\end{cor}
+
+\begin{proof}
+Apply the preceding theorem to the disjoint closed sets $X\setminus G$ and
+$F$.
+\end{proof}
+
+\begin{de}
+A map $f:(X,d)\to(Z,\rho)$ is a homeomorphism if it is bijective and both
+$f$ and $f^{-1}$ are continuous. Two metric spaces are homeomorphic if there
+is a homeomorphism between them.
+
+Two metrics $d$ and $\rho$ on the same set $X$ are equivalent if they induce
+the same topology. For metric spaces, this is equivalent to saying that they
+have the same convergent sequences, or that the identity map
+$(X,d)\to(X,\rho)$ is a homeomorphism.
+\end{de}
+
+\begin{thm}
+For every metric space $(X,d)$,
+\[
+\rho(x,y)=\frac{d(x,y)}{1+d(x,y)}
+\]
+defines an equivalent metric on $X$.
+\end{thm}
+
+\begin{proof}
+Symmetry and positive definiteness are immediate. Let
+$\phi(t)=t/(1+t)$. Since $\phi$ is increasing and
+\[
+\phi(a+b)\leq\phi(a)+\phi(b)\qquad(a,b\geq0),
+\]
+the triangle inequality for $d$ implies the triangle inequality for $\rho$.
+Thus $\rho$ is a metric.
+
+Moreover, $\rho(x,y)\leq d(x,y)$. Conversely, for every $\delta>0$,
+\[
+\rho(x,y)<\frac{\delta}{1+\delta}
+\quad\Longrightarrow\quad d(x,y)<\delta.
+\]
+Hence the identity maps in both directions are continuous, so the metrics are
+equivalent.
+\end{proof}
+
+\textbf{Remark.} The metric $\rho$ is bounded by $1$. Thus boundedness is not
+a topological property.
+
+\textbf{Remark.} Equivalent metrics preserve continuity but need not preserve
+Cauchy sequences or completeness.
+
+\begin{eg}
+Let
+\[
+X=\{(x,y)\in\mathbb{R}^2:x^2+(y-1)^2=1\}
+\]
+with its Euclidean subspace metric. For $t\in\mathbb{R}$, take the line
+through $(t,0)$ and $(0,2)$ and let $f(t)$ be its intersection with $X$ other
+than $(0,2)$. Then $f$ is a homeomorphism from $\mathbb{R}$ onto
+$Y=X\setminus\{(0,2)\}$. Define
+\[
+\rho(s,t)=d(f(s),f(t)).
+\]
+The metric $\rho$ is equivalent to the usual metric on $\mathbb{R}$, and
+$f:(\mathbb{R},\rho)\to(Y,d)$ is an isometry. The sequence $(n)$ is Cauchy
+with respect to $\rho$, because $f(n)\to(0,2)$ in $X$, but it has no limit in
+$(\mathbb{R},\rho)$. Therefore $(\mathbb{R},\rho)$ is not complete.
+\end{eg}
+
+\begin{de}
+A function $f:(X,d)\to(Z,\rho)$ is uniformly continuous if, for every
+$\varepsilon>0$, there is a $\delta>0$ such that
+\[
+d(x,y)<\delta\quad\Longrightarrow\quad
+\rho(f(x),f(y))<\varepsilon
+\]
+for all $x,y\in X$.
+\end{de}
+
+\begin{thm}
+(a) A uniformly continuous function sends Cauchy sequences to Cauchy
+sequences.
+
+(b) If $A\subseteq X$, $Z$ is complete, and $f:A\to Z$ is uniformly
+continuous, then $f$ has a unique uniformly continuous extension
+$\overline f:\operatorname{cl}A\to Z$.
+\end{thm}
+
+\begin{proof}
+Part (a) follows directly from the definitions. For (b), if
+$x\in\operatorname{cl}A$, choose a sequence $(a_n)$ in $A$ with $a_n\to x$
+and define
+\[
+\overline f(x)=\lim_{n\to\infty}f(a_n).
+\]
+Part (a) and completeness of $Z$ guarantee that the limit exists. Uniform
+continuity shows that the value is independent of the chosen sequence and
+that $\overline f$ is uniformly continuous. Density of $A$ gives uniqueness.
+\end{proof}
+
+\begin{ex}
+(a) If $f:X\to Z$ is continuous, $A$ is dense in $X$, and $f(a)=z$ for every
+$a\in A$, show that $f(x)=z$ for every $x\in X$.
+
+(b) If $f:X\to Z$ is continuous and surjective and $A$ is dense in $X$, show
+that $f(A)$ is dense in $Z$.
+\end{ex}
+
+\begin{proof}
+(a) For any $x\in X$, choose a sequence $(a_n)$ in $A$ with $a_n\to x$.
+Then $f(x)=\lim f(a_n)=z$.
+
+(b) Let $z\in Z$ and let $V$ be an open neighborhood of $z$. Choose
+$x\in X$ with $f(x)=z$. Then $f^{-1}(V)$ is an open neighborhood of $x$, so
+it meets $A$. Hence $V$ meets $f(A)$.
+\end{proof}
+
+\subsection{Compactness}
+
+\begin{de}
+A collection $\mathcal{G}$ of subsets of $X$ is a cover of $E\subseteq X$ if
+$E\subseteq\bigcup\mathcal{G}$. It is an open cover if every member of
+$\mathcal{G}$ is open. A subcover is a subcollection that still covers $E$.
+
+A subset $K$ of a metric space is compact if every open cover of $K$ has a
+finite subcover.
+\end{de}
+
+\begin{thm}
+Let $(X,d)$ be a metric space.
+
+(a) Every compact subset of $X$ is closed and bounded.
+
+(b) Every closed subset of a compact set is compact.
+
+(c) The continuous image of a compact set is compact.
+\end{thm}
+
+\begin{cor}
+If $X$ is nonempty and compact and $f:X\to\mathbb{R}$ is continuous,
+then $f$ attains a minimum and a maximum on $X$.
+\end{cor}
+
+\begin{de}
+A subset $K$ of a metric space is totally bounded if, for every $r>0$, it can
+be covered by finitely many balls of radius $r$.
+
+A collection $\mathcal{F}$ of sets has the finite intersection property (FIP)
+if every finite subcollection has nonempty intersection.
+\end{de}
+
+\begin{thm}
+For a subset $K$ of a metric space, the following are equivalent:
+
+(a) $K$ is compact;
+
+(b) every collection of closed subsets of $K$ having the FIP has nonempty
+intersection;
+
+(c) every sequence in $K$ has a convergent subsequence whose limit belongs to
+$K$;
+
+(d) every infinite subset of $K$ has a limit point in $K$;
+
+(e) $K$, with its subspace metric, is complete and totally bounded.
+\end{thm}
+
+\begin{proof}
+$(a)\Rightarrow(b)$: If a family $\mathcal{F}$ of closed subsets of $K$ has
+empty intersection, then the relative-open sets $K\setminus F$, $F\in
+\mathcal{F}$, cover $K$. A finite subcover would contradict the FIP.
+
+$(a)\Rightarrow(d)$: If an infinite set $E\subseteq K$ had no limit point in
+$K$, every point of $K$ would have a neighborhood meeting $E$ in at most one
+point. A finite subcover of these neighborhoods would force $E$ to be finite.
+
+$(d)\Rightarrow(c)$: If a sequence has finite range, it has a constant
+subsequence. If its range is infinite, let $x$ be a limit point of the range.
+Every neighborhood of $x$ contains infinitely many terms of the sequence, so
+one can choose a subsequence converging to $x$.
+
+$(c)\Rightarrow(e)$: A Cauchy sequence has a convergent subsequence; the whole
+sequence then converges to the same limit, so $K$ is complete. If $K$ were not
+totally bounded, there would be an $\varepsilon>0$ and a sequence in $K$ whose
+distinct terms are at least $\varepsilon$ apart. Such a sequence has no
+convergent subsequence, a contradiction.
+
+$(e)\Rightarrow(c)$: Repeatedly cover $K$ by finitely many balls of radii
+$1,1/2,1/3,\ldots$ and choose nested subsequences lying in one ball at each
+stage. A diagonal subsequence is Cauchy and therefore converges in $K$.
+
+Finally, $(c)\Rightarrow(a)$. First note the Lebesgue-number property: for
+every open cover $\mathcal{G}$ of $K$, there is an $r>0$ such that every ball
+$B(x;r)$ with $x\in K$ is contained in some member of $\mathcal{G}$. Otherwise,
+choose $x_n\in K$ such that $B(x_n;1/n)$ is contained in no member of the
+cover. A convergent subsequence tends to some $x\in K$, and an open member of
+the cover containing $x$ eventually contains the corresponding balls, a
+contradiction. Since $(c)$ implies total boundedness by the preceding
+argument, finitely many balls of radius $r$ cover $K$, and the corresponding
+members of $\mathcal{G}$ form a finite subcover.
+\end{proof}
+
+\textbf{Remark.} Compact sets are totally bounded, but total boundedness alone
+does not imply compactness; completeness is also required.
+
+\begin{thm}[Heine--Borel]
+A subset of $\mathbb{R}^q$ is compact if and only if it is closed and bounded.
+\end{thm}
+
+\begin{thm}
+Every continuous map from a compact metric space into a metric space is
+uniformly continuous.
+\end{thm}
+
+\begin{thm}
+Every compact metric space is separable.
+\end{thm}
+
+\begin{proof}
+For each $n\geq1$, compactness gives a finite set $F_n\subseteq X$ such that
+\[
+X=\bigcup_{x\in F_n}B(x;1/n).
+\]
+The set $F=\bigcup_{n=1}^\infty F_n$ is countable. Given $x\in X$ and
+$\varepsilon>0$, choose $n$ with $1/n<\varepsilon$ and then choose
+$y\in F_n$ with $d(x,y)<1/n$. Thus $F$ is dense.
+\end{proof}
+
+\begin{ex}
+Show that the closure of a totally bounded set is totally bounded.
+\end{ex}
+
+\begin{proof}
+Let $E$ be totally bounded and let $r>0$. Choose
+$x_1,\ldots,x_n\in E$ such that
+\[
+E\subseteq\bigcup_{i=1}^nB(x_i;r/2).
+\]
+Then
+\[
+\operatorname{cl}E
+\subseteq\bigcup_{i=1}^n\overline B(x_i;r/2)
+\subseteq\bigcup_{i=1}^nB(x_i;r),
+\]
+so $\operatorname{cl}E$ is totally bounded.
+\end{proof}
+
+\begin{ex}
+If $(X,d)$ is complete and $E\subseteq X$, show that $E$ is totally bounded
+if and only if $\operatorname{cl}E$ is compact.
+\end{ex}
+
+\begin{proof}
+If $E$ is totally bounded, then $\operatorname{cl}E$ is totally bounded by the
+preceding exercise. It is closed in the complete space $X$, so it is complete;
+hence it is compact. Conversely, if $\operatorname{cl}E$ is compact, then it
+is totally bounded, and every subset of a totally bounded set is totally
+bounded.
+\end{proof}
+
+\subsection{Connectedness}
+
+\begin{de}
+A metric space $X$ is connected if its only subsets that are both open and
+closed are $X$ and $\varnothing$. Equivalently, $X$ cannot be written as the
+union of two disjoint nonempty open sets. A subset of a metric space is
+connected when it is connected with its subspace metric.
+\end{de}
+
+\begin{thm}
+A subset of $\mathbb{R}$ is connected if and only if it is an interval.
+\end{thm}
+
+\begin{thm}
+The continuous image of a connected set is connected.
+\end{thm}
+
+\begin{proof}
+If $f(X)=C\cup D$ were a separation of $f(X)$, then
+$f^{-1}(C)$ and $f^{-1}(D)$ would form a separation of $X$.
+\end{proof}
+
+\begin{cor}[Intermediate Value Theorem]
+If $X$ is connected, $f:X\to\mathbb{R}$ is continuous, and
+$a,b\in f(X)$ with $a<b$, then every $c\in[a,b]$ belongs to $f(X)$.
+\end{cor}
+
+\begin{thm}
+Let $X$ be a metric space.
+
+(a) If $\{E_i:i\in I\}$ is a collection of connected subsets such that
+$E_i\cap E_j\neq\varnothing$ for all $i,j\in I$, then
+$\bigcup_{i\in I}E_i$ is connected.
+
+(b) If $(E_n)$ is a sequence of connected subsets such that
+$E_n\cap E_{n+1}\neq\varnothing$ for every $n$, then
+$\bigcup_{n=1}^\infty E_n$ is connected.
+\end{thm}
+
+\begin{proof}
+For (a), let $A$ be a nonempty relatively clopen subset of
+$E=\bigcup_iE_i$. It meets some $E_{i_0}$, so connectedness gives
+$E_{i_0}\subseteq A$. Every $E_j$ meets $E_{i_0}$, hence meets $A$, and
+therefore $E_j\subseteq A$. Thus $A=E$.
+
+For (b), the finite union $F_n=E_1\cup\cdots\cup E_n$ is connected by
+induction. Since all the $F_n$ contain $E_1$, part (a) shows that
+$\bigcup_nF_n=\bigcup_nE_n$ is connected.
+\end{proof}
+
+\begin{cor}
+The union of two intersecting connected subsets is connected.
+\end{cor}
+
+\begin{de}
+A component of a metric space is a maximal connected subset.
+\end{de}
+
+\textbf{Remark.} Maximal means maximal with respect to inclusion.
+
+\begin{thm}
+Every connected subset of a metric space is contained in a component;
+distinct components are disjoint; and the union of all components is the
+whole space.
+\end{thm}
+
+\begin{proof}
+Let $D$ be connected. Take the union $C$ of all connected subsets that contain
+$D$. Every two such sets meet in $D$, so $C$ is connected. It is maximal by
+construction and hence is a component containing $D$. Applying this to the
+singleton $\{x\}$ shows that every point lies in a component. If two
+components meet, their union is connected, so maximality forces them to be
+equal.
+\end{proof}
+
+\begin{thm}
+If $C$ is connected and
+$C\subseteq Y\subseteq\operatorname{cl}C$, then $Y$ is connected.
+\end{thm}
+
+\begin{proof}
+If $Y=A\cup B$ were a separation, then connectedness of $C$ would imply that
+$C$ is contained entirely in one of the two sets, say $A$. But $C$ is dense
+in $Y$, so the nonempty relatively open set $B$ would have to meet $C$, a
+contradiction.
+\end{proof}
+
+\begin{cor}
+The closure of a connected set is connected, and every component is closed.
+\end{cor}
+
+\begin{de}
+Let $E\subseteq X$, let $x,y\in E$, and let $\varepsilon>0$. An
+$\varepsilon$-chain from $x$ to $y$ in $E$ is a finite sequence
+$x=x_1,\ldots,x_n=y$ in $E$ such that
+
+(i) $B(x_k;\varepsilon)\subseteq E$ for every $k$;
+
+(ii) $d(x_{k-1},x_k)<\varepsilon$ for $2\leq k\leq n$.
+\end{de}
+
+\begin{thm}
+Let $G$ be an open subset of $\mathbb{R}^q$.
+
+(a) Every component of $G$ is open, and $G$ has at most countably many
+components.
+
+(b) The set $G$ is connected if and only if, for every $x,y\in G$, there is
+an $\varepsilon>0$ and an $\varepsilon$-chain in $G$ from $x$ to $y$.
+\end{thm}
+
+\begin{proof}
+(a) Let $H$ be a component of $G$ and $x\in H$. Since $G$ is open, some ball
+$B(x;r)$ lies in $G$. The ball is connected and meets $H$, so
+$B(x;r)\subseteq H$. Thus $H$ is open. Every nonempty open subset of
+$\mathbb{R}^q$ contains a point of $\mathbb{Q}^q$, and distinct components
+are disjoint; assigning a rational point to each component proves
+countability.
+
+(b) Suppose first that $G$ is connected. Fix $x\in G$ and let $D$ be the set
+of points that can be joined to $x$ by a polygonal path in $G$. Small balls
+show that both $D$ and $G\setminus D$ are open in $G$, so $D=G$. Let
+$\gamma$ be a polygonal path from $x$ to $y$. Its compact image has positive
+distance from $\mathbb{R}^q\setminus G$. Uniform continuity of $\gamma$
+allows a sufficiently fine subdivision of the path whose vertices form an
+$\varepsilon$-chain for some $\varepsilon>0$.
+
+Conversely, the union of the balls appearing in an $\varepsilon$-chain is a
+connected subset of $G$: consecutive balls intersect because the distance
+between their centers is less than $\varepsilon$. Hence the endpoints of
+every chain lie in the same component. If such a chain exists between every
+pair of points, $G$ has only one component and is connected.
+\end{proof}
+
+\subsection{The Baire Category Theorem}
+
+\begin{thm}[Baire Category Theorem]
+If $(X,d)$ is complete and $(U_n)$ is a sequence of open dense subsets of
+$X$, then $\bigcap_{n=1}^\infty U_n$ is dense in $X$.
+\end{thm}
+
+\begin{proof}
+Let $G$ be a nonempty open subset of $X$. Since $U_1$ is dense,
+$G\cap U_1$ is a nonempty open set. Choose $x_1\in X$ and $r_1<1$ such that
+\[
+\overline B(x_1;r_1)\subseteq G\cap U_1.
+\]
+Inductively, after choosing $x_{n-1}$ and $r_{n-1}$, the set
+$B(x_{n-1};r_{n-1})\cap U_n$ is nonempty and open. Choose $x_n$ and
+$0<r_n<1/n$ such that
+\[
+\overline B(x_n;r_n)
+\subseteq B(x_{n-1};r_{n-1})\cap U_n.
+\]
+For $m>n$, the nesting gives $x_m\in B(x_n;r_n)$, so $(x_n)$ is Cauchy. Let
+$x_n\to x$. For every fixed $n$, all sufficiently late terms lie in the
+closed set $\overline B(x_n;r_n)$, hence
+$x\in\overline B(x_n;r_n)$. Therefore
+\[
+x\in G\cap\bigcap_{n=1}^\infty U_n.
+\]
+Since every nonempty open $G$ meets the intersection, the intersection is
+dense.
+\end{proof}
+
+\begin{cor}
+If a nonempty complete metric space is a countable union
+$X=\bigcup_{n=1}^\infty F_n$ of closed sets, then
+$\operatorname{int}F_n\neq\varnothing$ for at least one $n$.
+\end{cor}
+
+\begin{proof}
+If every $F_n$ had empty interior, then each open set
+$U_n=X\setminus F_n$ would be dense. The Baire Category Theorem would imply
+that $\bigcap_nU_n$ is dense, but this intersection is empty.
+\end{proof}
+
+\textbf{Remark.} The assumption that each $U_n$ is open is essential.
+
+\begin{ex}
+A set $E$ is nowhere dense if
+$\operatorname{int}(\operatorname{cl}E)=\varnothing$. If
+$A=\bigcup_{n=1}^\infty E_n$ and every $E_n$ is nowhere dense, show that
+$X\setminus A$ is dense in every complete metric space $X$.
+\end{ex}
+
+\begin{proof}
+For each $n$, the set
+\[
+U_n=X\setminus\operatorname{cl}E_n
+\]
+is open and dense. Hence $\bigcap_nU_n$ is dense by the Baire Category
+Theorem. Since
+\[
+\bigcap_nU_n
+=X\setminus\bigcup_n\operatorname{cl}E_n
+\subseteq X\setminus\bigcup_nE_n=X\setminus A,
+\]
+the set $X\setminus A$ is dense as well.
+\end{proof}

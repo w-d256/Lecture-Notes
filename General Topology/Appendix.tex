@@ -1,0 +1,82 @@
+\appendix
+\section{Zorn's lemma}
+
+\begin{de}
+A \emph{partial order} on a set $S$ is a relation $\leq$ on $S$ satisfying,
+for all $x,y,z\in S$:
+
+(a) $x\leq x$ (reflexivity);
+
+(b) if $x\leq y$ and $y\leq x$, then $x=y$ (antisymmetry);
+
+(c) if $x\leq y$ and $y\leq z$, then $x\leq z$ (transitivity).
+
+The pair $(S,\leq)$ is called a \emph{partially ordered set}, or a
+\emph{poset}.
+
+Let $T\subseteq S$. An element $u\in S$ is an \emph{upper bound} for $T$ if
+$t\leq u$ for every $t\in T$; the upper bound need not belong to $T$.
+An element $m\in T$ is a \emph{maximal element} of $T$ if, whenever
+$m\leq t$ for some $t\in T$, one has $t=m$.
+
+The poset $(S,\leq)$ is \emph{linearly ordered} (or \emph{totally ordered})
+if, for every $x,y\in S$, either $x\leq y$ or $y\leq x$. A \emph{chain} in
+$S$ is a subset of $S$ that is linearly ordered by the restriction of
+$\leq$.
+\end{de}
+
+\begin{thm}[Zorn's lemma]
+Let $(S,\leq)$ be a nonempty partially ordered set. If every chain in $S$
+has an upper bound in $S$, then $S$ has a maximal element.
+\end{thm}
+
+\begin{thm}
+Every vector space over $\mathbb{R}$ has a basis.
+\end{thm}
+
+\begin{proof}
+Let $V$ be a vector space over $\mathbb{R}$, and let
+\[
+\mathcal{P}=\{A\subseteq V:A\text{ is linearly independent}\},
+\]
+ordered by inclusion. The set $\mathcal{P}$ is nonempty because
+$\varnothing\in\mathcal{P}$.
+
+Let $\mathcal{C}$ be a chain in $\mathcal{P}$, and set
+\[
+B=\bigcup_{A\in\mathcal{C}}A.
+\]
+We claim that $B$ is linearly independent. Suppose
+$x_1,\ldots,x_n\in B$ are distinct and
+\[
+a_1x_1+\cdots+a_nx_n=0.
+\]
+For each $i$, choose $A_i\in\mathcal{C}$ such that $x_i\in A_i$. Because
+$A_1,\ldots,A_n$ belong to a chain, one of these finitely many sets contains
+all the others. Hence all the vectors $x_1,\ldots,x_n$ belong to one
+linearly independent set $A_k$, and therefore
+\[
+a_1=\cdots=a_n=0.
+\]
+Thus $B$ is linearly independent, so $B\in\mathcal{P}$. Moreover, every
+$A\in\mathcal{C}$ satisfies $A\subseteq B$, so $B$ is an upper bound for
+$\mathcal{C}$ in $\mathcal{P}$. This also covers the empty chain, for which
+$B=\varnothing$.
+
+By Zorn's lemma, $\mathcal{P}$ has a maximal element $M$. It remains to show
+that $M$ spans $V$. Suppose, to the contrary, that there is a vector
+$v\in V\setminus\operatorname{span}M$. We claim that $M\cup\{v\}$ is
+linearly independent. Suppose $m_1,\ldots,m_n\in M$ are distinct and
+\[
+av+b_1m_1+\cdots+b_nm_n=0.
+\]
+If $a\neq0$, then
+\[
+v=-a^{-1}(b_1m_1+\cdots+b_nm_n)\in\operatorname{span}M,
+\]
+a contradiction. Hence $a=0$, and the linear independence of $M$ gives
+$b_1=\cdots=b_n=0$. Thus $M\cup\{v\}$ is linearly independent and properly
+contains $M$, contradicting the maximality of $M$.
+
+Therefore $\operatorname{span}M=V$, so $M$ is a basis of $V$.
+\end{proof}

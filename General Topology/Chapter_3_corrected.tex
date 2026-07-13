@@ -1,0 +1,1582 @@
+\section{Continuous real-valued functions}
+
+\subsection{Convergence of functions}
+
+\begin{de}
+For a topological space $X$, let $C(X)$ denote the vector space of all
+continuous functions from $X$ to $\mathbb{R}$.
+
+A function $f:X\to\mathbb{R}$ is bounded if there is a constant $M$ such that
+$|f(x)|\leq M$ for every $x\in X$. Let $C_b(X)$ denote the space of all
+bounded continuous functions from $X$ to $\mathbb{R}$.
+
+For $f\in C_b(X)$, write
+\[
+\|f\|_\infty=\sup_{x\in X}|f(x)|,
+\]
+with the convention that the supremum is $0$ when $X=\varnothing$. For
+$f,g\in C_b(X)$, define
+\[
+\rho(f,g)=\|f-g\|_\infty.
+\]
+\end{de}
+
+\begin{thm}
+The function $\rho$ is a metric on $C_b(X)$.
+\end{thm}
+
+\begin{proof}
+Nonnegativity and symmetry are immediate. If $\rho(f,g)=0$, then
+$|f(x)-g(x)|=0$ for every $x$, so $f=g$. Finally, for every $x\in X$,
+\[
+|f(x)-h(x)|\leq |f(x)-g(x)|+|g(x)-h(x)|.
+\]
+Taking suprema gives
+\[
+\rho(f,h)\leq \rho(f,g)+\rho(g,h).
+\]
+\end{proof}
+
+\begin{de}
+Let $f_n,f:X\to\mathbb{R}$ be bounded functions. The sequence $(f_n)$
+converges uniformly to $f$ if, for every $\varepsilon>0$, there is an $N$ such
+that
+\[
+|f_n(x)-f(x)|<\varepsilon
+\]
+for every $x\in X$ and every $n\geq N$.
+
+The sequence $(f_n)$ is uniformly Cauchy if, for every $\varepsilon>0$, there
+is an $N$ such that
+\[
+|f_n(x)-f_m(x)|<\varepsilon
+\]
+for every $x\in X$ and all $m,n\geq N$.
+\end{de}
+
+\begin{thm}
+Let $X$ be a topological space and let $(f_n)$ be a sequence in $C_b(X)$.
+Then $f_n\to f$ in the metric $\rho$ if and only if $f_n\to f$ uniformly.
+Moreover, $(f_n)$ is Cauchy in $(C_b(X),\rho)$ if and only if it is uniformly
+Cauchy.
+\end{thm}
+
+\begin{proof}
+Both assertions follow immediately from the definition of the supremum
+metric.
+\end{proof}
+
+\begin{thm}
+For every topological space $X$, the metric space $(C_b(X),\rho)$ is complete.
+\end{thm}
+
+\begin{proof}
+Let $(f_n)$ be Cauchy in $C_b(X)$. For each $x\in X$, the real sequence
+$(f_n(x))$ is Cauchy, so define
+\[
+f(x)=\lim_{n\to\infty}f_n(x).
+\]
+Given $\varepsilon>0$, choose $N$ such that
+$\rho(f_n,f_m)<\varepsilon/2$ whenever $m,n\geq N$. Letting
+$m\to\infty$ gives
+\[
+|f_n(x)-f(x)|\leq\varepsilon/2<\varepsilon
+\]
+for every $x\in X$ and $n\geq N$. Hence $f_n\to f$ uniformly.
+
+Taking $\varepsilon=1$ and fixing $n\geq N$ shows
+\[
+|f(x)|\leq |f(x)-f_n(x)|+|f_n(x)|\leq 1+\|f_n\|_\infty,
+\]
+so $f$ is bounded. A uniform limit of continuous functions is continuous:
+if $x\in X$ and $\varepsilon>0$, choose $n$ with
+$\rho(f_n,f)<\varepsilon/3$ and then a neighborhood $U$ of $x$ such that
+$|f_n(y)-f_n(x)|<\varepsilon/3$ for $y\in U$. For $y\in U$,
+\[
+|f(y)-f(x)|<\varepsilon.
+\]
+Thus $f\in C_b(X)$ and $f_n\to f$ in $\rho$.
+\end{proof}
+
+\begin{thm}[Dini's theorem]
+Let $X$ be compact. Suppose $(f_n)$ is an increasing sequence in $C(X)$ and
+$f\in C(X)$ satisfies $f_n(x)\to f(x)$ for every $x\in X$. Then $f_n\to f$
+uniformly on $X$.
+\end{thm}
+
+\begin{proof}
+Fix $\varepsilon>0$ and put
+\[
+U_n=\{x\in X:f(x)-f_n(x)<\varepsilon\}.
+\]
+Each $U_n$ is open, $U_n\subseteq U_{n+1}$, and pointwise convergence implies
+that $\bigcup_{n=1}^{\infty}U_n=X$. Compactness gives
+$X=U_{n_1}\cup\cdots\cup U_{n_k}$. If $N=\max(n_1,\ldots,n_k)$, then
+$U_N=X$. Since $f_n\leq f$ for every $n$, we have
+\[
+0\leq f(x)-f_N(x)<\varepsilon
+\]
+for all $x\in X$. The same estimate holds for every $n\geq N$.
+\end{proof}
+
+\subsection{Separation properties}
+
+\begin{de}
+A topological space $X$ is regular if, whenever $F\subseteq X$ is closed and
+$x\notin F$, there are disjoint open sets $U,V$ such that $x\in U$ and
+$F\subseteq V$.
+\end{de}
+
+\begin{thm}
+For a topological space $X$, the following are equivalent.
+
+(a) $X$ is regular.
+
+(b) If $G$ is open and $x\in G$, then there is an open set $U$ such that
+\[
+x\in U\subseteq\operatorname{cl}U\subseteq G.
+\]
+
+(c) If $F$ is closed and $x\notin F$, then there is an open set $V$ such that
+\[
+F\subseteq V
+\quad\text{and}\quad
+x\notin\operatorname{cl}V.
+\]
+\end{thm}
+
+\begin{proof}
+Assume (a). Apply regularity to $x$ and $X\setminus G$. If $U$ is the open
+neighborhood of $x$ and $V$ is the open set containing $X\setminus G$, then
+\[
+\operatorname{cl}U\subseteq X\setminus V\subseteq G,
+\]
+which proves (b).
+
+Assume (b), put $G=X\setminus F$, and choose $U$ as in (b). Then
+$V=X\setminus\operatorname{cl}U$ is open, contains $F$, and
+$x\notin\operatorname{cl}V$ because $U\cap V=\varnothing$.
+
+Finally, assume (c). Given $F$ and $x\notin F$, choose $V$ as in (c) and put
+$U=X\setminus\operatorname{cl}V$. Then $U$ and $V$ are disjoint open sets
+containing $x$ and $F$, respectively.
+\end{proof}
+
+\begin{thm}
+(a) Every subspace of a regular space is regular.
+
+(b) Let $X=\prod_{i\in I}X_i$, where every factor is nonempty. Then $X$ is
+regular if and only if every $X_i$ is regular.
+\end{thm}
+
+\begin{proof}
+(a) Let $Y\subseteq X$, let $y\in Y$, and let $G$ be a neighborhood of $y$ in
+$Y$. Write $G=Y\cap H$ with $H$ open in $X$. Choose an open $U\subseteq X$
+such that
+\[
+y\in U\subseteq\operatorname{cl}_XU\subseteq H.
+\]
+Then
+\[
+y\in Y\cap U\subseteq
+\operatorname{cl}_Y(Y\cap U)\subseteq
+Y\cap\operatorname{cl}_XU\subseteq G.
+\]
+Thus $Y$ is regular.
+
+(b) If the product is regular, each factor is homeomorphic to a subspace
+obtained by fixing all the other coordinates, so (a) applies.
+
+Conversely, suppose every factor is regular. Let $x\in X$ and let $G$ be an
+open neighborhood of $x$. Choose a basic neighborhood
+\[
+B=\bigcap_{k=1}^n\pi_{i_k}^{-1}(G_{i_k})
+\]
+with $x\in B\subseteq G$. For each $k$, choose an open set $U_{i_k}$ such
+that
+\[
+x_{i_k}\in U_{i_k}\subseteq
+\operatorname{cl}U_{i_k}\subseteq G_{i_k}.
+\]
+Then
+\[
+U=\bigcap_{k=1}^n\pi_{i_k}^{-1}(U_{i_k})
+\]
+is open, contains $x$, and satisfies
+\[
+\operatorname{cl}U\subseteq
+\bigcap_{k=1}^n\pi_{i_k}^{-1}(\operatorname{cl}U_{i_k})
+\subseteq B\subseteq G.
+\]
+\end{proof}
+
+\begin{thm}
+Every compact Hausdorff space and every metric space is regular.
+\end{thm}
+
+\begin{proof}
+Let $X$ be compact Hausdorff, let $F$ be closed, and let $x\notin F$. For each
+$y\in F$, choose disjoint open sets $U_y,V_y$ with $x\in U_y$ and
+$y\in V_y$. A finite number of the sets $V_y$ cover the compact set $F$.
+The intersection of the corresponding $U_y$ is then an open neighborhood of
+$x$ disjoint from the union of those $V_y$.
+
+Now let $(X,d)$ be metric. The case $F=\varnothing$ is immediate. Otherwise,
+for closed $F$ and $x\notin F$, the function
+\[
+h(y)=\frac{d(y,F)}{d(y,F)+d(y,x)}
+\]
+is continuous, equals $0$ on $F$, and equals $1$ at $x$. The inverse images of
+$(-1/3,1/3)$ and $(2/3,4/3)$ give disjoint open neighborhoods of $F$ and
+$x$.
+\end{proof}
+
+\begin{de}
+A topological space $X$ is completely regular if, whenever $F\subseteq X$ is
+closed and $x\notin F$, there is a continuous function
+$f:X\to\mathbb{R}$ such that $f(x)=1$ and $f|_F=0$.
+\end{de}
+
+\begin{thm}
+A space $X$ is completely regular if and only if the separating function in
+the definition can always be chosen with values in $[0,1]$.
+\end{thm}
+
+\begin{proof}
+Only one direction requires proof. Given a real-valued separating function
+$f$, the function
+\[
+h(x)=\min\{1,\max\{0,f(x)\}\}
+\]
+is continuous, takes values in $[0,1]$, equals $1$ at the chosen point, and
+vanishes on the closed set.
+\end{proof}
+
+\begin{thm}
+Every subspace of a completely regular space is completely regular.
+\end{thm}
+
+\begin{proof}
+Let $Y\subseteq X$, let $F$ be closed in $Y$, and let $y\in Y\setminus F$.
+There is a closed set $C\subseteq X$ such that $F=Y\cap C$. Since $y\notin C$,
+choose $f:X\to[0,1]$ with $f(y)=1$ and $f|_C=0$. Then $f|_Y$ separates $y$
+from $F$.
+\end{proof}
+
+\begin{lem}
+Let $\mathcal{T}$ be the weak topology on $X$ generated by maps
+$f_i:X\to X_i$, $i\in I$. A net $(x_\alpha)$ converges to $x$ in
+$(X,\mathcal{T})$ if and only if
+\[
+f_i(x_\alpha)\longrightarrow f_i(x)
+\]
+for every $i\in I$.
+\end{lem}
+
+\begin{proof}
+The forward implication follows from continuity of the maps $f_i$. Conversely,
+every basic neighborhood of $x$ has the form
+\[
+\bigcap_{k=1}^n f_{i_k}^{-1}(G_k),
+\]
+where $G_k$ is a neighborhood of $f_{i_k}(x)$. Coordinate convergence makes
+the net eventually belong to each of the finitely many inverse images, and
+therefore to their intersection.
+\end{proof}
+
+\begin{thm}
+For a topological space $X$, the following are equivalent.
+
+(a) $X$ is completely regular.
+
+(b) The topology of $X$ is the weak topology generated by $C(X)$.
+
+(c) The topology of $X$ is the weak topology generated by $C_b(X)$.
+
+(d) A net $(x_\alpha)$ converges to $x$ in $X$ if and only if
+\[
+f(x_\alpha)\longrightarrow f(x)
+\]
+for every continuous $f:X\to[0,1]$.
+\end{thm}
+
+\begin{proof}
+Assume (a). The weak topology generated by $C(X)$ is no finer than the given
+topology. To prove the reverse inclusion, let $G$ be open and let $x\in G$.
+Complete regularity gives $f:X\to[0,1]$ such that $f(x)=1$ and
+$f=0$ on $X\setminus G$. Then
+\[
+x\in f^{-1}((1/2,\infty))\subseteq G,
+\]
+so $G$ is weakly open. This proves (b).
+
+The weak topologies generated by $C(X)$ and $C_b(X)$ coincide. Indeed,
+$C_b(X)\subseteq C(X)$, while for every $f\in C(X)$ the bounded function
+\[
+h=\frac{f}{1+|f|}
+\]
+belongs to $C_b(X)$ and
+\[
+f=\frac{h}{1-|h|}.
+\]
+Thus every member of $C(X)$ is continuous for the weak topology generated by
+$C_b(X)$. Hence (b) and (c) are equivalent.
+
+If (c) holds, the weak-topology lemma gives (d), since bounded real-valued
+functions may be continuously rescaled into $(-1,1)$ and $[0,1]$-valued
+functions already generate the same topology.
+
+Finally, assume (d). Let $\mathcal{T}_0$ be the weak topology generated by all
+continuous maps from $X$ to $[0,1]$. By the lemma, convergence in
+$\mathcal{T}_0$ is exactly coordinatewise convergence under these maps.
+Condition (d) says that $\mathcal{T}_0$ and the original topology have the same
+convergent nets, and therefore the same open sets.
+
+Let $F$ be closed and $x\notin F$. Since $X\setminus F$ is
+$\mathcal{T}_0$-open, there are continuous functions
+$f_1,\ldots,f_n:X\to[0,1]$ and open sets $O_k\subseteq[0,1]$ such that
+\[
+x\in\bigcap_{k=1}^n f_k^{-1}(O_k)\subseteq X\setminus F.
+\]
+For each $k$, choose a continuous $u_k:[0,1]\to[0,1]$ that equals $1$ at
+$f_k(x)$ and vanishes outside $O_k$. Then
+\[
+h=\prod_{k=1}^n(u_k\circ f_k)
+\]
+is continuous, satisfies $h(x)=1$, and vanishes on $F$. Thus $X$ is
+completely regular.
+\end{proof}
+
+\begin{thm}
+Let $\{X_i:i\in I\}$ be a collection of nonempty topological spaces. Then
+$\prod_{i\in I}X_i$ is completely regular if and only if every $X_i$ is
+completely regular.
+\end{thm}
+
+\begin{proof}
+If the product is completely regular, each factor is homeomorphic to a
+subspace obtained by fixing all other coordinates, so the hereditary theorem
+applies.
+
+Conversely, let $X=\prod_iX_i$, let $F\subseteq X$ be closed, and let
+$x\notin F$. Choose a basic neighborhood
+\[
+N=\bigcap_{k=1}^n\pi_{i_k}^{-1}(G_{i_k})
+\]
+with $x\in N\subseteq X\setminus F$. For each $k$, complete regularity gives a
+continuous $u_k:X_{i_k}\to[0,1]$ such that
+\[
+u_k(x_{i_k})=1
+\quad\text{and}\quad
+u_k=0\text{ on }X_{i_k}\setminus G_{i_k}.
+\]
+The function
+\[
+u(y)=\prod_{k=1}^n u_k(y_{i_k})
+\]
+is continuous, equals $1$ at $x$, and vanishes on $F$ because every point of
+$F$ lies outside $N$.
+\end{proof}
+
+\subsection{Normal spaces}
+
+\begin{de}
+A topological space $X$ is normal if, whenever $A$ and $B$ are disjoint closed
+subsets of $X$, there are disjoint open sets $U,V$ such that $A\subseteq U$
+and $B\subseteq V$.
+\end{de}
+
+\begin{thm}
+For a topological space $X$, the following are equivalent.
+
+(a) $X$ is normal.
+
+(b) If $A$ is closed, $G$ is open, and $A\subseteq G$, then there is an open
+set $U$ such that
+\[
+A\subseteq U\subseteq\operatorname{cl}U\subseteq G.
+\]
+
+(c) If $A$ and $B$ are disjoint closed sets, then there is an open set $V$
+such that
+\[
+B\subseteq V
+\quad\text{and}\quad
+A\cap\operatorname{cl}V=\varnothing.
+\]
+\end{thm}
+
+\begin{proof}
+Assume (a). Separate $A$ and $X\setminus G$ by disjoint open sets $U$ and
+$V$. Then
+\[
+A\subseteq U\subseteq\operatorname{cl}U
+\subseteq X\setminus V\subseteq G,
+\]
+which proves (b).
+
+Assume (b). Apply it to $B\subseteq X\setminus A$ and choose $V$ with
+\[
+B\subseteq V\subseteq\operatorname{cl}V\subseteq X\setminus A.
+\]
+This proves (c).
+
+Assume (c). Choose $V$ as stated and put
+$U=X\setminus\operatorname{cl}V$. Then $U$ and $V$ are disjoint open sets
+containing $A$ and $B$, respectively.
+\end{proof}
+
+\begin{thm}
+(a) Every metric space is normal.
+
+(b) Every compact Hausdorff space is normal.
+
+(c) Every closed subspace of a normal space is normal.
+\end{thm}
+
+\begin{proof}
+(a) If one of $A$ and $B$ is empty, the conclusion is immediate. Otherwise,
+for disjoint closed sets $A$ and $B$ in a metric space, the function
+\[
+f(x)=\frac{d(x,A)}{d(x,A)+d(x,B)}
+\]
+is continuous, equals $0$ on $A$, and equals $1$ on $B$. Suitable inverse
+images of disjoint intervals separate $A$ and $B$.
+
+(b) Let $A$ and $B$ be disjoint closed subsets of a compact Hausdorff space.
+For each $a\in A$, regularity gives an open neighborhood $U_a$ of $a$ whose
+closure is disjoint from $B$. A finite number of these sets cover $A$. Their
+union $U$ satisfies $A\subseteq U$ and
+$B\cap\operatorname{cl}U=\varnothing$, so the preceding characterization
+proves normality.
+
+(c) Let $Y$ be closed in $X$. If $A$ and $B$ are closed in $Y$, then they are
+closed in $X$. Disjoint open neighborhoods of $A$ and $B$ in $X$ restrict to
+disjoint open neighborhoods in $Y$.
+\end{proof}
+
+The following proof uses the dyadic rationals
+\[
+D=\left\{\frac{k}{2^n}:n\geq0,\ 0\leq k\leq2^n\right\}\subseteq[0,1].
+\]
+
+\begin{thm}[Urysohn's lemma]
+If $X$ is normal and $A,B\subseteq X$ are disjoint closed sets, then there is
+a continuous function $f:X\to[0,1]$ such that
+\[
+f|_A=0
+\quad\text{and}\quad
+f|_B=1.
+\]
+\end{thm}
+
+\begin{proof}
+Set $U_1=X\setminus B$. By normality, choose an open set $U_0$ such
+that
+\[
+A\subseteq U_0\subseteq\operatorname{cl}U_0\subseteq U_1.
+\]
+Inductively over the dyadic levels, choose the remaining open sets $U_r$,
+$r\in D$, so that
+\[
+\operatorname{cl}U_r\subseteq U_s\quad(r<s).
+\]
+For the induction step, insert a new dyadic number $r$ between its two
+adjacent previously constructed dyadics $p<r<q$ and choose
+\[
+\operatorname{cl}U_p\subseteq U_r
+\subseteq\operatorname{cl}U_r\subseteq U_q.
+\]
+
+Define
+\[
+f(x)=\inf\bigl(\{r\in D:x\in U_r\}\cup\{1\}\bigr).
+\]
+Then $f=0$ on $A$. If $x\in B$, then $x\notin U_r$ for every $r\in D$, so
+$f(x)=1$.
+
+For $0<a\leq1$,
+\[
+\{x:f(x)<a\}=\bigcup_{\substack{r\in D\\r<a}}U_r,
+\]
+and for $0\leq a<1$,
+\[
+\{x:f(x)>a\}
+=
+\bigcup_{\substack{r\in D\\r>a}}
+\bigl(X\setminus\operatorname{cl}U_r\bigr).
+\]
+These sets are open. For values of $a$ outside the indicated ranges, the
+corresponding inverse image is either $X$ or $\varnothing$. Hence $f$ is
+continuous.
+\end{proof}
+
+\begin{cor}
+If $X$ is normal, $A$ and $B$ are disjoint closed subsets, and
+$\alpha<\beta$, then there is a continuous function
+$f:X\to[\alpha,\beta]$ such that $f|_A=\alpha$ and $f|_B=\beta$.
+\end{cor}
+
+\begin{proof}
+If $u$ is supplied by Urysohn's lemma, take
+\[
+f=\alpha+(\beta-\alpha)u.
+\]
+\end{proof}
+
+\begin{thm}
+Every normal Hausdorff space is completely regular.
+\end{thm}
+
+\begin{proof}
+Given a closed set $F$ and $x\notin F$, apply Urysohn's lemma to the disjoint
+closed sets $F$ and $\{x\}$.
+\end{proof}
+
+\begin{lem}[Tietze approximation lemma]
+Let $X$ be normal, let $C\subseteq X$ be closed, and let $\gamma\geq0$.
+Suppose $f:C\to\mathbb{R}$ is continuous and $|f(c)|\leq\gamma$ for all
+$c\in C$.
+Then there is a continuous function $g:X\to\mathbb{R}$ such that
+\[
+|g(x)|\leq\frac{\gamma}{3}\quad(x\in X)
+\]
+and
+\[
+|f(c)-g(c)|\leq\frac{2\gamma}{3}\quad(c\in C).
+\]
+\end{lem}
+
+\begin{proof}
+If $\gamma=0$, take $g\equiv0$. Assume henceforth that $\gamma>0$. The sets
+\[
+A=\left\{c\in C:f(c)\geq\frac{\gamma}{3}\right\},
+\qquad
+B=\left\{c\in C:f(c)\leq-\frac{\gamma}{3}\right\}
+\]
+are disjoint and closed in $X$. By the preceding corollary, choose
+$g:X\to[-\gamma/3,\gamma/3]$ such that $g=\gamma/3$ on $A$ and
+$g=-\gamma/3$ on $B$. On $A\cup B$ the error is at most $2\gamma/3$; outside
+$A\cup B$, both $|f|$ and $|g|$ are at most $\gamma/3$, so the same estimate
+holds.
+\end{proof}
+
+\begin{thm}[Tietze extension theorem]
+Let $X$ be normal, let $C\subseteq X$ be closed, and let
+$\alpha\leq\beta$. If $f:C\to[\alpha,\beta]$ is continuous, then there is
+a continuous function
+$F:X\to[\alpha,\beta]$ such that $F|_C=f$.
+\end{thm}
+
+\begin{proof}
+If $\alpha=\beta$, the constant function $F\equiv\alpha$ works. Otherwise,
+affine rescaling reduces the problem to a function $f:C\to[0,1]$. Put
+$r_0=f$. Apply the approximation lemma successively to obtain continuous
+functions $g_n:X\to\mathbb{R}$ such
+that, on $C$,
+\[
+r_n=f-\sum_{k=1}^n g_k,
+\qquad
+|r_n|\leq\left(\frac23\right)^n,
+\]
+and, on $X$,
+\[
+|g_n|\leq\frac13\left(\frac23\right)^{n-1}.
+\]
+The Weierstrass $M$-test shows that
+\[
+g=\sum_{n=1}^{\infty}g_n
+\]
+converges uniformly and is continuous. Since $r_n\to0$ on $C$, we have
+$g|_C=f$. Moreover, $|g|\leq1$ on $X$. Therefore
+\[
+F(x)=\min\{1,\max\{0,g(x)\}\}
+\]
+is a continuous $[0,1]$-valued extension of the rescaled function. Rescaling
+back gives the result for $[\alpha,\beta]$.
+\end{proof}
+
+\begin{thm}[Finite partition of unity]
+Let $X$ be normal and let $G_1,\ldots,G_n$ be a finite open cover of $X$.
+Then there are continuous functions $\phi_1,\ldots,\phi_n:X\to[0,1]$ such
+that
+\[
+\phi_k=0\text{ on }X\setminus G_k
+\]
+and
+\[
+\sum_{k=1}^n\phi_k=1.
+\]
+\end{thm}
+
+\begin{proof}
+First shrink the cover. Construct open sets $V_1,\ldots,V_n$ inductively so
+that
+\[
+\operatorname{cl}V_k\subseteq G_k
+\]
+and $V_1,\ldots,V_k,G_{k+1},\ldots,G_n$ still cover $X$. At the $k$th step,
+the closed set
+\[
+F_k=X\setminus
+\left(V_1\cup\cdots\cup V_{k-1}\cup G_{k+1}\cup\cdots\cup G_n\right)
+\]
+is contained in $G_k$. Normality gives an open $V_k$ with
+\[
+F_k\subseteq V_k\subseteq\operatorname{cl}V_k\subseteq G_k.
+\]
+Thus $V_1,\ldots,V_n$ cover $X$.
+
+By Urysohn's lemma, choose $\psi_k:X\to[0,1]$ such that
+$\psi_k=1$ on $\operatorname{cl}V_k$ and $\psi_k=0$ on $X\setminus G_k$.
+The function $s=\sum_{k=1}^n\psi_k$ is continuous and satisfies $s\geq1$.
+Set
+\[
+\phi_k=\frac{\psi_k}{s}.
+\]
+These functions have all the required properties.
+\end{proof}
+
+The functions in the preceding theorem are called a partition of unity
+subordinate to the finite open cover $\{G_1,\ldots,G_n\}$.
+
+\begin{cor}
+Let $K$ be a closed subset of a normal space $X$, and let
+$G_1,\ldots,G_n$ be open sets covering $K$. Then there are continuous
+functions $\phi_1,\ldots,\phi_n:X\to[0,1]$ such that
+
+(a) $\phi_k=0$ on $X\setminus G_k$;
+
+(b) $\sum_{k=1}^n\phi_k=1$ on $K$;
+
+(c) $\sum_{k=1}^n\phi_k\leq1$ on $X$.
+\end{cor}
+
+\begin{proof}
+Apply the finite partition theorem to the open cover
+\[
+G_1,\ldots,G_n,X\setminus K
+\]
+and discard the last function.
+\end{proof}
+
+\subsection{The Stone--\v{C}ech compactification}
+
+\begin{thm}[Stone--\v{C}ech compactification]
+Let $X$ be completely regular. There are a compact Hausdorff space $\beta X$
+and a homeomorphism $\tau$ from $X$ onto a dense subspace of $\beta X$ such
+that every bounded continuous function $f:X\to\mathbb{R}$ has a continuous
+extension $f^\beta:\beta X\to\mathbb{R}$ satisfying
+\[
+f^\beta\circ\tau=f.
+\]
+
+This compactification is unique up to a homeomorphism that fixes the embedded
+copy of $X$.
+\end{thm}
+
+\begin{proof}
+Let
+\[
+\mathcal{F}=C(X,[0,1])
+\quad\text{and}\quad
+\Omega=[0,1]^{\mathcal{F}}.
+\]
+The space $\Omega$ is compact by Tychonoff's theorem. Define the evaluation
+map
+\[
+\tau:X\longrightarrow\Omega,
+\qquad
+\tau(x)_f=f(x).
+\]
+Continuous $[0,1]$-valued functions separate distinct points of a completely
+regular Hausdorff space, so $\tau$ is injective. The topology of $X$ is the
+weak topology generated by these functions, so $\tau$ is a homeomorphism onto
+its image. Put
+\[
+\beta X=\operatorname{cl}_{\Omega}\tau(X).
+\]
+Then $\beta X$ is compact Hausdorff and $\tau(X)$ is dense in it.
+
+For $f\in\mathcal{F}$, the coordinate projection $\pi_f$ restricted to
+$\beta X$ extends $f$. Every bounded real-valued continuous function can be
+rescaled into $[0,1]$, extended by a coordinate projection, and then rescaled
+back.
+
+For uniqueness, suppose $Z$ is another compact Hausdorff space with an
+embedding $\sigma:X\to Z$ having dense image and the same extension property.
+For each $f\in\mathcal{F}$, let $f^Z$ be its extension to $Z$, and define
+\[
+w:Z\longrightarrow\Omega,
+\qquad
+w(z)_f=f^Z(z).
+\]
+The coordinate maps of $w$ are continuous, so $w$ is continuous, and
+\[
+w\circ\sigma=\tau.
+\]
+The map $w$ is injective. Indeed, if $z\neq z'$, normality of the compact
+Hausdorff space $Z$ gives $h\in C(Z,[0,1])$ with $h(z)\neq h(z')$. If
+$f=h\circ\sigma$, then $h$ and $f^Z$ agree on the dense set $\sigma(X)$, so
+they agree on all of $Z$; hence the $f$-coordinate separates $z$ and $z'$.
+
+Since $w(Z)$ is compact, it is closed in $\Omega$ and contains $\tau(X)$, so
+$\beta X\subseteq w(Z)$. Conversely, density of $\sigma(X)$ and continuity of
+$w$ give
+\[
+w(Z)\subseteq\operatorname{cl}w(\sigma(X))
+=\operatorname{cl}\tau(X)=\beta X.
+\]
+Thus $w$ is a continuous bijection from compact $Z$ onto Hausdorff $\beta X$,
+and therefore a homeomorphism.
+\end{proof}
+
+\medskip
+\noindent\textbf{Remark.}
+The Stone--\v{C}ech compactification can be much larger than a familiar
+compactification. For example, $(0,1]$ is dense in $[0,1]$, but the bounded
+continuous function $t\mapsto\sin(1/t)$ on $(0,1]$ has no continuous
+extension to $0$. Consequently, $[0,1]$ is not the Stone--\v{C}ech
+compactification of $(0,1]$.
+\medskip
+
+\begin{thm}[Universal property]
+Let $X$ be completely regular and let $Z$ be compact Hausdorff. Every
+continuous map $\eta:X\to Z$ has a unique continuous extension
+\[
+\eta^\beta:\beta X\to Z
+\]
+satisfying $\eta^\beta\circ\tau=\eta$.
+\end{thm}
+
+\begin{proof}
+Let $\mathcal{H}=C(Z,[0,1])$ and use the evaluation embedding
+\[
+j:Z\longrightarrow[0,1]^{\mathcal{H}},
+\qquad
+j(z)_h=h(z).
+\]
+For every $h\in\mathcal{H}$, the function $h\circ\eta:X\to[0,1]$ has a
+Stone--\v{C}ech extension $(h\circ\eta)^\beta$. Define
+\[
+H:\beta X\longrightarrow[0,1]^{\mathcal{H}},
+\qquad
+H(\xi)_h=(h\circ\eta)^\beta(\xi).
+\]
+The map $H$ is continuous and
+\[
+H\circ\tau=j\circ\eta.
+\]
+Since $j(Z)$ is compact and therefore closed in the product,
+\[
+H(\beta X)
+\subseteq\operatorname{cl}H(\tau(X))
+\subseteq j(Z).
+\]
+Hence
+\[
+\eta^\beta=j^{-1}\circ H
+\]
+is well defined and continuous. It extends $\eta$. Uniqueness follows because
+two continuous maps into the Hausdorff space $Z$ that agree on the dense set
+$\tau(X)$ agree everywhere.
+\end{proof}
+
+\subsection{Locally compact spaces}
+
+\begin{de}
+A Hausdorff space $X$ is locally compact if, for every $x\in X$ and every
+neighborhood $G$ of $x$, there is a neighborhood $U$ of $x$ such that
+$\operatorname{cl}U$ is compact and
+\[
+\operatorname{cl}U\subseteq G.
+\]
+\end{de}
+
+\begin{thm}
+Let all spaces below be Hausdorff.
+
+(a) A space $X$ is locally compact if and only if every point of $X$ has at
+least one neighborhood with compact closure.
+
+(b) Every open or closed subspace of a locally compact space is locally
+compact.
+
+(c) Let $X=\prod_{i\in I}X_i$, where every factor is nonempty. Then $X$ is
+locally compact if and only if every $X_i$ is locally compact and all but
+finitely many $X_i$ are compact.
+
+(d) A metric space $(X,d)$ is locally compact if and only if, for every
+$x\in X$, there is an $r>0$ such that $\operatorname{cl}B(x;r)$ is compact.
+\end{thm}
+
+\begin{proof}
+(a) One implication is immediate. Conversely, suppose $x$ has a neighborhood
+$G$ whose closure $K$ is compact, and let $O$ be any neighborhood of $x$.
+The compact Hausdorff space $K$ is regular. In the relative open set
+$K\cap G\cap O$, choose a relative open set $V$ such that
+\[
+x\in V\subseteq\operatorname{cl}_K V\subseteq K\cap G\cap O.
+\]
+Write $V=K\cap W$ with $W$ open in $X$, and put $U=G\cap W$. Then $U$ is an
+open neighborhood of $x$ and
+\[
+\operatorname{cl}_XU\subseteq\operatorname{cl}_K V\subseteq O.
+\]
+Its closure is a closed subset of the compact space $K$.
+
+(b) Let $E$ be closed and $x\in E$. A neighborhood $G$ of $x$ in $X$ with
+compact closure gives the relative neighborhood $E\cap G$, whose closure in
+$E$ is compact. Part (a) applies. If $E$ is open, then every open neighborhood $O$ of $x$
+in $E$ is also open in $X$. Local compactness in $X$ supplies a smaller neighborhood whose
+compact closure is contained in $O$, and hence in $E$.
+
+(c) Suppose the product is locally compact. Each factor is homeomorphic to a
+closed slice of the product, so each factor is locally compact by (b). Choose
+$x\in X$ and a neighborhood $U$ of $x$ with compact closure. There is a basic
+neighborhood
+\[
+B=\prod_{i\in I}B_i
+\]
+with $x\in B\subseteq U$ and $B_i=X_i$ except for finitely many $i$. If
+$B_i=X_i$, then
+\[
+X_i=\pi_i(B)\subseteq\pi_i(\operatorname{cl}U)\subseteq X_i,
+\]
+so $X_i=\pi_i(\operatorname{cl}U)$ is compact. Hence only finitely many
+factors can be noncompact.
+
+Conversely, let $F$ be the finite set of noncompact factors. For each
+$i\in F$, choose a neighborhood $U_i$ of $x_i$ with compact closure. Then
+\[
+U=\prod_{i\in F}U_i\times\prod_{i\notin F}X_i
+\]
+is a neighborhood of $x$, and its closure is a product of compact spaces,
+hence compact by Tychonoff's theorem.
+
+(d) If $X$ is locally compact, choose a neighborhood $G$ of $x$ with compact
+closure and then an $r>0$ such that $B(x;r)\subseteq G$. The closed ball
+$\operatorname{cl}B(x;r/2)$ is a closed subset of $\operatorname{cl}G$.
+The converse follows directly from (a).
+\end{proof}
+
+\begin{lem}
+Let $X$ be locally compact, let $K\subseteq X$ be compact, and let $G$ be an
+open set containing $K$. Then there is an open set $U$ such that
+\[
+K\subseteq U\subseteq\operatorname{cl}U\subseteq G
+\]
+and $\operatorname{cl}U$ is compact.
+\end{lem}
+
+\begin{proof}
+For each $x\in K$, choose an open neighborhood $U_x$ such that
+$\operatorname{cl}U_x$ is compact and contained in $G$. Select finitely many
+$U_{x_1},\ldots,U_{x_n}$ covering $K$ and put
+$U=U_{x_1}\cup\cdots\cup U_{x_n}$. Then
+\[
+\operatorname{cl}U
+\subseteq
+\bigcup_{k=1}^n\operatorname{cl}U_{x_k}
+\subseteq G,
+\]
+and the finite union on the right is compact.
+\end{proof}
+
+\begin{thm}[Compactly supported bump function]
+Let $X$ be locally compact, let $K\subseteq X$ be compact, and let $G$ be open
+with $K\subseteq G$. There is a continuous function $f:X\to[0,1]$ such that
+\[
+f=1\text{ on }K,
+\qquad
+f=0\text{ on }X\setminus G,
+\]
+and $f$ has compact support.
+\end{thm}
+
+\begin{proof}
+Choose an open set $U$ such that
+\[
+K\subseteq U\subseteq\operatorname{cl}U\subseteq G
+\]
+and $\operatorname{cl}U$ is compact. The compact Hausdorff space
+$\operatorname{cl}U$ is normal. By Urysohn's lemma, there is a continuous
+$g:\operatorname{cl}U\to[0,1]$ that equals $1$ on $K$ and $0$ on
+$\operatorname{cl}U\setminus U$. Define $f=g$ on $\operatorname{cl}U$ and
+$f=0$ on $X\setminus U$. The two definitions agree on their overlap, so the
+pasting lemma gives continuity. Moreover,
+$\operatorname{spt}f\subseteq\operatorname{cl}U$.
+\end{proof}
+
+\begin{cor}
+Every locally compact Hausdorff space is completely regular.
+\end{cor}
+
+\begin{proof}
+If $F$ is closed and $x\notin F$, apply the bump-function theorem to
+$K=\{x\}$ and $G=X\setminus F$.
+\end{proof}
+
+\begin{thm}
+Let $X$ be locally compact, let $K\subseteq X$ be compact, let $G$ be open
+with $K\subseteq G$, and let $f:K\to[0,1]$ be continuous. Then there is a
+continuous function $F:X\to[0,1]$ such that
+\[
+F|_K=f
+\quad\text{and}\quad
+F=0\text{ on }X\setminus G.
+\]
+The function $F$ may be chosen to have compact support.
+\end{thm}
+
+\begin{proof}
+Choose an open set $U$ such that
+\[
+K\subseteq U\subseteq\operatorname{cl}U\subseteq G
+\]
+and $\operatorname{cl}U$ is compact. On the closed subset
+\[
+A=K\cup(\operatorname{cl}U\setminus U)
+\]
+of $\operatorname{cl}U$, define $h=f$ on $K$ and $h=0$ on
+$\operatorname{cl}U\setminus U$. The two pieces are disjoint and closed, so
+$h$ is continuous. Tietze's theorem extends $h$ to a continuous
+$\widetilde h:\operatorname{cl}U\to[0,1]$. Paste $\widetilde h$ with the zero
+function on $X\setminus U$. The resulting function has support contained in
+$\operatorname{cl}U$.
+\end{proof}
+
+\begin{thm}[Baire theorem for locally compact spaces]
+Let $X$ be locally compact, and let $U_1,U_2,\ldots$ be dense open subsets of
+$X$. Then
+\[
+\bigcap_{n=1}^{\infty}U_n
+\]
+is dense in $X$.
+\end{thm}
+
+\begin{proof}
+Let $O$ be a nonempty open subset of $X$. Put $V_0=O$. Inductively, the set
+$V_{n-1}\cap U_n$ is nonempty and open. Choose a nonempty open set $V_n$ such
+that $\operatorname{cl}V_n$ is compact and
+\[
+\operatorname{cl}V_n\subseteq V_{n-1}\cap U_n.
+\]
+The nonempty compact sets $\operatorname{cl}V_n$ are nested. Their
+intersection is nonempty, because they are closed subsets of the compact set
+$\operatorname{cl}V_1$ with the finite-intersection property. Every point of
+the intersection belongs to $O\cap\bigcap_nU_n$.
+\end{proof}
+
+\begin{de}
+Let $X$ be locally compact. A continuous function
+$\phi:X\to\mathbb{R}$ vanishes at infinity if, for every $\varepsilon>0$, the
+set
+\[
+\{x\in X:|\phi(x)|\geq\varepsilon\}
+\]
+is compact.
+
+The support of a continuous function is
+\[
+\operatorname{spt}\phi
+=
+\operatorname{cl}\{x\in X:\phi(x)\neq0\}.
+\]
+Let $C_0(X)$ be the space of continuous functions that vanish at infinity,
+and let $C_c(X)$ be the space of continuous functions with compact support.
+\end{de}
+
+\begin{thm}
+Let $X$ be locally compact.
+
+(a) Both $C_0(X)$ and $C_c(X)$ are subalgebras of $C_b(X)$.
+
+(b) $C_0(X)$ is closed in $C_b(X)$ for the supremum metric.
+
+(c) $C_c(X)$ is dense in $C_0(X)$.
+\end{thm}
+
+\begin{proof}
+(a) A function that vanishes at infinity is bounded: it is bounded on the
+compact set where $|f|\geq1$ and has absolute value less than $1$ elsewhere.
+For $f,g\in C_0(X)$,
+\[
+\{|f+g|\geq\varepsilon\}
+\subseteq
+\{|f|\geq\varepsilon/2\}\cup\{|g|\geq\varepsilon/2\},
+\]
+and
+\[
+\{|fg|\geq\varepsilon\}
+\subseteq
+\{|f|\geq\sqrt{\varepsilon}\}
+\cup
+\{|g|\geq\sqrt{\varepsilon}\}.
+\]
+Thus sums and products vanish at infinity; scalar multiples are immediate.
+For compactly supported functions, the support of a sum or product is
+contained in a finite union of compact supports.
+
+(b) Suppose $f_n\in C_0(X)$ and $f_n\to f$ uniformly. Given
+$\varepsilon>0$, choose $N$ with
+$\|f-f_N\|_\infty<\varepsilon/2$. Outside the compact set
+\[
+K=\{x:|f_N(x)|\geq\varepsilon/2\},
+\]
+we have $|f(x)|<\varepsilon$. Hence $f\in C_0(X)$.
+
+(c) Let $f\in C_0(X)$ and $\varepsilon>0$. The set
+\[
+K=\{x:|f(x)|\geq\varepsilon/2\}
+\]
+is compact. Choose a compactly supported function $\psi:X\to[0,1]$ with
+$\psi=1$ on $K$. Then $f\psi\in C_c(X)$ and
+\[
+\|f-f\psi\|_\infty\leq\varepsilon/2<\varepsilon.
+\]
+\end{proof}
+
+\begin{thm}
+If $(X,d)$ is a locally compact metric space, then every function in $C_0(X)$
+is uniformly continuous.
+\end{thm}
+
+\begin{proof}
+Let $f\in C_0(X)$ and $\varepsilon>0$. Put
+\[
+K=\{x:|f(x)|\geq\varepsilon/3\}.
+\]
+If $K$ is empty, the conclusion is immediate. Otherwise, choose an open set
+$V$ with $K\subseteq V$ and compact closure. Since $K$ is compact and
+$X\setminus V$ is closed and disjoint from $K$,
+\[
+\delta_0=d(K,X\setminus V)>0
+\]
+when $X\setminus V$ is nonempty; set $\delta_0=1$ otherwise. The restriction
+of $f$ to the compact set $\operatorname{cl}V$ is uniformly continuous, so
+there is $\delta_1>0$ such that
+\[
+x,y\in\operatorname{cl}V,
+\quad d(x,y)<\delta_1
+\quad\Longrightarrow\quad
+|f(x)-f(y)|<\varepsilon.
+\]
+Take $\delta=\min(\delta_0,\delta_1)$. If $d(x,y)<\delta$ and at least one of
+$x,y$ lies in $K$, then both lie in $V$, so the compact-set estimate applies.
+If neither lies in $K$, then
+\[
+|f(x)-f(y)|\leq |f(x)|+|f(y)|<\frac{2\varepsilon}{3}.
+\]
+Thus $f$ is uniformly continuous.
+\end{proof}
+
+\begin{thm}[One-point compactification]
+Let $X$ be locally compact Hausdorff, and let $\infty\notin X$. Put
+$X_\infty=X\cup\{\infty\}$. There is a compact Hausdorff topology on
+$X_\infty$ characterized as follows:
+
+(a) $X$ is an open subspace with its original topology;
+
+(b) a set $U$ containing $\infty$ is open if and only if
+$X_\infty\setminus U$ is a compact subset of $X$;
+
+(c) if $\phi\in C_0(X)$ and
+\[
+\widetilde\phi(x)=
+\begin{cases}
+\phi(x),&x\in X,\\
+0,&x=\infty,
+\end{cases}
+\]
+then $\widetilde\phi\in C(X_\infty)$. Conversely, restricting a continuous
+function $F:X_\infty\to\mathbb{R}$ with $F(\infty)=0$ gives a member of
+$C_0(X)$.
+\end{thm}
+
+\begin{proof}
+Declare the open subsets of $X_\infty$ to be the open subsets of $X$ together
+with the sets containing $\infty$ whose complements are compact in $X$.
+Compact subsets of the Hausdorff space $X$ are closed, and a direct check
+shows that these sets form a topology.
+
+To prove compactness, let $\mathcal{U}$ be an open cover of $X_\infty$ and
+choose $U_0\in\mathcal{U}$ containing $\infty$. The compact set
+$X_\infty\setminus U_0$ is covered by finitely many other members of
+$\mathcal{U}$; together with $U_0$ they form a finite subcover.
+
+The space is Hausdorff. Two points of $X$ can be separated in $X$. If $x\in X$,
+choose an open neighborhood $V$ of $x$ with compact closure. Then
+\[
+V
+\quad\text{and}\quad
+X_\infty\setminus\operatorname{cl}V
+\]
+are disjoint open neighborhoods of $x$ and $\infty$.
+
+For (c), continuity away from $\infty$ is clear. For $\varepsilon>0$, the
+complement of
+\[
+\{\infty\}\cup\{x\in X:|\phi(x)|<\varepsilon\}
+\]
+is compact, so this is a neighborhood of $\infty$ mapped into
+$(-\varepsilon,\varepsilon)$. Conversely, if $F(\infty)=0$, then
+\[
+\{x\in X:|F(x)|\geq\varepsilon\}
+\]
+is a closed subset of the compact space $X_\infty$ that does not contain
+$\infty$, and is therefore compact in $X$.
+\end{proof}
+
+\medskip
+\noindent\textbf{Remark.}
+If $X$ is noncompact, then $X$ is dense in $X_\infty$, so this construction
+is a compactification in the usual sense. If $X$ is compact, the same
+construction simply adjoins an isolated point $\infty$.
+\medskip
+\begin{de}
+When $X$ is noncompact, the space $X_\infty$ is called the one-point
+compactification of $X$.
+A space is $\sigma$-compact if it is a countable union of compact subsets.
+\end{de}
+
+\begin{thm}
+Let $(X,d)$ be a locally compact metric space. The following are equivalent.
+
+(a) $X_\infty$ is metrizable.
+
+(b) $X$ is $\sigma$-compact.
+
+(c) The metric space $C_0(X)$ is separable.
+\end{thm}
+
+\begin{proof}
+Assume (a), and let $d_\infty$ be a compatible metric on $X_\infty$. Then
+\[
+K_n=\{x\in X:d_\infty(x,\infty)\geq1/n\}
+\]
+is compact and $X=\bigcup_nK_n$, proving (b).
+
+Assume (b). By repeatedly applying the compact-neighborhood lemma, construct
+compact sets $K_n$ such that
+\[
+K_n\subseteq\operatorname{int}K_{n+1}
+\quad\text{and}\quad
+X=\bigcup_nK_n.
+\]
+A $\sigma$-compact metric space is separable and hence second countable.
+Every compact subset of $X$ is contained in some $K_n$, because the open sets
+$\operatorname{int}K_n$ cover $X$. Hence a countable base for $X$, together
+with the neighborhoods $X_\infty\setminus K_n$ of $\infty$, is a countable
+base for $X_\infty$. Thus $X_\infty$ is compact Hausdorff and second
+countable, so the Urysohn metrization theorem makes it metrizable. This proves (a).
+
+If (a) holds, the standard separability theorem for $C(K)$ on a compact metric
+space shows that $C(X_\infty)$ is separable. The closed subspace
+\[
+\{F\in C(X_\infty):F(\infty)=0\}
+\]
+is isometric to $C_0(X)$, proving (c).
+
+Finally, assume (c), and let $(f_n)$ be dense in $C_0(X)$. For every $x\in X$,
+choose a compactly supported $g\in C_0(X)$ with $g(x)=1$. Some $f_n$ satisfies
+$\|f_n-g\|_\infty<1/2$, so $|f_n(x)|>1/2$. Therefore
+\[
+X=\bigcup_{n=1}^{\infty}
+\{x\in X:|f_n(x)|\geq1/2\},
+\]
+and every set on the right is compact. Hence (b) holds.
+\end{proof}
+
+\begin{cor}
+If $X$ is compact Hausdorff, then $C(X)$ is separable if and only if $X$ is
+metrizable.
+\end{cor}
+
+\begin{proof}
+If $X$ is compact metrizable, the standard separability theorem for $C(K)$
+gives separability of $C(X)$.
+
+Conversely, let $(f_n)$ be dense in $C(X)$. This family separates points: if
+$x\neq y$, choose $f\in C(X)$ with $f(x)\neq f(y)$ and approximate $f$ closely
+enough by some $f_n$ to preserve the inequality. After composing each $f_n$
+with a bounded injective continuous map from $\mathbb{R}$ into $(0,1)$, the
+evaluation map
+\[
+e:X\longrightarrow[0,1]^{\mathbb{N}},
+\qquad
+e(x)=(f_1(x),f_2(x),\ldots),
+\]
+is continuous and injective. A continuous injection from compact $X$ into the
+Hausdorff metrizable space $[0,1]^{\mathbb{N}}$ is a homeomorphism onto its
+image. Thus $X$ is metrizable.
+\end{proof}
+
+\subsection{Paracompactness}
+
+\begin{de}
+Let $X$ be a topological space. A collection $\mathcal{S}$ of subsets of $X$
+is locally finite if every $x\in X$ has a neighborhood that meets only
+finitely many members of $\mathcal{S}$.
+
+A collection $\mathcal{D}$ refines a collection $\mathcal{S}$ if every member
+of $\mathcal{D}$ is contained in some member of $\mathcal{S}$.
+
+A Hausdorff space $X$ is paracompact if every open cover of $X$ has a locally
+finite open refinement that still covers $X$.
+\end{de}
+
+\begin{thm}
+Every closed subspace of a paracompact space is paracompact.
+\end{thm}
+
+\begin{proof}
+Let $F$ be closed in a paracompact space $X$, and let $\mathcal{D}$ be an open
+cover of $F$. For each $D\in\mathcal{D}$, choose an open set $G_D\subseteq X$
+with $D=F\cap G_D$. Then
+\[
+\{G_D:D\in\mathcal{D}\}\cup\{X\setminus F\}
+\]
+is an open cover of $X$. Let $\mathcal{V}$ be a locally finite open refinement.
+The nonempty sets $F\cap V$, $V\in\mathcal{V}$, form a locally finite open
+cover of $F$. Any such set is contained in some $D\in\mathcal{D}$, because a
+member of $\mathcal{V}$ contained in $X\setminus F$ has empty intersection
+with $F$.
+\end{proof}
+
+\begin{thm}
+Every paracompact Hausdorff space is normal.
+\end{thm}
+
+\begin{proof}
+We first prove regularity. Let $F$ be closed and let $c\notin F$. For each
+$x\in F$, the Hausdorff property gives an open neighborhood $G_x$ of $x$ such
+that $c\notin\operatorname{cl}G_x$. Apply paracompactness to the open cover
+\[
+\{G_x:x\in F\}\cup\{X\setminus F\}
+\]
+and let $\mathcal{V}$ be a locally finite open refinement. Let $V$ be the
+union of the members of $\mathcal{V}$ that meet $F$. Such a member is
+contained in some $G_x$, and local finiteness gives
+\[
+\operatorname{cl}V
+=
+\bigcup\{\operatorname{cl}W:W\in\mathcal{V},\ W\cap F\neq\varnothing\}.
+\]
+Consequently, $c\notin\operatorname{cl}V$. Thus $F\subseteq V$ and the
+regularity criterion is satisfied.
+
+Now let $A$ and $B$ be disjoint closed sets. By regularity, for every $a\in A$
+choose an open $G_a$ such that
+\[
+a\in G_a\subseteq\operatorname{cl}G_a\subseteq X\setminus B.
+\]
+Apply paracompactness to
+\[
+\{G_a:a\in A\}\cup\{X\setminus A\}.
+\]
+The union $U$ of the members of a locally finite refinement that meet $A$
+contains $A$, and the same closure argument gives
+$\operatorname{cl}U\cap B=\varnothing$. Hence $U$ and
+$X\setminus\operatorname{cl}U$ are disjoint open neighborhoods of $A$ and
+$B$.
+\end{proof}
+
+\begin{lem}
+Suppose every open cover of a space $X$ has a locally finite closed refinement
+that covers $X$. Then $X$ is paracompact.
+\end{lem}
+
+\begin{proof}
+Let $\mathcal{G}$ be an open cover. Choose a locally finite closed cover
+$\{F_i:i\in I\}$ refining it, with $F_i\subseteq G_i\in\mathcal{G}$.
+For each $x\in X$, choose an open neighborhood $W_x$ that meets only finitely
+many $F_i$. Apply the hypothesis again to the cover $\{W_x:x\in X\}$ and
+obtain a locally finite closed cover $\mathcal{C}$ refining it. Every
+$C\in\mathcal{C}$ meets only finitely many $F_i$.
+
+For $i\in I$, define
+\[
+V_i
+=
+X\setminus
+\bigcup\{C\in\mathcal{C}:C\cap F_i=\varnothing\}.
+\]
+A locally finite union of closed sets is closed, so $V_i$ is open. Also,
+$F_i\subseteq V_i$, and therefore the $V_i$ cover $X$.
+
+The family $\{V_i:i\in I\}$ is locally finite. Indeed, choose an open
+neighborhood $O$ of a point that meets only finitely many members
+$C_1,\ldots,C_m$ of $\mathcal{C}$. If $O\cap V_i\neq\varnothing$, then some
+$C_j$ meeting $O$ must meet $F_i$. Each $C_j$ meets only finitely many of the
+sets $F_i$, so only finitely many $V_i$ can meet $O$.
+
+Finally, $\{V_i\cap G_i:i\in I\}$ is a locally finite open refinement of
+$\mathcal{G}$ and covers $X$, because $F_i\subseteq V_i\cap G_i$.
+\end{proof}
+
+\begin{lem}[Michael's refinement lemma]
+Let $X$ be regular. Suppose every open cover of $X$ has a locally finite
+refinement that covers $X$, without any requirement that the refining sets be
+open or closed. Then $X$ is paracompact.
+\end{lem}
+
+\begin{proof}
+Let $\mathcal{G}$ be an open cover. For every $x\in X$, choose
+$G_x\in\mathcal{G}$ and an open set $U_x$ such that
+\[
+x\in U_x\subseteq\operatorname{cl}U_x\subseteq G_x.
+\]
+By hypothesis, the cover $\{U_x:x\in X\}$ has a locally finite refinement
+$\mathcal{C}$ that covers $X$. Then
+\[
+\{\operatorname{cl}C:C\in\mathcal{C}\}
+\]
+is a locally finite closed cover. If $C\subseteq U_x$, then
+$\operatorname{cl}C\subseteq G_x$, so this closed cover refines
+$\mathcal{G}$. The preceding lemma now proves paracompactness.
+\end{proof}
+
+\begin{thm}[Michael's theorem]
+Let $X$ be regular. Suppose every open cover of $X$ has an open refinement
+$\mathcal{A}$ that covers $X$ and can be written as
+\[
+\mathcal{A}=\bigcup_{n=1}^{\infty}\mathcal{A}_n,
+\]
+where every $\mathcal{A}_n$ is locally finite. Then $X$ is paracompact.
+\end{thm}
+
+\begin{proof}
+Fix an open cover and choose such a refinement $\mathcal{A}$. Put
+\[
+U_n=\bigcup\mathcal{A}_n,
+\qquad
+P_0=X,
+\qquad
+P_n=X\setminus\bigcup_{k=1}^nU_k,
+\]
+and
+\[
+D_n=P_{n-1}\setminus P_n=P_{n-1}\cap U_n.
+\]
+The sets $D_n$ are pairwise disjoint and cover $X$. They also form a locally
+finite family. Indeed, if $x\notin P_m$, then the open neighborhood
+$X\setminus P_m$ of $x$ misses every $D_n$ with $n>m$.
+
+Now define
+\[
+\mathcal{D}
+=
+\{D_n\cap A:n\geq1,\ A\in\mathcal{A}_n\}.
+\]
+This is a cover refining $\mathcal{A}$. It is locally finite: near a fixed
+point only finitely many $D_n$ occur, and for each of those indices the family
+$\mathcal{A}_n$ is locally finite. Michael's refinement lemma therefore
+implies that $X$ is paracompact.
+\end{proof}
+
+\begin{cor}
+Let $X$ be regular. Suppose
+\[
+X=\bigcup_{n=1}^{\infty}X_n,
+\]
+where every $X_n$ is closed and paracompact and
+\[
+X=\bigcup_{n=1}^{\infty}\operatorname{int}X_n.
+\]
+Then $X$ is paracompact.
+\end{cor}
+
+\begin{proof}
+Let $\mathcal{G}$ be an open cover of $X$. For each $n$, restrict
+$\mathcal{G}$ to $X_n$ and choose a locally finite relative-open refinement
+$\mathcal{B}_n$ covering $X_n$. If $B\in\mathcal{B}_n$, choose an open set
+$V_B\subseteq X$ with $B=V_B\cap X_n$, and choose $G_B\in\mathcal{G}$ with
+$B\subseteq G_B$. The family
+\[
+\mathcal{A}_n
+=
+\{V_B\cap\operatorname{int}X_n\cap G_B:B\in\mathcal{B}_n\}
+\]
+is an open family in $X$, refines $\mathcal{G}$, is locally finite in $X$,
+and covers $\operatorname{int}X_n$. Thus
+$\bigcup_n\mathcal{A}_n$ is a $\sigma$-locally finite open refinement covering
+$X$. Michael's theorem applies.
+\end{proof}
+
+\begin{cor}
+Every separable metric space is paracompact.
+\end{cor}
+
+\begin{proof}
+A separable metric space has a countable base $\mathcal{B}$. Given an open
+cover $\mathcal{G}$, let
+\[
+\mathcal{A}=\{B\in\mathcal{B}:B\subseteq G
+\text{ for some }G\in\mathcal{G}\}.
+\]
+Then $\mathcal{A}$ is a countable open refinement covering $X$. Write it as a
+countable union of one-element, hence locally finite, families and apply
+Michael's theorem.
+\end{proof}
+
+\medskip
+\noindent\textbf{Remark.}
+In fact every metric space is paracompact, but proving the full theorem
+requires a more elaborate argument.
+\medskip
+
+\begin{cor}
+Every regular $\sigma$-compact space is paracompact.
+\end{cor}
+
+\begin{proof}
+A $\sigma$-compact space is Lindel\"of: from an open cover, choose finitely many
+sets covering each compact member of a countable compact cover. Thus every
+open cover has a countable subcover. A countable cover is a countable union of
+one-element locally finite families, so Michael's theorem applies.
+\end{proof}
+
+\begin{thm}
+Let $X$ be locally compact Hausdorff. Then $X$ is paracompact if and only if
+it is a disjoint union of open $\sigma$-compact subspaces.
+\end{thm}
+
+\begin{proof}
+Suppose first that
+\[
+X=\coprod_{i\in I}X_i,
+\]
+where each $X_i$ is open and $\sigma$-compact. Every $X_i$ is locally compact
+and regular, hence paracompact by the preceding corollary. Given an open cover
+of $X$, choose a locally finite refinement on each $X_i$. Their union is
+locally finite in $X$, because each point has the open neighborhood $X_i$.
+Thus $X$ is paracompact.
+
+Conversely, suppose $X$ is paracompact. Start with the cover by relatively
+compact open sets and choose a locally finite open refinement $\mathcal{U}$.
+Then $\operatorname{cl}U$ is compact for every $U\in\mathcal{U}$. Form a graph
+whose vertices are the members of $\mathcal{U}$, joining $U$ and $V$ when
+$U\cap V\neq\varnothing$.
+
+Every vertex has finite degree. Indeed, the compact set
+$\operatorname{cl}U$ meets only finitely many members of the locally finite
+family $\mathcal{U}$. Consequently, every connected component of the graph is
+countable.
+
+For a graph component $\mathcal{C}$, put
+\[
+X_{\mathcal{C}}=\bigcup_{U\in\mathcal{C}}U.
+\]
+These sets are pairwise disjoint, open, and cover $X$. They are also closed.
+If $x\in\operatorname{cl}X_{\mathcal{C}}$, local finiteness implies that
+$x\in\operatorname{cl}U$ for some $U\in\mathcal{C}$. Any member $V$ of the
+cover containing $x$ meets $U$, so $V\in\mathcal{C}$ and
+$x\in X_{\mathcal{C}}$.
+
+Finally, $\operatorname{cl}U\subseteq X_{\mathcal{C}}$ for
+$U\in\mathcal{C}$ by the same argument. Hence
+\[
+X_{\mathcal{C}}
+=
+\bigcup_{U\in\mathcal{C}}\operatorname{cl}U
+\]
+is a countable union of compact sets.
+\end{proof}
+
+\begin{de}
+A partition of unity on $X$ is a family of continuous functions
+$\{\phi_i:X\to[0,1]:i\in I\}$ such that
+
+(a) the cozero sets
+\[
+\{x\in X:\phi_i(x)>0\},\qquad i\in I,
+\]
+form a locally finite family;
+
+(b) for every $x\in X$,
+\[
+\sum_{i\in I}\phi_i(x)=1.
+\]
+The sum is locally finite and is therefore well defined.
+
+The partition is subordinate to an open cover $\mathcal{G}$ if every cozero
+set $\{\phi_i>0\}$ is contained in some member of $\mathcal{G}$.
+\end{de}
+
+\begin{lem}[Shrinking lemma]
+Let $X$ be paracompact and let $\mathcal{U}$ be a locally finite open cover of
+$X$. For every $U\in\mathcal{U}$ there is an open set $W_U$ such that
+\[
+\operatorname{cl}W_U\subseteq U,
+\]
+and the family $\{W_U:U\in\mathcal{U}\}$ is a locally finite open cover of
+$X$.
+\end{lem}
+
+\begin{proof}
+A paracompact Hausdorff space is normal and hence regular. For every $x\in X$,
+choose $U(x)\in\mathcal{U}$ containing $x$ and an open set $A_x$ such that
+\[
+x\in A_x\subseteq\operatorname{cl}A_x\subseteq U(x).
+\]
+Choose a locally finite open refinement $\mathcal{V}$ of the cover
+$\{A_x:x\in X\}$. For every $V\in\mathcal{V}$, choose $x(V)$ such that
+$V\subseteq A_{x(V)}$ and assign $V$ to $U(x(V))$. Define
+\[
+W_U=\bigcup\{V\in\mathcal{V}:V\text{ is assigned to }U\}.
+\]
+The sets $W_U$ are open and cover $X$. Since $W_U\subseteq U$ and
+$\mathcal{U}$ is locally finite, the family $(W_U)$ is locally finite. Also,
+local finiteness of $\mathcal{V}$ gives
+\[
+\operatorname{cl}W_U
+=
+\bigcup\{\operatorname{cl}V:V\text{ is assigned to }U\}
+\subseteq U.
+\]
+\end{proof}
+
+\begin{lem}
+Let $X$ be normal, let $\mathcal{U}$ be a locally finite open cover, and
+suppose $\{W_U:U\in\mathcal{U}\}$ is an open cover satisfying
+$\operatorname{cl}W_U\subseteq U$. Then there is a partition of unity
+subordinate to $\mathcal{U}$.
+\end{lem}
+
+\begin{proof}
+For each $U\in\mathcal{U}$, Urysohn's lemma gives a continuous function
+$g_U:X\to[0,1]$ such that
+\[
+g_U=1\text{ on }\operatorname{cl}W_U,
+\qquad
+g_U=0\text{ on }X\setminus U.
+\]
+Because $\mathcal{U}$ is locally finite, the family $(g_U)$ is locally finite,
+and
+\[
+g=\sum_{U\in\mathcal{U}}g_U
+\]
+is continuous. Since the $W_U$ cover $X$, we have $g\geq1$. Define
+\[
+\phi_U=\frac{g_U}{g}.
+\]
+Then $(\phi_U)_{U\in\mathcal{U}}$ is a partition of unity, and
+$\{\phi_U>0\}\subseteq U$.
+\end{proof}
+
+\begin{thm}
+A Hausdorff space $X$ is paracompact if and only if every open cover of $X$
+admits a subordinate partition of unity.
+\end{thm}
+
+\begin{proof}
+Suppose $X$ is paracompact and let $\mathcal{G}$ be an open cover. Choose a
+locally finite open refinement $\mathcal{U}$. The shrinking lemma and the
+preceding normalization lemma produce a partition of unity subordinate to
+$\mathcal{U}$, hence subordinate to $\mathcal{G}$.
+
+Conversely, if an open cover has a subordinate partition of unity, its cozero
+sets form a locally finite open refinement covering $X$. Thus $X$ is
+paracompact.
+\end{proof}
