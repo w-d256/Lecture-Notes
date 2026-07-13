@@ -1,0 +1,390 @@
+\chapter{Rough Differential Equations}
+
+\section{Young Differential Equations}
+
+As a warm-up for rough differential equations, we first treat equations driven
+by a path of Hölder regularity greater than one half.
+
+\begin{lem}[Stability of composition on Hölder paths]
+Let $\alpha\in(0,1]$ and $f\in C_b^2$.  There is a constant $C$, depending
+only on $\alpha,T,$ and $\|f\|_{C_b^2}$, such that
+\[
+ \|f(Y)-f(\widetilde Y)\|_\alpha
+ \le C(1+\|Y\|_\alpha+\|\widetilde Y\|_\alpha)
+ \bigl(|Y_0-\widetilde Y_0|+\|Y-\widetilde Y\|_\alpha\bigr).
+\]
+\end{lem}
+
+\begin{proof}
+For every $x,y$,
+\[
+ f(x)-f(y)=\int_0^1Df(y+r(x-y))(x-y)\,\dd r.
+\]
+Apply this identity at times $s$ and $t$ and subtract.  Boundedness of $Df$ and
+$D^2f$ gives
+\[
+ |f(Y)_{s,t}-f(\widetilde Y)_{s,t}|
+ \lesssim |(Y-\widetilde Y)_{s,t}|
+ +(|Y_{s,t}|+|\widetilde Y_{s,t}|)\|Y-\widetilde Y\|_\infty.
+\]
+Divide by $|t-s|^\alpha$ and use
+$\|Y-\widetilde Y\|_\infty
+ \le|Y_0-\widetilde Y_0|+T^\alpha\|Y-\widetilde Y\|_\alpha$.
+\end{proof}
+
+\begin{prop}[Well-posedness of Young differential equations]
+Let $\beta\in(1/2,1]$, let
+$X\in\mathcal C^\beta([0,T];\mathbb R^d)$, let
+$f\in C_b^2(\mathbb R^m;\mathcal L(\mathbb R^d,\mathbb R^m))$, and let
+$y\in\mathbb R^m$.  There is a unique
+$Y\in\mathcal C^\beta([0,T];\mathbb R^m)$ satisfying
+\[
+  Y_t=y+\int_0^t f(Y_s)\,\dd X_s.
+\]
+\end{prop}
+
+\begin{proof}
+Choose $\alpha\in(1/2,\beta)$ and, for $t\le T$, define
+\[
+ \mathcal M_t(Y)_r:=y+\int_0^r f(Y_s)\,\dd X_s,
+ \qquad 0\le r\le t.
+\]
+On the complete set
+\[
+ \mathcal B_t:=\{Y\in\mathcal C^\alpha([0,t];\mathbb R^m):
+  Y_0=y,\ \|Y\|_{\alpha;[0,t]}\le1\},
+\]
+the Young estimate and the embedding
+$\|X\|_{\alpha;[0,t]}
+ \le t^{\beta-\alpha}\|X\|_{\beta;[0,t]}$ give
+\[
+ \|\mathcal M_t(Y)\|_{\alpha;[0,t]}
+ \le C_1\|X\|_{\beta;[0,T]}t^{\beta-\alpha}.
+\]
+Thus $\mathcal M_t$ maps $\mathcal B_t$ into itself when $t$ is sufficiently
+small.  For $Y,\widetilde Y\in\mathcal B_t$, the composition lemma and Young
+stability yield
+\[
+ \|\mathcal M_t(Y)-\mathcal M_t(\widetilde Y)\|_{\alpha;[0,t]}
+ \le C_2\|X\|_{\beta;[0,T]}t^{\beta-\alpha}
+       \|Y-\widetilde Y\|_{\alpha;[0,t]}.
+\]
+After reducing $t$ further, the factor is at most $1/2$, so Banach's fixed-point
+theorem gives a unique local solution.  The local time depends on the driver
+and $f$, but not on the current initial value because $f$ and its derivatives
+are globally bounded.  Iterating over finitely many intervals gives a unique
+global $\mathcal C^\alpha$ solution.
+
+Finally, the equation and the Young estimate show directly that
+$Y_{s,t}=f(Y_s)X_{s,t}+O(|t-s|^{\alpha+\beta})$, so $Y$ is actually
+$\beta$-Hölder.  Uniqueness in $\mathcal C^\beta$ follows from uniqueness in
+$\mathcal C^\alpha$.
+\end{proof}
+
+\begin{prop}[Stability of Young differential equations]
+Let the preceding assumptions hold for two drivers $X,\widetilde X$ and two
+initial values $y,\widetilde y$.  Suppose
+$\|X\|_\beta,\|\widetilde X\|_\beta\le M$, and let $Y,\widetilde Y$ be the
+corresponding solutions.  For every $\alpha\in(1/2,\beta)$,
+\[
+  \|Y-\widetilde Y\|_\alpha
+  \le C_M\bigl(|y-\widetilde y|+
+                  \|X-\widetilde X\|_\alpha\bigr),
+\]
+where $C_M$ depends on $\alpha,T,\|f\|_{C_b^2}$, and $M$.
+\end{prop}
+
+\begin{proof}
+On an interval $[s,t]$ short enough that the local contraction constants are
+uniformly below one, Young stability gives
+\begin{align*}
+\|Y-\widetilde Y\|_{\alpha;[s,t]}
+\le{}&C\Bigl(
+ |Y_s-\widetilde Y_s|
+ +\|X-\widetilde X\|_{\alpha;[s,t]}\Bigr)\\
+&+\frac12\|Y-\widetilde Y\|_{\alpha;[s,t]}.
+\end{align*}
+After absorption,
+\[
+ \|Y-\widetilde Y\|_{\alpha;[s,t]}
+ \le C\bigl(|Y_s-\widetilde Y_s|
+ +\|X-\widetilde X\|_{\alpha;[s,t]}\bigr).
+\]
+Choose a finite partition of $[0,T]$ by such intervals.  At each right endpoint,
+\[
+ |Y_t-\widetilde Y_t|
+ \le |Y_s-\widetilde Y_s|
+     +|t-s|^\alpha\|Y-\widetilde Y\|_{\alpha;[s,t]}.
+\]
+A discrete Gronwall argument propagates the initial error and produces the
+global estimate.
+\end{proof}
+
+\section{Estimates on Functions of Controlled Paths}
+
+We now move toward the fixed-point argument for rough differential equations.
+
+\begin{lem}[Composition estimate]
+Let $\alpha\in(1/3,1/2]$, $X\in\mathcal C^\alpha$, and $f\in C_b^2$.
+For every $(Y,Y')\in\mathscr D_X^{2\alpha}$,
+\[
+  \bigl(f(Y),Df(Y)Y'\bigr)\in\mathscr D_X^{2\alpha}.
+\]
+Moreover,
+\begin{align*}
+ \|Df(Y)Y'\|_\alpha
+ &\le C\bigl(1+|Y'_0|+\|Y'\|_\alpha+\|R^Y\|_{2\alpha}\bigr)^2
+          (1+\|X\|_\alpha),\\
+ \|R^{f(Y)}\|_{2\alpha}
+ &\le C\bigl(1+|Y'_0|+\|Y'\|_\alpha+\|R^Y\|_{2\alpha}\bigr)^2
+          (1+\|X\|_\alpha)^2.
+\end{align*}
+\end{lem}
+
+\begin{proof}
+The product estimate gives
+\[
+ |Df(Y_t)Y'_t-Df(Y_s)Y'_s|
+ \lesssim |Y'_{s,t}|+|Y_{s,t}|\,|Y'_s|.
+\]
+Use the controlled-path estimate for $\|Y\|_\alpha$ to obtain the first bound.
+Taylor's theorem gives
+\begin{align*}
+R^{f(Y)}_{s,t}
+={}&f(Y_t)-f(Y_s)-Df(Y_s)Y_{s,t}+Df(Y_s)R^Y_{s,t},
+\end{align*}
+so
+\[
+ |R^{f(Y)}_{s,t}|
+ \lesssim |Y_{s,t}|^2+|R^Y_{s,t}|.
+\]
+Divide by $|t-s|^{2\alpha}$ and use the same controlled-path bound.
+\end{proof}
+
+\begin{lem}[Stability of composition]
+Let $X,\widetilde X\in\mathcal C^\alpha$ and
+$(Y,Y')\in\mathscr D_X^{2\alpha}$,
+$(\widetilde Y,\widetilde Y')\in\mathscr D_{\widetilde X}^{2\alpha}$.
+Assume all driver and controlled-path norms appearing below are bounded by
+$M$, and let $f\in C_b^3$.  Then
+\begin{align*}
+&\|Df(Y)Y'-Df(\widetilde Y)\widetilde Y'\|_\alpha
+ +\|R^{f(Y)}-R^{f(\widetilde Y)}\|_{2\alpha}\\
+&\quad\le C_M\Bigl(
+ |Y_0-\widetilde Y_0|+|Y'_0-\widetilde Y'_0|
+ +\|Y'-\widetilde Y'\|_\alpha
+ +\|R^Y-R^{\widetilde Y}\|_{2\alpha}
+ +\|X-\widetilde X\|_\alpha\Bigr).
+\end{align*}
+\end{lem}
+
+\begin{proof}
+For the derivatives, write
+\[
+ Df(Y)Y'-Df(\widetilde Y)\widetilde Y'
+ =Df(Y)(Y'-\widetilde Y')
+  +(Df(Y)-Df(\widetilde Y))\widetilde Y'
+\]
+and apply the Hölder product estimate and the composition stability lemma.
+The controlled decompositions give
+\begin{align*}
+\|Y-\widetilde Y\|_\alpha
+\le C_M\bigl(&|Y'_0-\widetilde Y'_0|
+ +\|Y'-\widetilde Y'\|_\alpha
+ +\|R^Y-R^{\widetilde Y}\|_{2\alpha}
+ +\|X-\widetilde X\|_\alpha\bigr).
+\end{align*}
+For the remainders, use
+\begin{align*}
+R^{f(Y)}_{s,t}
+={}&\int_0^1(1-r)
+ D^2f(Y_s+rY_{s,t})[Y_{s,t},Y_{s,t}]\,\dd r
+ +Df(Y_s)R^Y_{s,t},
+\end{align*}
+subtract the analogous formula for $\widetilde Y$, and add and subtract one
+factor at a time.  Boundedness of $D^2f,D^3f$ gives the stated bound.
+\end{proof}
+
+\begin{lem}[Rough integrals as controlled paths]
+Let $\mathbf X=(X,\mathbb X)\in\mathscr C^\alpha$ and $f\in C_b^2$.
+For $(Y,Y')\in\mathscr D_X^{2\alpha}$, the pair
+\[
+ \left(\int_0^\cdot f(Y_u)\,\dd\mathbf X_u,\ f(Y)\right)
+ \in\mathscr D_X^{2\alpha}.
+\]
+Furthermore,
+\begin{align*}
+ \|f(Y)\|_\alpha
+ &\le C\Bigl((|Y'_0|+\|Y'\|_\alpha)\|X\|_\alpha
+             +T^\alpha\|R^Y\|_{2\alpha}\Bigr),\\
+ \left\|R^{\int_0^\cdot f(Y_u)\,\dd\mathbf X_u}\right\|_{2\alpha}
+ &\le C\bigl(1+|Y'_0|+\|Y'\|_\alpha+\|R^Y\|_{2\alpha}\bigr)^2
+        (1+\|X\|_\alpha)^2\|\mathbf X\|_\alpha.
+\end{align*}
+\end{lem}
+
+\begin{proof}
+The first estimate follows from Lipschitz continuity of $f$ and the controlled
+expansion of $Y$.  The integrand $f(Y)$ has Gubinelli derivative $Df(Y)Y'$.
+The rough-integral expansion therefore gives
+\begin{align*}
+R^I_{s,t}
+&:=\int_s^t f(Y_u)\,\dd\mathbf X_u-f(Y_s)X_{s,t}\\
+&=Df(Y_s)Y'_s\mathbb X_{s,t}+O(|t-s|^{3\alpha}).
+\end{align*}
+Use the rough-integral estimate together with the preceding composition bounds.
+\end{proof}
+
+\begin{lem}[Stability of rough-integral controlled paths]
+Let $\mathbf X,\widetilde{\mathbf X}\in\mathscr C^\alpha$ and let
+$(Y,Y')$, $(\widetilde Y,\widetilde Y')$ be controlled by their respective
+first levels.  Under a common bound $M$ and for $f\in C_b^3$,
+\begin{align*}
+\|f(Y)-f(\widetilde Y)\|_\alpha
+\le C_M\Bigl(&|Y_0-\widetilde Y_0|+|Y'_0-\widetilde Y'_0|
+ +\|Y'-\widetilde Y'\|_\alpha\\
+&+\|R^Y-R^{\widetilde Y}\|_{2\alpha}
+ +\|X-\widetilde X\|_\alpha\Bigr),
+\end{align*}
+and, writing
+$I=\int f(Y)\,\dd\mathbf X$ and
+$\widetilde I=\int f(\widetilde Y)\,\dd\widetilde{\mathbf X}$,
+\begin{align*}
+\|R^I-R^{\widetilde I}\|_{2\alpha}
+\le C_M\Bigl[&
+ \bigl(|Y_0-\widetilde Y_0|+|Y'_0-\widetilde Y'_0|
+ +\|Y'-\widetilde Y'\|_\alpha\\
+&\quad+\|R^Y-R^{\widetilde Y}\|_{2\alpha}
+ +\|X-\widetilde X\|_\alpha\bigr)\|\mathbf X\|_\alpha
+ +\|\mathbf X;\widetilde{\mathbf X}\|_\alpha\Bigr].
+\end{align*}
+\end{lem}
+
+\begin{proof}
+The first estimate is the Hölder composition estimate combined with the
+controlled-path stability bound.  For the second, apply the stability theorem
+for rough-integral remainders to the controlled integrands
+$(f(Y),Df(Y)Y')$ and
+$(f(\widetilde Y),Df(\widetilde Y)\widetilde Y')$, then invoke the preceding
+composition-stability lemma.
+\end{proof}
+
+\section{Well-posedness of Rough Differential Equations}
+
+Consider
+\[
+  \dd Y_t=f(Y_t)\,\dd\mathbf X_t.
+\]
+
+\begin{thm}[Well-posedness of RDEs]
+Let $\beta\in(1/3,1/2]$,
+$\mathbf X=(X,\mathbb X)\in\mathscr C^\beta([0,T];\mathbb R^d)$,
+$f\in C_b^3(\mathbb R^m;\mathcal L(\mathbb R^d,\mathbb R^m))$, and
+$y\in\mathbb R^m$.  There is a unique
+$(Y,Y')\in\mathscr D_X^{2\beta}([0,T];\mathbb R^m)$ such that
+$Y'=f(Y)$ and
+\[
+  Y_t=y+\int_0^t f(Y_s)\,\dd\mathbf X_s.
+\]
+\end{thm}
+
+\begin{proof}
+Choose
+\[
+  \max\{1/3,2\beta/3\}<\alpha<\beta.
+\]
+For $t\le T$, define
+\[
+ \mathcal M_t(Y,Y')
+ :=\left(y+\int_0^\cdot f(Y_s)\,\dd\mathbf X_s,\ f(Y)\right)
+\]
+on $[0,t]$.  Consider the closed ball in $\mathscr D_X^{2\alpha}$ with fixed
+initial data $Y_0=y$, $Y'_0=f(y)$ and controlled seminorm at most one.  The
+rough-integral and composition estimates show that
+\[
+ \|\mathcal M_t(Y,Y')\|_{X,2\alpha;[0,t]}
+ \le C_1\Bigl(
+  \|X\|_{\beta;[0,t]}t^{\beta-\alpha}
+ +\|\mathbb X\|_{2\beta;[0,t]}t^{2(\beta-\alpha)}
+ +t^\alpha\Bigr).
+\]
+Thus the ball is invariant for small $t$.  The corresponding stability
+estimates give, for two elements with the same initial data,
+\begin{align*}
+&\|\mathcal M_t(Y,Y')-\mathcal M_t(\widetilde Y,\widetilde Y')
+  \|_{X,2\alpha;[0,t]}\\
+&\quad\le C_2\Bigl(
+  \|X\|_{\beta;[0,t]}t^{\beta-\alpha}
+ +\|\mathbb X\|_{2\beta;[0,t]}t^{2(\beta-\alpha)}
+ +t^\alpha\Bigr)
+ \|(Y,Y')-(\widetilde Y,\widetilde Y')\|_{X,2\alpha;[0,t]}.
+\end{align*}
+After reducing $t$, this factor is at most $1/2$.  Banach's fixed-point theorem
+therefore yields a unique local solution.  The local time is uniform in the
+current initial value, so finitely many intervals cover $[0,T]$.
+
+It remains to recover the driver regularity.  The fixed-point identity gives
+\[
+ Y_{s,t}=f(Y_s)X_{s,t}+Df(Y_s)f(Y_s)\mathbb X_{s,t}
+          +O(|t-s|^{3\alpha}).
+\]
+Because $3\alpha>2\beta$, this implies $Y\in\mathcal C^\beta$ and
+$R^Y\in\mathcal C_2^{2\beta}$.  Since $f$ is Lipschitz,
+$Y'=f(Y)\in\mathcal C^\beta$.  Hence the solution belongs to
+$\mathscr D_X^{2\beta}$, and uniqueness follows from the local contraction.
+\end{proof}
+
+The map sending $(y,\mathbf X)$ to the RDE solution is called the
+It\^o--Lyons map.
+
+\begin{thm}[Local Lipschitz continuity of the It\^o--Lyons map]
+Let $\beta\in(1/3,1/2]$ and $f\in C_b^3$.  Let
+$\mathbf X,\widetilde{\mathbf X}\in\mathscr C^\beta$ satisfy
+\[
+  \|\mathbf X\|_\beta,\ \|\widetilde{\mathbf X}\|_\beta\le M,
+\]
+and let $(Y,Y')$, $(\widetilde Y,\widetilde Y')$ be the RDE solutions with
+initial conditions $y,\widetilde y$.  For every
+$\alpha\in(1/3,\beta)$ there is $C_M$ such that
+\begin{align*}
+ \|Y-\widetilde Y\|_\alpha
+ +\|Y'-\widetilde Y'\|_\alpha
+ +\|R^Y-R^{\widetilde Y}\|_{2\alpha}
+ \le C_M\bigl(|y-\widetilde y|
+              +\|\mathbf X;\widetilde{\mathbf X}\|_\alpha\bigr).
+\end{align*}
+\end{thm}
+
+\begin{proof}
+The a priori estimates from the existence proof give a common bound for both
+solutions on sufficiently short intervals, with the interval length depending
+only on $M,\alpha,\beta,$ and $f$.  On such an interval $[s,t]$, composition
+and rough-integral stability yield
+\begin{align*}
+&\|Y'-\widetilde Y'\|_{\alpha;[s,t]}
+ +\|R^Y-R^{\widetilde Y}\|_{2\alpha;[s,t]}\\
+&\quad\le C\Bigl(
+ |Y_s-\widetilde Y_s|
+ +\|\mathbf X;\widetilde{\mathbf X}\|_{\alpha;[s,t]}
+ \Bigr)
+ +\frac12\Bigl(
+ \|Y'-\widetilde Y'\|_{\alpha;[s,t]}
+ +\|R^Y-R^{\widetilde Y}\|_{2\alpha;[s,t]}
+ \Bigr).
+\end{align*}
+After absorption, controlled-path stability also gives
+\[
+ \|Y-\widetilde Y\|_{\alpha;[s,t]}
+ \le C\Bigl(|Y_s-\widetilde Y_s|
+ +\|\mathbf X;\widetilde{\mathbf X}\|_{\alpha;[s,t]}\Bigr).
+\]
+The endpoint error satisfies
+\[
+ |Y_t-\widetilde Y_t|
+ \le |Y_s-\widetilde Y_s|
+ +|t-s|^\alpha\|Y-\widetilde Y\|_{\alpha;[s,t]}.
+\]
+Partition $[0,T]$ into finitely many such intervals and use discrete Gronwall.
+This propagates the current endpoint error correctly and yields the global
+bound.
+\end{proof}

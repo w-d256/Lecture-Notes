@@ -1,0 +1,697 @@
+\chapter{Properties of Rough Integration}
+
+\section{Associativity}
+
+We first explain how to integrate with respect to a controlled path.  All
+products and compositions below are assumed to have compatible Banach-space
+types.
+
+\begin{de}[Integration with respect to a rough integral]
+Let $\mathbf X=(X,\mathbb X)\in\mathscr C^\alpha$ and let
+$(Y,Y'),(K,K')\in\mathscr D_X^{2\alpha}$.  Put
+\[
+  Z_t:=\int_0^tK_u\,\dd\mathbf X_u,
+  \qquad Z'_t:=K_t.
+\]
+Then $(Z,Z')\in\mathscr D_X^{2\alpha}$.  We define
+\[
+  \int_0^\cdot Y_u\,\dd Z_u
+  \coloneqq \int_0^\cdot (Y_uK_u)\,\dd\mathbf X_u,
+\]
+where the right-hand side is the rough integral of the controlled product
+$YK$.
+\end{de}
+
+\begin{prop}[Riemann-sum representation]
+Under the preceding assumptions, for every $t\in[0,T]$,
+\[
+  \int_0^tY_u\,\dd Z_u
+  =\lim_{|\pi|\to0}\sum_{[u,v]\in\pi}
+   \bigl(Y_uZ_{u,v}+Y'_uZ'_u\mathbb X_{u,v}\bigr).
+\]
+\end{prop}
+
+\begin{proof}
+The rough-integral expansion gives
+\[
+  Z_{s,t}=K_sX_{s,t}+K'_s\mathbb X_{s,t}+O(|t-s|^{3\alpha}),
+\]
+and
+\[
+  \int_s^t(Y_uK_u)\,\dd\mathbf X_u
+  =Y_sK_sX_{s,t}+(YK)'_s\mathbb X_{s,t}+O(|t-s|^{3\alpha}).
+\]
+Since $(YK)'=YK'+Y'K$,
+\begin{align*}
+Y_sZ_{s,t}+Y'_sZ'_s\mathbb X_{s,t}
+&=Y_sK_sX_{s,t}+(Y_sK'_s+Y'_sK_s)\mathbb X_{s,t}\\
+&=\int_s^t(Y_uK_u)\,\dd\mathbf X_u+O(|t-s|^{3\alpha}).
+\end{align*}
+The sum of the errors over a partition tends to zero because $3\alpha>1$.
+\end{proof}
+
+More generally, the displayed Riemann sums can be used to define integration
+of one controlled path against another, even when the integrator is not itself
+a rough integral.
+
+Let $(Z,Z')\in\mathscr D_X^{2\alpha}([0,T];W)$.  Define its canonical second
+level by
+\[
+  \mathbb Z_{s,t}:=\int_s^t Z_{s,u}\otimes\dd Z_u.
+\]
+This is an integral of controlled paths.  It satisfies Chen's relation and is
+$2\alpha$-Hölder, so $\mathbf Z=(Z,\mathbb Z)$ is a rough path.  Locally,
+\[
+  \mathbb Z_{s,t}=(Z'_s\otimes Z'_s)\mathbb X_{s,t}
+  +O(|t-s|^{3\alpha}).
+\]
+
+\begin{lem}[Compatibility with the canonical lift]
+Let $\mathbf Z=(Z,\mathbb Z)$ be the canonical lift just described, and let
+$(Y,Y')\in\mathscr D_Z^{2\alpha}$.  Then
+$(Y,Y'Z')\in\mathscr D_X^{2\alpha}$ and
+\[
+  \int_0^\cdot Y_u\,\dd\mathbf Z_u
+  =\int_0^\cdot Y_u\,\dd Z_u,
+\]
+where the right-hand side is the controlled-path integral relative to $X$.
+\end{lem}
+
+\begin{proof}
+Since
+\[
+  Y_{s,t}=Y'_sZ_{s,t}+R^Y_{s,t}
+  =Y'_sZ'_sX_{s,t}+Y'_sR^Z_{s,t}+R^Y_{s,t},
+\]
+$Y$ is controlled by $X$ with derivative $Y'Z'$.  Moreover,
+\begin{align*}
+\int_s^tY_u\,\dd\mathbf Z_u
+&=Y_sZ_{s,t}+Y'_s\mathbb Z_{s,t}+O(|t-s|^{3\alpha})\\
+&=Y_sZ_{s,t}+Y'_s(Z'_s\otimes Z'_s)\mathbb X_{s,t}
+  +O(|t-s|^{3\alpha}),
+\end{align*}
+which is the local model for the controlled-path integral of $Y$ against $Z$.
+Summing over partitions proves equality.
+\end{proof}
+
+\section{The Rough It\^o Formula}
+
+\begin{de}[Bracket]
+For $\mathbf X=(X,\mathbb X)\in\mathscr C^\alpha$, define
+\[
+  [\mathbf X]_t
+  :=X_{0,t}\otimes X_{0,t}-2\operatorname{Sym}(\mathbb X_{0,t}).
+\]
+Then
+\[
+  [\mathbf X]_{s,t}
+  =X_{s,t}\otimes X_{s,t}-2\operatorname{Sym}(\mathbb X_{s,t}),
+\]
+so $[\mathbf X]\in\mathcal C^{2\alpha}([0,T];V\otimes V)$.
+\end{de}
+
+A rough path is weakly geometric exactly when $[\mathbf X]\equiv0$.
+
+\begin{lem}[Bracket of a rough integral]
+Let $(K,K')\in\mathscr D_X^{2\alpha}$ and set
+$Z=\int K\,\dd\mathbf X$.  If $\mathbf Z$ is the canonical lift of $Z$, then
+\[
+  [\mathbf Z]_t
+  =\int_0^t(K_u\otimes K_u)\,\dd[\mathbf X]_u,
+\]
+where the right-hand side is a Young integral.
+\end{lem}
+
+\begin{proof}
+The Young integral exists because $K\otimes K$ is $\alpha$-Hölder and
+$[\mathbf X]$ is $2\alpha$-Hölder.  The local expansions for $Z$ and
+$\mathbb Z$ imply
+\[
+  [\mathbf Z]_{s,t}
+  =(K_s\otimes K_s)[\mathbf X]_{s,t}+O(|t-s|^{3\alpha}).
+\]
+Summing over a partition proves the identity.
+\end{proof}
+
+\begin{thm}[Rough It\^o formula]
+Let $\mathbf X=(X,\mathbb X)\in\mathscr C^\alpha([0,T];V)$ and let
+$f\colon V\to W$ be $C^3$ on an open neighborhood of all line segments joining
+points of $X([0,T])$, with bounded derivatives there.  Then
+\[
+  f(X_T)=f(X_0)
+  +\int_0^T Df(X_u)\,\dd\mathbf X_u
+  +\frac12\int_0^T D^2f(X_u)\,\dd[\mathbf X]_u.
+\]
+The first integral is rough and the second is Young.
+\end{thm}
+
+\begin{proof}
+Taylor's theorem gives, uniformly in $s<t$,
+\[
+ f(X_t)-f(X_s)
+ =Df(X_s)X_{s,t}
+  +\frac12D^2f(X_s)[X_{s,t},X_{s,t}]
+  +O(|t-s|^{3\alpha}).
+\]
+Because $D^2f(X_s)$ is symmetric,
+$D^2f(X_s)\mathbb X_{s,t}$ depends only on
+$\operatorname{Sym}(\mathbb X_{s,t})$.  Hence
+\begin{align*}
+\frac12D^2f(X_s)[X_{s,t},X_{s,t}]
+={}&D^2f(X_s)\mathbb X_{s,t}
+ +\frac12D^2f(X_s)[\mathbf X]_{s,t}.
+\end{align*}
+The first two local terms are the rough-integral model for $Df(X)$, while the
+last is the Young-integral model against the bracket.  Sum over partitions;
+the $O(|t-s|^{3\alpha})$ terms vanish because $3\alpha>1$.
+\end{proof}
+
+\begin{cor}[It\^o formula for a controlled dynamics]
+Suppose $(Y,Y')\in\mathscr D_X^{2\alpha}$ and
+$(Y',Y'')\in\mathscr D_X^{2\alpha}$, and suppose
+\[
+  Y_t=Y_0+\int_0^tY'_u\,\dd\mathbf X_u+\Gamma_t,
+  \qquad \Gamma\in\mathcal C^{2\alpha}([0,T]).
+\]
+If $f$ is $C^3$ with the required derivative bounds along the range of $Y$,
+then
+\begin{align*}
+f(Y_T)=f(Y_0)
+&+\int_0^T Df(Y_u)Y'_u\,\dd\mathbf X_u
+ +\int_0^T Df(Y_u)\,\dd\Gamma_u\\
+&+\frac12\int_0^T
+ D^2f(Y_u)[Y'_u\otimes Y'_u] \,\dd[\mathbf X]_u.
+\end{align*}
+\end{cor}
+
+\begin{proof}
+The rough-integral expansion gives
+\[
+  Y_{s,t}=Y'_sX_{s,t}+Y''_s\mathbb X_{s,t}
+           +\Gamma_{s,t}+O(|t-s|^{3\alpha}).
+\]
+Taylor-expand $f(Y_t)-f(Y_s)$ to second order.  The local model for the first
+rough integral is
+\begin{align*}
+ Df(Y_s)Y'_sX_{s,t}
+ +\bigl(D^2f(Y_s)[Y'_s,Y'_s]+Df(Y_s)Y''_s\bigr)\mathbb X_{s,t}.
+\end{align*}
+The Young integral against $\Gamma$ contributes $Df(Y_s)\Gamma_{s,t}$, and
+the bracket term contributes
+\[
+ \frac12D^2f(Y_s)[Y'_s,Y'_s]
+ \bigl(X_{s,t}^{\otimes2}-2\operatorname{Sym}\mathbb X_{s,t}\bigr).
+\]
+Since $D^2f$ is symmetric, the bracket term cancels precisely the symmetric
+second-level part and leaves the quadratic Taylor term.  The remaining error is
+$O(|t-s|^{3\alpha})$; summing over partitions proves the formula.
+\end{proof}
+
+\section{Composition of Controlled Paths}
+
+Let $\varphi\colon W\to\overline W$ be a smooth map and
+$(Y,Y')\in\mathscr D_X^{2\alpha}([0,T];W)$.  Define
+\[
+  \varphi(Y)'_t:=D\varphi(Y_t)Y'_t.
+\]
+
+\begin{lem}[Estimate for a composition]
+Assume $\varphi\in C_b^2(W;\overline W)$ and
+$|Y'_0|+\|(Y,Y')\|_{X,2\alpha}\le M$ with $M\ge1$.  Then
+$(\varphi(Y),D\varphi(Y)Y')\in\mathscr D_X^{2\alpha}$ and
+\[
+ \|(\varphi(Y),D\varphi(Y)Y')\|_{X,2\alpha}
+ \le C_{\alpha,T}M\|\varphi\|_{C_b^2}(1+\|X\|_\alpha)^2
+       \bigl(|Y'_0|+\|(Y,Y')\|_{X,2\alpha}\bigr).
+\]
+For $T\le1$, the constant can be chosen independently of $T$.
+\end{lem}
+
+\begin{proof}
+The product rule gives
+\[
+ \|D\varphi(Y)Y'\|_\alpha
+ \le \|D\varphi(Y)\|_\infty\|Y'\|_\alpha
+ +\|Y'\|_\infty\|D^2\varphi(Y)\|_\infty\|Y\|_\alpha.
+\]
+Taylor's formula yields
+\begin{align*}
+R^{\varphi(Y)}_{s,t}
+={}&\varphi(Y_t)-\varphi(Y_s)-D\varphi(Y_s)Y_{s,t}
+   +D\varphi(Y_s)R^Y_{s,t},
+\end{align*}
+so
+\[
+ \|R^{\varphi(Y)}\|_{2\alpha}
+ \le \tfrac12\|D^2\varphi\|_\infty\|Y\|_\alpha^2
+      +\|D\varphi\|_\infty\|R^Y\|_{2\alpha}.
+\]
+Insert the controlled-path bound for $\|Y\|_\alpha$ and collect terms.
+\end{proof}
+
+\begin{remark}
+Global boundedness of the derivatives is a convenient sufficient assumption,
+not a consequence of boundedness of the path.  In applications, it is enough
+to bound the derivatives on the compact set of line segments joining points in
+$Y([0,T])$ (and the analogous compact sets used by higher-order Taylor
+remainders).  No global extension of $\varphi$ is being assumed.
+\end{remark}
+
+\begin{lem}[Stability of composition on Hölder paths]
+Let $\varphi\in C_b^2(W;\overline W)$, $T\le1$, and
+$X,Y\in\mathcal C^\alpha([0,T];W)$ with
+$\|X\|_\alpha,\|Y\|_\alpha\le K$.  Then
+\[
+  \|\varphi(X)-\varphi(Y)\|_\alpha
+  \le C_{\alpha,K}\|\varphi\|_{C_b^2}
+     \bigl(|X_0-Y_0|+\|X-Y\|_\alpha\bigr).
+\]
+\end{lem}
+
+\begin{proof}
+Write
+\[
+  \varphi(x)-\varphi(y)=g(x,y)(x-y),
+  \qquad
+  g(x,y):=\int_0^1D\varphi(y+\theta(x-y))\,\dd\theta.
+\]
+Then $\|g\|_\infty\le\|D\varphi\|_\infty$ and
+$g$ is Lipschitz with constant controlled by $\|D^2\varphi\|_\infty$.  Apply
+this identity at times $s$ and $t$, subtract, and use
+$\|X-Y\|_\infty\le|X_0-Y_0|+\|X-Y\|_\alpha$ because $T\le1$.
+\end{proof}
+
+For paths controlled by different drivers, set
+\[
+ \|(Y,Y');(\widetilde Y,\widetilde Y')\|_{X,\widetilde X;2\alpha}
+ :=\|Y'-\widetilde Y'\|_\alpha
+   +\|R^Y-R^{\widetilde Y}\|_{2\alpha}.
+\]
+
+\begin{thm}[Stability of composition on controlled paths]
+Let $T\le1$, let $(Y,Y')\in\mathscr D_X^{2\alpha}$ and
+$(\widetilde Y,\widetilde Y')\in\mathscr D_{\widetilde X}^{2\alpha}$, and let
+$\varphi\in C_b^3$.  Assume
+\begin{align*}
+&\|X\|_\alpha+\|\widetilde X\|_\alpha
+ +|Y'_0|+|\widetilde Y'_0|
+ +\|(Y,Y')\|_{X,2\alpha}
+ +\|(\widetilde Y,\widetilde Y')\|_{\widetilde X,2\alpha}
+ \le M.
+\end{align*}
+Define $Z=\varphi(Y)$, $Z'=D\varphi(Y)Y'$ and similarly
+$\widetilde Z,\widetilde Z'$.  Then
+\begin{align*}
+ &\|(Z,Z');(\widetilde Z,\widetilde Z')\|_{X,\widetilde X;2\alpha}
+ +\|Z-\widetilde Z\|_\alpha\\
+ &\quad\le C_M\Bigl(
+  \|X-\widetilde X\|_\alpha
+  +|Y_0-\widetilde Y_0|
+  +|Y'_0-\widetilde Y'_0|
+  +\|(Y,Y');(\widetilde Y,\widetilde Y')\|_{X,\widetilde X;2\alpha}
+ \Bigr),
+\end{align*}
+where $C_M$ depends on $M,\alpha,$ and the $C_b^3$ bounds of $\varphi$.
+\end{thm}
+
+\begin{proof}
+For the derivative, add and subtract
+$D\varphi(Y)\widetilde Y'$ and use the preceding Hölder composition lemma:
+\[
+ D\varphi(Y)Y'-D\varphi(\widetilde Y)\widetilde Y'
+ =D\varphi(Y)(Y'-\widetilde Y')
+  +(D\varphi(Y)-D\varphi(\widetilde Y))\widetilde Y'.
+\]
+For the remainder, use the exact Taylor representation
+\begin{align*}
+R^{\varphi(Y)}_{s,t}
+={}&\int_0^1(1-\theta)
+ D^2\varphi(Y_s+\theta Y_{s,t})[Y_{s,t},Y_{s,t}]\,\dd\theta\\
+&+D\varphi(Y_s)R^Y_{s,t},
+\end{align*}
+and the analogous identity for $\widetilde Y$.  Add and subtract the same
+terms with $Y$ replaced by $\widetilde Y$ one factor at a time.  The $C_b^3$
+bound controls the change of $D^2\varphi$, while the controlled-path stability
+estimate controls $\|Y-\widetilde Y\|_\alpha$.  Dividing by
+$|t-s|^{2\alpha}$ gives the first bound; the second follows from the
+controlled decompositions.
+\end{proof}
+
+\section{Fubini's Theorem and Indefinite Rough Integrals}
+
+\begin{thm}[Rough Fubini theorem]
+Let $\mathbf X\in\mathscr C^\alpha([0,T];V)$ with
+$\alpha\in(1/3,1/2]$, and let $(\Omega,\mathcal F,\mu)$ be a measure space.
+Suppose
+\[
+  \omega\longmapsto (Y^\omega,(Y^\omega)')
+\]
+is Bochner integrable as a map into the Banach space
+$\mathscr D_X^{2\alpha}([0,T];\mathcal L(V,W))$; equivalently, it is strongly
+measurable and
+\[
+ \int_\Omega\Bigl(
+ |Y_0^\omega|+|(Y_0^\omega)'|
+ +\|(Y^\omega,(Y^\omega)')\|_{X,2\alpha}
+ \Bigr)\,\mu(\dd\omega)<\infty.
+\]
+Then the pointwise Bochner integral is a controlled path and
+\[
+ \int_\Omega\left(\int_0^T Y_u^\omega\,\dd\mathbf X_u\right)\mu(\dd\omega)
+ =\int_0^T\left(\int_\Omega Y_u^\omega\,\mu(\dd\omega)\right)\dd\mathbf X_u.
+\]
+The Gubinelli derivative of the integrated path is
+$\int_\Omega(Y^\omega)'\,\dd\mu$, and its remainder is
+$\int_\Omega R^{Y^\omega}\,\dd\mu$.
+\end{thm}
+
+\begin{proof}
+The controlled-path space is Banach, and rough integration is a bounded linear
+map from that space into $\mathcal C^\alpha([0,T];W)$.  Every bounded linear
+map commutes with Bochner integration.  The derivative and remainder formulas
+follow by integrating
+$Y^\omega_{s,t}=(Y_s^\omega)'X_{s,t}+R^{Y^\omega}_{s,t}$.
+\end{proof}
+
+\begin{prop}[Singular Hölder paths]
+Let $0<\alpha\le1$, $\eta\le\alpha$, and let $Y$ be defined on $(0,T]$.  Then
+\[
+ \|Y\|_{\alpha,\eta}
+ :=\sup_{0<s<t\le T}
+   \frac{|Y_t-Y_s|}{s^{\eta-\alpha}|t-s|^\alpha}<\infty
+\]
+if and only if
+\[
+  \|Y\|_{\alpha;[\varepsilon,T]}
+  =O(\varepsilon^{\eta-\alpha})
+  \qquad(\varepsilon\downarrow0).
+\]
+The resulting class is denoted by $\mathcal C^{\alpha,\eta}((0,T])$.
+\end{prop}
+
+\begin{proof}
+If the weighted seminorm is finite, then for $s\ge\varepsilon$,
+$s^{\eta-\alpha}\le\varepsilon^{\eta-\alpha}$ because
+$\eta-\alpha\le0$, which gives the local estimate.  Conversely, if
+$\|Y\|_{\alpha;[\varepsilon,T]}\le C\varepsilon^{\eta-\alpha}$, choose
+$\varepsilon=s$ to obtain
+$|Y_t-Y_s|\le Cs^{\eta-\alpha}|t-s|^\alpha$ directly.
+\end{proof}
+
+\begin{thm}[Improper Young integral]
+Let $X\in\mathcal C^\alpha([0,T])$ with $\alpha>1/2$, and let
+$Y\in\mathcal C^{\alpha,\eta}((0,T])$, where $\eta\le\alpha$,
+$\eta+\alpha>0$, and $\eta\ne0$.  Then
+\[
+  Z_t:=\int_{0^+}^tY\,\dd X
+  :=\lim_{\varepsilon\downarrow0}\int_\varepsilon^tY\,\dd X
+\]
+exists and belongs to
+$\mathcal C^{\alpha,\alpha+\eta\wedge0}((0,T])$.
+\end{thm}
+
+\begin{proof}
+A dyadic telescoping argument using
+$|Y_{2s}-Y_s|\lesssim s^\eta$ gives
+\[
+  |Y_s|\lesssim 1+s^{\eta\wedge0},\qquad 0<s\le T.
+\]
+Young's estimate on a dyadic interval $[s,2s]$ gives
+\begin{align*}
+\left|\int_s^{2s}Y\,\dd X\right|
+&\lesssim |Y_s|s^\alpha
+ +\|Y\|_{\alpha;[s,T]}s^{2\alpha}\\
+&\lesssim s^{\alpha+\eta\wedge0}+s^{\alpha+\eta}.
+\end{align*}
+Both exponents are positive under $\eta+\alpha>0$, so the dyadic tail is
+summable and the improper integral exists.
+
+To obtain the weighted Hölder estimate, first suppose $h=t-s\le s$.  Then
+\[
+ |Z_{s,t}|
+ \lesssim s^{\eta\wedge0}h^\alpha
+       +s^{\eta-\alpha}h^{2\alpha}
+ \lesssim s^{\eta\wedge0}h^\alpha.
+\]
+If $h>s$, decompose $[s,t]$ into dyadic intervals until their size is
+comparable to $h$.  Summing the preceding dyadic bounds gives
+$|Z_{s,t}|\lesssim h^{\alpha+\eta\wedge0}$, which is at most
+$Cs^{\eta\wedge0}h^\alpha$ when $\eta<0$ and is $Ch^\alpha$ when $\eta>0$.
+This is exactly the $\mathcal C^{\alpha,\alpha+\eta\wedge0}$ estimate.
+\end{proof}
+
+\begin{prop}[Singular controlled paths]
+Let $\mathbf X\in\mathscr C^\alpha([0,T])$ with
+$\alpha\in(1/3,1/2]$, and let $(Y,Y')$ be defined on $(0,T]$.  For
+$\eta\le2\alpha$, the condition
+\[
+  \|(Y,Y')\|_{X,2\alpha;[\varepsilon,T]}
+  =O(\varepsilon^{\eta-2\alpha})
+\]
+is equivalent to finiteness of
+\begin{align*}
+\|(Y,Y')\|_{X,2\alpha,\eta}
+:={}&\sup_{0<s<t\le T}
+ \frac{|Y'_t-Y'_s|}{s^{\eta-2\alpha}|t-s|^\alpha}\\
+&+\sup_{0<s<t\le T}
+ \frac{|Y_t-Y_s-Y'_sX_{s,t}|}
+      {s^{\eta-2\alpha}|t-s|^{2\alpha}}.
+\end{align*}
+The corresponding class is denoted by $\mathscr D_X^{2\alpha,\eta}$.
+\end{prop}
+
+\begin{proof}
+The proof is the same direct comparison as for singular Hölder paths.  In one
+direction, use $s\ge\varepsilon$ and $\eta-2\alpha\le0$.  In the other,
+choose $\varepsilon=s$ in the assumed local estimate.  The suprema must start
+at $s>0$ because the weights may be singular at the origin.
+\end{proof}
+
+\begin{thm}[Improper rough integral]
+Let $\mathbf X\in\mathscr C^\alpha([0,T])$ with
+$\alpha\in(1/3,1/2]$, and let
+$(Y,Y')\in\mathscr D_X^{2\alpha,\eta}$, where
+$-\alpha<\eta\le2\alpha$ and $\eta\ne0$.  Then
+\[
+  Z_t:=\int_{0^+}^tY\,\dd\mathbf X
+  :=\lim_{\varepsilon\downarrow0}
+    \int_\varepsilon^tY\,\dd\mathbf X
+\]
+exists,
+\[
+  Z\in\mathcal C^{\alpha,\alpha+\eta\wedge0}((0,T]),
+\]
+and, more precisely,
+\[
+  (Z,Z'):=\left(\int_{0^+}^\cdot Y\,\dd\mathbf X,\,Y\right)
+  \in\mathscr D_X^{2\alpha,\alpha+\eta\wedge0}.
+\]
+\end{thm}
+
+\begin{proof}
+The weighted controlled estimates imply, by dyadic telescoping,
+\[
+ |Y_s|\lesssim1+s^{\eta\wedge0},
+\]
+and
+\[
+ |Y'_s|\lesssim
+ \begin{cases}
+   1+s^{\eta-\alpha},&\eta<\alpha,\\
+   1+|\log s|,&\eta=\alpha,\\
+   1,&\eta>\alpha.
+ \end{cases}
+\]
+In particular, the coarser bound
+$|Y'_s|\lesssim s^{\eta\wedge0-\alpha}$ holds on $(0,T]$.  The
+rough-integral estimate on $[s,2s]$ therefore gives a contribution of order
+$s^{\alpha+\eta\wedge0}$ from $Y_sX_{s,2s}$, a contribution of order
+$s^{2\alpha+\eta\wedge0-\alpha}$ from $Y'_s\mathbb X_{s,2s}$, and a
+remainder of order $s^{\alpha+\eta}$.  At the borderline $\eta=\alpha$, the
+second contribution is instead $O(s^{2\alpha}(1+|\log s|))$.  All these
+dyadic terms are summable when $\eta>-\alpha$, so the improper integral
+exists.
+
+Let $h=t-s\le s$.  The controlled relation and the weighted bounds give
+\[
+ |Y_{s,t}|\lesssim s^{\eta\wedge0-\alpha}h^\alpha.
+\]
+Furthermore, the rough-integral expansion gives
+\begin{align*}
+|R^Z_{s,t}|
+&=\left|\int_s^tY\,\dd\mathbf X-Y_sX_{s,t}\right|\\
+&\lesssim |Y'_s|h^{2\alpha}
+ +\|(Y,Y')\|_{X,2\alpha;[s,T]}h^{3\alpha}\\
+&\lesssim s^{\eta\wedge0-\alpha}h^{2\alpha}.
+\end{align*}
+When $h>s$, a dyadic decomposition reduces the estimates to the local case and
+sums a geometric series.  These are exactly the two weighted bounds defining
+$\mathscr D_X^{2\alpha,\alpha+\eta\wedge0}$.
+\end{proof}
+
+\begin{remark}
+Singular controlled rough paths are the rough-path analogue of singular
+modelled distributions in regularity structures.
+\end{remark}
+
+\section{Uniqueness of the Gubinelli Derivative}
+
+Fix $\alpha\in(1/3,1/2]$ and
+$\mathbf X=(X,\mathbb X)\in\mathscr C^\alpha([0,T];V)$.
+
+\begin{de}[True roughness]
+For $s\in[0,T)$, the path $X$ is rough at time $s$ if
+\[
+  \forall v^*\in V^*\setminus\{0\}:\qquad
+  \limsup_{t\downarrow s}
+  \frac{|v^*(X_{s,t})|}{|t-s|^{2\alpha}}=\infty.
+\]
+It is truly rough if it is rough on a dense subset of $[0,T]$.
+\end{de}
+
+\begin{prop}[Uniqueness of the Gubinelli derivative]
+Let $(Y,Y')\in\mathscr D_X^{2\alpha}([0,T];W)$ and suppose that $X$ is rough
+at $s$.  If
+\[
+  Y_{s,t}=O(|t-s|^{2\alpha})\qquad(t\downarrow s),
+\]
+then $Y'_s=0$.  Consequently, if $X$ is truly rough and both
+$(Y,Y')$ and $(Y,\widetilde Y')$ are controlled by $X$, then
+$Y'\equiv\widetilde Y'$.
+\end{prop}
+
+\begin{proof}
+The controlled expansion implies
+$Y'_sX_{s,t}=O(|t-s|^{2\alpha})$.  For any $w^*\in W^*$, define
+$v^*=(Y'_s)^*w^*\in V^*$.  Then
+\[
+  \frac{|v^*(X_{s,t})|}{|t-s|^{2\alpha}}=O(1).
+\]
+Roughness forces $v^*=0$.  Since this holds for every $w^*$, $Y'_s=0$.
+Apply this result to the controlled path $(0,Y'-\widetilde Y')$ at every rough
+time, then use continuity and density.
+\end{proof}
+
+\begin{thm}[Doob--Meyer principle for rough paths]
+Assume $X$ is rough at $s$ and $(Y,Y')\in\mathscr D_X^{2\alpha}$.  Then
+\[
+  \int_s^tY_u\,\dd\mathbf X_u=O(|t-s|^{2\alpha})
+  \quad(t\downarrow s)
+  \quad\Longrightarrow\quad Y_s=0.
+\]
+If $X$ is truly rough,
+$(\widetilde Y,\widetilde Y')\in\mathscr D_X^{2\alpha}$, and
+$Z,\widetilde Z\in\mathcal C([0,T];W)$, then
+\[
+  \int_0^\cdot Y\,\dd\mathbf X+\int_0^\cdot Z_u\,\dd u
+  \equiv
+  \int_0^\cdot\widetilde Y\,\dd\mathbf X
+  +\int_0^\cdot\widetilde Z_u\,\dd u
+\]
+implies $(Y,Y')=(\widetilde Y,\widetilde Y')$ and $Z=\widetilde Z$.
+\end{thm}
+
+\begin{proof}
+The pair $(\int Y\,\dd\mathbf X,Y)$ is controlled by $X$, so the first claim
+is the preceding proposition applied to this controlled path.  For the second,
+subtract the two identities.  At every rough time $s$,
+\[
+  \int_s^t(Y_u-\widetilde Y_u)\,\dd\mathbf X_u
+  =-\int_s^t(Z_u-\widetilde Z_u)\,\dd u
+  =O(|t-s|)=O(|t-s|^{2\alpha}),
+\]
+because $2\alpha\le1$.  Hence $Y_s=\widetilde Y_s$ on a dense set and then
+everywhere by continuity.  Uniqueness of the Gubinelli derivative gives
+$Y'=\widetilde Y'$.  The remaining identity says that the integral of the
+continuous function $Z-\widetilde Z$ vanishes on every interval, so the
+fundamental theorem of calculus gives $Z=\widetilde Z$.
+\end{proof}
+
+\begin{de}[Quantitative Hölder roughness]
+A path $X\colon[0,T]\to V$ is $\theta$-Hölder rough on scales at most
+$\varepsilon_0$ if there is $L_\theta(X)>0$ such that for every
+$v^*\in V^*$, $s\in[0,T]$, and $\varepsilon\in(0,\varepsilon_0]$, there exists
+$t\in[0,T]$ with
+\[
+  |t-s|\le\varepsilon,
+  \qquad
+  |v^*(X_{s,t})|\ge L_\theta(X)\varepsilon^\theta|v^*|.
+\]
+The largest possible constant is called the modulus of $\theta$-Hölder
+roughness.  For $v^*=0$ the condition is automatic.
+\end{de}
+
+If $X\in\mathcal C^\alpha$ is $\theta$-Hölder rough with $\theta<2\alpha$,
+then it is truly rough.
+
+\begin{prop}[Quantitative recovery of the derivative]
+If $X$ is $\theta$-Hölder rough and
+$(Y,Y')\in\mathscr D_X^{2\alpha}([0,T];W)$, then for every
+$\varepsilon\in(0,\varepsilon_0]$,
+\[
+  L_\theta(X)\varepsilon^\theta\|Y'\|_\infty
+  \le \operatorname{osc}(Y,\varepsilon)
+      +\bigl(\|R^Y\|_{2\alpha}
+             +\|Y'\|_\alpha\|X\|_\alpha\bigr)
+       \varepsilon^{2\alpha},
+\]
+where
+$\operatorname{osc}(Y,\varepsilon)
+ :=\sup_{|t-s|\le\varepsilon}|Y_{s,t}|$.
+If $\theta<2\alpha$, this implies uniqueness of the Gubinelli derivative.
+\end{prop}
+
+\begin{proof}
+Our controlled remainder is defined on the ordered simplex.  If the time
+provided by quantitative roughness satisfies $t\ge s$, then
+\[
+ |Y'_sX_{s,t}|
+ \le \operatorname{osc}(Y,\varepsilon)
+     +\|R^Y\|_{2\alpha}\varepsilon^{2\alpha}.
+\]
+If $t<s$, write the controlled expansion from $t$ to $s$ and use
+$Y'_sX_{s,t}=Y'_tX_{s,t}+(Y'_s-Y'_t)X_{s,t}$.  This gives the same bound with
+the additional term
+$\|Y'\|_\alpha\|X\|_\alpha\varepsilon^{2\alpha}$.  For
+$w^*\in W^*$ with $|w^*|=1$, apply quantitative roughness to
+$(Y'_s)^*w^*\in V^*$.  Taking the supremum over $w^*$, then over $s$, proves
+the estimate.  Apply it to $(0,Y'-\widetilde Y')$ and let
+$\varepsilon\downarrow0$ when $\theta<2\alpha$.
+\end{proof}
+
+\begin{thm}[Norris lemma for rough paths]
+Assume $\alpha\in(1/3,1/2]$, let
+$\mathbf X=(X,\mathbb X)\in\mathscr C^\alpha([0,T];V)$, and suppose that $X$
+is $\theta$-Hölder rough with $\theta<2\alpha$.  Let
+$(Y,Y')\in\mathscr D_X^{2\alpha}([0,T];\mathcal L(V,W))$,
+$Z\in\mathcal C^\alpha([0,T];W)$, and
+\[
+  I_t:=\int_0^tY_u\,\dd\mathbf X_u+\int_0^tZ_u\,\dd u.
+\]
+There exist $r,q>0$ and $C=C(\alpha,\theta,T)$ such that, with
+\begin{align*}
+\mathcal R:={}&1+L_\theta(X)^{-1}+\|\mathbf X\|_\alpha
+ +|Y_0|+|Y'_0|+\|(Y,Y')\|_{X,2\alpha}
+ +|Z_0|+\|Z\|_\alpha,
+\end{align*}
+one has
+\[
+  \|Y\|_\infty+\|Z\|_\infty
+  \le C\mathcal R^q\|I\|_\infty^r.
+\]
+\end{thm}
+
+\begin{proof}[Proof sketch]
+Apply the preceding quantitative recovery estimate to the controlled path
+$(I,Y)$.  Its remainder consists of the $2\alpha$-Hölder rough-integral
+remainder plus the time integral of $Z$, which is Lipschitz.  Optimizing the
+resulting estimate over the scale $\varepsilon$ bounds $\|Y\|_\infty$ by a
+positive power of $\|I\|_\infty$, with polynomial dependence on $\mathcal R$.
+Interpolate between this supremum bound and the a priori controlled Hölder
+bounds to obtain a weaker Hölder norm of $Y$.  Continuity of rough integration
+then controls $\|\int Y\,\dd\mathbf X\|_\infty$.  Since
+$\int Z\,\dd t=I-\int Y\,\dd\mathbf X$, interpolation between the supremum norm
+of the primitive and the $\alpha$-Hölder norm of $Z$ yields the corresponding
+bound for $\|Z\|_\infty$.  Choosing the interpolation exponents in this order
+produces some $r,q>0$ depending only on $\alpha$ and $\theta$.
+\end{proof}

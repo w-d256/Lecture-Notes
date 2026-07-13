@@ -1,0 +1,463 @@
+\chapter{Connections with Stochastic Calculus}
+
+\section{Brownian Motion as a Rough Path}
+
+We begin with a two-level version of Kolmogorov's continuity criterion.  The
+first level is a one-parameter process, whereas the second level is a
+measurable two-parameter process on the simplex.
+
+\begin{thm}[Kolmogorov criterion for rough paths]
+Let
+\[
+  X\colon\Omega\times[0,T]\to\mathbb R^d,
+  \qquad
+  \mathbb X\colon\Omega\times\Delta_{[0,T]}
+       \to\mathbb R^d\otimes\mathbb R^d
+\]
+be measurable, and write $X_{s,t}=X_t-X_s$.  Assume that on one event of
+probability one,
+\[
+  \mathbb X_{s,t}
+  =\mathbb X_{s,u}+\mathbb X_{u,t}+X_{s,u}\otimes X_{u,t}
+  \qquad(0\le s\le u\le t\le T).
+\]
+Let $q\ge2$ and $\beta>1/q$.  Suppose that a constant $C$ satisfies
+\[
+  \|X_{s,t}\|_{L^q}\le C|t-s|^\beta,
+  \qquad
+  \|\mathbb X_{s,t}\|_{L^{q/2}}\le C|t-s|^{2\beta}
+\]
+for every $(s,t)\in\Delta_{[0,T]}$.  Then, for every
+$\alpha\in(0,\beta-1/q)$, there is a modification
+$(\widetilde X,\widetilde{\mathbb X})$ and random variables
+$K_\alpha\in L^q$ and $\mathbb K_\alpha\in L^{q/2}$ such that
+\[
+  |\widetilde X_{s,t}|\le K_\alpha|t-s|^\alpha,
+  \qquad
+  |\widetilde{\mathbb X}_{s,t}|
+       \le\mathbb K_\alpha|t-s|^{2\alpha}
+\]
+for all $0\le s\le t\le T$.  The modification satisfies Chen's relation on
+one event of probability one.
+
+In particular, if $\beta-1/q>1/3$, then
+$(\widetilde X,\widetilde{\mathbb X})\in\mathscr C^\alpha$ almost surely for
+every $\alpha\in(1/3,\beta-1/q)$.
+\end{thm}
+
+\begin{proof}
+A linear change of time reduces the proof to $T=1$.  Let
+\[
+  D_n:=\{k2^{-n}:k=0,\ldots,2^n\}
+\]
+and define the largest increments over dyadic intervals of level $n$ by
+\[
+  K_n:=\max_{0\le k<2^n}|X_{k2^{-n},(k+1)2^{-n}}|,
+\]
+\[
+  \mathbb K_n:=\max_{0\le k<2^n}
+  |\mathbb X_{k2^{-n},(k+1)2^{-n}}|.
+\]
+The moment assumptions imply
+\[
+  \mathbb E[K_n^q]\le C^q2^{-n(\beta q-1)},
+  \qquad
+  \mathbb E[\mathbb K_n^{q/2}]
+       \le C^{q/2}2^{-n(\beta q-1)}.
+\]
+Consequently,
+\[
+  \|K_n\|_{L^q}\le C2^{-n(\beta-1/q)},
+  \qquad
+  \|\mathbb K_n\|_{L^{q/2}}
+       \le C2^{-2n(\beta-1/q)}.
+\]
+
+Fix dyadic $s<t$ and choose $m$ so that
+$2^{-(m+1)}<t-s\le2^{-m}$.  The interval $[s,t]$ admits a disjoint dyadic
+decomposition containing at most two intervals at every level
+$n\ge m+1$.  If
+\[
+  s=u_0<u_1<\cdots<u_N=t
+\]
+is the resulting partition, additivity of the first level gives
+\[
+  |X_{s,t}|
+  \le\sum_{i=0}^{N-1}|X_{u_i,u_{i+1}}|
+  \le2\sum_{n=m+1}^\infty K_n.
+\]
+Iterating Chen's relation gives
+\[
+  \mathbb X_{s,t}
+  =\sum_{i=0}^{N-1}\mathbb X_{u_i,u_{i+1}}
+   +\sum_{i=0}^{N-1}X_{s,u_i}\otimes X_{u_i,u_{i+1}}.
+\]
+Hence
+\[
+  |\mathbb X_{s,t}|
+  \le2\sum_{n=m+1}^\infty\mathbb K_n
+     +\left(2\sum_{n=m+1}^\infty K_n\right)^2.
+\]
+
+Define
+\[
+  K_\alpha:=2\sum_{n=0}^\infty2^{n\alpha}K_n,
+\]
+\[
+  \mathbb K_\alpha
+  :=2\sum_{n=0}^\infty2^{2n\alpha}\mathbb K_n+K_\alpha^2.
+\]
+Since $\alpha<\beta-1/q$, Minkowski's inequality and the preceding moment
+bounds show that $K_\alpha\in L^q$ and
+$\mathbb K_\alpha\in L^{q/2}$.  Moreover, for every pair of dyadic times,
+\[
+  |X_{s,t}|\le K_\alpha|t-s|^\alpha,
+  \qquad
+  |\mathbb X_{s,t}|\le\mathbb K_\alpha|t-s|^{2\alpha}.
+\]
+These bounds hold simultaneously outside one null set.
+
+On that event, $X$ has a unique continuous extension from the dyadic times;
+denote it by $\widetilde X$.  To extend the second level, first put
+$A_t:=\mathbb X_{0,t}$ at dyadic times.  Chen's relation and the bounds above
+give, for dyadic $s<t$,
+\[
+  |A_t-A_s|
+  \le |\mathbb X_{s,t}|+|X_{0,s}|\,|X_{s,t}|,
+\]
+so $A$ also has a unique continuous extension.  Define
+\[
+  \widetilde{\mathbb X}_{s,t}
+  :=A_t-A_s-\widetilde X_{0,s}\otimes\widetilde X_{s,t}.
+\]
+This definition agrees with $\mathbb X$ at dyadic pairs and automatically
+satisfies Chen's relation.  Approximating arbitrary $s<t$ by dyadic pairs and
+passing to the limit gives the asserted $2\alpha$-Hölder bound.
+
+It remains to check the modification property.  For each fixed $t$, the
+moment estimate gives $X_{t_n}\to X_t$ in $L^q$ whenever dyadic $t_n\to t$;
+therefore $\widetilde X_t=X_t$ almost surely.  For a fixed $s<t$, choose dyadic sequences with
+$s_n\uparrow s$ and $t_n\downarrow t$, so that
+$s_n\le s<t\le t_n$.  Chen's relation yields
+\begin{align*}
+\mathbb X_{s_n,t_n}-\mathbb X_{s,t}
+={}&\mathbb X_{s_n,s}+\mathbb X_{t,t_n}
+ +X_{s_n,s}\otimes X_{s,t_n}
+ +X_{s,t}\otimes X_{t,t_n}.
+\end{align*}
+Hölder's inequality and the assumed moment estimates show that the right-hand
+side tends to zero in $L^{q/2}$.  Thus
+$\widetilde{\mathbb X}_{s,t}=\mathbb X_{s,t}$ almost surely for every fixed
+pair $(s,t)$.
+\end{proof}
+
+\begin{remark}
+After choosing the continuous modification, it is customary to suppress the
+tildes and continue to write $(X,\mathbb X)$.
+\end{remark}
+
+Let $B=(B^1,\ldots,B^d)$ be standard Brownian motion.  Its It\^o second level
+is defined componentwise by
+\[
+  \mathbb B^{\mathrm{It\hat{o}}}_{s,t}
+  :=\int_s^t B_{s,r}\otimes\dd B_r,
+  \qquad B_{s,r}:=B_r-B_s.
+\]
+Splitting the stochastic integral at an intermediate time and using
+$B_{s,r}=B_{s,u}+B_{u,r}$ shows that
+$(B,\mathbb B^{\mathrm{It\hat{o}}})$ satisfies Chen's relation.
+
+\begin{prop}[It\^o Brownian rough path]
+For every $\alpha\in(1/3,1/2)$, after choosing a continuous modification,
+\[
+  \mathbf B^{\mathrm{It\hat{o}}}
+  :=(B,\mathbb B^{\mathrm{It\hat{o}}})
+  \in\mathscr C^\alpha([0,T];\mathbb R^d)
+\]
+almost surely.
+\end{prop}
+
+\begin{proof}
+For every $q\ge4$, Brownian scaling gives
+\[
+  \|B_{s,t}\|_{L^q}\le C_q|t-s|^{1/2}.
+\]
+The Burkholder--Davis--Gundy inequality and Minkowski's integral inequality
+give
+\begin{align*}
+\|\mathbb B^{\mathrm{It\hat{o}}}_{s,t}\|_{L^{q/2}}
+&\le C_q
+ \left\|\left(\int_s^t|B_{s,r}|^2\,\dd r\right)^{1/2}
+ \right\|_{L^{q/2}}\\
+&\le C_q\left(\int_s^t\|B_{s,r}\|_{L^{q/2}}^2\,\dd r\right)^{1/2}
+ \le C_q|t-s|.
+\end{align*}
+Fix $\alpha<1/2$ and choose one finite $q$ large enough that
+$\alpha<1/2-1/q$.  The preceding theorem, with $\beta=1/2$, then gives the
+claim.  No limiting argument in $q$ is needed.
+\end{proof}
+
+The Stratonovich second level is
+\[
+  \mathbb B^{\mathrm{Strat}}_{s,t}
+  :=\int_s^t B_{s,r}\otimes\circ\dd B_r.
+\]
+Componentwise It\^o--Stratonovich conversion gives
+\[
+  \mathbb B^{\mathrm{Strat}}_{s,t}
+  =\mathbb B^{\mathrm{It\hat{o}}}_{s,t}
+   +\frac12(t-s)I_d.
+\]
+In particular,
+\[
+  \operatorname{Sym}(\mathbb B^{\mathrm{Strat}}_{s,t})
+  =\frac12B_{s,t}\otimes B_{s,t}.
+\]
+
+\begin{prop}[Stratonovich Brownian rough path]
+For every $\alpha\in(1/3,1/2)$,
+\[
+  \mathbf B^{\mathrm{Strat}}
+  :=(B,\mathbb B^{\mathrm{Strat}})
+  \in\mathscr C_g^{0,\alpha}([0,T];\mathbb R^d)
+\]
+almost surely.
+\end{prop}
+
+\begin{proof}
+The deterministic correction $(s,t)\mapsto\frac12(t-s)I_d$ is
+$1$-Hölder, so the preceding proposition gives
+$\mathbf B^{\mathrm{Strat}}\in\mathscr C^\beta$ almost surely for every
+$\beta<1/2$.  The symmetry identity shows that it is weakly geometric, hence
+$\mathbf B^{\mathrm{Strat}}\in\mathscr C_g^\beta$.  Given
+$1/3<\alpha<\beta<1/2$, the inclusion
+$\mathscr C_g^\beta\subset\mathscr C_g^{0,\alpha}$ proves the claim.
+Equivalently, one may use the canonical lifts of piecewise linear Brownian
+approximations, which converge to the Stratonovich lift in every lower
+Hölder rough-path topology.
+\end{proof}
+
+\section{Consistency with Stochastic Calculus}
+
+All stochastic integrals below are taken componentwise.  Let
+$Y_t\in\mathcal L(\mathbb R^d,\mathbb R^m)$ and
+\[
+  Y'_t\in
+  \mathcal L\bigl(\mathbb R^d,
+                  \mathcal L(\mathbb R^d,\mathbb R^m)\bigr).
+\]
+We regard $Y'_t$ as a bilinear map and use the contraction
+\[
+  \operatorname{Ctr}(Y'_t)
+  :=\sum_{i=1}^dY'_t(e_i)e_i\in\mathbb R^m,
+\]
+where $(e_i)_{i=1}^d$ is the standard basis of $\mathbb R^d$.
+
+\begin{prop}[Consistency of the It\^o integral]
+Let
+$(\Omega,\mathcal F,(\mathcal F_t)_{t\in[0,T]},\mathbb P)$ be a filtered
+probability space satisfying the usual conditions, and let $B$ be an
+$(\mathcal F_t)$-Brownian motion.  Fix $\alpha\in(1/3,1/2)$ and let
+$\mathbf B^{\mathrm{It\hat{o}}}$ be its It\^o rough-path lift.  Suppose that
+$(Y,Y')$ is continuous and adapted and that, almost surely,
+\[
+  (Y,Y')\in\mathscr D_B^{2\alpha}
+  \bigl([0,T];\mathcal L(\mathbb R^d,\mathbb R^m)\bigr).
+\]
+Then $Y$ is locally square integrable and, for every $t\in[0,T]$,
+\[
+  \int_0^tY_u\,\dd\mathbf B^{\mathrm{It\hat{o}}}_u
+  =\int_0^tY_u\,\dd B_u
+\]
+almost surely.  The equality holds simultaneously for all $t$ after choosing
+continuous versions.
+\end{prop}
+
+\begin{proof}
+Continuity implies $\int_0^T|Y_u|^2\,\dd u<\infty$ almost surely, so the
+adapted process $Y$ is locally square integrable.  Let $(\pi^n)$ be any
+sequence of deterministic partitions of $[0,t]$ whose mesh tends to zero.
+The rough Riemann sums are
+\[
+  S_n:=\sum_{[u,v]\in\pi^n}
+       \bigl(Y_uB_{u,v}+Y'_u\mathbb B^{\mathrm{It\hat{o}}}_{u,v}\bigr),
+\]
+and converge almost surely to the rough integral.  The first sums
+$\sum Y_uB_{u,v}$ converge in probability to the It\^o integral.
+
+It remains to show that
+\[
+  R_n:=\sum_{[u,v]\in\pi^n}
+       Y'_u\mathbb B^{\mathrm{It\hat{o}}}_{u,v}
+  \longrightarrow0
+\]
+in probability.  First suppose $|Y'_u|\le M$.  The random variables
+$Y'_u\mathbb B^{\mathrm{It\hat{o}}}_{u,v}$ are martingale differences over
+disjoint partition intervals.  Orthogonality and the estimate
+$\mathbb E|\mathbb B^{\mathrm{It\hat{o}}}_{u,v}|^2\le C|v-u|^2$ yield
+\[
+  \mathbb E|R_n|^2
+  =\sum_{[u,v]\in\pi^n}
+    \mathbb E|Y'_u\mathbb B^{\mathrm{It\hat{o}}}_{u,v}|^2
+  \le CM^2T|\pi^n|.
+\]
+Thus $R_n\to0$ in $L^2$.
+
+For general $Y'$, let $\theta_M$ be a bounded radial truncation equal to the
+identity on the ball of radius $M$.  The same estimate applies to
+$\theta_M(Y')$.  Since $\sup_{u\le T}|Y'_u|<\infty$ almost surely,
+\begin{align*}
+\mathbb P(|R_n|>\varepsilon)
+\le{}&\mathbb P\left(\sup_{u\le T}|Y'_u|>M\right)\\
+&+\mathbb P\left(\left|\sum_{[u,v]\in\pi^n}
+ \theta_M(Y'_u)\mathbb B^{\mathrm{It\hat{o}}}_{u,v}\right|>
+ \varepsilon\right).
+\end{align*}
+Letting first $n\to\infty$ and then $M\to\infty$ proves convergence in
+probability.  Hence $S_n$ converges in probability both to the rough integral
+and to the It\^o integral; uniqueness of limits in probability gives equality
+almost surely.  Applying the argument at rational times and using continuity
+of both integral processes gives simultaneous equality for every $t$.
+\end{proof}
+
+For a continuous adapted matrix-valued process $Y$, write
+\[
+  [Y,B]^{\operatorname{ctr}}_t
+  :=\sum_{i=1}^d[\,t\mapsto Y_t e_i,B^i\,]_t
+\]
+whenever the componentwise quadratic covariations exist.  The corresponding
+Stratonovich integral is
+\[
+  \int_0^tY_u\circ\dd B_u
+  :=\int_0^tY_u\,\dd B_u
+    +\frac12[Y,B]^{\operatorname{ctr}}_t.
+\]
+
+\begin{prop}[Consistency of the Stratonovich integral]
+Under the assumptions of the preceding proposition, replace the It\^o lift by
+$\mathbf B^{\mathrm{Strat}}$.  Then the contracted quadratic covariation
+exists and satisfies
+\[
+  [Y,B]^{\operatorname{ctr}}_t
+  =\int_0^t\operatorname{Ctr}(Y'_u)\,\dd u.
+\]
+Consequently,
+\[
+  \int_0^tY_u\,\dd\mathbf B^{\mathrm{Strat}}_u
+  =\int_0^tY_u\circ\dd B_u
+\]
+almost surely, simultaneously for every $t\in[0,T]$.
+\end{prop}
+
+\begin{proof}
+For a partition interval $[u,v]$, controlledness gives
+\[
+  Y_{u,v}=Y'_uB_{u,v}+R^Y_{u,v}.
+\]
+Contracting with $B_{u,v}$ and using
+\[
+  B_{u,v}\otimes B_{u,v}
+  =2\operatorname{Sym}(\mathbb B^{\mathrm{It\hat{o}}}_{u,v})
+   +(v-u)I_d
+\]
+gives
+\begin{align*}
+  Y_{u,v}B_{u,v}
+  ={}&2Y'_u\operatorname{Sym}
+       (\mathbb B^{\mathrm{It\hat{o}}}_{u,v})
+      +\operatorname{Ctr}(Y'_u)(v-u)
+      +R^Y_{u,v}B_{u,v}.
+\end{align*}
+The martingale-difference argument from the It\^o proposition, applied also
+to the transposed second level, shows that the sum of the first terms tends to
+zero in probability.  The middle terms are ordinary Riemann sums and converge
+almost surely to
+$\int_0^t\operatorname{Ctr}(Y'_u)\,\dd u$.  Finally,
+\[
+  \left|\sum_{[u,v]\in\pi}R^Y_{u,v}B_{u,v}\right|
+  \le\|R^Y\|_{2\alpha}\|B\|_\alpha
+       \sum_{[u,v]\in\pi}|v-u|^{3\alpha}
+  \le T\|R^Y\|_{2\alpha}\|B\|_\alpha|\pi|^{3\alpha-1},
+\]
+which tends to zero because $3\alpha>1$.  This identifies the contracted
+quadratic covariation.
+
+At the level of rough Riemann sums,
+\[
+  \mathbb B^{\mathrm{Strat}}_{u,v}
+  =\mathbb B^{\mathrm{It\hat{o}}}_{u,v}+\frac12(v-u)I_d
+\]
+implies
+\[
+  \int_0^tY_u\,\dd\mathbf B^{\mathrm{Strat}}_u
+  =\int_0^tY_u\,\dd\mathbf B^{\mathrm{It\hat{o}}}_u
+   +\frac12\int_0^t\operatorname{Ctr}(Y'_u)\,\dd u.
+\]
+The It\^o consistency result and the formula just proved turn the right-hand
+side into the classical Stratonovich integral.
+\end{proof}
+
+The consistency of differential equations is now a consequence of the
+integral identities, but adaptation must be justified by the causal nature of
+the It\^o--Lyons solution map rather than by continuity alone.
+
+\begin{prop}[Consistency of RDEs and SDEs]
+Let $(\Omega,\mathcal F,(\mathcal F_t)_{t\in[0,T]},\mathbb P)$ satisfy
+the usual conditions.  Let $B$ be a $d$-dimensional
+$(\mathcal F_t)$-Brownian motion, let
+$y\in L^2(\Omega;\mathbb R^m)$ be $\mathcal F_0$-measurable, and let
+\[
+  f\in C_b^3\bigl(\mathbb R^m;
+       \mathcal L(\mathbb R^d,\mathbb R^m)\bigr).
+\]
+Fix $\alpha\in(1/3,1/2)$.
+
+\begin{enumerate}
+\item Let $(Y,Y')$ solve
+\[
+  \dd Y_t=f(Y_t)\,\dd\mathbf B^{\mathrm{It\hat{o}}}_t,
+  \qquad Y_0=y.
+\]
+Then $Y$ is the unique strong solution of the It\^o SDE
+\[
+  \dd Y_t=f(Y_t)\,\dd B_t,
+  \qquad Y_0=y.
+\]
+
+\item Let $(Y,Y')$ solve
+\[
+  \dd Y_t=f(Y_t)\,\dd\mathbf B^{\mathrm{Strat}}_t,
+  \qquad Y_0=y.
+\]
+Then $Y$ is the unique strong solution of the Stratonovich SDE
+\[
+  \dd Y_t=f(Y_t)\circ\dd B_t,
+  \qquad Y_0=y.
+\]
+\end{enumerate}
+\end{prop}
+
+\begin{proof}
+For each $t$, the restricted enhanced path
+$\mathbf B|_{[0,t]}$ is $\mathcal F_t$-measurable.  By uniqueness of RDE
+solutions, the restriction $Y|_{[0,t]}$ is obtained by applying the
+deterministic It\^o--Lyons map to $y$ and this restricted driver; in
+particular, the construction is nonanticipative.  Continuity, hence Borel
+measurability, of that map shows that $Y_t$ is $\mathcal F_t$-measurable.
+Thus $Y$ and $Y'=f(Y)$ are adapted.
+
+In the It\^o case, the preceding consistency proposition applied on every
+interval $[0,t]$ gives
+\[
+  Y_t=y+\int_0^tf(Y_u)\,\dd\mathbf B^{\mathrm{It\hat{o}}}_u
+     =y+\int_0^tf(Y_u)\,\dd B_u.
+\]
+Hence $Y$ solves the It\^o SDE.  Because $f\in C_b^3$, it is globally
+Lipschitz, so pathwise uniqueness holds; the adapted solution constructed from
+$B$ and $y$ is therefore the unique strong solution.
+
+The Stratonovich consistency proposition gives the corresponding integral
+equation in the second case.  Equivalently, conversion to It\^o form produces
+bounded globally Lipschitz drift and diffusion coefficients, so the same
+strong existence and uniqueness conclusion applies.
+\end{proof}

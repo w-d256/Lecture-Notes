@@ -1,0 +1,686 @@
+\chapter{Rough Paths and Rough Integrals}
+
+\section{Definitions and Basic Properties}
+
+Throughout these notes, $V,W,$ and $U$ denote Banach spaces.  Whenever tensor
+products occur, we fix a completed tensor product equipped with an admissible
+crossnorm, so that $|v\otimes w|\le |v|\,|w|$.  We identify continuous bilinear
+maps on $V\times V$ with continuous linear maps on $V\otimes V$ whenever this
+causes no ambiguity.
+
+For a path $X\colon[0,T]\to V$ and $0\le s\le t\le T$, write
+\[
+  X_{s,t}:=X_t-X_s.
+\]
+Let $\mathcal C([0,T];V)$ denote the space of continuous $V$-valued paths, and
+write $\|X\|_\infty:=\sup_{t\in[0,T]}|X_t|$.
+
+\begin{de}[Hölder paths]
+For $\alpha\in(0,1]$, define
+\[
+  \|X\|_\alpha:=\sup_{0\le s<t\le T}
+  \frac{|X_{s,t}|}{|t-s|^\alpha}.
+\]
+The space of paths for which this seminorm is finite is denoted by
+$\mathcal C^\alpha([0,T];V)$.
+\end{de}
+
+\begin{remark}
+The map $X\mapsto |X_0|+\|X\|_\alpha$ is a norm under which
+$\mathcal C^\alpha([0,T];V)$ is complete.  The seminorm alone does not detect
+additive constants.
+\end{remark}
+
+If $0<\alpha<\beta\le1$, the inclusion
+$\mathcal C^\beta([0,T];V)\hookrightarrow\mathcal C^\alpha([0,T];V)$
+is continuous.  It is strict whenever $T>0$ and $V$ is nontrivial.  The Hölder
+spaces are generally nonseparable in their natural Hölder norms.
+
+\begin{lem}[Lower semicontinuity]
+Let $X^n\in\mathcal C^\alpha([0,T];V)$ and suppose that $X^n_t\to X_t$ for every
+$t\in[0,T]$.  Then
+\[
+  \|X\|_\alpha\le \liminf_{n\to\infty}\|X^n\|_\alpha.
+\]
+\end{lem}
+
+\begin{proof}
+For each fixed $s<t$,
+\[
+  \frac{|X_{s,t}|}{|t-s|^\alpha}
+  =\lim_{n\to\infty}\frac{|X^n_{s,t}|}{|t-s|^\alpha}
+  \le \liminf_{n\to\infty}\|X^n\|_\alpha.
+\]
+Taking the supremum over $s<t$ gives the result.
+\end{proof}
+
+\begin{lem}[Interpolation]
+If $0<\alpha<\beta\le1$, then every path $X$ satisfies
+\[
+  \|X\|_\alpha
+  \le \|X\|_\beta^{\alpha/\beta}
+      \left(\sup_{0\le s<t\le T}|X_{s,t}|\right)^{1-\alpha/\beta}.
+\]
+\end{lem}
+
+\begin{proof}
+For each $s<t$,
+\[
+  \frac{|X_{s,t}|}{|t-s|^\alpha}
+  =\left(\frac{|X_{s,t}|}{|t-s|^\beta}\right)^{\alpha/\beta}
+   |X_{s,t}|^{1-\alpha/\beta}.
+\]
+Take the supremum.
+\end{proof}
+
+\begin{lem}
+Let $0<\alpha<\beta\le1$.  Suppose $X^n\in\mathcal C^\beta$,
+$\sup_n\|X^n\|_\beta<\infty$, and $X^n\to X$ uniformly.  Then
+$X\in\mathcal C^\beta$ and $\|X^n-X\|_\alpha\to0$.
+\end{lem}
+
+\begin{proof}
+Lower semicontinuity gives $X\in\mathcal C^\beta$ and hence
+$\sup_n\|X^n-X\|_\beta<\infty$.  Apply the interpolation inequality to
+$X^n-X$ and use
+$\sup_{s<t}|(X^n-X)_{s,t}|\le2\|X^n-X\|_\infty\to0$.
+\end{proof}
+
+\begin{lem}[Compact embedding]
+Let $0<\alpha<\beta\le1$ and assume that $V$ is finite dimensional.  If
+$X^n\in\mathcal C^\beta([0,T];V)$ and
+\[
+  \sup_n\bigl(|X^n_0|+\|X^n\|_\beta\bigr)<\infty,
+\]
+then some subsequence converges in $\mathcal C^\alpha$ to a path in
+$\mathcal C^\beta$.
+
+More generally, the same conclusion holds in an arbitrary Banach space if the
+set $\{X^n_t:n\ge1\}$ is relatively compact in $V$ for every $t\in[0,T]$.
+\end{lem}
+
+\begin{proof}
+The assumptions imply uniform boundedness and equicontinuity.  In finite
+dimensions, bounded point sets are relatively compact; in the stated Banach
+space generalization this is assumed.  The Banach-valued Arzelà--Ascoli theorem
+therefore yields a uniformly convergent subsequence.  The preceding lemma then
+upgrades uniform convergence to convergence in $\mathcal C^\alpha$.
+\end{proof}
+
+\begin{remark}
+Thus $\mathcal C^\beta([0,T];V)$ embeds compactly into
+$\mathcal C^\alpha([0,T];V)$ when $V$ is finite dimensional.  This assertion is
+false for a general infinite-dimensional Banach space without pointwise
+relative compactness.
+\end{remark}
+
+Set
+\[
+  \Delta_{[0,T]}:=\{(s,t)\in[0,T]^2:s\le t\}.
+\]
+For a Banach space $E$, let $\mathcal C_2(\Delta_{[0,T]};E)$ denote the space of
+continuous two-parameter maps, and define
+\[
+  \|A\|_\gamma:=\sup_{0\le s<t\le T}
+  \frac{|A_{s,t}|}{|t-s|^\gamma}.
+\]
+The corresponding Hölder space is denoted by $\mathcal C_2^\gamma$.
+For a one-parameter path, $X_{s,t}$ denotes an increment; for a two-parameter
+map, $A_{s,t}$ denotes evaluation at $(s,t)$.
+
+\begin{de}[Hölder rough path]
+Let $\alpha\in(1/3,1/2]$.  An $\alpha$-Hölder rough path over $V$ is a pair
+$\mathbf X=(X,\mathbb X)$ with
+\[
+  X\in\mathcal C^\alpha([0,T];V),\qquad
+  \mathbb X\in\mathcal C_2^{2\alpha}(\Delta_{[0,T]};V\otimes V),
+\]
+satisfying Chen's relation
+\[
+  \mathbb X_{s,t}
+  =\mathbb X_{s,u}+\mathbb X_{u,t}+X_{s,u}\otimes X_{u,t}
+\]
+for every $0\le s\le u\le t\le T$.  The space of such rough paths is denoted
+by $\mathscr C^\alpha([0,T];V)$.
+\end{de}
+
+The second level $\mathbb X_{s,t}$ should be viewed as a prescribed value for
+$\int_s^t X_{s,r}\otimes\dd X_r$.  If $X$ is smooth, its canonical lift is
+\[
+  \mathbb X_{s,t}:=\int_s^t X_{s,r}\otimes\dd X_r,
+\]
+where the integral is Riemann--Stieltjes; Chen's relation follows by splitting
+the integral at an intermediate time.
+
+\begin{de}[Rough-path distance]
+For $\mathbf X=(X,\mathbb X)$ and
+$\widetilde{\mathbf X}=(\widetilde X,\widetilde{\mathbb X})$, define
+\[
+  \|\mathbf X;\widetilde{\mathbf X}\|_\alpha
+  :=\|X-\widetilde X\|_\alpha
+    +\|\mathbb X-\widetilde{\mathbb X}\|_{2\alpha},
+  \qquad
+  \|\mathbf X\|_\alpha:=\|X\|_\alpha+\|\mathbb X\|_{2\alpha}.
+\]
+\end{de}
+
+The first expression is a pseudometric because it ignores the initial point of
+$X$.  Adding $|X_0-\widetilde X_0|$ gives a metric.  With the norm
+\[
+  |X_0|+\|X\|_\alpha+\|\mathbb X\|_{2\alpha},
+\]
+$\mathcal C^\alpha\times\mathcal C_2^{2\alpha}$ is Banach.  Chen's relation is
+closed under convergence, so $\mathscr C^\alpha$ is a complete metric space.
+It is not a vector space because Chen's relation is nonlinear.
+
+If $F\colon[0,T]\to V\otimes V$ is $2\alpha$-Hölder and
+$F_{s,t}:=F_t-F_s$, then $(X,\mathbb X+F_{\cdot,\cdot})$ is again a rough path.
+Conversely, if two rough paths have the same first level, the difference of
+their second levels is additive and therefore is the increment of a
+$2\alpha$-Hölder path.  Thus an enhancement is determined only up to such an
+additive perturbation.
+
+\begin{lem}[Interpolation for rough paths]
+Let $1/3<\alpha<\beta\le1/2$.  Suppose
+$\mathbf X^n=(X^n,\mathbb X^n)\in\mathscr C^\beta$ and
+\[
+  \sup_n\bigl(\|X^n\|_\beta+\|\mathbb X^n\|_{2\beta}\bigr)<\infty.
+\]
+If $X^n_{s,t}\to X_{s,t}$ and
+$\mathbb X^n_{s,t}\to\mathbb X_{s,t}$ pointwise on $\Delta_{[0,T]}$, then
+$\mathbf X=(X,\mathbb X)\in\mathscr C^\beta$ and
+$\|\mathbf X^n;\mathbf X\|_\alpha\to0$.
+\end{lem}
+
+\begin{proof}
+Passing to the pointwise limit in the Hölder bounds and in Chen's relation
+shows that $\mathbf X\in\mathscr C^\beta$.  The uniform Hölder bounds make the
+families $(s,t)\mapsto X^n_{s,t}$ and $(s,t)\mapsto\mathbb X^n_{s,t}$
+equicontinuous on the compact simplex.  For the second level, this follows by
+changing one endpoint at a time and applying Chen's relation together with the
+uniform first- and second-level bounds.  Pointwise convergence of an
+equicontinuous family on a compact set is therefore uniform.  If
+\[
+  \varepsilon_n:=\sup_{s<t}
+  \bigl(|X^n_{s,t}-X_{s,t}|+|\mathbb X^n_{s,t}-\mathbb X_{s,t}|\bigr),
+\]
+then $\varepsilon_n\to0$.  Interpolation gives
+\[
+  |X^n_{s,t}-X_{s,t}|\lesssim
+  \varepsilon_n^{1-\alpha/\beta}|t-s|^\alpha,
+\]
+\[
+  |\mathbb X^n_{s,t}-\mathbb X_{s,t}|\lesssim
+  \varepsilon_n^{1-\alpha/\beta}|t-s|^{2\alpha},
+\]
+which proves convergence in the $\alpha$-Hölder rough-path metric.
+\end{proof}
+
+\section{Weakly Geometric Rough Paths}
+
+For the canonical lift of a smooth path $X=(X^1,\ldots,X^d)$, integration by
+parts yields
+\[
+  \mathbb X^{ij}_{s,t}+\mathbb X^{ji}_{s,t}
+  =X^i_{s,t}X^j_{s,t}.
+\]
+Equivalently,
+\[
+  \operatorname{Sym}(\mathbb X_{s,t})
+  =\frac12X_{s,t}\otimes X_{s,t}.
+\]
+This identity is the second-level expression of first-order calculus.
+
+\begin{de}[Weakly geometric rough path]
+A rough path $\mathbf X=(X,\mathbb X)\in\mathscr C^\alpha$ is weakly geometric
+if
+\[
+  \operatorname{Sym}(\mathbb X_{s,t})
+  =\frac12X_{s,t}\otimes X_{s,t}
+\]
+for every $(s,t)\in\Delta_{[0,T]}$.  The corresponding space is denoted by
+$\mathscr C_g^\alpha$.
+\end{de}
+
+\begin{de}[Geometric rough path]
+The space $\mathscr C_g^{0,\alpha}$ of geometric $\alpha$-Hölder rough paths is
+the closure, in the $\alpha$-Hölder rough-path metric, of canonical lifts of
+smooth paths.
+\end{de}
+
+\begin{remark}
+When $V$ is finite-dimensional,
+\[
+  \mathscr C_g^\beta\subset\mathscr C_g^{0,\alpha}
+  \subset\mathscr C_g^\alpha\subset\mathscr C^\alpha,
+  \qquad 1/3<\alpha<\beta\le1/2.
+\]
+The inclusions need not be equalities.  In a general Banach space, approximation
+by smooth canonical lifts may require additional tensor-product and
+approximation assumptions, so no blanket inclusion is asserted here.
+\end{remark}
+
+\section{Young Integration}
+
+\begin{thm}[Sewing lemma]
+Let $E$ be a Banach space and let
+$A\colon\Delta_{[0,T]}\to E$ be continuous.  Put
+\[
+  \delta A_{s,u,t}:=A_{s,t}-A_{s,u}-A_{u,t}.
+\]
+Suppose that for some $\varepsilon>0$ and $\lambda\ge0$,
+\[
+  |\delta A_{s,u,t}|\le\lambda|t-s|^{1+\varepsilon}
+\]
+for all $s\le u\le t$.  Then there is a unique continuous additive map
+$\mathcal I A\colon\Delta_{[0,T]}\to E$ such that
+\[
+  |(\mathcal I A)_{s,t}-A_{s,t}|
+  \le C_\varepsilon\lambda|t-s|^{1+\varepsilon}.
+\]
+Moreover, for every sequence of partitions $\pi$ of $[s,t]$ with
+$|\pi|\to0$,
+\[
+  (\mathcal I A)_{s,t}
+  =\lim_{|\pi|\to0}\sum_{[u,v]\in\pi}A_{u,v}.
+\]
+Consequently, there is a continuous path $\gamma$, unique after imposing
+$\gamma_0=0$, such that $\gamma_t-\gamma_s=(\mathcal I A)_{s,t}$.
+\end{thm}
+
+\begin{proof}
+On $[s,t]$, let $A^n_{s,t}$ be the sum of $A$ over the dyadic partition with
+$2^n$ intervals.  Splitting every interval at its midpoint gives
+\[
+  |A^{n+1}_{s,t}-A^n_{s,t}|
+  \le \lambda|t-s|^{1+\varepsilon}2^{-n\varepsilon}.
+\]
+Hence $A^n_{s,t}$ converges and
+\[
+  |(\mathcal I A)_{s,t}-A_{s,t}|
+  \le \frac{\lambda}{1-2^{-\varepsilon}}|t-s|^{1+\varepsilon}.
+\]
+The same estimate on each interval of an arbitrary partition $\pi$ gives
+\[
+  \left|(\mathcal I A)_{s,t}-\sum_{[u,v]\in\pi}A_{u,v}\right|
+  \le C_\varepsilon\lambda
+      \sum_{[u,v]\in\pi}|v-u|^{1+\varepsilon}
+  \le C_\varepsilon\lambda|t-s|\,|\pi|^\varepsilon.
+\]
+Thus arbitrary Riemann sums converge to the same limit.  Concatenating
+partitions of $[s,u]$ and $[u,t]$ proves additivity.  Continuity follows from
+the estimate, and uniqueness follows because the difference of two such
+additive maps is $O(|t-s|^{1+\varepsilon})$; summing over finer partitions
+forces that difference to vanish.
+\end{proof}
+
+\begin{prop}[Young integral]
+Let $X\in\mathcal C^\alpha([0,T];V)$ and
+$Y\in\mathcal C^\beta([0,T];\mathcal L(V,W))$, where
+$\alpha,\beta\in(0,1]$ and $\alpha+\beta>1$.  Then
+\[
+  \int_0^tY_u\,\dd X_u
+  :=\lim_{|\pi|\to0}\sum_{[u,v]\in\pi}Y_uX_{u,v}
+\]
+exists and satisfies
+\[
+  \left|\int_s^tY_u\,\dd X_u-Y_sX_{s,t}\right|
+  \le C_{\alpha+\beta}\|Y\|_\beta\|X\|_\alpha
+      |t-s|^{\alpha+\beta}.
+\]
+\end{prop}
+
+\begin{proof}
+Set $A_{s,t}=Y_sX_{s,t}$.  Then
+$\delta A_{s,u,t}=-Y_{s,u}X_{u,t}$, so
+\[
+  |\delta A_{s,u,t}|
+  \le\|Y\|_\beta\|X\|_\alpha|t-s|^{\alpha+\beta}.
+\]
+Apply the sewing lemma.
+\end{proof}
+
+\begin{prop}[Stability of Young integrals]
+Under the preceding assumptions, let also
+$\widetilde X\in\mathcal C^\alpha([0,T];V)$ and
+$\widetilde Y\in\mathcal C^\beta([0,T];\mathcal L(V,W))$.  Then
+\begin{align*}
+ &\left\|\int_0^\cdot Y_u\,\dd X_u
+       -\int_0^\cdot\widetilde Y_u\,\dd\widetilde X_u\right\|_\alpha\\
+ &\quad\le C
+ \Bigl[
+  \bigl(|Y_0-\widetilde Y_0|+\|Y-\widetilde Y\|_\beta\bigr)\|X\|_\alpha
+  +\bigl(|\widetilde Y_0|+\|\widetilde Y\|_\beta\bigr)
+   \|X-\widetilde X\|_\alpha
+ \Bigr],
+\end{align*}
+where $C$ depends only on $\alpha,\beta,$ and $T$.
+\end{prop}
+
+\begin{proof}
+Use bilinearity to write the difference as
+\[
+  \int_0^\cdot(Y-\widetilde Y)_u\,\dd X_u
+  +\int_0^\cdot\widetilde Y_u\,\dd(X-\widetilde X)_u.
+\]
+For $s<t$, the Young estimate gives
+\begin{align*}
+\left|\int_s^t(Y-\widetilde Y)_u\,\dd X_u\right|
+&\le |Y_s-\widetilde Y_s|\,|X_{s,t}|
+ +C\|Y-\widetilde Y\|_\beta\|X\|_\alpha|t-s|^{\alpha+\beta},\\
+\left|\int_s^t\widetilde Y_u\,\dd(X-\widetilde X)_u\right|
+&\le |\widetilde Y_s|\,|(X-\widetilde X)_{s,t}|\\
+&\quad+C\|\widetilde Y\|_\beta\|X-\widetilde X\|_\alpha
+ |t-s|^{\alpha+\beta}.
+\end{align*}
+Bound the two supremum norms by their initial values plus $T^\beta$ times the
+corresponding Hölder seminorms, divide by $|t-s|^\alpha$, and take the
+supremum.
+\end{proof}
+
+\begin{lem}[Young integration by parts]
+Let $B\colon V\times W\to U$ be a continuous bilinear map,
+$X\in\mathcal C^\alpha([0,T];V)$, and
+$Y\in\mathcal C^\beta([0,T];W)$, with $\alpha+\beta>1$.  Then
+\[
+  B(X_T,Y_T)-B(X_0,Y_0)
+  =\int_0^T B(X_u,\dd Y_u)+\int_0^T B(\dd X_u,Y_u).
+\]
+For scalar-valued paths this is the usual formula
+$X_TY_T-X_0Y_0=\int X\,\dd Y+\int Y\,\dd X$.
+\end{lem}
+
+\begin{proof}
+For every partition,
+\[
+  B(X_t,Y_t)-B(X_s,Y_s)
+  =B(X_s,Y_{s,t})+B(X_{s,t},Y_s)+B(X_{s,t},Y_{s,t}).
+\]
+The sum of the last terms is bounded by
+$C\|X\|_\alpha\|Y\|_\beta T|\pi|^{\alpha+\beta-1}$ and tends to zero.
+The first two sums converge to the two Young integrals.
+\end{proof}
+
+For Banach spaces $V,W$, let $C^{k+\gamma}(V;W)$ denote the maps that are
+$k$ times continuously Fréchet differentiable and whose $k$th derivative is
+locally $\gamma$-Hölder.
+
+\begin{lem}[Young chain rule]
+Let $X\in\mathcal C^\alpha([0,T];V)$ and let $\gamma\in(0,1]$.  If
+$f\in C^{1+\gamma}(V;W)$ and $\alpha(1+\gamma)>1$, then
+$u\mapsto Df(X_u)$ is $\alpha\gamma$-Hölder on $[0,T]$, the Young integral is
+well defined, and
+\[
+  f(X_T)-f(X_0)=\int_0^T Df(X_u)\,\dd X_u.
+\]
+\end{lem}
+
+\begin{proof}
+The compactness of $X([0,T])$ supplies a local Hölder constant for $Df$, so
+$\|Df(X)\|_{\alpha\gamma}<\infty$.  Taylor's formula gives
+\[
+  f(X_t)-f(X_s)=Df(X_s)X_{s,t}+R_{s,t},
+  \qquad |R_{s,t}|\lesssim |X_{s,t}|^{1+\gamma}
+  \lesssim |t-s|^{\alpha(1+\gamma)}.
+\]
+Sum over a partition.  Since $\alpha(1+\gamma)>1$, the remainder sum tends to
+zero, while the principal sum converges to the Young integral.
+\end{proof}
+
+\begin{lem}[Associativity of Young integration]
+Let
+\[
+  X\in\mathcal C^\alpha([0,T];V),\quad
+  K\in\mathcal C^\beta([0,T];\mathcal L(V,U)),\quad
+  Y\in\mathcal C^\beta([0,T];\mathcal L(U,W)),
+\]
+with $\alpha+\beta>1$, and put
+$Z_t:=\int_0^tK_u\,\dd X_u$.  Then $Z\in\mathcal C^\alpha([0,T];U)$ and
+\[
+  \int_0^T Y_u\,\dd Z_u
+  =\int_0^T (Y_u\circ K_u)\,\dd X_u.
+\]
+\end{lem}
+
+\begin{proof}
+The Young estimate shows that
+$Z_{s,t}=K_sX_{s,t}+O(|t-s|^{\alpha+\beta})$, uniformly in $s,t$, and hence
+$Z\in\mathcal C^\alpha$.  Consequently,
+\[
+  \int_s^tY_u\,\dd Z_u
+  =Y_sK_sX_{s,t}+O(|t-s|^{\alpha+\beta})
+  =\int_s^t(Y_u\circ K_u)\,\dd X_u+O(|t-s|^{\alpha+\beta}).
+\]
+Summing over a partition makes the total error tend to zero because
+$\alpha+\beta>1$.
+\end{proof}
+
+\section{Rough Integration}
+
+\begin{de}[Controlled path]
+Let $\alpha\in(1/3,1/2]$ and
+$X\in\mathcal C^\alpha([0,T];V)$.  A controlled path over $X$ with values in
+$W$ is a pair
+\[
+  Y\in\mathcal C^\alpha([0,T];W),\qquad
+  Y'\in\mathcal C^\alpha([0,T];\mathcal L(V,W)),
+\]
+for which the remainder
+\[
+  R^Y_{s,t}:=Y_{s,t}-Y'_sX_{s,t}
+\]
+belongs to $\mathcal C_2^{2\alpha}(\Delta_{[0,T]};W)$.  The space of such
+pairs is denoted by $\mathscr D_X^{2\alpha}([0,T];W)$, and $Y'$ is called the
+Gubinelli derivative.
+\end{de}
+
+Define
+\[
+  \|(Y,Y')\|_{X,2\alpha}
+  :=\|Y'\|_\alpha+\|R^Y\|_{2\alpha}.
+\]
+Then
+\[
+  |Y_0|+|Y'_0|+\|(Y,Y')\|_{X,2\alpha}
+\]
+is a Banach norm on $\mathscr D_X^{2\alpha}$.  Moreover,
+\[
+  \|Y\|_\alpha
+  \le \|Y'\|_\infty\|X\|_\alpha+T^\alpha\|R^Y\|_{2\alpha}
+  \lesssim_{T,X}|Y'_0|+\|(Y,Y')\|_{X,2\alpha}.
+\]
+
+\begin{remark}
+The Gubinelli derivative need not be unique for a very regular driver.  For
+example, if both $X$ and $Y$ are $2\alpha$-Hölder, then every
+$Y'\in\mathcal C^\alpha([0,T];\mathcal L(V,W))$ produces a $2\alpha$-Hölder
+remainder.  Merely assuming that $Y'$ is continuous is insufficient, because
+the definition also requires $Y'$ to be $\alpha$-Hölder.
+\end{remark}
+
+\begin{eg}[Products of controlled paths]
+Let $B\colon W_1\times W_2\to W_3$ be continuous bilinear, and let
+$(Y,Y')\in\mathscr D_X^{2\alpha}(W_1)$ and
+$(Z,Z')\in\mathscr D_X^{2\alpha}(W_2)$.  Then $B(Y,Z)$ is controlled by $X$
+with derivative
+\[
+  B(Y,Z)'_s(v)=B(Y_s,Z'_s v)+B(Y'_s v,Z_s).
+\]
+Indeed,
+\[
+  R^{B(Y,Z)}_{s,t}
+  =B(Y_s,R^Z_{s,t})+B(R^Y_{s,t},Z_s)+B(Y_{s,t},Z_{s,t}),
+\]
+which is $2\alpha$-Hölder.
+\end{eg}
+
+\begin{prop}[Rough integral]
+Let
+\[
+  \mathbf X=(X,\mathbb X)\in\mathscr C^\alpha([0,T];V)
+\]
+and suppose
+\[
+  (Y,Y')\in\mathscr D_X^{2\alpha}
+  ([0,T];\mathcal L(V,W)).
+\]
+Here $Y'_s$ is viewed as a continuous bilinear map on $V\times V$ when
+contracted with $\mathbb X_{s,t}$.  Then
+\[
+  \int_0^tY_u\,\dd\mathbf X_u
+  :=\lim_{|\pi|\to0}\sum_{[u,v]\in\pi}
+    \bigl(Y_uX_{u,v}+Y'_u\mathbb X_{u,v}\bigr)
+\]
+exists, and
+\[
+ \left|\int_s^tY_u\,\dd\mathbf X_u
+      -Y_sX_{s,t}-Y'_s\mathbb X_{s,t}\right|
+ \le C_\alpha
+ \bigl(\|R^Y\|_{2\alpha}\|X\|_\alpha
+       +\|Y'\|_\alpha\|\mathbb X\|_{2\alpha}\bigr)
+ |t-s|^{3\alpha}.
+\]
+\end{prop}
+
+\begin{proof}
+Set $A_{s,t}=Y_sX_{s,t}+Y'_s\mathbb X_{s,t}$.  Chen's relation and the
+controlled expansion give
+\begin{align*}
+\delta A_{s,u,t}
+&=-Y_{s,u}X_{u,t}+Y'_s(X_{s,u}\otimes X_{u,t})-Y'_{s,u}\mathbb X_{u,t}\\
+&=-R^Y_{s,u}X_{u,t}-Y'_{s,u}\mathbb X_{u,t}.
+\end{align*}
+Therefore
+\[
+  |\delta A_{s,u,t}|
+  \le\bigl(\|R^Y\|_{2\alpha}\|X\|_\alpha
+       +\|Y'\|_\alpha\|\mathbb X\|_{2\alpha}\bigr)|t-s|^{3\alpha}.
+\]
+Since $3\alpha>1$, the sewing lemma applies.
+\end{proof}
+
+\begin{prop}[The rough integral is controlled]
+With the preceding assumptions, put
+\[
+  Z_t:=\int_0^tY_u\,\dd\mathbf X_u,
+  \qquad Z'_t:=Y_t.
+\]
+Then $(Z,Z')\in\mathscr D_X^{2\alpha}([0,T];W)$ and
+\begin{align*}
+ \|R^Z\|_{2\alpha}
+ &\le \|Y'\|_\infty\|\mathbb X\|_{2\alpha}\\
+ &\quad+C_\alpha T^\alpha
+ \bigl(\|R^Y\|_{2\alpha}\|X\|_\alpha
+      +\|Y'\|_\alpha\|\mathbb X\|_{2\alpha}\bigr).
+\end{align*}
+\end{prop}
+
+\begin{proof}
+The rough-integral estimate yields
+\[
+  R^Z_{s,t}=Z_{s,t}-Y_sX_{s,t}
+  =Y'_s\mathbb X_{s,t}+O(|t-s|^{3\alpha}),
+\]
+which is $2\alpha$-Hölder.
+\end{proof}
+
+For two controlled paths over possibly different drivers, define the mixed
+seminorm
+\[
+  \|(Y,Y');(\widetilde Y,\widetilde Y')\|_{X,\widetilde X;2\alpha}
+  :=\|Y'-\widetilde Y'\|_\alpha
+    +\|R^Y-R^{\widetilde Y}\|_{2\alpha}.
+\]
+
+\begin{thm}[Stability of controlled paths and rough-integral remainders]
+Let $\mathbf X=(X,\mathbb X)$ and
+$\widetilde{\mathbf X}=(\widetilde X,\widetilde{\mathbb X})$ be
+$\alpha$-Hölder rough paths.  Let
+$(Y,Y')\in\mathscr D_X^{2\alpha}$ and
+$(\widetilde Y,\widetilde Y')\in\mathscr D_{\widetilde X}^{2\alpha}$.  Then
+\begin{align*}
+\|Y-\widetilde Y\|_\alpha
+&\le C_T\Bigl[
+ (|Y'_0-\widetilde Y'_0|+\|Y'-\widetilde Y'\|_\alpha)\|X\|_\alpha\\
+&\qquad+(|\widetilde Y'_0|+\|\widetilde Y'\|_\alpha)
+  \|X-\widetilde X\|_\alpha
+ +T^\alpha\|R^Y-R^{\widetilde Y}\|_{2\alpha}
+\Bigr].
+\end{align*}
+If $Z=\int Y\,\dd\mathbf X$ and
+$\widetilde Z=\int\widetilde Y\,\dd\widetilde{\mathbf X}$, then
+\begin{align*}
+\|R^Z-R^{\widetilde Z}\|_{2\alpha}
+&\le C_{\alpha,T}\Bigl[
+ (|Y'_0-\widetilde Y'_0|
+  +\|Y'-\widetilde Y'\|_\alpha
+  +\|R^Y-R^{\widetilde Y}\|_{2\alpha})\|\mathbf X\|_\alpha\\
+&\qquad+(|\widetilde Y'_0|+\|\widetilde Y'\|_\alpha
+  +\|R^{\widetilde Y}\|_{2\alpha})
+  \|\mathbf X;\widetilde{\mathbf X}\|_\alpha
+\Bigr].
+\end{align*}
+\end{thm}
+
+\begin{proof}
+The first estimate follows from
+\[
+  (Y-\widetilde Y)_{s,t}
+  =(Y'_s-\widetilde Y'_s)X_{s,t}
+   +\widetilde Y'_s(X-\widetilde X)_{s,t}
+   +(R^Y-R^{\widetilde Y})_{s,t}.
+\]
+For the second, set
+\[
+ A_{s,t}=Y_sX_{s,t}+Y'_s\mathbb X_{s,t},\qquad
+ \widetilde A_{s,t}
+ =\widetilde Y_s\widetilde X_{s,t}
+  +\widetilde Y'_s\widetilde{\mathbb X}_{s,t}.
+\]
+The difference of the sewing defects is
+\begin{align*}
+\delta(A-\widetilde A)_{s,u,t}
+={}&-(R^Y-R^{\widetilde Y})_{s,u}X_{u,t}
+    -R^{\widetilde Y}_{s,u}(X-\widetilde X)_{u,t}\\
+ &-(Y'-\widetilde Y')_{s,u}\mathbb X_{u,t}
+    -\widetilde Y'_{s,u}(\mathbb X-\widetilde{\mathbb X})_{u,t}.
+\end{align*}
+Each term is bounded by the displayed coefficients times $|t-s|^{3\alpha}$.
+The sewing lemma gives a corresponding estimate for the difference between
+the two rough integrals and their local models.  Finally,
+\[
+  Y'_s\mathbb X_{s,t}-\widetilde Y'_s\widetilde{\mathbb X}_{s,t}
+  =(Y'_s-\widetilde Y'_s)\mathbb X_{s,t}
+   +\widetilde Y'_s(\mathbb X-\widetilde{\mathbb X})_{s,t},
+\]
+which yields the stated $2\alpha$-Hölder remainder bound.
+\end{proof}
+
+\begin{cor}[Stability of the rough integral]
+Under the assumptions of the theorem,
+\begin{align*}
+\left\|\int_0^\cdot Y_u\,\dd\mathbf X_u
+      -\int_0^\cdot\widetilde Y_u\,\dd\widetilde{\mathbf X}_u\right\|_\alpha
+\le C\Bigl[&
+ \|Y-\widetilde Y\|_\infty\|X\|_\alpha
+ +\|\widetilde Y\|_\infty\|X-\widetilde X\|_\alpha\\
+ &+T^\alpha\|R^Z-R^{\widetilde Z}\|_{2\alpha}
+\Bigr],
+\end{align*}
+where $Z=\int Y\,\dd\mathbf X$ and
+$\widetilde Z=\int\widetilde Y\,\dd\widetilde{\mathbf X}$.  Combining this
+with the preceding theorem and the controlled-path bounds yields local
+Lipschitz continuity of rough integration in the driver and integrand.
+\end{cor}
+
+\begin{proof}
+Since $(Z,Y)$ is controlled by $X$ and $(\widetilde Z,\widetilde Y)$ is
+controlled by $\widetilde X$,
+\[
+  (Z-\widetilde Z)_{s,t}
+  =(Y_s-\widetilde Y_s)X_{s,t}
+   +\widetilde Y_s(X-\widetilde X)_{s,t}
+   +(R^Z-R^{\widetilde Z})_{s,t}.
+\]
+Divide by $|t-s|^\alpha$, take the supremum, and use the estimates above.
+\end{proof}
