@@ -1,0 +1,365 @@
+\chapter{PDE and Submartingale Characterizations}
+
+\section{Reflected diffusions and parabolic PDEs}
+
+Let $D\subset\R^d$ be a domain for which the reflected SDE is well posed in
+law. In the time-homogeneous case, write
+\begin{equation}
+  X_t=x+\int_0^t a(X_s)\,\dd s
+      +\int_0^t\sigma(X_s)\,\dd B_s
+      +\int_0^t\gamma(X_s)\,\dd L_s, \label{eq:chapter3-rsde}
+\end{equation}
+where $\gamma$ is an inward reflection field and $\dd L$ is supported on the
+boundary. Set
+\[
+  c(x):=\sigma(x)\sigma(x)^\top
+\]
+and define, for $\varphi\in C^2(\overline D)$,
+\begin{equation}
+  \mathcal A\varphi(x)
+  :=a(x)\cdot\nabla\varphi(x)
+    +\frac12\operatorname{tr}\!\left(c(x)D^2\varphi(x)\right). \label{eq:diffusion-generator}
+\end{equation}
+The oblique derivative at the boundary is
+$\partial_\gamma\varphi:=\nabla\varphi\cdot\gamma$.
+
+Uniqueness in law is needed here: weak existence alone does not select a
+unique family of transition probabilities. Under well posedness, define
+\[
+  P_t\varphi(x):=\E_x[\varphi(X_t)].
+\]
+
+\begin{proposition}[A generator core candidate]
+Assume $a,\sigma,$ and $\gamma$ are bounded and continuous. If
+$\varphi\in C_b^2(\overline D)$ satisfies
+$\partial_\gamma\varphi=0$ on $\partial D$, then
+\begin{equation}
+  \lim_{t\downarrow0}\frac{P_t\varphi(x)-\varphi(x)}{t}
+  =\mathcal A\varphi(x),
+  \qquad x\in\overline D. \label{eq:generator-at-zero}
+\end{equation}
+\end{proposition}
+
+\begin{proof}
+It\^o's formula gives
+\begin{align*}
+  \varphi(X_t)-\varphi(x)
+  &=\int_0^t\mathcal A\varphi(X_s)\,\dd s
+    +\int_0^t\nabla\varphi(X_s)\sigma(X_s)\,\dd B_s\\
+  &\quad+\int_0^t\partial_\gamma\varphi(X_s)\,\dd L_s.
+\end{align*}
+The last term is zero because $\dd L$ is supported on $\partial D$, and the
+stochastic integral is a true martingale because its integrand is bounded.
+After taking expectations, continuity of $X$ and bounded continuity of
+$\mathcal A\varphi$ give \eqref{eq:generator-at-zero} by dominated
+convergence.
+\end{proof}
+
+\begin{remark}[What the proposition does not prove]
+The proposition identifies a natural class of functions on which the
+probabilistic generator acts as $\mathcal A$ with an oblique Neumann boundary
+condition. It does not identify the whole generator domain, prove that this
+class is a core, or prove strong continuity of $(P_t)$. A pointwise derivative
+at $t=0$ cannot replace the separate Feller and strong-continuity arguments
+required by semigroup theory.
+\end{remark}
+
+\subsection{The backward Kolmogorov equation}
+
+For time-dependent coefficients, let $X^{t,x}$ be the reflected diffusion
+started from $x$ at time $t$, and define
+\begin{align*}
+  \mathcal A_s\varphi(x)
+  &:=a(s,x)\cdot\nabla\varphi(x)
+    +\frac12\operatorname{tr}\!\left(
+        c(s,x)D^2\varphi(x)
+      \right),\\
+  c(s,x)&:=\sigma(s,x)\sigma(s,x)^\top.
+\end{align*}
+The natural probabilistic object is now a transition family
+$P_{t,s}$, not a one-parameter semigroup.
+
+\begin{theorem}[Classical backward representation]
+Let $u\in C^{1,2}([0,T]\times\overline D)$ satisfy
+\begin{align*}
+  \partial_tu(t,x)+\mathcal A_tu(t,x)&=0,
+      &&(t,x)\in[0,T)\times D,\\
+  \partial_{\gamma(t,\cdot)}u(t,x)&=0,
+      &&(t,x)\in[0,T)\times\partial D,\\
+  u(T,x)&=g(x), &&x\in\overline D.
+\end{align*}
+Assume that $u$, its derivatives appearing above, and the stochastic
+integrand $\nabla u\,\sigma$ have enough growth control to justify It\^o's
+formula and the martingale expectation. Then
+\begin{equation}
+  u(t,x)=\E\bigl[g(X_T^{t,x})\bigr]. \label{eq:backward-representation}
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+Apply It\^o's formula to $u(s,X_s^{t,x})$ on $[t,T]$. The time--space drift
+vanishes by the PDE, and the finite-variation boundary term vanishes because
+$\partial_\gamma u=0$ where the regulator increases. The remaining
+stochastic integral is a martingale. Taking expectations gives
+\eqref{eq:backward-representation}.
+\end{proof}
+
+\begin{remark}
+Existence of a classical solution and existence of a transition density are
+separate analytic questions. On a sufficiently smooth domain, uniformly
+parabolic operators with compatible H\"older data admit classical Neumann or
+oblique-derivative theory. When a transition density exists, the function in
+\eqref{eq:backward-representation} may be written as its integral against
+$g$. A PDE solution is a deterministic function; it is not itself a Markov
+process.
+\end{remark}
+
+\begin{theorem}[Feynman--Kac formula]
+Let $r$ be bounded from below, and let
+$u\in C^{1,2}([0,T]\times\overline D)$ solve
+\begin{align*}
+  \partial_tu+\mathcal A_tu-r u&=0
+      &&\text{on }[0,T)\times D,\\
+  \partial_\gamma u&=0
+      &&\text{on }[0,T)\times\partial D,\\
+  u(T,\cdot)&=g.
+\end{align*}
+Assume the exponential weight and the stochastic integral below are
+integrable. Then
+\begin{equation}
+  u(t,x)
+  =\E\!\left[
+      g(X_T^{t,x})
+      \exp\!\left(
+        -\int_t^T r(s,X_s^{t,x})\,\dd s
+      \right)
+    \right]. \label{eq:feynman-kac-reflected}
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+Apply the product rule to
+\[
+  \exp\!\left[
+    -\int_t^s r(q,X_q^{t,x})\,\dd q
+  \right]u(s,X_s^{t,x}).
+\]
+The PDE cancels the drift and the boundary condition cancels the regulator
+term. The remaining local martingale is a true martingale under the stated
+integrability assumption. Evaluating at $t$ and $T$ proves the formula.
+\end{proof}
+
+\subsection{Expected hitting times}
+
+Let $K$ be an open set with $\overline K\subset D$, put
+$U:=D\setminus\overline K$, and define
+\[
+  \tau_K:=\inf\{t\geq0:X_t\in\overline K\}.
+\]
+
+\begin{theorem}[Poisson problem for the mean hitting time]
+Assume $D$ is bounded and that the stopped stochastic integrals below are
+true martingales. Suppose $u$ extends to a $C^2$ function on a neighbourhood of
+$\overline U$ and satisfies
+\begin{align*}
+  \mathcal Au&=-1 &&\text{in }U,\\
+  \partial_\gamma u&=0 &&\text{on }\partial D,\\
+  u&=0 &&\text{on }\partial K.
+\end{align*}
+Then $\tau_K<\infty$ almost surely and
+\begin{equation}
+  u(x)=\E_x[\tau_K],
+  \qquad x\in\overline U. \label{eq:mean-hitting}
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+It\^o's formula stopped at $\tau_K\wedge t$ yields
+\[
+  \E_x u(X_{\tau_K\wedge t})
+  =u(x)-\E_x(\tau_K\wedge t).
+\]
+Because $u$ is bounded on $\overline U$, the right-hand side gives a uniform
+bound on $\E_x(\tau_K\wedge t)$. Monotone convergence then implies
+$\E_x\tau_K<\infty$, and hence $\tau_K<\infty$ almost surely. Continuity of
+$X$ gives $X_{\tau_K}\in\partial K$; bounded convergence and the inner
+Dirichlet condition now give \eqref{eq:mean-hitting}.
+\end{proof}
+
+\begin{example}[Reflected Brownian motion in an annulus]
+Let $D=B(0,R)$ and $K=B(0,r)$ with $0<r<R$. Let $X$ be Brownian motion
+normally reflected at $\partial D$, so its generator is
+$\frac12\Delta$. The mean time to hit $\overline K$ is radial:
+$u(x)=U(|x|)$. For $r\leq\rho\leq R$, it solves
+\[
+  U''(\rho)+\frac{d-1}{\rho}U'(\rho)=-2,
+  \qquad U(r)=0,
+  \qquad U'(R)=0.
+\]
+Thus, for $d\geq3$,
+\begin{equation}
+  u(x)
+  =\frac{r^2-|x|^2}{d}
+   +\frac{2R^d}{d(d-2)}
+      \bigl(r^{2-d}-|x|^{2-d}\bigr), \label{eq:annulus-dge3}
+\end{equation}
+where the factor $R^d$ is required by the Neumann condition. For $d=2$,
+\begin{equation}
+  u(x)=\frac{r^2-|x|^2}{2}+R^2\log\frac{|x|}{r}. \label{eq:annulus-d2}
+\end{equation}
+For $d=1$, on either component of $(-R,R)\setminus[-r,r]$,
+\[
+  u(x)=r^2-|x|^2+2R(|x|-r).
+\]
+\end{example}
+
+\section{The submartingale problem}
+
+The submartingale formulation characterizes reflected diffusions without
+choosing a Brownian motion in advance. Let
+\[
+  G=\{x\in\R^d:\phi(x)>0\},
+  \qquad
+  \partial G=\{x:\phi(x)=0\},
+\]
+where $\phi\in C_b^2(\R^d)$ and
+$|\nabla\phi|$ is bounded away from zero on the boundary. Let
+$a(t,x)$ and $c(t,x)$ be the interior drift and covariance, let
+$\gamma(t,x)$ be a continuous inward field with
+\[
+  \inf_{t,x\in\partial G}
+  \gamma(t,x)\cdot\nabla\phi(x)>0,
+\]
+and let $\rho(t,x)\geq0$ describe possible boundary holding. Define
+\begin{align*}
+  \mathcal A_t f(t,x)
+  &:=a(t,x)\cdot\nabla f(t,x)
+    +\frac12\operatorname{tr}
+      \bigl(c(t,x)D^2f(t,x)\bigr),\\
+  \mathcal J_t f(t,x)&:=\gamma(t,x)\cdot\nabla f(t,x).
+\end{align*}
+
+\begin{definition}[Submartingale problem]
+A probability measure $P$ on
+$C([t_0,\infty);\R^d)$ solves the submartingale problem for
+$(a,c,\gamma,\rho)$ with initial point $x_0\in\overline G$ if, for the
+coordinate process $X$,
+\begin{enumerate}[label=(\roman*)]
+  \item
+  \[
+    P\bigl(X_{t_0}=x_0,
+      \ X_t\in\overline G\text{ for every }t\geq t_0\bigr)=1;
+  \]
+  \item for every compactly supported
+  $f\in C^{1,2}([t_0,\infty)\times\R^d)$ satisfying
+  \begin{equation}
+    \rho(t,x)\partial_t f(t,x)+\mathcal J_t f(t,x)\geq0
+    \quad\text{on }[t_0,\infty)\times\partial G, \label{eq:submart-boundary-test}
+  \end{equation}
+  the process
+  \begin{align}
+    f(t,X_t)-f(t_0,X_{t_0})
+    -\int_{t_0}^t\1_{\{X_s\in G\}}
+       \bigl(\partial_s f+\mathcal A_s f\bigr)(s,X_s)\,\dd s
+       \label{eq:submart-process}
+  \end{align}
+  is a $P$-submartingale.
+\end{enumerate}
+\end{definition}
+
+The event in (i) is a pathwise confinement statement. Requiring only
+$P(X_t\in\overline G)=1$ separately for each fixed $t$ would be weaker in
+form, even though continuity can sometimes be used to recover the pathwise
+version from a countable dense set of times.
+
+\begin{theorem}[Semimartingale representation]
+Under the usual smoothness and nondegeneracy assumptions for the
+submartingale problem, $P$ solves the problem above if and only if there is a
+continuous adapted nondecreasing process $L$, with $L_{t_0}=0$ and
+\begin{equation}
+  \int_{t_0}^t\1_{\{X_s\in G\}}\,\dd L_s=0, \label{eq:l-support-ch3}
+\end{equation}
+such that
+\begin{align}
+  M_t
+  &:=X_t-X_{t_0}
+     -\int_{t_0}^t\1_{\{X_s\in G\}}a(s,X_s)\,\dd s
+     -\int_{t_0}^t\gamma(s,X_s)\,\dd L_s \label{eq:submart-M}\\
+  \langle M^i,M^j\rangle_t
+  &=\int_{t_0}^t\1_{\{X_s\in G\}}c_{ij}(s,X_s)\,\dd s, \label{eq:submart-bracket}\\
+  \int_{t_0}^t\1_{\{X_s\in\partial G\}}\,\dd s
+  &=\int_{t_0}^t\rho(s,X_s)\,\dd L_s. \label{eq:elastic-relation}
+\end{align}
+Here $M$ is a continuous local martingale. Under boundedness, it is a true
+martingale on finite intervals.
+\end{theorem}
+
+\begin{remark}
+When $\rho\equiv0$, relation \eqref{eq:elastic-relation} says that the process
+spends zero Lebesgue time on the boundary. Positive $\rho$ produces sticky or
+elastic boundary behavior. The process $L$ is part of the representation and
+must start at zero, increase only on the boundary, and use the bracket lower
+limit $t_0$; omitting any of these conditions leaves the characterization
+incomplete.
+\end{remark}
+
+\begin{theorem}[A safe well-posedness regime]
+Suppose $G$ is a bounded $C^2$ domain. Assume that $a$ and a square root
+$\sigma$ of $c$ are bounded and globally Lipschitz in $x$, continuous in
+$t$, and that $c$ is uniformly elliptic. Assume $\gamma$ is bounded,
+Lipschitz, and uniformly inward pointing.
+
+For $\rho\equiv0$, the reflected SDE is pathwise unique and its law is the
+unique solution of the submartingale problem. Its transition family is strong
+Markov; equivalently, the time--space process is a homogeneous strong Markov
+process.
+
+Assume in addition that $a,c,\gamma,$ and $\rho$ are time homogeneous and
+that $\rho$ is bounded, nonnegative, and Lipschitz. Let
+$(\overline X,\overline L)$ denote the nonsticky reflected diffusion and set
+\[
+  A_s=s+\int_{t_0}^s\rho(\overline X_r)\,\dd\overline L_r,
+  \qquad
+  \tau_t:=\inf\{s\geq t_0:A_s>t\},
+  \qquad t\geq t_0.
+\]
+Then $X_t:=\overline X_{\tau_t}$ yields the elastic process, and the
+corresponding submartingale problem is well posed.
+\end{theorem}
+
+\begin{proof}[Proof outline]
+The smooth-domain reflected SDE has a unique strong solution under the stated
+Lipschitz assumptions. It\^o's formula proves that its law solves the
+submartingale problem. Conversely, the semimartingale representation and the
+martingale representation theorem recover a weak reflected SDE from any
+solution of the submartingale problem; uniqueness in law identifies it. In the
+time-homogeneous elastic case, the inverse clock $\tau$ slows physical time
+exactly when $\overline X$ accumulates boundary regulator. The change-of-
+variables formula then gives \eqref{eq:elastic-relation}. The construction is
+reversible because $A$ is continuous and strictly increasing.
+\end{proof}
+
+\begin{example}[Why time-dependent test functions matter]
+Take $G=(0,\infty)$, $a=0$, $c=1$, $\gamma=1$, and $\rho=0$.
+Reflected Brownian motion solves the submartingale problem. Brownian motion
+stopped upon first hitting zero does not solve it, because after the hitting
+time a time-dependent test function can change through its boundary trace
+while the interior integral in \eqref{eq:submart-process} is switched off.
+Nevertheless, for every time-independent
+$f\in C_c^2(\R)$ with $f'(0)\geq0$, the stopped process satisfies
+\[
+  f(X_t)-\frac12\int_0^t\1_{\{X_s>0\}}f''(X_s)\,\dd s
+\]
+as a submartingale (indeed, as a martingale). Therefore one cannot replace
+the full boundary condition
+$\rho\,\partial_t f+\mathcal Jf\geq0$ by a condition involving only
+$f$ and its spatial derivatives.
+\end{example}
+
+\begin{remark}[Localization]
+Boundedness assumptions may be localized. If two sets of coefficients agree
+on $[t_0,t_0+\varepsilon]\times U$, where $U$ is a neighborhood of the
+starting point, then their stopped submartingale problems agree up to the
+first exit from that time--space region, provided the localized problem is
+well posed.
+\end{remark}

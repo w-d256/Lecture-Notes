@@ -1,0 +1,349 @@
+\chapter[One-Dimensional Reflected SDEs]{One-Dimensional Reflected SDEs}
+
+\section{The Skorokhod problem on the half-line}
+
+Consider a continuous driving path on the nonnegative half-line. Whenever the
+unconstrained path attempts to cross the boundary at zero, a minimal
+nondecreasing correction pushes it back into the state space.
+
+\begin{definition}[Skorokhod problem on $[0,\infty)$]
+Let $f\in C([0,T];\R)$ with $f(0)\geq 0$. A pair
+$(g,\ell)\in C([0,T];\R)^2$ solves the Skorokhod problem for $f$ if
+\begin{enumerate}[label=(\roman*)]
+  \item $g(t)\geq 0$ for every $t\in[0,T]$;
+  \item $g(t)=f(t)+\ell(t)$ for every $t\in[0,T]$;
+  \item $\ell(0)=0$ and $\ell$ is nondecreasing;
+  \item
+  \[
+    \int_0^T \1_{\{g(s)>0\}}\,\dd\ell(s)=0.
+  \]
+\end{enumerate}
+The last condition says that the regulator may increase only while the
+reflected path is at the boundary.
+\end{definition}
+
+\begin{theorem}[Explicit solution]
+For every $f\in C([0,T];\R)$ with $f(0)\geq0$, the Skorokhod problem has a
+unique solution. It is given by
+\begin{align}
+  \ell(t)
+    &=\sup_{0\leq s\leq t}[-f(s)]^+
+      =-\min_{0\leq s\leq t}\bigl(f(s)\wedge0\bigr), \label{eq:one-d-regulator}\\
+  g(t)
+    &=f(t)+\ell(t)
+      =f(t)-\min_{0\leq s\leq t}\bigl(f(s)\wedge0\bigr). \label{eq:one-d-map}
+\end{align}
+\end{theorem}
+
+\begin{proof}
+Define $\ell$ by \eqref{eq:one-d-regulator} and set $g=f+\ell$.
+The running supremum of the continuous function $f^-$ is continuous and
+nondecreasing, and $\ell(0)=0$ because $f(0)\geq0$. Moreover,
+$\ell(t)\geq[-f(t)]^+$, so $g(t)\geq0$.
+
+The Stieltjes measure $\dd\ell$ is supported on the set of times at which
+$f^-$ attains a new running maximum. At each such time,
+$\ell(t)=-f(t)$ and hence $g(t)=0$. Therefore
+$\int_0^T\1_{\{g>0\}}\,\dd\ell=0$, proving existence.
+
+For uniqueness, let $(\widetilde g,\widetilde\ell)$ be any solution. Since
+$\widetilde g=f+\widetilde\ell\geq0$,
+\[
+  \widetilde\ell(t)\geq\sup_{0\leq s\leq t}[-f(s)]^+=\ell(t).
+\]
+If strict inequality held at some time, continuity would give a first level
+at which $\widetilde\ell$ rises above $\ell$. At that increase time the
+support condition forces $\widetilde g=0$, so
+$\widetilde\ell=-f\leq\sup_{s\leq t}[-f(s)]^+=\ell$, a contradiction.
+Thus $\widetilde\ell=\ell$ and consequently $\widetilde g=g$.
+\end{proof}
+
+\begin{definition}[Skorokhod map]
+For $f\in C([0,T];\R)$ define
+\[
+  (\Lambda f)(t):=\sup_{0\leq s\leq t}[-f(s)]^+,
+  \qquad
+  (\Gamma f)(t):=f(t)+(\Lambda f)(t).
+\]
+The map $\Gamma$ is the one-dimensional Skorokhod map and $\Lambda f$ is its
+regulator. The formulas make sense for every continuous $f$. When $f(0)<0$,
+$\Lambda f(0)>0$, so this extended map no longer uses the normalization
+$\ell(0)=0$ from the preceding definition.
+\end{definition}
+
+For $h\in C([0,T];\R)$ write
+\[
+  \norm{h}_{t}:=\sup_{0\leq s\leq t}|h(s)|,
+  \qquad
+  \omega_h(\delta;t)
+  :=\sup_{\substack{r,s\in[0,t]\\|r-s|\leq\delta}}|h(r)-h(s)|.
+\]
+
+\begin{proposition}[Stability of the one-dimensional map]
+For $f_1,f_2\in C([0,T];\R)$ and $t\in[0,T]$,
+\begin{align}
+  \norm{\Lambda f_1-\Lambda f_2}_{t}
+    &\leq \norm{f_1-f_2}_{t}, \label{eq:lambda-lip}\\
+  \norm{\Gamma f_1-\Gamma f_2}_{t}
+    &\leq 2\norm{f_1-f_2}_{t}. \label{eq:gamma-lip}
+\end{align}
+In addition,
+\begin{align}
+  \norm{\Lambda f}_{t}&\leq\norm{f}_{t},
+  &\norm{\Gamma f}_{t}&\leq2\norm{f}_{t}, \label{eq:map-growth}\\
+  \omega_{\Lambda f}(\delta;t)&\leq\omega_f(\delta;t),
+  &\omega_{\Gamma f}(\delta;t)&\leq\omega_f(\delta;t). \label{eq:map-modulus}
+\end{align}
+Consequently, both $\Lambda$ and $\Gamma$ are nonanticipative and continuous
+for the uniform topology on compact time intervals.
+\end{proposition}
+
+\begin{proof}
+The map $x\mapsto x^+$ is $1$-Lipschitz, and the running-supremum operator is
+$1$-Lipschitz in the supremum norm. This proves \eqref{eq:lambda-lip}; adding
+the driving paths gives \eqref{eq:gamma-lip}. The bounds
+\eqref{eq:map-growth} follow by comparing with the zero path.
+
+Let $0\leq s<t\leq T$. If $\Lambda f(t)=\Lambda f(s)$, then both increments
+in \eqref{eq:map-modulus} are immediate. Otherwise choose
+$u\in(s,t]$ such that $\Lambda f(t)=[-f(u)]^+$. Since
+$\Lambda f(s)\geq[-f(s)]^+$,
+\[
+  0\leq\Lambda f(t)-\Lambda f(s)
+  \leq |f(u)-f(s)|\leq\omega_f(t-s;T).
+\]
+Furthermore, both $\Gamma f(s)$ and $\Gamma f(t)$ lie between zero and the
+oscillation of $f$ over $[s,t]$ relative to the new minimum at $u$; hence
+$|\Gamma f(t)-\Gamma f(s)|\leq\omega_f(t-s;T)$. Taking suprema proves
+\eqref{eq:map-modulus}.
+\end{proof}
+
+\begin{remark}
+The same problem can be formulated for c\`adl\`ag paths. With jumps, one must
+specify how the regulator reacts to an overshoot of the boundary; the
+continuous theory considered here avoids that additional convention.
+\end{remark}
+
+\section{One-dimensional reflected stochastic differential equations}
+
+Let $(\Omega,\cF,(\cF_t)_{t\geq0},\P)$ satisfy the usual conditions, and let
+$B$ be a one-dimensional $(\cF_t)$-Brownian motion. Let
+$a,b:[0,\infty)\times[0,\infty)\to\R$ be measurable, and let
+$\xi_0\geq0$ be $\cF_0$-measurable.
+
+\begin{definition}[Strong solution]
+A pair of continuous adapted processes $(X,L)$ is a strong solution of the
+reflected SDE
+\begin{equation}
+  X_t=\xi_0+\int_0^t a(s,X_s)\,\dd s
+      +\int_0^t b(s,X_s)\,\dd B_s+L_t \label{eq:reflected-sde-1d}
+\end{equation}
+if $X_t\geq0$, $L_0=0$, $L$ is nondecreasing,
+\[
+  \int_0^t\1_{\{X_s>0\}}\,\dd L_s=0
+  \qquad\text{for every }t\geq0,
+\]
+and all terms in \eqref{eq:reflected-sde-1d} are well defined.
+\end{definition}
+
+If
+\[
+  Y_t:=\xi_0+\int_0^t a(s,X_s)\,\dd s
+      +\int_0^t b(s,X_s)\,\dd B_s,
+\]
+then pathwise uniqueness for the Skorokhod problem gives
+\[
+  X=\Gamma Y,
+  \qquad
+  L=\Lambda Y.
+\]
+Because the maps are nonanticipative, applying them to a continuous adapted
+process again produces continuous adapted processes.
+
+\begin{theorem}[Existence and pathwise uniqueness]
+Assume that, for constants $C,\lambda>0$ and all $t\geq0$ and $x,y\geq0$,
+\begin{align*}
+  |a(t,x)-a(t,y)|+|b(t,x)-b(t,y)|&\leq\lambda|x-y|,\\
+  |a(t,x)|+|b(t,x)|&\leq C(1+x).
+\end{align*}
+If $\xi_0\in L^2(\cF_0)$ and $\xi_0\geq0$, then
+\eqref{eq:reflected-sde-1d} has a unique strong solution on every finite time
+interval.
+\end{theorem}
+
+\begin{proof}
+For an adapted continuous process $U$, define
+\[
+  (\Phi U)_t
+  :=\Gamma\!\left(
+      \xi_0+\int_0^{\cdot}a(s,U_s)\,\dd s
+      +\int_0^{\cdot}b(s,U_s)\,\dd B_s
+    \right)(t).
+\]
+The Lipschitz estimate for $\Gamma$, the Burkholder--Davis--Gundy inequality,
+and the coefficient Lipschitz bound imply, on $[0,h]$,
+\[
+  \E\sup_{t\leq h}|(\Phi U)_t-(\Phi V)_t|^2
+  \leq C_\lambda h\,
+        \E\sup_{t\leq h}|U_t-V_t|^2.
+\]
+For sufficiently small $h$, $\Phi$ is a contraction on the usual space of
+continuous adapted processes with finite $L^2$ supremum norm. The linear
+growth bound shows that $\Phi$ maps this space into itself. Banach's fixed
+point theorem gives a solution on $[0,h]$. Restarting the Skorokhod problem
+from the current nonnegative state extends the solution over any finite
+horizon. The same estimate, followed by Gronwall's lemma, proves pathwise
+uniqueness.
+\end{proof}
+
+\begin{theorem}[Moment and stability estimates]
+Let the preceding assumptions hold, let $p\geq2$, and suppose
+$\xi_0\in L^p$. For each finite $T$ there is a constant
+$C_{p,T}$, depending only on $p,T,C,$ and $\lambda$, such that
+\begin{equation}
+  \E\left[\sup_{0\leq s\leq T}|X_s|^p+L_T^p\right]
+  \leq C_{p,T}\left(1+\E|\xi_0|^p\right). \label{eq:moment-reflected}
+\end{equation}
+If $(X^x,L^x)$ and $(X^y,L^y)$ are driven by the same Brownian motion and
+start from deterministic $x,y\geq0$, then
+\begin{equation}
+  \E\left[\sup_{0\leq s\leq T}|X_s^x-X_s^y|^p
+          +\sup_{0\leq s\leq T}|L_s^x-L_s^y|^p\right]
+  \leq C_{p,T}|x-y|^p. \label{eq:initial-stability}
+\end{equation}
+Finally, for $0\leq t<t+h\leq T$ with $h\leq1$,
+\begin{equation}
+  \E\left[
+    \sup_{t\leq s\leq t+h}|X_s-X_t|^p
+    +|L_{t+h}-L_t|^p
+  \right]
+  \leq C_{p,T}\left(1+\E|\xi_0|^p\right)h^{p/2}. \label{eq:time-increments}
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+Write the solution as $X=\Gamma Y$ and $L=\Lambda Y$. The map estimates reduce
+all three claims to the corresponding drift and stochastic-integral bounds
+for $Y$. H\"older's inequality controls the drift, the
+Burkholder--Davis--Gundy inequality controls the martingale part, and
+Gronwall's lemma yields \eqref{eq:moment-reflected} and
+\eqref{eq:initial-stability}. For \eqref{eq:time-increments}, restart the
+Skorokhod problem at time $t$ and apply the same inequalities on the interval
+$[t,t+h]$; the drift contributes order $h^p$, which is bounded by order
+$h^{p/2}$ when $h\leq1$.
+\end{proof}
+
+\subsection{The Markov property}
+
+For $s\leq t$ and $x\geq0$, let $X^{s,x}$ denote the unique solution started
+from $x$ at time $s$ and driven by the Brownian increments
+$(B_r-B_s)_{r\geq s}$. Define
+\[
+  P_{s,t}(x,A):=\P\bigl(X_t^{s,x}\in A\bigr),
+  \qquad A\in\mathcal B([0,\infty)).
+\]
+
+\begin{theorem}[Time-inhomogeneous Markov property]
+Under the Lipschitz and growth assumptions, the reflected diffusion satisfies
+\[
+  \P(X_t\in A\mid\cF_s)=P_{s,t}(X_s,A)
+  \qquad\P\text{-a.s.},
+  \qquad 0\leq s\leq t.
+\]
+Thus $(P_{s,t})_{s\leq t}$ is the transition family of $X$. If the
+coefficients are time homogeneous, this family reduces to a Markov semigroup.
+\end{theorem}
+
+\begin{proof}
+The future Brownian increments are independent of $\cF_s$. Pathwise
+uniqueness and the nonanticipativity of the Skorokhod map give the flow
+identity
+\[
+  X_t=X_t^{s,X_s}\qquad\P\text{-a.s.}
+\]
+Conditioning a bounded Borel function of the right-hand side on $\cF_s$
+therefore yields the displayed formula.
+\end{proof}
+
+\section{Connection with local time}
+
+We use the right local-time convention. For a continuous semimartingale $Z$,
+its right local time at $a$ is the jointly measurable version satisfying
+\begin{equation}
+  L_t^{a,+}(Z)
+  =\lim_{\varepsilon\downarrow0}
+     \frac1\varepsilon
+     \int_0^t\1_{[a,a+\varepsilon)}(Z_s)\,\dd\langle Z\rangle_s, \label{eq:right-local-time}
+\end{equation}
+whenever the limit is interpreted in the standard local-time sense. It obeys
+Tanaka's formula
+\begin{equation}
+  (Z_t-a)^+
+  =(Z_0-a)^+
+   +\int_0^t\1_{\{Z_s>a\}}\,\dd Z_s
+   +\frac12L_t^{a,+}(Z), \label{eq:tanaka-right}
+\end{equation}
+and the occupation-density formula
+\[
+  \int_0^t q(Z_s)\,\dd\langle Z\rangle_s
+  =\int_{\R}q(a)L_t^{a,+}(Z)\,\dd a
+\]
+for nonnegative Borel $q$; changing the local-time version on a null set of
+levels does not alter the last integral.
+
+\begin{theorem}[The regulator is boundary local time]
+Let $(X,L)$ solve \eqref{eq:reflected-sde-1d}. Assume
+$b(t,0)\neq0$ for Lebesgue-almost every $t$. Then, simultaneously for all
+$t\geq0$,
+\begin{equation}
+  L_t=\frac12L_t^{0,+}(X)\qquad\P\text{-a.s.} \label{eq:regulator-local-time}
+\end{equation}
+Equivalently, $L$ is the symmetric local time of the nonnegative process $X$
+at the boundary.
+\end{theorem}
+
+\begin{proof}
+Since $X=X^+$, Tanaka's formula and the support condition for $\dd L$ give
+\begin{align*}
+  \frac12L_t^{0,+}(X)
+  &=X_t-X_0-
+    \int_0^t\1_{\{X_s>0\}}\,\dd X_s\\
+  &=L_t+
+    \int_0^t\1_{\{X_s=0\}}a(s,0)\,\dd s
+    +\int_0^t\1_{\{X_s=0\}}b(s,0)\,\dd B_s.
+\end{align*}
+The occupation-density formula applied to the singleton $\{0\}$ yields
+\[
+  \int_0^t\1_{\{X_s=0\}}b(s,0)^2\,\dd s=0.
+\]
+Because $b(s,0)\neq0$ almost everywhere, $X$ spends zero Lebesgue time at
+zero. The drift term above vanishes, and the stochastic integral has zero
+quadratic variation and hence vanishes. This proves
+\eqref{eq:regulator-local-time}.
+\end{proof}
+
+\begin{example}[L\'evy's identity]
+Let $W$ be Brownian motion and let $L^0(W)$ denote its symmetric local time at
+zero. Tanaka's formula gives
+\[
+  |W_t|=\widetilde B_t+L_t^0(W),
+  \qquad
+  \widetilde B_t:=\int_0^t\operatorname{sgn}(W_s)\,\dd W_s,
+\]
+where $\widetilde B$ is Brownian motion by L\'evy's characterization. The pair
+$(|W|,L^0(W))$ solves the Skorokhod problem for $\widetilde B$, and therefore
+\[
+  L_t^0(W)=-\inf_{0\leq s\leq t}\widetilde B_s,
+  \qquad
+  |W_t|=\widetilde B_t-\inf_{0\leq s\leq t}\widetilde B_s.
+\]
+Consequently,
+\[
+  \bigl(|W_t|,L_t^0(W)\bigr)_{t\geq0}
+  \overset{d}{=}
+  \left(
+    B_t-\inf_{0\leq s\leq t}B_s,
+    -\inf_{0\leq s\leq t}B_s
+  \right)_{t\geq0}.
+\]
+\end{example}

@@ -1,0 +1,714 @@
+\chapter[Reflected BSDEs]{Reflected Backward Stochastic Differential Equations}
+
+\section{Definitions, optimal stopping, and a priori estimates}
+
+Let $(\Omega,\cF,(\cF_t)_{0\leq t\leq T},\P)$ be the augmented filtration of
+a $d$-dimensional Brownian motion $B$. We work with scalar reflected BSDEs.
+Use the spaces
+\begin{align*}
+  \mathbb{S}^2
+  &:=\left\{Y:Y\,\mbox{is continuous and adapted},
+       \E\sup_{0\leq t\leq T}|Y_t|^2<\infty\right\},\\
+  \mathbb{H}^2
+  &:=\left\{Z:Z\,\mbox{is predictable},
+       \E\int_0^T|Z_t|^2\,\dd t<\infty\right\},\\
+  \mathbb{A}^2
+  &:=\left\{K:K\,\mbox{is continuous, adapted, and nondecreasing},
+       K_0=0,\ \E K_T^2<\infty\right\}.
+\end{align*}
+
+The data are a terminal variable $\xi$, a driver $f$, and a lower obstacle
+$S$. We impose the standing assumptions
+\begin{enumerate}[label=(A\arabic*)]
+  \item $\xi\in L^2(\cF_T)$;
+  \item $f(t,\omega,y,z)$ is progressively measurable in $(t,\omega)$ for
+        each $(y,z)$ and there is a constant $\lambda$ such that
+  \[
+    |f(t,y,z)-f(t,y',z')|
+    \leq\lambda\bigl(|y-y'|+|z-z'|\bigr);
+  \]
+  \item
+  \[
+    \E\left(\int_0^T|f(t,0,0)|\,\dd t\right)^2<\infty;
+  \]
+  \item $S$ is continuous and adapted,
+  $\E\sup_{t\leq T}(S_t^+)^2<\infty$, and $S_T\leq\xi$ almost surely.
+\end{enumerate}
+\begin{definition}[Reflected BSDE]
+A triple $(Y,Z,K)\in\mathbb{S}^2\times\mathbb{H}^2\times\mathbb{A}^2$ solves
+the reflected BSDE with data $(\xi,f,S)$ if
+\begin{align}
+  Y_t
+  &=\xi+\int_t^T f(s,Y_s,Z_s)\,\dd s
+      -\int_t^T Z_s\,\dd B_s+K_T-K_t, \label{eq:rbsde-main}\\
+  Y_t&\geq S_t, \label{eq:rbsde-obstacle}\\
+  \int_0^T(Y_t-S_t)\,\dd K_t&=0. \label{eq:rbsde-skorokhod}
+\end{align}
+The last identity is the Skorokhod minimality condition: $K$ may increase
+only on the contact set $\{Y=S\}$.
+\end{definition}
+
+For $t\in[0,T]$, let $\mathcal T_t$ be the stopping times with values in
+$[t,T]$, and set
+\[
+  \widehat S_\tau
+  :=S_\tau\1_{\{\tau<T\}}+\xi\1_{\{\tau=T\}}.
+\]
+
+\begin{theorem}[First contact and optimal stopping]
+Let $(Y,Z,K)$ solve the reflected BSDE and define
+\[
+  \tau_t:=\inf\{s\geq t:Y_s=S_s\}\wedge T.
+\]
+Then
+\begin{enumerate}[label=(\roman*)]
+  \item $K_{\tau_t}=K_t$ and
+  \[
+    Y_{\tau_t}=S_{\tau_t}\1_{\{\tau_t<T\}}
+                  +\xi\1_{\{\tau_t=T\}};
+  \]
+  \item pathwise,
+  \begin{equation}
+    K_T-K_t
+    =\sup_{t\leq s\leq T}
+      \left(
+        \xi+\int_s^T f(r,Y_r,Z_r)\,\dd r
+        -\int_s^T Z_r\,\dd B_r-S_s
+      \right)^-; \label{eq:pathwise-regulator-rbsde}
+  \end{equation}
+  \item
+  \begin{equation}
+    Y_t
+    =\operatorname*{ess\,sup}_{\tau\in\mathcal T_t}
+       \E_t\!\left[
+         \int_t^\tau f(s,Y_s,Z_s)\,\dd s+\widehat S_\tau
+       \right], \label{eq:rbsde-optimal-stopping}
+  \end{equation}
+  and $\tau_t$ is optimal.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+On $[t,\tau_t)$ one has $Y>S$, so the minimality condition gives
+$K_s=K_t$. Continuity gives the stated value at $\tau_t$.
+
+For $s\in[t,T]$, the BSDE identity implies
+\[
+  \xi+\int_s^T f(r,Y_r,Z_r)\,\dd r
+  -\int_s^T Z_r\,\dd B_r-S_s
+  =(Y_s-S_s)-(K_T-K_s).
+\]
+Its negative part is at most $K_T-K_s\leq K_T-K_t$. At $s=\tau_t<T$,
+$Y_s=S_s$ and $K_s=K_t$, so equality holds. If $\tau_t=T$, then $K$ is
+constant on $[t,T]$ and both sides of \eqref{eq:pathwise-regulator-rbsde}
+are zero.
+
+For any $\tau\in\mathcal T_t$, stop \eqref{eq:rbsde-main} at $\tau$.
+Since $Y_\tau\geq\widehat S_\tau$ and $K_\tau-K_t\geq0$, conditional
+expectation gives the inequality ``$\geq$'' in
+\eqref{eq:rbsde-optimal-stopping}. At $\tau=\tau_t$, the regulator is
+constant and the reward equals $Y_{\tau_t}$, so equality holds.
+\end{proof}
+
+\subsection{Comparison with nonreflected equations}
+
+\begin{proposition}
+Let $(Y,Z,K)$ solve the reflected BSDE\@. Let $(\underline Y,\underline Z)$
+solve the ordinary BSDE with the same terminal condition and driver,
+\[
+  \underline Y_t
+  =\xi+\int_t^T f(s,\underline Y_s,\underline Z_s)\,\dd s
+       -\int_t^T\underline Z_s\,\dd B_s.
+\]
+Let $\overline Y$ solve the forward equation with the fixed process $Z$,
+\[
+  \overline Y_t
+  =Y_0-\int_0^t f(s,\overline Y_s,Z_s)\,\dd s
+       +\int_0^t Z_s\,\dd B_s.
+\]
+Then
+\[
+  \underline Y_t\leq Y_t\leq\overline Y_t
+  \qquad\text{for all }t,
+  \quad\P\text{-a.s.}
+\]
+\end{proposition}
+
+\begin{proof}
+The lower inequality is the scalar BSDE comparison theorem: the reflected
+equation has the additional nonnegative backward increment $K_T-K_t$.
+
+For the upper inequality, set $D_t:=Y_t-\overline Y_t$. Then $D_0=0$ and
+\[
+  \dd D_t=-\alpha_tD_t\,\dd t-\dd K_t,
+\]
+where $\alpha$ is a bounded predictable linearization of
+$y\mapsto f(t,y,Z_t)$. Multiplying by
+$\exp(\int_0^t\alpha_s\,\dd s)$ shows that the transformed difference is
+nonincreasing, and hence $D_t\leq0$.
+\end{proof}
+
+\subsection{A priori and stability estimates}
+
+Write $Y^*:=\sup_{0\leq t\leq T}|Y_t|$ and define
+\begin{equation}
+  I(\xi,f,S)^2
+  :=\E\!\left[
+      |\xi|^2
+      +\left(\int_0^T|f(t,0,0)|\,\dd t\right)^2
+      +\sup_{0\leq t\leq T}(S_t^+)^2
+    \right]. \label{eq:rbsde-data-norm}
+\end{equation}
+
+\begin{theorem}[A priori estimate]
+There is a constant $C=C(T,\lambda)$ such that every solution satisfies
+\begin{equation}
+  \E\!\left[
+    (Y^*)^2+\int_0^T|Z_t|^2\,\dd t+K_T^2
+  \right]
+  \leq C I(\xi,f,S)^2. \label{eq:rbsde-apriori}
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+Apply It\^o's formula to $e^{\beta t}|Y_t|^2$, with $\beta$ large enough.
+The minimality condition gives
+\[
+  \int_0^T Y_t\,\dd K_t=\int_0^T S_t\,\dd K_t
+  \leq \sup_{t\leq T}S_t^+\,K_T.
+\]
+The Lipschitz bound on $f$, Young's inequality, and a sufficiently large
+$\beta$ absorb the $Y$ and $Z$ terms. Next use
+\[
+  K_T=Y_0-\xi-\int_0^T f(t,Y_t,Z_t)\,\dd t
+      +\int_0^T Z_t\,\dd B_t
+\]
+to estimate $K_T^2$. Finally, the Burkholder--Davis--Gundy inequality applied
+to the BSDE controls $Y^*$. Choosing the Young constants in this order
+absorbs every occurrence of $K_T^2$ and yields
+\eqref{eq:rbsde-apriori}; no unmultiplied $K_T^2$ term remains on the
+right-hand side.
+\end{proof}
+
+For two data sets, use $\Delta Y:=Y^1-Y^2$ and similarly for the other
+quantities. Define
+\[
+  \delta f_t
+  :=f^1(t,Y_t^2,Z_t^2)-f^2(t,Y_t^2,Z_t^2),
+  \qquad
+  I_i:=I(\xi_i,f^i,S^i).
+\]
+
+\begin{theorem}[Stability]
+There is $C=C(T,\lambda)$ such that
+\begin{align}
+  &\E\!\left[
+    \sup_{t\leq T}|\Delta Y_t|^2
+    +\int_0^T|\Delta Z_t|^2\,\dd t
+    +\sup_{t\leq T}|\Delta K_t|^2
+  \right] \notag\\
+  &\quad\leq
+  C\E\!\left[
+    |\Delta\xi|^2
+    +\left(\int_0^T|\delta f_t|\,\dd t\right)^2
+  \right]
+  +C(I_1+I_2)
+    \left(\E\sup_{t\leq T}|\Delta S_t|^2\right)^{1/2}.
+  \label{eq:rbsde-stability}
+\end{align}
+In particular, a reflected BSDE with fixed data has at most one solution.
+The estimate controls the uniform norm of $\Delta K$, not the total variation
+of $K^1-K^2$.
+\end{theorem}
+
+\begin{proof}
+Linearize the difference of the drivers in $(y,z)$ and apply It\^o's formula
+to $e^{\beta t}|\Delta Y_t|^2$. The reflection term has the key bound
+\begin{align*}
+  \int_0^T\Delta Y_t\,\dd\Delta K_t
+  &\leq \int_0^T\Delta S_t\,\dd K_t^1
+       -\int_0^T\Delta S_t\,\dd K_t^2\\
+  &\leq\sup_{t\leq T}|\Delta S_t|(K_T^1+K_T^2).
+\end{align*}
+Indeed, $Y^1=S^1$ on the support of $\dd K^1$, while
+$Y^2\geq S^2$, and the analogous statement holds for $K^2$.
+Young's inequality, the a priori estimate, Gronwall's lemma, and the
+Burkholder--Davis--Gundy inequality give the $Y$ and $Z$ bounds. Finally,
+subtracting the two BSDEs expresses $\Delta K$ in terms of
+$\Delta Y,\Delta Z,\Delta\xi,$ and $\delta f$, which gives the last term in
+\eqref{eq:rbsde-stability}.
+\end{proof}
+
+\begin{theorem}[Comparison]
+For $i=1,2$, let $(Y^i,Z^i,K^i)$ solve the scalar reflected BSDE with data
+$(\xi_i,f^i,S^i)$. Assume
+\[
+  \xi_1\leq\xi_2,
+  \qquad S^1_t\leq S^2_t,
+  \qquad f^1(t,y,z)\leq f^2(t,y,z)
+\]
+for all $(t,y,z)$, almost surely. Then $Y_t^1\leq Y_t^2$ for every $t$,
+almost surely.
+\end{theorem}
+
+\begin{proof}
+Apply the It\^o--Tanaka formula to $e^{\beta t}(\Delta Y_t^+)^2$. On the set
+$\{\Delta Y_t>0\}$ one has
+$Y_t^1>Y_t^2\geq S_t^2\geq S_t^1$, so $\dd K_t^1=0$. The remaining reflection
+term has the favorable sign because $\dd K^2\geq0$. Linearizing the driver,
+using its order, and taking $\beta$ large enough give
+$\E(\Delta Y_t^+)^2=0$. This argument works from every time $t$; checking
+only a possible failure at time zero would not prove the comparison theorem.
+\end{proof}
+
+\section{Essential suprema and the Snell envelope}
+
+\subsection{Essential suprema}
+
+\begin{definition}
+For a family $\mathcal X=\{X_i:i\in I\}\subset L^0(\cF)$, an essential
+supremum is a random variable $X$ such that
+\begin{enumerate}[label=(\roman*)]
+  \item $X\geq X_i$ almost surely for every $i$;
+  \item every other almost-sure upper bound $U$ satisfies $U\geq X$ almost
+        surely.
+\end{enumerate}
+It is denoted by $\operatorname*{ess\,sup}_{i\in I}X_i$ and is unique up to
+almost-sure equality. Essential infima are defined by changing signs.
+\end{definition}
+
+\begin{theorem}[Countable realization]
+Assume $\mathcal X$ has an almost-surely finite essential upper bound. Then
+its essential supremum exists and there are indices $(i_n)$ such that
+\[
+  \operatorname*{ess\,sup}_{i\in I}X_i
+  =\sup_{n\geq1}X_{i_n}
+  \quad\P\text{-a.s.}
+\]
+If $\mathcal X$ is upward directed---for every $i,j$ there is $k$ with
+$X_k\geq X_i\vee X_j$---the sequence can be chosen increasing.
+\end{theorem}
+
+\begin{proof}
+Let $\mathcal C$ be the set of suprema of countable subfamilies of
+$\mathcal X$, and let $\psi(x)=\arctan x+\pi/2$, a bounded strictly increasing
+function. Set
+\[
+  \alpha:=\sup_{Z\in\mathcal C}\E[\psi(Z)].
+\]
+Choose $Z_n\in\mathcal C$ with
+$\E\psi(Z_n)\geq\alpha-1/n$, and put $Z^*:=\sup_n Z_n$. The union of the
+countable subfamilies defining the $Z_n$ is countable, so $Z^*\in\mathcal C$.
+For any $i$, the variable $Z^*\vee X_i$ also belongs to $\mathcal C$. Hence
+\[
+  \E\psi(Z^*\vee X_i)\leq\alpha=\E\psi(Z^*).
+\]
+Strict monotonicity of $\psi$ gives $X_i\leq Z^*$ almost surely. Thus $Z^*$ is
+the least essential upper bound. Under upward directedness, recursively
+choose one index dominating the first $n$ members of the countable family.
+This produces an increasing realizing sequence. The argument avoids the
+circular use of expectations of unbounded Zorn-chain elements.
+\end{proof}
+
+\subsection{The Snell envelope}
+
+Let
+\[
+  \widehat S_t:=S_t\1_{\{t<T\}}+\xi\1_{\{t=T\}},
+  \qquad
+  Y_t:=\operatorname*{ess\,sup}_{\tau\in\mathcal T_t}
+       \E_t[\widehat S_\tau].
+\]
+
+\begin{theorem}[Snell envelope]
+The process $Y$ has a continuous version in $\mathbb{S}^2$. It is the smallest
+supermartingale dominating $\widehat S$. For
+\[
+  \tau_t^*:=\inf\{s\geq t:Y_s=\widehat S_s\}\wedge T,
+\]
+one has
+\[
+  Y_t=\E_t[\widehat S_{\tau_t^*}],
+  \qquad
+  (Y_{s\wedge\tau_t^*})_{s\geq t}\text{ is a martingale}.
+\]
+More generally, for every stopping time $\theta\in\mathcal T_t$,
+\begin{equation}
+  Y_t
+  =\operatorname*{ess\,sup}_{\tau\in\mathcal T_t}
+   \E_t\!\left[
+     \widehat S_\tau\1_{\{\tau<\theta\}}
+     +Y_\theta\1_{\{\tau\geq\theta\}}
+   \right]. \label{eq:snell-dpp}
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+For fixed $t$, the conditional rewards are upward directed: paste two
+stopping times along the $\cF_t$-event on which the first conditional reward
+is larger. The preceding theorem therefore gives a sequence whose
+conditional expectations increase to $Y_t$. Pasting these maximizing
+sequences at a deterministic or stopping time proves the dynamic programming
+identity \eqref{eq:snell-dpp}. Taking $\tau=\theta$ shows that $Y$ is a
+supermartingale, and the same identity proves its minimality among
+supermartingales dominating the reward.
+
+The terminal reward may differ from $S_T$. Put $M_t:=\E_t\xi$ and replace the
+reward, without changing its Snell envelope, by the continuous process
+\[
+  \widetilde S_t:=S_t\vee\bigl(M_t-(T-t)\bigr),
+  \qquad \widetilde S_T=\xi.
+\]
+Indeed, whenever the second term is selected at a stopping time, waiting until
+$T$ gives a conditional reward at least as large. The Brownian filtration is
+continuous, so $M$ is continuous. Dyadic-time Snell envelopes of
+$\widetilde S$ converge in $\mathbb{S}^2$ by Doob's $L^2$ maximal inequality;
+the limit is a continuous version of $Y$.
+
+Apply \eqref{eq:snell-dpp} to the stopping times
+$\tau_n:=\inf\{s\geq t:Y_s-\widehat S_s\leq1/n\}\wedge T$.
+Continuity gives $\tau_n\uparrow\tau_t^*$, while the DPP shows that $Y$ stopped
+at $\tau_n$ is asymptotically a martingale. Uniform integrability and
+continuity yield
+$Y_t=\E_t\widehat S_{\tau_t^*}$ and the martingale property up to first
+contact.
+\end{proof}
+
+\section{Well posedness of reflected BSDEs}
+
+\subsection{Frozen drivers and Picard iteration}
+
+\begin{proposition}[Frozen driver]
+Let $h$ be progressively measurable and satisfy
+\[
+  \E\!\left(\int_0^T |h_t|\,\dd t\right)^2<\infty.
+\]
+Then the reflected BSDE with driver $h_t$ has a unique solution.
+\end{proposition}
+
+\begin{proof}
+Define
+\[
+  \widetilde\xi:=\xi+\int_0^T h_s\,\dd s,
+  \qquad
+  \widetilde S_t:=S_t+\int_0^t h_s\,\dd s
+  \quad(t<T),
+\]
+with terminal value $\widetilde\xi$. Let $\widetilde Y$ be the Snell envelope
+of this transformed reward. Its Doob--Meyer decomposition in the Brownian
+filtration is
+\[
+  \widetilde Y_t=\widetilde Y_0+
+  \int_0^t Z_s\,\dd B_s-K_t
+\]
+where $K\in\mathbb{A}^2$. Minimality of the Snell envelope, or equivalently its
+martingale property before first contact, implies that $\dd K$ is supported
+on $\{\widetilde Y=\widetilde S\}$. Set
+$Y_t:=\widetilde Y_t-\int_0^t h_s\,\dd s$. Then $(Y,Z,K)$ solves the desired
+reflected BSDE\@. Uniqueness follows from the stability estimate with identical
+data.
+\end{proof}
+
+\begin{theorem}[Existence and uniqueness]
+Under assumptions (A1)--(A4), the reflected BSDE
+\eqref{eq:rbsde-main}--\eqref{eq:rbsde-skorokhod} has a unique solution in
+$\mathbb{S}^2\times\mathbb{H}^2\times\mathbb{A}^2$.
+\end{theorem}
+
+\begin{proof}
+For an input pair $(U,V)$, solve the frozen-driver reflected BSDE with
+$h_t=f(t,U_t,V_t)$, and denote its first two components by
+$\Phi(U,V)=(Y,Z)$. For two inputs, the obstacles and terminal variables are
+the same. Consequently,
+\[
+  \int_0^T (Y_t-Y'_t)\,\dd(K_t-K'_t)\leq0.
+\]
+Applying It\^o's formula to $e^{\beta t}|Y_t-Y'_t|^2$ gives
+\begin{align*}
+  &\E\int_0^T e^{\beta t}
+     \left(\frac\beta2|Y_t-Y'_t|^2+|Z_t-Z'_t|^2\right)\dd t\\
+  &\qquad\leq
+    \frac{C\lambda^2}{\beta}
+    \E\int_0^T e^{\beta t}
+      \bigl(|U_t-U'_t|^2+|V_t-V'_t|^2\bigr)\,\dd t.
+\end{align*}
+For sufficiently large $\beta$, $\Phi$ is a contraction in the corresponding
+weighted Hilbert norm. Its fixed point supplies $(Y,Z)$, and $K$ is then
+defined by the BSDE identity. The frozen-driver construction and convergence
+show that $K\in\mathbb{A}^2$ and that the minimality condition passes to the
+limit. Uniqueness also follows from \eqref{eq:rbsde-stability}.
+\end{proof}
+
+\subsection{Penalization}
+
+\begin{theorem}[Penalization approximation]
+For $n\geq1$, let $(Y^n,Z^n)$ solve
+\begin{equation}
+  Y_t^n
+  =\xi+\int_t^T
+      \left[f(s,Y_s^n,Z_s^n)+n(S_s-Y_s^n)^+\right]\dd s
+      -\int_t^T Z_s^n\,\dd B_s, \label{eq:penalized-bsde}
+\end{equation}
+and define
+\[
+  K_t^n:=n\int_0^t(S_s-Y_s^n)^+\,\dd s.
+\]
+Then $Y^n$ is increasing in $n$, and for the reflected solution $(Y,Z,K)$,
+\begin{equation}
+  \E\!\left[
+    \sup_{t\leq T}|Y_t^n-Y_t|^2
+    +\int_0^T|Z_t^n-Z_t|^2\,\dd t
+    +\sup_{t\leq T}|K_t^n-K_t|^2
+  \right]\longrightarrow0. \label{eq:penalization-convergence}
+\end{equation}
+Moreover,
+\[
+  \E\sup_{t\leq T}\bigl((Y_t^n-S_t)^-\bigr)^2\longrightarrow0.
+\]
+\end{theorem}
+
+\begin{proof}
+The drivers in \eqref{eq:penalized-bsde} increase with $n$, so ordinary BSDE
+comparison gives $Y^n\leq Y^{n+1}$. It\^o's formula, using
+$Y_t^n\,\dd K_t^n\leq S_t\,\dd K_t^n$, gives the uniform estimate
+\[
+  \sup_n\E\!\left[
+    \sup_{t\leq T}|Y_t^n|^2
+    +\int_0^T|Z_t^n|^2\,\dd t+(K_T^n)^2
+  \right]<\infty.
+\]
+The monotone stability theorem for Lipschitz BSDEs then produces a limit
+$(Y,Z,K)$ and gives convergence in the norms displayed in
+\eqref{eq:penalization-convergence}. In particular, the limit $Y$ is
+continuous. Since
+\[
+  \E\int_0^T(S_t-Y_t^n)^+\,\dd t
+  =\frac1n\E K_T^n\longrightarrow0,
+\]
+one has $Y\geq S$ for Lebesgue-almost every time and probability-almost every
+path; continuity of $Y$ and $S$ upgrades this to every time.
+
+For completeness, define the continuous obstacle
+$S_t^n:=Y_t^n\wedge S_t$. Then $Y^n\geq S^n$ and
+\[
+  \int_0^T(Y_t^n-S_t^n)\,\dd K_t^n=0.
+\]
+Monotone stability also yields
+$\E\sup_t|S_t^n-S_t|^2\to0$. Passing to the limit in this exact minimality
+identity proves
+$\int_0^T(Y_t-S_t)\,\dd K_t=0$. Thus the limit is the reflected solution,
+and uniqueness identifies the whole sequence.
+\end{proof}
+
+\section{Markovian reflected BSDEs and obstacle PDEs}
+
+Let the state dimension be $q$ and consider, for $(t,x)\in[0,T]\times\R^q$,
+\begin{equation}
+  X_s^{t,x}
+  =x+\int_t^s b(r,X_r^{t,x})\,\dd r
+      +\int_t^s\sigma(r,X_r^{t,x})\,\dd B_r,
+  \qquad s\in[t,T]. \label{eq:forward-markov-sde}
+\end{equation}
+Assume that $b$ and $\sigma$ are globally Lipschitz in $x$, have linear
+growth, and are $1/2$-H\"older in time. Let
+$f(t,x,y,z)$ be deterministic, Lipschitz in $(x,y,z)$ with linear growth, let
+$g$ be Lipschitz with linear growth, and let
+$l\in C^{1,2}([0,T]\times\R^q)$ have bounded derivatives and satisfy
+$l(T,x)\leq g(x)$.
+
+For each $(t,x)$, let $(Y^{t,x},Z^{t,x},K^{t,x})$ solve
+\begin{align}
+  Y_s^{t,x}
+  &=g(X_T^{t,x})
+    +\int_s^T f(r,X_r^{t,x},Y_r^{t,x},Z_r^{t,x})\,\dd r
+    -\int_s^T Z_r^{t,x}\,\dd B_r
+    +K_T^{t,x}-K_s^{t,x}, \label{eq:markov-rbsde}\\
+  Y_s^{t,x}&\geq l(s,X_s^{t,x}),\\
+  \int_t^T\bigl(Y_s^{t,x}-l(s,X_s^{t,x})\bigr)\,\dd K_s^{t,x}&=0.
+\end{align}
+Define the decoupling field
+\[
+  u(t,x):=Y_t^{t,x}.
+\]
+It is deterministic because it is measurable with respect to the past at
+time $t$ and, by construction, depends only on Brownian increments after
+$t$, which are independent of that past.
+
+Define
+\begin{align}
+  \mathcal A\varphi(t,x)
+  &:=b(t,x)\cdot D\varphi(t,x)
+    +\frac12\operatorname{tr}
+      \bigl(\sigma\sigma^\top(t,x)D^2\varphi(t,x)\bigr),\\
+  \mathcal H\varphi(t,x)
+  &:=\partial_t\varphi(t,x)+\mathcal A\varphi(t,x)\\
+  &\quad+f\bigl(t,x,\varphi(t,x),D\varphi(t,x)\sigma(t,x)\bigr).
+\end{align}
+The associated obstacle problem is
+\begin{equation}
+  \min\bigl(u-l,-\mathcal H u\bigr)=0,
+  \qquad
+  u(T,x)=g(x). \label{eq:obstacle-pde}
+\end{equation}
+Equivalently, $\max(l-u,\mathcal H u)=0$.
+
+\begin{theorem}[Classical verification]
+If $u\in C^{1,2}$ is a classical solution of \eqref{eq:obstacle-pde}, then
+\begin{align*}
+  Y_s&:=u(s,X_s^{t,x}),\\
+  Z_s&:=Du(s,X_s^{t,x})\sigma(s,X_s^{t,x}),\\
+  K_s&:=-\int_t^s\mathcal H u(r,X_r^{t,x})\,\dd r
+\end{align*}
+solve the Markovian reflected BSDE on $[t,T]$.
+\end{theorem}
+
+\begin{proof}
+The PDE implies $u\geq l$, $\mathcal H u\leq0$, and
+$\mathcal H u=0$ wherever $u>l$. Hence $K$ is nondecreasing and its measure
+is supported on the contact set. It\^o's formula gives the BSDE, including
+the stated $Z$, and the support property gives the Skorokhod condition.
+\end{proof}
+
+\begin{theorem}[Markov property and a coarse modulus]
+For $t\leq s\leq T$,
+\begin{equation}
+  Y_s^{t,x}=u(s,X_s^{t,x}) \quad\P\text{-a.s.} \label{eq:markov-decoupling}
+\end{equation}
+Moreover, for a constant $C$ depending only on the stated data,
+\begin{align}
+  |u(t_1,x_1)-u(t_2,x_2)|
+  &\leq C\bigl(1+|x_1|+|x_2|\bigr)^{1/2} \notag\\
+  &\quad\times
+    \left(|t_1-t_2|^{1/4}+|x_1-x_2|^{1/2}\right). \label{eq:u-coarse-modulus}
+\end{align}
+\end{theorem}
+
+\begin{proof}
+The stochastic flow property for \eqref{eq:forward-markov-sde} and uniqueness
+of the reflected BSDE give \eqref{eq:markov-decoupling}. Standard forward
+estimates and \eqref{eq:rbsde-stability} give
+\[
+  |u(t,x_1)-u(t,x_2)|^2
+  \leq C(1+|x_1|+|x_2|)|x_1-x_2|.
+\]
+
+To estimate time, use the dynamic programming identity over
+$[t_1,t_2]$:
+\begin{align*}
+  u(t_1,x)
+  =\E\!\left[
+    u(t_2,X_{t_2}^{t_1,x})
+    +\int_{t_1}^{t_2}f(s,X_s,Y_s,Z_s)\,\dd s
+    +K_{t_2}-K_{t_1}
+  \right].
+\end{align*}
+The forward estimate gives
+$\E|X_{t_2}^{t_1,x}-x|^2\leq C(1+|x|^2)(t_2-t_1)$, so the spatial modulus contributes order $(t_2-t_1)^{1/4}$. Cauchy--Schwarz and the $\mathbb{H}^2$ estimate give
+\[
+  \E\int_{t_1}^{t_2}|f(s,X_s,Y_s,Z_s)|\,\dd s
+  \leq C(1+|x|)(t_2-t_1)^{1/2}.
+\]
+Under the smooth-obstacle assumptions, the regulator increment has the same
+or smaller order by the estimate below. Combining the bounds proves
+\eqref{eq:u-coarse-modulus}.
+\end{proof}
+
+\begin{proposition}[Lewy--Stampacchia bound for the regulator]
+Under the smooth-obstacle assumptions, $K^{t,x}$ is absolutely continuous
+and
+\begin{equation}
+  0\leq\dd K_s^{t,x}
+  \leq\1_{\{Y_s^{t,x}=l(s,X_s^{t,x})\}}
+      \kappa_s^{t,x}\,\dd s, \label{eq:lewy-stampacchia}
+\end{equation}
+where
+\begin{align*}
+  \kappa_s^{t,x}
+  :=\Bigl[
+    &\partial_s l(s,X_s^{t,x})
+     +\mathcal A l(s,X_s^{t,x})\\
+    &+f\bigl(
+       s,X_s^{t,x},l(s,X_s^{t,x}),
+       Dl(s,X_s^{t,x})\sigma(s,X_s^{t,x})
+      \bigr)
+  \Bigr]^-.
+\end{align*}
+\end{proposition}
+
+\begin{proof}[Proof outline]
+Apply the It\^o--Tanaka formula to the nonnegative process
+$Y_s^{t,x}-l(s,X_s^{t,x})$ and use the fact that its negative part vanishes.
+On the contact set, the martingale coefficient must agree with
+$Dl\,\sigma$ in the occupation-density sense. The finite-variation part then
+gives \eqref{eq:lewy-stampacchia}. The density is the negative part of the obstacle
+operator evaluated along the contact set.
+\end{proof}
+
+\subsection{Viscosity solutions}
+
+\begin{definition}[Parabolic test functions]
+Let $u$ be continuous. A function $\varphi\in C^{1,2}$ touches $u$ from above
+at $(t,x)$ if $u-\varphi$ has a local maximum equal to zero there. It touches
+$u$ from below if $u-\varphi$ has a local minimum equal to zero there.
+\end{definition}
+
+\begin{definition}[Viscosity solution of the obstacle problem]
+A continuous function $u$ with $u(T,\cdot)=g$ is
+\begin{enumerate}[label=(\roman*)]
+  \item a viscosity subsolution if, whenever $\varphi$ touches $u$ from above
+        at $(t,x)$ with $t<T$ and $u(t,x)>l(t,x)$,
+        \[
+          \mathcal H\varphi(t,x)\geq0;
+        \]
+  \item a viscosity supersolution if $u\geq l$ and, whenever $\varphi$
+        touches $u$ from below at $(t,x)$ with $t<T$,
+        \[
+          \mathcal H\varphi(t,x)\leq0.
+        \]
+\end{enumerate}
+It is a viscosity solution if it is both. These are exactly the sub- and
+supersolution inequalities for the form
+$\min(u-l,-\mathcal H u)=0$.
+\end{definition}
+
+\begin{theorem}[Probabilistic viscosity solution]
+The decoupling field $u(t,x)=Y_t^{t,x}$ is a continuous viscosity solution of
+\eqref{eq:obstacle-pde}.
+\end{theorem}
+
+\begin{proof}
+Continuity follows from \eqref{eq:u-coarse-modulus}; the terminal condition
+and $u\geq l$ follow directly from the reflected BSDE.
+
+For the subsolution property, let $\varphi$ touch $u$ from above at
+$(t,x)$ with $u(t,x)>l(t,x)$. Suppose, to obtain a contradiction, that
+$\mathcal H\varphi(t,x)<0$. After the standard strictification of the test
+function, choose a small time--space cylinder on which
+$u>l$ and $\mathcal H\varphi\leq-\varepsilon$. Let $\tau>t$ be the first exit
+of $(s,X_s^{t,x})$ from this cylinder. Before $\tau$ the regulator is
+constant. Put
+\[
+  \Delta Y_s:=Y_s^{t,x}-\varphi(s,X_s^{t,x}),
+  \qquad
+  \Delta Z_s:=Z_s^{t,x}-D\varphi(s,X_s^{t,x})\sigma(s,X_s^{t,x}).
+\]
+Linearizing $f$ and applying an integrating factor (and, equivalently, a
+bounded Girsanov change of measure) gives
+\[
+  \Delta Y_t
+  =\E_t^{\mathbb Q}\!\left[
+      R_\tau\Delta Y_\tau
+      +\int_t^\tau R_s\mathcal H\varphi(s,X_s^{t,x})\,\dd s
+    \right]<0,
+\]
+because $\Delta Y_\tau\leq0$ and the integral is strictly negative. This
+contradicts $\Delta Y_t=u(t,x)-\varphi(t,x)=0$.
+
+For the supersolution property, let $\varphi$ touch from below and suppose
+$\mathcal H\varphi(t,x)>0$. On a small cylinder,
+$\mathcal H\varphi\geq\varepsilon$. The same calculation now includes the
+nonnegative term
+$\int_t^\tau R_s\,\dd K_s^{t,x}$ and has
+$\Delta Y_\tau\geq0$. It therefore yields $\Delta Y_t>0$, again contradicting
+contact at $(t,x)$. Hence $\mathcal H\varphi(t,x)\leq0$.
+\end{proof}

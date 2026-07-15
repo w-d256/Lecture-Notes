@@ -1,0 +1,349 @@
+\chapter[Multidimensional Reflected SDEs]{Multidimensional Reflected Stochastic Differential Equations}
+
+\section{Normal reflection in a half-space}
+
+Let
+\[
+  \R_+^d:=\R^{d-1}\times[0,\infty),
+  \qquad
+  e_d:=(0,\ldots,0,1).
+\]
+
+\begin{definition}[Half-space Skorokhod problem]
+Let $f=(f^1,\ldots,f^d)\in C([0,\infty);\R^d)$ with
+$f(0)\in\R_+^d$. A pair
+$(g,\ell)\in C([0,\infty);\R^d)\times C([0,\infty);\R)$ solves the
+normal-reflection Skorokhod problem for $f$ if
+\begin{enumerate}[label=(\roman*)]
+  \item $g(t)\in\R_+^d$ for every $t\geq0$;
+  \item $g(t)=f(t)+e_d\ell(t)$;
+  \item $\ell(0)=0$, $\ell$ is nondecreasing, and for every $t\geq0$,
+  \[
+    \int_0^t\1_{\{g(s)\notin\partial\R_+^d\}}\,\dd\ell(s)=0.
+  \]
+\end{enumerate}
+\end{definition}
+
+\begin{proposition}[Explicit half-space map]
+The half-space problem has the unique solution
+\begin{align*}
+  g^i(t)&=f^i(t), &&i=1,\ldots,d-1,\\
+  \ell(t)&=-\min_{0\leq s\leq t}\bigl(f^d(s)\wedge0\bigr),\\
+  g^d(t)&=f^d(t)+\ell(t).
+\end{align*}
+Consequently, on every finite interval $[0,T]$, the reflected path and the
+regulator satisfy the same Lipschitz and modulus estimates as the
+one-dimensional Skorokhod map in the last coordinate.
+\end{proposition}
+
+\begin{proof}
+Only the last coordinate is constrained. Apply the one-dimensional theorem
+to $f^d$ and leave the first $d-1$ coordinates unchanged.
+\end{proof}
+
+Let $B$ be an $m$-dimensional Brownian motion and let
+$a:[0,T]\times\R_+^d\to\R^d$ and
+$\sigma:[0,T]\times\R_+^d\to\R^{d\times m}$ be measurable. A reflected SDE
+in the half-space has the form
+\begin{equation}
+  X_t=X_0+\int_0^t a(s,X_s)\,\dd s
+      +\int_0^t\sigma(s,X_s)\,\dd B_s+e_dL_t. \label{eq:halfspace-rsde}
+\end{equation}
+Here $X_t\in\R_+^d$, $L$ is continuous and nondecreasing with $L_0=0$, and
+$\dd L$ is supported on $\{t:X_t\in\partial\R_+^d\}$. Global Lipschitz and
+linear-growth assumptions on $a$ and $\sigma$ give existence and pathwise
+uniqueness by the same fixed-point argument as in one dimension.
+
+\section{Geometry of normal reflection in a domain}
+
+Let $D\subset\R^d$ be a nonempty open connected set. The reflection direction
+will point into $\overline D$.
+
+\begin{definition}[Exterior-sphere normals]
+For $x\in\partial D$ and $r>0$, define
+\[
+  \mathcal N_{x,r}
+  :=\left\{n\in\R^d:|n|=1,
+       B(x-rn,r)\cap D=\varnothing\right\},
+  \qquad
+  \mathcal N_x:=\bigcup_{r>0}\mathcal N_{x,r}.
+\]
+A vector in $\mathcal N_x$ is an inward unit normal. The domain satisfies a
+uniform exterior-sphere condition if there is $r_0>0$ such that
+$\mathcal N_x=\mathcal N_{x,r_0}\neq\varnothing$ for every
+$x\in\partial D$.
+\end{definition}
+
+\begin{proposition}[Equivalent exterior-sphere inequality]
+For $x\in\partial D$, $r>0$, and a unit vector $n$, the following are
+equivalent:
+\begin{enumerate}[label=(\roman*)]
+  \item $n\in\mathcal N_{x,r}$;
+  \item for every $y\in\overline D$,
+  \[
+    \langle y-x,n\rangle+\frac{|y-x|^2}{2r}\geq0.
+  \]
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+The exterior-ball condition is
+$|y-(x-rn)|^2\geq r^2$ for all $y\in\overline D$. Expanding the square gives
+exactly the inequality in (ii). Conversely, the inequality gives the closed
+ball exclusion. If an interior point lay on the sphere, moving it slightly
+toward the centre would produce an interior point inside the excluded ball,
+so the open ball is disjoint from $D$.
+\end{proof}
+
+The exterior-sphere condition alone does not justify every uniqueness claim
+for a nonconvex domain. A standard additional hypothesis prevents nearby
+normal directions from becoming tangential to one another.
+
+\begin{definition}[Uniform non-tangency condition]
+The domain satisfies a uniform non-tangency condition if there are
+$\delta>0$ and $\beta\geq1$ such that, for every $x\in\partial D$, one can
+choose a unit vector $q_x$ satisfying
+\[
+  \langle q_x,n\rangle\geq\frac1\beta
+\]
+for every $y\in\partial D\cap B(x,\delta)$ and every
+$n\in\mathcal N_y$.
+\end{definition}
+
+Bounded $C^2$ domains satisfy both geometric conditions, as do many convex
+and piecewise smooth domains after the appropriate formulation at corners.
+For nonsmooth domains the normal may be set valued, so the direction used by
+the regulator must be recorded explicitly.
+
+\begin{definition}[Normal Skorokhod problem]
+Let $f\in C([0,T];\R^d)$ with $f(0)\in\overline D$. A triple
+$(g,\ell,n)$ solves the normal Skorokhod problem if
+\begin{enumerate}[label=(\roman*)]
+  \item $g\in C([0,T];\overline D)$;
+  \item $\ell$ is continuous, nondecreasing, and $\ell(0)=0$;
+  \item $n$ is measurable with respect to the Stieltjes measure $\dd\ell$,
+        $|n_s|=1$, and $n_s\in\mathcal N_{g_s}$ for
+        $\dd\ell$-almost every $s$;
+  \item
+  \[
+    g_t=f_t+\int_0^t n_s\,\dd\ell_s,
+    \qquad
+    \int_0^T\1_{\{g_s\in D\}}\,\dd\ell_s=0.
+  \]
+\end{enumerate}
+\end{definition}
+
+\begin{remark}
+For a bounded $C^2$ domain, the inward normal is single valued and continuous
+on the boundary. The normal Skorokhod problem is then well posed, and its map
+is continuous on compact time intervals. In a general nonconvex or
+nonsmooth domain, existence, uniqueness, and continuity require geometric
+hypotheses such as the exterior-sphere and non-tangency conditions above;
+one cannot infer pathwise uniqueness from the exterior-sphere condition
+alone.
+\end{remark}
+
+\subsection{Penalization and its sign}
+
+Suppose $D$ is smooth and a $C^2$ function $p:\R^d\to[0,\infty)$ satisfies
+$p=0$ on $\overline D$ and, near $\overline D$,
+$p(x)=\operatorname{dist}(x,\overline D)^2$. Outside the domain,
+$\nabla p$ points outward. Hence a penalized approximation to inward normal
+reflection has the form
+\begin{equation}
+  g^\varepsilon_t
+  =f_t-\frac1{2\varepsilon}
+       \int_0^t\nabla p(g^\varepsilon_s)\,\dd s, \label{eq:normal-penalty}
+\end{equation}
+not the same formula with a plus sign. The factor $1/2$ is conventional and
+matches $\nabla\operatorname{dist}^2=2\operatorname{dist}\,n_{\mathrm{out}}$
+where the nearest-point projection is smooth.
+
+\begin{theorem}[Reflected SDE in a smooth domain]
+Let $D$ be a bounded $C^2$ domain and let $n(x)$ be its inward unit normal.
+Consider
+\begin{equation}
+  X_t=X_0+\int_0^t a(s,X_s)\,\dd s
+      +\int_0^t\sigma(s,X_s)\,\dd B_s
+      +\int_0^t n(X_s)\,\dd L_s. \label{eq:smooth-domain-rsde}
+\end{equation}
+If $a$ and $\sigma$ are globally Lipschitz in $x$, uniformly in $t$, and have
+linear growth, then \eqref{eq:smooth-domain-rsde} has a unique strong solution
+for every square-integrable $X_0\in\overline D$. If instead the coefficients
+are bounded and continuous and the covariance is uniformly nondegenerate,
+there is at least a weak solution.
+\end{theorem}
+
+\begin{proof}[Proof outline]
+The deterministic normal Skorokhod map on a bounded $C^2$ domain is
+nonanticipative and continuous. Euler approximations combined with tightness
+give weak existence. Under Lipschitz coefficients, the deterministic
+stability estimate and the usual stochastic estimates give pathwise
+uniqueness. Weak existence plus pathwise uniqueness then yields a strong
+solution.
+\end{proof}
+
+\section{General reflection fields}
+
+Let $\mathcal K(x)\subset\R^d$ be a nonempty closed set of admissible inward unit
+directions for each $x\in\partial D$. Normalizing directions is essential:
+without it, the same finite-variation push can be represented by rescaling a
+direction and the scalar regulator in infinitely many ways.
+
+\begin{definition}[General Skorokhod problem]
+Let $f\in C([0,T];\R^d)$ with $f(0)\in\overline D$. A pair $(g,k)$ solves the
+Skorokhod problem for $(D,\mathcal K,f)$ if
+\begin{enumerate}[label=(\roman*)]
+  \item $g\in C([0,T];\overline D)$ and $k$ is continuous with finite
+        variation and $k_0=0$;
+  \item $g_t=f_t+k_t$;
+  \item the variation measure $\dd|k|$ is supported on
+        $\{t:g_t\in\partial D\}$;
+  \item there is a $\dd|k|$-measurable process $\gamma$ such that
+  \[
+    k_t=\int_0^t\gamma_s\,\dd|k|_s,
+    \qquad
+    \gamma_s\in\mathcal K(g_s),\quad |\gamma_s|=1,
+    \quad\dd|k|\text{-a.e.}
+  \]
+\end{enumerate}
+If $(g,k)$ is unique, write
+$\overline\Gamma(f)=(\Gamma(f),\mathcal R(f)):=(g,k)$ and call
+$\overline\Gamma$ the extended Skorokhod map.
+\end{definition}
+
+\begin{proposition}[Nonanticipativity]
+If the Skorokhod problem is unique on every finite interval, then the extended
+map is nonanticipative: if $f$ and $\widetilde f$ agree on $[0,t]$, then their
+solutions agree on $[0,t]$.
+\end{proposition}
+
+\begin{proof}
+Restrict both solutions to $[0,t]$. They solve the same deterministic problem
+there, so uniqueness gives equality. Continuity of the map is not needed for
+this argument.
+\end{proof}
+
+Let $a:[0,T]\times\overline D\to\R^d$ and
+$\sigma:[0,T]\times\overline D\to\R^{d\times m}$.
+
+\begin{definition}[Strong reflected SDE]
+On a prescribed stochastic basis carrying an $m$-dimensional Brownian motion
+$B$, a strong solution is a pair $(X,K)$ of continuous adapted processes such
+that $X_t\in\overline D$, $K$ has finite variation, and
+\begin{equation}
+  X_t=X_0+\int_0^t a(s,X_s)\,\dd s
+      +\int_0^t\sigma(s,X_s)\,\dd B_s+K_t, \label{eq:general-rsde}
+\end{equation}
+where $K$ has a polar decomposition
+$K_t=\int_0^t\gamma_s\,\dd|K|_s$ with
+$\gamma_s\in\mathcal K(X_s)$ and $|\gamma_s|=1$ for $\dd|K|$-almost every $s$, and
+$\dd|K|$ is supported on $\{s:X_s\in\partial D\}$.
+\end{definition}
+
+\begin{definition}[Weak reflected SDE]
+A weak solution consists of a filtered probability space, an
+$m$-dimensional Brownian motion on that space, an initial variable with the
+prescribed law, and adapted processes $(X,K)$ satisfying all conditions in
+the preceding definition. The stochastic basis and the Brownian motion are
+part of the unknown.
+\end{definition}
+
+Whenever the extended Skorokhod map is defined,
+\eqref{eq:general-rsde} is equivalently
+\begin{align*}
+  \eta_t
+    &=X_0+\int_0^t a(s,\Gamma(\eta)_s)\,\dd s
+      +\int_0^t\sigma(s,\Gamma(\eta)_s)\,\dd B_s,\\
+  (X,K)&=\overline\Gamma(\eta).
+\end{align*}
+
+\section{Weak existence from a continuous Skorokhod map}
+
+\begin{theorem}[Abstract weak existence]
+Assume that the extended Skorokhod map is uniquely defined and continuous for
+uniform convergence on compact time intervals. Suppose $a$ and $\sigma$ are
+bounded and continuous, and let the initial law be supported on
+$\overline D$. Then the reflected SDE \eqref{eq:general-rsde} has a weak
+solution on every finite horizon.
+\end{theorem}
+
+\begin{proof}
+Fix $T>0$ and a partition with mesh tending to zero. Let
+$\kappa_n(s)$ be the left endpoint of the cell containing $s$. Construct the
+Euler scheme
+\begin{align*}
+  \eta^n_t
+    &=X_0^n+\int_0^t a\bigl(s,X^n_{\kappa_n(s)}\bigr)\,\dd s
+      +\int_0^t\sigma\bigl(s,X^n_{\kappa_n(s)}\bigr)\,\dd B_s,\\
+  (X^n,K^n)&=\overline\Gamma(\eta^n).
+\end{align*}
+Nonanticipativity makes the recursion well defined.
+
+The drift parts are uniformly Lipschitz in time. For the martingale parts,
+the Burkholder--Davis--Gundy inequality and boundedness of $\sigma$ give
+\[
+  \E|M^n_t-M^n_s|^4\leq C|t-s|^2.
+\]
+Kolmogorov's tightness criterion therefore makes $(\eta^n)$ tight in
+$C([0,T];\R^d)$. Continuity of $\overline\Gamma$ makes
+$(\eta^n,X^n,K^n)$ jointly tight.
+
+Take a convergent subsequence. The vanishing mesh and continuity of the
+coefficients imply convergence of the drift characteristics. Rather than
+claiming convergence of stochastic integrals driven by changing Brownian
+motions, identify the limit martingale $M$ through its conditional moments:
+\begin{align*}
+  M_t&:=\eta_t-X_0-\int_0^t a(s,X_s)\,\dd s,\\
+  \langle M\rangle_t
+    &=\int_0^t\sigma(s,X_s)\sigma(s,X_s)^\top\,\dd s.
+\end{align*}
+The discrete martingale identities pass to the limit, so $M$ is a continuous
+martingale with the displayed bracket. The martingale representation theorem,
+after enlarging the space if necessary, produces an $m$-dimensional Brownian
+motion $\widetilde B$ such that
+$M_t=\int_0^t\sigma(s,X_s)\,\dd\widetilde B_s$. Finally, continuity of the
+Skorokhod map gives $(X,K)=\overline\Gamma(\eta)$. Thus the limit is a weak
+solution.
+\end{proof}
+
+\begin{remark}[Why the martingale identification is needed]
+A Skorokhod representation may place the $n$th approximation with a different
+Brownian motion on a new probability space. Uniform convergence of those
+Brownian motions and their integrands does not, by itself, imply
+$L^2$ convergence of the stochastic integrals. The martingale and quadratic-variation identities provide the required stable
+passage to the limit.
+\end{remark}
+
+\begin{theorem}[Continuous dependence]
+Let $a_n,\sigma_n$ be uniformly bounded and converge to $a_0,\sigma_0$
+locally uniformly on $[0,T]\times\overline D$. Let the initial laws
+$\mu_n$ converge weakly to $\mu_0$, and assume that the same continuous
+extended Skorokhod map is used for every $n$.
+
+If the limit reflected SDE has uniqueness in law, then
+\[
+  X^n\Longrightarrow X^0
+  \quad\text{in }C([0,T];\overline D).
+\]
+If, moreover, all equations are driven on one stochastic basis by the same
+Brownian motion, the initial variables converge in probability, and the
+limit equation has pathwise uniqueness, then
+\[
+  \sup_{0\leq t\leq T}|X^n_t-X^0_t|\xrightarrow{\P}0.
+\]
+\end{theorem}
+
+\begin{proof}
+The tightness estimates from the weak-existence proof are uniform in $n$.
+Every subsequential limit solves the equation with coefficients
+$(a_0,\sigma_0)$, by the same martingale-characteristic argument and the
+continuity of $\overline\Gamma$. Uniqueness in law identifies every limit and
+therefore proves weak convergence of the full sequence.
+
+For the common-noise statement, apply the same argument to every pair of
+subsequences. Any joint limit consists of two solutions of the limit equation
+with the same Brownian motion and the same initial variable. Pathwise
+uniqueness forces the two limits to coincide. The Gy\"ongy--Krylov criterion
+then yields convergence in probability.
+\end{proof}
