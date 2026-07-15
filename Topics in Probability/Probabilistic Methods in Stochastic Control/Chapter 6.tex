@@ -1,0 +1,659 @@
+\chapter{Forward--Backward Stochastic Differential Equations}
+
+We study fully coupled FBSDEs of the form
+\[
+\left\{
+\begin{aligned}
+  X_t
+  &=x+\int_0^t b_s(X_s,Y_s,Z_s)\,\mathrm ds
+      +\int_0^t\sigma_s(X_s,Y_s,Z_s)\,\mathrm dB_s,\\
+  Y_t
+  &=g(X_T)+\int_t^T f_s(X_s,Y_s,Z_s)\,\mathrm ds
+      -\int_t^T Z_s\,\mathrm dB_s.
+\end{aligned}
+\right.
+\]
+The processes $X,Y,Z$ take values in
+$\mathbb R^{d_1}$, $\mathbb R^{d_2}$, and
+$\mathbb R^{d_2\times d}$, respectively.  We write
+$\Theta=(X,Y,Z)$ and
+\[
+  \|\Theta\|^2
+  :=\mathbb E\!\left[
+    \sup_{0\le t\le T}|X_t|^2
+    +\sup_{0\le t\le T}|Y_t|^2
+    +\int_0^T|Z_t|^2\,\mathrm dt
+  \right].
+\]
+
+Unless stated otherwise, assume:
+\begin{itemize}
+  \item[(F1)] $\mathbb F=\mathbb F^B$ is the usual augmented Brownian
+  filtration;
+  \item[(F2)] with $\varphi_t^0:=\varphi_t(0,0,0)$ for
+  $\varphi=b,\sigma,f$,
+  \[
+  \begin{gathered}
+    g(0)\in L^2(\mathcal F_T;\mathbb R^{d_2}),\\
+    \mathbb E\!\left[
+      \left(\int_0^T(|b_t^0|+|f_t^0|)\,\mathrm dt\right)^2
+      +\int_0^T|\sigma_t^0|^2\,\mathrm dt
+    \right]<\infty;
+  \end{gathered}
+  \]
+  \item[(F3)] $b,\sigma,f$, and $g$ are uniformly Lipschitz in their
+  spatial variables.
+\end{itemize}
+
+\section{Local well-posedness by a contraction argument}
+
+Let $L_{\sigma,z}$ denote the Lipschitz constant of $\sigma$ in $z$ and
+let $L_g$ be the Lipschitz constant of $g$.
+
+\begin{thm}[Small-time well-posedness]
+Assume \textup{(F1)}--\textup{(F3)} and
+\[
+  L_{\sigma,z}L_g<1.
+\]
+There are constants $\delta_0>0$ and $C<\infty$, depending only on the
+Lipschitz constants, the dimensions, and the product
+$L_{\sigma,z}L_g$, such that, whenever $T\le\delta_0$, the FBSDE has a
+unique solution and
+\[
+  \|\Theta\|^2\le C(|x|^2+I_0^2),
+\]
+where
+\[
+  I_0^2:=\mathbb E\!\left[
+    \left(\int_0^T(|b_t^0|+|f_t^0|)\,\mathrm dt\right)^2
+    +\int_0^T|\sigma_t^0|^2\,\mathrm dt
+    +|g(0)|^2
+  \right].
+\]
+\end{thm}
+
+\begin{proof}
+We present the scalar proof; the multidimensional proof differs only in
+notation.  For progressively measurable input processes $(\mathbf y,
+\mathbf z)$, first solve
+\[
+\begin{aligned}
+  X_t^{\mathbf y,\mathbf z}
+  &=x+\int_0^t b_s(X_s^{\mathbf y,\mathbf z},\mathbf y_s,\mathbf z_s)
+      \,\mathrm ds\\
+  &\quad+\int_0^t
+    \sigma_s(X_s^{\mathbf y,\mathbf z},\mathbf y_s,\mathbf z_s)
+    \,\mathrm dB_s,
+\end{aligned}
+\]
+and then solve the Lipschitz BSDE
+\[
+\begin{aligned}
+  Y_t^{\mathbf y,\mathbf z}
+  &=g(X_T^{\mathbf y,\mathbf z})
+    +\int_t^T f_s(
+      X_s^{\mathbf y,\mathbf z},
+      Y_s^{\mathbf y,\mathbf z},
+      Z_s^{\mathbf y,\mathbf z}
+    )\,\mathrm ds\\
+  &\quad-\int_t^T Z_s^{\mathbf y,\mathbf z}\,\mathrm dB_s.
+\end{aligned}
+\]
+Define
+$F(\mathbf y,\mathbf z):=(Y^{\mathbf y,\mathbf z},
+Z^{\mathbf y,\mathbf z})$ on the Banach space with norm
+\[
+  \|(\mathbf y,\mathbf z)\|_w^2
+  :=\sup_{0\le t\le T}\mathbb E|\mathbf y_t|^2
+    +\mathbb E\!\left[\int_0^T|\mathbf z_t|^2\,\mathrm dt\right].
+\]
+
+For two inputs, use $\Delta$ for differences.  Linearization gives
+\[
+\begin{aligned}
+  \Delta X_t
+  &=\int_0^t(\alpha_s^1\Delta X_s
+    +\beta_s^1\Delta\mathbf y_s
+    +\gamma_s^1\Delta\mathbf z_s)\,\mathrm ds\\
+  &\quad+\int_0^t(\alpha_s^2\Delta X_s
+    +\beta_s^2\Delta\mathbf y_s
+    +\gamma_s^2\Delta\mathbf z_s)\,\mathrm dB_s,\\
+  \Delta Y_t
+  &=\lambda\Delta X_T
+    +\int_t^T(\alpha_s^3\Delta X_s
+      +\beta_s^3\Delta Y_s
+      +\gamma_s^3\Delta Z_s)\,\mathrm ds
+    -\int_t^T\Delta Z_s\,\mathrm dB_s,
+\end{aligned}
+\]
+where the coefficients are bounded,
+$|\gamma^2|\le L_{\sigma,z}$, and $|\lambda|\le L_g$.
+For $0<\varepsilon<1/2$, It\^o's formula and Young's inequality yield,
+provided $CT/\varepsilon\le\varepsilon$,
+\[
+  \sup_{t\le T}\mathbb E|\Delta X_t|^2
+  \le\frac{L_{\sigma,z}^2+2\varepsilon}{1-\varepsilon}
+      \|(\Delta\mathbf y,\Delta\mathbf z)\|_w^2
+\]
+and
+\[
+  \|(\Delta Y,\Delta Z)\|_w^2
+  \le\frac{L_g^2+\varepsilon^2}{1-2\varepsilon}
+      \sup_{t\le T}\mathbb E|\Delta X_t|^2.
+\]
+Consequently,
+\[
+  \|(\Delta Y,\Delta Z)\|_w^2
+  \le c_\varepsilon
+    \|(\Delta\mathbf y,\Delta\mathbf z)\|_w^2,
+\]
+where
+\[
+  c_\varepsilon
+  :=\frac{(L_g^2+\varepsilon^2)(L_{\sigma,z}^2+2\varepsilon)}
+          {(1-\varepsilon)(1-2\varepsilon)}.
+\]
+As $\varepsilon\downarrow0$,
+$c_\varepsilon\to(L_gL_{\sigma,z})^2<1$.  Choose $\varepsilon$ so that
+$c_\varepsilon<1$, and then choose $\delta_0$ so that
+$CT/\varepsilon\le\varepsilon$ whenever $T\le\delta_0$.  Banach's fixed
+point theorem gives a unique fixed point $(Y,Z)$; with
+$X=X^{Y,Z}$, the triple $(X,Y,Z)$ is the unique solution of the FBSDE\@.
+
+For the estimate, let $(Y^0,Z^0)=F(0,0)$.  The contraction property gives
+\[
+  \|(Y,Z)\|_w
+  \le\frac{1}{1-\sqrt{c_\varepsilon}}
+      \|(Y^0,Z^0)\|_w.
+\]
+Standard SDE and BSDE estimates give
+$\|(Y^0,Z^0)\|_w\le C(|x|+I_0)$, and a final SDE estimate for $X$ proves
+the asserted bound for $\Theta$.
+\end{proof}
+
+\begin{cor}[Local stability]
+Let two data sets satisfy the hypotheses of the theorem with the same
+local horizon.  Denote their solutions by $\Theta$ and
+$\widetilde\Theta$, and write $\Delta\varphi=\widetilde\varphi-\varphi$.
+Then
+\[
+\begin{aligned}
+  \|\widetilde\Theta-\Theta\|^2
+  \le C\mathbb E\!\Bigg[&|\widetilde x-x|^2
+    +\left(\int_0^T
+      \bigl(
+        |\Delta b_t(\widetilde\Theta_t)|
+        +|\Delta f_t(\widetilde\Theta_t)|
+      \bigr)\,\mathrm dt\right)^2\\
+    &+\int_0^T|\Delta\sigma_t(\widetilde\Theta_t)|^2\,\mathrm dt
+    +|\Delta g(\widetilde X_T)|^2
+  \Bigg].
+\end{aligned}
+\]
+\end{cor}
+
+\begin{remark}
+The condition $L_{\sigma,z}L_g<1$ is sufficient, not necessary.  For
+example,
+\[
+  X_t=x+\gamma\int_0^t Z_s\,\mathrm dB_s,
+  \qquad
+  Y_t=\lambda X_T-\int_t^T Z_s\,\mathrm dB_s
+\]
+is well posed if and only if $\gamma\lambda\ne1$.
+\end{remark}
+
+\section{The decoupling-field method}
+
+On a local interval $[t,T]$, let $\Theta^{t,x}$ be the solution starting
+from $X_t^{t,x}=x$, and define
+\[
+  u_t(x):=Y_t^{t,x}.
+\]
+For random coefficients, $u$ is generally a random field.
+
+\begin{thm}[Local decoupling field]
+Under the hypotheses of the small-time theorem:
+\begin{itemize}
+  \item[(i)] $u_t(x)\in L^2(\mathcal F_t;\mathbb R^{d_2})$ for every
+  $(t,x)$;
+  \item[(ii)] there is a deterministic constant $C$ such that, outside a
+  single null set,
+  \[
+    |u_t(x_1)-u_t(x_2)|\le C|x_1-x_2|
+  \]
+  for all $t,x_1,x_2$;
+  \item[(iii)] every local solution satisfies
+  \[
+    Y_s^{t,x}=u_s(X_s^{t,x}),
+    \qquad t\le s\le T.
+  \]
+\end{itemize}
+\end{thm}
+
+\begin{proof}
+Measurability follows from the construction of the local solution.  The
+conditional version of the local stability estimate gives the pathwise
+Lipschitz inequality.  Finally, uniqueness on the interval $[s,T]$
+identifies the continuation of the solution from time $s$ with the
+solution starting at $(s,X_s^{t,x})$, proving the flow identity.
+\end{proof}
+
+\begin{de}
+An $\mathbb F$-measurable random field
+\[
+  u:[0,T]\times\mathbb R^{d_1}\times\Omega\longrightarrow\mathbb R^{d_2},
+  \qquad u_T(x)=g(x),
+\]
+is a decoupling field if there exists $\delta>0$ such that, for every
+$t_1<t_2$ with $t_2-t_1\le\delta$ and every
+$\eta\in L^2(\mathcal F_{t_1};\mathbb R^{d_1})$, the FBSDE on
+$[t_1,t_2]$ with $X_{t_1}=\eta$ and terminal condition
+$Y_{t_2}=u_{t_2}(X_{t_2})$ has a unique solution satisfying
+\[
+  Y_t=u_t(X_t),
+  \qquad t_1\le t\le t_2.
+\]
+The decoupling field is regular if it is uniformly Lipschitz continuous
+in $x$.
+\end{de}
+
+\begin{remark}
+A decoupling field is unique.  Indeed, on a sufficiently short interval,
+start at an arbitrary deterministic state $x$ at its left endpoint.
+Local uniqueness identifies the value of $u_t(x)$.  Repeating this
+argument backward over a time partition identifies the field on the
+whole interval.
+\end{remark}
+
+\begin{thm}[Global solution from a decoupling field]
+If the FBSDE has a decoupling field $u$, then it has a unique global
+solution, and
+\[
+  Y_t=u_t(X_t),
+  \qquad 0\le t\le T.
+\]
+\end{thm}
+
+\begin{proof}
+Choose a partition
+$0=t_0<\cdots<t_N=T$ with mesh at most the local length in the definition.
+Starting with $X_0=x$, solve successively on $[t_{i-1},t_i]$ the FBSDE
+with terminal condition $u_{t_i}(X_{t_i})$.  The identities
+$Y_{t_i}=u_{t_i}(X_{t_i})$ make the pieces agree at the grid points, so
+they paste into a global solution.  For uniqueness, restrict any global
+solution to the final interval, use local uniqueness there, and proceed
+backward interval by interval.
+\end{proof}
+
+\subsection{A structural condition for global regularity}
+
+\begin{thm}\label{fbsdeDF}
+Assume $d=d_1=d_2=1$, $\sigma$ is independent of $z$, the coefficients
+are continuously differentiable in $(x,y,z)$ with bounded derivatives,
+and there is a constant $c>0$ such that
+\[
+  \partial_y\sigma\,\partial_zb
+  \le-c\left|
+    \partial_yb
+    +\partial_x\sigma\,\partial_zb
+    +\partial_y\sigma\,\partial_zf
+  \right|.
+\]
+Then the FBSDE has a regular decoupling field and hence a unique global
+solution.
+\end{thm}
+
+\begin{proof}
+Local well-posedness holds because $\partial_z\sigma=0$.  Consider a
+local solution on $[t_0,t_1]$ with terminal condition
+$Y_{t_1}=h(X_{t_1})$, where $h$ is Lipschitz.  Differentiate the FBSDE
+with respect to the initial state and write
+$\nabla\Theta=(\nabla X,\nabla Y,\nabla Z)$.  Before a possible zero of
+$\nabla X$, define
+\[
+  \widehat Y:=\frac{\nabla Y}{\nabla X},
+  \qquad
+  \widehat Z:=\frac{\nabla Z}{\nabla X}
+    -\widehat Y(\partial_x\sigma+\partial_y\sigma\,\widehat Y).
+\]
+It\^o's formula gives the scalar BSDE
+\[
+  \mathrm d\widehat Y_s
+  =-\bigl(
+    \partial_xf_s+a_s(\widehat Y_s)\widehat Y_s
+    +\theta_s(\widehat Y_s)\widehat Z_s
+  \bigr)\,\mathrm ds
+  +\widehat Z_s\,\mathrm dB_s,
+\]
+with terminal value $h'(X_{t_1})$, where
+\[
+\begin{aligned}
+  a(y)
+  &:=\partial_yf+\partial_xb+\partial_zf\,\partial_x\sigma\\
+  &\quad+
+    (\partial_yb+\partial_zf\,\partial_y\sigma
+      +\partial_zb\,\partial_x\sigma)y
+    +\partial_zb\,\partial_y\sigma\,y^2,\\
+  \theta(y)
+  &:=\partial_zf+\partial_x\sigma
+    +(\partial_zb+\partial_y\sigma)y.
+\end{aligned}
+\]
+The forward variational equation can be written as a stochastic
+exponential, which proves that $\nabla X$ never reaches zero.  The
+structural assumption and completion of the square give a deterministic
+upper bound
+\[
+  a(y)\le\overline L
+  \qquad\text{for all }y,
+\]
+where $\overline L$ depends only on the derivative bounds and $c$.
+First take a smooth terminal map $h$ and stop when
+$|\widehat Y|+|\nabla X|+|\nabla X|^{-1}$ reaches a fixed level.  On the
+stopped interval, $\theta(\widehat Y)$ is bounded, so Girsanov's theorem
+and the linear representation of the characteristic BSDE give
+\[
+  |\widehat Y_t|
+  \le \|h'\|_\infty e^{\overline L(t_1-t)}
+      +L\int_t^{t_1}e^{\overline L(s-t)}\,\mathrm ds.
+\]
+The bound is independent of the stopping level; hence the stopping times
+increase to $t_1$.  A smooth approximation of a merely Lipschitz terminal
+map gives the same estimate with $\|h'\|_\infty$ replaced by the
+Lipschitz constant of $h$.
+Thus the Lipschitz constant of the decoupling field on a local interval
+is controlled solely by the Lipschitz constant at the right endpoint and
+fixed model constants.  Iterating this estimate backward from
+$h=g$ gives a finite bound on the whole horizon.  The local existence
+length can therefore be chosen uniformly, so the decoupling field
+extends to time zero.  The preceding theorem then gives the global
+solution.
+\end{proof}
+
+\section{Properties derived from the decoupling field}
+
+\begin{thm}[Comparison of decoupling fields]
+Let $(b,\sigma,f^i,g^i)$, $i=1,2$, satisfy the hypotheses of
+Theorem~\ref{fbsdeDF}, and let $u^i$ be their regular decoupling fields.
+If
+\[
+  f^1\le f^2
+  \qquad\text{and}\qquad
+  g^1\le g^2,
+\]
+then $u^1\le u^2$.
+\end{thm}
+
+\begin{proof}
+It is enough to work on one common local interval and then iterate
+backward.  Fix the same initial state for the two FBSDEs and linearize
+the difference.  The terminal difference has the form
+\[
+  \Delta Y_T=\lambda\Delta X_T+\Delta g(X_T^1),
+  \qquad \Delta g:=g^1-g^2\le0,
+\]
+and the generator difference is the sum of a linear term in
+$(\Delta X,\Delta Y,\Delta Z)$ and
+$\Delta f(\Theta^1)$, where $\Delta f=f^1-f^2\le0$.
+
+Solve the associated homogeneous linear FBSDE with unit initial forward
+state and terminal coefficient $\lambda$.  Its forward component is
+strictly positive.  Dividing its backward component by its forward
+component produces bounded processes $(\widehat Y,\widehat Z)$.  Set
+\[
+  \delta Y:=\Delta Y-\widehat Y\Delta X
+\]
+and choose the corresponding $\delta Z$ so that the coefficient of
+$\Delta X$ cancels.  Then $(\delta Y,\delta Z)$ solves a scalar linear
+BSDE with terminal value $\Delta g(X_T^1)\le0$ and inhomogeneous term
+$\Delta f(\Theta^1)\le0$.  The linear representation formula, after the
+standard BMO localization for its stochastic exponential, gives
+$\delta Y_0\le0$.  Since $\Delta X_0=0$, this is
+$u_0^1(x)-u_0^2(x)\le0$.  Applying the same argument from each starting
+time and then iterating over the partition proves the result.
+\end{proof}
+
+\begin{remark}
+This theorem compares the decoupling fields, not the two backward
+processes along their different forward states.  In general,
+$X_t^1\ne X_t^2$, so no pointwise comparison between
+$Y_t^1=u_t^1(X_t^1)$ and $Y_t^2=u_t^2(X_t^2)$ follows for $t>0$.
+\end{remark}
+
+\begin{thm}[A variational estimate]
+Consider the scalar linear FBSDE
+\[
+\left\{
+\begin{aligned}
+  X_t
+  &=1+\int_0^t(\alpha_s^1X_s+\beta_s^1Y_s+\gamma_s^1Z_s)\,\mathrm ds
+      +\int_0^t(\alpha_s^2X_s+\beta_s^2Y_s)\,\mathrm dB_s,\\
+  Y_t
+  &=GX_T+\int_t^T(\alpha_s^3X_s+\beta_s^3Y_s+\gamma_s^3Z_s)
+      \,\mathrm ds
+      -\int_t^T Z_s\,\mathrm dB_s.
+\end{aligned}
+\right.
+\]
+Assume
+$|\alpha^i|,|\beta^i|,|\gamma^i|\le K$, $|G|\le K_0$, and
+\[
+  \beta^2\gamma^1=0,
+  \qquad
+  \beta^1+\alpha^2\gamma^1+\beta^2\gamma^3=0.
+\]
+For a sufficiently small horizon, the FBSDE has a unique solution and
+\[
+  |Y_t|\le\overline K_0|X_t|,
+  \qquad
+  \overline K_0:=(K_0+1)e^{(2K+K^2)T}-1.
+\]
+In particular, $|Y_0|\le\overline K_0$.
+\end{thm}
+
+\begin{proof}
+Local well-posedness follows from the small-time theorem.  Conditional
+stability, tested against arbitrary bounded $\mathcal F_t$-measurable
+multipliers, first gives $|Y_t|\le C|X_t|$.  Before the first zero of
+$X$, set
+\[
+  \widetilde Y:=Y/X,
+  \qquad
+  \widetilde Z:=Z/X-\widetilde Y(\alpha^2+\beta^2\widetilde Y).
+\]
+The two structural equalities eliminate the quadratic and linear powers
+of $\widetilde Y$ from the drift coefficient generated by It\^o's
+formula.  After localization at the levels $X=1/n$ and a Girsanov change
+of measure, the linear representation gives
+\[
+  |\widetilde Y_t|
+  \le K_0e^{(2K+K^2)(T-t)}
+      +K\int_t^T e^{(2K+K^2)(s-t)}\,\mathrm ds
+  \le\overline K_0.
+\]
+The stochastic-exponential representation of $X$ shows that it cannot
+hit zero before the terminal time; the localization can therefore be
+removed.  Multiplying by $|X_t|$ proves the estimate.
+\end{proof}
+
+\section{The method of continuation}
+
+We now return to scalar FBSDEs and impose the monotonicity conditions:
+there is $c>0$ such that, for every
+$\theta_i=(x_i,y_i,z_i)$ and
+$\Delta\theta=\theta_1-\theta_2$,
+\[
+\begin{aligned}
+  &[b_t(\theta_1)-b_t(\theta_2)]\Delta y
+   +[\sigma_t(\theta_1)-\sigma_t(\theta_2)]\Delta z\\
+  &\qquad-[f_t(\theta_1)-f_t(\theta_2)]\Delta x
+  \le-c(|\Delta x|^2+|\Delta y|^2+|\Delta z|^2),\\
+  &[g(x_1)-g(x_2)]\Delta x\ge0.
+\end{aligned}
+\]
+
+\begin{thm}[Uniqueness under monotonicity]
+Under \textup{(F1)}--\textup{(F3)} and the monotonicity conditions, the
+FBSDE has at most one solution.
+\end{thm}
+
+\begin{proof}
+Let $\Theta^1$ and $\Theta^2$ be two solutions and use $\Delta$ for
+differences.  It\^o's formula gives
+\[
+\begin{aligned}
+  \mathrm d(\Delta X_t\Delta Y_t)
+  &=\bigl(
+    -\Delta f_t\Delta X_t
+    +\Delta b_t\Delta Y_t
+    +\Delta\sigma_t\Delta Z_t
+  \bigr)\,\mathrm dt\\
+  &\quad+\bigl(
+    \Delta X_t\Delta Z_t
+    +\Delta\sigma_t\Delta Y_t
+  \bigr)\,\mathrm dB_t.
+\end{aligned}
+\]
+Since $\Delta X_0=0$ and
+$\Delta Y_T=g(X_T^1)-g(X_T^2)$, expectation and monotonicity yield
+\[
+  0\le
+  -c\mathbb E\!\left[
+    \int_0^T(|\Delta X_t|^2+|\Delta Y_t|^2+|\Delta Z_t|^2)\,\mathrm dt
+  \right].
+\]
+Thus $\Delta Z=0$ almost everywhere and, by continuity of $X$ and $Y$,
+$\Delta X=\Delta Y=0$ for every time.
+\end{proof}
+
+\begin{lem}[Solvable reference equation]
+Let $b^0,f^0$ be progressively measurable with
+\[
+  \mathbb E\!\left[
+    \left(\int_0^T(|b_t^0|+|f_t^0|)\,\mathrm dt\right)^2
+  \right]<\infty,
+\]
+let $\sigma^0\in\mathbb H^2(0,T)$, and let
+$g^0\in L^2(\mathcal F_T)$.  Then
+\[
+\left\{
+\begin{aligned}
+  X_t
+  &=x+\int_0^t(-Y_s+b_s^0)\,\mathrm ds
+      +\int_0^t(-Z_s+\sigma_s^0)\,\mathrm dB_s,\\
+  Y_t
+  &=X_T+g^0+\int_t^T(X_s+f_s^0)\,\mathrm ds
+      -\int_t^T Z_s\,\mathrm dB_s
+\end{aligned}
+\right.
+\]
+has a unique solution.
+\end{lem}
+
+\begin{proof}
+Uniqueness follows from the monotonicity estimate with $c=1$.  For
+existence, set $\overline Y:=Y-X$.  Direct subtraction of the forward
+and backward differentials shows that
+\[
+  \overline Y_t
+  =g^0+\int_t^T(-\overline Y_s+f_s^0+b_s^0)\,\mathrm ds
+      -\int_t^T\overline Z_s\,\mathrm dB_s,
+\]
+where
+\[
+  \overline Z=2Z-\sigma^0.
+\]
+This linear BSDE has a unique solution.  Set
+\[
+  Z:=\frac12(\overline Z+\sigma^0)
+\]
+and solve
+\[
+  X_t=x+\int_0^t(-X_s-\overline Y_s+b_s^0)\,\mathrm ds
+      +\frac12\int_0^t(\sigma_s^0-\overline Z_s)\,\mathrm dB_s.
+\]
+Finally, define $Y=X+\overline Y$.  Substitution verifies the original
+FBSDE\@.
+\end{proof}
+
+For $\alpha\in[0,1]$, define
+\[
+\begin{aligned}
+  b_t^\alpha(x,y,z)&:=\alpha b_t(x,y,z)-(1-\alpha)y,\\
+  \sigma_t^\alpha(x,y,z)&:=\alpha\sigma_t(x,y,z)-(1-\alpha)z,\\
+  f_t^\alpha(x,y,z)&:=\alpha f_t(x,y,z)+(1-\alpha)x,\\
+  g^\alpha(x)&:=\alpha g(x)+(1-\alpha)x.
+\end{aligned}
+\]
+These coefficients satisfy the monotonicity condition with constant
+\[
+  c_\alpha:=\alpha c+1-\alpha\ge\min(c,1).
+\]
+Let $\operatorname{FBSDE}(\alpha)$ denote the equation with coefficients
+$(b^\alpha,\sigma^\alpha,f^\alpha,g^\alpha)$ and arbitrary additive data
+$(b^0,\sigma^0,f^0,g^0)$ in the spaces used in the preceding lemma.
+Call $\operatorname{FBSDE}(\alpha)$ solvable if it has a solution for
+every such additive data set.
+
+\begin{lem}[Continuation step]
+If $\operatorname{FBSDE}(\alpha_0)$ is solvable, then there is a number
+$\delta_0>0$, depending only on the common Lipschitz and monotonicity
+constants, such that
+$\operatorname{FBSDE}(\alpha)$ is solvable for every
+\[
+  \alpha\in[\alpha_0,\min(1,\alpha_0+\delta_0)].
+\]
+\end{lem}
+
+\begin{proof}
+Write $\delta=\alpha-\alpha_0$.  Starting from $\Theta^0=0$, define
+$\Theta^{n+1}$ as the solution of
+$\operatorname{FBSDE}(\alpha_0)$ with additive data
+\[
+\begin{aligned}
+  b_t^{n,0}&:=b_t^0+\delta\bigl(Y_t^n+b_t(\Theta_t^n)\bigr),\\
+  \sigma_t^{n,0}&:=\sigma_t^0+\delta\bigl(Z_t^n+\sigma_t(\Theta_t^n)\bigr),\\
+  f_t^{n,0}&:=f_t^0+\delta\bigl(f_t(\Theta_t^n)-X_t^n\bigr),\\
+  g^{n,0}&:=g^0+\delta\bigl(g(X_T^n)-X_T^n\bigr).
+\end{aligned}
+\]
+Solvability at $\alpha_0$ makes the iteration well defined.  Let
+$\Delta\Theta^n=\Theta^{n+1}-\Theta^n$.  It\^o's formula for
+$\Delta X^n\Delta Y^n$, the monotonicity of the
+$\alpha_0$ coefficients, and Young's inequality control the natural
+$L^2$ norm of $\Delta\Theta^n$ by the preceding increment.  The terminal
+increment
+\[
+  \delta\bigl(
+    g(X_T^n)-g(X_T^{n-1})-\Delta X_T^{n-1}
+  \bigr)
+\]
+must be retained in this estimate; it is absorbed using the Lipschitz
+bound for $g$ and the standard SDE estimate.  Altogether,
+\[
+  \|\Delta\Theta^n\|_{L^2(\mathrm dt\otimes\mathrm d\mathbb P)}^2
+  \le C\delta^2
+    \|\Delta\Theta^{n-1}\|_{L^2(\mathrm dt\otimes\mathrm d\mathbb P)}^2.
+\]
+The terms of order $\delta$ multiplying the current increment can be
+absorbed into the monotonicity constant.  Choose $\delta_0$ so that
+$C\delta_0^2<1/4$.  Then the iteration is Cauchy.  Passing to the limit
+in the Lipschitz coefficients shows that its limit solves
+$\operatorname{FBSDE}(\alpha_0+\delta)$.
+\end{proof}
+
+\begin{thm}[Global well-posedness by continuation]
+Under \textup{(F1)}--\textup{(F3)} and the monotonicity conditions, the
+FBSDE admits a unique solution on every finite horizon.
+\end{thm}
+
+\begin{proof}
+The reference lemma proves solvability at $\alpha=0$.  Choose an integer
+$N$ such that
+\[
+  (N-1)\delta_0<1\le N\delta_0.
+\]
+Applying the continuation-step lemma at most $N$ times reaches
+$\alpha=1$, which is the original FBSDE\@.  Uniqueness was proved above.
+\end{proof}

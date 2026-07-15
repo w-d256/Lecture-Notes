@@ -1,0 +1,432 @@
+\chapter{BSDEs with Quadratic Growth in \texorpdfstring{$Z$}{Z}}
+
+\section{A priori estimates and BMO analysis}
+
+We study scalar BSDEs of the form
+\[
+  Y_t=\xi+\int_t^T f_s(Y_s,Z_s)\,\mathrm ds
+      -\int_t^T Z_s\,\mathrm dB_s,
+  \qquad 0\le t\le T,
+\]
+where $B$ is $d$-dimensional and $\mathbb F=\mathbb F^B$ is its usual
+augmented filtration.  For every $(y,z)$, assume that
+$(t,\omega)\mapsto f_t(\omega,y,z)$ is progressively measurable.
+Throughout this chapter, impose the following conditions, with a constant
+$C_0$ independent of $(t,\omega,y,z)$:
+\begin{itemize}
+  \item[(Q1)]
+  \[
+    |f_t(y,z)|\le C_0\bigl(1+|y|+|z|^2\bigr).
+  \]
+  \item[(Q2)] For all $(y_i,z_i)$,
+  \[
+  \begin{aligned}
+    |f_t(y_1,z_1)-f_t(y_2,z_2)|
+    \le C_0\Bigl(&|y_1-y_2|\\
+      &+\bigl(1+|y_1|+|y_2|+|z_1|+|z_2|\bigr)|z_1-z_2|\Bigr).
+  \end{aligned}
+  \]
+  \item[(Q3)] $\xi\in L^\infty(\mathcal F_T)$.
+\end{itemize}
+All inequalities involving the random generator are understood
+$\mathrm dt\otimes\mathrm d\mathbb P$-almost everywhere.
+
+\begin{remark}
+If $f$ is differentiable in $(y,z)$, condition \textup{(Q2)} follows
+from
+\[
+  |\partial_yf_t(y,z)|\le C_0,
+  \qquad
+  |\partial_zf_t(y,z)|\le C_0(1+|y|+|z|),
+\]
+and conversely these derivative bounds follow from \textup{(Q2)} at
+points of differentiability.
+\end{remark}
+
+\begin{thm}[A priori estimate]
+Let $(Y,Z)\in\mathbb L^\infty(\mathbb F;\mathbb R)
+\times\mathbb H^2(0,T;\mathbb R^d)$ solve the quadratic BSDE\@.  Then
+\[
+  |Y_t|\le C
+  \quad\text{and}\quad
+  \mathbb E_\tau\!\left[\int_\tau^T|Z_s|^2\,\mathrm ds\right]\le C
+\]
+for every stopping time $\tau\le T$.  The constant depends only on
+$T,C_0$, and $\|\xi\|_\infty$.
+\end{thm}
+
+\begin{proof}
+Fix $t_0\in[0,T]$ and define
+\[
+  \tau:=\inf\{t\ge t_0:|Y_t|\le1\}\wedge T.
+\]
+Choose a smooth function $\psi\ge0$ such that
+$\psi(y)=|y|$ for $|y|\ge1$ and
+$|y|\le\psi(y)+1\le|y|+2$ for all $y$.  Let
+\[
+  \lambda:=2(1+C_0),
+  \qquad
+  \varphi(t,y):=\lambda e^{\lambda t}(\psi(y)+1),
+  \qquad
+  \widetilde Y_t:=e^{\varphi(t,Y_t)}.
+\]
+With
+$\widetilde Z_t:=\partial_y\varphi(t,Y_t)\widetilde Y_tZ_t$, It\^o's
+formula gives
+\[
+\begin{aligned}
+  \mathrm d\widetilde Y_t
+  =\widetilde Y_t\Bigl(&\partial_t\varphi
+    -\partial_y\varphi\, f_t(Y_t,Z_t)
+    +\frac12\partial_{yy}\varphi\,|Z_t|^2
+    +\frac12|\partial_y\varphi|^2|Z_t|^2\Bigr)\,\mathrm dt
+    +\widetilde Z_t\,\mathrm dB_t.
+\end{aligned}
+\]
+On $[t_0,\tau)$, $|Y_t|>1$, so $\psi(Y_t)=|Y_t|$ and
+$\partial_{yy}\varphi(t,Y_t)=0$.  The choice of $\lambda$ and
+\textup{(Q1)} make the drift nonnegative.  Thus the stopped process
+$\widetilde Y_{\cdot\wedge\tau}$ is a submartingale.  Optional sampling
+gives
+\[
+\begin{aligned}
+  \exp\!\left(\lambda e^{\lambda t_0}|Y_{t_0}|\right)
+  &\le\widetilde Y_{t_0}
+   \le\mathbb E_{t_0}[\widetilde Y_\tau]\\
+  &\le\exp\!\left(
+    \lambda e^{\lambda T}(\|\xi\|_\infty+2)
+  \right).
+\end{aligned}
+\]
+Hence
+\[
+  |Y_{t_0}|
+  \le e^{\lambda(T-t_0)}(\|\xi\|_\infty+2),
+\]
+which proves the uniform estimate for $Y$.
+
+Apply It\^o's formula to $e^{\lambda Y_t}$.  Since
+$\lambda^2/2-\lambda C_0=\lambda$, condition \textup{(Q1)} gives
+\[
+  \mathrm d e^{\lambda Y_t}
+  \ge \lambda e^{\lambda Y_t}|Z_t|^2\,\mathrm dt
+      -\lambda C_0e^{\lambda Y_t}(1+|Y_t|)\,\mathrm dt
+      +\lambda e^{\lambda Y_t}Z_t\,\mathrm dB_t.
+\]
+Stopping first, taking conditional expectations, and then removing the
+localization yields, for every stopping time $\tau$,
+\[
+\begin{aligned}
+  e^{\lambda Y_\tau}
+  +\mathbb E_\tau\!\left[
+    \int_\tau^T\lambda e^{\lambda Y_s}|Z_s|^2\,\mathrm ds
+  \right]
+  \le\mathbb E_\tau\!\left[
+    e^{\lambda\xi}
+    +\int_\tau^T\lambda C_0e^{\lambda Y_s}(1+|Y_s|)\,\mathrm ds
+  \right].
+\end{aligned}
+\]
+The already established bound on $Y$ now implies the conditional estimate
+for $Z$.
+\end{proof}
+
+\begin{de}
+A continuous martingale $M$ with $M_0=0$ is a BMO martingale if
+\[
+  \|M\|_{\mathrm{BMO}}^2
+  :=\sup_{\tau\in\mathcal T_{0,T}}
+    \left\|
+      \mathbb E_\tau[(M_T-M_\tau)^2]
+    \right\|_\infty
+  <\infty.
+\]
+For $M=\int_0^\cdot\theta_s\,\mathrm dB_s$, this is equivalent to
+\[
+  \sup_{\tau\in\mathcal T_{0,T}}
+  \left\|
+    \mathbb E_\tau\!\left[
+      \int_\tau^T|\theta_s|^2\,\mathrm ds
+    \right]
+  \right\|_\infty<\infty.
+\]
+\end{de}
+
+The a priori estimate therefore shows that
+$\int_0^\cdot Z_s\,\mathrm dB_s$ is a BMO martingale.
+
+\begin{thm}[John--Nirenberg and reverse H\"older estimates]
+Let $\theta$ be progressively measurable and assume
+\[
+  \sup_{\tau\in\mathcal T_{0,T}}
+  \left\|
+    \mathbb E_\tau\!\left[
+      \int_\tau^T|\theta_s|^2\,\mathrm ds
+    \right]
+  \right\|_\infty
+  \le C_0.
+\]
+Then, for every stopping time $\tau$ and every
+$0<\varepsilon<C_0^{-1}$,
+\[
+  \mathbb E_\tau\!\left[
+    \exp\!\left(
+      \varepsilon\int_\tau^T|\theta_s|^2\,\mathrm ds
+    \right)
+  \right]
+  \le\frac{1}{1-C_0\varepsilon}.
+\]
+Moreover, the stochastic exponential
+\[
+  \mathcal E_t(\theta)
+  :=\exp\!\left(
+    \int_0^t\theta_s\,\mathrm dB_s
+    -\frac12\int_0^t|\theta_s|^2\,\mathrm ds
+  \right)
+\]
+is a uniformly integrable martingale and satisfies a reverse H\"older
+inequality: there are $p>1$ and $C_p<\infty$, depending only on the BMO
+bound, such that
+\[
+  \sup_{\tau\in\mathcal T_{0,T}}
+  \mathbb E_\tau\!\left[
+    \left(\frac{\mathcal E_T(\theta)}{\mathcal E_\tau(\theta)}\right)^p
+  \right]
+  \le C_p.
+\]
+In particular, with
+$\mathcal E_T^*(\theta):=\sup_{0\le t\le T}\mathcal E_t(\theta)$,
+\[
+  \mathbb E[(\mathcal E_T^*(\theta))^p]<\infty
+\]
+for a possibly smaller exponent $p>1$.
+\end{thm}
+
+\section{Comparison and stability}
+
+\begin{thm}[Comparison]
+For $i=1,2$, let $(\xi_i,f^i)$ satisfy \textup{(Q1)}--\textup{(Q3)}
+with common constants, and let
+$(Y^i,Z^i)\in\mathbb L^\infty\times\mathbb H^2$ be the corresponding
+solutions.  If
+\[
+  \xi_1\le\xi_2\quad\text{a.s.}
+  \qquad\text{and}\qquad
+  f_t^1(y,z)\le f_t^2(y,z)
+\]
+for all $(y,z)$, $\mathrm dt\otimes\mathrm d\mathbb P$-a.e., then
+$Y_t^1\le Y_t^2$ for every $t$, almost surely.
+\end{thm}
+
+\begin{proof}
+Set
+$\Delta Y=Y^1-Y^2$, $\Delta Z=Z^1-Z^2$, and
+\[
+  \delta f_t:=f_t^1(Y_t^1,Z_t^1)-f_t^2(Y_t^1,Z_t^1)\le0.
+\]
+Linearize $f^2$ by bounded divided differences in $y$ and a vector
+divided difference in $z$:
+\[
+  \mathrm d\Delta Y_t
+  =-(\delta f_t+\alpha_t\Delta Y_t+\theta_t\cdot\Delta Z_t)\,\mathrm dt
+    +\Delta Z_t\,\mathrm dB_t.
+\]
+The process $\alpha$ is bounded, and \textup{(Q2)} together with the
+boundedness of $Y^1,Y^2$ gives
+\[
+  |\theta_t|\le C(1+|Z_t^1|+|Z_t^2|).
+\]
+The a priori estimate implies that
+$\int\theta\,\mathrm dB$ is BMO\@.  Define a probability measure
+$\mathbb Q$ by
+\[
+  \frac{\mathrm d\mathbb Q}{\mathrm d\mathbb P}
+  =\mathcal E_T(\theta).
+\]
+Then $B_t^{\mathbb Q}:=B_t-\int_0^t\theta_s\,\mathrm ds$ is a Brownian
+motion under $\mathbb Q$.  With
+$\Gamma_t:=\exp(\int_0^t\alpha_s\,\mathrm ds)$, localization followed by
+the reverse H\"older estimate gives
+\[
+  \Gamma_t\Delta Y_t
+  =\mathbb E_t^{\mathbb Q}\!\left[
+    \Gamma_T(\xi_1-\xi_2)
+    +\int_t^T\Gamma_s\delta f_s\,\mathrm ds
+  \right]\le0.
+\]
+Thus $\Delta Y_t\le0$.
+\end{proof}
+
+\begin{lem}[Monotone stability]
+Let $(\xi_n,f^n)$ satisfy \textup{(Q1)}--\textup{(Q3)} uniformly, and let
+$(Y^n,Z^n)$ be the corresponding solutions.  Assume
+\[
+  \xi_n\to\xi\quad\text{in probability},
+  \qquad
+  f^n(\cdot,y,z)\to f(\cdot,y,z)
+  \quad\text{in }\mathrm dt\otimes\mathrm d\mathbb P\text{ measure}
+\]
+for each fixed $(y,z)$, and assume either $Y^n\uparrow Y$ or
+$Y^n\downarrow Y$.  Then there is
+$Z\in\mathbb H^2(0,T;\mathbb R^d)$ such that $(Y,Z)$ solves the limiting
+BSDE, and
+\[
+  \mathbb E\!\left[
+    \int_0^T|Z_t^n-Z_t|^2\,\mathrm dt
+  \right]\longrightarrow0.
+\]
+\end{lem}
+
+\begin{proof}
+We treat the increasing case.  The a priori estimates give a uniform
+bound for $Y^n$ in $L^\infty$ and a uniform BMO bound for
+$\int Z^n\,\mathrm dB$.  In particular, $(Z^n)$ is bounded in
+$\mathbb H^2$, so reflexivity gives a weakly convergent subsequence with
+limit $Z$.  The BMO energy inequality also gives uniform integrability of
+\[
+  \left\{\int_0^T|Z_t^n|^2\,\mathrm dt:n\ge1\right\}.
+\]
+For $m>n$, apply It\^o's formula to $\varphi(Y^m-Y^n)$, where
+\[
+  \varphi(y):=\frac{e^{4C_0y}-4C_0y-1}{8C_0^2},
+  \qquad y\ge0.
+\]
+Then $\varphi(0)=\varphi'(0)=0$ and
+$\varphi''-4C_0\varphi'=2$.  The uniform quadratic-growth bound and
+Young's inequality give
+\[
+\begin{aligned}
+  \mathbb E\!\left[
+    \int_0^T|Z_t^m-Z_t^n|^2\,\mathrm dt
+  \right]
+  \le C\mathbb E\!\Bigg[&
+    \varphi(Y_T^m-Y_T^n)\\
+    &+\int_0^T\varphi'(Y_t^m-Y_t^n)
+      \bigl(1+|Z_t^m|^2+|Z_t^n|^2\bigr)\,\mathrm dt
+  \Bigg].
+\end{aligned}
+\]
+Because the monotone sequence $Y^n$ is uniformly bounded,
+$Y^m-Y^n\to0$ pointwise as $m,n\to\infty$.  Hence the first term and the
+factor $\varphi'(Y^m-Y^n)$ converge to zero.  Uniform integrability of the
+energy variables makes the entire right-hand side tend to zero.  Thus
+$(Z^n)$ is Cauchy in $\mathbb H^2$, and its strong limit is the weak limit
+$Z$.
+
+To pass to the generator, split
+\[
+\begin{aligned}
+  f_t^n(Y_t^n,Z_t^n)-f_t(Y_t,Z_t)
+  ={}&f_t^n(Y_t^n,Z_t^n)-f_t^n(Y_t,Z_t)\\
+     &+f_t^n(Y_t,Z_t)-f_t(Y_t,Z_t).
+\end{aligned}
+\]
+The first term tends to zero in $L^1$ by the local Lipschitz estimate,
+bounded convergence of $Y^n$, strong $\mathbb H^2$ convergence of $Z^n$,
+and the uniform BMO bounds.  The second tends to zero in measure by
+approximation of $(Y,Z)$ with simple processes and is uniformly
+integrable by the common quadratic-growth bound.  It therefore converges
+in $L^1(\mathrm dt\otimes\mathrm d\mathbb P)$.  Passing to the limit in
+the BSDE proves the result.  The decreasing case is analogous.
+\end{proof}
+
+\section{Well-posedness}
+
+\begin{thm}[Existence and uniqueness]
+Under \textup{(Q1)}--\textup{(Q3)}, the quadratic BSDE admits a unique
+solution
+\[
+  (Y,Z)\in\mathbb L^\infty(\mathbb F;\mathbb R)
+  \times\mathbb H^2(0,T;\mathbb R^d).
+\]
+The martingale $\int_0^\cdot Z_s\,\mathrm dB_s$ is BMO\@.
+\end{thm}
+
+\begin{proof}
+Uniqueness follows by applying the comparison theorem in both
+directions.  Once $Y$ is fixed, uniqueness of $Z$ follows from the BSDE
+and It\^o isometry.
+
+For existence, truncate the generator above and below:
+\[
+  f^n:=f\wedge n,
+  \qquad
+  f^{n,m}:=f^n\vee(-m),
+\]
+and regularize its $z$ dependence by infimal convolution,
+\[
+  f_t^{n,m,k}(y,z)
+  :=\inf_{z'\in\mathbb R^d}
+    \bigl(f_t^{n,m}(y,z')+k|z-z'|\bigr).
+\]
+For fixed $(n,m,k)$, the generator is globally Lipschitz in $(y,z)$, so
+the Lipschitz BSDE has a unique solution $(Y^{n,m,k},Z^{n,m,k})$.
+Comparison gives monotonicity in $k$, $m$, and $n$, while the quadratic
+a priori estimate gives the uniform bounds needed at each limiting
+step.  First let $k\to\infty$, then $m\to\infty$, and finally
+$n\to\infty$.  The monotone-stability lemma identifies the limits and
+produces a solution of the original equation.  The BMO conclusion is
+the conditional $Z$ estimate from the first theorem.
+\end{proof}
+
+\begin{thm}[General stability]
+Let $(\xi_n,f^n)$, $n\ge0$, satisfy \textup{(Q1)}--\textup{(Q3)}
+uniformly, and let $(Y^n,Z^n)$ be the corresponding solutions.  Suppose
+\[
+  \xi_n\to\xi_0\quad\text{in probability}
+\]
+and, for every fixed $(y,z)$,
+\[
+  f^n(\cdot,y,z)\to f^0(\cdot,y,z)
+  \quad\text{in }\mathrm dt\otimes\mathrm d\mathbb P\text{ measure}.
+\]
+Then, for every $p\ge1$,
+\[
+  \mathbb E\!\left[
+    |(Y^n-Y^0)_T^*|^p
+    +\left(\int_0^T|Z_t^n-Z_t^0|^2\,\mathrm dt\right)^{p/2}
+  \right]\longrightarrow0.
+\]
+\end{thm}
+
+\begin{proof}
+Set $\Delta Y^n=Y^n-Y^0$ and $\Delta Z^n=Z^n-Z^0$.  Linearization gives
+\[
+  \mathrm d\Delta Y_t^n
+  =-\bigl(
+    \Delta f_t^n(Y_t^0,Z_t^0)
+    +\alpha_t^n\Delta Y_t^n
+    +\theta_t^n\cdot\Delta Z_t^n
+  \bigr)\,\mathrm dt
+  +\Delta Z_t^n\,\mathrm dB_t,
+\]
+where $\alpha^n$ is uniformly bounded and
+\[
+  |\theta_t^n|\le C(1+|Z_t^n|+|Z_t^0|).
+\]
+The BMO norms of $\int\theta^n\,\mathrm dB$ are uniformly bounded.
+Girsanov's theorem and the uniform reverse H\"older inequality therefore
+give, for some $q>1$ independent of $n$,
+\[
+  |\Delta Y_t^n|
+  \le C\left(
+    \mathbb E_t\!\left[
+      \left(
+        |\xi_n-\xi_0|
+        +\int_t^T|\Delta f_s^n(Y_s^0,Z_s^0)|\,\mathrm ds
+      \right)^q
+    \right]
+  \right)^{1/q}.
+\]
+The quantity on the right converges to zero in every finite $L^r$:
+uniform boundedness of the terminal conditions and the BMO exponential
+estimate provide uniform integrability of all required moments.  This
+proves convergence of $Y^n$ at fixed times.
+
+Under the Girsanov measure, BDG applied to the linearized equation gives
+convergence of
+$\int|\Delta Z^n|^2$ in every finite moment.  A small negative-moment
+estimate for the stochastic densities, again supplied by BMO analysis,
+transfers the estimate back to $\mathbb P$.  Finally, the BSDE itself and
+BDG give convergence of the running supremum of $\Delta Y^n$.
+\end{proof}

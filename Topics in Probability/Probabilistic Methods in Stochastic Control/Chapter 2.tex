@@ -1,0 +1,768 @@
+\chapter{The Classical PDE Approach}
+
+\section{Problem Setup}
+
+In this chapter, we use dynamic programming to derive partial differential equations that characterize stochastic control problems.
+
+We first consider a controlled state process in \(\mathbb R^n\):
+\[
+\mathrm dX_s
+=b(s,X_s,\alpha_s)\,\mathrm ds
++\sigma(s,X_s,\alpha_s)\,\mathrm dW_s,
+\]
+where \(W\) is a \(d\)-dimensional Brownian motion on a filtered probability space
+\[
+(\Omega,\mathcal F,\mathbb F=(\mathcal F_t)_{t\ge0},P)
+\]
+satisfying the usual conditions. The control \(\alpha=(\alpha_s)\) is progressively measurable and takes values in a measurable set \(A\subseteq\mathbb R^m\). The coefficient maps
+\[
+b:[0,T]\times\mathbb R^n\times A\to\mathbb R^n,
+\qquad
+\sigma:[0,T]\times\mathbb R^n\times A\to\mathbb R^{n\times d}
+\]
+are measurable and uniformly Lipschitz in the state variable: there is a constant \(K\ge0\) such that
+\[
+|b(t,x,a)-b(t,y,a)|
++\|\sigma(t,x,a)-\sigma(t,y,a)\|
+\le K|x-y|
+\]
+for all \(t\), \(x,y\in\mathbb R^n\), and \(a\in A\). For infinite-horizon problems, we shall normally assume that \(b\) and \(\sigma\) are time-homogeneous so that the control problem is stationary.
+
+For \(0\le t\le T\le\infty\), let \(\mathcal T_{t,T}\) denote the set of stopping times taking values in \([t,T]\). When \(t=0\) and \(T=\infty\), we write \(\mathcal T:=\mathcal T_{0,\infty}\).
+
+\subsection{Finite-Horizon Problems}
+
+Fix \(0<T<\infty\). Let \(\mathcal A\) be a class of progressively measurable, \(A\)-valued controls such that
+\[
+\mathbb E\!\left[
+\int_0^T
+\left(
+|b(s,0,\alpha_s)|^2
++\|\sigma(s,0,\alpha_s)\|^2
+\right)\mathrm ds
+\right]<\infty.
+\]
+Under the Lipschitz and integrability assumptions, for every \(\alpha\in\mathcal A\) and every \((t,x)\in[0,T]\times\mathbb R^n\), there is a unique strong solution
+\[
+X^{t,x,\alpha}=(X_s^{t,x,\alpha})_{t\le s\le T}
+\]
+with \(X_t^{t,x,\alpha}=x\). Moreover,
+\[
+\mathbb E\!\left[
+\sup_{t\le s\le T}|X_s^{t,x,\alpha}|^2
+\right]<\infty
+\]
+and, whenever \(t+h\le T\),
+\[
+\lim_{h\downarrow0}
+\mathbb E\!\left[
+\sup_{s\in[t,t+h]}
+|X_s^{t,x,\alpha}-x|^2
+\right]=0.
+\]
+
+Let
+\[
+f:[0,T]\times\mathbb R^n\times A\to\mathbb R,
+\qquad
+g:\mathbb R^n\to\mathbb R
+\]
+be measurable. To keep the value function finite, we assume below that \(g\) has at most quadratic growth,
+\[
+|g(x)|\le C(1+|x|^2),
+\qquad x\in\mathbb R^n.
+\]
+A merely lower-bounded terminal reward can also be allowed if one works with extended-valued expectations, but additional assumptions are then required whenever finiteness is used.
+
+\begin{de}
+For \((t,x)\in[0,T]\times\mathbb R^n\), let \(\mathcal A(t,x)\) be the set of controls \(\alpha\in\mathcal A\) satisfying
+\[
+\mathbb E\!\left[
+\int_t^T
+|f(s,X_s^{t,x,\alpha},\alpha_s)|\,\mathrm ds
+\right]<\infty.
+\]
+Assume that \(\mathcal A(t,x)\) is nonempty. Define
+\[
+J(t,x,\alpha)
+:=\mathbb E\!\left[
+\int_t^T
+f(s,X_s^{t,x,\alpha},\alpha_s)\,\mathrm ds
++g(X_T^{t,x,\alpha})
+\right]
+\]
+and
+\[
+v(t,x)
+:=\sup_{\alpha\in\mathcal A(t,x)}J(t,x,\alpha).
+\]
+\end{de}
+
+\begin{remark}
+The measurability of \(v\) is not automatic. A rigorous dynamic-programming theorem requires appropriate stability, measurable-selection, and regularity assumptions on the control family and the coefficients.
+\end{remark}
+
+\begin{de}
+A control \(\hat\alpha\in\mathcal A(t,x)\) is optimal at \((t,x)\) if
+\[
+v(t,x)=J(t,x,\hat\alpha).
+\]
+A control of the form
+\[
+\alpha_s=a(s,X_s^{t,x,\alpha}),
+\]
+for a measurable map \(a:[0,T]\times\mathbb R^n\to A\), is called a Markov control.
+\end{de}
+
+\subsection{Infinite-Horizon Problems}
+
+For the stationary infinite-horizon problem, assume that \(b=b(x,a)\) and \(\sigma=\sigma(x,a)\) are time-homogeneous. Let \(\mathcal A_0\) be the class of progressively measurable, \(A\)-valued controls such that, for every finite \(T\),
+\[
+\mathbb E\!\left[
+\int_0^T
+\left(
+|b(0,\alpha_s)|^2
++\|\sigma(0,\alpha_s)\|^2
+\right)\mathrm ds
+\right]<\infty.
+\]
+For \(x\in\mathbb R^n\) and \(\alpha\in\mathcal A_0\), let \(X^{x,\alpha}\) be the unique strong solution starting from \(x\) at time zero. Standard SDE estimates give, for each finite \(T\),
+\[
+\mathbb E\!\left[
+\sup_{0\le s\le T}|X_s^{x,\alpha}|^2
+\right]
+\le C_T\left(
+1+|x|^2
++\mathbb E\int_0^T
+\left(
+|b(0,\alpha_s)|^2
++\|\sigma(0,\alpha_s)\|^2
+\right)\mathrm ds
+\right).
+\]
+
+Fix a discount parameter \(\beta>0\) and define
+\[
+D(t,s):=e^{-\beta(s-t)},
+\qquad s\ge t.
+\]
+
+\begin{de}
+Let \(f:\mathbb R^n\times A\to\mathbb R\) be measurable. For \(x\in\mathbb R^n\), let \(\mathcal A(x)\) be the set of controls \(\alpha\in\mathcal A_0\) such that
+\[
+\mathbb E\!\left[
+\int_0^\infty e^{-\beta s}
+|f(X_s^{x,\alpha},\alpha_s)|\,\mathrm ds
+\right]<\infty.
+\]
+Assume that \(\mathcal A(x)\) is nonempty, and define
+\[
+J(x,\alpha)
+:=\mathbb E\!\left[
+\int_0^\infty e^{-\beta s}
+ f(X_s^{x,\alpha},\alpha_s)\,\mathrm ds
+\right],
+\qquad
+v(x):=\sup_{\alpha\in\mathcal A(x)}J(x,\alpha).
+\]
+\end{de}
+
+\begin{de}
+A control \(\hat\alpha\in\mathcal A(x)\) is optimal at \(x\) if \(v(x)=J(x,\hat\alpha)\). A control of the form \(\alpha_s=a(s,X_s^{x,\alpha})\) is Markovian; if \(a\) is independent of \(s\), it is called stationary Markovian.
+\end{de}
+
+\begin{remark}
+Time-homogeneous coefficients, a time-independent running reward, and exponential discounting are the structural assumptions that make the infinite-horizon problem stationary and permit a time-independent value function.
+\end{remark}
+
+\section{The Dynamic Programming Principle}
+
+The dynamic programming principle states that an optimal policy remains optimal after every admissible intermediate time. We state it under the standard hypotheses that the control family is stable under concatenation at stopping times, that the value function is measurable, and that measurable \(\varepsilon\)-optimal continuation controls can be selected.
+
+\begin{thm}[Dynamic programming principle]
+\begin{enumerate}[label=\textup{(\roman*)}]
+\item For the finite-horizon problem, let \((t,x)\in[0,T]\times\mathbb R^n\) and \(\theta\in\mathcal T_{t,T}\). Then
+\[
+\begin{aligned}
+v(t,x)
+=\sup_{\alpha\in\mathcal A(t,x)}
+\mathbb E\!\left[
+\int_t^\theta
+f(s,X_s^{t,x,\alpha},\alpha_s)\,\mathrm ds
++v(\theta,X_\theta^{t,x,\alpha})
+\right].
+\end{aligned}
+\]
+
+\item For the infinite-horizon problem, let \(x\in\mathbb R^n\) and \(\theta\in\mathcal T\). Then
+\[
+\begin{aligned}
+v(x)
+=\sup_{\alpha\in\mathcal A(x)}
+\mathbb E\!\left[
+\int_0^\theta e^{-\beta s}
+ f(X_s^{x,\alpha},\alpha_s)\,\mathrm ds
++e^{-\beta\theta}v(X_\theta^{x,\alpha})
+\right],
+\end{aligned}
+\]
+with the convention \(e^{-\beta\theta}=0\) on \(\{\theta=\infty\}\).
+\end{enumerate}
+\end{thm}
+
+\begin{proof}
+We sketch the finite-horizon case. For a fixed admissible control \(\alpha\), pathwise uniqueness gives the flow property after \(\theta\), with the post-\(\theta\) portion of \(\alpha\) shifted in the natural way. Conditioning at \(\theta\) therefore yields
+\[
+J(t,x,\alpha)
+=\mathbb E\!\left[
+\int_t^\theta
+f(s,X_s^{t,x,\alpha},\alpha_s)\,\mathrm ds
++J(\theta,X_\theta^{t,x,\alpha},\alpha^\theta)
+\right],
+\]
+where \(\alpha^\theta\) denotes the continuation control. Since the continuation reward is bounded above by \(v\), taking the supremum over \(\alpha\) gives one inequality.
+
+For the reverse inequality, choose a measurable \(\varepsilon\)-optimal continuation rule for the random state \((\theta,X_\theta^{t,x,\alpha})\), and concatenate it with \(\alpha\) at \(\theta\). Stability of the admissible class under concatenation makes the pasted control admissible. Its reward is within \(\varepsilon\) of the right-hand side. Letting \(\varepsilon\downarrow0\) gives the reverse inequality. The infinite-horizon proof is identical after inserting the discount factors.
+\end{proof}
+
+\section{The HJB Equation and Verification Theorems}
+
+\subsection{Derivation of the HJB Equation}
+
+We first derive the finite-horizon Hamilton--Jacobi--Bellman equation heuristically. Fix \((t,x)\), set \(\theta=t+h\), and use the constant control \(a\in A\) on \([t,t+h]\). The dynamic programming principle gives
+\[
+v(t,x)
+\ge
+\mathbb E\!\left[
+\int_t^{t+h}f(s,X_s^{t,x,a},a)\,\mathrm ds
++v(t+h,X_{t+h}^{t,x,a})
+\right].
+\]
+
+For a smooth test function \(\varphi\), define
+\[
+(\mathcal L^a\varphi)(t,x)
+:=b(t,x,a)\cdot D_x\varphi(t,x)
++\frac12\operatorname{tr}\!\left(
+\sigma(t,x,a)\sigma(t,x,a)^\top
+D_x^2\varphi(t,x)
+\right).
+\]
+Assuming \(v\in C^{1,2}\), It\^o's formula gives
+\[
+\begin{aligned}
+v(t+h,X_{t+h}^{t,x,a})
+={}&v(t,x)
++\int_t^{t+h}
+(\partial_t v+\mathcal L^av)(s,X_s^{t,x,a})\,\mathrm ds\\
+&+\int_t^{t+h}
+D_xv(s,X_s^{t,x,a})^\top
+\sigma(s,X_s^{t,x,a},a)\,\mathrm dW_s.
+\end{aligned}
+\]
+After localization, or under a suitable growth condition, the stochastic integral has zero expectation. Hence
+\[
+0\ge
+\mathbb E\!\left[
+\int_t^{t+h}
+\left\{
+(\partial_t v+\mathcal L^av)(s,X_s^{t,x,a})
++f(s,X_s^{t,x,a},a)
+\right\}\mathrm ds
+\right].
+\]
+Dividing by \(h\), then using continuity and dominated convergence as \(h\downarrow0\), gives
+\[
+0\ge
+\partial_t v(t,x)
++\mathcal L^av(t,x)
++f(t,x,a).
+\]
+Since this holds for every \(a\in A\),
+\[
+-\partial_t v(t,x)
+-\sup_{a\in A}
+\left\{
+\mathcal L^av(t,x)+f(t,x,a)
+\right\}
+\ge0.
+\]
+If an optimal feedback selector exists and attains the supremum, equality holds. Thus the formal HJB equation is
+\[
+-\partial_t v(t,x)
+-\sup_{a\in A}
+\left\{
+\mathcal L^av(t,x)+f(t,x,a)
+\right\}
+=0,
+\qquad (t,x)\in[0,T)\times\mathbb R^n,
+\]
+with terminal condition
+\[
+v(T,x)=g(x).
+\]
+
+Let
+\[
+\mathcal S_n
+:=\{M\in\mathbb R^{n\times n}:M^\top=M\}.
+\]
+For \((t,x,p,M)\in[0,T]\times\mathbb R^n\times\mathbb R^n\times\mathcal S_n\), define the Hamiltonian
+\[
+H(t,x,p,M)
+:=\sup_{a\in A}
+\left\{
+ b(t,x,a)\cdot p
+ +\frac12\operatorname{tr}\!\left(
+ \sigma(t,x,a)\sigma(t,x,a)^\top M
+ \right)
+ +f(t,x,a)
+\right\}.
+\]
+Then the HJB equation becomes
+\[
+-\partial_t v(t,x)
+-H(t,x,D_xv(t,x),D_x^2v(t,x))=0.
+\]
+
+\begin{remark}
+Suppose that the supremum is attained and that there is a measurable selector
+\[
+a^*(t,x)
+\in\operatorname*{arg\,max}_{a\in A}
+\left\{
+\mathcal L^av(t,x)+f(t,x,a)
+\right\}.
+\]
+If the feedback SDE
+\[
+\begin{aligned}
+\mathrm dX_s^*
+&=b(s,X_s^*,a^*(s,X_s^*))\,\mathrm ds
++\sigma(s,X_s^*,a^*(s,X_s^*))\,\mathrm dW_s,\\
+X_t^*&=x,
+\end{aligned}
+\]
+has a unique admissible solution, then the linear PDE along the selected feedback and the Feynman--Kac formula give
+\[
+v(t,x)
+=\mathbb E\!\left[
+\int_t^T f(s,X_s^*,a^*(s,X_s^*))\,\mathrm ds
++g(X_T^*)
+\right].
+\]
+The feedback process \(a^*(s,X_s^*)\) is therefore an optimal Markov control.
+\end{remark}
+
+\begin{remark}
+For the stationary infinite-horizon problem, the formal HJB equation is
+\[
+\beta v(x)
+-\sup_{a\in A}
+\left\{
+\mathcal L^av(x)+f(x,a)
+\right\}
+=0,
+\qquad x\in\mathbb R^n,
+\]
+where
+\[
+(\mathcal L^a\varphi)(x)
+=b(x,a)\cdot D\varphi(x)
++\frac12\operatorname{tr}\!\left(
+\sigma(x,a)\sigma(x,a)^\top D^2\varphi(x)
+\right).
+\]
+\end{remark}
+
+\begin{remark}
+A finite-horizon problem may also contain a state- and control-dependent discount factor
+\[
+\Gamma(t,s)
+:=\exp\!\left(
+-\int_t^s\beta(u,X_u^{t,x,\alpha},\alpha_u)\,\mathrm du
+\right).
+\]
+Then
+\[
+J(t,x,\alpha)
+=\mathbb E\!\left[
+\int_t^T\Gamma(t,s)
+ f(s,X_s^{t,x,\alpha},\alpha_s)\,\mathrm ds
++\Gamma(t,T)g(X_T^{t,x,\alpha})
+\right],
+\]
+and the Hamiltonian becomes
+\[
+\begin{aligned}
+H(t,x,r,p,M)
+:=\sup_{a\in A}\biggl\{
+&-\beta(t,x,a)r
++b(t,x,a)\cdot p\\
+&+\frac12\operatorname{tr}\!\left(
+\sigma(t,x,a)\sigma(t,x,a)^\top M
+\right)
++f(t,x,a)
+\biggr\}.
+\end{aligned}
+\]
+\end{remark}
+
+\subsection{Verification Theorems}
+
+The classical verification method shows that a sufficiently regular supersolution bounds the value function and that a smooth solution, together with an admissible maximizing feedback, is the value function.
+
+\begin{thm}[Finite-horizon supersolution verification bound]
+Let
+\[
+w\in C^{1,2}([0,T)\times\mathbb R^n)
+\cap C([0,T]\times\mathbb R^n).
+\]
+Assume that there are constants \(C>0\) and \(p\ge1\) such that
+\[
+|w(t,x)|\le C(1+|x|^p),
+\]
+and assume that all admissible state processes have the corresponding \(p\)-th moments needed below. Suppose
+\[
+\begin{aligned}
+-\partial_t w(t,x)
+-\sup_{a\in A}
+\{\mathcal L^aw(t,x)+f(t,x,a)\}
+&\ge0,\\
+w(T,x)&\ge g(x).
+\end{aligned}
+\]
+Then
+\[
+w(t,x)\ge v(t,x)
+\qquad\text{on }[0,T]\times\mathbb R^n.
+\]
+\end{thm}
+
+\begin{proof}
+Fix \((t,x)\) and \(\alpha\in\mathcal A(t,x)\), and abbreviate \(X=X^{t,x,\alpha}\). Let
+\[
+\tau_n
+:=\inf\left\{
+ s\ge t:
+ \int_t^s
+ \left\|
+ D_xw(u,X_u)^\top\sigma(u,X_u,\alpha_u)
+ \right\|^2\mathrm du
+ \ge n
+\right\}.
+\]
+For \(s<T\), It\^o's formula gives
+\[
+\begin{aligned}
+w(s\wedge\tau_n,X_{s\wedge\tau_n})
+={}&w(t,x)
++\int_t^{s\wedge\tau_n}
+(\partial_t w+\mathcal L^{\alpha_u}w)(u,X_u)\,\mathrm du\\
+&+\int_t^{s\wedge\tau_n}
+D_xw(u,X_u)^\top
+\sigma(u,X_u,\alpha_u)\,\mathrm dW_u.
+\end{aligned}
+\]
+The stopped stochastic integral is a martingale. Since the HJB supersolution inequality implies
+\[
+(\partial_t w+\mathcal L^{\alpha_u}w)(u,X_u)
++f(u,X_u,\alpha_u)
+\le0,
+\]
+taking expectations yields
+\[
+\mathbb E[w(s\wedge\tau_n,X_{s\wedge\tau_n})]
+\le
+w(t,x)
+-\mathbb E\!\left[
+\int_t^{s\wedge\tau_n}f(u,X_u,\alpha_u)\,\mathrm du
+\right].
+\]
+The polynomial growth and moment assumptions make the stopped terminal terms uniformly integrable, while the definition of \(\mathcal A(t,x)\) controls the running reward. Hence one may first let \(n\to\infty\), then \(s\uparrow T\), to obtain
+\[
+\mathbb E[g(X_T)]
+\le
+w(t,x)
+-\mathbb E\!\left[
+\int_t^T f(u,X_u,\alpha_u)\,\mathrm du
+\right].
+\]
+Thus \(w(t,x)\ge J(t,x,\alpha)\). Taking the supremum over \(\alpha\) proves the claim.
+\end{proof}
+
+\begin{thm}[Finite-horizon verification theorem]
+In addition to the assumptions of the preceding theorem, suppose that
+\[
+w(T,\cdot)=g
+\]
+and that there is a measurable selector \(\hat a:[0,T)\times\mathbb R^n\to A\) satisfying
+\[
+\begin{aligned}
+0
+={}&-\partial_t w(t,x)
+-\sup_{a\in A}\{\mathcal L^aw(t,x)+f(t,x,a)\}\\
+={}&-\partial_t w(t,x)
+-\mathcal L^{\hat a(t,x)}w(t,x)
+-f(t,x,\hat a(t,x)).
+\end{aligned}
+\]
+Assume that the feedback SDE
+\[
+\mathrm d\hat X_s
+=b(s,\hat X_s,\hat a(s,\hat X_s))\,\mathrm ds
++\sigma(s,\hat X_s,\hat a(s,\hat X_s))\,\mathrm dW_s,
+\qquad \hat X_t=x,
+\]
+has a unique solution and that \((\hat a(s,\hat X_s))_{t\le s\le T}\) is admissible. Then
+\[
+w=v,
+\]
+and the feedback control \(\hat a(s,\hat X_s)\) is optimal.
+\end{thm}
+
+\begin{proof}
+The preceding theorem gives \(w\ge v\). Applying the same localized It\^o argument to \(w(s,\hat X_s)\), now using equality in the HJB equation, gives
+\[
+w(t,x)
+=\mathbb E\!\left[
+\int_t^T
+ f(u,\hat X_u,\hat a(u,\hat X_u))\,\mathrm du
++g(\hat X_T)
+\right].
+\]
+The right-hand side is bounded above by \(v(t,x)\), so \(w=v\) and the feedback is optimal.
+\end{proof}
+
+Infinite-horizon verification requires a transversality condition.
+
+\begin{thm}[Infinite-horizon supersolution verification bound]
+Let \(w\in C^2(\mathbb R^n)\) have polynomial growth and suppose
+\[
+\beta w(x)
+-\sup_{a\in A}
+\{\mathcal L^aw(x)+f(x,a)\}
+\ge0.
+\]
+Assume that, for every \(x\) and every \(\alpha\in\mathcal A(x)\),
+\[
+\limsup_{T\to\infty}
+ e^{-\beta T}\mathbb E[w(X_T^{x,\alpha})]
+\ge0,
+\]
+and that the family of discounted terminal terms is integrable enough for the localization limits below. Then \(w\ge v\) on \(\mathbb R^n\).
+\end{thm}
+
+\begin{proof}
+Fix \(\alpha\in\mathcal A(x)\). Applying It\^o's formula to \(e^{-\beta t}w(X_t^{x,\alpha})\), localizing the stochastic integral, and then removing the localization gives
+\[
+w(x)
+\ge
+\mathbb E\!\left[
+\int_0^T e^{-\beta u}
+ f(X_u^{x,\alpha},\alpha_u)\,\mathrm du
+\right]
++e^{-\beta T}\mathbb E[w(X_T^{x,\alpha})].
+\]
+The discounted running reward converges in \(L^1\) as \(T\to\infty\). Taking the limsup and using the transversality condition therefore yields
+\[
+w(x)\ge J(x,\alpha).
+\]
+Taking the supremum over \(\alpha\) proves \(w\ge v\).
+\end{proof}
+
+\begin{remark}
+The transversality condition does not assert that the discounted terminal term converges to zero. It ensures only that its asymptotic contribution cannot lower the supersolution bound.
+\end{remark}
+
+\begin{thm}[Infinite-horizon verification theorem]
+Assume the hypotheses of the preceding theorem. Suppose there is a measurable stationary selector \(\hat a:\mathbb R^n\to A\) such that
+\[
+\begin{aligned}
+0
+={}&\beta w(x)
+-\sup_{a\in A}\{\mathcal L^aw(x)+f(x,a)\}\\
+={}&\beta w(x)
+-\mathcal L^{\hat a(x)}w(x)
+-f(x,\hat a(x)).
+\end{aligned}
+\]
+Assume that the feedback SDE has a unique solution \(\hat X^x\), that \(\hat a(\hat X_s^x)\) is admissible, and that
+\[
+\liminf_{T\to\infty}
+ e^{-\beta T}\mathbb E[w(\hat X_T^x)]
+\le0.
+\]
+Then
+\[
+w(x)=v(x)=J(x,\hat a),
+\]
+and \(\hat a\) is an optimal stationary Markov control.
+\end{thm}
+
+\begin{proof}
+Equality in the HJB equation gives, for every finite \(T\),
+\[
+w(x)
+=\mathbb E\!\left[
+\int_0^T e^{-\beta u}
+ f(\hat X_u^x,\hat a(\hat X_u^x))\,\mathrm du
+\right]
++e^{-\beta T}\mathbb E[w(\hat X_T^x)].
+\]
+Taking the liminf and using the transversality condition gives \(w(x)\le J(x,\hat a)\). The supersolution theorem gives \(w\ge v\ge J(x,\hat a)\), so equality holds throughout.
+\end{proof}
+
+\section{Applications}
+
+\subsection{Portfolio Optimization with Quadratic Transaction Costs}
+
+Consider an investor whose expected excess-return signal follows an Ornstein--Uhlenbeck process
+\[
+\mathrm d\mu_s=-\ell\mu_s\,\mathrm ds+\eta\,\mathrm dW_s.
+\]
+Let \(q_s\) denote the risky position and let the trading rate \(u_s\) be the control:
+\[
+\mathrm dq_s=u_s\,\mathrm ds.
+\]
+For current state \((\mu_t,q_t)=(m,q)\), define
+\[
+\begin{aligned}
+V(m,q)
+:=\sup_u\mathbb E_t\!\left[
+\int_t^\infty e^{-\beta(s-t)}
+\left(
+\mu_sq_s
+-\frac{\gamma\sigma^2}{2}q_s^2
+-\frac{\lambda}{2}u_s^2
+\right)\mathrm ds
+\right].
+\end{aligned}
+\]
+The stationary HJB equation is
+\[
+0=-\beta V
++\sup_{u\in\mathbb R}
+\left\{
+ mq-\frac{\gamma\sigma^2}{2}q^2
+-\frac{\lambda}{2}u^2
++\mathcal L^\mu V
++V_qu
+\right\},
+\]
+where
+\[
+\mathcal L^\mu V(m,q)
+=-\ell mV_m(m,q)
++\frac{\eta^2}{2}V_{mm}(m,q).
+\]
+Pointwise optimization gives
+\[
+u^*(m,q)=\frac{V_q(m,q)}{\lambda}
+\]
+and therefore
+\[
+0=-\beta V
++mq-\frac{\gamma\sigma^2}{2}q^2
+-\ell mV_m
++\frac{\eta^2}{2}V_{mm}
++\frac{(V_q)^2}{2\lambda}.
+\]
+Because the running reward is quadratic in \((m,q,u)\) and the state dynamics are linear, it is natural to seek a quadratic value function of the form
+\[
+V(m,q)
+=\frac A2m^2+Bmq-\frac C2q^2+D.
+\]
+Substitution produces four algebraic equations for \(A,B,C,D\).
+
+\subsection{A Singular Stochastic Control Problem}
+
+Consider
+\[
+\mathrm dX_s=\alpha_s\,\mathrm dW_s,
+\qquad X_t=x,
+\]
+where \(\alpha\) is progressively measurable and satisfies
+\[
+\mathbb E\int_t^T|\alpha_s|^2\,\mathrm ds<\infty.
+\]
+Let \(g:\mathbb R\to\mathbb R\) be measurable, have at most linear growth, and possess a finite concave envelope \(g^{\operatorname{conc}}\). Define
+\[
+v(t,x)
+:=\sup_\alpha\mathbb E[g(X_T^{t,x,\alpha})].
+\]
+
+The dynamic programming principle gives, for a constant control \(a\) and a bounded stopping time \(\theta\in\mathcal T_{t,T}\),
+\[
+v(t,x)\ge\mathbb E[v(\theta,X_\theta^{t,x,a})].
+\]
+If \(v\in C^{1,2}\), applying It\^o's formula up to
+\[
+\theta=(t+h)\wedge
+\inf\{s\ge t:|X_s^{t,x,a}-x|\ge1\}
+\]
+gives
+\[
+0\ge
+\mathbb E\!\left[
+\frac1h\int_t^\theta
+\left(
+\partial_tv
++\frac12a^2\partial_{xx}v
+\right)(s,X_s^{t,x,a})\,\mathrm ds
+\right].
+\]
+Letting \(h\downarrow0\),
+\[
+0\ge
+\partial_tv(t,x)
++\frac12a^2\partial_{xx}v(t,x)
+\qquad\text{for every }a\in\mathbb R.
+\]
+Consequently, any classical solution must satisfy \(\partial_{xx}v\le0\), so \(v(t,\cdot)\) is concave for \(t<T\). Since the zero control is admissible, \(v\ge g\), and hence any such concave value function must satisfy
+\[
+v(t,x)\ge g^{\operatorname{conc}}(x).
+\]
+Conversely, Jensen's inequality and the martingale property of \(X^{t,x,\alpha}\) give
+\[
+\begin{aligned}
+v(t,x)
+&\le\sup_\alpha
+\mathbb E[g^{\operatorname{conc}}(X_T^{t,x,\alpha})]\\
+&\le\sup_\alpha
+g^{\operatorname{conc}}(\mathbb E[X_T^{t,x,\alpha}])
+=g^{\operatorname{conc}}(x).
+\end{aligned}
+\]
+Thus the formal conclusion is
+\[
+v(t,x)=g^{\operatorname{conc}}(x),
+\qquad t<T.
+\]
+This identity is rigorous under standard martingale-representation assumptions or in the viscosity-solution formulation.
+
+For example, take
+\[
+g(x)=-|x|.
+\]
+Then \(g\) is concave but not \(C^2\), and Jensen's inequality together with the zero control gives
+\[
+v(t,x)=-|x|.
+\]
+Hence the value function is not a classical \(C^{1,2}\) solution.
+
+Terminal discontinuity can also occur. If
+\[
+g_0(x):=-|x|-\mathbf1_{\{0\}}(x),
+\]
+then \(g_0^{\operatorname{conc}}(x)=-|x|\). For \(t<T\), the value equals \(-|x|\), while \(v(T,0)=g_0(0)=-1\); therefore \(v\) is discontinuous at the terminal point \((T,0)\).
+
+The Hamiltonian for this problem is
+\[
+H(M)=\sup_{a\in\mathbb R}\frac12a^2M.
+\]
+It is finite exactly when \(M\le0\), in which case \(H(M)=0\). The corresponding HJB equation is therefore represented by the variational inequality
+\[
+\min\{-\partial_tv,-\partial_{xx}v\}=0,
+\]
+which is naturally interpreted in the viscosity sense when the concave envelope is nonsmooth.

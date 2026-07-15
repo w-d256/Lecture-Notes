@@ -1,0 +1,792 @@
+\chapter{Basic Theory of BSDEs}
+
+\section{Introduction to BSDEs}
+
+\subsection{Existence and uniqueness}
+
+Let $B=(B_t)_{0\le t\le T}$ be a $d$-dimensional Brownian motion on a
+filtered probability space $(\Omega,\mathcal F,\mathbb F,\mathbb P)$,
+where $\mathbb F=(\mathcal F_t)_{0\le t\le T}$ is the usual augmentation
+of the natural filtration of $B$, and let $T<\infty$.
+
+We denote by $\mathbb S^2(0,T)$ the space of real-valued, continuous,
+$\mathbb F$-adapted processes $Y$ such that
+\[
+  \mathbb E\!\left[\sup_{0\le t\le T}|Y_t|^2\right]<\infty,
+\]
+and by $\mathbb H^2(0,T;\mathbb R^d)$ the space of progressively
+measurable $\mathbb R^d$-valued processes $Z$ such that
+\[
+  \mathbb E\!\left[\int_0^T |Z_t|^2\,\mathrm dt\right]<\infty.
+\]
+We are given a terminal condition $\xi$ and a generator $f$ satisfying:
+\begin{itemize}
+  \item[(A)] $\xi\in L^2(\Omega,\mathcal F_T,\mathbb P)$;
+  \item[(B)] for every $(y,z)\in\mathbb R\times\mathbb R^d$, the process
+  $(t,\omega)\mapsto f(\omega,t,y,z)$ is progressively measurable,
+  \[
+    \mathbb E\!\left[\int_0^T |f(t,0,0)|^2\,\mathrm dt\right]<\infty,
+  \]
+  and there is a constant $L_f$ such that, for all $y_1,y_2\in\mathbb R$
+  and $z_1,z_2\in\mathbb R^d$,
+  \[
+    |f(t,y_1,z_1)-f(t,y_2,z_2)|
+    \le L_f\bigl(|y_1-y_2|+|z_1-z_2|\bigr),
+    \qquad \mathrm dt\otimes\mathrm d\mathbb P\text{-a.e.}
+  \]
+\end{itemize}
+
+Consider the one-dimensional BSDE
+\[
+  -\mathrm dY_t=f(t,Y_t,Z_t)\,\mathrm dt-Z_t\cdot\mathrm dB_t,
+  \qquad Y_T=\xi.
+\]
+
+\begin{de}
+A solution is a pair
+$(Y,Z)\in\mathbb S^2(0,T)\times\mathbb H^2(0,T;\mathbb R^d)$ such that
+\[
+  Y_t=\xi+\int_t^T f(s,Y_s,Z_s)\,\mathrm ds
+      -\int_t^T Z_s\cdot\mathrm dB_s,
+  \qquad 0\le t\le T,
+\]
+almost surely.
+\end{de}
+
+\begin{thm}[Pardoux--Peng]
+Under assumptions \textup{(A)} and \textup{(B)}, the BSDE admits a unique
+solution in
+$\mathbb S^2(0,T)\times\mathbb H^2(0,T;\mathbb R^d)$.
+\end{thm}
+
+\begin{proof}
+For progressively measurable
+$(U,V)\in\mathbb H^2(0,T;\mathbb R)\times
+\mathbb H^2(0,T;\mathbb R^d)$, set
+\[
+  M_t:=\mathbb E\!\left[
+    \xi+\int_0^T f(s,U_s,V_s)\,\mathrm ds
+    \mathrel{\big|}\mathcal F_t
+  \right].
+\]
+The random variable inside the conditional expectation is square
+integrable.  By the martingale representation theorem, there is a unique
+$Z\in\mathbb H^2(0,T;\mathbb R^d)$ such that
+\[
+  M_t=M_0+\int_0^t Z_s\cdot\mathrm dB_s.
+\]
+Define
+\[
+  Y_t:=M_t-\int_0^t f(s,U_s,V_s)\,\mathrm ds.
+\]
+Then
+\[
+  Y_t=\xi+\int_t^T f(s,U_s,V_s)\,\mathrm ds
+      -\int_t^T Z_s\cdot\mathrm dB_s.
+\]
+Doob's inequality, Cauchy--Schwarz, and the Lipschitz condition imply
+$Y\in\mathbb S^2(0,T)$.  Thus this construction defines a map
+$\Phi(U,V)=(Y,Z)$.
+
+Let $\Phi(U,V)=(Y,Z)$ and
+$\Phi(U',V')=(Y',Z')$, and write bars for differences.  Since
+$\bar Y_T=0$, It\^o's formula gives, for every $t\in[0,T]$,
+\[
+\begin{aligned}
+  e^{\beta t}|\bar Y_t|^2
+  &+\int_t^T e^{\beta s}
+    \bigl(\beta|\bar Y_s|^2+|\bar Z_s|^2\bigr)\,\mathrm ds \\
+  &=2\int_t^T e^{\beta s}\bar Y_s\bar f_s\,\mathrm ds
+    -2\int_t^T e^{\beta s}\bar Y_s\bar Z_s\cdot\mathrm dB_s,
+\end{aligned}
+\]
+where $\bar f_s=f(s,U_s,V_s)-f(s,U'_s,V'_s)$.  After localization and
+expectation, Young's inequality yields
+\[
+\begin{aligned}
+  &\mathbb E\!\left[\int_0^T e^{\beta s}
+    \bigl(|\bar Y_s|^2+|\bar Z_s|^2\bigr)\,\mathrm ds\right] \\
+  &\qquad\le \frac12\,
+  \mathbb E\!\left[\int_0^T e^{\beta s}
+    \bigl(|\bar U_s|^2+|\bar V_s|^2\bigr)\,\mathrm ds\right]
+\end{aligned}
+\]
+when, for example, $\beta=2+8L_f^2$.  Indeed, the remaining factor on
+    the right is at most $4L_f^2/\beta<1/2$.  Hence $\Phi$ is a contraction on
+the Banach space
+$\mathbb H^2(0,T;\mathbb R)\times\mathbb H^2(0,T;\mathbb R^d)$ endowed
+with the corresponding weighted norm.  Its fixed point solves the BSDE,
+and the preceding estimate also proves uniqueness.  The construction
+already shows that the fixed-point process $Y$ belongs to
+$\mathbb S^2(0,T)$.
+\end{proof}
+
+\subsection{Explicit solution of linear BSDEs}
+
+Consider
+\[
+  -\mathrm dY_t=(A_tY_t+B_t\cdot Z_t+C_t)\,\mathrm dt
+                -Z_t\cdot\mathrm dB_t,
+  \qquad Y_T=\xi,
+\]
+where $A$ and $B$ are bounded progressively measurable processes with
+values in $\mathbb R$ and $\mathbb R^d$, respectively, and
+$C\in\mathbb H^2(0,T;\mathbb R)$.
+
+\begin{prop}
+Let $\Gamma$ solve
+\[
+  \mathrm d\Gamma_t
+  =\Gamma_t\bigl(A_t\,\mathrm dt+B_t\cdot\mathrm dB_t\bigr),
+  \qquad \Gamma_0=1.
+\]
+Then the unique solution of the linear BSDE satisfies
+\[
+  \Gamma_tY_t
+  =\mathbb E\!\left[
+      \Gamma_T\xi+\int_t^T\Gamma_sC_s\,\mathrm ds
+      \mathrel{\big|}\mathcal F_t
+    \right].
+\]
+\end{prop}
+
+\begin{proof}
+It\^o's product formula gives
+\[
+  \mathrm d(\Gamma_tY_t)
+  =-\Gamma_tC_t\,\mathrm dt
+   +\Gamma_t(Z_t+Y_tB_t)\cdot\mathrm dB_t.
+\]
+Consequently,
+\[
+  \Gamma_tY_t+\int_0^t\Gamma_sC_s\,\mathrm ds
+  =Y_0+\int_0^t\Gamma_s(Z_s+Y_sB_s)\cdot\mathrm dB_s.
+\]
+The stochastic integral is a uniformly integrable martingale: boundedness
+of $A$ and $B$ gives finite moments of $\sup_{t\le T}|\Gamma_t|$, while
+$(Y,Z)\in\mathbb S^2\times\mathbb H^2$.  Taking conditional expectations
+at time $t$ proves the formula.  The process $Z$ is then identified by
+martingale representation.
+\end{proof}
+
+\subsection{Comparison principles}
+
+\begin{thm}[Comparison]
+For $i=1,2$, let $(\xi^i,f^i)$ satisfy \textup{(A)}--\textup{(B)}, and let
+$(Y^i,Z^i)$ be the corresponding solutions.  Assume
+\[
+  \xi^1\le\xi^2\quad\text{a.s.}
+\]
+and
+\[
+  f^1(t,Y_t^1,Z_t^1)
+  \le f^2(t,Y_t^1,Z_t^1),
+  \qquad \mathrm dt\otimes\mathrm d\mathbb P\text{-a.e.}
+\]
+Then $Y_t^1\le Y_t^2$ for every $t\in[0,T]$, almost surely.
+If $\mathcal F_0$ is trivial and either
+$\mathbb P(\xi^1<\xi^2)>0$ or the generator inequality is strict on a set
+of positive $\mathrm dt\otimes\mathrm d\mathbb P$ measure, then
+$Y_0^1<Y_0^2$.
+\end{thm}
+
+\begin{proof}
+Set $\bar Y=Y^2-Y^1$ and $\bar Z=Z^2-Z^1$.  For clarity, first take
+a one-dimensional Brownian motion.  Define bounded divided differences
+$\Delta^y$ and $\Delta^z$ for $f^2$ and set
+\[
+  \bar f_t:=f^2(t,Y_t^1,Z_t^1)-f^1(t,Y_t^1,Z_t^1)\ge0.
+\]
+Then
+\[
+  -\mathrm d\bar Y_t
+  =(\Delta_t^y\bar Y_t+\Delta_t^z\bar Z_t+\bar f_t)\,\mathrm dt
+   -\bar Z_t\,\mathrm dB_t,
+  \qquad \bar Y_T=\xi^2-\xi^1.
+\]
+The linear representation above gives
+\[
+  \Gamma_t\bar Y_t
+  =\mathbb E\!\left[
+    \Gamma_T(\xi^2-\xi^1)+\int_t^T\Gamma_s\bar f_s\,\mathrm ds
+    \mathrel{\big|}\mathcal F_t
+  \right],
+\]
+where $\Gamma>0$.  The result follows.  For $d>1$, replace the scalar
+$z$-divided difference by the vector
+\[
+  \Delta_t^z
+  :=\mathbf 1_{\{\bar Z_t\ne0\}}
+    \frac{f^2(t,Y_t^1,Z_t^2)-f^2(t,Y_t^1,Z_t^1)}{|\bar Z_t|^2}
+    \bar Z_t,
+\]
+so that the same linear equation contains $\Delta_t^z\cdot\bar Z_t$.
+The strict assertion follows from positivity of $\Gamma$ and triviality
+of $\mathcal F_0$.
+\end{proof}
+
+\begin{remark}
+Only the generator used in the linearization must be Lipschitz.  Thus the
+proof still works when $f^2$ is Lipschitz and $f^1$ merely satisfies the
+integrability conditions needed for its BSDE\@.
+\end{remark}
+
+\begin{cor}
+If $\xi\ge0$ almost surely and
+$f(t,0,0)\ge0$ $\mathrm dt\otimes\mathrm d\mathbb P$-a.e., then
+\[
+  Y_t\ge0,
+  \qquad 0\le t\le T,
+  \quad\text{a.s.}
+\]
+If $\mathcal F_0$ is trivial and either $\mathbb P(\xi>0)>0$ or
+$f(t,0,0)>0$ on a set of positive
+$\mathrm dt\otimes\mathrm d\mathbb P$ measure, then $Y_0>0$.
+\end{cor}
+
+\subsection{Stability estimates}
+
+We now allow a multidimensional solution.  Consider
+\[
+  Y_t=\xi+\int_t^T f_s(Y_s,Z_s)\,\mathrm ds
+      -\int_t^T Z_s\,\mathrm dB_s,
+  \qquad 0\le t\le T,
+\]
+where $Y$ takes values in $\mathbb R^{d_2}$ and $Z$ in
+$\mathbb R^{d_2\times d}$.  Assume that $f$ is progressively measurable
+in $(t,\omega)$, Borel measurable in $(y,z)$, uniformly Lipschitz in
+$(y,z)$ with constant $L$, and
+\[
+  \xi\in L^2(\mathcal F_T;\mathbb R^{d_2}),
+  \qquad
+  I_0^2:=\mathbb E\!\left[
+    |\xi|^2+\left(\int_0^T|f_t(0,0)|\,\mathrm dt\right)^2
+  \right]<\infty.
+\]
+Write $Y_t^*:=\sup_{0\le s\le t}|Y_s|$.
+
+\begin{thm}[A priori estimate]
+There is a constant $C$, depending only on $T,L,d$, and $d_2$, such that
+\[
+  \mathbb E\!\left[
+    |Y_T^*|^2+\int_0^T|Z_t|^2\,\mathrm dt
+  \right]
+  \le C I_0^2.
+\]
+\end{thm}
+
+\begin{proof}
+The linear-growth bound
+$|f_t(y,z)|\le |f_t(0,0)|+L(|y|+|z|)$, the BSDE, and the BDG inequality
+give
+\[
+  \mathbb E|Y_T^*|^2
+  \le C\mathbb E\!\left[
+    |\xi|^2+\left(\int_0^T|f_t(0,0)|\,\mathrm dt\right)^2
+    +\int_0^T(|Y_t|^2+|Z_t|^2)\,\mathrm dt
+  \right].
+\]
+It\^o's formula for $|Y_t|^2$, followed by expectation, Young's
+inequality, and backward Gronwall, yields, for every $\varepsilon>0$,
+\[
+  \sup_{0\le t\le T}\mathbb E|Y_t|^2
+  +\mathbb E\!\left[\int_0^T|Z_t|^2\,\mathrm dt\right]
+  \le \varepsilon\mathbb E|Y_T^*|^2+C_\varepsilon I_0^2.
+\]
+Substitution into the first inequality and absorption of the
+$\mathbb E|Y_T^*|^2$ term prove the estimate.
+\end{proof}
+
+\begin{remark}
+The preceding a priori estimate uses only the linear-growth bound on
+$f$.  Lipschitz continuity is needed for uniqueness and for the stability
+results below.
+\end{remark}
+
+\begin{cor}[Stability]
+For $i=1,2$, let $(Y^i,Z^i)$ solve the BSDE with data $(\xi_i,f^i)$,
+where both generators have the same Lipschitz bound.  With
+\[
+\begin{gathered}
+  \Delta Y:=Y^1-Y^2,
+  \quad \Delta Z:=Z^1-Z^2,
+  \quad \Delta\xi:=\xi_1-\xi_2,\\
+  \Delta f_t(y,z):=f_t^1(y,z)-f_t^2(y,z),
+\end{gathered}
+\]
+there is a constant $C$ such that
+\[
+  \mathbb E\!\left[
+    |(\Delta Y)_T^*|^2+\int_0^T|\Delta Z_t|^2\,\mathrm dt
+  \right]
+  \le C\mathbb E\!\left[
+    |\Delta\xi|^2+
+    \left(\int_0^T
+      |\Delta f_t(Y_t^1,Z_t^1)|\,\mathrm dt
+    \right)^2
+  \right].
+\]
+\end{cor}
+
+\begin{thm}[Convergence of solutions]
+Let $(\xi_n,f^n)$ and $(\xi,f)$ satisfy the preceding assumptions with a
+common Lipschitz constant, and let $(Y^n,Z^n)$ and $(Y,Z)$ be the
+corresponding solutions.  Assume
+\[
+  \mathbb E\!\left[
+    |\xi_n-\xi|^2+
+    \left(\int_0^T|f_t^n(0,0)-f_t(0,0)|\,\mathrm dt\right)^2
+  \right]\longrightarrow0
+\]
+and, for every fixed $(y,z)$,
+$f^n(\cdot,y,z)\to f(\cdot,y,z)$ in
+$\mathrm dt\otimes\mathrm d\mathbb P$ measure.  Then
+\[
+  \mathbb E\!\left[
+    |(Y^n-Y)_T^*|^2+\int_0^T|Z_t^n-Z_t|^2\,\mathrm dt
+  \right]\longrightarrow0.
+\]
+\end{thm}
+
+\begin{proof}
+Apply the stability estimate with the reference solution $(Y,Z)$.  The
+common Lipschitz constant gives
+\[
+  |(f_t^n-f_t)(Y_t,Z_t)-(f_t^n-f_t)(0,0)|
+  \le 2L(|Y_t|+|Z_t|).
+\]
+Approximation of $(Y,Z)$ by simple processes, together with convergence
+in measure for fixed $(y,z)$, shows convergence in measure of the left
+side to zero.  Its time integral squared is uniformly integrable by the
+right-hand bound and the $L^2$ estimates for $(Y,Z)$.  The generalized
+dominated convergence theorem and the stability estimate complete the
+proof.
+\end{proof}
+
+\begin{thm}[$L^p$ estimate]
+Let $p\ge2$ and assume
+\[
+  I_p^p:=\mathbb E\!\left[
+    |\xi|^p+
+    \left(\int_0^T|f_t(0,0)|\,\mathrm dt\right)^p
+  \right]<\infty.
+\]
+Then the unique solution satisfies
+\[
+  \mathbb E\!\left[
+    |Y_T^*|^p+
+    \left(\int_0^T|Z_t|^2\,\mathrm dt\right)^{p/2}
+  \right]
+  \le C_p I_p^p.
+\]
+\end{thm}
+
+\begin{proof}
+For bounded data, It\^o's formula for $|Y|^p$, the BDG inequality,
+Young's inequality, and the same coupled-estimate argument as in the
+$L^2$ case give
+\[
+  \mathbb E|Y_T^*|^p
+  +\mathbb E\!\left[
+    \int_0^T|Y_t|^{p-2}|Z_t|^2\,\mathrm dt
+  \right]
+  \le C_pI_p^p.
+\]
+Applying It\^o's formula to $|Y|^2$ and then raising the resulting
+estimate to the power $p/2$ yields
+\[
+\begin{aligned}
+  \mathbb E\!\left[
+    \left(\int_0^T|Z_t|^2\,\mathrm dt\right)^{p/2}
+  \right]
+  &\le C_p I_p^p+C_p\mathbb E|Y_T^*|^p\\
+  &\quad+\frac12\mathbb E\!\left[
+    \left(\int_0^T|Z_t|^2\,\mathrm dt\right)^{p/2}
+  \right].
+\end{aligned}
+\]
+Absorption gives the desired $Z$ estimate.  General data follow by
+truncating $\xi$ and $f$, applying the bounded-data estimate uniformly,
+using $L^2$ stability, and then applying Fatou's lemma.
+\end{proof}
+
+\section{Decoupled FBSDE systems}
+
+Let $B$ be $d$-dimensional and, for $0\le t\le s\le T$, write
+$B_{t,s}:=B_s-B_t$ and
+\[
+  \mathcal F_s^t:=\sigma(B_{t,r}:t\le r\le s)\vee\mathcal N,
+  \qquad
+  \mathbb F^t=(\mathcal F_s^t)_{t\le s\le T},
+\]
+where $\mathcal N$ denotes the null sets.  Then $\mathbb F^t$ is
+independent of $\mathcal F_t$.
+
+Consider the Markovian decoupled FBSDE
+\[
+\left\{
+\begin{aligned}
+  X_s^{t,x}
+  &=x+\int_t^s b(r,X_r^{t,x})\,\mathrm dr
+      +\int_t^s\sigma(r,X_r^{t,x})\,\mathrm dB_r,\\
+  Y_s^{t,x}
+  &=g(X_T^{t,x})
+    +\int_s^T f(r,X_r^{t,x},Y_r^{t,x},Z_r^{t,x})\,\mathrm dr
+    -\int_s^T Z_r^{t,x}\,\mathrm dB_r.
+\end{aligned}
+\right.
+\]
+Here $X,Y,Z$ take values in
+$\mathbb R^{d_1}$, $\mathbb R^{d_2}$, and
+$\mathbb R^{d_2\times d}$, respectively.  Assume that $b,\sigma,f,g$
+are deterministic; $b(\cdot,0)$, $\sigma(\cdot,0)$,
+$f(\cdot,0,0,0)$, and $g(0)$ are bounded; the coefficients are uniformly
+Lipschitz in their spatial variables; and $b,\sigma,f$ are uniformly
+$1/2$-H\"older continuous in time.  The time regularity is not needed
+for well-posedness, but it is used below.
+
+For $\eta\in L^2(\mathcal F_t;\mathbb R^{d_1})$, let
+$(\mathscr X^{t,\eta},\mathscr Y^{t,\eta},\mathscr Z^{t,\eta})$ denote the
+solution obtained by replacing $x$ with $\eta$.
+
+\subsection{The Markov property}
+
+\begin{thm}
+Fix $t\in[0,T]$.
+\begin{itemize}
+  \item[(i)] The family
+  $(x,s,\omega)\mapsto(Y_s^{t,x}(\omega),Z_s^{t,x}(\omega))$ admits a
+  jointly measurable version that is $\mathbb F^t$-progressively
+  measurable in $(s,\omega)$ for every $x$.  In particular, for fixed
+  $x$, it is independent of $\mathcal F_t$.
+  \item[(ii)] For every
+  $\eta\in L^2(\mathcal F_t;\mathbb R^{d_1})$,
+  \[
+    \mathscr Y_s^{t,\eta}(\omega)=Y_s^{t,\eta(\omega)}(\omega),
+    \qquad
+    \mathscr Z_s^{t,\eta}(\omega)=Z_s^{t,\eta(\omega)}(\omega),
+  \]
+  for $\mathrm ds\otimes\mathrm d\mathbb P$-a.e. $(s,\omega)$, with the
+  equality for $Y$ holding up to indistinguishability.
+  \item[(iii)] The function
+  \[
+    u(t,x):=Y_t^{t,x}
+  \]
+  is deterministic and Borel measurable, and the flow property gives
+  \[
+    Y_s^{t,x}=u(s,X_s^{t,x}),
+    \qquad t\le s\le T.
+  \]
+\end{itemize}
+\end{thm}
+
+\begin{proof}
+Picard iteration for the forward SDE and the BSDE may be carried out
+using only the increments $(B_r-B_t)_{r\ge t}$, which gives an
+$\mathbb F^t$-adapted measurable version and proves (i).  First check
+(ii) for simple $\mathcal F_t$-measurable random variables $\eta$ by
+pasting the solutions on the atoms of the simple variable.  The general
+case follows from the stability estimates.  Since $Y_t^{t,x}$ is both
+$\mathcal F_t$-measurable and independent of $\mathcal F_t$, it is
+constant almost surely, proving that $u$ is deterministic.  Finally,
+uniqueness applied after time $s$ yields the flow identity and hence
+$Y_s^{t,x}=u(s,X_s^{t,x})$.
+\end{proof}
+
+\begin{remark}
+Under additional regularity, $Z$ also has the Markovian representation
+$Z_s^{t,x}=v(s,X_s^{t,x})$ for
+$\mathrm ds\otimes\mathrm d\mathbb P$-a.e. $(s,\omega)$.  Without such a
+choice of version, it is safer to state the Markov property through the
+forward state and the decoupling field $u$.
+\end{remark}
+
+\subsection{Regularity of solutions}
+
+\begin{thm}[State stability]
+There is a constant $C$ such that, for all $t,x,x_1,x_2$,
+\[
+  \mathbb E\!\left[
+    \sup_{t\le s\le T}|X_s^{t,x}|^2
+    +\sup_{t\le s\le T}|Y_s^{t,x}|^2
+    +\int_t^T|Z_s^{t,x}|^2\,\mathrm ds
+  \right]
+  \le C(1+|x|^2),
+\]
+and
+\[
+\begin{aligned}
+  \mathbb E\!\left[
+    \sup_{t\le s\le T}|X_s^{t,x_1}-X_s^{t,x_2}|^2
+    +\sup_{t\le s\le T}|Y_s^{t,x_1}-Y_s^{t,x_2}|^2
+    +\int_t^T|Z_s^{t,x_1}-Z_s^{t,x_2}|^2\,\mathrm ds
+  \right]
+  \le C|x_1-x_2|^2.
+\end{aligned}
+\]
+Consequently,
+\[
+  |u(t,x)|\le C(1+|x|),
+  \qquad
+  |u(t,x_1)-u(t,x_2)|\le C|x_1-x_2|.
+\]
+\end{thm}
+
+\begin{proof}
+Apply the standard SDE estimates to the forward equation and then the
+BSDE a priori and stability estimates to the backward equation.  Since
+$u(t,x)=Y_t^{t,x}$ is deterministic, the displayed bounds for $u$ follow
+by evaluating the corresponding $L^2$ estimates at time $t$.
+\end{proof}
+
+\begin{thm}[Time stability]
+There is a constant $C$ such that
+\[
+  |Z_t|\le C|\sigma(t,X_t)|\le C(1+|X_t|),
+  \qquad \mathrm dt\otimes\mathrm d\mathbb P\text{-a.e.}
+\]
+Moreover, for $t_1<t_2$,
+\[
+  \mathbb E\!\left[
+    \sup_{t_1\le s\le t_2}|X_s-X_{t_1}|^2
+    +\sup_{t_1\le s\le t_2}|Y_s-Y_{t_1}|^2
+  \right]
+  \le C(1+|x|^2)(t_2-t_1),
+\]
+and
+\[
+  |u(t_1,x)-u(t_2,x)|
+  \le C(1+|x|)\sqrt{t_2-t_1}.
+\]
+\end{thm}
+
+\begin{proof}
+For smooth coefficients, differentiability of the stochastic flow gives
+$Z_t=D_xu(t,X_t)\sigma(t,X_t)$, and the state-stability estimate bounds
+$D_xu$.  Approximation by smooth coefficients and $L^2$ stability yield
+the general result.  The increment estimates then follow from the SDE
+and BSDE equations, BDG, and the bound on $Z$.  Finally, use the flow
+property at $t_2$:
+\[
+\begin{aligned}
+  u(t_1,x)-u(t_2,x)
+  =\mathbb E\!\left[
+    Y_{t_1}^{t_1,x}-Y_{t_2}^{t_1,x}
+    +u(t_2,X_{t_2}^{t_1,x})-u(t_2,x)
+  \right],
+\end{aligned}
+\]
+and apply the preceding estimates and the spatial Lipschitz bound for
+$u$.
+\end{proof}
+
+\begin{lem}[Derivative representation]
+Assume, in addition, that $b$ and $\sigma$ are continuously
+differentiable in $x$, that $f$ is continuously differentiable in
+$(x,y,z)$, and that $g$ is continuously differentiable in $x$, with all
+first derivatives bounded.  Then $u(t,\cdot)$ is continuously
+differentiable and
+\[
+  D_xu(t,X_t)=\nabla Y_t(\nabla X_t)^{-1},
+  \qquad
+  Z_t=\nabla Y_t(\nabla X_t)^{-1}\sigma(t,X_t),
+\]
+where the variational processes solve
+\[
+\begin{aligned}
+  \nabla X_t
+  &=I_{d_1}
+    +\int_0^t D_xb(s,X_s)\nabla X_s\,\mathrm ds
+    +\sum_{k=1}^d\int_0^t D_x\sigma^k(s,X_s)\nabla X_s\,\mathrm dB_s^k,\\
+  \nabla Y_t
+  &=D_xg(X_T)\nabla X_T\\
+  &\quad+\int_t^T\left[
+    D_xf\,\nabla X_s+D_yf\,\nabla Y_s
+    +\sum_{k=1}^dD_{z_k}f\,\nabla Z_s^k
+  \right](s,X_s,Y_s,Z_s)\,\mathrm ds\\
+  &\quad-\sum_{k=1}^d\int_t^T\nabla Z_s^k\,\mathrm dB_s^k.
+\end{aligned}
+\]
+\end{lem}
+
+\begin{proof}
+Difference quotients of the forward and backward equations satisfy
+linear FBSDEs whose coefficients are averaged first derivatives.  The
+state-stability estimates show that these difference quotients converge
+in the natural $L^2$ spaces to the displayed variational solution.  In
+particular,
+\[
+  D_xu(0,x)=\nabla Y_0,
+\]
+and the same argument after an arbitrary starting time proves
+continuous differentiability of $u(t,\cdot)$.  The flow identity gives
+\[
+  \nabla Y_t=D_xu(t,X_t)\nabla X_t.
+\]
+The Jacobian $\nabla X_t$ is invertible for the stochastic flow under the
+stated assumptions.  Applying It\^o's formula to $u(t,X_t)$ in the
+smooth case gives the formula for $Z$; approximation gives the general
+case.
+\end{proof}
+
+\section{The nonlinear Feynman--Kac formula}
+
+Let
+\[
+  \mathcal L\varphi(t,x)
+  :=b(x)\cdot D_x\varphi(t,x)
+    +\frac12\operatorname{tr}\!\left(
+      \sigma(x)\sigma(x)^\top D_{xx}^2\varphi(t,x)
+    \right).
+\]
+The linear Feynman--Kac formula represents the solution of
+\[
+\begin{cases}
+  -\partial_tv-\mathcal Lv-f(t,x)=0,
+    &(t,x)\in[0,T)\times\mathbb R^n,\\
+  v(T,x)=g(x),&x\in\mathbb R^n,
+\end{cases}
+\]
+as
+\[
+  v(t,x)=\mathbb E\!\left[
+    g(X_T^{t,x})+\int_t^T f(s,X_s^{t,x})\,\mathrm ds
+  \right].
+\]
+
+We now consider the semilinear equation
+\[
+\begin{cases}
+  -\partial_tv-\mathcal Lv
+  -f\bigl(t,x,v,\sigma(x)^\top D_xv\bigr)=0,
+    &(t,x)\in[0,T)\times\mathbb R^n,\\
+  v(T,x)=g(x),&x\in\mathbb R^n.
+\end{cases}
+\]
+Assume that $b$ and $\sigma$ are Lipschitz, that $f$ is continuous in
+$(t,x)$, uniformly Lipschitz in $(y,z)$, and of linear growth, and that
+$g$ is continuous with linear growth.  Let
+\[
+\begin{aligned}
+  \mathrm dX_s^{t,x}
+  &=b(X_s^{t,x})\,\mathrm ds
+    +\sigma(X_s^{t,x})\,\mathrm dB_s,
+  \qquad X_t^{t,x}=x,\\
+  -\mathrm dY_s^{t,x}
+  &=f(s,X_s^{t,x},Y_s^{t,x},Z_s^{t,x})\,\mathrm ds
+    -Z_s^{t,x}\,\mathrm dB_s,\\
+  Y_T^{t,x}&=g(X_T^{t,x}),
+\end{aligned}
+\]
+and define $v(t,x):=Y_t^{t,x}$.
+
+\begin{prop}[Classical nonlinear Feynman--Kac formula]
+Suppose
+$v\in C^{1,2}([0,T)\times\mathbb R^n)
+\cap C([0,T]\times\mathbb R^n)$ is a classical solution of the
+semilinear PDE, has linear growth, and satisfies
+\[
+  |D_xv(t,x)|\le C(1+|x|^q)
+\]
+for some constants $C,q>0$.  Then
+\[
+  Y_t=v(t,X_t),
+  \qquad
+  Z_t=\sigma(X_t)^\top D_xv(t,X_t)
+\]
+is the unique solution of the associated BSDE\@.
+\end{prop}
+
+\begin{proof}
+Apply It\^o's formula to $v(t,X_t)$.  The PDE identifies the drift and
+the stochastic term.  The growth assumptions and the moment estimates
+for $X$ imply
+$(Y,Z)\in\mathbb S^2\times\mathbb H^2$, so uniqueness of the BSDE
+completes the proof.
+\end{proof}
+
+\begin{prop}[Viscosity nonlinear Feynman--Kac formula]
+The function $v(t,x)=Y_t^{t,x}$ is continuous on
+$[0,T]\times\mathbb R^n$ and is a viscosity solution of the semilinear
+PDE\@.
+\end{prop}
+
+\begin{proof}
+Continuity follows directly from the state- and time-stability estimates
+proved above.
+
+We verify the subsolution property; the supersolution argument is
+analogous.  Let $\varphi\in C^{1,2}$ and suppose that $v-\varphi$ has a
+local maximum equal to zero at $(t,x)$.  Assume, for contradiction, that
+\[
+  -\partial_t\varphi(t,x)-\mathcal L\varphi(t,x)
+  -f\bigl(t,x,v(t,x),\sigma(x)^\top D_x\varphi(t,x)\bigr)>0.
+\]
+By continuity and the equality $v(t,x)=\varphi(t,x)$, there are
+$h,\varepsilon,\delta>0$ such that, whenever $t\le s\le t+h$ and
+$|y-x|\le\varepsilon$,
+\[
+  v(s,y)\le\varphi(s,y)
+\]
+and
+\[
+\begin{aligned}
+  &f\bigl(s,y,\varphi(s,y),
+       \sigma(y)^\top D_x\varphi(s,y)\bigr)
+    +\partial_t\varphi(s,y)+\mathcal L\varphi(s,y)\\
+  &\qquad\le-\delta.
+\end{aligned}
+\]
+Let
+\[
+  \tau:=\inf\{s\ge t:|X_s^{t,x}-x|\ge\varepsilon\}\wedge(t+h).
+\]
+By the flow property, the restriction of $(Y^{t,x},Z^{t,x})$ to
+$[t,\tau]$ is the BSDE with terminal value $v(\tau,X_\tau^{t,x})$.
+Define
+\[
+\begin{aligned}
+  \overline Y_s
+  &:=Y_s^{t,x}-\varphi(s,X_s^{t,x}),\\
+  \overline Z_s
+  &:=Z_s^{t,x}
+    -\sigma(X_s^{t,x})^\top D_x\varphi(s,X_s^{t,x}),
+  \qquad t\le s\le\tau.
+\end{aligned}
+\]
+Then $\overline Y_\tau\le0$ and
+\[
+  \overline Y_s
+  =\overline Y_\tau+
+    \int_s^\tau F(r,\overline Y_r,\overline Z_r)\,\mathrm dr
+    -\int_s^\tau\overline Z_r\,\mathrm dB_r,
+\]
+where, writing $X_r=X_r^{t,x}$ and
+$z_r^\varphi=\sigma(X_r)^\top D_x\varphi(r,X_r)$,
+\[
+\begin{aligned}
+  F(r,y,z)
+  :={}&f\bigl(r,X_r,y+\varphi(r,X_r),z+z_r^\varphi\bigr)\\
+      &+\partial_t\varphi(r,X_r)+\mathcal L\varphi(r,X_r).
+\end{aligned}
+\]
+The generator $F$ is Lipschitz in $(y,z)$ and
+$F(r,0,0)\le-\delta$ on $[t,\tau]$.  Let $(\widetilde Y,\widetilde Z)$
+solve the same BSDE with terminal value zero.  Comparison gives
+$\overline Y_t\le\widetilde Y_t$.  Linearizing $F$ around $(0,0)$ and
+using the linear representation formula yields
+\[
+  \widetilde Y_t
+  =\mathbb E_t^{\mathbb Q}\!\left[
+    \int_t^\tau
+      \exp\!\left(\int_t^s a_r\,\mathrm dr\right)
+      F(s,0,0)\,\mathrm ds
+  \right]<0,
+\]
+for an equivalent measure $\mathbb Q$ and a bounded process $a$.
+Consequently,
+\[
+  0=v(t,x)-\varphi(t,x)=\overline Y_t<0,
+\]
+a contradiction.  Thus the viscosity subsolution inequality holds.
+\end{proof}

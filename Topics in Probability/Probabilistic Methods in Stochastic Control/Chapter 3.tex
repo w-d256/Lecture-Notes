@@ -1,0 +1,712 @@
+\chapter{The BSDE Approach}
+
+\section{The Stochastic Pontryagin Maximum Principle}
+
+Consider the controlled state equation
+\[
+\mathrm dX_t
+=b(t,X_t,\alpha_t)\,\mathrm dt
++\sigma(t,X_t,\alpha_t)\,\mathrm dW_t,
+\qquad X_0=x,
+\]
+where \(X_t\in\mathbb R^n\), \(\alpha_t\in A\subseteq\mathbb R^k\), and \(W\) is a \(d\)-dimensional Brownian motion. The objective is to maximize
+\[
+J(\alpha)
+:=\mathbb E\!\left[
+\int_0^T f(t,X_t,\alpha_t)\,\mathrm dt
++g(X_T)
+\right].
+\]
+
+Assume that, for almost every \((t,\omega)\), the functions \(b\), \(\sigma\), and \(f\) are continuously differentiable in \((x,a)\), with bounded Lipschitz derivatives, and that \(g\) is continuously differentiable with bounded Lipschitz derivative. If the coefficients are random fields, assume in addition the progressive measurability needed for the state equation and the stochastic integrals. Let \(A\) be convex, and assume that the admissible-control set \(\mathbb A\) is stable under convex combinations.
+
+\subsection{First-Order Necessary Conditions}
+
+At a constrained maximizer, a feasible one-sided directional derivative is nonpositive; it need not vanish. We first compute the variation of the state process.
+
+Fix \(\alpha\in\mathbb A\), let \(X=X^\alpha\), choose another control \(\alpha'\in\mathbb A\), and set
+\[
+\beta:=\alpha'-\alpha.
+\]
+For \(0\le\varepsilon\le1\), define
+\[
+\alpha^\varepsilon
+:=(1-\varepsilon)\alpha+\varepsilon\alpha'
+=\alpha+\varepsilon\beta,
+\]
+and let \(X^\varepsilon=X^{\alpha^\varepsilon}\). We assume the fourth-moment integrability needed below, for example
+\[
+\mathbb E\!\left[
+\left(\int_0^T|\beta_t|^2\,\mathrm dt\right)^2
+\right]<\infty.
+\]
+
+Define the first-variation process \(V\) by the linear SDE
+\[
+\begin{aligned}
+\mathrm dV_t
+={}&\left[
+D_xb(t,X_t,\alpha_t)V_t
++D_ab(t,X_t,\alpha_t)\beta_t
+\right]\mathrm dt\\
+&+\left[
+D_x\sigma(t,X_t,\alpha_t)V_t
++D_a\sigma(t,X_t,\alpha_t)\beta_t
+\right]\mathrm dW_t,
+\qquad V_0=0.
+\end{aligned}
+\]
+The boundedness of the coefficient derivatives and the moment assumption on \(\beta\) imply the corresponding moment estimates for \(V\).
+
+\begin{lem}[First variation of the state]
+Under the preceding assumptions,
+\[
+\lim_{\varepsilon\downarrow0}
+\mathbb E\!\left[
+\sup_{0\le t\le T}
+\left|
+\frac{X_t^\varepsilon-X_t}{\varepsilon}-V_t
+\right|^2
+\right]=0.
+\]
+\end{lem}
+
+\begin{proof}
+Set
+\[
+R_t^\varepsilon
+:=\frac{X_t^\varepsilon-X_t}{\varepsilon}-V_t.
+\]
+By the fundamental theorem of calculus in the variables \((x,a)\), the drift of \(R^\varepsilon\) can be written as
+\[
+B_t^\varepsilon R_t^\varepsilon+r_t^{b,\varepsilon},
+\]
+and its diffusion coefficient as
+\[
+\Sigma_t^\varepsilon R_t^\varepsilon+r_t^{\sigma,\varepsilon},
+\]
+where \(B^\varepsilon\) and \(\Sigma^\varepsilon\) are uniformly bounded. The Lipschitz continuity of the first derivatives, together with uniform fourth-moment estimates for \(X^\varepsilon\), \(V\), and \(\beta\), gives
+\[
+\mathbb E\int_0^T
+\left(
+|r_t^{b,\varepsilon}|^2
++\|r_t^{\sigma,\varepsilon}\|^2
+\right)\mathrm dt
+\longrightarrow0.
+\]
+The Burkholder--Davis--Gundy and Young inequalities therefore yield, for \(0\le s\le T\),
+\[
+\mathbb E\!\left[
+\sup_{0\le u\le s}|R_u^\varepsilon|^2
+\right]
+\le
+C\int_0^s
+\mathbb E\!\left[
+\sup_{0\le u\le r}|R_u^\varepsilon|^2
+\right]\mathrm dr
++\delta_\varepsilon,
+\]
+where \(\delta_\varepsilon\to0\). Gronwall's lemma completes the proof.
+\end{proof}
+
+We can now differentiate the objective in feasible directions.
+
+\begin{prop}[Directional derivative of the objective]
+For every feasible direction \(\beta\), the one-sided directional derivative exists and is given by
+\[
+\begin{aligned}
+D J(\alpha;\beta)
+&:=\lim_{\varepsilon\downarrow0}
+\frac{J(\alpha+\varepsilon\beta)-J(\alpha)}{\varepsilon}\\
+&=\mathbb E\!\left[
+\int_0^T
+\left(
+D_xf(t,X_t,\alpha_t)\cdot V_t
++D_af(t,X_t,\alpha_t)\cdot\beta_t
+\right)\mathrm dt
++Dg(X_T)\cdot V_T
+\right].
+\end{aligned}
+\]
+If the admissible domain is open in a linear space and the same formula holds in both directions, this is the G\^ateaux derivative.
+\end{prop}
+
+\begin{proof}
+Write
+\[
+X_t^\varepsilon
+=X_t+\varepsilon(V_t+R_t^\varepsilon).
+\]
+Apply the fundamental theorem of calculus to \(f(t,X_t^\varepsilon,\alpha_t^\varepsilon)-f(t,X_t,\alpha_t)\) and to \(g(X_T^\varepsilon)-g(X_T)\). The first-variation lemma, the boundedness of the derivatives, and the dominated convergence theorem give the stated limit. In the terminal term the perturbation is \(V_T+R_T^\varepsilon\), not a process evaluated at an unrelated time.
+\end{proof}
+
+\subsection{The Adjoint Equation and Adjoint Processes}
+
+\begin{de}
+For
+\[
+(t,x,a,y,z)
+\in[0,T]\times\mathbb R^n\times A
+\times\mathbb R^n\times\mathbb R^{n\times d},
+\]
+define the Hamiltonian
+\[
+H(t,x,a,y,z)
+:=b(t,x,a)^\top y
++\operatorname{tr}\!\left(\sigma(t,x,a)^\top z\right)
++f(t,x,a).
+\]
+Given an admissible control \(\alpha\) and its state process \(X\), the associated adjoint processes are a solution \((Y,Z)\) of
+\[
+\begin{aligned}
+\mathrm dY_t
+&=-D_xH(t,X_t,\alpha_t,Y_t,Z_t)\,\mathrm dt
++Z_t\,\mathrm dW_t,\\
+Y_T&=Dg(X_T).
+\end{aligned}
+\]
+\end{de}
+
+\begin{lem}[Duality relation]
+Let \(V\) be the first-variation process in the direction \(\beta\). Then
+\[
+\begin{aligned}
+\mathbb E[Y_T^\top V_T]
+=\mathbb E\int_0^T\biggl[
+&Y_t^\top D_ab(t,X_t,\alpha_t)\beta_t
+-D_xf(t,X_t,\alpha_t)\cdot V_t\\
+&+\operatorname{tr}\!\left(
+Z_t^\top D_a\sigma(t,X_t,\alpha_t)[\beta_t]
+\right)
+\biggr]\mathrm dt.
+\end{aligned}
+\]
+\end{lem}
+
+\begin{proof}
+Apply It\^o's product formula to \(Y_t^\top V_t\). The terms containing \(D_xb\) and \(D_x\sigma\) cancel against the corresponding terms in \(D_xH\). After localization, the stochastic integrals have zero expectation, which gives the identity.
+\end{proof}
+
+\begin{cor}
+The directional derivative can be written solely in terms of the Hamiltonian:
+\[
+D J(\alpha;\beta)
+=\mathbb E\int_0^T
+D_aH(t,X_t,\alpha_t,Y_t,Z_t)
+\cdot\beta_t\,\mathrm dt.
+\]
+\end{cor}
+
+The sign is positive because the objective is being maximized and the Hamiltonian includes the running reward with a positive sign.
+
+\begin{thm}[First-order maximum principle]
+Let \(\hat\alpha\in\mathbb A\) be optimal, with associated state \(\hat X\) and adjoint processes \((\hat Y,\hat Z)\). Assume that the admissible set permits the usual spike variations. Then, for almost every \(t\), almost surely,
+\[
+D_aH(t,\hat X_t,\hat\alpha_t,\hat Y_t,\hat Z_t)
+\cdot(a-\hat\alpha_t)
+\le0,
+\qquad a\in A.
+\]
+\end{thm}
+
+\begin{proof}
+For every admissible \(\alpha'\), optimality and convexity give
+\[
+D J(\hat\alpha;\alpha'-\hat\alpha)\le0.
+\]
+Using the Hamiltonian representation of the directional derivative and testing with spike variations on short time intervals gives the pointwise inequality.
+\end{proof}
+
+\begin{remark}
+If \(a\mapsto H(t,\hat X_t,a,\hat Y_t,\hat Z_t)\) is concave, the first-order condition is equivalent to the global maximum condition
+\[
+H(t,\hat X_t,\hat\alpha_t,\hat Y_t,\hat Z_t)
+\ge
+H(t,\hat X_t,a,\hat Y_t,\hat Z_t),
+\qquad a\in A.
+\]
+Without concavity, the first-order inequality need not characterize a global maximizer.
+\end{remark}
+
+\subsection{Sufficient Conditions for Optimality}
+
+\begin{thm}[Sufficient stochastic maximum principle]
+Let \(\hat\alpha\in\mathbb A\), with associated state \(\hat X\) and adjoint processes \((\hat Y,\hat Z)\). Assume that
+\begin{enumerate}[label=\textup{(\roman*)}]
+\item \(g\) is concave;
+\item for almost every \(t\), almost surely, the map
+\[
+(x,a)\mapsto H(t,x,a,\hat Y_t,\hat Z_t)
+\]
+is jointly concave;
+\item for almost every \(t\), almost surely,
+\[
+H(t,\hat X_t,\hat\alpha_t,\hat Y_t,\hat Z_t)
+=\sup_{a\in A}
+H(t,\hat X_t,a,\hat Y_t,\hat Z_t).
+\]
+\end{enumerate}
+Then \(\hat\alpha\) is optimal:
+\[
+J(\hat\alpha)
+=\sup_{\alpha\in\mathbb A}J(\alpha).
+\]
+\end{thm}
+
+\begin{proof}
+Fix \(\alpha\in\mathbb A\), and let \(X\) be its state process. Concavity of \(g\) gives
+\[
+\mathbb E[g(\hat X_T)-g(X_T)]
+\ge
+\mathbb E[\hat Y_T^\top(\hat X_T-X_T)].
+\]
+Applying It\^o's product formula to
+\(\hat Y_t^\top(\hat X_t-X_t)\), taking expectations, and using the adjoint equation yields
+\[
+\begin{aligned}
+J(\hat\alpha)-J(\alpha)
+\ge\mathbb E\int_0^T\biggl[
+&H(t,\hat X_t,\hat\alpha_t,\hat Y_t,\hat Z_t)
+-H(t,X_t,\alpha_t,\hat Y_t,\hat Z_t)\\
+&-D_xH(t,\hat X_t,\hat\alpha_t,\hat Y_t,\hat Z_t)
+\cdot(\hat X_t-X_t)
+\biggr]\mathrm dt.
+\end{aligned}
+\]
+Joint concavity and the maximum condition imply that the integrand is nonnegative. Hence \(J(\hat\alpha)\ge J(\alpha)\).
+\end{proof}
+
+\subsection{Connection with Dynamic Programming}
+
+The HJB and maximum-principle approaches are linked when the value function is smooth. Define
+\[
+\mathcal G(t,x,a,p,M)
+:=b(t,x,a)\cdot p
++\frac12\operatorname{tr}\!\left(
+\sigma(t,x,a)\sigma(t,x,a)^\top M
+\right)
++f(t,x,a).
+\]
+The HJB equation is
+\[
+-\partial_tv(t,x)
+-\sup_{a\in A}
+\mathcal G(t,x,a,D_xv(t,x),D_x^2v(t,x))
+=0,
+\qquad v(T,\cdot)=g.
+\]
+
+\begin{thm}[Adjoint processes from the value function]
+Assume that
+\[
+v\in C^{1,3}([0,T)\times\mathbb R^n)
+\cap C([0,T]\times\mathbb R^n)
+\]
+solves the HJB equation. Suppose there is a measurable feedback selector \(\hat a(t,x)\) attaining the supremum, with enough regularity for the envelope differentiation below, and let
+\[
+\hat\alpha_t:=\hat a(t,\hat X_t)
+\]
+be an optimal admissible feedback control. Then
+\[
+\hat Y_t=D_xv(t,\hat X_t),
+\qquad
+\hat Z_t=D_x^2v(t,\hat X_t)
+\sigma(t,\hat X_t,\hat\alpha_t)
+\]
+solve the adjoint BSDE.
+\end{thm}
+
+\begin{proof}
+Along the optimal feedback, the HJB equation reads
+\[
+\partial_tv(t,x)
++\mathcal G(t,x,\hat a(t,x),D_xv(t,x),D_x^2v(t,x))
+=0.
+\]
+Differentiating with respect to \(x_i\) and using the envelope condition gives, along \(x=\hat X_t\),
+\[
+\begin{aligned}
+0={}&\partial_{tx_i}^2v
++\sum_{j=1}^n b_j\,\partial_{x_jx_i}^2v
++\frac12\sum_{j,k=1}^n
+(\sigma\sigma^\top)_{jk}\,
+\partial_{x_jx_kx_i}^3v\\
+&+\partial_{x_i}H
+\left(
+ t,\hat X_t,\hat\alpha_t,
+ D_xv,
+ D_x^2v\,\sigma
+\right),
+\end{aligned}
+\]
+where all coefficients and derivatives of \(v\) on the right-hand side are evaluated at \((t,\hat X_t)\). This componentwise formula is the precise meaning of the contraction between \(\sigma\sigma^\top\) and the third derivative of \(v\).
+
+Applying It\^o's formula componentwise to \(D_xv(t,\hat X_t)\) now gives
+\[
+\mathrm d\hat Y_t
+=-D_xH(t,\hat X_t,\hat\alpha_t,\hat Y_t,\hat Z_t)\,\mathrm dt
++\hat Z_t\,\mathrm dW_t.
+\]
+Finally, \(v(T,\cdot)=g\) implies \(\hat Y_T=Dg(\hat X_T)\).
+\end{proof}
+
+\section{Applications}
+
+\subsection{Mean--Variance Portfolio Optimization}
+
+Consider a Black--Scholes market with a risk-free asset
+\[
+\mathrm dS_t^0=rS_t^0\,\mathrm dt
+\]
+and a risky asset
+\[
+\mathrm dS_t=S_t(b\,\mathrm dt+\sigma\,\mathrm dW_t),
+\]
+where \(b>r\) and \(\sigma>0\). At time \(t\), an investor places the amount \(\alpha_t\) in the risky asset. The wealth process satisfies
+\[
+\begin{aligned}
+\mathrm dX_t
+&=\alpha_t\frac{\mathrm dS_t}{S_t}
++(X_t-\alpha_t)\frac{\mathrm dS_t^0}{S_t^0}\\
+&=[rX_t+\alpha_t(b-r)]\,\mathrm dt
++\sigma\alpha_t\,\mathrm dW_t,
+\qquad X_0=x.
+\end{aligned}
+\]
+Let \(\mathcal A\) be the class of progressively measurable controls satisfying
+\[
+\mathbb E\int_0^T|\alpha_t|^2\,\mathrm dt<\infty.
+\]
+For a target mean \(m\), the mean--variance problem is
+\[
+V(m)
+:=\inf_{\alpha\in\mathcal A}
+\left\{
+\operatorname{Var}(X_T):\mathbb E[X_T]=m
+\right\}.
+\]
+
+The associated auxiliary problem is
+\[
+\widetilde V(\lambda)
+:=\inf_{\alpha\in\mathcal A}
+\mathbb E[(X_T-\lambda)^2],
+\qquad \lambda\in\mathbb R.
+\]
+This is a minimization problem, so the maximum-principle sign convention is replaced by the corresponding minimum condition. Its Hamiltonian is
+\[
+H(x,a,y,z)
+=[rx+a(b-r)]y+\sigma az,
+\]
+and the adjoint equation is
+\[
+-\mathrm dY_t=rY_t\,\mathrm dt-Z_t\,\mathrm dW_t,
+\qquad Y_T=2(X_T-\lambda).
+\]
+
+Let \(\hat\alpha\) be a candidate optimum. Since the Hamiltonian is linear in \(a\), the first-order condition is
+\[
+(b-r)\hat Y_t+\sigma\hat Z_t=0.
+\]
+Seek the adjoint process in the form
+\[
+\hat Y_t=\varphi(t)\hat X_t+\psi(t).
+\]
+Then
+\[
+\hat Z_t=\varphi(t)\sigma\hat\alpha_t
+\]
+and the terminal conditions are
+\[
+\varphi(T)=2,
+\qquad
+\psi(T)=-2\lambda.
+\]
+The first-order condition gives
+\[
+\hat\alpha_t
+=\frac{(r-b)(\varphi(t)\hat X_t+\psi(t))}
+{\sigma^2\varphi(t)}.
+\]
+Matching the drift terms yields
+\[
+\begin{aligned}
+\varphi'(t)
++\left(2r-\frac{(b-r)^2}{\sigma^2}\right)\varphi(t)&=0,
+&\varphi(T)&=2,\\
+\psi'(t)
++\left(r-\frac{(b-r)^2}{\sigma^2}\right)\psi(t)&=0,
+&\psi(T)&=-2\lambda.
+\end{aligned}
+\]
+Hence
+\[
+\begin{aligned}
+\varphi(t)
+&=2\exp\!\left[
+\left(2r-\frac{(b-r)^2}{\sigma^2}\right)(T-t)
+\right],\\
+\psi_\lambda(t)
+&=-2\lambda\exp\!\left[
+\left(r-\frac{(b-r)^2}{\sigma^2}\right)(T-t)
+\right].
+\end{aligned}
+\]
+The optimal feedback for the auxiliary problem is therefore
+\[
+\hat\alpha_\lambda(t,x)
+=\frac{(r-b)(\varphi(t)x+\psi_\lambda(t))}
+{\sigma^2\varphi(t)}.
+\]
+
+Completing the square after applying It\^o's formula to
+\(\frac12\varphi(t)X_t^2+\psi_\lambda(t)X_t\) gives
+\[
+\begin{aligned}
+\mathbb E[(X_T-\lambda)^2]
+={}&\frac12\varphi(0)x^2+\psi_\lambda(0)x+\lambda^2\\
+&+\mathbb E\int_0^T
+\frac{\varphi(t)\sigma^2}{2}
+\left(
+\alpha_t-
+\frac{(r-b)(\varphi(t)X_t+\psi_\lambda(t))}
+{\sigma^2\varphi(t)}
+\right)^2\mathrm dt\\
+&-\frac12\int_0^T
+\left(\frac{b-r}{\sigma}\right)^2
+\frac{\psi_\lambda(t)^2}{\varphi(t)}\,\mathrm dt.
+\end{aligned}
+\]
+Consequently,
+\[
+\widetilde V(\lambda)
+=\exp\!\left(-\frac{(b-r)^2}{\sigma^2}T\right)
+(\lambda-e^{rT}x)^2.
+\]
+
+\begin{prop}[Conjugate relations]
+For every \(\lambda,m\in\mathbb R\),
+\[
+\widetilde V(\lambda)
+=\inf_{q\in\mathbb R}
+\{V(q)+(q-\lambda)^2\},
+\]
+and
+\[
+V(m)
+=\sup_{\lambda\in\mathbb R}
+\{\widetilde V(\lambda)-(m-\lambda)^2\}.
+\]
+The maximizer in the second relation is
+\[
+\lambda_m
+=\frac{
+ m-
+ \exp\!\left[
+ \left(r-\frac{(b-r)^2}{\sigma^2}\right)T
+ \right]x
+}{
+1-
+\exp\!\left[-\frac{(b-r)^2}{\sigma^2}T\right]
+}.
+\]
+The control \(\hat\alpha_{\lambda_m}\) is optimal for \(V(m)\).
+\end{prop}
+
+\begin{proof}
+For every admissible terminal wealth,
+\[
+\mathbb E[(X_T-\lambda)^2]
+=\operatorname{Var}(X_T)
++(\mathbb E[X_T]-\lambda)^2.
+\]
+Taking infima first over controls with a fixed mean and then over the mean gives the first conjugate relation. Convex duality gives the second.
+
+Let \(\lambda_m\) maximize
+\[
+\lambda\mapsto
+\widetilde V(\lambda)-(m-\lambda)^2.
+\]
+Then \(m\) minimizes
+\[
+q\mapsto V(q)+(q-\lambda_m)^2.
+\]
+Strict convexity implies
+\[
+m=\mathbb E[\hat X_T^{\lambda_m}].
+\]
+Using the conjugate relation with the correct sign,
+\[
+\begin{aligned}
+V(m)
+&=\widetilde V(\lambda_m)-(m-\lambda_m)^2\\
+&=\mathbb E[(\hat X_T^{\lambda_m}-\lambda_m)^2]
+-(\mathbb E[\hat X_T^{\lambda_m}]-\lambda_m)^2\\
+&=\operatorname{Var}(\hat X_T^{\lambda_m}).
+\end{aligned}
+\]
+Thus \(\hat\alpha_{\lambda_m}\) is feasible and optimal for the mean--variance problem.
+\end{proof}
+
+\subsection{Exponential-Utility Optimization with an Option Payoff}
+
+Consider a market with a risk-free asset normalized to \(S^0=1\) and one risky asset
+\[
+\mathrm dS_t=S_t(b_t\,\mathrm dt+\sigma_t\,\mathrm dW_t).
+\]
+The filtration is the augmented Brownian filtration. Assume that \(b\) and \(\sigma\) are bounded progressively measurable processes and that
+\[
+\sigma_t\ge\varepsilon_0>0
+\quad\text{a.s.}
+\]
+An investor with initial capital \(x\) uses a progressively measurable strategy \(\alpha\), producing wealth
+\[
+X_t^{x,\alpha}
+=x+\int_0^t\alpha_u
+(b_u\,\mathrm du+\sigma_u\,\mathrm dW_u).
+\]
+Let \(\mathcal A\) be a class of strategies satisfying
+\[
+\int_0^T|\alpha_t|^2\,\mathrm dt<\infty
+\quad\text{a.s.}
+\]
+and an admissibility condition strong enough to make the utility family below a supermartingale; for example, one may require the wealth to be bounded below by a deterministic constant. The investor must deliver a bounded \(\mathcal F_T\)-measurable claim \(\xi\). With exponential utility
+\[
+U(x)=-e^{-\eta x},
+\qquad \eta>0,
+\]
+the objective is
+\[
+v(x)
+:=\sup_{\alpha\in\mathcal A}
+\mathbb E[U(X_T^{x,\alpha}-\xi)].
+\]
+
+The martingale optimality principle seeks processes \(J^\alpha\) satisfying
+\begin{enumerate}[label=\textup{(\roman*)}]
+\item \(J_T^\alpha=U(X_T^{x,\alpha}-\xi)\);
+\item \(J_0^\alpha\) is deterministic and independent of \(\alpha\);
+\item each \(J^\alpha\) is a supermartingale, and \(J^{\hat\alpha}\) is a martingale for some admissible \(\hat\alpha\).
+\end{enumerate}
+When these conditions hold, \(\hat\alpha\) is optimal and \(v(x)=J_0^{\hat\alpha}\).
+
+Let \((Y,Z)\) solve the BSDE
+\[
+Y_t
+=\xi+\int_t^T f(s,Z_s)\,\mathrm ds
+-\int_t^T Z_s\,\mathrm dW_s.
+\]
+Assuming \(\mathcal F_0\) is trivial, \(Y_0\) is deterministic. Define the candidate family
+\[
+J_t^\alpha
+:=U(X_t^{x,\alpha}-Y_t).
+\]
+Conditions (i) and (ii) are immediate, and the candidate value is \(U(x-Y_0)\).
+
+A direct It\^o calculation gives the factorization
+\[
+J_t^\alpha=M_t^\alpha C_t^\alpha,
+\]
+where
+\[
+\begin{aligned}
+M_t^\alpha
+:={}&\exp[-\eta(x-Y_0)]\\
+&\times\exp\!\left(
+-\int_0^t\eta(\alpha_u\sigma_u-Z_u)\,\mathrm dW_u
+-\frac12\int_0^t
+|\eta(\alpha_u\sigma_u-Z_u)|^2\,\mathrm du
+\right)
+\end{aligned}
+\]
+is a positive local martingale and
+\[
+C_t^\alpha
+:=-\exp\!\left(
+\int_0^t\rho(u,\alpha_u,Z_u)\,\mathrm du
+\right),
+\]
+with
+\[
+\rho(t,a,z)
+:=\eta\left(
+\frac\eta2|a\sigma_t-z|^2
+-ab_t-f(t,z)
+\right).
+\]
+Completing the square,
+\[
+\begin{aligned}
+\frac1\eta\rho(t,a,z)
+={}&\frac\eta2
+\left|a\sigma_t-z-\frac{b_t}{\eta\sigma_t}\right|^2\\
+&-z\frac{b_t}{\sigma_t}
+-\frac1{2\eta}
+\left|\frac{b_t}{\sigma_t}\right|^2
+-f(t,z).
+\end{aligned}
+\]
+Thus choose
+\[
+f(t,z)
+=-z\frac{b_t}{\sigma_t}
+-\frac1{2\eta}
+\left|\frac{b_t}{\sigma_t}\right|^2
+\]
+and
+\[
+\hat\alpha_t
+=\frac{Z_t}{\sigma_t}
++\frac{b_t}{\eta\sigma_t^2}.
+\]
+Then \(\rho(t,a,z)\ge0\) for every \(a\), and \(\rho(t,\hat\alpha_t,Z_t)=0\).
+
+\begin{thm}
+Assume that the linear BSDE with terminal condition \(Y_T=\xi\) and generator
+\[
+f(t,z)
+=-z\frac{b_t}{\sigma_t}
+-\frac1{2\eta}
+\left|\frac{b_t}{\sigma_t}\right|^2
+\]
+has its standard bounded solution and that the candidate strategy
+\[
+\hat\alpha_t
+=\frac{Z_t}{\sigma_t}
++\frac{b_t}{\eta\sigma_t^2}
+\]
+belongs to the admissible class. Then
+\[
+v(x)=U(x-Y_0)=-\exp[-\eta(x-Y_0)],
+\]
+and \(\hat\alpha\) is optimal.
+\end{thm}
+
+\begin{proof}
+For every admissible \(\alpha\), \(M^\alpha\) is a positive local martingale. Since \(\rho\ge0\), the finite-variation factor \(C^\alpha\) is nonincreasing, so the localized processes \(J^\alpha\) are supermartingales. Under the admissibility condition and boundedness of \(Y\), the process \(J^\alpha\) is bounded below. Fatou's lemma therefore removes the localization and shows that \(J^\alpha\) is a supermartingale.
+
+For \(\hat\alpha\), the drift factor vanishes and \(C^{\hat\alpha}=-1\). Hence
+\[
+\begin{aligned}
+J_t^{\hat\alpha}
+={}&-M_t^{\hat\alpha}\\
+={}&-\exp[-\eta(x-Y_0)]\\
+&\times\exp\!\left(
+-\int_0^t\frac{b_u}{\sigma_u}\,\mathrm dW_u
+-\frac12\int_0^t
+\left|\frac{b_u}{\sigma_u}\right|^2\mathrm du
+\right).
+\end{aligned}
+\]
+Because \(b/\sigma\) is bounded, Novikov's condition holds, so the stochastic exponential is a true martingale. Therefore \(J^{\hat\alpha}\) is a martingale and the martingale optimality principle proves the result.
+\end{proof}
+
+\begin{remark}
+The optimal strategy decomposes as
+\[
+\hat\alpha_t
+=\frac{Z_t}{\sigma_t}
++\frac{b_t}{\eta\sigma_t^2}.
+\]
+The first term is the liability-hedging component, while the second is the myopic investment component. The change of measure is generated by the market price of risk \(b_t/\sigma_t\), not by \(Y\) itself. Under the corresponding martingale measure, the linear BSDE gives a conditional-expectation representation of the liability-adjusted certainty equivalent \(Y\).
+\end{remark}
