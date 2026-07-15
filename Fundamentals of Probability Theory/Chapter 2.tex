@@ -1,0 +1,905 @@
+\section{Law of Large Numbers}
+
+\subsection{Convergence in probability}
+
+Throughout this section, random variables that agree almost surely are
+identified.
+
+\begin{de}[Convergence in probability]
+A sequence $(X_n)$ converges to $X$ in probability, written
+$X_n\xrightarrow{P}X$, if for every $\varepsilon>0$,
+\[
+P(|X_n-X|>\varepsilon)\longrightarrow0.
+\]
+\end{de}
+
+\begin{prop}[A metric for convergence in probability]
+On $L^0(\Omega,\mathcal F,P)$, define
+\[
+d_0(X,Y)=\mathbb E\bigl[1\wedge|X-Y|\bigr].
+\]
+Then $d_0$ is a metric, and
+\[
+d_0(X_n,X)\to0
+\quad\Longleftrightarrow\quad
+X_n\xrightarrow{P}X.
+\]
+\end{prop}
+
+\begin{proof}
+Only the triangle inequality and the convergence equivalence require
+comment. Since $1\wedge(a+b)\leq(1\wedge a)+(1\wedge b)$, the triangle
+inequality follows pointwise. If $d_0(X_n,X)\to0$, then for
+$0<\varepsilon\leq1$,
+\[
+P(|X_n-X|>\varepsilon)
+ \leq\varepsilon^{-1}d_0(X_n,X).
+\]
+Conversely, convergence in probability implies that
+$1\wedge|X_n-X|\to0$ in probability. Every subsequence has an almost surely
+convergent further subsequence, and dominated convergence shows that every
+subsequence of $d_0(X_n,X)$ has a further subsequence tending to zero. Hence
+the whole numerical sequence tends to zero.
+\end{proof}
+
+\begin{thm}[Completeness of $L^0$]
+The metric space $(L^0,d_0)$ is complete.
+\end{thm}
+
+\begin{proof}
+Let $(X_n)$ be Cauchy in probability. Choose a subsequence $(X_{n_k})$ such
+that
+\[
+P(|X_{n_{k+1}}-X_{n_k}|>2^{-k})\leq2^{-k}.
+\]
+The first Borel--Cantelli lemma implies that, almost surely, only finitely many
+events
+\[
+\{|X_{n_{k+1}}-X_{n_k}|>2^{-k}\}
+\]
+occur. Thus $(X_{n_k})$ is almost surely Cauchy and converges to a finite
+random variable $X$. It follows that
+$X_{n_k}\to X$ in probability. Since the original sequence is Cauchy in
+probability, the whole sequence converges to $X$ in probability.
+\end{proof}
+
+\begin{prop}[Basic properties]
+Let $X_n\xrightarrow{P}X$ and $Y_n\xrightarrow{P}Y$.
+\begin{enumerate}[label=(\roman*)]
+  \item The limit in probability is unique up to almost sure equality.
+  \item $X_n+Y_n\xrightarrow{P}X+Y$ and
+  $X_nY_n\xrightarrow{P}XY$.
+  \item If $f:\mathbb R^d\to\mathbb R^m$ is continuous and
+  $Z_n\xrightarrow{P}Z$, then $f(Z_n)\xrightarrow{P}f(Z)$.
+  \item Almost sure convergence implies convergence in probability.
+  \item $X_n\xrightarrow{P}X$ if and only if every subsequence has a further
+  subsequence that converges to $X$ almost surely.
+\end{enumerate}
+\end{prop}
+
+\begin{proof}
+Uniqueness follows from
+$P(|X-Y|>\varepsilon)\leq
+P(|X-X_n|>\varepsilon/2)+P(|X_n-Y|>\varepsilon/2)$.
+The sum follows from the same estimate. For products, first note that a
+sequence converging in probability is bounded in probability, then write
+$X_nY_n-XY=X_n(Y_n-Y)+Y(X_n-X)$. The continuous-mapping assertion follows by
+a subsequence argument, and the last two assertions follow respectively from
+dominated convergence for indicators and the Borel--Cantelli subsequence
+construction used above.
+\end{proof}
+
+\subsection{Independence}
+
+\begin{de}[Independent families]
+Families of events $\mathcal C_i\subseteq\mathcal F$, $i\in I$, are
+independent if, for every finite set of distinct indices
+$i_1,\ldots,i_m$ and every $A_j\in\mathcal C_{i_j}$,
+\[
+P\!\left(\bigcap_{j=1}^{m}A_j\right)
+ =\prod_{j=1}^{m}P(A_j).
+\]
+Random variables $(X_i)_{i\in I}$ are independent if the $\sigma$-fields
+$\sigma(X_i)$ are independent.
+\end{de}
+
+\begin{de}[$\pi$-systems and Dynkin systems]
+A nonempty family $\mathcal P$ is a $\pi$-system if it is closed under finite
+intersections. A family $\mathcal D$ is a Dynkin system if it contains
+$\Omega$, is closed under complements, and is closed under countable disjoint
+unions.
+\end{de}
+
+\begin{thm}[$\pi$--$\lambda$ theorem]
+If a Dynkin system $\mathcal D$ contains a $\pi$-system $\mathcal P$, then
+$\sigma(\mathcal P)\subseteq\mathcal D$.
+\end{thm}
+
+\begin{cor}[Independence passes to generated $\sigma$-fields]
+If $\mathcal C_1,\ldots,\mathcal C_m$ are independent $\pi$-systems, each
+containing $\Omega$, then
+$\sigma(\mathcal C_1),\ldots,\sigma(\mathcal C_m)$ are independent.
+\end{cor}
+
+\begin{proof}
+Fix all but one coordinate and consider the class of sets in the remaining
+coordinate for which the required product identity holds. It is a Dynkin
+system containing the corresponding $\pi$-system. Apply the
+$\pi$--$\lambda$ theorem, and repeat one coordinate at a time.
+\end{proof}
+
+\begin{lem}[Second Borel--Cantelli lemma]
+If $(A_n)$ is an independent sequence of events and
+$\sum_nP(A_n)=\infty$, then
+\[
+P(A_n\ \mathrm{i.o.})=1.
+\]
+\end{lem}
+
+\begin{proof}
+For $m\leq N$, independence and $1-x\leq e^{-x}$ give
+\[
+P\!\left(\bigcap_{n=m}^{N}A_n^c\right)
+ =\prod_{n=m}^{N}(1-P(A_n))
+ \leq\exp\!\left(-\sum_{n=m}^{N}P(A_n)\right).
+\]
+Let $N\to\infty$. The right-hand side tends to zero, so
+$P(\bigcup_{n\geq m}A_n)=1$ for every $m$. Intersect over $m$.
+\end{proof}
+
+\begin{prop}[Measurable transformations preserve independence]
+If $X_1,\ldots,X_m$ are independent and $f_i$ are measurable, then
+$f_1(X_1),\ldots,f_m(X_m)$ are independent.
+\end{prop}
+
+\begin{proof}
+For every Borel set $B$, the event
+$\{f_i(X_i)\in B\}$ belongs to $\sigma(X_i)$.
+\end{proof}
+
+\begin{thm}[Product-law characterization]
+Random variables $X_i:(\Omega,\mathcal F,P)\to(S_i,\mathcal S_i)$,
+$i=1,\ldots,m$, are independent if and only if
+\[
+\mathcal L(X_1,\ldots,X_m)
+ =\mathcal L(X_1)\otimes\cdots\otimes\mathcal L(X_m).
+\]
+Equivalently, for all bounded measurable $f_i$,
+\[
+\mathbb E\!\left[\prod_{i=1}^{m}f_i(X_i)\right]
+ =\prod_{i=1}^{m}\mathbb E[f_i(X_i)].
+\]
+The same identity holds for nonnegative measurable functions, with values in
+$[0,\infty]$.
+\end{thm}
+
+\begin{proof}
+Independence gives the product identity on measurable rectangles, which form
+a generating $\pi$-system. Uniqueness of product measures gives the law
+identity. The integral factorization follows first for indicators, then for
+simple functions, and finally by bounded or monotone convergence. Conversely,
+apply the functional identity to indicators.
+\end{proof}
+
+\begin{prop}[Equivalent tests for real-valued independence]
+For real random variables $X_1,\ldots,X_m$, the following are equivalent:
+\begin{enumerate}[label=(\roman*)]
+  \item the variables are independent;
+  \item the bounded-measurable factorization above holds;
+  \item it holds for all bounded continuous $f_i$;
+  \item it holds for all $f_i\in C_c(\mathbb R)$ together with constants;
+  \item for all $x_1,\ldots,x_m\in\mathbb R$,
+  \[
+  P(X_1\leq x_1,\ldots,X_m\leq x_m)
+   =\prod_{i=1}^{m}P(X_i\leq x_i).
+  \]
+\end{enumerate}
+\end{prop}
+
+\begin{proof}
+The forward implications are immediate. The classes of test functions in
+(iii) and (iv) determine finite Borel measures by the functional
+monotone-class theorem. The lower orthants in (v) form a $\pi$-system that
+generates $\mathcal B(\mathbb R^m)$, so equality there determines the joint
+law.
+\end{proof}
+
+\begin{lem}[Grouping independent variables]
+Let $(X_i)_{i\in I}$ be independent, and let $(I_r)_{r\in R}$ be pairwise
+disjoint subsets of $I$. Then the $\sigma$-fields
+\[
+\mathcal G_r=\sigma(X_i:i\in I_r),\qquad r\in R,
+\]
+are independent. Consequently, measurable functions of disjoint groups of
+independent variables are independent.
+\end{lem}
+
+\begin{proof}
+For each $r$, finite intersections of events from
+$\{\sigma(X_i):i\in I_r\}$ form a $\pi$-system generating $\mathcal G_r$.
+These $\pi$-systems are independent by the definition of independence of the
+whole family. Apply the preceding $\pi$--$\lambda$ argument.
+\end{proof}
+
+\begin{thm}[Moment characterization for bounded variables]
+Let $X_1,\ldots,X_m$ be bounded real random variables. They are independent
+if and only if, for every $k_1,\ldots,k_m\in\mathbb N_0$,
+\[
+\mathbb E[X_1^{k_1}\cdots X_m^{k_m}]
+ =\prod_{i=1}^{m}\mathbb E[X_i^{k_i}].
+\]
+\end{thm}
+
+\begin{proof}
+Necessity follows from the product-law characterization. Conversely, choose
+a compact interval containing the ranges of all variables. By linearity, the
+factorization holds for polynomials in each coordinate. The Weierstrass
+approximation theorem extends it uniformly to continuous functions on that
+interval. The bounded-continuous characterization of independence then
+applies.
+\end{proof}
+
+\subsection{Weak law of large numbers}
+
+\begin{de}[Uncorrelated variables]
+Square-integrable random variables $(X_i)$ are uncorrelated if
+$\operatorname{Cov}(X_i,X_j)=0$ whenever $i\neq j$.
+\end{de}
+
+\begin{prop}
+If $X_1,\ldots,X_n$ are pairwise uncorrelated, then
+\[
+\operatorname{Var}\!\left(\sum_{i=1}^{n}X_i\right)
+ =\sum_{i=1}^{n}\operatorname{Var}(X_i).
+\]
+\end{prop}
+
+\begin{proof}
+Expand the square of the centered sum. All cross-covariance terms vanish.
+\end{proof}
+
+\begin{thm}[$L^2$ weak law]
+Let $(X_n)$ be pairwise uncorrelated with common mean $\mu$ and
+$\sup_n\operatorname{Var}(X_n)\leq C<\infty$. If
+$S_n=\sum_{k=1}^{n}X_k$, then
+\[
+\frac{S_n}{n}\longrightarrow\mu
+\quad\text{in }L^2\text{ and in probability}.
+\]
+\end{thm}
+
+\begin{proof}
+The mean of $S_n/n$ is $\mu$, and
+\[
+\mathbb E\left|\frac{S_n}{n}-\mu\right|^2
+ =\frac1{n^2}\sum_{k=1}^{n}\operatorname{Var}(X_k)
+ \leq\frac Cn\to0.
+\]
+\end{proof}
+
+\begin{prop}[Chebyshev form]
+If $S_n$ is square integrable, $a_n=\mathbb E S_n$, and
+$\operatorname{Var}(S_n)/b_n^2\to0$, then
+\[
+\frac{S_n-a_n}{b_n}\xrightarrow{P}0.
+\]
+\end{prop}
+
+\begin{thm}[Weak law for triangular arrays]
+For each $n$, let $X_{n,1},\ldots,X_{n,n}$ be independent. Let $b_n\to\infty$
+and set
+\[
+\overline X_{n,k}=X_{n,k}\mathbf1_{\{|X_{n,k}|\leq b_n\}},
+\qquad
+a_n=\sum_{k=1}^{n}\mathbb E\overline X_{n,k}.
+\]
+Assume
+\[
+\sum_{k=1}^{n}P(|X_{n,k}|>b_n)\to0
+\]
+and
+\[
+\frac1{b_n^2}\sum_{k=1}^{n}\mathbb E[\overline X_{n,k}^{\,2}]\to0.
+\]
+Then, with $S_n=\sum_{k=1}^{n}X_{n,k}$,
+\[
+\frac{S_n-a_n}{b_n}\xrightarrow{P}0.
+\]
+\end{thm}
+
+\begin{proof}
+Let $\overline S_n=\sum_k\overline X_{n,k}$. The union bound gives
+\[
+P(S_n\neq\overline S_n)
+ \leq\sum_{k=1}^{n}P(|X_{n,k}|>b_n)\to0.
+\]
+Independence and Chebyshev's inequality give
+\[
+P(|\overline S_n-a_n|>\varepsilon b_n)
+ \leq\frac1{\varepsilon^2b_n^2}
+      \sum_{k=1}^{n}\operatorname{Var}(\overline X_{n,k})
+ \leq\frac1{\varepsilon^2b_n^2}
+      \sum_{k=1}^{n}\mathbb E[\overline X_{n,k}^{\,2}]
+ \to0.
+\]
+Combine the two estimates.
+\end{proof}
+
+\begin{thm}[Feller-type weak law]
+Let $(X_n)$ be i.i.d. and suppose
+\[
+xP(|X_1|>x)\longrightarrow0.
+\]
+Put $S_n=\sum_{k=1}^{n}X_k$ and
+\[
+\mu_n=\mathbb E[X_1\mathbf1_{\{|X_1|\leq n\}}].
+\]
+Then
+\[
+\frac{S_n}{n}-\mu_n\xrightarrow{P}0.
+\]
+\end{thm}
+
+\begin{proof}
+Apply the triangular-array theorem with $X_{n,k}=X_k$ and $b_n=n$. The first
+condition is $nP(|X_1|>n)\to0$. For the second, use the layer-cake formula:
+\[
+\frac1n\mathbb E[X_1^2\mathbf1_{\{|X_1|\leq n\}}]
+ \leq\frac2n\int_0^n yP(|X_1|>y)\,\dd y.
+\]
+The integrand $g(y)=2yP(|X_1|>y)$ tends to zero and is bounded. Its Ces\`aro
+average $n^{-1}\int_0^ng(y)\,\dd y$ therefore tends to zero.
+\end{proof}
+
+\begin{cor}[Khinchin's weak law]
+If $(X_n)$ is i.i.d. and $\mathbb E|X_1|<\infty$, then
+\[
+\frac{S_n}{n}\xrightarrow{P}\mathbb E X_1.
+\]
+\end{cor}
+
+\begin{proof}
+We have
+$xP(|X_1|>x)\leq\mathbb E[|X_1|\mathbf1_{\{|X_1|>x\}}]\to0$, and dominated
+convergence gives
+$\mu_n\to\mathbb E X_1$. Apply the preceding theorem.
+\end{proof}
+
+\subsection{Independent random variables and tail events}
+
+\begin{de}[Tail $\sigma$-field]
+For a sequence $(X_n)$, the tail $\sigma$-field is
+\[
+\mathcal T=\bigcap_{m=1}^{\infty}\sigma(X_m,X_{m+1},\ldots).
+\]
+An event in $\mathcal T$ is unaffected by changing finitely many coordinates.
+\end{de}
+
+\begin{eg}
+If $b_n\to\infty$, then each event
+\[
+\left\{\lim_{n\to\infty}\frac{S_n}{b_n}=c\right\}
+\]
+is a tail event: changing finitely many summands changes $S_n/b_n$ by a
+quantity tending to zero. By contrast, an event such as
+$\{\limsup_nS_n>0\}$ need not be a tail event, because a finite change can
+shift every later partial sum by a nonvanishing constant.
+\end{eg}
+
+\begin{thm}[Kolmogorov's zero--one law]
+If $(X_n)$ is independent, then every $A\in\mathcal T$ satisfies
+$P(A)\in\{0,1\}$.
+\end{thm}
+
+\begin{proof}
+For each $m$, $A$ is measurable with respect to
+$\sigma(X_m,X_{m+1},\ldots)$ and is therefore independent of
+$\sigma(X_1,\ldots,X_{m-1})$. Hence $A$ is independent of the algebra
+$\bigcup_m\sigma(X_1,\ldots,X_m)$, and a $\pi$--$\lambda$ argument shows that
+$A$ is independent of $\sigma(X_1,X_2,\ldots)$. In particular, $A$ is
+independent of itself, so $P(A)=P(A)^2$.
+\end{proof}
+
+\begin{eg}[Borel--Cantelli zero--one law]
+For independent events $(A_n)$,
+\[
+P(A_n\ \mathrm{i.o.})=
+\begin{cases}
+0,&\sum_nP(A_n)<\infty,\\
+1,&\sum_nP(A_n)=\infty.
+\end{cases}
+\]
+The event $\{A_n\ \mathrm{i.o.}\}$ is a tail event, and the two cases are the
+first and second Borel--Cantelli lemmas.
+\end{eg}
+
+\begin{thm}[Approximation by finitely many coordinates]
+Let $Y$ be bounded and $\sigma(X_1,X_2,\ldots)$-measurable. For every
+$\varepsilon>0$, there are $N\in\mathbb N$ and a bounded Borel function
+$F:\mathbb R^N\to\mathbb R$ such that
+\[
+\mathbb E|Y-F(X_1,\ldots,X_N)|<\varepsilon.
+\]
+\end{thm}
+
+\begin{proof}
+The union $\bigcup_N\sigma(X_1,\ldots,X_N)$ is an algebra generating
+$\sigma(X_1,X_2,\ldots)$. Indicators of sets from this algebra are dense in
+$L^1$ among indicators of the generated $\sigma$-field, and hence their
+simple-function span is dense in $L^1$. Choose a simple approximation
+measurable with respect to one finite-coordinate $\sigma$-field, taking $N$
+to be the largest coordinate used. The Doob--Dynkin factorization gives the
+Borel function $F$.
+\end{proof}
+
+\begin{cor}[Tail-measurable variables are constant]
+If $(X_n)$ is independent and an extended-real random variable $Y$ is
+$\mathcal T$-measurable, then $Y=c$ almost surely for some
+$c\in[-\infty,\infty]$.
+\end{cor}
+
+\begin{proof}
+For every $t\in\mathbb R$, the event $\{Y\leq t\}$ is a tail event, so its
+probability is zero or one. Let
+$c=\inf\{t\in\mathbb R:P(Y\leq t)=1\}$, allowing infinite values. Monotonicity
+and right-continuity of the distribution function show that
+$P(Y=c)=1$ when $c$ is finite; the cases $c=\pm\infty$ follow in the same way.
+\end{proof}
+
+\begin{de}[Convolution]
+For Borel probability measures $\mu,\nu$ on $\mathbb R^d$, their convolution
+is
+\[
+(\mu*\nu)(B)=\int_{\mathbb R^d}\mu(B-y)\,\nu(\dd y).
+\]
+If $X\sim\mu$ and $Y\sim\nu$ are independent, then
+$X+Y\sim\mu*\nu$.
+\end{de}
+
+\begin{proof}
+For Borel $B$, Tonelli's theorem and the product law give
+\[
+P(X+Y\in B)
+ =\iint\mathbf1_B(x+y)\,\mu(\dd x)\nu(\dd y)
+ =\int\mu(B-y)\,\nu(\dd y).
+\]
+\end{proof}
+
+\begin{prop}[Convolution densities]
+If $\mu$ and $\nu$ have Lebesgue densities $f$ and $g$, then $\mu*\nu$ has
+density
+\[
+(f*g)(u)=\int_{\mathbb R^d}f(x)g(u-x)\,\dd x.
+\]
+For point masses, the corresponding formula is
+\[
+(\mu*\nu)(\{u\})
+ =\sum_x\mu(\{x\})\nu(\{u-x\}),
+\]
+where only atoms contribute.
+\end{prop}
+
+\begin{proof}
+Use Tonelli's theorem and the translation invariance of Lebesgue measure:
+\[
+(\mu*\nu)(B)
+ =\iint\mathbf1_B(x+y)f(x)g(y)\,\dd x\dd y
+ =\int_B\!\left(\int f(x)g(u-x)\,\dd x\right)\dd u.
+\]
+The atomic identity follows directly from the definition.
+\end{proof}
+
+\subsection{Strong law of large numbers}
+
+\begin{de}[Tail equivalence]
+Two sequences $(X_n)$ and $(X_n')$ on the same probability space are
+\emph{tail equivalent} if
+\[
+\sum_{n=1}^{\infty}P(X_n\neq X_n')<\infty.
+\]
+Then $X_n=X_n'$ for all sufficiently large $n$, almost surely.
+\end{de}
+
+\begin{cor}
+If $(X_n)$ and $(X_n')$ are tail equivalent and $b_n\to\infty$, then
+\[
+\frac1{b_n}\sum_{k=1}^{n}X_k
+\quad\text{and}\quad
+\frac1{b_n}\sum_{k=1}^{n}X_k'
+\]
+have the same almost sure convergence behavior and, when they converge, the
+same limit.
+\end{cor}
+
+\begin{proof}
+Outside a null set, the two sequences differ only in finitely many terms.
+Their partial sums therefore differ by an eventually constant finite random
+quantity, which divided by $b_n$ tends to zero.
+\end{proof}
+
+\begin{lem}[Integrable tails]
+If $X\in L^1$ and $\varepsilon>0$, then
+\[
+\sum_{n=1}^{\infty}P(|X|\geq n\varepsilon)
+ \leq\frac1\varepsilon\mathbb E|X|.
+\]
+Consequently, if $(X_n)$ is i.i.d. and integrable, then it is tail equivalent
+to
+$X_n'=X_n\mathbf1_{\{|X_n|\leq n\}}$.
+\end{lem}
+
+\begin{proof}
+For $x\geq0$,
+$\sum_{n\ge1}\mathbf1_{[n,\infty)}(x)\leq x$. Apply this to
+$|X|/\varepsilon$ and take expectations. The consequence follows from the
+first Borel--Cantelli lemma.
+\end{proof}
+
+\begin{thm}[Kolmogorov maximal inequality]
+Let $Y_1,\ldots,Y_n$ be independent, mean-zero, square-integrable random
+variables, and put $S_k=\sum_{j=1}^{k}Y_j$ and
+$S_n^*=\max_{k\leq n}|S_k|$. Then, for every $\varepsilon>0$,
+\[
+\varepsilon^2P(S_n^*\geq\varepsilon)
+ \leq\mathbb E[S_n^2\mathbf1_{\{S_n^*\geq\varepsilon\}}]
+ \leq\mathbb E S_n^2.
+\]
+\end{thm}
+
+\begin{proof}
+Let $\tau=\inf\{k:|S_k|\geq\varepsilon\}$ and decompose the event
+$\{S_n^*\geq\varepsilon\}$ into the disjoint events $\{\tau=j\}$,
+$j\leq n$. Since $\{\tau=j\}\in\sigma(Y_1,\ldots,Y_j)$ and
+$S_n-S_j$ is independent of this $\sigma$-field with mean zero,
+\[
+\mathbb E[S_n^2\mathbf1_{\{\tau=j\}}]
+ =\mathbb E[S_j^2\mathbf1_{\{\tau=j\}}]
+  +\mathbb E[(S_n-S_j)^2\mathbf1_{\{\tau=j\}}]
+ \geq\varepsilon^2P(\tau=j).
+\]
+Sum over $j$.
+\end{proof}
+
+\begin{thm}[Kolmogorov convergence criterion]
+Let $(Y_n)$ be independent square-integrable random variables. If
+\[
+\sum_{n=1}^{\infty}\operatorname{Var}(Y_n)<\infty,
+\]
+then
+\[
+\sum_{n=1}^{\infty}(Y_n-\mathbb EY_n)
+\]
+converges almost surely and in $L^2$. If in addition the numerical series
+$\sum_n\mathbb EY_n$ converges, then $\sum_nY_n$ converges almost surely and
+in $L^2$.
+\end{thm}
+
+\begin{proof}
+The centered partial sums are Cauchy in $L^2$ by orthogonality. For almost
+sure convergence, let $S_n=\sum_{k=1}^{n}(Y_k-\mathbb EY_k)$. Kolmogorov's
+inequality, first on a finite interval and then with the endpoint tending to
+infinity, gives
+\[
+P\!\left(\sup_{j\geq m}|S_j-S_m|>\varepsilon\right)
+ \leq\frac1{\varepsilon^2}
+      \sum_{j=m+1}^{\infty}\operatorname{Var}(Y_j)
+ \longrightarrow0.
+\]
+Since
+\[
+\sup_{j,k\geq m}|S_j-S_k|
+ \leq2\sup_{j\geq m}|S_j-S_m|,
+\]
+the decreasing random variables on the left converge in probability to zero.
+Their pointwise limit must therefore vanish almost surely. Thus $(S_n)$ is
+almost surely Cauchy. Adding a convergent
+deterministic series proves the final assertion.
+\end{proof}
+
+\begin{lem}[Kronecker's lemma]
+Let $b_n>0$ be nondecreasing with $b_n\to\infty$. If the series
+$\sum_nx_n/b_n$ converges, then
+\[
+\frac1{b_n}\sum_{k=1}^{n}x_k\longrightarrow0.
+\]
+\end{lem}
+
+\begin{proof}
+Let $s_n=\sum_{k=1}^{n}x_k/b_k$ and $s_n\to s$. Summation by parts gives
+\[
+\frac1{b_n}\sum_{k=1}^{n}x_k
+ =s_n-\frac1{b_n}\sum_{k=1}^{n-1}(b_{k+1}-b_k)s_k.
+\]
+Subtract and add $s$. The constant part tends to zero because the weights
+sum to $(b_n-b_1)/b_n$, while the remainder tends to zero by splitting the
+weighted sum at a fixed large index and using $s_k\to s$.
+\end{proof}
+
+\begin{thm}[Kolmogorov strong law]
+Let $(X_n)$ be i.i.d. with $\mathbb E|X_1|<\infty$, and put
+$S_n=\sum_{k=1}^{n}X_k$. Then
+\[
+\frac{S_n}{n}\longrightarrow\mathbb E X_1
+\qquad\text{almost surely}.
+\]
+\end{thm}
+
+\begin{proof}
+Let $X_n'=X_n\mathbf1_{\{|X_n|\leq n\}}$. The integrable-tail lemma shows
+that $(X_n)$ and $(X_n')$ are tail equivalent. Moreover,
+\[
+\sum_{n=1}^{\infty}\frac{\operatorname{Var}(X_n')}{n^2}
+ \leq\mathbb E\!\left[X_1^2
+     \sum_{n\geq |X_1|}\frac1{n^2}\right]
+ \leq C\mathbb E|X_1|<\infty,
+\]
+where the summand at $X_1=0$ is interpreted as zero and the elementary bound
+$\sum_{n\geq x}n^{-2}\leq C/(1+x)$ is used. The convergence criterion and
+Kronecker's lemma therefore give
+\[
+\frac1n\sum_{k=1}^{n}(X_k'-\mathbb EX_k')\to0
+\quad\text{a.s.}
+\]
+Dominated convergence yields $\mathbb EX_k'\to\mathbb EX_1$, so Ces\`aro's
+lemma gives $n^{-1}\sum_{k\leq n}\mathbb EX_k'\to\mathbb EX_1$. Tail
+equivalence completes the proof.
+\end{proof}
+
+\begin{thm}[Marcinkiewicz--Zygmund strong law]
+Let $1<p<2$, let $(X_n)$ be i.i.d., and assume
+$\mathbb E|X_1|^p<\infty$. Then
+\[
+\frac{S_n-n\mathbb EX_1}{n^{1/p}}\longrightarrow0
+\qquad\text{almost surely}.
+\]
+\end{thm}
+
+\begin{proof}
+Set $Y_n=X_n\mathbf1_{\{|X_n|\leq n^{1/p}\}}$. Since
+\[
+\sum_nP(X_n\neq Y_n)
+ =\sum_nP(|X_1|^p>n)\leq\mathbb E|X_1|^p,
+\]
+the two sequences are tail equivalent. Also,
+\[
+\sum_{n=1}^{\infty}\frac{\operatorname{Var}(Y_n)}{n^{2/p}}
+ \leq\mathbb E\!\left[X_1^2
+      \sum_{n\geq |X_1|^p}n^{-2/p}\right]
+ \leq C_p\mathbb E|X_1|^p<\infty.
+\]
+The convergence criterion and Kronecker's lemma, with $b_n=n^{1/p}$, imply
+\[
+\frac1{n^{1/p}}\sum_{k=1}^{n}(Y_k-\mathbb EY_k)\to0
+\quad\text{a.s.}
+\]
+It remains to control the means. By Tonelli,
+\[
+\frac1{n^{1/p}}
+\sum_{k=1}^{n}\mathbb E\bigl[|X_1|
+ \mathbf1_{\{|X_1|>k^{1/p}\}}\bigr]
+\leq
+\mathbb E\!\left[
+ \frac{|X_1|\min(n,|X_1|^p)}{n^{1/p}}
+\right].
+\]
+Split according to $|X_1|\leq n^{1/p}$ and its complement. On the first set,
+the integrand is at most $|X_1|^p$ and tends pointwise to zero; on the second,
+it is also at most $|X_1|^p$, and its expectation tends to zero. Dominated
+convergence finishes the mean correction, and tail equivalence finishes the
+proof.
+\end{proof}
+
+\begin{thm}[A weighted strong law]
+Let $(X_n)$ be independent with common mean $\alpha$ and
+$\sup_n\operatorname{Var}(X_n)\leq s^2$. Let $(b_n)$ be nondecreasing,
+$b_n\to\infty$, and assume
+\[
+\sum_{n=1}^{\infty}\frac1{b_n^2}<\infty.
+\]
+Then
+\[
+\frac{\sum_{k=1}^{n}(X_k-\alpha)}{b_n}\longrightarrow0
+\quad\text{almost surely and in }L^2.
+\]
+\end{thm}
+
+\begin{proof}
+The series
+$\sum_n(X_n-\alpha)/b_n$ converges almost surely by Kolmogorov's criterion,
+so Kronecker's lemma gives the almost sure conclusion. For $L^2$ convergence,
+\[
+\mathbb E\left|\frac{\sum_{k=1}^{n}(X_k-\alpha)}{b_n}\right|^2
+ \leq s^2\frac n{b_n^2}.
+\]
+Because $b_n$ is nondecreasing, $a_n=b_n^{-2}$ is nonincreasing; convergence
+of $\sum_na_n$ implies $na_n\to0$. Thus the displayed bound tends to zero.
+\end{proof}
+
+\subsection{Applications: renewal theory}
+
+\begin{thm}[Elementary renewal law]
+Let $(X_n)$ be i.i.d., nonnegative, integrable, and suppose
+$P(X_1>0)>0$. Put $S_0=0$, $S_n=\sum_{k=1}^{n}X_k$, and
+\[
+N_t=\max\{n\geq0:S_n\leq t\}.
+\]
+Then, with $\mu=\mathbb EX_1>0$,
+\[
+\frac{N_t}{t}\longrightarrow\frac1\mu
+\qquad\text{almost surely as }t\to\infty.
+\]
+\end{thm}
+
+\begin{proof}
+The strong law gives $S_n/n\to\mu>0$, so $S_n\to\infty$ and
+$N_t\to\infty$ almost surely. By definition,
+\[
+S_{N_t}\leq t<S_{N_t+1}.
+\]
+Divide by $N_t$ and use the strong law along the random subsequences
+$N_t$ and $N_t+1$ to obtain $t/N_t\to\mu$.
+\end{proof}
+
+\begin{lem}
+If $(X_n)$ is i.i.d. and $X_1\in L^1$, then
+\[
+\frac{X_n}{n}\longrightarrow0
+\qquad\text{almost surely}.
+\]
+\end{lem}
+
+\begin{proof}
+For every $\varepsilon>0$,
+$\sum_nP(|X_n|\geq n\varepsilon)<\infty$ by the integrable-tail lemma. The
+first Borel--Cantelli lemma gives the result first for rational
+$\varepsilon>0$, and then for all $\varepsilon$.
+\end{proof}
+
+\begin{thm}[Alternating renewal reward]
+Let $(X_n,Y_n)_{n\geq1}$ be i.i.d. pairs of nonnegative integrable random
+variables with $P(X_1+Y_1>0)>0$. Interpret $X_n$ as an ``on'' time and $Y_n$
+as the following ``off'' time. Put
+\[
+S_n=\sum_{k=1}^{n}(X_k+Y_k),
+\qquad
+N_t=\max\{n:S_n\leq t\},
+\]
+and
+\[
+T_t=\sum_{k=1}^{N_t}X_k
+    +\min\{X_{N_t+1},t-S_{N_t}\}.
+\]
+Then
+\[
+\frac{T_t}{t}\longrightarrow
+\frac{\mathbb EX_1}{\mathbb EX_1+\mathbb EY_1}
+\qquad\text{almost surely}.
+\]
+\end{thm}
+
+\begin{proof}
+Let $\widetilde T_t=\sum_{k=1}^{N_t}X_k$. Then
+$0\leq T_t-\widetilde T_t\leq X_{N_t+1}$. The preceding lemma and the renewal
+law imply
+\[
+\frac{X_{N_t+1}}t
+ =\frac{X_{N_t+1}}{N_t+1}\frac{N_t+1}{t}\to0.
+\]
+Moreover, the strong law and renewal law give
+\[
+\frac{\widetilde T_t}{t}
+ =\frac1{N_t}\sum_{k=1}^{N_t}X_k\cdot\frac{N_t}{t}
+ \longrightarrow
+ \mathbb EX_1\cdot
+ \frac1{\mathbb E(X_1+Y_1)}.
+\]
+The squeeze theorem proves the claim.
+\end{proof}
+
+\subsection{Large deviations}
+
+\begin{de}[Exponential integrability and cumulants]
+A random variable $X$ is \emph{exponentially integrable} if
+$\mathbb E e^{t|X|}<\infty$ for every $t>0$. Its moment-generating function
+and cumulant-generating function are
+\[
+M_X(t)=\mathbb E e^{tX},
+\qquad
+\psi_X(t)=\log M_X(t).
+\]
+They are finite and real analytic on $\mathbb R$, and
+\[
+M_X(t)=\sum_{k=0}^{\infty}\mathbb E[X^k]\frac{t^k}{k!}.
+\]
+The cumulants are $\kappa_k(X)=\psi_X^{(k)}(0)$; in particular,
+$\kappa_1(X)=\mathbb EX$ and $\kappa_2(X)=\operatorname{Var}(X)$.
+\end{de}
+
+\begin{de}[Legendre--Fenchel transform]
+For a finite convex function $\psi:\mathbb R\to\mathbb R$, define
+\[
+\psi^*(x)=\sup_{t\in\mathbb R}\{tx-\psi(t)\}
+ \in(-\infty,\infty].
+\]
+\end{de}
+
+\begin{prop}
+The transform $\psi^*$ is convex and lower semicontinuous, and a finite convex
+function on $\mathbb R$ satisfies $\psi^{**}=\psi$. If
+$Y=X-\mathbb EX$, then $\psi_Y(0)=\psi_Y'(0)=0$ and $\psi_Y\geq0$. Hence, for
+$x\geq0$,
+\[
+\psi_Y^*(x)=\sup_{t\geq0}\{tx-\psi_Y(t)\}\geq0.
+\]
+\end{prop}
+
+\begin{proof}
+A supremum of affine functions is convex and lower semicontinuous. The
+biconjugacy statement is the supporting-line theorem for finite convex
+functions. Finally,
+\[
+\psi_Y''(t)
+ =\operatorname{Var}_{Q_t}(Y)\geq0,
+\qquad
+\frac{\dd Q_t}{\dd P}=e^{tY-\psi_Y(t)},
+\]
+so $0$ is a global minimum of $\psi_Y$. For $t\leq0$ and $x\geq0$,
+$tx-\psi_Y(t)\leq0$, while $t=0$ gives zero.
+\end{proof}
+
+\begin{thm}[One-sided Cram\'er theorem]
+Let $(X_n)$ be i.i.d. exponentially integrable random variables. Put
+$Y_n=X_n-\mathbb EX_1$, $S_n=\sum_{k=1}^{n}Y_k$, and
+$I=\psi_{Y_1}^*$. Assume $Y_1$ is not almost surely constant. For every
+\[
+0<\varepsilon<\operatorname*{ess\,sup}Y_1,
+\]
+we have
+\[
+\lim_{n\to\infty}\frac1n\log
+P\!\left(\frac{S_n}{n}\geq\varepsilon\right)
+ =-I(\varepsilon).
+\]
+If $Y_1=0$ almost surely, the same interpretation holds with
+$I(\varepsilon)=\infty$ for $\varepsilon>0$.
+\end{thm}
+
+\begin{proof}
+For every $t\geq0$, Markov's inequality gives
+\[
+P(S_n\geq n\varepsilon)
+ \leq e^{-tn\varepsilon}\mathbb E e^{tS_n}
+ =\exp\{-n(t\varepsilon-\psi_{Y_1}(t))\}.
+\]
+Taking the infimum over $t$ yields the upper bound
+$\limsup n^{-1}\log P(S_n\geq n\varepsilon)\leq-I(\varepsilon)$.
+
+For the lower bound, convexity and exponential integrability imply that there
+is $t>0$ with $\psi_{Y_1}'(t)=\varepsilon$. Tilt the common law of $Y_1$ by
+\[
+\frac{\dd\nu_t}{\dd\mathcal L(Y_1)}(y)
+ =e^{ty-\psi_{Y_1}(t)},
+\]
+and denote probability and expectation under its $n$-fold product by
+$Q_t^{(n)}$ and $\mathbb E_t^{(n)}$. Under this product law, the coordinates
+remain i.i.d., have mean $\varepsilon$, and have finite positive variance. For
+$\delta>0$,
+\begin{align*}
+P(n\varepsilon\leq S_n\leq n(\varepsilon+\delta))
+&=\mathbb E_t^{(n)}\!\left[
+ e^{-tS_n+n\psi_{Y_1}(t)}
+ \mathbf1_{\{n\varepsilon\leq S_n\leq n(\varepsilon+\delta)\}}
+ \right]\\
+&\geq
+ e^{-n(t\varepsilon-\psi_{Y_1}(t))-nt\delta}
+ Q_t^{(n)}(n\varepsilon\leq S_n\leq n(\varepsilon+\delta)).
+\end{align*}
+The central limit theorem under the tilted product laws shows that the final
+probability tends to $1/2$. Since
+$t\varepsilon-\psi_{Y_1}(t)=I(\varepsilon)$, taking logarithms gives
+\[
+\liminf_{n\to\infty}\frac1n\log P(S_n\geq n\varepsilon)
+ \geq-I(\varepsilon)-t\delta.
+\]
+Let $\delta\downarrow0$.
+\end{proof}

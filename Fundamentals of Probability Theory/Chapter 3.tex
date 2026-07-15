@@ -1,0 +1,1342 @@
+\section{Martingales}
+
+\subsection{Conditional expectation}
+
+\begin{de}[Conditioning on an event]
+Let $(\Omega,\mathcal F,P)$ be a probability space and let $B\in\mathcal F$
+with $P(B)>0$. The conditional probability measure is
+\[
+P_B(A)=P(A\mid B)=\frac{P(A\cap B)}{P(B)},
+\qquad A\in\mathcal F.
+\]
+A measurable random variable $X$ belongs to $L^1(P_B)$ precisely when
+\[
+\mathbb E[|X|\mathbf1_B]<\infty,
+\]
+and then
+\[
+\mathbb E_B[X]=\frac{\mathbb E[X\mathbf1_B]}{P(B)}.
+\]
+In particular, $L^1(P)\subseteq L^1(P_B)$, but equality need not hold.
+\end{de}
+
+\begin{de}[Conditioning on a countable partition]
+Let $(A_n)_{n\geq1}$ be a measurable partition of $\Omega$ with
+$P(A_n)>0$, and put $\mathcal G=\sigma(A_n:n\geq1)$. For $X\in L^1$,
+\[
+\mathbb E[X\mid\mathcal G]
+ =\sum_{n=1}^{\infty}
+   \frac{\mathbb E[X\mathbf1_{A_n}]}{P(A_n)}\mathbf1_{A_n}.
+\]
+\end{de}
+
+\begin{thm}[Existence and uniqueness of conditional expectation]
+Let $X\in L^1(\Omega,\mathcal F,P)$ and let
+$\mathcal G\subseteq\mathcal F$ be a sub-$\sigma$-field. There is a
+$\mathcal G$-measurable random variable, unique almost surely, denoted
+$\mathbb E[X\mid\mathcal G]$, such that
+\[
+\mathbb E[\mathbb E[X\mid\mathcal G]\mathbf1_A]
+ =\mathbb E[X\mathbf1_A]
+\qquad(A\in\mathcal G).
+\]
+\end{thm}
+
+\begin{proof}
+The signed measure
+$\nu(A)=\mathbb E[X\mathbf1_A]$ on $(\Omega,\mathcal G)$ is absolutely
+continuous with respect to $P|_{\mathcal G}$. Its Radon--Nikodym derivative
+is a conditional expectation. If $Y$ and $Z$ both satisfy the defining
+identity, apply it to $\{Y>Z\}$ and $\{Z>Y\}$ to obtain $Y=Z$ almost surely.
+\end{proof}
+
+\begin{prop}[$L^2$ projection interpretation]
+The subspace $L^2(\Omega,\mathcal G,P)$ is closed in
+$L^2(\Omega,\mathcal F,P)$. For $X\in L^2$,
+$\mathbb E[X\mid\mathcal G]$ is the orthogonal projection of $X$ onto this
+subspace. Equivalently, it is the unique $Z\in L^2(\mathcal G)$ satisfying
+\[
+\mathbb E[(X-Z)Y]=0
+\qquad(Y\in L^2(\mathcal G)).
+\]
+\end{prop}
+
+\begin{proof}
+If $Y_n\in L^2(\mathcal G)$ and $Y_n\to Y$ in $L^2$, a subsequence converges
+almost surely. Its pointwise limit is $\mathcal G$-measurable and is a version
+of $Y$, so the subspace is closed. The characterization of orthogonal
+projection gives the second assertion, and taking bounded
+$\mathcal G$-measurable test functions identifies the projection with the
+conditional expectation defined above.
+\end{proof}
+
+\begin{thm}[Basic properties]
+Let $X,Y\in L^1$ and let $\mathcal G\subseteq\mathcal F$.
+\begin{enumerate}[label=(\roman*)]
+  \item Conditional expectation is linear.
+  \item If $X\leq Y$ almost surely, then
+  $\mathbb E[X\mid\mathcal G]\leq\mathbb E[Y\mid\mathcal G]$ almost surely.
+  \item
+  $|\mathbb E[X\mid\mathcal G]|
+   \leq\mathbb E[|X|\mid\mathcal G]$ almost surely.
+  \item If $Z$ is bounded and $\mathcal G$-measurable, then
+  \[
+  \mathbb E[ZX\mid\mathcal G]
+   =Z\mathbb E[X\mid\mathcal G].
+  \]
+  The same holds whenever both sides are integrable.
+  \item If $\mathcal G_1\subseteq\mathcal G_2\subseteq\mathcal F$, then
+  \[
+  \mathbb E[\mathbb E[X\mid\mathcal G_2]\mid\mathcal G_1]
+   =\mathbb E[X\mid\mathcal G_1]
+  \]
+  and
+  \[
+  \mathbb E[\mathbb E[X\mid\mathcal G_1]\mid\mathcal G_2]
+   =\mathbb E[X\mid\mathcal G_1].
+  \]
+  \item If $X$ is $\mathcal G$-measurable, then
+  $\mathbb E[X\mid\mathcal G]=X$ almost surely.
+  \item $\mathbb E[\mathbb E[X\mid\mathcal G]]=\mathbb E X$.
+\end{enumerate}
+\end{thm}
+
+\begin{proof}
+Linearity and the tower identities follow from the defining integral
+identity and uniqueness. For monotonicity, let
+$A=\{\mathbb E[X\mid\mathcal G]>
+      \mathbb E[Y\mid\mathcal G]\}\in\mathcal G$; integration over $A$
+forces $P(A)=0$. Applying monotonicity to $-\lvert X\rvert\leq X\leq
+\lvert X\rvert$ gives (iii). For (iv), test both sides against indicators of
+sets in $\mathcal G$. The remaining assertions are immediate consequences.
+\end{proof}
+
+\begin{de}[Nonnegative conditional expectation]
+If $X\geq0$ is measurable, define
+\[
+\mathbb E[X\mid\mathcal G]
+ =\lim_{n\to\infty}\mathbb E[X\wedge n\mid\mathcal G].
+\]
+The limit is $\mathcal G$-measurable, may equal $+\infty$, and satisfies the
+defining integral identity for every $A\in\mathcal G$.
+\end{de}
+
+\begin{thm}[Conditional convergence theorems]
+Let $\mathcal G\subseteq\mathcal F$.
+\begin{enumerate}[label=(\roman*)]
+  \item If $0\leq X_n\uparrow X$, then
+  \[
+  \mathbb E[X_n\mid\mathcal G]
+   \uparrow\mathbb E[X\mid\mathcal G]
+  \quad\text{almost surely}.
+  \]
+  \item If $X_n\geq0$, then
+  \[
+  \mathbb E[\liminf_nX_n\mid\mathcal G]
+   \leq\liminf_n\mathbb E[X_n\mid\mathcal G]
+  \quad\text{almost surely}.
+  \]
+  \item If $X_n\to X$ almost surely and $|X_n|\leq Y\in L^1$, then
+  \[
+  \mathbb E[X_n\mid\mathcal G]\to
+  \mathbb E[X\mid\mathcal G]
+  \quad\text{almost surely and in }L^1.
+  \]
+\end{enumerate}
+\end{thm}
+
+\begin{proof}
+For (i), the increasing limit has the correct integral over every
+$A\in\mathcal G$ by the ordinary monotone convergence theorem. Part (ii)
+follows by applying (i) to
+$Y_k=\inf_{n\geq k}X_n$. For (iii), apply conditional Fatou to
+$Y\pm X_n$ to identify the almost sure limit. Moreover,
+\[
+\|\mathbb E[X_n-X\mid\mathcal G]\|_1
+ \leq\mathbb E|X_n-X|\to0
+\]
+by ordinary dominated convergence.
+\end{proof}
+
+\begin{lem}[Countable supporting-line representation]
+If $\varphi:\mathbb R\to\mathbb R$ is finite and convex, there is a countable
+family of affine functions $(\ell_j)$ such that
+$\ell_j\leq\varphi$ on $\mathbb R$ and
+\[
+\varphi(x)=\sup_{j\geq1}\ell_j(x).
+\]
+\end{lem}
+
+\begin{proof}
+If $\varphi$ is affine, one line suffices. Otherwise, for each rational $q$
+choose a supporting line at $q$. Convexity makes subgradients locally bounded,
+so supporting lines based at rationals approaching $x$ take values at $x$
+that approach $\varphi(x)$. The countable collection therefore has the
+stated supremum.
+\end{proof}
+
+\begin{thm}[Conditional Jensen inequality]
+Let $X\in L^1$, let $\varphi:\mathbb R\to\mathbb R$ be convex, and suppose
+$\varphi(X)\in L^1$. Then
+\[
+\varphi(\mathbb E[X\mid\mathcal G])
+ \leq\mathbb E[\varphi(X)\mid\mathcal G]
+\quad\text{almost surely}.
+\]
+In particular, for $1\leq p<\infty$,
+\[
+\|\mathbb E[X\mid\mathcal G]\|_p\leq\|X\|_p.
+\]
+\end{thm}
+
+\begin{proof}
+For every affine minorant $\ell_j(x)=a_jx+b_j$,
+\[
+\ell_j(\mathbb E[X\mid\mathcal G])
+ =\mathbb E[\ell_j(X)\mid\mathcal G]
+ \leq\mathbb E[\varphi(X)\mid\mathcal G].
+\]
+Take the countable supremum. An affine lower bound also shows that the
+negative part of the left-hand side is integrable. The contraction follows
+from $\varphi(x)=|x|^p$ and integration.
+\end{proof}
+
+\begin{prop}[Conditioning and independence]
+Let $X:(\Omega,\mathcal F)\to(S,\mathcal S)$ and let
+$\mathcal G\subseteq\mathcal F$. If $\sigma(X)$ and $\mathcal G$ are
+independent, then for every integrable $f(X)$,
+\[
+\mathbb E[f(X)\mid\mathcal G]=\mathbb E f(X)
+\quad\text{almost surely}.
+\]
+Conversely, if this holds for every bounded measurable $f$, then
+$\sigma(X)$ and $\mathcal G$ are independent.
+\end{prop}
+
+\begin{proof}
+For $A\in\mathcal G$, independence gives
+$\mathbb E[f(X)\mathbf1_A]=\mathbb Ef(X)P(A)$, which is the defining identity.
+Conversely, take $f=\mathbf1_B$ and test against $A\in\mathcal G$.
+\end{proof}
+
+\begin{de}[Conditioning on a random variable]
+For $Y\in L^1$ and a random variable $X$, write
+\[
+\mathbb E[Y\mid X]
+ :=\mathbb E[Y\mid\sigma(X)].
+\]
+If the state space of $X$ is standard Borel, the Doob--Dynkin lemma gives a
+measurable function $g$ such that
+$\mathbb E[Y\mid X]=g(X)$ almost surely.
+\end{de}
+
+\begin{prop}[Independent-parameter substitution]
+Let $X$ be $\mathcal G$-measurable, let $Y$ be independent of $\mathcal G$,
+and let $h:S\times T\to\mathbb R$ be measurable with
+$h(X,Y)\in L^1$. Write $\nu=\mathcal L(Y)$ and define
+\[
+g(x)=
+\begin{cases}
+ \displaystyle\int_T h(x,y)\,\nu(\dd y),
+   &\displaystyle\int_T|h(x,y)|\,\nu(\dd y)<\infty,\\[6pt]
+ 0,&\text{otherwise}.
+\end{cases}
+\]
+Then $g$ is measurable and
+\[
+\mathbb E[h(X,Y)\mid\mathcal G]=g(X)
+\quad\text{almost surely}.
+\]
+\end{prop}
+
+\begin{proof}
+For bounded nonnegative $h$, the claim is immediate for product indicators
+$h(x,y)=u(x)v(y)$ and extends by the functional monotone-class theorem. The
+general nonnegative case follows by monotone convergence. Applying this to
+$|h|$ shows that the section integral is finite at $X$ almost surely; applying
+it to $h^+$ and $h^-$ then proves the integrable case and the measurability of
+$g$.
+\end{proof}
+
+\begin{eg}[Conditional density]
+Suppose $(X,Z)$ has joint density $f_{X,Z}$ and let
+$f_Z(z)=\int f_{X,Z}(x,z)\,\dd x$. Define
+\[
+f_{X\mid Z}(x\mid z)=
+\begin{cases}
+ f_{X,Z}(x,z)/f_Z(z),&f_Z(z)>0,\\
+ 0,&f_Z(z)=0.
+\end{cases}
+\]
+If $h$ is Borel and $\mathbb E|h(X)|<\infty$, then
+\[
+\mathbb E[h(X)\mid Z]
+ =g(Z),
+\qquad
+g(z)=\int h(x)f_{X\mid Z}(x\mid z)\,\dd x.
+\]
+\end{eg}
+
+\begin{proof}
+The function $g(Z)$ is $\sigma(Z)$-measurable. For a Borel set $B$,
+Fubini's theorem gives
+\begin{align*}
+\mathbb E[g(Z)\mathbf1_{\{Z\in B\}}]
+&=\int_B\int h(x)f_{X,Z}(x,z)\,\dd x\dd z\\
+&=\mathbb E[h(X)\mathbf1_{\{Z\in B\}}].
+\end{align*}
+\end{proof}
+
+\subsection{Basics of martingales}
+
+\begin{de}[Stochastic process and its law]
+A stochastic process with index set $I$ and state space $(E,\mathcal E)$ is a
+family $X=(X_t)_{t\in I}$ of $E$-valued random variables. Its law is the
+pushforward of $P$ under the path map
+\[
+\omega\longmapsto(X_t(\omega))_{t\in I}
+\]
+on $(E^I,\mathcal E^{\otimes I})$. For Brownian motion with continuous paths,
+this law is usually viewed on $C([0,\infty))$ and is called Wiener measure.
+\end{de}
+
+\begin{de}[Common process properties]
+A real-valued process has independent increments if increments over disjoint
+time intervals are independent. It is Gaussian if every finite-dimensional
+marginal is multivariate normal. It is stationary if
+$(X_{t+s})_t$ and $(X_t)_t$ have the same finite-dimensional distributions
+for every admissible shift $s$. It has stationary increments if
+\[
+(X_{t_1+s}-X_s,\ldots,X_{t_m+s}-X_s)
+\stackrel d=
+(X_{t_1}-X_0,\ldots,X_{t_m}-X_0)
+\]
+for all admissible $s,t_1,\ldots,t_m$.
+\end{de}
+
+From this point onward, time is discrete: $n\in\mathbb N_0$.
+
+\begin{de}[Filtration and adapted process]
+A filtration is an increasing family
+$\mathbb F=(\mathcal F_n)_{n\geq0}$ of sub-$\sigma$-fields of $\mathcal F$.
+A process $X=(X_n)$ is adapted if $X_n$ is $\mathcal F_n$-measurable. Its
+natural filtration is
+$\mathcal F_n^X=\sigma(X_0,\ldots,X_n)$.
+\end{de}
+
+\begin{de}[Martingales]
+An adapted integrable process $X=(X_n)$ is a martingale, submartingale, or
+supermartingale according as, for $m\leq n$,
+\[
+\mathbb E[X_n\mid\mathcal F_m]
+ =X_m,
+\qquad
+\mathbb E[X_n\mid\mathcal F_m]
+ \geq X_m,
+\qquad\text{or}\qquad
+\mathbb E[X_n\mid\mathcal F_m]
+ \leq X_m.
+\]
+\end{de}
+
+\begin{de}[Stopping time]
+A map $\tau:\Omega\to\mathbb N_0\cup\{\infty\}$ is a stopping time if
+\[
+\{\tau\leq n\}\in\mathcal F_n
+\qquad(n\geq0).
+\]
+Equivalently, $\{\tau=n\}\in\mathcal F_n$ for every $n$.
+\end{de}
+
+\begin{prop}[Operations on stopping times]
+If $\sigma$ and $\tau$ are stopping times, then
+$\sigma\wedge\tau$, $\sigma\vee\tau$, and $\sigma+\tau$ are stopping times.
+For every deterministic $r\in\mathbb N_0$, $\tau+r$ is a stopping time.
+In general, $\tau-r$ need not be a stopping time.
+\end{prop}
+
+\begin{proof}
+Use
+\[
+\{\sigma\wedge\tau\leq n\}
+ =\{\sigma\leq n\}\cup\{\tau\leq n\},
+\qquad
+\{\sigma\vee\tau\leq n\}
+ =\{\sigma\leq n\}\cap\{\tau\leq n\},
+\]
+and
+\[
+\{\sigma+\tau\leq n\}
+ =\bigcup_{k=0}^{n}\{\sigma=k\}\cap\{\tau\leq n-k\}.
+\]
+Every term in the final finite union belongs to $\mathcal F_n$.
+\end{proof}
+
+\begin{de}[Stopping-time $\sigma$-field]
+For a stopping time $\tau$, define
+\[
+\mathcal F_\tau
+ =\{A\in\mathcal F:A\cap\{\tau\leq n\}\in\mathcal F_n
+   \text{ for every }n\}.
+\]
+\end{de}
+
+\begin{prop}
+If $\sigma\leq\tau$, then
+$\mathcal F_\sigma\subseteq\mathcal F_\tau$. Moreover,
+\[
+\mathcal F_{\sigma\wedge\tau}
+ =\mathcal F_\sigma\cap\mathcal F_\tau.
+\]
+If $X$ is adapted and $\tau<\infty$ almost surely, then
+$X_\tau$ is $\mathcal F_\tau$-measurable.
+\end{prop}
+
+\begin{proof}
+For the first inclusion, if $A\in\mathcal F_\sigma$, then
+\[
+A\cap\{\tau\leq n\}
+ =(A\cap\{\sigma\leq n\})\cap\{\tau\leq n\}\in\mathcal F_n.
+\]
+The equality for the minimum follows from
+$\{\sigma\wedge\tau\leq n\}=
+\{\sigma\leq n\}\cup\{\tau\leq n\}$. Finally, for Borel $B$,
+\[
+\{X_\tau\in B\}\cap\{\tau\leq n\}
+ =\bigcup_{k=0}^{n}\{\tau=k\}\cap\{X_k\in B\}\in\mathcal F_n.
+\]
+\end{proof}
+
+\begin{prop}[Elementary closure properties]
+\begin{enumerate}[label=(\roman*)]
+  \item $X$ is a supermartingale if and only if $-X$ is a submartingale.
+  \item Linear combinations of martingales are martingales.
+  \item Nonnegative linear combinations of submartingales, respectively
+  supermartingales, stay in the same class.
+  \item The maximum of two submartingales is a submartingale, and the minimum
+  of two supermartingales is a supermartingale.
+  \item If $X$ is a supermartingale and
+  $\mathbb EX_N\geq\mathbb EX_0$ for some $N$, then $(X_n)_{0\leq n\leq N}$
+  is a martingale.
+\end{enumerate}
+\end{prop}
+
+\begin{proof}
+Only (iv) needs a calculation. Using
+$x\vee y=(x+y+|x-y|)/2$ and conditional Jensen for the absolute-value
+function gives
+\[
+\mathbb E[X_n\vee Y_n\mid\mathcal F_m]
+ \geq\mathbb E[X_n\mid\mathcal F_m]
+       \vee\mathbb E[Y_n\mid\mathcal F_m]
+ \geq X_m\vee Y_m.
+\]
+The supermartingale statement follows by negation. For (v), expectations of a
+supermartingale are nonincreasing. Equality at the endpoints forces equality
+at every intermediate step, and the nonpositive conditional drifts must
+vanish.
+\end{proof}
+
+\begin{thm}[Convex transforms]
+Let $X$ be a martingale and let $\varphi:\mathbb R\to\mathbb R$ be convex.
+If $\varphi(X_n)$ is integrable for every $n$, then
+$(\varphi(X_n))$ is a submartingale. More generally, if $X$ is a
+submartingale and $\varphi$ is increasing and convex, then
+$(\varphi(X_n))$ is a submartingale whenever it is integrable.
+Consequently,
+\[
+|X_n|^p\quad(p\geq1),
+\qquad
+(X_n-a)^+,
+\]
+are submartingales in the applicable cases, and if $X$ is a supermartingale,
+then $X_n\wedge a$ is a supermartingale.
+\end{thm}
+
+\begin{proof}
+Conditional Jensen gives
+\[
+\mathbb E[\varphi(X_n)\mid\mathcal F_m]
+ \geq\varphi(\mathbb E[X_n\mid\mathcal F_m]).
+\]
+For a martingale this equals $\varphi(X_m)$; for a submartingale, monotonicity
+of $\varphi$ makes it at least $\varphi(X_m)$. Finally,
+$X\wedge a=a-(a-X)^+$ and $-X$ is a submartingale when $X$ is a
+supermartingale.
+\end{proof}
+
+\subsection{Optional sampling and stochastic integration}
+
+\begin{de}[Predictable process]
+A discrete-time process $H=(H_n)_{n\geq1}$ is predictable if
+$H_n$ is $\mathcal F_{n-1}$-measurable for every $n$.
+\end{de}
+
+\begin{thm}[Doob decomposition]
+Every adapted integrable process $X=(X_n)$ has a unique decomposition
+\[
+X_n=M_n+A_n,
+\]
+where $M$ is a martingale, $A_0=0$, and $A$ is predictable. Explicitly,
+\[
+A_n=\sum_{k=1}^{n}
+ \bigl(\mathbb E[X_k\mid\mathcal F_{k-1}]-X_{k-1}\bigr),
+\qquad
+M_n=X_n-A_n.
+\]
+The process $X$ is a submartingale if and only if $A$ is increasing, and it
+is a supermartingale if and only if $A$ is decreasing.
+\end{thm}
+
+\begin{proof}
+The increment
+$M_k-M_{k-1}=X_k-\mathbb E[X_k\mid\mathcal F_{k-1}]$ has conditional mean
+zero, so $M$ is a martingale. The assertions about monotonicity follow
+straight from the increments of $A$. If
+$X=M+A=M'+A'$, then $M-M'=A'-A$ is a predictable martingale starting at zero.
+Its increments are both $\mathcal F_{n-1}$-measurable and have conditional
+mean zero, hence vanish almost surely. This proves uniqueness.
+\end{proof}
+
+\begin{de}[Predictable quadratic variation]
+For a square-integrable martingale $M$, its predictable quadratic variation
+is
+\[
+\langle M\rangle_n
+ =\sum_{k=1}^{n}
+   \mathbb E[(M_k-M_{k-1})^2\mid\mathcal F_{k-1}].
+\]
+It is the unique predictable increasing process starting at zero such that
+$M_n^2-\langle M\rangle_n$ is a martingale.
+\end{de}
+
+\begin{prop}
+For every square-integrable martingale $M$,
+\[
+\mathbb E\langle M\rangle_n
+ =\mathbb E[(M_n-M_0)^2]
+\]
+and
+\[
+\mathbb E M_n^2
+ =\mathbb E M_0^2+\mathbb E\langle M\rangle_n.
+\]
+\end{prop}
+
+\begin{proof}
+Martingale differences are pairwise orthogonal in $L^2$ and are orthogonal
+to $M_0$. Summing their second moments gives both identities.
+\end{proof}
+
+\begin{thm}[Optional sampling for bounded stopping times]
+Let $X$ be a supermartingale and let $\sigma\leq\tau\leq N$ be stopping times.
+Then
+\[
+\mathbb E[X_\tau\mid\mathcal F_\sigma]\leq X_\sigma
+\quad\text{almost surely},
+\]
+and therefore $\mathbb EX_\tau\leq\mathbb EX_\sigma$. For a martingale,
+equality holds. Conversely, an adapted integrable process $X$ is a martingale
+if and only if
+\[
+\mathbb EX_\tau=\mathbb EX_0
+\]
+for every bounded stopping time $\tau$.
+\end{thm}
+
+\begin{proof}
+For $A\in\mathcal F_\sigma$,
+\[
+X_\tau-X_\sigma
+ =\sum_{k=1}^{N}
+  \mathbf1_{\{\sigma<k\leq\tau\}}(X_k-X_{k-1}).
+\]
+The factor
+$\mathbf1_A\mathbf1_{\{\sigma<k\leq\tau\}}$ is
+$\mathcal F_{k-1}$-measurable. Taking expectations shows
+$\mathbb E[(X_\tau-X_\sigma)\mathbf1_A]\leq0$, which is the conditional
+inequality. For the converse, fix $m<n$ and $A\in\mathcal F_m$. Apply the
+assumption to the stopping time equal to $m$ on $A$ and $n$ on $A^c$, and
+compare it with the deterministic stopping time $n$. This gives
+$\mathbb E[X_m\mathbf1_A]=\mathbb E[X_n\mathbf1_A]$.
+\end{proof}
+
+\begin{cor}[Nonnegative supermartingales]
+Let $X$ be a nonnegative supermartingale and let
+$\sigma\leq\tau<\infty$ almost surely. Then $X_\sigma,X_\tau\in L^1$ and
+\[
+\mathbb E[X_\tau\mid\mathcal F_\sigma]\leq X_\sigma.
+\]
+\end{cor}
+
+\begin{proof}
+Optional sampling applied to $\tau\wedge n$ gives
+$\mathbb E X_{\tau\wedge n}\leq\mathbb E X_0$. Fatou's lemma gives
+$\mathbb E X_\tau\leq\mathbb E X_0$, and similarly for $\sigma$. For
+$A\in\mathcal F_\sigma$, apply bounded optional sampling to
+$\sigma\wedge n$ and $\tau\wedge n$ and integrate over
+$A\cap\{\sigma\leq n\}\in\mathcal F_{\sigma\wedge n}$. This gives
+\[
+\mathbb E[X_{\tau\wedge n}\mathbf1_{A\cap\{\sigma\leq n\}}]
+ \leq
+\mathbb E[X_\sigma\mathbf1_{A\cap\{\sigma\leq n\}}].
+\]
+Fatou's lemma on the left and monotone convergence on the right yield
+$\mathbb E[X_\tau\mathbf1_A]\leq\mathbb E[X_\sigma\mathbf1_A]$.
+\end{proof}
+
+\begin{de}[Stopped process]
+For a stopping time $\tau$, define
+\[
+X_n^\tau=X_{n\wedge\tau},
+\qquad
+\mathcal F_n^\tau=\mathcal F_{n\wedge\tau}.
+\]
+\end{de}
+
+\begin{thm}[Stopping preserves martingales]
+If $X$ is a martingale, submartingale, or supermartingale, then $X^\tau$ has
+the same property with respect to both $\mathbb F$ and the stopped filtration
+$\mathbb F^\tau$.
+\end{thm}
+
+\begin{proof}
+For a submartingale,
+\[
+X_n^\tau-X_{n-1}^\tau
+ =\mathbf1_{\{\tau\geq n\}}(X_n-X_{n-1}),
+\]
+and the indicator is $\mathcal F_{n-1}$-measurable. Conditional expectation
+therefore gives a nonnegative drift. Conditioning once more on the smaller
+$\sigma$-field $\mathcal F_{n-1}^\tau$ proves the assertion for the stopped
+filtration. The other cases follow similarly or by negation.
+\end{proof}
+
+\begin{de}[Discrete stochastic integral]
+Let $X$ be adapted and let $H$ be predictable. Whenever the summands are
+integrable, define
+\[
+(H\mathbin{\cdot}X)_n
+ =\sum_{k=1}^{n}H_k(X_k-X_{k-1}).
+\]
+\end{de}
+
+\begin{thm}[Stability under bounded predictable transforms]
+Let $X$ be adapted and integrable.
+\begin{enumerate}[label=(\roman*)]
+  \item $X$ is a martingale if and only if $H\mathbin{\cdot}X$ is a
+  martingale for every bounded predictable process $H$.
+  \item $X$ is a submartingale, respectively supermartingale, if and only if
+  $H\mathbin{\cdot}X$ has the same property for every bounded nonnegative
+  predictable $H$.
+\end{enumerate}
+\end{thm}
+
+\begin{proof}
+If $X$ is a martingale, then
+\[
+\mathbb E[H_n(X_n-X_{n-1})\mid\mathcal F_{n-1}]=0.
+\]
+The sign version is identical. Conversely, choose
+$H_k=\mathbf1_{\{k=n\}}$ to isolate each one-step increment.
+\end{proof}
+
+\begin{remark}
+Taking $H_k=\mathbf1_{\{\tau\geq k\}}$ gives
+\[
+X_{n\wedge\tau}=X_0+(H\mathbin{\cdot}X)_n,
+\]
+which is another proof that stopping preserves the martingale class.
+\end{remark}
+
+\subsection{Convergence theorems}
+
+\subsubsection{Almost sure convergence}
+
+\begin{de}[Upcrossings]
+For a real sequence $x=(x_n)$ and $a<b$, define successively
+\[
+S_1=\inf\{n:x_n\leq a\},
+\qquad
+T_1=\inf\{n\geq S_1:x_n\geq b\},
+\]
+and
+\[
+S_{k+1}=\inf\{n\geq T_k:x_n\leq a\},
+\qquad
+T_{k+1}=\inf\{n\geq S_{k+1}:x_n\geq b\},
+\]
+with $\inf\varnothing=\infty$. The number of completed upcrossings by time
+$n$ is
+\[
+U_n[a,b](x)=\sum_{k\geq1}\mathbf1_{\{T_k\leq n\}},
+\]
+and $U_\infty[a,b]=\lim_nU_n[a,b]$.
+\end{de}
+
+\begin{lem}[Deterministic upcrossing criterion]
+A real sequence $(x_n)$ converges in $[-\infty,\infty]$ if and only if
+$U_\infty[a,b](x)<\infty$ for every pair of rational numbers $a<b$.
+\end{lem}
+
+\begin{proof}
+A convergent sequence can cross a fixed interval only finitely many times.
+Conversely, if $\liminf x_n<\limsup x_n$, choose rationals
+$\liminf x_n<a<b<\limsup x_n$. The sequence then completes infinitely many
+upcrossings of $[a,b]$.
+\end{proof}
+
+\begin{thm}[Doob upcrossing inequality]
+If $X=(X_n)$ is a submartingale, then for every $a<b$ and $n$,
+\[
+(b-a)\mathbb E U_n[a,b](X)
+ \leq
+\mathbb E[(X_n-a)^+]-\mathbb E[(X_0-a)^+].
+\]
+\end{thm}
+
+\begin{proof}
+Let $Y_n=(X_n-a)^+$, a submartingale. Define the predictable process
+\[
+H_j=\sum_{k\geq1}\mathbf1_{\{S_k<j\leq T_k\}},
+\]
+which takes values in $\{0,1\}$. The gain from every completed transaction is
+at least $b-a$, and an unfinished transaction has nonnegative value, so
+\[
+(H\mathbin{\cdot}Y)_n\geq(b-a)U_n[a,b].
+\]
+The process $K=1-H$ is also nonnegative and predictable, hence
+$K\mathbin{\cdot}Y$ is a submartingale starting at zero. Since
+\[
+(H\mathbin{\cdot}Y)_n+(K\mathbin{\cdot}Y)_n=Y_n-Y_0,
+\]
+we have
+$\mathbb E(H\mathbin{\cdot}Y)_n\leq\mathbb E(Y_n-Y_0)$, proving the result.
+\end{proof}
+
+\begin{thm}[Martingale convergence theorem]
+If a submartingale or supermartingale $(X_n)$ is bounded in $L^1$, then there
+is $X_\infty\in L^1$ such that
+\[
+X_n\longrightarrow X_\infty
+\qquad\text{almost surely}.
+\]
+\end{thm}
+
+\begin{proof}
+It is enough to treat a submartingale. For rational $a<b$, the upcrossing
+inequality and the $L^1$ bound give
+$\sup_n\mathbb EU_n[a,b]<\infty$. Monotone convergence implies
+$\mathbb EU_\infty[a,b]<\infty$, so the number of upcrossings is finite almost
+surely. Intersecting over the countable set of rational pairs and applying the
+deterministic criterion gives an almost sure limit in the extended reals.
+Fatou's lemma gives
+\[
+\mathbb E|X_\infty|
+ \leq\liminf_n\mathbb E|X_n|<\infty,
+\]
+so the limit is finite almost surely.
+\end{proof}
+
+\begin{cor}
+Every nonnegative supermartingale converges almost surely to some
+$X_\infty\in L^1$, and
+\[
+X_n\geq\mathbb E[X_\infty\mid\mathcal F_n]
+\qquad(n\geq0).
+\]
+\end{cor}
+
+\begin{proof}
+The family is $L^1$-bounded because
+$\mathbb EX_n\leq\mathbb EX_0$. For $m\geq n$,
+$X_n\geq\mathbb E[X_m\mid\mathcal F_n]$. Conditional Fatou gives
+\[
+\mathbb E[X_\infty\mid\mathcal F_n]
+ \leq\liminf_{m\to\infty}
+      \mathbb E[X_m\mid\mathcal F_n]
+ \leq X_n.
+\]
+\end{proof}
+
+\subsubsection{Uniform integrability and \texorpdfstring{$L^1$}{L1} convergence}
+
+\begin{de}[Uniform integrability]
+A family $\mathcal X\subset L^1(P)$ is uniformly integrable if
+\[
+\lim_{K\to\infty}
+ \sup_{X\in\mathcal X}
+ \mathbb E[|X|\mathbf1_{\{|X|>K\}}]=0.
+\]
+\end{de}
+
+\begin{thm}[de la Vall\'ee--Poussin criterion]
+A family $\mathcal X\subset L^1(P)$ is uniformly integrable if and only if
+there is an increasing convex function
+$\Phi:[0,\infty)\to[0,\infty)$ such that
+\[
+\frac{\Phi(x)}x\longrightarrow\infty
+\quad\text{and}\quad
+\sup_{X\in\mathcal X}\mathbb E\Phi(|X|)<\infty.
+\]
+\end{thm}
+
+\begin{proof}
+If such $\Phi$ exists, let
+$c_K=\inf_{x\geq K}\Phi(x)/x\to\infty$. Then
+\[
+\mathbb E[|X|\mathbf1_{\{|X|\geq K\}}]
+ \leq c_K^{-1}\mathbb E\Phi(|X|),
+\]
+uniformly in $X$. Conversely, choose $a_n\uparrow\infty$ so that
+\[
+\sup_{X\in\mathcal X}
+\mathbb E[(|X|-a_n)^+]<2^{-n},
+\]
+and put
+$\Phi(x)=\sum_{n\geq1}(x-a_n)^+$. This is increasing and convex, its ratio to
+$x$ tends to infinity, and monotone convergence gives
+$\sup_X\mathbb E\Phi(|X|)\leq1$.
+\end{proof}
+
+\begin{cor}
+Every $L^p$-bounded family with $p>1$ is uniformly integrable. In particular,
+a family with uniformly bounded means in absolute value and uniformly bounded
+variances is uniformly integrable.
+\end{cor}
+
+\begin{proof}
+Use $\Phi(x)=x^p$. In the second assertion,
+$\mathbb EX^2=(\mathbb EX)^2+\operatorname{Var}(X)$ is uniformly bounded.
+\end{proof}
+
+\begin{prop}[Elementary stability]
+Finite subsets of $L^1$ are uniformly integrable. If $\mathcal X$ and
+$\mathcal Y$ are uniformly integrable, then so are
+$\mathcal X+\mathcal Y$, $\mathcal X-\mathcal Y$, and
+$\{|X|:X\in\mathcal X\}$. If each $Y$ in a family $\mathcal Y$ satisfies
+$|Y|\leq|X|$ for some $X\in\mathcal X$, then uniform integrability of
+$\mathcal X$ implies that of $\mathcal Y$.
+\end{prop}
+
+\begin{thm}[Vitali convergence theorem]
+For random variables $(X_n)$ and $X$, the following are equivalent:
+\begin{enumerate}[label=(\roman*)]
+  \item $X_n\to X$ in $L^1$;
+  \item $(X_n)$ is Cauchy in $L^1$ and $X_n\to X$ in probability;
+  \item $(X_n)$ is uniformly integrable and $X_n\to X$ in probability.
+\end{enumerate}
+\end{thm}
+
+\begin{proof}
+Clearly (i) implies (ii). If (ii) holds, completeness of $L^1$ gives an
+$L^1$ limit $Y$. Then $X_n\to Y$ in probability, so uniqueness of limits in
+probability gives $X=Y$ almost surely and proves (i).
+
+If (i) holds, convergence in probability follows. To prove uniform
+integrability, choose $N$ so that
+$\|X_n-X\|_1<\varepsilon$ for $n\geq N$. For the tail of the sequence,
+\[
+\mathbb E[|X_n|\mathbf1_{\{|X_n|>K\}}]
+ \leq\varepsilon+
+ \mathbb E[|X|\mathbf1_{\{|X_n|>K\}}].
+\]
+The expectations $\mathbb E|X_n|$ are uniformly bounded for $n\geq N$, so
+Markov's inequality makes the probabilities of the displayed events uniformly
+small as $K\to\infty$. Absolute continuity of the integral of $|X|$ then
+controls the second term; the finitely many earlier variables cause no
+problem. Thus (i) implies (iii).
+
+Conversely, assume (iii). Uniform integrability implies
+$\sup_n\mathbb E|X_n|<\infty$. An almost surely convergent subsequence and
+Fatou's lemma show that $X\in L^1$. For $K>0$,
+\begin{align*}
+\mathbb E|X_n-X|
+&\leq \mathbb E(|X_n-X|\wedge K)\\
+&\quad+2\mathbb E[|X_n|\mathbf1_{\{|X_n|>K/2\}}]
+     +2\mathbb E[|X|\mathbf1_{\{|X|>K/2\}}].
+\end{align*}
+For fixed $K$, the first term tends to zero because the bounded variables
+$|X_n-X|\wedge K$ converge to zero in probability. The last two terms are
+uniformly small for large $K$, proving $L^1$ convergence.
+\end{proof}
+
+\begin{lem}[Conditional expectations of one variable are uniformly integrable]
+For every $Z\in L^1$, the family
+\[
+\{\mathbb E[Z\mid\mathcal G]:\mathcal G\subseteq\mathcal F
+  \text{ a sub-$\sigma$-field}\}
+\]
+is uniformly integrable.
+\end{lem}
+
+\begin{proof}
+Put $Y=\mathbb E[Z\mid\mathcal G]$ and
+$A=\{|Y|>K\}\in\mathcal G$. Then
+\[
+K P(A)\leq\mathbb E[|Y|\mathbf1_A]
+ \leq\mathbb E[|Z|\mathbf1_A].
+\]
+Also $P(A)\leq\mathbb E|Z|/K$. Absolute continuity of the integral of $|Z|$
+therefore makes the final term uniformly small as $K\to\infty$.
+\end{proof}
+
+\begin{thm}[$L^1$ martingale convergence]
+For a martingale $(X_n)$, the following are equivalent:
+\begin{enumerate}[label=(\roman*)]
+  \item $X_n\to X_\infty$ almost surely and in $L^1$;
+  \item there is $Z\in L^1$ such that
+  $X_n=\mathbb E[Z\mid\mathcal F_n]$ for every $n$;
+  \item the family $(X_n)$ is uniformly integrable.
+\end{enumerate}
+When these conditions hold, one may take $Z=X_\infty$, and
+\[
+X_n=\mathbb E[X_\infty\mid\mathcal F_n].
+\]
+\end{thm}
+
+\begin{proof}
+If (i) holds, then for $m\geq n$,
+$X_n=\mathbb E[X_m\mid\mathcal F_n]$. Contractivity of conditional
+expectation allows $m\to\infty$ in $L^1$, giving (ii) with $Z=X_\infty$.
+Condition (ii) implies (iii) by the preceding lemma. If (iii) holds, the
+family is $L^1$-bounded, so the martingale convergence theorem gives an almost
+sure limit. Vitali's theorem upgrades the convergence to $L^1$.
+\end{proof}
+
+\begin{thm}[Optional sampling for uniformly integrable martingales]
+Let $(X_n)$ be a uniformly integrable martingale with $L^1$ limit
+$X_\infty$. For a stopping time $T$, define $X_T=X_\infty$ on
+$\{T=\infty\}$. Then
+\[
+X_T=\mathbb E[X_\infty\mid\mathcal F_T].
+\]
+Consequently, $X_T\in L^1$, the family of all stopped values $(X_T)$ is
+uniformly integrable, and if $S\leq T$, then
+\[
+X_S=\mathbb E[X_T\mid\mathcal F_S].
+\]
+\end{thm}
+
+\begin{proof}
+We have $X_n=\mathbb E[X_\infty\mid\mathcal F_n]$. Conditional Jensen gives
+\[
+\mathbb E|X_T|
+ \leq\sum_{n\geq0}
+ \mathbb E[|X_\infty|\mathbf1_{\{T=n\}}]
+ +\mathbb E[|X_\infty|\mathbf1_{\{T=\infty\}}]
+ =\mathbb E|X_\infty|.
+\]
+For $A\in\mathcal F_T$, decompose according to $\{T=n\}$ and
+$\{T=\infty\}$ to obtain
+$\mathbb E[X_T\mathbf1_A]=\mathbb E[X_\infty\mathbf1_A]$. This proves the
+conditional-expectation identity. Uniform integrability follows from the
+preceding lemma, and the final assertion follows from the tower property and
+$\mathcal F_S\subseteq\mathcal F_T$.
+\end{proof}
+
+\begin{thm}[Optional sampling for nonnegative or uniformly integrable supermartingales]
+Let $X$ be a supermartingale and suppose either
+\begin{enumerate}[label=(\alph*)]
+  \item $X_n\geq0$ for every $n$, or
+  \item $(X_n)$ is uniformly integrable.
+\end{enumerate}
+If $S\leq T<\infty$ almost surely, then $X_S,X_T\in L^1$ and
+\[
+\mathbb E[X_T\mid\mathcal F_S]\leq X_S.
+\]
+\end{thm}
+
+\begin{proof}
+Case (a) was proved above. For case (b), write the Doob decomposition as
+$X=M-A$, where $A$ is predictable, increasing, and $A_0=0$. Since
+\[
+\mathbb EA_n=\mathbb EX_0-\mathbb EX_n
+\]
+is bounded, $A_n\uparrow A_\infty$ in $L^1$. Thus $(A_n)$ is uniformly
+integrable, and so is the martingale $M=X+A$. The martingale is therefore
+closed, and all its stopped values are uniformly integrable; also
+$0\leq A_T\leq A_\infty$. Hence $X_{T\wedge n}\to X_T$ and
+$X_{S\wedge n}\to X_S$ in $L^1$. For $B\in\mathcal F_S$, integrate bounded
+optional sampling over
+$B\cap\{S\leq n\}\in\mathcal F_{S\wedge n}$ and then let $n\to\infty$.
+The $L^1$ convergences and
+$\mathbf1_{B\cap\{S\leq n\}}\to\mathbf1_B$ give
+\[
+\mathbb E[X_T\mathbf1_B]\leq\mathbb E[X_S\mathbf1_B],
+\]
+which is the asserted conditional inequality.
+\end{proof}
+
+\begin{eg}[Gambler's ruin]
+Let $(S_n)$ be simple symmetric random walk with $S_0=0$, and let
+$a<0<b$ be integers. Define
+\[
+\tau=\inf\{n\geq0:S_n\in\{a,b\}\}.
+\]
+Then $\tau<\infty$ almost surely and
+\[
+P(S_\tau=a)=\frac{b}{b-a},
+\qquad
+P(S_\tau=b)=\frac{-a}{b-a}.
+\]
+Indeed, from every interior state there is a probability at least
+$2^{-(b-a)}$ of hitting a boundary within the next $b-a$ steps. Iterating over
+blocks shows that $P(\tau>m(b-a))\to0$. The stopped martingale is bounded, so
+optional sampling gives $0=\mathbb ES_\tau$, and the two displayed
+probabilities follow from their sum being one.
+\end{eg}
+
+\begin{eg}[Expected exit time]
+For the same stopping time,
+$S_n^2-n$ is a martingale. Bounded optional sampling gives
+\[
+\mathbb E(\tau\wedge n)=\mathbb E S_{\tau\wedge n}^2
+ \leq\max\{a^2,b^2\}.
+\]
+Monotone convergence therefore gives $\mathbb E\tau<\infty$, while dominated
+convergence applies to the bounded stopped positions. Hence
+\[
+\mathbb E\tau
+ =\mathbb E S_\tau^2
+ =a^2\frac{b}{b-a}+b^2\frac{-a}{b-a}
+ =|a|b.
+\]
+If $\tau_a$ is the first hitting time of a fixed level $a<0$, then the events
+that $a$ is hit before $b$ increase to $\{\tau_a<\infty\}$ as
+$b\to\infty$. Their probabilities tend to one by the gambler's-ruin formula,
+so $\tau_a<\infty$ almost surely. Moreover, the exit times increase to
+$\tau_a$, and their expectations $|a|b$ tend to infinity. Thus
+$\mathbb E\tau_a=\infty$.
+\end{eg}
+
+\subsubsection{\texorpdfstring{$L^p$}{Lp} convergence for \texorpdfstring{$p>1$}{p greater than 1}}
+
+\begin{lem}[Doob maximal inequality, weak form]
+If $X$ is a submartingale, set
+\[
+X_n^*=\max_{0\leq k\leq n}X_k.
+\]
+Then, for every $\lambda>0$,
+\[
+\lambda P(X_n^*\geq\lambda)
+ \leq\mathbb E[X_n\mathbf1_{\{X_n^*\geq\lambda\}}].
+\]
+\end{lem}
+
+\begin{proof}
+Let $\tau=\inf\{k:X_k\geq\lambda\}\wedge n$. Bounded optional sampling gives
+$\mathbb EX_\tau\leq\mathbb EX_n$. On the event
+$\{X_n^*<\lambda\}$, $X_\tau=X_n$, while on its complement
+$X_\tau\geq\lambda$. Rearranging yields the inequality.
+\end{proof}
+
+\begin{thm}[Doob's $L^p$ inequalities]
+Let $X$ be a martingale, or a nonnegative submartingale, and put
+$|X|_n^*=\max_{k\leq n}|X_k|$.
+\begin{enumerate}[label=(\roman*)]
+  \item For $p\geq1$ and $\lambda>0$,
+  \[
+  \lambda^pP(|X|_n^*\geq\lambda)
+   \leq\mathbb E|X_n|^p.
+  \]
+  \item For $p>1$,
+  \[
+  \mathbb E|X_n|^p
+   \leq\mathbb E(|X|_n^*)^p
+   \leq\left(\frac p{p-1}\right)^p\mathbb E|X_n|^p.
+  \]
+\end{enumerate}
+\end{thm}
+
+\begin{proof}
+The process $|X|^p$ is a nonnegative submartingale, so the weak inequality
+follows from the lemma. For the strong inequality, apply the weak form to
+$|X|$ and use the layer-cake formula. For $K>0$,
+\begin{align*}
+\mathbb E[(|X|_n^*\wedge K)^p]
+&=\int_0^Kp\lambda^{p-1}P(|X|_n^*\geq\lambda)\,\dd\lambda\\
+&\leq p\mathbb E\!\left[
+ |X_n|\int_0^{|X|_n^*\wedge K}\lambda^{p-2}\,\dd\lambda
+ \right]\\
+&=\frac p{p-1}
+ \mathbb E[|X_n|(|X|_n^*\wedge K)^{p-1}].
+\end{align*}
+Hölder's inequality gives the stated constant. Let $K\to\infty$.
+\end{proof}
+
+\begin{thm}[$L^p$ martingale convergence]
+Let $p>1$ and let $(X_n)$ be a martingale satisfying
+\[
+\sup_n\mathbb E|X_n|^p<\infty.
+\]
+With $\mathcal F_\infty=\sigma(\bigcup_n\mathcal F_n)$, there is
+$X_\infty\in L^p(\mathcal F_\infty)$ such that
+\[
+X_n\to X_\infty
+\quad\text{almost surely and in }L^p.
+\]
+Moreover, $(|X_n|^p)$ is uniformly integrable.
+\end{thm}
+
+\begin{proof}
+The $L^p$ bound implies uniform integrability, so an almost sure and $L^1$
+limit exists. Doob's inequality and monotone convergence give
+\[
+\mathbb E\sup_{n\geq0}|X_n|^p
+ \leq\left(\frac p{p-1}\right)^p
+      \sup_n\mathbb E|X_n|^p<\infty.
+\]
+Thus $|X_n-X_\infty|^p$ is dominated by an integrable multiple of
+$\sup_k|X_k|^p$, and dominated convergence gives $L^p$ convergence. The same
+dominator proves uniform integrability of $(|X_n|^p)$.
+\end{proof}
+
+\begin{cor}[Square-integrable criterion]
+For a square-integrable martingale $M$, the following are equivalent:
+\begin{enumerate}[label=(\roman*)]
+  \item $\sup_n\mathbb EM_n^2<\infty$;
+  \item $\sup_n\mathbb E\langle M\rangle_n<\infty$;
+  \item $M_n$ converges in $L^2$;
+  \item $M_n$ converges almost surely and in $L^2$.
+\end{enumerate}
+\end{cor}
+
+\begin{proof}
+The identity
+$\mathbb EM_n^2=\mathbb EM_0^2+\mathbb E\langle M\rangle_n$ gives
+(i)$\Leftrightarrow$(ii). The $L^2$ martingale convergence theorem gives
+(i)$\Rightarrow$(iv), while (iv)$\Rightarrow$(iii)$\Rightarrow$(i) is
+immediate.
+\end{proof}
+
+\begin{thm}[Almost sure convergence from finite quadratic variation]
+If $M$ is square integrable and
+\[
+\sup_n\langle M\rangle_n<\infty
+\quad\text{almost surely},
+\]
+then $M_n$ converges almost surely.
+\end{thm}
+
+\begin{proof}
+Assume $M_0=0$. For $K>0$, set
+\[
+\tau_K=\inf\{n:\langle M\rangle_{n+1}>K\}.
+\]
+Predictability makes $\tau_K$ a stopping time, and
+$\langle M^{\tau_K}\rangle_n\leq K$. The square-integrable criterion shows
+that $M^{\tau_K}$ converges almost surely. Since
+$P(\tau_K=\infty)\to1$ as $K\to\infty$, the original martingale converges on
+a full-probability union of these events.
+\end{proof}
+
+\subsubsection{Applications of martingale convergence}
+
+\begin{thm}[L\'evy's upward theorem]
+Let $X\in L^1$ and let
+$\mathcal F_n\uparrow\mathcal F_\infty:=
+\sigma(\bigcup_n\mathcal F_n)$. Then
+\[
+\mathbb E[X\mid\mathcal F_n]
+ \longrightarrow\mathbb E[X\mid\mathcal F_\infty]
+\quad\text{almost surely and in }L^1.
+\]
+\end{thm}
+
+\begin{proof}
+The process $Y_n=\mathbb E[X\mid\mathcal F_n]$ is a closed, hence uniformly
+integrable, martingale. Let $Y_\infty$ be its $L^1$ limit. For
+$A\in\bigcup_n\mathcal F_n$,
+$\mathbb E[Y_\infty\mathbf1_A]=\mathbb E[X\mathbf1_A]$. A
+$\pi$--$\lambda$ argument extends the identity to all
+$A\in\mathcal F_\infty$, identifying
+$Y_\infty=\mathbb E[X\mid\mathcal F_\infty]$.
+\end{proof}
+
+\begin{cor}[L\'evy's zero--one form]
+If $A\in\mathcal F_\infty$, then
+\[
+\mathbb E[\mathbf1_A\mid\mathcal F_n]\to\mathbf1_A
+\quad\text{almost surely and in }L^1.
+\]
+\end{cor}
+
+\begin{remark}
+For independent $(X_n)$ and
+$\mathcal F_n=\sigma(X_1,\ldots,X_n)$, a tail event $A$ is independent of
+each $\mathcal F_n$, so
+$\mathbb E[\mathbf1_A\mid\mathcal F_n]=P(A)$. L\'evy's theorem therefore
+gives $\mathbf1_A=P(A)$ almost surely, recovering Kolmogorov's zero--one law.
+\end{remark}
+
+\subsection{Reverse martingales and exchangeability}
+
+\begin{de}[Exchangeability]
+Let $E$ be a standard Borel space. A sequence $(X_n)_{n\geq1}$ of $E$-valued
+random variables is exchangeable if its joint law is invariant under every
+finite permutation of the coordinates.
+\end{de}
+
+Let $S_n$ denote the permutations of $\mathbb N$ that fix every index larger
+than $n$. On the canonical space $E^{\mathbb N}$, let $\mathcal E_n'$ be the
+$\sigma$-field of sets invariant under every permutation in $S_n$, and set
+\[
+\mathcal E_n=X^{-1}(\mathcal E_n'),
+\qquad
+\mathcal E=\bigcap_{n=1}^{\infty}\mathcal E_n.
+\]
+The $\sigma$-field $\mathcal E$ is the exchangeable $\sigma$-field. The tail field
+\[
+\mathcal T=\bigcap_{n=1}^{\infty}
+ \sigma(X_{n+1},X_{n+2},\ldots)
+\]
+satisfies $\mathcal T\subseteq\mathcal E$.
+
+\begin{thm}[Finite-permutation averaging]
+Let $(X_n)$ be exchangeable and let
+$\varphi:E^{\mathbb N}\to\mathbb R$ be integrable. For a permutation $\rho$,
+write $X^\rho=(X_{\rho(1)},X_{\rho(2)},\ldots)$. For $n\geq1$, define
+\[
+A_n\varphi
+ =\frac1{n!}\sum_{\rho\in S_n}\varphi(X^\rho).
+\]
+Then
+\[
+A_n\varphi=\mathbb E[\varphi(X)\mid\mathcal E_n].
+\]
+\end{thm}
+
+\begin{proof}
+The average is $\mathcal E_n$-measurable. If $A\in\mathcal E_n$, then
+exchangeability and invariance of $A$ give, for every $\rho\in S_n$,
+\[
+\mathbb E[\varphi(X)\mathbf1_A]
+ =\mathbb E[\varphi(X^\rho)\mathbf1_A].
+\]
+Average over $\rho$ to obtain the defining identity for conditional
+expectation.
+\end{proof}
+
+\begin{thm}[Reverse martingale convergence]
+Let $\mathcal G_1\supseteq\mathcal G_2\supseteq\cdots$ and
+$\mathcal G_\infty=\bigcap_n\mathcal G_n$. For $Z\in L^1$,
+\[
+\mathbb E[Z\mid\mathcal G_n]
+ \longrightarrow\mathbb E[Z\mid\mathcal G_\infty]
+\quad\text{almost surely and in }L^1.
+\]
+More generally, if $(Y_n)$ is adapted to the decreasing filtration and
+\[
+\mathbb E[Y_n\mid\mathcal G_{n+1}]=Y_{n+1},
+\]
+then $(Y_n)$ is called a reverse martingale and has the displayed form with
+$Z=Y_1$.
+\end{thm}
+
+\begin{proof}
+The conditional expectations are uniformly integrable. To obtain almost sure
+convergence, fix $N$ and reverse the finite sequence:
+\[
+Z_k^{(N)}=\mathbb E[Z\mid\mathcal G_{N-k}],
+\qquad 0\leq k\leq N-1.
+\]
+With the increasing filtration $\mathcal G_{N-k}$, this is an ordinary
+martingale. Doob's upcrossing inequality applied to this reversed martingale
+and to its negative gives bounds, independent of $N$, on the expected numbers
+of upcrossings and downcrossings of every rational interval by the original
+sequence. Letting $N\to\infty$ and using the deterministic crossing criterion
+shows that the original sequence converges almost surely. Uniform
+integrability then gives $L^1$ convergence.
+
+If $(Y_n)$ is a reverse martingale, iteration of the tower property gives
+$Y_n=\mathbb E[Y_1\mid\mathcal G_n]$. Finally, testing the $L^1$ limit against
+events in $\mathcal G_\infty$ identifies it as
+$\mathbb E[Z\mid\mathcal G_\infty]$.
+\end{proof}
+
+\begin{thm}[Exchangeable averages and the tail field]
+Let $(X_n)$ be exchangeable. Let $k\geq1$ and let
+$\varphi:E^k\to\mathbb R$ satisfy
+$\mathbb E|\varphi(X_1,\ldots,X_k)|<\infty$. For $n\geq k$, write
+\[
+A_n\varphi
+ =\frac1{(n)_k}
+  \sum_{\substack{1\leq i_1,\ldots,i_k\leq n\\
+                  i_1,\ldots,i_k\text{ distinct}}}
+  \varphi(X_{i_1},\ldots,X_{i_k}),
+\]
+where $(n)_k=n(n-1)\cdots(n-k+1)$. Then
+\[
+A_n\varphi
+ \longrightarrow
+ \mathbb E[\varphi(X_1,\ldots,X_k)\mid\mathcal E]
+ =\mathbb E[\varphi(X_1,\ldots,X_k)\mid\mathcal T]
+\]
+almost surely and in $L^1$.
+\end{thm}
+
+\begin{proof}
+The ordered-tuple average is the same as the permutation average, so it is
+$\mathbb E[\varphi(X_1,\ldots,X_k)\mid\mathcal E_n]$. Since
+$\mathcal E_n\downarrow\mathcal E$, reverse martingale convergence gives the
+first limit.
+
+Fix $\ell$. Let $B_{n,\ell}$ be the same ordered-tuple average but using only
+indices in $\{\ell+1,\ldots,n\}$. It is measurable with respect to
+$\sigma(X_{\ell+1},X_{\ell+2},\ldots)$. Exchangeability and a coupling of a
+uniform ordered $k$-tuple from $\{1,\ldots,n\}$ with one avoiding the first
+$\ell$ indices give
+\[
+\|A_n\varphi-B_{n,\ell}\|_1
+ \leq2\mathbb E|\varphi(X_1,\ldots,X_k)|
+      P(\text{the tuple uses one of }1,\ldots,\ell)
+ \longrightarrow0.
+\]
+Thus the $L^1$ limit $L$ is measurable, in the $L^1$ sense, with respect to
+every $\sigma(X_{\ell+1},X_{\ell+2},\ldots)$; equivalently,
+$\mathbb E[L\mid\sigma(X_{\ell+1},\ldots)]=L$. Applying reverse martingale
+convergence to $L$ shows $L=\mathbb E[L\mid\mathcal T]$, so $L$ has a tail
+measurable version. This proves the equality of the two conditional
+expectations.
+\end{proof}
+
+\begin{thm}[Exchangeable and tail fields agree modulo null sets]
+If $(X_n)$ is exchangeable, then for every $A\in\mathcal E$ there is
+$B\in\mathcal T$ such that
+\[
+P(A\triangle B)=0.
+\]
+\end{thm}
+
+\begin{proof}
+Finite-coordinate bounded functions are dense in
+$L^1(\sigma(X_1,X_2,\ldots))$. Choose such functions $\varphi_m$ with
+$\|\varphi_m-\mathbf1_A\|_1\to0$. The preceding theorem gives
+\[
+\mathbb E[\varphi_m\mid\mathcal E]
+ =\mathbb E[\varphi_m\mid\mathcal T].
+\]
+Conditional expectation is an $L^1$ contraction, so letting $m\to\infty$
+yields
+\[
+\mathbf1_A
+ =\mathbb E[\mathbf1_A\mid\mathcal E]
+ =\mathbb E[\mathbf1_A\mid\mathcal T]
+\quad\text{almost surely}.
+\]
+Choose a tail-measurable version $Y$ of the last conditional expectation and
+let $B=\{Y>1/2\}$.
+\end{proof}
+
+\begin{cor}[Hewitt--Savage zero--one law]
+If $X_1,X_2,\ldots$ are i.i.d., then every exchangeable event $A$ satisfies
+\[
+P(A)\in\{0,1\}.
+\]
+\end{cor}
+
+\begin{proof}
+By the preceding theorem, $A$ agrees almost surely with a tail event.
+Kolmogorov's zero--one law applies to the tail event.
+\end{proof}
