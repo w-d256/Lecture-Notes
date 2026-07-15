@@ -1,0 +1,94 @@
+\chapter{Roots of Unity and M\"obius Inversion}
+
+\begin{notedefinition}[8.1]
+A complex number $z$ is an $n$th root of unity if $z^n=1$.  It is a primitive $n$th root of unity if it is not a root of unity of any smaller positive order.
+\end{notedefinition}
+
+\begin{notetheorem}[8.1]
+If $\zeta$ is a primitive $n$th root of unity, then
+\[
+ \zeta,\zeta^2,\ldots,\zeta^n
+\]
+are precisely the $n$ distinct roots of $x^n-1$.
+\end{notetheorem}
+\begin{proof}
+Each power is an $n$th root.  If $\zeta^i=\zeta^j$, then
+$\zeta^{i-j}=1$, so $n\mid i-j$; among $1,\ldots,n$ this forces $i=j$.  A degree-$n$ polynomial has at most $n$ roots.
+\end{proof}
+
+\begin{notetheorem}[8.2]
+If $\zeta$ is a primitive $n$th root of unity, then $\zeta^k$ is primitive if and only if
+\[
+ \gcd(k,n)=1.
+\]
+\end{notetheorem}
+\begin{proof}
+The order formula is
+\[
+ \ord(\zeta^k)=\frac n{\gcd(k,n)},
+\]
+proved exactly as in Theorem 4.5.
+\end{proof}
+
+\begin{notedefinition}[8.2]
+Let $F(n)$ be the sum of all $n$th roots of unity, and let $f(n)$ be the sum of all primitive $n$th roots of unity.
+\end{notedefinition}
+
+\begin{notetheorem}[8.3]
+For every $n\in\N$,
+\[
+ F(n)=I(n)=
+ \begin{cases}
+ 1,&n=1,\\
+ 0,&n>1,
+ \end{cases}
+ \qquad
+ f(n)=\mobius(n).
+\]
+\end{notetheorem}
+\begin{proof}
+For $n>1$, the roots of $x^n-1$ have sum $0$ by Vieta's formula; for $n=1$, the only root is $1$.  Every $n$th root has a unique exact order $d\mid n$, so
+\[
+ F(n)=\sum_{d\mid n}f(d).
+\]
+M\"obius inversion gives
+$f(n)=\sum_{d\mid n}\mobius(d)F(n/d)=\mobius(n)$.
+\end{proof}
+
+\begin{notedefinition}[8.3]
+Let $\zeta_n$ be a primitive $n$th root of unity.  The $n$th cyclotomic polynomial is
+\[
+ \Phi_n(x)=\prod_{\substack{1\le k\le n\\\gcd(k,n)=1}}
+ (x-\zeta_n^k).
+\]
+\end{notedefinition}
+
+\begin{notetheorem}[8.4]
+For every $n\in\N$,
+\[
+ \Phi_n(x)\in\Z[x].
+\]
+\end{notetheorem}
+\begin{proof}
+The roots of $x^n-1$ split according to their exact orders, giving
+\[
+ x^n-1=\prod_{d\mid n}\Phi_d(x).
+\]
+Induct on $n$.  For every proper divisor $d<n$, the polynomial $\Phi_d$ is monic with integer coefficients.  Their product is therefore monic in $\Z[x]$ and divides $x^n-1$ in $\C[x]$.  Long division by a monic integer polynomial produces an integer quotient, which is $\Phi_n$.
+\end{proof}
+
+\begin{notetheorem}[8.5 (explicit formula)]
+For every $n\in\N$,
+\[
+ \Phi_n(x)=\prod_{d\mid n}(x^d-1)^{\mobius(n/d)}.
+\]
+\end{notetheorem}
+\begin{proof}
+The factorization
+$x^n-1=\prod_{d\mid n}\Phi_d(x)$
+may be viewed in the multiplicative abelian group $\C(x)^\times$.  Applying M\"obius inversion to this divisor-product identity yields
+\[
+ \Phi_n(x)=\prod_{d\mid n}(x^d-1)^{\mobius(n/d)}.
+\]
+Although negative exponents appear in the formal product, Theorem 8.4 shows that the result simplifies to a polynomial in $\Z[x]$.
+\end{proof}

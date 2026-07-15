@@ -1,0 +1,282 @@
+\chapter{Nonlinear Diophantine Equations}
+
+\begin{notedefinition}[7.1]
+Let $d\in\N$ be nonsquare.  The equations
+\[
+ x^2-dy^2=1
+ \qquad\text{and}\qquad
+ x^2-dy^2=-1
+\]
+are the positive and negative Pell equations.
+\end{notedefinition}
+
+\begin{notelemma}[7.1]
+Let $x_0,y_0\in\N$, let $\delta>0$ with $\sqrt\delta\notin\Q$, and suppose
+\[
+ x_0^2-\delta y_0^2=\alpha,
+ \qquad
+ 0\le\alpha<\sqrt\delta.
+\]
+Then
+\[
+ \abs*{\frac{x_0}{y_0}-\sqrt\delta}<\frac1{2y_0^2}.
+\]
+\end{notelemma}
+\begin{proof}
+The case $\alpha=0$ would make $\sqrt\delta=x_0/y_0$ rational, so in fact $\alpha>0$.  Hence $x_0^2>\delta y_0^2$, $x_0>\sqrt\delta y_0$, and
+\[
+ \frac{x_0}{y_0}-\sqrt\delta
+ =\frac{\alpha}{y_0(x_0+\sqrt\delta y_0)}
+ <\frac{\sqrt\delta}{2\sqrt\delta y_0^2}.
+\]
+\end{proof}
+
+\begin{notetheorem}[7.2]
+Let $d$ be a positive nonsquare integer and let $n\in\Z$ satisfy $\abs n<\sqrt d$.  If $(x_0,y_0)\in\N^2$ satisfies
+\[
+ x_0^2-dy_0^2=n,
+\]
+then $x_0/y_0$ is a convergent of $\sqrt d$.
+\end{notetheorem}
+\begin{proof}
+If $n>0$, Lemma 7.1 and Legendre's criterion apply directly.  If $n<0$, rewrite the equation as
+\[
+ y_0^2-\frac1d x_0^2=-\frac nd,
+ \qquad
+ 0<-\frac nd<\frac1{\sqrt d}.
+\]
+After reducing the fraction if necessary, Lemma 7.1 and Legendre's criterion show that $y_0/x_0$ is a convergent of $1/\sqrt d$.  The continued fraction of $1/x$ is obtained by adding a leading zero, so its nonzero convergents are the reciprocals of the convergents of $x$.  Hence $x_0/y_0$ is a convergent of $\sqrt d$.  The case $n=0$ is impossible because $d$ is nonsquare.
+\end{proof}
+
+For the rest of the Pell discussion, put
+\[
+ x_0=\floor{\sqrt d}+\sqrt d
+\]
+and let its purely periodic continued fraction have least period $r$.  Let
+$(P_i,Q_i)$ be the complete-quotient data of Chapter 6, with $Q_0=1$.
+
+\begin{notetheorem}[7.3]
+\begin{enumerate}[label=(\alph*)]
+\item $Q_i=1$ if and only if $i\equiv0\pmod r$;
+\item $Q_i\ne-1$ for every $i$.
+\end{enumerate}
+\end{notetheorem}
+\begin{proof}
+The number $x_0$ is reduced, so its complete quotients are reduced and repeat with least period $r$.  Hence $i\equiv0\pmod r$ implies $Q_i=1$.  Conversely, if $Q_i=1$, then
+$x_i=P_i+\sqrt d$.  Reducedness gives
+$-1<P_i-\sqrt d<0$, so $P_i=\floor{\sqrt d}$ and $x_i=x_0$.  Minimality of the period gives $r\mid i$.
+
+If $Q_i=-1$, then
+$x_i=-P_i-\sqrt d>1$, whereas its conjugate $x_i^*=-P_i+\sqrt d$ is positive, contradicting reducedness.
+\end{proof}
+
+\begin{notetheorem}[7.4]
+Let $p_k/q_k$ be the convergents of $\sqrt d$ and let $r$ be its least period.
+\begin{enumerate}[label=(\alph*)]
+\item If $r$ is even, the negative Pell equation has no positive solution, and the positive solutions are
+\[
+ (p_{tr-1},q_{tr-1}),\qquad t=1,2,3,\ldots.
+\]
+\item If $r$ is odd, the negative solutions are the same pairs with $t$ odd, and the positive solutions are those with $t$ even.
+\end{enumerate}
+\end{notetheorem}
+\begin{proof}
+By Theorem 7.2, a solution of $x^2-dy^2=\pm1$ must be a convergent.  Theorem 6.20 gives
+\[
+ p_k^2-dq_k^2=(-1)^{k+1}Q_{k+1}.
+\]
+Theorem 7.3 shows that this equals $\pm1$ exactly when $k+1=tr$.  The sign is then $(-1)^{tr}$, which gives the two cases.
+\end{proof}
+
+\begin{notedefinition}[7.2]
+Among the positive solutions to $x^2-dy^2=1$, the one with smallest $x$ is the fundamental solution.
+\end{notedefinition}
+
+\begin{notetheorem}[7.5]
+Let $(x_1,y_1)$ be the fundamental solution of $x^2-dy^2=1$.  All positive solutions are given by
+\[
+ x_n+y_n\sqrt d=(x_1+y_1\sqrt d)^n,
+ \qquad n\in\N.
+\]
+\end{notetheorem}
+\begin{proof}
+The displayed powers have integer coefficients and norm $1$, so they are solutions.  Conversely, let
+$\eta=s+t\sqrt d>1$ be any positive solution and put
+$\varepsilon=x_1+y_1\sqrt d$.  Choose $n\ge0$ such that
+\[
+ \varepsilon^n\le\eta<\varepsilon^{n+1}.
+\]
+Then
+\[
+ \delta=\eta\varepsilon^{-n}=A+B\sqrt d
+\]
+has integer coefficients, norm $1$, and $1\le\delta<\varepsilon$.  Its conjugate is $\delta^{-1}>0$, so
+$A=(\delta+\delta^{-1})/2>0$ and $B\ge0$.  If $B>0$, then $(A,B)$ is a positive Pell solution.  Since the function $z+z^{-1}$ is increasing for $z\ge1$,
+\[
+ A=\frac{\delta+\delta^{-1}}2
+ <\frac{\varepsilon+\varepsilon^{-1}}2=x_1,
+\]
+contradicting the definition of the fundamental solution.  Thus $B=0$, whence $\delta=1$ and $\eta=\varepsilon^n$.
+\end{proof}
+
+\begin{noteapplication}[7.1]
+\begin{enumerate}[label=(\alph*)]
+\item There are infinitely many triples of consecutive integers, each of which is a sum of two integer squares.  For every positive solution of $x^2-2y^2=1$,
+\[
+ x^2-1=y^2+y^2,
+ \qquad
+ x^2=x^2+0^2,
+ \qquad
+ x^2+1=x^2+1^2.
+\]
+\item If $x^2-dy^2=n$ has a nonzero integer solution $(s,t)$ and the positive Pell equation for $d$ has solutions $(x_m,y_m)$, then
+\[
+ (s+t\sqrt d)(x_m+y_m\sqrt d)=S_m+T_m\sqrt d
+\]
+gives infinitely many solutions $S_m^2-dT_m^2=n$.
+\item There are infinitely many positive integers $n$ for which $n^2+(n+1)^2$ is a square.  Indeed,
+\[
+ n^2+(n+1)^2=m^2
+ \quad\Longleftrightarrow\quad
+ (2n+1)^2-2m^2=-1,
+\]
+and the negative Pell equation for $d=2$ has infinitely many solutions.  Geometrically, these are infinitely many integer right triangles with consecutive legs.
+\end{enumerate}
+\end{noteapplication}
+
+\section{Pythagorean triples}
+
+\begin{notedefinition}[7.3]
+A triple $(x,y,z)\in\N^3$ is Pythagorean if $x^2+y^2=z^2$.  It is primitive if $\gcd(x,y,z)=1$.
+\end{notedefinition}
+\begin{noteremark}
+In a primitive Pythagorean triple, $\gcd(x,y)=\gcd(y,z)=\gcd(z,x)=1$, and exactly one of $x,y$ is even.
+\end{noteremark}
+
+\begin{notetheorem}[7.6]
+The primitive Pythagorean triples with $y$ even are precisely
+\[
+ (x,y,z)=(r^2-s^2,\ 2rs,\ r^2+s^2),
+\]
+where $r>s$ are coprime positive integers of opposite parity.
+\end{notetheorem}
+\begin{proof}
+Let $(x,y,z)$ be primitive with $y$ even.  Then $x,z$ are odd and
+\[
+ \left(\frac{z+x}{2}\right)
+ \left(\frac{z-x}{2}\right)
+ =\left(\frac y2\right)^2.
+\]
+The two factors on the left are coprime, so each is a square:
+$(z+x)/2=r^2$ and $(z-x)/2=s^2$.  This gives the displayed formulas.  Coprimality and opposite parity follow from primitiveness and the oddness of $x$.  Conversely, the formulas satisfy the equation, and the stated conditions make the triple primitive.
+\end{proof}
+
+\begin{noteremark}[(rational points on the circle)]
+The rational points on $X^2+Y^2=1$ are parametrized by lines of rational slope through $(1,0)$:
+\[
+ (X,Y)=\left(\frac{m^2-1}{m^2+1},\frac{-2m}{m^2+1}\right),
+ \qquad m\in\Q.
+\]
+Clearing denominators recovers the Pythagorean parametrization.
+\end{noteremark}
+
+\section{Infinite descent and local obstructions}
+
+\begin{notedefinition}[7.4]
+Fermat's method of infinite descent proves nonexistence by assuming a positive integer solution, constructing a strictly smaller positive solution, and contradicting the well-ordering principle.
+\end{notedefinition}
+
+\begin{noteapplication}[7.2]
+\begin{enumerate}[label=(\alph*)]
+\item The system
+\[
+ x^2+6y^2=z^2,
+ \qquad
+ 6x^2+y^2=w^2
+\]
+has no positive integer solution.  Otherwise choose one minimizing $x+y+z+w$.  Adding gives
+$z^2+w^2=7(x^2+y^2)$.  Since $-1$ is a nonresidue modulo $7$, this congruence forces $7\mid z,w$, and then also $7\mid x,y$.  Dividing all four entries by $7$ produces a smaller positive solution.
+
+\item The equation
+\[
+ x^3+2y^3=4z^3
+\]
+has only the zero integer solution.  Modulo $2$, any solution has $x$ even; after substituting $x=2x_1$, one finds $y$ even, and then $z$ even.  Division by $2$ gives a smaller solution of the same equation, so infinite descent forces $x=y=z=0$.
+\end{enumerate}
+\end{noteapplication}
+
+\begin{notetheorem}[7.7 (Fermat for exponent four)]
+The equation
+\[
+ x^4+y^4=z^4
+\]
+has no nontrivial integer solutions, where nontrivial means $xyz\ne0$.  In fact, the stronger equation
+\[
+ x^4+y^4=z^2
+\]
+has no positive integer solutions.
+\end{notetheorem}
+\begin{proof}
+Assume a positive solution to $x^4+y^4=z^2$ with $z$ minimal, and divide out a common factor so that it is primitive.  Exactly one of $x,y$ is even; suppose $y$ is even.  The primitive Pythagorean triple $(x^2,y^2,z)$ gives coprime $r>s$ of opposite parity with
+\[
+ x^2=r^2-s^2,
+ \qquad
+ y^2=2rs,
+ \qquad
+ z=r^2+s^2.
+\]
+The even parameter must be $s$: if $r$ were even, then $x^2=r^2-s^2\equiv3\pmod4$.  The square condition $2rs=y^2$ and coprimality now imply
+\[
+ r=m^2,
+ \qquad
+ s=2n^2.
+\]
+Thus
+\[
+ x^2=(m^2-2n^2)(m^2+2n^2).
+\]
+The two positive odd factors are coprime, so each is a square:
+\[
+ m^2-2n^2=u^2,
+ \qquad
+ m^2+2n^2=v^2.
+\]
+Then
+\[
+ \frac{v-u}{2}\cdot\frac{v+u}{2}=n^2.
+\]
+The two factors are coprime, so write them as $b^2$ and $a^2$.  Hence
+$u=a^2-b^2$, $n=ab$, and
+\[
+ m^2=u^2+2n^2=(a^2-b^2)^2+2a^2b^2=a^4+b^4.
+\]
+This is another positive solution of the same form with hypotenuse $m<z$, contradicting minimality.
+\end{proof}
+
+\begin{notetheorem}[7.8 (local obstruction principle)]
+If an integer equation $f(x,y,z)=0$ has an integer solution, then for every modulus $m\ge2$ the congruence
+\[
+ f(x,y,z)\equiv0\pmod m
+\]
+has a solution.  Thus a single modulus with no congruence solution proves that the integer equation has no solution.
+\end{notetheorem}
+
+\begin{noteapplication}[7.3]
+\begin{enumerate}[label=(\alph*)]
+\item The equation
+\[
+ x^3+y^3-7z^3=3
+\]
+has no integer solution.  Modulo $7$, every cube is $0$, $1$, or $-1$, so $x^3+y^3$ can only be $-2,-1,0,1,2$, never $3$.
+
+\item The equation
+\[
+ y^2=x^3+7
+\]
+has no integer solution.  If $x$ is even, the right side is $3$ modulo $4$.  Hence $x$ is odd.  The case $x\equiv3\pmod4$ would make the right side $2$ modulo $4$, so $x\equiv1\pmod4$.  The equation also forces $x\ge1$.  Moreover,
+\[
+ y^2+1=x^3+8=(x+2)(x^2-2x+4).
+\]
+Since $x+2\equiv3\pmod4$, some prime $p\equiv3\pmod4$ divides $x+2$ to an odd power.  Thus $-1$ is a quadratic residue modulo $p$, contradicting the first supplementary law.
+\end{enumerate}
+\end{noteapplication}

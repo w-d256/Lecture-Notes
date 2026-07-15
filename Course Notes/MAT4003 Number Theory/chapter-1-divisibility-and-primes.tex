@@ -1,0 +1,264 @@
+\chapter{Divisibility and Primes}
+
+\begin{notedefinition}[1.1]
+Let $a,b\in\Z$ with $a\ne0$.  We say that $a$ divides $b$, and write $a\mid b$, if $b=ak$ for some $k\in\Z$.  Then $a$ is a divisor of $b$, and $b$ is a multiple of $a$.
+\end{notedefinition}
+
+\begin{notetheorem}[1.1]
+For integers $a,b,c,x,y$:
+\begin{enumerate}[label=(\alph*)]
+\item $a\mid a$;
+\item if $a\mid b$ and $b\mid c$, then $a\mid c$;
+\item if $a\mid b$ and $a\mid c$, then $a\mid bx+cy$;
+\item if $a\mid b$ and $b\ne0$, then $\abs a\le\abs b$.
+\end{enumerate}
+\end{notetheorem}
+
+\begin{notetheorem}[1.2 (division algorithm, positive divisor)]
+Let $a\in\N$ and $b\in\Z$.  There exist unique integers $q,r$ such that
+\[
+ b=aq+r,\qquad 0\le r<a.
+\]
+\end{notetheorem}
+\begin{proof}
+Consider
+\[
+ S=\{b-aq:q\in\Z,\ b-aq\ge0\}.
+\]
+The set is nonempty, because $q$ can be chosen sufficiently negative.  By the well-ordering principle, $S$ has a least element $r=b-aq$.  If $r\ge a$, then $r-a=b-a(q+1)$ is a smaller nonnegative element of $S$, a contradiction.  Hence $0\le r<a$.
+
+If $b=aq_1+r_1=aq_2+r_2$ with $0\le r_1,r_2<a$, then
+$a(q_1-q_2)=r_2-r_1$.  The right side has absolute value less than $a$, so it is the only multiple of $a$ in that range, namely $0$.  Thus $r_1=r_2$ and $q_1=q_2$.
+\end{proof}
+
+\begin{notetheorem}[1.3 (division algorithm)]
+Let $a,b\in\Z$ with $a\ne0$.  There exist unique integers $q,r$ such that
+\[
+ b=aq+r,\qquad 0\le r<\abs a.
+\]
+\end{notetheorem}
+\begin{proof}
+Apply Theorem 1.2 with divisor $\abs a$.  If $a>0$, the result is immediate.  If $a<0$, replace the quotient for $\abs a$ by its negative.  Uniqueness follows exactly as in Theorem 1.2.
+\end{proof}
+
+\begin{notedefinition}[1.2]
+A positive integer $d$ is a common divisor of $a$ and $b$ if $d\mid a$ and $d\mid b$.  For integers $a,b$, not both zero, the greatest common divisor $\gcd(a,b)$ is the largest positive common divisor of $a$ and $b$.
+\end{notedefinition}
+
+\begin{notetheorem}[1.4 (B\'ezout's lemma)]
+Let $a,b\in\Z$, not both zero.  There exist $x_0,y_0\in\Z$ such that
+\[
+ \gcd(a,b)=ax_0+by_0.
+\]
+\end{notetheorem}
+\begin{proof}
+Let
+\[
+ S=\{ax+by:x,y\in\Z,\ ax+by>0\}.
+\]
+This set is nonempty, so let $d=ax_0+by_0$ be its least element.  Every common divisor of $a$ and $b$ divides $d$.
+
+Divide $a$ by $d$: $a=dq+r$ with $0\le r<d$.  Then
+\[
+ r=a-dq=a(1-qx_0)+b(-qy_0)
+\]
+is an integer linear combination of $a$ and $b$.  If $r>0$, then $r\in S$ and $r<d$, a contradiction; hence $r=0$ and $d\mid a$.  Similarly $d\mid b$.  Therefore $d$ is a common divisor divisible by every common divisor, so $d=\gcd(a,b)$.
+\end{proof}
+
+\begin{notecorollary}[1.5]
+If $d=\gcd(a,b)$, then
+\[
+ \{ax+by:x,y\in\Z\}=\{kd:k\in\Z\}.
+\]
+\end{notecorollary}
+\begin{proof}
+B\'ezout's lemma gives $d=ax_0+by_0$, so every multiple of $d$ is an integer linear combination of $a$ and $b$.  Conversely, $d\mid a$ and $d\mid b$, so $d$ divides every such linear combination.
+\end{proof}
+
+\begin{notetheorem}[1.6]
+For $d\in\N$ and integers $a,b$, not both zero, the following are equivalent:
+\begin{enumerate}[label=(\alph*)]
+\item $d=\gcd(a,b)$;
+\item $d$ is the least positive integer of the form $ax+by$;
+\item $d$ is a common divisor of $a$ and $b$, and every common divisor of $a$ and $b$ divides $d$.
+\end{enumerate}
+\end{notetheorem}
+\begin{proof}
+The equivalence of (a) and (b) is Theorem 1.4.  If (b) holds, the proof of B\'ezout's lemma shows that $d\mid a$ and $d\mid b$, while every common divisor divides $d$, giving (c).  Condition (c) says precisely that $d$ is the greatest positive common divisor, giving (a).
+\end{proof}
+
+\begin{notedefinition}[1.3]
+Integers $a$ and $b$ are coprime, or relatively prime, if $\gcd(a,b)=1$.
+\end{notedefinition}
+
+\begin{notecorollary}[1.7]
+Integers $a$ and $b$ are coprime if and only if there exist $x_0,y_0\in\Z$ such that
+\[
+ ax_0+by_0=1.
+\]
+\end{notecorollary}
+
+\begin{notetheorem}[1.8]
+If $\gcd(a,b)=d$, then
+\[
+ \gcd\paren*{\frac ad,\frac bd}=1.
+\]
+\end{notetheorem}
+\begin{proof}
+Divide a B\'ezout identity $ax_0+by_0=d$ by $d$.
+\end{proof}
+
+\begin{notetheorem}[1.9 (Euclid's lemma)]
+If $c\mid ab$ and $\gcd(a,c)=1$, then $c\mid b$.
+\end{notetheorem}
+\begin{proof}
+Choose $x_0,y_0\in\Z$ with $ax_0+cy_0=1$.  Multiplying by $b$ gives
+$b=abx_0+bcy_0$, and both terms on the right are divisible by $c$.
+\end{proof}
+
+\begin{notetheorem}[1.10]
+If $\gcd(a,c)=\gcd(b,c)=1$, then $\gcd(ab,c)=1$.
+\end{notetheorem}
+\begin{proof}
+Choose $ax+cy=1$ and $bu+cv=1$.  Multiplication gives
+\[
+ 1=ab(xu)+c(ayv+bux+cyv),
+\]
+so $1$ is an integer linear combination of $ab$ and $c$.
+\end{proof}
+
+\begin{notelemma}[1.11]
+If $b=aq+r$, then
+\[
+ \gcd(a,b)=\gcd(a,r).
+\]
+\end{notelemma}
+\begin{proof}
+An integer divides both $a$ and $b$ if and only if it divides both $a$ and $b-aq=r$.  Thus the two pairs have exactly the same common divisors.
+\end{proof}
+
+\begin{notetheorem}[1.12 (Euclidean algorithm)]
+Let $a,b\in\N$ with $b>a$.  Repeated division gives
+\begin{align*}
+ b&=aq_1+r_1, &0\le r_1<a,\\
+ a&=r_1q_2+r_2, &0\le r_2<r_1,\\
+ &\ \vdots\\
+ r_{n-2}&=r_{n-1}q_n+r_n, &0\le r_n<r_{n-1},\\
+ r_{n-1}&=r_nq_{n+1}.
+\end{align*}
+Then $\gcd(a,b)=r_n$, the last nonzero remainder.
+\end{notetheorem}
+\begin{proof}
+The positive remainders form a strictly decreasing sequence, so the process terminates.  Repeated use of Lemma 1.11 gives
+\[
+ \gcd(a,b)=\gcd(a,r_1)=\cdots=\gcd(r_{n-1},r_n)=r_n.
+\]
+\end{proof}
+
+\begin{noteapplication}[1.1 (extended Euclidean algorithm)]
+Track coefficients $r_i=ax_i+by_i$ alongside the Euclidean algorithm by starting with
+\[
+ r_{-1}=b,\ (x_{-1},y_{-1})=(0,1),\qquad
+ r_0=a,\ (x_0,y_0)=(1,0),
+\]
+and using
+\[
+ r_i=r_{i-2}-q_i r_{i-1},\quad
+ x_i=x_{i-2}-q_i x_{i-1},\quad
+ y_i=y_{i-2}-q_i y_{i-1}.
+\]
+For example,
+\[
+ \gcd(123,45)=3=45\cdot 11-123\cdot 4.
+\]
+\end{noteapplication}
+
+\begin{notedefinition}[1.4]
+A Diophantine equation is an equation whose solutions are required to be integers.
+\end{notedefinition}
+
+\begin{notetheorem}[1.13 (linear Diophantine equation)]
+Let $d=\gcd(a,b)$.  The equation
+\[
+ ax+by=c
+\]
+has an integer solution if and only if $d\mid c$.  If $(x_0,y_0)$ is one solution, then all solutions are
+\[
+ x=x_0+k\frac bd,\qquad y=y_0-k\frac ad,\qquad k\in\Z.
+\]
+\end{notetheorem}
+\begin{proof}
+By Corollary 1.5, $c$ is an integer linear combination of $a$ and $b$ exactly when $d\mid c$.
+
+If $(x,y)$ and $(x_0,y_0)$ are solutions, then
+$a(x-x_0)=-b(y-y_0)$.  Dividing by $d$ and using
+$\gcd(a/d,b/d)=1$, Euclid's lemma gives $b/d\mid x-x_0$.  Thus $x-x_0=k(b/d)$, and substitution gives $y-y_0=-k(a/d)$.  The displayed family is easily checked directly.
+\end{proof}
+
+\begin{notedefinition}[1.5]
+An integer $p>1$ is prime if its only positive divisors are $1$ and $p$.  An integer greater than $1$ that is not prime is composite.
+\end{notedefinition}
+
+\begin{notetheorem}[1.14]
+If $p$ is prime and $p\mid ab$, then $p\mid a$ or $p\mid b$.
+\end{notetheorem}
+\begin{proof}
+If $p\nmid a$, then $\gcd(a,p)=1$, so Theorem 1.9 gives $p\mid b$.
+\end{proof}
+
+\begin{notetheorem}[1.15]
+If $p$ is prime and $p\mid a_1a_2\cdots a_n$, then $p\mid a_i$ for some $i$.
+\end{notetheorem}
+\begin{proof}
+Induct on $n$, using Theorem 1.14 at the induction step.
+\end{proof}
+
+\begin{notetheorem}[1.16 (fundamental theorem of arithmetic)]
+Every integer $n\ge2$ is a product of primes.  This factorization is unique up to the order of the prime factors.
+\end{notetheorem}
+\begin{proof}
+For existence, use strong induction.  If $n$ is prime, there is nothing to prove.  If $n$ is composite, write $n=rs$ with $1<r,s<n$ and apply the induction hypothesis to $r$ and $s$.
+
+For uniqueness, suppose that a smallest counterexample has two factorizations
+\[
+ n=p_1\cdots p_r=q_1\cdots q_s.
+\]
+Theorem 1.15 implies that $p_1=q_j$ for some $j$; reorder so that $j=1$ and cancel this common factor.  Then $n/p_1$ is a smaller counterexample, a contradiction.
+\end{proof}
+
+\begin{notedefinition}[1.6]
+For nonzero integers $a,b$, the least common multiple $\lcm(a,b)$ is the least positive integer divisible by both $a$ and $b$.  The definition extends analogously to finitely many nonzero integers.
+\end{notedefinition}
+
+\begin{notetheorem}[1.17 (monic rational-root criterion)]
+Let
+\[
+ f(x)=x^n+c_{n-1}x^{n-1}+\cdots+c_1x+c_0\in\Z[x].
+\]
+Every rational root of $f$ is an integer.  Consequently, every real root is either an integer or irrational.
+\end{notetheorem}
+\begin{proof}
+Write a rational root in lowest terms as $p/q$, with $q>0$.  Multiplying $f(p/q)=0$ by $q^n$ gives
+\[
+ p^n+c_{n-1}p^{n-1}q+\cdots+c_0q^n=0.
+\]
+Thus $q\mid p^n$.  Since $\gcd(p,q)=1$, we have $q=1$.
+\end{proof}
+
+\begin{notetheorem}[1.18]
+There are infinitely many primes.
+\end{notetheorem}
+\begin{proof}
+If $p_1,\ldots,p_n$ were all primes, the integer $N=p_1\cdots p_n+1$ would have a prime divisor.  None of the $p_i$ divides $N$, a contradiction.
+\end{proof}
+
+\begin{notetheorem}[1.19]
+For every $k\in\N$, there are $k$ consecutive composite integers.
+\end{notetheorem}
+\begin{proof}
+The integers
+\[
+ (k+1)!+2,(k+1)!+3,\ldots,(k+1)!+(k+1)
+\]
+are consecutive, and the $i$th one in the list is divisible by $i$ for $2\le i\le k+1$.
+\end{proof}

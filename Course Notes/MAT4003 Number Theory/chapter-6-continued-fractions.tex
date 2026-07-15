@@ -1,0 +1,457 @@
+\chapter{Continued Fractions}
+
+\begin{notedefinition}[6.1]
+A finite continued fraction is an expression
+\[
+ [a_0;a_1,\ldots,a_n]
+ =a_0+\cfrac1{a_1+\cfrac1{\ddots+\cfrac1{a_n}}},
+\]
+where $a_i\in\R$ and $a_i>0$ for $i\ge1$.  It is simple if every $a_i$ is an integer.
+\end{notedefinition}
+
+\begin{notetheorem}[6.1]
+Every finite simple continued fraction is rational.
+\end{notetheorem}
+\begin{proof}
+Evaluate from the final entry upward; rationality is preserved by addition and reciprocal of a nonzero rational.
+\end{proof}
+
+\begin{notetheorem}[6.2]
+Every rational number $a/b$, with $a\in\Z$ and $b\in\N$, has a finite simple continued-fraction representation.  Its entries are the quotients in the Euclidean algorithm for $a$ and $b$.
+\end{notetheorem}
+\begin{proof}
+Write $a=a_0b+r$ with $0\le r<b$.  If $r=0$, then $a/b=[a_0]$.  Otherwise
+\[
+ \frac ab=a_0+\frac1{b/r},
+\]
+and the denominator in $b/r$ is $r<b$.  Induction on $b$ completes the construction.
+\end{proof}
+
+\begin{noteremark}[(the two finite representations)]
+For an expansion of positive length with $a_n>1$,
+\[
+ [a_0;\ldots,a_n]=[a_0;\ldots,a_n-1,1].
+\]
+Conversely, a terminal $1$ may be absorbed into the preceding entry.  Thus every nonintegral rational has exactly two finite simple representations, exactly one of which ends in an entry greater than $1$.  An integer $a_0$ has the two representations $[a_0]$ and $[a_0-1;1]$; by convention the one-term expansion is taken as canonical.
+\end{noteremark}
+
+\begin{notetheorem}[6.3]
+Suppose
+\[
+ [a_0;\ldots,a_n]=[b_0;\ldots,b_m],
+ \qquad a_n>1,\quad b_m>1.
+\]
+Then $m=n$ and $a_i=b_i$ for every $i$.
+\end{notetheorem}
+\begin{proof}
+For a finite simple continued fraction whose final entry exceeds $1$, every complete quotient after the first is greater than $1$.  Hence the integer part of the value is $a_0$, and the reciprocal of the fractional part is the next complete quotient.  Equality of the two values gives $a_0=b_0$ and equality of the tails.  Repeating proves equality of all entries and simultaneous termination.
+\end{proof}
+
+\begin{notedefinition}[6.2]
+Let $a_0\in\R$ and $a_i>0$ for $i\ge1$.  The $k$th convergent of the sequence $(a_i)$ is
+\[
+ C_k=[a_0;a_1,\ldots,a_k].
+\]
+The infinite continued fraction $[a_0;a_1,a_2,\ldots]$ is the limit of $C_k$ when that limit exists.  It is simple if all $a_i\in\Z$.
+\end{notedefinition}
+
+\begin{notetheorem}[6.4]
+The convergents satisfy
+\[
+ C_k=\frac{p_k}{q_k},
+\]
+where
+\[
+ p_{-2}=0,\quad p_{-1}=1,\quad p_k=a_kp_{k-1}+p_{k-2},
+\]
+\[
+ q_{-2}=1,\quad q_{-1}=0,\quad q_k=a_kq_{k-1}+q_{k-2}.
+\]
+\end{notetheorem}
+\begin{proof}
+Induct on $k$, using
+\[
+ [a_0;\ldots,a_k]
+ =[a_0;\ldots,a_{k-1}+1/a_k]
+\]
+and the recurrence at the final step.  Equivalently, multiply the matrices
+\[
+ \begin{pmatrix}a_i&1\\1&0\end{pmatrix}.
+\]
+\end{proof}
+
+\begin{notetheorem}[6.5]
+For $k\ge1$,
+\[
+ p_kq_{k-1}-p_{k-1}q_k=(-1)^{k-1},
+\]
+and for $k\ge2$,
+\[
+ p_kq_{k-2}-p_{k-2}q_k=(-1)^k a_k.
+\]
+\end{notetheorem}
+\begin{proof}
+The first identity follows by induction from the recurrences:
+\[
+ p_kq_{k-1}-p_{k-1}q_k
+ =-(p_{k-1}q_{k-2}-p_{k-2}q_{k-1}).
+\]
+The second is
+\[
+ a_k(p_{k-1}q_{k-2}-p_{k-2}q_{k-1}).
+\]
+\end{proof}
+
+\begin{notetheorem}[6.6]
+For the convergents $C_k=p_k/q_k$,
+\[
+ C_k-C_{k-1}=\frac{(-1)^{k-1}}{q_kq_{k-1}}
+ \quad(k\ge1),
+\]
+and
+\[
+ C_k-C_{k-2}=\frac{a_k(-1)^k}{q_kq_{k-2}}
+ \quad(k\ge2).
+\]
+\end{notetheorem}
+\begin{proof}
+Divide the identities in Theorem 6.5 by the appropriate products of denominators.
+\end{proof}
+
+\begin{notetheorem}[6.7]
+For every convergent of a simple continued fraction,
+\[
+ \gcd(p_k,q_k)=1.
+\]
+\end{notetheorem}
+\begin{proof}
+Any common divisor divides
+$p_kq_{k-1}-p_{k-1}q_k=\pm1$.
+\end{proof}
+
+\begin{notetheorem}[6.8]
+The convergents of an infinite simple continued fraction satisfy
+\begin{align*}
+ C_1&>C_3>C_5>\cdots,\\
+ C_0&<C_2<C_4<\cdots,\\
+ C_{2i+1}&>C_{2j}\qquad(i,j\ge0).
+\end{align*}
+Consequently the limit $\lim_{k\to\infty}C_k$ exists.
+\end{notetheorem}
+\begin{proof}
+The signs in Theorem 6.6 show that the even subsequence is increasing and the odd subsequence decreasing.  They also show each odd convergent exceeds the neighboring even convergents, hence all of them.  The two subsequences are monotone and bounded, and
+\[
+ C_{2k+1}-C_{2k}=\frac1{q_{2k+1}q_{2k}}\longrightarrow0
+\]
+because the positive integers $q_k$ increase without bound.  Their limits are therefore equal.
+\end{proof}
+
+\begin{notetheorem}[6.9]
+Every infinite simple continued fraction is irrational.
+\end{notetheorem}
+\begin{proof}
+Let its value be $x$.  Suppose $x=p/q$ in lowest terms.  The limit lies strictly between consecutive convergents, so
+\[
+ 0<\abs*{x-C_k}<\abs*{C_{k+1}-C_k}
+ =\frac1{q_kq_{k+1}}.
+\]
+On the other hand,
+\[
+ \abs*{x-C_k}
+ =\frac{\abs*{pq_k-qp_k}}{q q_k}
+ \ge\frac1{q q_k}.
+\]
+Hence $q>q_{k+1}$ for every $k$, impossible.
+\end{proof}
+
+\begin{notetheorem}[6.10]
+Two infinite simple continued fractions are equal if and only if all corresponding entries are equal.
+\end{notetheorem}
+\begin{proof}
+If $x=[a_0;a_1,\ldots]$, then $a_0=\floor x$ because the tail after $a_0$ lies in $(0,1)$.  The next complete quotient is
+$1/(x-a_0)$.  Equality of two values therefore determines the same first entry and equal tails; induction gives every entry.
+\end{proof}
+
+\begin{notetheorem}[6.11]
+Every irrational real number $x$ has an infinite simple continued-fraction expansion.
+\end{notetheorem}
+\begin{proof}
+Set $x_0=x$ and define recursively
+\[
+ a_k=\floor{x_k},
+ \qquad
+ x_{k+1}=\frac1{x_k-a_k}.
+\]
+Every $x_k$ is irrational, so the denominator is nonzero; for $k\ge1$, $x_k>1$, hence $a_k\ge1$.
+
+The finite-tail identity is
+\[
+ x=\frac{p_nx_{n+1}+p_{n-1}}{q_nx_{n+1}+q_{n-1}}.
+\]
+Using Theorem 6.5,
+\[
+ \abs*{x-\frac{p_n}{q_n}}
+ =\frac1{q_n(q_nx_{n+1}+q_{n-1})}
+ <\frac1{q_n^2}\longrightarrow0.
+\]
+Thus the convergents tend to $x$.
+\end{proof}
+
+\section{Best approximation}
+
+\begin{notetheorem}[6.12]
+Let $x$ be irrational and let $p_k/q_k$ be its $k$th convergent.  If $a,b\in\Z$ and
+\[
+ 1\le b<q_{k+1},
+\]
+then
+\[
+ \abs*{q_kx-p_k}\le\abs*{bx-a}.
+\]
+\end{notetheorem}
+\begin{proof}
+Because
+$p_kq_{k+1}-p_{k+1}q_k=\pm1$, there are unique integers $r,s$ such that
+\[
+ a=rp_k+sp_{k+1},
+ \qquad
+ b=rq_k+sq_{k+1}.
+\]
+If $s=0$, the conclusion is immediate.  The case $r=0$ is impossible because then $b\ge q_{k+1}$.  If $r$ and $s$ had the same sign, positivity of $b$ would give $b\ge q_k+q_{k+1}$.  Thus they have opposite signs.
+
+The quantities $q_kx-p_k$ and $q_{k+1}x-p_{k+1}$ also have opposite signs.  Therefore the two terms in
+\[
+ bx-a=r(q_kx-p_k)+s(q_{k+1}x-p_{k+1})
+\]
+have the same sign, and
+\[
+ \abs*{bx-a}
+ =\abs r\,\abs*{q_kx-p_k}+\abs s\,\abs*{q_{k+1}x-p_{k+1}}
+ \ge\abs*{q_kx-p_k}.
+\]
+\end{proof}
+
+\begin{notetheorem}[6.13]
+Under the same hypotheses, if $a/b\in\Q$ and $1\le b\le q_k$, then
+\[
+ \abs*{x-\frac{p_k}{q_k}}
+ \le\abs*{x-\frac ab}.
+\]
+\end{notetheorem}
+\begin{proof}
+Since $b<q_{k+1}$, Theorem 6.12 gives
+\[
+ \abs*{x-p_k/q_k}
+ =\frac{\abs*{q_kx-p_k}}{q_k}
+ \le\frac{\abs*{bx-a}}{q_k}
+ \le\frac{\abs*{bx-a}}b.
+\]
+\end{proof}
+
+\begin{notetheorem}[6.14 (Legendre's criterion)]
+Let $x$ be irrational and let $a/b\in\Q$ be in lowest terms with $b\ge1$.  If
+\[
+ \abs*{x-\frac ab}<\frac1{2b^2},
+\]
+then $a/b$ is a convergent of $x$.
+\end{notetheorem}
+\begin{proof}
+Suppose not.  Choose $k$ with $q_k\le b<q_{k+1}$.  Theorem 6.12 gives
+\[
+ \abs*{x-\frac{p_k}{q_k}}
+ \le\frac{\abs*{bx-a}}{q_k}
+ <\frac1{2bq_k}.
+\]
+Since $a/b$ and $p_k/q_k$ are distinct reduced fractions,
+\[
+ \frac1{bq_k}
+ \le\abs*{\frac ab-\frac{p_k}{q_k}}
+ \le\abs*{x-\frac ab}+\abs*{x-\frac{p_k}{q_k}}
+ <\frac1{2b^2}+\frac1{2bq_k}
+ \le\frac1{bq_k},
+\]
+a contradiction.
+\end{proof}
+
+\section{Periodic continued fractions and quadratic irrationals}
+
+\begin{notedefinition}[6.3]
+An infinite continued fraction $[a_0;a_1,a_2,\ldots]$ is periodic if there exist $N\ge0$ and $r\ge1$ such that $a_{n+r}=a_n$ for all $n\ge N$.  We write
+\[
+ [a_0;\ldots,a_{N-1},\overbar{a_N,\ldots,a_{N+r-1}}].
+\]
+\end{notedefinition}
+
+\begin{notedefinition}[6.4]
+An irrational real number $\alpha$ is a quadratic irrational if
+\[
+ A\alpha^2+B\alpha+C=0
+\]
+for integers $A,B,C$ with $A\ne0$.
+\end{notedefinition}
+
+\begin{notetheorem}[6.15]
+A real number $\alpha$ is a quadratic irrational if and only if
+\[
+ \alpha=\frac{a+\sqrt d}{c}
+\]
+for integers $a,c$ and a positive nonsquare integer $d$, with $c\ne0$.
+\end{notetheorem}
+\begin{proof}
+If $A\alpha^2+B\alpha+C=0$, then
+\[
+ \alpha=\frac{-B\pm\sqrt{B^2-4AC}}{2A}.
+\]
+Because $\alpha$ is real and irrational, the discriminant is positive and not a perfect square; the sign may be absorbed into $a,c$.
+
+Conversely, $(c\alpha-a)^2=d$, so
+\[
+ c^2\alpha^2-2ac\alpha+(a^2-d)=0.
+\]
+The number is irrational because $d$ is not a square.
+\end{proof}
+
+\begin{notetheorem}[6.16]
+Let $r,s,t,u\in\Z$ with $t$ and $u$ not both zero, and let $\alpha$ be a quadratic irrational.  Then
+\[
+ \frac{r\alpha+s}{t\alpha+u}
+\]
+is rational or a quadratic irrational.
+\end{notetheorem}
+\begin{proof}
+The denominator is nonzero, since otherwise $\alpha$ would be rational.  Write $\alpha=(a+\sqrt d)/c$ and rationalize.  The result has the form $A+B\sqrt d$ with $A,B\in\Q$.  If $B=0$ it is rational; otherwise it satisfies a quadratic equation over $\Q$, which may be cleared of denominators.
+\end{proof}
+
+\begin{notetheorem}[6.17]
+Every periodic simple continued fraction represents a quadratic irrational.
+\end{notetheorem}
+\begin{proof}
+Let the repeating tail be
+\[
+ \alpha=[\overbar{a_N,\ldots,a_{N+r-1}}].
+\]
+The finite-tail formula expresses one period as a linear fractional transformation:
+\[
+ \alpha=\frac{p_{r-1}\alpha+p_{r-2}}{q_{r-1}\alpha+q_{r-2}}.
+\]
+After clearing the denominator, $\alpha$ satisfies a quadratic equation with integer coefficients.  It is irrational by Theorem 6.9, hence quadratic irrational.  The original value is a linear fractional transformation of $\alpha$, so Theorem 6.16 and Theorem 6.9 show that it too is a quadratic irrational.
+\end{proof}
+
+\begin{notedefinition}[6.5]
+If
+\[
+ \alpha=\frac{a+c\sqrt d}{b}
+\]
+is quadratic irrational, its conjugate is
+\[
+ \alpha^*=\frac{a-c\sqrt d}{b}.
+\]
+Conjugation commutes with addition, multiplication, and division by a nonzero quadratic irrational.
+\end{notedefinition}
+
+\begin{notetheorem}[6.18 (Lagrange)]
+Every quadratic irrational has a periodic simple continued-fraction expansion.
+\end{notetheorem}
+\begin{proof}
+After multiplying numerator, denominator, and radicand by a suitable square, write the initial complete quotient in the standard form
+\[
+ x_0=\frac{P_0+\sqrt D}{Q_0},
+\]
+where $D$ is a positive nonsquare integer, $P_0,Q_0\in\Z$, and
+$Q_0\mid D-P_0^2$.  If
+$x_k=(P_k+\sqrt D)/Q_k$ and $a_k=\floor{x_k}$, then
+\[
+ P_{k+1}=a_kQ_k-P_k,
+ \qquad
+ Q_{k+1}=\frac{D-P_{k+1}^2}{Q_k},
+\]
+so induction gives $P_k,Q_k\in\Z$ and $Q_k\ne0$.
+
+Let $p_j/q_j$ be the convergents of $x_0$.  Solving the finite-tail identity for $x_k$ and conjugating gives
+\[
+ x_k^*=\frac{p_{k-2}-x_0^*q_{k-2}}{x_0^*q_{k-1}-p_{k-1}}.
+\]
+Since $p_j/q_j\to x_0$ and $x_0^*\ne x_0$, the numerator and denominator eventually have opposite signs.  Hence $x_k^*<0$ for all sufficiently large $k$.  Since $x_k>1$, it follows that eventually
+\[
+ Q_k>0,
+ \qquad
+ -\sqrt D<P_k<\sqrt D.
+\]
+Moreover, $Q_k$ is a positive divisor of $D-P_k^2$, so $Q_k\le D$.  Only finitely many integer pairs $(P_k,Q_k)$ can occur.  Some pair therefore repeats, and the recurrence then forces all subsequent complete quotients and partial quotients to repeat.  Thus the continued fraction is periodic.
+\end{proof}
+
+\begin{notedefinition}[6.6]
+A continued fraction is purely periodic if it has the form
+$[\overbar{a_0,\ldots,a_{r-1}}]$.  A quadratic irrational $x$ is reduced if
+\[
+ x>1,
+ \qquad
+ -1<x^*<0.
+\]
+\end{notedefinition}
+
+\begin{notetheorem}[6.19]
+A real number is a reduced quadratic irrational if and only if its simple continued-fraction expansion is purely periodic.
+\end{notetheorem}
+\begin{proof}
+Suppose first that $x$ is reduced.  If $x_k$ is a reduced complete quotient and $a_k=\floor{x_k}$, then
+\[
+ x_{k+1}=\frac1{x_k-a_k}>1,
+ \qquad
+ x_{k+1}^*=\frac1{x_k^*-a_k}\in(-1,0).
+\]
+Thus every complete quotient is reduced.  Lagrange's theorem gives $x_N=x_{N+r}$ for some $N,r$.  A reduced quotient $y$ has a unique reduced predecessor: from
+$z=a+1/y$ and $z^*=a+1/y^*\in(-1,0)$ one obtains
+\[
+ a=\floor{-1/y^*}.
+\]
+Therefore equality of two reduced complete quotients propagates backward, giving $x_0=x_r$.  The expansion is purely periodic.
+
+Conversely, let
+$x=[\overbar{a_0,\ldots,a_{r-1}}]$.  Then $a_0\ge1$ and $x>1$.  The period relation gives
+\[
+ q_{r-1}x^2+(q_{r-2}-p_{r-1})x-p_{r-2}=0.
+\]
+Let $f$ be the left side.  We have $f(0)=-p_{r-2}<0$ and
+\[
+ f(-1)=(q_{r-1}-q_{r-2})+(p_{r-1}-p_{r-2})>0.
+\]
+Thus the other root $x^*$ lies in $(-1,0)$, and $x$ is reduced.
+\end{proof}
+
+\begin{noteremark}[(square roots)]
+If $D$ is a positive nonsquare and $a_0=\floor{\sqrt D}$, then
+\[
+ \sqrt D=[a_0;\overbar{a_1,\ldots,a_{r-1},2a_0}].
+\]
+This follows by applying pure periodicity to $a_0+\sqrt D$.
+\end{noteremark}
+
+\begin{notetheorem}[6.20]
+Let $D$ be a positive nonsquare integer, let $p_k/q_k$ be the $k$th convergent of $\sqrt D$, and write the complete quotients as
+\[
+ x_{k+1}=\frac{P_{k+1}+\sqrt D}{Q_{k+1}}.
+\]
+Then for every $k\ge0$,
+\[
+ p_k^2-Dq_k^2=(-1)^{k+1}Q_{k+1}.
+\]
+\end{notetheorem}
+\begin{proof}
+The finite-tail identity
+\[
+ \sqrt D=\frac{p_kx_{k+1}+p_{k-1}}{q_kx_{k+1}+q_{k-1}}
+\]
+and comparison of rational and irrational parts give
+\[
+ p_k=q_kP_{k+1}+q_{k-1}Q_{k+1},
+ \qquad
+ Dq_k=p_kP_{k+1}+p_{k-1}Q_{k+1}.
+\]
+Therefore
+\begin{align*}
+ p_k^2-Dq_k^2
+ &=Q_{k+1}(p_kq_{k-1}-p_{k-1}q_k)\\
+ &=(-1)^{k-1}Q_{k+1}=(-1)^{k+1}Q_{k+1}.
+\end{align*}
+\end{proof}

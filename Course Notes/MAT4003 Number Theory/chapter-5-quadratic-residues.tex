@@ -1,0 +1,339 @@
+\chapter{Quadratic Residues}
+
+\begin{notedefinition}[5.1]
+Let $p$ be an odd prime and let $\gcd(a,p)=1$.  The integer $a$ is a quadratic residue modulo $p$ if
+\[
+ x^2\equiv a\pmod p
+\]
+has a solution, and a quadratic nonresidue otherwise.
+\end{notedefinition}
+\begin{noteremark}
+A nonzero square has exactly two square roots modulo $p$, namely $\pm x_0$.  Hence there are $(p-1)/2$ nonzero quadratic residues and $(p-1)/2$ nonresidues.  If $g$ is a primitive root modulo $p$, the residues are
+$g^2,g^4,\ldots,g^{p-1}$.
+\end{noteremark}
+
+\begin{notetheorem}[5.1 (Euler's criterion)]
+Let $p$ be an odd prime and $\gcd(a,p)=1$.  Then $a$ is a quadratic residue modulo $p$ if and only if
+\[
+ a^{(p-1)/2}\equiv1\pmod p.
+\]
+\end{notetheorem}
+\begin{proof}
+Apply Theorem 4.19 with $m=p$ and $k=2$.
+\end{proof}
+
+\begin{notecorollary}[5.2]
+Under the same hypotheses, $a$ is a quadratic nonresidue modulo $p$ if and only if
+\[
+ a^{(p-1)/2}\equiv-1\pmod p.
+\]
+\end{notecorollary}
+
+\begin{notedefinition}[5.2]
+For an odd prime $p$, the Legendre symbol is
+\[
+ \legendre ap=
+ \begin{cases}
+ 0,&p\mid a,\\
+ 1,&a\text{ is a quadratic residue modulo }p,\\
+ -1,&a\text{ is a quadratic nonresidue modulo }p.
+ \end{cases}
+\]
+\end{notedefinition}
+
+\begin{notetheorem}[5.2]
+For an odd prime $p$ and integers $a,b$:
+\begin{enumerate}[label=(\alph*)]
+\item $\legendre ap\equiv a^{(p-1)/2}\pmod p$;
+\item if $a\equiv b\pmod p$, then $\legendre ap=\legendre bp$;
+\item $\legendre{ab}p=\legendre ap\legendre bp$;
+\item if $p\nmid a$, then $\legendre{a^2}p=1$.
+\end{enumerate}
+\end{notetheorem}
+\begin{proof}
+Part (a) is Euler's criterion, including the case $p\mid a$.  Part (b) is immediate.  Multiplying the congruences in (a) proves (c), because both sides lie in $\{-1,0,1\}$; part (d) follows directly.
+\end{proof}
+
+\begin{noteremark}
+Euler's criterion gives
+\[
+ \legendre{-1}p=
+ \begin{cases}
+ 1,&p\equiv1\pmod4,\\
+ -1,&p\equiv3\pmod4.
+ \end{cases}
+\]
+\end{noteremark}
+
+\begin{notetheorem}[5.3 (Gauss's lemma)]
+Let $p$ be an odd prime and $p\nmid a$.  For
+\[
+ a,2a,\ldots,\frac{p-1}{2}a,
+\]
+let $n$ be the number of least positive residues that exceed $p/2$.  Then
+\[
+ \legendre ap=(-1)^n.
+\]
+\end{notetheorem}
+\begin{proof}
+Replace every least positive residue exceeding $p/2$ by its negative.  The resulting absolute residues are a permutation of
+$1,2,\ldots,(p-1)/2$: no two can agree up to sign unless the original indices agree.  Hence
+\[
+ a^{(p-1)/2}\left(\frac{p-1}{2}\right)!
+ \equiv(-1)^n\left(\frac{p-1}{2}\right)!\pmod p.
+\]
+Cancel the factorial and apply Euler's criterion.
+\end{proof}
+
+\begin{notetheorem}[5.4]
+Let $p$ be an odd prime and $p\nmid a$.
+\begin{enumerate}[label=(\alph*)]
+\item If $a$ is odd, then
+\[
+ \legendre ap=(-1)^{\sum_{k=1}^{(p-1)/2}\floor{ka/p}}.
+\]
+\item
+\[
+ \legendre2p=(-1)^{(p^2-1)/8}.
+\]
+\end{enumerate}
+\end{notetheorem}
+\begin{proof}
+For (a), write $ka=pq_k+r_k$ with $1\le r_k\le p-1$.  Let $n$ be the number of $r_k>p/2$, and replace those $r_k$ by $p-r_k$.  These absolute residues are a permutation of $1,\ldots,(p-1)/2$.  Comparing
+\[
+ a\sum k=p\sum q_k+\sum r_k
+\]
+modulo $2$, and using that $a$ and $p$ are odd, gives
+$n\equiv\sum q_k\pmod2$.  Gauss's lemma proves (a).
+
+For (b), Gauss's lemma counts the integers $k$ with
+$1\le k\le(p-1)/2$ and $2k>p/2$.  Their number is
+\[
+ \frac{p-1}{2}-\floor{p/4},
+\]
+whose parity is $(p^2-1)/8$; this may be checked in the four cases $p\equiv1,3,5,7\pmod8$.
+\end{proof}
+
+\begin{notecorollary}[5.5 (second supplementary law)]
+For an odd prime $p$,
+\[
+ \legendre2p=
+ \begin{cases}
+ 1,&p\equiv1,7\pmod8,\\
+ -1,&p\equiv3,5\pmod8.
+ \end{cases}
+\]
+\end{notecorollary}
+
+\begin{notetheorem}[5.6]
+Let $p$ and $q=2p+1$ be odd primes.  Then
+\[
+ 2(-1)^{(p-1)/2}
+\]
+is a primitive root modulo $q$.
+\end{notetheorem}
+\begin{proof}
+Let $x=2(-1)^{(p-1)/2}$ and let $m=\ord_q(x)$.  Since $m\mid2p$ and $x\not\equiv\pm1\pmod q$, the only possible nonprimitive order is $m=p$.
+
+If $p\equiv1\pmod4$, then $q\equiv3\pmod8$ and $x=2$.  Thus
+\[
+ x^p=2^{(q-1)/2}\equiv\legendre2q=-1\pmod q,
+\]
+contradicting $m=p$.  If $p\equiv3\pmod4$, then $q\equiv7\pmod8$ and $x=-2$; now
+\[
+ x^p=-2^{(q-1)/2}\equiv-\legendre2q=-1\pmod q,
+\]
+again a contradiction.  Hence $m=2p=q-1$.
+\end{proof}
+
+\begin{notetheorem}[5.7 (quadratic reciprocity)]
+Let $p$ and $q$ be distinct odd primes.  Then
+\[
+ \legendre pq\legendre qp
+ =(-1)^{\frac{p-1}{2}\frac{q-1}{2}}.
+\]
+\end{notetheorem}
+\begin{proof}
+By Theorem 5.4(a),
+\[
+ \legendre pq=(-1)^{\sum_{k=1}^{(q-1)/2}\floor{kp/q}},
+ \qquad
+ \legendre qp=(-1)^{\sum_{j=1}^{(p-1)/2}\floor{jq/p}}.
+\]
+In the rectangle
+$1\le x\le(q-1)/2$, $1\le y\le(p-1)/2$, no lattice point lies on the line $qy=px$, because $p$ and $q$ are distinct primes.  The first floor sum counts lattice points on one side of the line and the second counts those on the other.  Their sum is therefore
+$((p-1)/2)((q-1)/2)$, proving the identity.
+\end{proof}
+
+\begin{notecorollary}[5.8]
+For distinct odd primes $p,q$,
+\[
+ \legendre pq=
+ \begin{cases}
+ -\legendre qp,&p\equiv q\equiv3\pmod4,\\
+ \phantom{-}\legendre qp,&\text{otherwise}.
+ \end{cases}
+\]
+\end{notecorollary}
+
+\begin{notetheorem}[5.9]
+Let $p$ be an odd prime, $k\ge1$, and $\gcd(a,p)=1$.  The congruence
+\[
+ x^2\equiv a\pmod{p^k}
+\]
+has a solution if and only if $\legendre ap=1$.
+\end{notetheorem}
+\begin{proof}
+A solution modulo $p^k$ reduces to a solution modulo $p$, proving necessity.  Conversely, a root $x_1$ modulo $p$ satisfies
+$f'(x_1)=2x_1\not\equiv0\pmod p$ for $f(x)=x^2-a$.  Hensel's lemma lifts it uniquely through every power of $p$.
+\end{proof}
+
+\begin{notetheorem}[5.10]
+Let $a$ be odd and $k\ge3$.  The congruence
+\[
+ x^2\equiv a\pmod{2^k}
+\]
+has a solution if and only if
+\[
+ a\equiv1\pmod8.
+\]
+\end{notetheorem}
+\begin{proof}
+Every odd square is $1$ modulo $8$, proving necessity.  For sufficiency, induct on $k$.  The case $k=3$ is immediate.  Suppose $x_0^2\equiv a\pmod{2^k}$ with $x_0$ odd.  The two candidates
+\[
+ x_0\quad\text{and}\quad x_0+2^{k-1}
+\]
+have squares congruent modulo $2^k$ and differ modulo $2^{k+1}$ by
+$x_0 2^k\equiv2^k\pmod{2^{k+1}}$.  Exactly one therefore has square congruent to $a$ modulo $2^{k+1}$.
+\end{proof}
+
+\section{Jacobi symbols}
+
+\begin{notedefinition}[5.3]
+Let $n$ be a positive odd integer with prime factorization
+$n=p_1^{\alpha_1}\cdots p_r^{\alpha_r}$.  The Jacobi symbol is
+\[
+ \jacobi an=\prod_{i=1}^r\legendre a{p_i}^{\alpha_i},
+ \qquad
+ \jacobi a1=1.
+\]
+\end{notedefinition}
+\begin{noteremark}
+For prime denominator the Jacobi symbol is the Legendre symbol.  For composite denominator, the value $1$ does not guarantee that $a$ is a square modulo $n$; for example, $\jacobi2{15}=1$, but $x^2\equiv2\pmod{15}$ has no solution.
+\end{noteremark}
+
+\begin{notetheorem}[5.11]
+Let $n$ be odd and $\gcd(a,n)=1$.  If $x^2\equiv a\pmod n$ is solvable, then
+\[
+ \jacobi an=1.
+\]
+\end{notetheorem}
+\begin{proof}
+A solution modulo $n$ is a solution modulo every prime divisor $p_i$, so each Legendre symbol is $1$.
+\end{proof}
+
+\begin{notetheorem}[5.12]
+For positive odd $n$ and integers $a,b$:
+\begin{enumerate}[label=(\alph*)]
+\item if $a\equiv b\pmod n$, then $\jacobi an=\jacobi bn$;
+\item $\jacobi{ab}n=\jacobi an\jacobi bn$;
+\item $\jacobi{-1}n=(-1)^{(n-1)/2}$;
+\item $\jacobi2n=(-1)^{(n^2-1)/8}$.
+\end{enumerate}
+\end{notetheorem}
+\begin{proof}
+Parts (a) and (b) follow prime factor by prime factor.  Parts (c) and (d) follow by multiplying the corresponding supplementary laws and using the parity identities in Lemma 5.13.
+\end{proof}
+
+\begin{notelemma}[5.13]
+For odd integers $a,b$,
+\begin{align*}
+ \frac{a-1}{2}+\frac{b-1}{2}
+ &\equiv\frac{ab-1}{2}\pmod2,\\
+ \frac{a^2-1}{8}+\frac{b^2-1}{8}
+ &\equiv\frac{a^2b^2-1}{8}\pmod2.
+\end{align*}
+\end{notelemma}
+\begin{proof}
+The differences are $(a-1)(b-1)/2$ and
+$(a^2-1)(b^2-1)/8$, respectively, and both are even for odd $a,b$.
+\end{proof}
+
+\begin{notetheorem}[5.14 (quadratic reciprocity for Jacobi symbols)]
+If $m,n$ are coprime positive odd integers, then
+\[
+ \jacobi mn\jacobi nm
+ =(-1)^{\frac{m-1}{2}\frac{n-1}{2}}.
+\]
+Equivalently, the symbols change sign exactly when $m\equiv n\equiv3\pmod4$.
+\end{notetheorem}
+\begin{proof}
+Factor $m$ and $n$ into primes, apply prime quadratic reciprocity to every pair, and collect the signs.  Lemma 5.13 combines the resulting exponents into the displayed one.
+\end{proof}
+
+\begin{noteremark}[(computing symbols)]
+Repeated use of numerator reduction, multiplicativity, the two supplementary laws, and reciprocity computes Jacobi and Legendre symbols without factoring the numerator.  Euler's criterion, however, does not extend from Legendre to Jacobi symbols: for example,
+$2^{170}\equiv1\pmod{341}$ while $\jacobi2{341}=-1$.
+\end{noteremark}
+
+\section{The Solovay--Strassen primality test}
+
+\begin{noteapplication}[5.1]
+For odd $n>2$, choose a random $b\in\{2,\ldots,n-1\}$.  If
+$\gcd(b,n)>1$, return ``composite.''  Otherwise compute the Jacobi symbol and test
+\[
+ b^{(n-1)/2}\equiv\jacobi bn\pmod n.
+\]
+Failure proves that $n$ is composite; repeated success gives ``probably prime.''
+\end{noteapplication}
+
+\begin{notelemma}[5.16]
+If $n$ is a positive odd integer that is not a perfect square, then there exists a unit $b$ modulo $n$ such that
+\[
+ \jacobi bn=-1.
+\]
+\end{notelemma}
+\begin{proof}
+Write $n=\prod p_i^{\alpha_i}$ and choose an index $j$ for which $\alpha_j$ is odd.  Choose a quadratic nonresidue $b_0$ modulo $p_j$, and use the Chinese remainder theorem to choose $b$ satisfying
+\[
+ b\equiv b_0\pmod{p_j},
+ \qquad
+ b\equiv1\pmod{p_i}\quad(i\ne j).
+\]
+Then $b$ is a unit and its Jacobi symbol is $(-1)^{\alpha_j}=-1$.
+\end{proof}
+
+\begin{notelemma}[5.17]
+If $n$ is odd and composite, then some unit $b$ satisfies
+\[
+ b^{(n-1)/2}\not\equiv\jacobi bn\pmod n.
+\]
+\end{notelemma}
+\begin{proof}
+Assume the congruence holds for every unit.  Squaring it gives
+$b^{n-1}\equiv1\pmod n$ for every unit, so $n$ is a Carmichael number.
+
+First, $n$ must be squarefree.  If $p^2\mid n$, choose by the Chinese remainder theorem a unit $b$ whose reduction modulo $p^2$ is a primitive root and whose reductions at the other prime-power factors are $1$.  Then
+$b^{n-1}\equiv1\pmod{p^2}$ forces $p(p-1)\mid n-1$, hence $p\mid n-1$, contradicting $p\mid n$.
+
+Thus $n=q_1\cdots q_r$ with $r\ge2$.  For each $q_i$, use the Chinese remainder theorem to choose a unit that is primitive modulo $q_i$ and congruent to $1$ modulo the other prime factors.  The Carmichael congruence then implies
+$q_i-1\mid n-1$.
+
+By Lemma 5.16 choose $c$ with $\jacobi cn=-1$.  Our assumption gives
+$c^{(n-1)/2}\equiv-1\pmod n$.  Consequently, for every $q_i$, the integer quotient $(n-1)/(q_i-1)$ must be odd; otherwise Fermat's theorem would give $c^{(n-1)/2}\equiv1\pmod{q_i}$.
+
+Choose a primitive root $g$ modulo $q_1$ and use the Chinese remainder theorem to choose $b$ with
+$b\equiv g\pmod{q_1}$ and $b\equiv1\pmod{q_i}$ for $i>1$.  A primitive root is a quadratic nonresidue, so $\jacobi bn=-1$.  Because $(n-1)/(q_1-1)$ is odd,
+$b^{(n-1)/2}\equiv-1\pmod{q_1}$, while it is $1$ modulo every other $q_i$.  Hence it is not congruent to $-1$ modulo $n$, contradicting the assumed Euler congruence.
+\end{proof}
+
+\begin{notetheorem}[5.15]
+Let $n$ be odd and composite.  Among the $\totient(n)$ units modulo $n$, at most $\totient(n)/2$ are Euler liars for the Solovay--Strassen test.
+\end{notetheorem}
+\begin{proof}
+On the unit group define
+\[
+ \Psi(b)=\jacobi bn\, b^{-(n-1)/2}\pmod n.
+\]
+Multiplicativity of the Jacobi symbol makes $\Psi$ a group homomorphism.  Its kernel is exactly the set of Euler liars.  Lemma 5.17 says that $\Psi$ is nontrivial, so its kernel has index at least $2$ and therefore size at most $\totient(n)/2$.
+\end{proof}

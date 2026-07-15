@@ -1,0 +1,349 @@
+\chapter{Primitive Roots}
+
+\begin{notedefinition}[4.1]
+Let $m\ge1$ and $\gcd(a,m)=1$.  The order of $a$ modulo $m$, denoted $\ord_m(a)$, is the least positive integer $k$ such that
+\[
+ a^k\equiv1\pmod m.
+\]
+Euler's theorem guarantees that such a $k$ exists.
+\end{notedefinition}
+
+\begin{notetheorem}[4.1]
+Let $k=\ord_m(a)$.  For $h\in\N$,
+\[
+ a^h\equiv1\pmod m\quad\Longleftrightarrow\quad k\mid h.
+\]
+\end{notetheorem}
+\begin{proof}
+Write $h=qk+r$ with $0\le r<k$.  Then
+$a^h\equiv a^r\pmod m$.  If $a^h\equiv1$, minimality of $k$ forces $r=0$.  The converse is immediate.
+\end{proof}
+
+\begin{notecorollary}[4.2]
+If $\gcd(a,m)=1$, then
+\[
+ \ord_m(a)\mid\totient(m).
+\]
+\end{notecorollary}
+
+\begin{notetheorem}[4.3]
+If $\gcd(a,m)=1$, then for integers $i,j$,
+\[
+ a^i\equiv a^j\pmod m
+ \quad\Longleftrightarrow\quad
+ i\equiv j\pmod{\ord_m(a)}.
+\]
+\end{notetheorem}
+\begin{proof}
+Because $a$ is invertible modulo $m$, the first congruence is equivalent to
+$a^{i-j}\equiv1\pmod m$.  Apply Theorem 4.1.
+\end{proof}
+
+\begin{notecorollary}[4.4]
+If $k=\ord_m(a)$, then $a,a^2,\ldots,a^k$ are pairwise incongruent modulo $m$.
+\end{notecorollary}
+
+\begin{notetheorem}[4.5]
+If $k=\ord_m(a)$ and $h\in\N$, then
+\[
+ \ord_m(a^h)=\frac{k}{\gcd(h,k)}.
+\]
+\end{notetheorem}
+\begin{proof}
+Put $d=\gcd(h,k)$, $h=dh_1$, and $k=dk_1$ with $\gcd(h_1,k_1)=1$.  Then
+$(a^h)^{k_1}=a^{hk_1}=a^{h_1k}\equiv1$, so the order divides $k_1$.
+If $(a^h)^t\equiv1$, then $k\mid ht$, hence $k_1\mid h_1t$.  Coprimality gives $k_1\mid t$, so $k_1$ is the order.
+\end{proof}
+
+\begin{notedefinition}[4.2]
+A primitive root modulo $m$ is an integer $g$ satisfying
+\[
+ \ord_m(g)=\totient(m).
+\]
+\end{notedefinition}
+
+\begin{notetheorem}[4.6]
+If $g$ is a primitive root modulo $m$, then
+\[
+ g,g^2,\ldots,g^{\totient(m)}
+\]
+is a reduced residue system modulo $m$.
+\end{notetheorem}
+\begin{proof}
+Every power is a unit, and Corollary 4.4 shows that the $\totient(m)$ powers are incongruent.  They therefore represent all unit classes.
+\end{proof}
+
+\begin{notetheorem}[4.7]
+If $m$ has a primitive root, then it has exactly
+\[
+ \totient(\totient(m))
+\]
+incongruent primitive roots modulo $m$.
+\end{notetheorem}
+\begin{proof}
+Let $g$ be a primitive root.  Every unit is $g^k$ for a unique $1\le k\le\totient(m)$.  By Theorem 4.5,
+\[
+ \ord_m(g^k)=\frac{\totient(m)}{\gcd(k,\totient(m))},
+\]
+which equals $\totient(m)$ exactly when $\gcd(k,\totient(m))=1$.
+\end{proof}
+
+\section{Roots of polynomial congruences}
+
+\begin{notetheorem}[4.8 (Lagrange's root bound)]
+Let $p$ be prime and
+\[
+ f(x)=a_nx^n+\cdots+a_0\in\Z[x],
+ \qquad p\nmid a_n.
+\]
+Then $f(x)\equiv0\pmod p$ has at most $n$ incongruent solutions modulo $p$.
+\end{notetheorem}
+\begin{proof}
+Induct on $n$.  If $f$ has no root, there is nothing to prove.  If $x_0$ is a root, polynomial division in $\mathbb{F}_p[x]$ gives
+\[
+ f(x)=(x-x_0)g(x)
+\]
+with $\deg g=n-1$.  Every root of $f$ is either $x_0$ or a root of $g$, so the induction hypothesis gives at most $1+(n-1)=n$ roots.
+\end{proof}
+
+\begin{notecorollary}[4.9]
+If a polynomial of degree at most $n$ has more than $n$ roots modulo a prime $p$, then all its coefficients are divisible by $p$.
+\end{notecorollary}
+
+\begin{notetheorem}[4.10]
+Let $p$ be prime and $d\mid p-1$.  Then
+\[
+ x^d\equiv1\pmod p
+\]
+has exactly $d$ incongruent solutions.
+\end{notetheorem}
+\begin{proof}
+Write $p-1=dt$.  For every nonzero residue $x$,
+\[
+ x^{p-1}-1=(x^d-1)(1+x^d+\cdots+x^{d(t-1)})\equiv0\pmod p.
+\]
+The second factor has degree $d(t-1)=p-1-d$, so Theorem 4.8 gives it at most $p-1-d$ roots.  Among the $p-1$ nonzero residues, at least $d$ are therefore roots of $x^d-1$.  Theorem 4.8 gives the opposite bound, so there are exactly $d$.
+\end{proof}
+
+\begin{notetheorem}[4.11]
+If $p$ is prime and $d\mid p-1$, then exactly $\totient(d)$ incongruent residues have order $d$ modulo $p$.
+\end{notetheorem}
+\begin{proof}
+Let $N_d$ be the number of residues of order $d$.  Every nonzero residue has order dividing $p-1$, so
+\[
+ \sum_{d\mid p-1}N_d=p-1.
+\]
+If $N_d>0$, choose $a$ of order $d$.  The $d$ roots of $x^d\equiv1$ are exactly
+$a,a^2,\ldots,a^d$ by Theorem 4.10, and $a^j$ has order $d$ exactly when $\gcd(j,d)=1$.  Hence $N_d=\totient(d)$ whenever $N_d>0$.
+Since Gauss's identity gives $\sum_{d\mid p-1}\totient(d)=p-1$, no $N_d$ can be zero, and the result follows.
+\end{proof}
+
+\begin{notecorollary}[4.12]
+Every prime $p$ has primitive roots, and exactly $\totient(p-1)$ incongruent residues are primitive roots modulo $p$.
+\end{notecorollary}
+
+\begin{noteremark}[(finding a primitive root modulo a prime)]
+Factor $p-1=q_1^{e_1}\cdots q_r^{e_r}$.  A unit $a$ is primitive modulo $p$ exactly when
+\[
+ a^{(p-1)/q_i}\not\equiv1\pmod p
+ \qquad(1\le i\le r).
+\]
+Testing random candidates therefore requires the distinct prime divisors of $p-1$.
+\end{noteremark}
+
+\section{Lifting primitive roots}
+
+\begin{notetheorem}[4.12A]
+If $p$ is prime and $g$ is a primitive root modulo $p$, then at least one of $g$ and $g+p$ is a primitive root modulo $p^2$.
+\end{notetheorem}
+\begin{proof}
+The case $p=2$ is immediate.  Let $p$ be odd.  The order of $g$ modulo $p^2$ is a multiple of $p-1$ and divides $p(p-1)$, so it is either $p-1$ or $p(p-1)$.  If $g$ is not primitive modulo $p^2$, then
+$g^{p-1}\equiv1\pmod{p^2}$.  The binomial theorem gives
+\[
+ (g+p)^{p-1}
+ \equiv g^{p-1}+(p-1)pg^{p-2}
+ \equiv1-pg^{p-2}\not\equiv1\pmod{p^2}.
+\]
+Thus $g+p$ has order $p(p-1)$.
+\end{proof}
+
+For a prime $p$ and nonzero integer $N$, let $v_p(N)$ be the exponent of $p$ in the prime factorization of $N$.
+
+\begin{notelemma}[(A lifting valuation)]
+If $p$ is odd and $p\mid u-1$, then
+\[
+ v_p(u^p-1)=v_p(u-1)+1.
+\]
+\end{notelemma}
+\begin{proof}
+Write $u=1+p^t c$ with $p\nmid c$.  In the binomial expansion of $u^p-1$, the first term is $p^{t+1}c$, while every remaining term is divisible by $p^{t+2}$.
+\end{proof}
+
+\begin{notetheorem}[4.13]
+Let $p$ be an odd prime.  If $g$ is a primitive root modulo $p^2$, then $g$ is a primitive root modulo $p^k$ for every $k\ge2$.
+\end{notetheorem}
+\begin{proof}
+Proceed by induction on $k$.  The case $k=2$ is the hypothesis.  Since $g$ is primitive modulo $p^2$,
+\[
+ v_p(g^{p-1}-1)=1.
+\]
+Repeated application of the lifting valuation gives
+\[
+ v_p\left(g^{p^{k-2}(p-1)}-1\right)=k-1.
+\]
+Assume the result modulo $p^{k-1}$.  Then $\ord_{p^k}(g)$ is a multiple of
+$\ord_{p^{k-1}}(g)=p^{k-2}(p-1)$ and divides
+$\totient(p^k)=p^{k-1}(p-1)$.  If it were the smaller value, then $p^k$ would divide the displayed difference, contradicting its valuation.  Hence the order is $p^{k-1}(p-1)$.
+\end{proof}
+
+\begin{notetheorem}[4.14]
+Let $p$ be an odd prime and let $g$ be a primitive root modulo $p^k$.  If $g$ is odd, then $g$ is a primitive root modulo $2p^k$.  If $g$ is even, then $g+p^k$ is a primitive root modulo $2p^k$.
+\end{notetheorem}
+\begin{proof}
+An odd $g$ has order $1$ modulo $2$ and order $\totient(p^k)$ modulo $p^k$.  By the Chinese remainder theorem, its order modulo $2p^k$ is their least common multiple, namely
+$\totient(p^k)=\totient(2p^k)$.  If $g$ is even, then $g+p^k$ is odd and congruent to $g$ modulo $p^k$, so the first case applies.
+\end{proof}
+
+\begin{notetheorem}[4.15]
+If $k\ge3$ and $b$ is odd, then
+\[
+ b^{2^{k-2}}\equiv1\pmod{2^k}.
+\]
+Consequently, $2^k$ has no primitive roots for $k\ge3$.
+\end{notetheorem}
+\begin{proof}
+For $k=3$, every odd square is $1$ modulo $8$.  If
+$b^{2^{k-3}}=1+c2^{k-1}$, then squaring gives
+\[
+ b^{2^{k-2}}\equiv1+2c2^{k-1}\equiv1\pmod{2^k}.
+\]
+The exponent is $\totient(2^k)/2$, so no unit can have order $\totient(2^k)$.
+\end{proof}
+
+\begin{notetheorem}[4.16]
+If $m_1,m_2\ge3$ are coprime, then $m_1m_2$ has no primitive roots.
+\end{notetheorem}
+\begin{proof}
+For every unit $a$ modulo $m_1m_2$, Euler's theorem gives
+$a^{\totient(m_i)}\equiv1\pmod{m_i}$.  Since both totients are even,
+\[
+ \frac{\totient(m_1m_2)}2
+ =\frac{\totient(m_1)\totient(m_2)}2
+\]
+is a multiple of each $\totient(m_i)$.  Hence
+$a^{\totient(m_1m_2)/2}\equiv1$ modulo both $m_1$ and $m_2$, and therefore modulo their product.  No unit has full order.
+\end{proof}
+
+\begin{notetheorem}[4.17 (classification of primitive-root moduli)]
+An integer $m\ge2$ has a primitive root if and only if
+\[
+ m=2,\quad 4,\quad p^k,\quad\text{or}\quad2p^k,
+\]
+where $p$ is an odd prime and $k\in\N$.
+\end{notetheorem}
+\begin{proof}
+The moduli $2$ and $4$ are immediate.  Corollary 4.12, Theorems 4.12A and 4.13 produce primitive roots modulo every odd prime power, and Theorem 4.14 produces them modulo twice an odd prime power.
+
+Conversely, write $m=2^\alpha n$ with $n$ odd.  If $n$ contains two distinct prime-power factors, split $m$ into two coprime factors, each at least $3$, and apply Theorem 4.16.  Thus $n=1$ or $n=p^k$.
+
+If $\alpha\ge3$, every unit $a$ satisfies
+$a^{2^{\alpha-2}}\equiv1\pmod{2^\alpha}$ by Theorem 4.15 and
+$a^{\totient(n)}\equiv1\pmod n$ by Euler's theorem.  Hence
+\[
+ a^{\totient(m)/2}=a^{2^{\alpha-2}\totient(n)}\equiv1\pmod m,
+\]
+so no primitive root exists.  Finally, if $\alpha=2$ and $n=p^k>1$, the modulus is $4p^k$ and Theorem 4.16 applies to the coprime factors $4$ and $p^k$.  The only remaining forms are those listed.
+\end{proof}
+
+\section{Indices and power congruences}
+
+\begin{notedefinition}[4.3]
+Suppose $m$ has primitive root $g$ and $\gcd(a,m)=1$.  The unique integer $k$ with
+$1\le k\le\totient(m)$ and
+\[
+ g^k\equiv a\pmod m
+\]
+is the index, or discrete logarithm, of $a$ to the base $g$, denoted $\operatorname{ind}_g(a)$.
+\end{notedefinition}
+
+\begin{notetheorem}[4.18]
+For units $a,b$ modulo $m$ and $t\in\Nzero$,
+\begin{align*}
+ \operatorname{ind}_g(1)&\equiv0\pmod{\totient(m)},\\
+ \operatorname{ind}_g(ab)&\equiv\operatorname{ind}_g(a)+\operatorname{ind}_g(b)\pmod{\totient(m)},\\
+ \operatorname{ind}_g(a^t)&\equiv t\operatorname{ind}_g(a)\pmod{\totient(m)}.
+\end{align*}
+\end{notetheorem}
+
+\begin{notetheorem}[4.19]
+Let $m$ have a primitive root, let $\gcd(a,m)=1$, let $k\in\N$, and put
+\[
+ d=\gcd(k,\totient(m)).
+\]
+Then
+\[
+ x^k\equiv a\pmod m
+\]
+has a solution if and only if
+\[
+ a^{\totient(m)/d}\equiv1\pmod m.
+\]
+When solvable, it has exactly $d$ incongruent solutions modulo $m$.
+\end{notetheorem}
+\begin{proof}
+Any solution $x$ is a unit modulo $m$, because $x^k\equiv a$ and $a$ is a unit.  Write $a\equiv g^\ell$ and $x\equiv g^b$.  The congruence is equivalent to
+\[
+ kb\equiv\ell\pmod{\totient(m)}.
+\]
+By Theorem 2.4, this has a solution exactly when $d\mid\ell$, and then it has exactly $d$ solutions for $b$ modulo $\totient(m)$.  Also,
+\[
+ a^{\totient(m)/d}\equiv1
+ \quad\Longleftrightarrow\quad
+ \totient(m)\mid \ell\frac{\totient(m)}d
+ \quad\Longleftrightarrow\quad d\mid\ell.
+\]
+The correspondence $b\mapsto g^b$ preserves distinct classes, completing the proof.
+\end{proof}
+
+\section{Applications to cryptography}
+
+\begin{notedefinition}
+Cryptography studies methods for secure communication in the presence of an adversary.  A plaintext $M$ is converted by an encryption map $E$ to a ciphertext $C=E(M)$; a decryption map $D$ should satisfy $D(C)=M$ for the intended recipient.
+\end{notedefinition}
+
+\begin{noteapplication}[4.1 (Caesar cipher)]
+Encode letters as $0,1,\ldots,25$.  For a key $k$, encrypt and decrypt componentwise by
+\[
+ b_i\equiv a_i+k\pmod{26},
+ \qquad
+ a_i\equiv b_i-k\pmod{26}.
+\]
+This symmetric-key cipher is insecure because the key space is tiny and letter frequencies are preserved.
+\end{noteapplication}
+
+\begin{noteapplication}[4.2 (Diffie--Hellman key exchange)]
+Publicly choose a large prime $p$ and a primitive root $g$ modulo $p$.  Alice chooses secret $a$, publishes $A=g^a\bmod p$; Bob chooses secret $b$, publishes $B=g^b\bmod p$.  They independently compute
+\[
+ B^a\equiv A^b\equiv g^{ab}\pmod p.
+\]
+Security rests on the practical difficulty of the discrete logarithm problem for suitable parameters.
+\end{noteapplication}
+
+\begin{noteapplication}[4.3 (RSA)]
+Choose distinct large primes $p,q$, set $n=pq$, and choose $e$ with
+$\gcd(e,\totient(n))=1$.  Let $d$ satisfy
+\[
+ ed\equiv1\pmod{\totient(n)}.
+\]
+The public key is $(n,e)$ and the private exponent is $d$.  For a message representative $0\le M<n$,
+\[
+ C\equiv M^e\pmod n,
+ \qquad
+ M\equiv C^d\pmod n.
+\]
+Indeed, write $ed=1+k\totient(n)$.  Modulo $p$, either $p\mid M$, in which case both $M^{ed}$ and $M$ are $0$, or Fermat's theorem gives
+$M^{ed}=M(M^{p-1})^{k(q-1)}\equiv M$.  The same argument holds modulo $q$, so the Chinese remainder theorem gives $M^{ed}\equiv M\pmod n$ for every $M$, without requiring $\gcd(M,n)=1$.
+
+For real systems, messages are encoded with randomized padding rather than textbook exponentiation.  For a semiprime $n=pq$, knowing $\totient(n)$ reveals
+$p+q=n+1-\totient(n)$ and hence factors $n$ by solving a quadratic; factoring also immediately gives $\totient(n)$.
+\end{noteapplication}

@@ -1,0 +1,380 @@
+\chapter{Theory of Congruences}
+
+\begin{notedefinition}[2.1]
+Let $a,b,m\in\Z$ with $m\ne0$.  We say that $a$ is congruent to $b$ modulo $m$, and write
+\[
+ a\equiv b\pmod m,
+\]
+if $m\mid(a-b)$.  The integer $m$ is the modulus.
+\end{notedefinition}
+
+\begin{notetheorem}[2.1]
+Congruence modulo $m$ is an equivalence relation: for all integers $a,b,c$,
+\[
+ a\equiv a\pmod m,
+\]
+$a\equiv b\pmod m$ implies $b\equiv a\pmod m$, and
+$a\equiv b\pmod m$, $b\equiv c\pmod m$ imply $a\equiv c\pmod m$.
+\end{notetheorem}
+
+\begin{notetheorem}[2.2]
+If $a\equiv b\pmod m$ and $c\equiv d\pmod m$, then
+\[
+ a+c\equiv b+d\pmod m,
+ \qquad
+ ac\equiv bd\pmod m.
+\]
+\end{notetheorem}
+
+\begin{notetheorem}[2.3 (cancellation)]
+Let $d=\gcd(c,m)$, with $m\ne0$.  Then
+\[
+ ca\equiv cb\pmod m
+ \quad\Longleftrightarrow\quad
+ a\equiv b\pmod{m/d}.
+\]
+\end{notetheorem}
+\begin{proof}
+The left side is $m\mid c(a-b)$.  Dividing by $d$ gives
+\[
+ \frac md\mid \frac cd(a-b).
+\]
+Because $\gcd(c/d,m/d)=1$, Euclid's lemma permits cancellation of $c/d$, giving $(m/d)\mid(a-b)$.  The reverse implication is immediate.
+\end{proof}
+
+\begin{notecorollary}[2.4]
+If $\gcd(c,m)=1$, then
+\[
+ ca\equiv cb\pmod m\quad\Longleftrightarrow\quad a\equiv b\pmod m.
+\]
+\end{notecorollary}
+
+\begin{notedefinition}[2.2]
+A set $\{x_1,\ldots,x_m\}$ of integers is a complete residue system modulo $m\ge1$ if no two elements are congruent modulo $m$.
+\end{notedefinition}
+
+\begin{notedefinition}[2.3]
+A congruence
+\[
+ ax\equiv b\pmod m
+\]
+with unknown $x$ is a linear congruence in one variable.  A solution means a congruence class modulo $m$.
+\end{notedefinition}
+
+\begin{notetheorem}[2.4 (linear congruences)]
+Let $m\ge1$ and $d=\gcd(a,m)$.  The congruence
+\[
+ ax\equiv b\pmod m
+\]
+has a solution if and only if $d\mid b$.  When it is solvable, it has exactly $d$ incongruent solutions modulo $m$.
+\end{notetheorem}
+\begin{proof}
+The congruence is equivalent to the Diophantine equation
+\[
+ ax-my=b.
+\]
+By Theorem 1.13 this equation is solvable exactly when $d\mid b$.
+
+Fix one solution $x_0$.  The integer solutions have
+\[
+ x=x_0+t\frac md,\qquad t\in\Z.
+\]
+Modulo $m$, the values $t=0,1,\ldots,d-1$ are pairwise incongruent, and every other value of $t$ is congruent to one of them.  Hence there are exactly $d$ solution classes.
+\end{proof}
+
+\begin{notedefinition}[2.4]
+If $\gcd(a,m)=1$, Theorem 2.4 gives a unique $x\pmod m$ satisfying $ax\equiv1\pmod m$.  This class is the inverse of $a$ modulo $m$ and is denoted $a^{-1}$.
+\end{notedefinition}
+
+\begin{notetheorem}[2.5 (Chinese remainder theorem)]
+Let $m_1,\ldots,m_r$ be pairwise coprime positive integers and let $a_1,\ldots,a_r\in\Z$.  The system
+\[
+ x\equiv a_i\pmod{m_i},\qquad 1\le i\le r,
+\]
+has a solution, unique modulo $M=m_1\cdots m_r$.
+\end{notetheorem}
+
+\begin{notelemma}[2.6]
+If $m_1,\ldots,m_r$ are pairwise coprime and $x\equiv y\pmod{m_i}$ for every $i$, then
+\[
+ x\equiv y\pmod{m_1\cdots m_r}.
+\]
+\end{notelemma}
+\begin{proof}
+Induct on $r$.  If $m_1\cdots m_{r-1}\mid x-y$ and $m_r\mid x-y$, pairwise coprimality gives
+$\gcd(m_1\cdots m_{r-1},m_r)=1$, so their product divides $x-y$.
+\end{proof}
+
+\begin{proof}[Proof of the Chinese remainder theorem]
+Set $M_i=M/m_i$.  Since $\gcd(M_i,m_i)=1$, choose $u_i$ with
+\[
+ M_i u_i\equiv1\pmod{m_i}.
+\]
+Then
+\[
+ x_0=\sum_{i=1}^r a_iM_i u_i
+\]
+satisfies every congruence: modulo $m_j$, all terms vanish except the $j$th, which is congruent to $a_j$.  If $x$ and $y$ are two solutions, Lemma 2.6 gives $x\equiv y\pmod M$.
+\end{proof}
+
+\begin{notetheorem}[2.7 (Fermat's little theorem)]
+If $p$ is prime and $p\nmid a$, then
+\[
+ a^{p-1}\equiv1\pmod p.
+\]
+Equivalently, for every integer $a$,
+\[
+ a^p\equiv a\pmod p.
+\]
+\end{notetheorem}
+
+\begin{notedefinition}[2.5]
+Euler's totient function is
+\[
+ \totient(m)=\abs*{\{1\le k\le m:\gcd(k,m)=1\}}.
+\]
+\end{notedefinition}
+
+\begin{notedefinition}[2.6]
+A set $\{x_1,\ldots,x_{\totient(m)}\}$ is a reduced residue system modulo $m$ if each $x_i$ is coprime to $m$ and no two are congruent modulo $m$.
+\end{notedefinition}
+
+\begin{noteremark}
+If $a\equiv a'\pmod m$, then $\gcd(a,m)=\gcd(a',m)$.  Thus a reduced residue system is obtained by choosing one representative from every invertible congruence class modulo $m$.
+\end{noteremark}
+
+\begin{notelemma}[2.9]
+If $\gcd(a,m)=1$ and $x_1,\ldots,x_{\totient(m)}$ is a reduced residue system modulo $m$, then
+\[
+ ax_1,\ldots,ax_{\totient(m)}
+\]
+is also a reduced residue system modulo $m$.
+\end{notelemma}
+\begin{proof}
+Each product is coprime to $m$.  If $ax_i\equiv ax_j\pmod m$, cancellation gives $x_i\equiv x_j\pmod m$, hence $i=j$.
+\end{proof}
+
+\begin{notetheorem}[2.8 (Euler's theorem)]
+If $\gcd(a,m)=1$, then
+\[
+ a^{\totient(m)}\equiv1\pmod m.
+\]
+\end{notetheorem}
+\begin{proof}
+Let $x_1,\ldots,x_{\totient(m)}$ be a reduced residue system.  By Lemma 2.9, the two products
+\[
+ x_1\cdots x_{\totient(m)}
+ \quad\text{and}\quad
+ (ax_1)\cdots(ax_{\totient(m)})
+\]
+are congruent modulo $m$.  Their common factor $x_1\cdots x_{\totient(m)}$ is invertible modulo $m$, so cancellation gives the result.
+\end{proof}
+
+\begin{proof}[Proof of Theorem 2.7]
+For prime $p$, $\totient(p)=p-1$, so the first assertion is Euler's theorem.  If $p\mid a$, then $a^p\equiv a\equiv0\pmod p$; otherwise multiply $a^{p-1}\equiv1$ by $a$.
+\end{proof}
+
+\begin{notetheorem}[2.10 (Freshman's dream modulo a prime)]
+For integers $x,y$ and prime $p$,
+\[
+ (x+y)^p\equiv x^p+y^p\pmod p.
+\]
+\end{notetheorem}
+\begin{proof}
+By Fermat's little theorem, $(x+y)^p\equiv x+y$, $x^p\equiv x$, and $y^p\equiv y$ modulo $p$.
+\end{proof}
+
+\begin{notelemma}[2.12]
+If $p$ is prime, then
+\[
+ x^2\equiv1\pmod p
+ \quad\Longleftrightarrow\quad
+ x\equiv\pm1\pmod p.
+\]
+\end{notelemma}
+\begin{proof}
+The congruence is equivalent to $p\mid(x-1)(x+1)$, so primality gives the two possibilities.
+\end{proof}
+
+\begin{notetheorem}[2.11 (Wilson's theorem)]
+If $p$ is prime, then
+\[
+ (p-1)!\equiv-1\pmod p.
+\]
+\end{notetheorem}
+\begin{proof}
+The case $p=2$ is immediate.  For odd $p$, pair every element of the reduced residue system $1,2,\ldots,p-1$ with its inverse.  By Lemma 2.12, the only self-inverse classes are $1$ and $-1$.  Every other pair contributes $1$, so the product is $-1$ modulo $p$.
+\end{proof}
+
+\begin{notetheorem}[2.13 (converse to Wilson)]
+Let $n\ge2$.  If
+\[
+ (n-1)!\equiv-1\pmod n,
+\]
+then $n$ is prime.
+\end{notetheorem}
+\begin{proof}
+Suppose $n$ is composite.  The case $n=4$ gives $(n-1)!=6\not\equiv-1\pmod4$.  For $n\ge6$, write $n=ab$ with $2\le a\le b\le n-1$.  If $a<b$, both $a$ and $b$ occur among the factors of $(n-1)!$, so $n\mid(n-1)!$.  If $a=b$, then $n=a^2$ with $a\ge3$; the factors $a$ and $2a$ both occur, so again $a^2\mid(n-1)!$.  Either conclusion contradicts $(n-1)!\equiv-1\pmod n$.
+\end{proof}
+
+\begin{notetheorem}[2.14]
+Let $p$ be prime.  The congruence
+\[
+ x^2\equiv-1\pmod p
+\]
+has a solution if and only if $p=2$ or $p\equiv1\pmod4$.
+\end{notetheorem}
+\begin{proof}
+The case $p=2$ is immediate.  Let $p$ be odd.  If $x^2\equiv-1\pmod p$, then
+\[
+ 1\equiv x^{p-1}=(x^2)^{(p-1)/2}\equiv(-1)^{(p-1)/2}\pmod p,
+\]
+so $(p-1)/2$ is even and $p\equiv1\pmod4$.
+
+Conversely, suppose $p\equiv1\pmod4$ and no solution exists.  Pair each nonzero residue $u$ with $-u^{-1}$.  The absence of a solution to $u^2\equiv-1$ ensures that the two members of a pair are distinct, and each pair has product $-1$.  Hence
+\[
+ (p-1)!\equiv(-1)^{(p-1)/2}\equiv1\pmod p,
+\]
+contradicting Wilson's theorem.
+\end{proof}
+
+\section{Primality tests}
+
+\begin{notedefinition}
+A primality test is an algorithm that determines whether a given positive integer is prime.
+\end{notedefinition}
+
+\begin{noteremark}[(trial division)]
+To test $n>1$ deterministically, it is enough to check divisibility by primes not exceeding $\sqrt n$.  The test is exact but slow for large inputs.
+\end{noteremark}
+
+\begin{noteapplication}[2.1 (Fermat primality test)]
+For an odd input $n$, choose random bases $a\in\{2,\ldots,n-2\}$.  If
+$a^{n-1}\not\equiv1\pmod n$, then $n$ is composite.  If many independent bases pass, return ``probably prime.''
+\end{noteapplication}
+
+\begin{notedefinition}
+Let $n$ be composite and $1\le a<n$.  If $a^{n-1}\equiv1\pmod n$, then $n$ is a Fermat pseudoprime to base $a$, and $a$ is a Fermat liar.  Otherwise $a$ is a Fermat witness.
+\end{notedefinition}
+
+\begin{notedefinition}
+A composite integer $n$ is a Carmichael number if
+\[
+ a^{n-1}\equiv1\pmod n
+\]
+for every $a$ coprime to $n$.
+\end{notedefinition}
+\begin{noteremark}
+Carmichael numbers show that the Fermat test can fail for every coprime base.  Infinitely many Carmichael numbers exist.
+\end{noteremark}
+
+\begin{noteapplication}[2.2 (Miller--Rabin primality test)]
+Let $n>2$ be odd and write
+\[
+ n-1=2^s d,\qquad d\text{ odd}.
+\]
+For a chosen base $a\in\{2,\ldots,n-2\}$:
+\begin{enumerate}
+\item if $\gcd(a,n)>1$, return ``composite'';
+\item compute $x=a^d\bmod n$; if $x\equiv1$ or $x\equiv-1$, the base passes;
+\item otherwise square repeatedly, at most $s-1$ times.  If a square is $-1$, the base passes; if a square is $1$ before $-1$, or no $-1$ occurs, return ``composite.''
+\end{enumerate}
+A base that passes is a strong liar; a base that exposes compositeness is a strong witness.
+\end{noteapplication}
+
+\begin{notetheorem}[2.15 (Rabin's bound)]
+Let $n>4$ be odd and composite.  At most one quarter of the residues $a\in\{1,\ldots,n-1\}$ are strong liars for the Miller--Rabin test.  Thus independent random trials return ``probably prime'' for a composite input with probability at most $4^{-k}$ after $k$ rounds.
+\end{notetheorem}
+\begin{proof}
+Write
+\[
+ n=\prod_{j=1}^r p_j^{e_j},\qquad n-1=2^s d,
+\]
+where $d$ is odd and the $p_j$ are distinct odd primes.  A strong liar must be a unit.  The group
+$G_j=(\Z/p_j^{e_j}\Z)^\times$ is cyclic of order
+\[
+ \totient(p_j^{e_j})=2^{s_j}u_j,
+ \qquad u_j\text{ odd}.
+\]
+Put $h_j=\gcd(d,u_j)$ and
+$\ell=\min(s,s_1,\ldots,s_r)$.  In a cyclic group of order $2^{s_j}u_j$, the equation $x^d=1$ has $h_j$ solutions, while
+$x^{2^i d}=-1$ has $2^i h_j$ solutions exactly when $i<s_j$.  The Chinese remainder theorem therefore gives the exact number
+\[
+ L=\paren*{\prod_{j=1}^r h_j}
+ \left(1+\sum_{i=0}^{\ell-1}2^{ir}\right)
+\]
+of strong liars.
+
+It remains to bound this expression.  If $r\ge3$, then
+\[
+ 1+\sum_{i=0}^{\ell-1}2^{ir}\le 2^{r\ell-2},
+\]
+so $L\le\totient(n)/4\le(n-1)/4$.
+
+Suppose $r=2$.  Here
+\[
+ 1+\sum_{i=0}^{\ell-1}2^{2i}=\frac{4^\ell+2}{3}.
+\]
+If $s_1+s_2\ge2\ell+1$, then
+\[
+ \frac{L}{\totient(n)}
+ \le \frac{4^\ell+2}{3\cdot 2^{2\ell+1}}
+ \le\frac14.
+\]
+The remaining case is $s_1=s_2=\ell$.  Both $h_j$ cannot equal $u_j$: if they did, the exponents $e_j$ would have to be $1$, because $p_j\nmid d$, and the divisibilities $u_1\mid d$ and $u_2\mid d$ would imply $u_1\mid u_2$ and $u_2\mid u_1$, hence $p_1=p_2$, impossible.  Thus one factor $h_j/u_j$ is at most $1/3$, and since $(4^\ell+2)/(3\cdot4^\ell)\le1/2$, we again obtain $L\le\totient(n)/6<(n-1)/4$.
+
+Finally, if $r=1$, then $n=p^e$ with $e\ge2$.  Since $p\nmid n-1$, the factor $p^{e-1}$ in $u_1$ does not divide $h_1$, so
+\[
+ L=h_1 2^\ell\le p-1\le\frac{p^e-1}{4}.
+\]
+This proves the bound in all cases.
+\end{proof}
+
+\section{Hensel lifting}
+
+\begin{notetheorem}[2.16 (Hensel's lemma, simple root)]
+Let $p$ be prime, $k\ge1$, $f\in\Z[x]$, and $a\in\Z$.  Suppose
+\[
+ f(a)\equiv0\pmod{p^k},
+ \qquad
+ f'(a)\not\equiv0\pmod p.
+\]
+Then there is a unique $t\in\{0,1,\ldots,p-1\}$ such that
+\[
+ f(a+tp^k)\equiv0\pmod{p^{k+1}}.
+\]
+\end{notetheorem}
+\begin{proof}
+The binomial theorem gives the first-order congruence
+\[
+ f(a+tp^k)\equiv f(a)+tp^k f'(a)\pmod{p^{k+1}}.
+\]
+After division by $p^k$, the required condition is
+\[
+ t f'(a)\equiv-\frac{f(a)}{p^k}\pmod p.
+\]
+Since $f'(a)$ is invertible modulo $p$, this linear congruence has one solution modulo $p$.
+\end{proof}
+
+\begin{noteremark}
+Every simple root modulo $p^k$ lifts uniquely to a root modulo $p^{k+1}$.
+\end{noteremark}
+
+\begin{notetheorem}[2.17 (singular-root alternatives)]
+Let $p$ be prime, $k\ge1$, $f\in\Z[x]$, and suppose
+\[
+ f(a)\equiv0\pmod{p^k},\qquad f'(a)\equiv0\pmod p.
+\]
+Then:
+\begin{enumerate}[label=(\roman*)]
+\item if $f(a)\equiv0\pmod{p^{k+1}}$, every $a+tp^k$, $t\in\Z$, is a root modulo $p^{k+1}$;
+\item if $f(a)\not\equiv0\pmod{p^{k+1}}$, none of them is a root modulo $p^{k+1}$.
+\end{enumerate}
+\end{notetheorem}
+\begin{proof}
+Again
+\[
+ f(a+tp^k)\equiv f(a)+tp^k f'(a)\equiv f(a)\pmod{p^{k+1}},
+\]
+because $p\mid f'(a)$.
+\end{proof}

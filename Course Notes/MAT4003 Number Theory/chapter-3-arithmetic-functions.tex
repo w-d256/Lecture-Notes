@@ -1,0 +1,400 @@
+\chapter{Arithmetic Functions}
+
+\begin{notedefinition}[3.1]
+An arithmetic function is a function $f:\N\to\C$.
+\end{notedefinition}
+Typical examples are
+\[
+ \tau(n)=\sum_{d\mid n}1,
+ \qquad
+ \sigma(n)=\sum_{d\mid n}d,
+ \qquad
+ \omega(n)=\#\{p:p\mid n,\ p\text{ prime}\},
+\]
+and $\pi(n)$, the number of primes not exceeding $n$.
+
+\begin{notedefinition}[3.2]
+A nonzero arithmetic function $f$ is multiplicative if
+\[
+ f(mn)=f(m)f(n)\qquad\text{whenever }\gcd(m,n)=1.
+\]
+It is completely multiplicative if this equality holds for all $m,n\in\N$.
+\end{notedefinition}
+
+\begin{notetheorem}[3.1]
+If
+\[
+ n=p_1^{\alpha_1}\cdots p_r^{\alpha_r}
+\]
+is the prime factorization of $n$ and $f$ is multiplicative, then
+\[
+ f(n)=\prod_{i=1}^r f(p_i^{\alpha_i}).
+\]
+\end{notetheorem}
+\begin{proof}
+The prime powers are pairwise coprime, so repeated use of multiplicativity gives the formula.
+\end{proof}
+
+\begin{noteremark}
+Every nonzero multiplicative function satisfies $f(1)=1$.  For fixed $k\in\C$, the function $n\mapsto n^k$ is completely multiplicative.  The functions $u(n)=1$ and $r(n)=n$ are the cases $k=0$ and $k=1$.  The prime-counting function $\pi$ is not multiplicative.
+\end{noteremark}
+
+For fixed $k\in\C$, define
+\[
+ \sigma_k(n)=\sum_{d\mid n}d^k.
+\]
+
+\begin{noteproposition}[3.1A]
+The function $\sigma_k$ is multiplicative.
+\end{noteproposition}
+\begin{proof}
+If $\gcd(m,n)=1$, every divisor $d$ of $mn$ has a unique representation $d=d_1d_2$ with $d_1\mid m$ and $d_2\mid n$.  Therefore
+\[
+ \sigma_k(mn)
+ =\sum_{d_1\mid m}\sum_{d_2\mid n}(d_1d_2)^k
+ =\sigma_k(m)\sigma_k(n).
+\]
+\end{proof}
+
+\begin{notetheorem}[3.2]
+If $n=p_1^{\alpha_1}\cdots p_r^{\alpha_r}$, then
+\[
+ \tau(n)=\prod_{i=1}^r(\alpha_i+1),
+ \qquad
+ \sigma(n)=\prod_{i=1}^r\frac{p_i^{\alpha_i+1}-1}{p_i-1}.
+\]
+\end{notetheorem}
+\begin{proof}
+For a prime power,
+\[
+ \tau(p^\alpha)=\alpha+1,
+ \qquad
+ \sigma(p^\alpha)=1+p+\cdots+p^\alpha
+ =\frac{p^{\alpha+1}-1}{p-1}.
+\]
+Now apply Theorem 3.1.
+\end{proof}
+
+\begin{notetheorem}[3.3]
+Euler's totient function is multiplicative.
+\end{notetheorem}
+\begin{proof}
+For coprime $m,n$, the Chinese remainder theorem gives a bijection
+\[
+ (\Z/mn\Z)^\times\longrightarrow
+ (\Z/m\Z)^\times\times(\Z/n\Z)^\times,
+ \qquad [x]_{mn}\longmapsto([x]_m,[x]_n).
+\]
+Taking cardinalities gives $\totient(mn)=\totient(m)\totient(n)$.
+\end{proof}
+
+\begin{notecorollary}[3.4]
+If $n=p_1^{\alpha_1}\cdots p_r^{\alpha_r}$, then
+\[
+ \totient(n)=\prod_{i=1}^r(p_i^{\alpha_i}-p_i^{\alpha_i-1})
+ =n\prod_{i=1}^r\left(1-\frac1{p_i}\right).
+\]
+\end{notecorollary}
+
+\begin{notetheorem}[3.5 (Gauss's totient sum)]
+For every $n\in\N$,
+\[
+ \sum_{d\mid n}\totient(d)=n.
+\]
+\end{notetheorem}
+\begin{proof}
+Partition $\{1,2,\ldots,n\}$ according to the value of $\gcd(x,n)$.  For each divisor $d\mid n$, let
+\[
+ S_d=\{1\le x\le n:\gcd(x,n)=d\}.
+\]
+Writing $x=dy$ gives a bijection from $S_d$ to the reduced residue classes modulo $n/d$, so
+$\abs*{S_d}=\totient(n/d)$.  Hence
+\[
+ n=\sum_{d\mid n}\abs*{S_d}
+ =\sum_{d\mid n}\totient(n/d)
+ =\sum_{d\mid n}\totient(d).
+\]
+\end{proof}
+
+\begin{notedefinition}[3.3]
+A positive integer $n$ is perfect if $\sigma(n)=2n$.
+\end{notedefinition}
+
+\begin{notetheorem}[3.6 (Euclid--Euler theorem)]
+An even positive integer $n$ is perfect if and only if
+\[
+ n=2^{m-1}(2^m-1)
+\]
+for some $m\in\N$ such that $2^m-1$ is prime.
+\end{notetheorem}
+\begin{proof}
+If $2^m-1$ is prime, multiplicativity gives
+\[
+ \sigma\bigl(2^{m-1}(2^m-1)\bigr)
+ =(2^m-1)\cdot 2^m=2n.
+\]
+
+Conversely, write an even perfect number as $n=2^k n_1$, with $n_1$ odd.  Then
+\[
+ (2^{k+1}-1)\sigma(n_1)=2^{k+1}n_1.
+\]
+Since $\gcd(2^{k+1}-1,2^{k+1})=1$, write
+$n_1=(2^{k+1}-1)n_2$.  The preceding equation becomes
+\[
+ \sigma(n_1)=2^{k+1}n_2.
+\]
+If $n_2>1$, then $1,n_2,n_1$ are distinct divisors of $n_1$, so
+\[
+ \sigma(n_1)\ge1+n_2+n_1=1+2^{k+1}n_2,
+\]
+a contradiction.  Hence $n_2=1$ and $n_1=2^{k+1}-1$.  Finally,
+$\sigma(n_1)=2^{k+1}=n_1+1$, so $n_1$ has no positive divisors other than $1$ and itself and is prime.  Put $m=k+1$.
+\end{proof}
+
+\begin{notetheorem}[3.7]
+If $m\in\N$ and $2^m-1$ is prime, then $m$ is prime.
+\end{notetheorem}
+\begin{proof}
+If $m=ab$ with $a,b>1$, then
+\[
+ 2^m-1=(2^a)^b-1=(2^a-1)(1+2^a+\cdots+2^{a(b-1)}),
+\]
+so $2^m-1$ is composite.
+\end{proof}
+
+\section{Dirichlet convolution}
+
+\begin{notedefinition}[3.4]
+For arithmetic functions $f$ and $g$, their Dirichlet convolution is
+\[
+ (f*g)(n)=\sum_{d\mid n}f(d)g(n/d).
+\]
+Let $I$ denote the identity function
+\[
+ I(n)=\begin{cases}1,&n=1,\\0,&n>1.\end{cases}
+\]
+\end{notedefinition}
+
+\begin{notetheorem}[3.8]
+For arithmetic functions $f,g,h$:
+\begin{enumerate}[label=(\alph*)]
+\item $(f*g)*h=f*(g*h)$;
+\item $f*g=g*f$;
+\item $f*I=f$.
+\end{enumerate}
+\end{notetheorem}
+\begin{proof}
+Commutativity follows by replacing $d$ with $n/d$.  For associativity,
+\[
+ ((f*g)*h)(n)
+ =\sum_{abc=n}f(a)g(b)h(c)
+ =(f*(g*h))(n).
+\]
+For the identity, only the divisor $d=n$ contributes to
+$\sum_{d\mid n}f(d)I(n/d)$.
+\end{proof}
+
+\begin{notedefinition}[3.5]
+If $f*g=I$, then $g$ is the Dirichlet inverse of $f$, denoted $f^{-1}$.
+\end{notedefinition}
+
+\begin{notetheorem}[3.9]
+An arithmetic function $f$ has a Dirichlet inverse if and only if $f(1)\ne0$.
+\end{notetheorem}
+\begin{proof}
+If $f*g=I$, then $f(1)g(1)=1$, so $f(1)\ne0$.
+
+Conversely, if $f(1)\ne0$, define recursively
+\[
+ g(1)=\frac1{f(1)},
+ \qquad
+ g(n)=-\frac1{f(1)}
+ \sum_{\substack{d\mid n\\d>1}}f(d)g(n/d)
+ \quad(n>1).
+\]
+Then $(f*g)(1)=1$, and for $n>1$ the defining equation makes $(f*g)(n)=0$.
+\end{proof}
+
+\begin{notetheorem}[3.10]
+If $f$ and $g$ are multiplicative, then $f*g$ is multiplicative.
+\end{notetheorem}
+\begin{proof}
+Let $\gcd(m,n)=1$.  Every divisor of $mn$ is uniquely $d_1d_2$ with $d_1\mid m$ and $d_2\mid n$.  Hence
+\begin{align*}
+ (f*g)(mn)
+ &=\sum_{d_1\mid m}\sum_{d_2\mid n}
+ f(d_1d_2)g\left(\frac m{d_1}\frac n{d_2}\right)\\
+ &=\left(\sum_{d_1\mid m}f(d_1)g(m/d_1)\right)
+   \left(\sum_{d_2\mid n}f(d_2)g(n/d_2)\right).
+\end{align*}
+\end{proof}
+
+\begin{noteremark}
+The Dirichlet inverse of a multiplicative function is multiplicative.  Indeed, define a multiplicative function $h$ on prime powers by the recursion in Theorem 3.9.  Then $f*h=I$ on prime powers and, by multiplicativity, on every integer.  Uniqueness of the inverse gives $h=f^{-1}$.
+\end{noteremark}
+
+\begin{notetheorem}[3.11]
+If $f$ is multiplicative and
+\[
+ F(n)=\sum_{d\mid n}f(d),
+\]
+then $F$ is multiplicative.
+\end{notetheorem}
+\begin{proof}
+Since $F=f*u$ and both $f$ and $u$ are multiplicative, Theorem 3.10 applies.
+\end{proof}
+\begin{noteremark}
+Taking $f(n)=n^k$ proves that $\sigma_k$ is multiplicative.  Taking $f=\totient$ and checking prime powers gives another proof of
+$\sum_{d\mid n}\totient(d)=n$.
+\end{noteremark}
+
+\begin{notedefinition}[3.6]
+The M\"obius function is
+\[
+ \mobius(n)=
+ \begin{cases}
+ 0,&p^2\mid n\text{ for some prime }p,\\
+ (-1)^{\omega(n)},&n\text{ is squarefree}.
+ \end{cases}
+\]
+In particular, $\mobius(1)=1$.
+\end{notedefinition}
+
+\begin{notetheorem}[3.12]
+The Dirichlet inverse of $u$ is $\mobius$; equivalently,
+\[
+ \sum_{d\mid n}\mobius(d)=I(n).
+\]
+\end{notetheorem}
+\begin{proof}
+Both sides are multiplicative, so it suffices to check prime powers.  For $n=p^\alpha$ with $\alpha\ge1$,
+\[
+ \sum_{d\mid p^\alpha}\mobius(d)=\mobius(1)+\mobius(p)=1-1=0.
+\]
+\end{proof}
+
+\begin{notetheorem}[3.13 (M\"obius inversion)]
+If
+\[
+ F(n)=\sum_{d\mid n}f(d),
+\]
+then
+\[
+ f(n)=\sum_{d\mid n}\mobius(d)F(n/d)
+     =\sum_{d\mid n}\mobius(n/d)F(d).
+\]
+\end{notetheorem}
+\begin{proof}
+The hypothesis is $F=f*u$.  Convolving with $\mobius=u^{-1}$ gives $f=F*\mobius$.
+\end{proof}
+
+\begin{notetheorem}[3.14 (converse form)]
+If $f=\mobius*F$, then $F=f*u$; in particular, the two formulas in Theorem 3.13 are equivalent.
+\end{notetheorem}
+
+\section{The zeta function and Dirichlet series}
+
+\begin{notedefinition}[3.7]
+For $s\in\C$ with $\Re(s)>1$, the Riemann zeta function is
+\[
+ \zeta(s)=\sum_{n=1}^{\infty}\frac1{n^s}.
+\]
+\end{notedefinition}
+
+\begin{notetheorem}[3.15 (Euler product)]
+For $\Re(s)>1$,
+\[
+ \zeta(s)=\prod_{p\ \mathrm{prime}}\frac1{1-p^{-s}}.
+\]
+\end{notetheorem}
+\begin{proof}
+For real $s>1$, let the finite product range over $p\le N$.  Expanding its geometric series gives the sum of $n^{-s}$ over positive integers all of whose prime factors are at most $N$.  This includes every $n\le N$, so
+\[
+ 0\le \zeta(s)-\prod_{p\le N}(1-p^{-s})^{-1}
+ \le\sum_{n>N}n^{-s}\longrightarrow0.
+\]
+For complex $s$ with $\Re(s)>1$, the same argument applies absolutely after replacing $s$ by $\Re(s)$ in the estimates.
+\end{proof}
+
+\begin{notedefinition}[3.8]
+The Dirichlet series of an arithmetic function $f$ is
+\[
+ D(f,s)=\sum_{n=1}^{\infty}\frac{f(n)}{n^s}
+\]
+wherever the series converges.
+\end{notedefinition}
+
+\begin{notetheorem}[3.16]
+If $D(f,s)$ and $D(g,s)$ converge absolutely, then $D(f*g,s)$ converges absolutely and
+\[
+ D(f,s)D(g,s)=D(f*g,s).
+\]
+\end{notetheorem}
+\begin{proof}
+Absolute convergence gives
+\[
+ \sum_{a,b\ge1}\left|\frac{f(a)g(b)}{(ab)^s}\right|<\infty,
+\]
+so the double series may be rearranged.  Grouping terms with $ab=n$ yields
+\[
+ D(f,s)D(g,s)
+ =\sum_{n=1}^{\infty}\frac1{n^s}\sum_{ab=n}f(a)g(b)
+ =D(f*g,s).
+\]
+\end{proof}
+
+\begin{notetheorem}[3.17]
+For $\Re(s)>1$,
+\[
+ \frac1{\zeta(s)}=\sum_{n=1}^{\infty}\frac{\mobius(n)}{n^s}.
+\]
+\end{notetheorem}
+\begin{proof}
+Since $u*\mobius=I$, Theorem 3.16 gives
+\[
+ D(u,s)D(\mobius,s)=D(I,s)=1.
+\]
+\end{proof}
+
+\section{Two natural-density applications}
+
+\begin{noteproposition}[3.18]
+The set of squarefree positive integers has natural density
+\[
+ \frac1{\zeta(2)}=\frac6{\pi^2}.
+\]
+\end{noteproposition}
+\begin{proof}
+The indicator of squarefreeness is
+\[
+ \sum_{d^2\mid n}\mobius(d).
+\]
+If $Q(N)$ counts squarefree integers not exceeding $N$, then
+\begin{align*}
+ Q(N)
+ &=\sum_{d\le\sqrt N}\mobius(d)\floor{N/d^2}\\
+ &=N\sum_{d\le\sqrt N}\frac{\mobius(d)}{d^2}+O(\sqrt N).
+\end{align*}
+After division by $N$, the error tends to zero and the finite sum tends to
+$\sum_{d\ge1}\mobius(d)/d^2=1/\zeta(2)$.
+\end{proof}
+
+\begin{noteproposition}[3.19]
+The proportion of ordered pairs $(a,b)$ with $1\le a,b\le N$ and $\gcd(a,b)=1$ tends to
+\[
+ \frac1{\zeta(2)}=\frac6{\pi^2}.
+\]
+\end{noteproposition}
+\begin{proof}
+Using $I(\gcd(a,b))=\sum_{d\mid a,\ d\mid b}\mobius(d)$, the number $A(N)$ of coprime pairs is
+\[
+ A(N)=\sum_{d\le N}\mobius(d)\floor{N/d}^2.
+\]
+Since $\floor{N/d}^2=N^2/d^2+O(N/d)$,
+\[
+ \frac{A(N)}{N^2}
+ =\sum_{d\le N}\frac{\mobius(d)}{d^2}
+ +O\left(\frac1N\sum_{d\le N}\frac1d\right)
+ \longrightarrow\frac1{\zeta(2)}.
+\]
+\end{proof}
