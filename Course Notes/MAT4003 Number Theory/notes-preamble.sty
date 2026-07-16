@@ -186,11 +186,11 @@
 % Theorem styles
 % -------------------------------------------------
 \newtheoremstyle{mystyle}
-  {}{}{}{}{
+  {}{}{}{\dimexpr-\labelsep+1pt\relax}{
   \sffamily\bfseries}{.}{ }{}
 
 \newtheoremstyle{cstyle}
-  {}{}{}{}{
+  {}{}{}{\dimexpr-\labelsep+1pt\relax}{
   \sffamily\bfseries}{.}{ }{\thmnote{#3}}
 
 \makeatletter
@@ -202,6 +202,7 @@
 \newtheorem{thm}[de]{Theorem}
 \newtheorem{lem}[de]{Lemma}
 \newtheorem{cor}[de]{Corollary}
+\newtheorem{app}[de]{Application}
 \newtheorem*{remark}{Remark}
 \newtheorem*{eg}{Example}
 
@@ -292,6 +293,20 @@
   right=8pt,
   enhanced jigsaw,
   borderline west={2pt}{0pt}{violet},
+  sharp corners,
+  before skip=10pt,
+  after skip=10pt,
+  breakable
+}
+
+\tcolorboxenvironment{app}{
+  boxrule=0pt,
+  boxsep=0pt,
+  colback=Orange!8,
+  left=8pt,
+  right=8pt,
+  enhanced jigsaw,
+  borderline west={2pt}{0pt}{Orange},
   sharp corners,
   before skip=10pt,
   after skip=10pt,

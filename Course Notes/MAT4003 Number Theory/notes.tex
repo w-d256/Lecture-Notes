@@ -17,30 +17,6 @@
 \newcommand{\jacobi}[2]{\left(\frac{#1}{#2}\right)}
 \newcommand{\overbar}[1]{\overline{#1}}
 
-% Explicit source-numbered statement environments. The standard preamble
-% numbers its native theorem environments by section; these wrappers retain
-% the source PDF labels, including repeated labels and 4.12A.
-\newtheoremstyle{sourceheading}
-  {0pt}{0pt}{\normalfont}{}
-  {\sffamily\bfseries}{.}{0.5em}
-  {\thmname{#1}\thmnote{ #3}}
-\theoremstyle{sourceheading}
-\newtheorem*{notedefinition}{Definition}
-\newtheorem*{noteproposition}{Proposition}
-\newtheorem*{notetheorem}{Theorem}
-\newtheorem*{notelemma}{Lemma}
-\newtheorem*{notecorollary}{Corollary}
-\newtheorem*{noteapplication}{Application}
-\newtheorem*{noteremark}{Remark}
-
-\tcolorboxenvironment{notedefinition}{boxrule=0pt,boxsep=0pt,colback=red!10,left=8pt,right=8pt,enhanced jigsaw,borderline west={2pt}{0pt}{red},sharp corners,before skip=10pt,after skip=10pt,breakable}
-\tcolorboxenvironment{noteproposition}{boxrule=0pt,boxsep=0pt,colback=Orange!10,left=8pt,right=8pt,enhanced jigsaw,borderline west={2pt}{0pt}{Orange},sharp corners,before skip=10pt,after skip=10pt,breakable}
-\tcolorboxenvironment{notetheorem}{boxrule=0pt,boxsep=0pt,colback=blue!10,left=8pt,right=8pt,enhanced jigsaw,borderline west={2pt}{0pt}{blue},sharp corners,before skip=10pt,after skip=10pt,breakable}
-\tcolorboxenvironment{notelemma}{boxrule=0pt,boxsep=0pt,colback=Cyan!10,left=8pt,right=8pt,enhanced jigsaw,borderline west={2pt}{0pt}{Cyan},sharp corners,before skip=10pt,after skip=10pt,breakable}
-\tcolorboxenvironment{notecorollary}{boxrule=0pt,boxsep=0pt,colback=violet!10,left=8pt,right=8pt,enhanced jigsaw,borderline west={2pt}{0pt}{violet},sharp corners,before skip=10pt,after skip=10pt,breakable}
-\tcolorboxenvironment{noteapplication}{boxrule=0pt,boxsep=0pt,colback=Orange!8,left=8pt,right=8pt,enhanced jigsaw,borderline west={2pt}{0pt}{Orange},sharp corners,before skip=10pt,after skip=10pt,breakable}
-\tcolorboxenvironment{noteremark}{boxrule=0pt,boxsep=0pt,blanker,borderline west={2pt}{0pt}{Green},left=8pt,right=8pt,before skip=10pt,after skip=10pt,breakable}
-
 % Editorial source markers occupy no extra vertical space, preventing a marker
 % from creating an otherwise blank page at a chapter boundary.
 \newcommand{\sourcepage}[1]{\par\nobreak\nointerlineskip\hbox to \linewidth{\hfill\smash{\footnotesize\textcolor{gray}{Source PDF p.~#1}}}}
