@@ -1,0 +1,671 @@
+\chapter{Hilbert Spaces}
+
+Throughout this chapter, the inner product is linear in its first argument and
+conjugate linear in its second.
+
+\section{Inner products and their geometry}
+
+\begin{notedefinition}[Inner product]
+An inner product on a real or complex vector space $H$ is a map
+$\langle\cdot,\cdot\rangle\colon H\times H\to\mathbb K$ satisfying
+\begin{enumerate}
+  \item $\langle x,x\rangle\ge0$, with equality only for $x=0$;
+  \item $\langle \alpha x+\beta y,z\rangle
+        =\alpha\langle x,z\rangle+\beta\langle y,z\rangle$;
+  \item $\langle x,y\rangle=\overline{\langle y,x\rangle}$.
+\end{enumerate}
+The associated norm is
+\[
+  \|x\|=\sqrt{\langle x,x\rangle}.
+\]
+A complete inner-product space is a Hilbert space.
+\end{notedefinition}
+
+\begin{notetheorem}[Cauchy--Schwarz inequality]
+For all $x,y\in H$,
+\[
+  |\langle x,y\rangle|\le\|x\|\,\|y\|.
+\]
+Equality holds exactly when $x$ and $y$ are linearly dependent.
+\end{notetheorem}
+
+\begin{proof}
+If $y\ne0$, positivity of
+$\|x-\langle x,y\rangle y/\|y\|^2\|^2$ gives the inequality.  Equality is
+equivalent to that orthogonal remainder being zero.
+\end{proof}
+
+\begin{notedefinition}[Orthogonality]
+Vectors $x,y$ are orthogonal, written $x\perp y$, if
+$\langle x,y\rangle=0$.
+\end{notedefinition}
+
+\begin{notetheorem}[Pythagorean theorem and orthogonal decomposition]
+If $x\perp y$, then
+\[
+  \|x+y\|^2=\|x\|^2+\|y\|^2.
+\]
+For $y\ne0$ every $x$ has the decomposition
+\[
+  x=\frac{\langle x,y\rangle}{\|y\|^2}y
+    +\left(x-\frac{\langle x,y\rangle}{\|y\|^2}y\right),
+\]
+where the second term is orthogonal to $y$.
+\end{notetheorem}
+
+\begin{notetheorem}[Triangle inequality]
+The inner-product norm satisfies
+\[
+  \|x+y\|\le\|x\|+\|y\|.
+\]
+Equality holds exactly when one vector is a nonnegative real multiple of the
+other.
+\end{notetheorem}
+
+\begin{notetheorem}[Parallelogram identity]
+For all $x,y\in H$,
+\[
+  \|x+y\|^2+\|x-y\|^2=2\|x\|^2+2\|y\|^2.
+\]
+\end{notetheorem}
+\sourcepages{125--126}
+
+\begin{noteexample}[$\ell^p$ is not Hilbert when $p\ne2$]
+For $x=(1,1,0,\ldots)$ and $y=(1,-1,0,\ldots)$,
+\[
+  \|x+y\|_p^2+\|x-y\|_p^2=8,
+  \qquad
+  2\|x\|_p^2+2\|y\|_p^2=4\cdot2^{2/p}.
+\]
+The parallelogram identity holds only for $p=2$, so the $\ell^p$ norm is not
+induced by an inner product when $p\ne2$.
+\end{noteexample}
+
+\begin{notetheorem}[Polarization identities]
+A norm induced by an inner product determines that inner product.  Over
+$\mathbb R$,
+\[
+  \langle x,y\rangle
+  =\frac14\bigl(\|x+y\|^2-\|x-y\|^2\bigr).
+\]
+Over $\mathbb C$ with linearity in the first variable,
+\[
+  \langle x,y\rangle
+  =\frac14\sum_{k=0}^{3}i^k\|x+i^ky\|^2.
+\]
+\end{notetheorem}
+
+\begin{notelemma}[Continuity of the inner product]
+If $x_n\to x$ and $y_n\to y$, then
+$\langle x_n,y_n\rangle\to\langle x,y\rangle$.
+\end{notelemma}
+
+\begin{proof}
+By Cauchy--Schwarz,
+\[
+ |\langle x_n,y_n\rangle-\langle x,y\rangle|
+ \le\|x_n-x\|\|y_n\|+\|x\|\|y_n-y\|.
+\]
+The sequence $(y_n)$ is bounded.
+\end{proof}
+\sourcepage{127}
+
+\begin{notetheorem}[Operator norm through the inner product]
+Let $A\in\Bop{H_1}{H_2}$ between Hilbert spaces.  Then
+\[
+  \|A\|
+  =\sup_{x\ne0,\,y\ne0}
+    \frac{|\langle Ax,y\rangle|}{\|x\|\|y\|}.
+\]
+\end{notetheorem}
+
+\begin{proof}
+Cauchy--Schwarz gives the upper bound.  For $x$ near norm attaining and
+$y=Ax$, the quotient equals $\|Ax\|/\|x\|$.
+\end{proof}
+
+\begin{notetheorem}[Isometries fixing the origin]
+Let $H_1,H_2$ be real inner-product spaces and let
+$A\colon H_1\to H_2$ satisfy $A0=0$ and
+$\|Ax-Ay\|=\|x-y\|$.  Then $A$ is linear and preserves inner products.
+\end{notetheorem}
+
+\begin{proof}
+Taking $y=0$ gives $\|Ax\|=\|x\|$.  The real polarization identity gives
+$\langle Ax,Ay\rangle=\langle x,y\rangle$.  Hence
+\[
+ \|A(x+y)-Ax-Ay\|^2=0,
+\]
+so $A$ is additive.  Integer and rational homogeneity follow, and continuity
+extends homogeneity to all real scalars.
+\end{proof}
+
+\begin{noteexample}[Complex caveat]
+Complex conjugation on $\mathbb C$ is an isometry fixing $0$ but is not
+complex linear.  Thus the preceding statement is a real theorem unless an
+additional complex-linearity condition is imposed.
+\end{noteexample}
+\sourcepage{128}
+
+\begin{notetheorem}[Mazur--Ulam theorem]
+Every surjective isometry between real normed spaces is affine.  Thus, if
+$f(0)=0$, it is real linear.
+\end{notetheorem}
+
+\begin{proof}[Proof sketch]
+A reflection argument shows that a surjective isometry preserves midpoints:
+$f((x+y)/2)=(f(x)+f(y))/2$.  Iterating yields preservation of dyadic convex
+combinations, continuity gives all real convex combinations, and translation
+by $f(0)$ turns the map into an additive homogeneous map.  The source's
+strictly-convex ball-intersection proof covers only a special case; the
+statement above is the full theorem.
+\end{proof}
+\sourcepage{129}
+
+\begin{noteexercise}[Vanishing quadratic form]
+Let $H$ be a complex inner-product space and let $T\in\Bop{H}{H}$.  If
+\[
+  \langle Tx,x\rangle=0\qquad(x\in H),
+\]
+then $T=0$.  This is false over $\mathbb R$.
+\end{noteexercise}
+
+\begin{proof}
+Apply complex polarization to the sesquilinear form
+$b(x,y)=\langle Tx,y\rangle$.  Its diagonal values determine the entire form,
+so $b=0$ and $T=0$.  Over $\mathbb R$, a nonzero skew-symmetric rotation of
+$\mathbb R^2$ satisfies $\langle Tx,x\rangle=0$.
+\end{proof}
+\sourcepage{130}
+
+\section{Metric and orthogonal projections}
+
+\begin{notedefinition}[Distance from a set]
+For a nonempty subset $C$ of a normed space,
+\[
+  \dist(x,C)=\inf_{c\in C}\|x-c\|.
+\]
+A set is convex if it contains every line segment joining two of its points.
+\end{notedefinition}
+
+\begin{notetheorem}[Projection theorem for closed convex sets]
+Let $C$ be a nonempty closed convex subset of a Hilbert space $H$.  For every
+$x\in H$ there is a unique $P_Cx\in C$ such that
+\[
+  \|x-P_Cx\|=\dist(x,C).
+\]
+\end{notetheorem}
+
+\begin{proof}
+Let $d=\dist(x,C)$ and choose $c_n\in C$ with $\|x-c_n\|\to d$.  The
+parallelogram identity gives
+\[
+ \|c_n-c_m\|^2
+ =2\|x-c_n\|^2+2\|x-c_m\|^2
+  -4\left\|x-\frac{c_n+c_m}{2}\right\|^2.
+\]
+The midpoint belongs to $C$, so the last norm is at least $d$; hence $(c_n)$
+is Cauchy.  Completeness and closedness give a minimizer.  If $c,c'$ are two
+minimizers, the same identity applied to them gives $\|c-c'\|=0$.
+\end{proof}
+\sourcepages{131--132}
+
+\begin{notedefinition}[Orthogonal projection]
+If $M$ is a closed subspace of a Hilbert space, the nearest-point map
+$P_M\colon H\to M$ is the orthogonal projection onto $M$.
+\end{notedefinition}
+
+\begin{notetheorem}[Characterization of orthogonal projection]
+Let $M$ be a closed subspace and $x\in H$.  For $m\in M$, the following are
+equivalent:
+\begin{enumerate}
+  \item $m=P_Mx$;
+  \item $x-m\perp M$.
+\end{enumerate}
+Moreover, $P_M$ is linear,
+\[
+  \|P_Mx\|\le\|x\|,
+\]
+and equality holds if and only if $x\in M$.
+\end{notetheorem}
+
+\begin{proof}
+If $m$ is minimizing, then for every $y\in M$ and scalar $t$,
+\[
+  \|x-m\|^2\le\|x-m-ty\|^2.
+\]
+Varying real and imaginary $t$ forces $\langle x-m,y\rangle=0$.
+Conversely, Pythagoras gives
+$\|x-y\|^2=\|x-m\|^2+\|m-y\|^2$ for $y\in M$.
+The orthogonality characterization proves linearity.  Finally,
+$\|x\|^2=\|P_Mx\|^2+\|x-P_Mx\|^2$.
+\end{proof}
+\sourcepages{132--133}
+
+\begin{notetheorem}[Variational inequality for convex projection]
+Let $C$ be nonempty, closed, and convex.  For $x\in H$ and $y\in C$,
+\[
+  y=P_Cx
+  \quad\Longleftrightarrow\quad
+  \operatorname{Re}\langle x-y,z-y\rangle\le0
+  \quad(z\in C).
+\]
+The projection is nonexpansive:
+\[
+  \|P_Cx-P_Cu\|\le\|x-u\|.
+\]
+It is linear if and only if $C$ is a closed subspace.
+\end{notetheorem}
+
+\begin{proof}
+For $z\in C$, minimality against $y+t(z-y)$ and division by $t>0$ gives the
+variational inequality as $t\downarrow0$.  Conversely, expand
+\[
+ \|x-z\|^2=\|x-y\|^2+\|z-y\|^2
+            -2\operatorname{Re}\langle x-y,z-y\rangle.
+\]
+For $y=P_Cx$ and $v=P_Cu$, apply the inequality twice to obtain
+\[
+  \|y-v\|^2\le\operatorname{Re}\langle x-u,y-v\rangle
+  \le\|x-u\|\|y-v\|.
+\]
+If $C$ is a subspace, this is the orthogonal projection and is linear.  The
+range of any linear projection is a subspace, giving the converse.
+\end{proof}
+\sourcepage{134}
+
+\begin{noteexercise}[Resolvent of a projection]
+Let $P$ be a bounded projection, $P^2=P$.  If $\lambda\notin\{0,1\}$, then
+$\lambda I-P$ is invertible and
+\[
+  (\lambda I-P)^{-1}
+  =\frac1\lambda(I-P)+\frac1{\lambda-1}P.
+\]
+\end{noteexercise}
+
+\begin{proof}
+Decompose $x=(I-P)x+Px$ into $\Ker P\oplus\Ran P$.  On these two subspaces,
+$\lambda I-P$ acts as multiplication by $\lambda$ and $\lambda-1$,
+respectively.
+\end{proof}
+
+\begin{noteexercise}[Nested convex projections]
+Let $C_1\supseteq C_2\supseteq\cdots$ be nonempty closed convex subsets of a
+Hilbert space, with nonempty intersection $C$.  If $x_n=P_{C_n}x$, then
+$x_n\to P_Cx$.
+\end{noteexercise}
+
+\begin{proof}
+The distances $\|x-x_n\|$ increase and are bounded above by
+$\dist(x,C)$.  The projection inequalities show $(x_n)$ is Cauchy.  Its limit
+lies in every $C_n$ and attains the distance to $C$.
+\end{proof}
+\sourcepage{135}
+
+\begin{noteremark}
+Source pages 136--137 are blank and contain no mathematical material.
+\end{noteremark}
+\sourcepages{136--137}
+
+\section{Orthogonal complements and Riesz representation}
+
+\begin{notedefinition}[Orthogonal complement]
+For $M\subseteq H$, define
+\[
+  M^\perp=\{x\in H:\langle x,m\rangle=0\text{ for every }m\in M\}.
+\]
+\end{notedefinition}
+
+\begin{notetheorem}[Basic properties]
+For subsets and subspaces of a Hilbert space:
+\begin{enumerate}
+  \item $M^\perp$ is a closed subspace;
+  \item $M\cap M^\perp=\{0\}$ when $M$ is a subspace;
+  \item $M\subseteq N$ implies $N^\perp\subseteq M^\perp$;
+  \item $(\overline M)^\perp=M^\perp$;
+  \item $M\subseteq(M^\perp)^\perp$.
+\end{enumerate}
+\end{notetheorem}
+
+\begin{proof}
+Linearity is immediate.  Closedness follows by passing inner products to the
+limit.  The remaining statements follow directly from the definition.
+\end{proof}
+\sourcepage{138}
+
+\begin{notetheorem}[Double orthogonal complement]
+For every subspace $M$ of a Hilbert space,
+\[
+  (M^\perp)^\perp=\overline M.
+\]
+Thus $M$ is dense if and only if $M^\perp=\{0\}$.
+\end{notetheorem}
+
+\begin{proof}
+The inclusion $\overline M\subseteq(M^\perp)^\perp$ is automatic.  If
+$x\in(M^\perp)^\perp$, project $x$ onto $\overline M$.  The remainder
+$x-P_{\overline M}x$ belongs both to $M^\perp$ and to its orthogonal
+complement, hence is zero.
+\end{proof}
+
+\begin{notetheorem}[Orthogonal decomposition]
+If $M$ is a closed subspace of a Hilbert space $H$, then
+\[
+  H=M\oplus M^\perp.
+\]
+Every $x$ has the unique form
+\[
+  x=P_Mx+(I-P_M)x,
+\]
+with the two summands in $M$ and $M^\perp$.
+\end{notetheorem}
+\sourcepage{139}
+
+\begin{notetheorem}[Range and kernel of an orthogonal projection]
+For a closed subspace $M$,
+\[
+  \Ran P_M=M,
+  \qquad
+  \Ker P_M=M^\perp,
+  \qquad
+  P_{M^\perp}=I-P_M.
+\]
+\end{notetheorem}
+\sourcepage{140}
+
+\begin{notetheorem}[Riesz representation theorem]
+For every bounded linear functional $\varphi$ on a Hilbert space $H$, there
+is a unique $h\in H$ such that
+\[
+  \varphi(x)=\langle x,h\rangle
+  \qquad(x\in H).
+\]
+Moreover,
+\[
+  \|\varphi\|=\|h\|.
+\]
+\end{notetheorem}
+
+\begin{proof}
+If $\varphi=0$, take $h=0$.  Otherwise, $N=\Ker\varphi$ is a proper closed
+subspace.  Choose a unit vector $u\in N^\perp$ and set
+$h=\overline{\varphi(u)}u$; this conjugate is required by the convention that
+the inner product is linear in the first variable.  Every $x$ decomposes as
+$n+\alpha u$, and then
+\[
+  \langle x,h\rangle
+  =\alpha\varphi(u)=\varphi(x).
+\]
+Uniqueness follows by testing the difference against itself.  Cauchy--Schwarz
+gives $\|\varphi\|\le\|h\|$, while testing $h/\|h\|$ gives equality.
+\end{proof}
+\sourcepage{141}
+
+\begin{notetheorem}[Representation of bounded sesquilinear forms]
+Let $H_1,H_2$ be Hilbert spaces and let
+$b\colon H_1\times H_2\to\mathbb K$ be bounded, linear in the first variable
+and conjugate linear in the second.  Then there is a unique
+$S\in\Bop{H_1}{H_2}$ such that
+\[
+  b(x,y)=\langle Sx,y\rangle,
+  \qquad
+  \|S\|=\|b\|.
+\]
+\end{notetheorem}
+
+\begin{proof}
+For each $x$, apply Riesz representation to the linear functional
+$y\mapsto\overline{b(x,y)}$.  It gives a unique $Sx\in H_2$ such that
+$\overline{b(x,y)}=\langle y,Sx\rangle$, equivalently
+$b(x,y)=\langle Sx,y\rangle$.  Uniqueness gives linearity in $x$, and the
+norm estimate gives boundedness and equality of norms.
+\end{proof}
+
+\begin{notecorollary}[Hilbert direct sum]
+For every closed subspace $M$,
+\[
+  H=M\oplus M^\perp.
+\]
+\end{notecorollary}
+\sourcepage{142}
+
+\begin{noteexercise}[Strict convexity of the Hilbert ball]
+The closed unit ball of an inner-product space is strictly convex: if
+$x,y\in S_H$ and $x\ne y$, then
+\[
+  \left\|\frac{x+y}{2}\right\|<1.
+\]
+This can fail in a general normed space; for example in $\ell^\infty_2$ the
+unit sphere contains line segments.
+\end{noteexercise}
+
+\begin{proof}
+The parallelogram identity gives
+\[
+  \left\|\frac{x+y}{2}\right\|^2
+  =1-\frac14\|x-y\|^2.
+\]
+\end{proof}
+\sourcepage{143}
+
+\begin{notetheorem}[Hilbert-space extension of operators]
+Let $U$ be a closed subspace of a Hilbert space $H$, let $W$ be Banach, and
+let $S\in\Bop{U}{W}$.  Then
+\[
+  T=S\circ P_U
+\]
+is a bounded extension of $S$ to $H$ and
+\[
+  \|T\|=\|S\|.
+\]
+For a nonclosed $U$, first extend $S$ continuously to $\overline U$.
+\end{notetheorem}
+
+\begin{proof}
+Since $P_U|_U=I$ and $\|P_U\|\le1$, one has
+$\|T\|\le\|S\|$.  Restriction to $U$ gives the reverse inequality.
+\end{proof}
+\sourcepage{144}
+
+\begin{noteexercise}[Equality in the triangle inequality for functionals]
+Let $\varphi,\psi\in H^*$ be nonzero and suppose
+\[
+  \|\varphi+\psi\|=\|\varphi\|+\|\psi\|.
+\]
+Then one is a nonnegative real multiple of the other.  The conclusion need not
+hold in an arbitrary Banach space.
+\end{noteexercise}
+
+\begin{proof}
+Represent the functionals by $h,k\in H$.  The hypothesis becomes equality in
+the Hilbert-space triangle inequality for $h+k$, so $h$ and $k$ are
+nonnegative real multiples.  In $\ell^\infty_2{}^*=\ell^1_2$, equality can
+hold for independent positive coordinate functionals.
+\end{proof}
+\sourcepage{145}
+
+\section{Orthonormal families and bases}
+
+\begin{notedefinition}[Orthonormal family]
+A family $(e_i)_{i\in I}$ is orthonormal if
+\[
+  \langle e_i,e_j\rangle=\delta_{ij}.
+\]
+For finite scalar families,
+\[
+  \left\|\sum_{i\in F}a_ie_i\right\|^2
+  =\sum_{i\in F}|a_i|^2.
+\]
+\end{notedefinition}
+
+\begin{notedefinition}[Unordered sum]
+For a family $(x_i)_{i\in I}$ in a normed space, the unordered sum
+$\sum_{i\in I}x_i$ converges to $x$ if for every $\varepsilon>0$ there is a
+finite $F_0\subseteq I$ such that
+\[
+  \left\|x-\sum_{i\in F}x_i\right\|<\varepsilon
+\]
+for every finite $F\supseteq F_0$.
+\end{notedefinition}
+\sourcepage{146}
+
+\begin{notetheorem}[Linear combinations of an orthonormal family]
+Let $(e_i)_{i\in I}$ be orthonormal in a Hilbert space.  The unordered series
+\[
+  \sum_{i\in I}a_ie_i
+\]
+converges if and only if
+\[
+  \sum_{i\in I}|a_i|^2<\infty.
+\]
+When it converges,
+\[
+  \left\|\sum_{i\in I}a_ie_i\right\|^2
+  =\sum_{i\in I}|a_i|^2.
+\]
+\end{notetheorem}
+
+\begin{proof}
+Differences of finite partial sums have squared norm equal to the corresponding
+finite sum of $|a_i|^2$.  Thus the net of finite partial sums is Cauchy exactly
+when the scalar unordered sum is finite.  Completeness gives convergence and
+passing to the limit gives the norm identity.  Only countably many $a_i$ can
+be nonzero.
+\end{proof}
+\sourcepage{147}
+
+\begin{notetheorem}[Bessel's inequality]
+For an orthonormal family $(e_i)_{i\in I}$ and $x\in H$,
+\[
+  \sum_{i\in I}|\langle x,e_i\rangle|^2\le\|x\|^2.
+\]
+\end{notetheorem}
+
+\begin{proof}
+For a finite $F$, let
+$y_F=\sum_{i\in F}\langle x,e_i\rangle e_i$.  Then
+$x-y_F\perp y_F$, so
+\[
+  \|x\|^2=\|x-y_F\|^2+\sum_{i\in F}|\langle x,e_i\rangle|^2.
+\]
+Take the supremum over finite $F$.
+\end{proof}
+
+\begin{notetheorem}[Closed span]
+The closed span of an orthonormal family is
+\[
+  \overline{\Span\{e_i:i\in I\}}
+  =\left\{\sum_{i\in I}a_ie_i:
+       \sum_i|a_i|^2<\infty\right\}.
+\]
+For $x$ in this closed span,
+\[
+  x=\sum_{i\in I}\langle x,e_i\rangle e_i.
+\]
+\end{notetheorem}
+\sourcepage{148}
+
+\begin{notetheorem}[Maximal orthonormal families]
+An orthonormal family $(e_i)$ is maximal if and only if its closed linear span
+is all of $H$.
+\end{notetheorem}
+
+\begin{proof}
+If the closed span is proper, choose a nonzero vector in its orthogonal
+complement and normalize it; adjoining that vector enlarges the family.
+Conversely, a vector orthogonal to a dense span is zero.
+\end{proof}
+\sourcepage{149}
+
+\begin{notedefinition}[Orthonormal basis]
+An orthonormal family with dense linear span is an orthonormal basis.
+\end{notedefinition}
+
+\begin{notetheorem}[Parseval identities]
+If $(e_i)_{i\in I}$ is an orthonormal basis, then for $x,y\in H$,
+\[
+  x=\sum_{i\in I}\langle x,e_i\rangle e_i,
+\]
+\[
+  \langle x,y\rangle
+  =\sum_{i\in I}\langle x,e_i\rangle
+      \overline{\langle y,e_i\rangle},
+\]
+and
+\[
+  \|x\|^2=\sum_{i\in I}|\langle x,e_i\rangle|^2.
+\]
+\end{notetheorem}
+\sourcepage{150}
+
+\begin{notetheorem}[Totality]
+A subset $M\subseteq H$ is total if and only if $M^\perp=\{0\}$.  If $H$ is
+complete, this is equivalent to $\overline{\Span M}=H$.
+\end{notetheorem}
+
+\begin{notetheorem}[Orthonormal families in separable spaces]
+Every orthonormal family in a separable Hilbert space is countable.  Every
+separable Hilbert space has a countable orthonormal basis.
+\end{notetheorem}
+
+\begin{proof}
+Distinct orthonormal vectors have distance $\sqrt2$.  Balls of radius
+$1/3$ around them are disjoint, and each contains a distinct member of a
+fixed countable dense set.  Thus the family is countable.  For existence,
+apply Gram--Schmidt to a dense sequence after discarding vectors already in
+the span of their predecessors.
+\end{proof}
+\sourcepages{151--152}
+
+\begin{notetheorem}[Classification by Hilbert dimension]
+Two Hilbert spaces are isometrically isomorphic if and only if their
+orthonormal bases have the same cardinality.
+\end{notetheorem}
+
+\begin{proof}
+First, any two orthonormal bases of one Hilbert space have the same
+cardinality.  Indeed, if $E$ and $F$ are such bases, then for each $e\in E$
+the set $\{f\in F:\langle e,f\rangle\ne0\}$ is countable by Bessel's
+inequality.  Totality of $E$ shows that the union of these countable sets is
+all of $F$, so $|F|\le |E|$ for infinite bases; reversing the roles gives
+equality, while the finite-dimensional case is elementary.
+
+Given equally indexed bases $(e_i)_{i\in I}$ and $(f_i)_{i\in I}$, define
+\[
+  T\!\left(\sum_ia_ie_i\right)=\sum_ia_if_i.
+\]
+Parseval shows that $T$ is a surjective linear isometry.  Conversely, a
+surjective linear isometry sends an orthonormal basis to an orthonormal basis,
+so the cardinalities agree.
+\end{proof}
+\sourcepage{153}
+
+\begin{notetheorem}[Projection and Fourier coefficients]
+Let $(e_i)_{i\in I}$ be an orthonormal basis of a closed subspace $M$.  Then
+\[
+  P_Mx=\sum_{i\in I}\langle x,e_i\rangle e_i.
+\]
+If $\varphi\in H^*$ and $\varphi(e_i)=a_i$, then
+$(a_i)\in\ell^2(I)$ and the Riesz representative is
+\[
+  h=\sum_{i\in I}\overline{a_i}e_i,
+\]
+with $\|\varphi\|^2=\sum_i|a_i|^2$ under the linear-first convention.
+\end{notetheorem}
+
+\begin{proof}
+The difference between $x$ and the displayed sum is orthogonal to every basis
+vector and hence to $M$.  The functional statement follows by applying the
+Riesz theorem and Parseval to its representing vector.
+\end{proof}
+\sourcepage{154}
+
+\begin{noteexercise}[No nonzero vector orthogonal to a total family]
+If $M$ is total and $x\perp M$, then $x=0$.
+\end{noteexercise}
+
+\begin{proof}
+Orthogonality to $M$ implies orthogonality to its closed span, which is all of
+$H$; in particular $\langle x,x\rangle=0$.
+\end{proof}
+\sourcepage{155}

@@ -1,0 +1,910 @@
+\chapter{Normed Spaces and Banach Spaces}
+
+\section{Vector spaces, Hamel bases, and norms}
+
+\begin{notetheorem}[Existence and cardinality of Hamel bases]
+Let $X\ne\{0\}$ be a vector space over a field $\mathbb K$.
+\begin{enumerate}
+  \item $X$ has a Hamel basis.
+  \item Any two Hamel bases of $X$ have the same cardinality.
+\end{enumerate}
+\end{notetheorem}
+
+\begin{proof}
+For existence, order the linearly independent subsets of $X$ by inclusion.
+The union of a chain is linearly independent, so Zorn's lemma gives a maximal
+linearly independent set $E$.  Maximality implies $\Span E=X$.
+
+For uniqueness of cardinality, let $E$ and $F$ be bases.  Every element of
+$E$ is a finite linear combination of elements of $F$.  The infinite
+Steinitz exchange theorem, equivalently the standard basis-cardinality
+argument, gives an injection $E\hookrightarrow F$.  Interchanging $E$ and
+$F$ gives an injection $F\hookrightarrow E$.  The Cantor--Bernstein theorem
+then yields $|E|=|F|$.
+\end{proof}
+
+\begin{noteexercise}[Additive functions on $\mathbb R$]
+Let $\mathcal A$ be the set of functions $f\colon\mathbb R\to\mathbb R$
+satisfying Cauchy's equation
+\[
+  f(x+y)=f(x)+f(y).
+\]
+Describe $\mathcal A$ and determine its cardinality.
+\end{noteexercise}
+
+\begin{proof}
+Such a function is exactly a $\mathbb Q$-linear map on the
+$\mathbb Q$-vector space $\mathbb R$.  Fix a Hamel basis $H$ of
+$\mathbb R$ over $\mathbb Q$.  An arbitrary function $a\colon H\to\mathbb R$
+extends uniquely to an additive function by
+\[
+  f\!\left(\sum_{j=1}^n q_jh_j\right)=\sum_{j=1}^nq_ja(h_j).
+\]
+Conversely every additive function is obtained this way.  Since
+$|H|=|\mathbb R|=\mathfrak c$, one has
+\[
+  |\mathcal A|=|\mathbb R|^{\mathfrak c}=2^{\mathfrak c}.
+\]
+Only the choices $a(h)=ch$ give continuous additive functions.
+\end{proof}
+
+\begin{notelemma}[Extension of a linearly independent family]
+Every linearly independent family in a vector space is contained in a Hamel
+basis.
+\end{notelemma}
+
+\begin{proof}
+Apply Zorn's lemma to the linearly independent sets containing the given
+family.  A maximal member spans the whole space.
+\end{proof}
+\sourcepages{3--4}
+
+\begin{notedefinition}[Equivalent norms]
+Two norms $\|\cdot\|_1$ and $\|\cdot\|_2$ on a vector space $X$ are
+\emph{equivalent} if there are constants $c,C>0$ such that
+\[
+  c\|x\|_1\le\|x\|_2\le C\|x\|_1
+  \qquad(x\in X).
+\]
+\end{notedefinition}
+
+\begin{notetheorem}[Equivalent norms and topology]
+Two norms on $X$ are equivalent if and only if they induce the same topology.
+\end{notetheorem}
+
+\begin{proof}
+If the topologies agree, the $\|\cdot\|_2$-unit ball is a neighbourhood of
+$0$ for $\|\cdot\|_1$, so some $r>0$ satisfies
+$B_1(0,r)\subseteq B_2(0,1)$.  Applying this inclusion to
+$rx/(2\|x\|_1)$ gives
+$\|x\|_2\le 2r^{-1}\|x\|_1$ for $x\ne0$.  Reversing the roles of the
+norms gives the other inequality.
+
+Conversely, the displayed two-sided estimate implies
+\[
+  B_1\!\left(x,\frac rC\right)\subseteq B_2(x,r),
+  \qquad
+  B_2(x,cr)\subseteq B_1(x,r).
+\]
+Thus the open sets for either norm are open for the other.
+\end{proof}
+
+\begin{notetheorem}[Separable spaces are increasing unions]
+Let $X$ be a separable infinite-dimensional normed space.  Then there are
+finite-dimensional subspaces
+\[
+  X_1\subsetneq X_2\subsetneq\cdots,
+  \qquad \dim X_n=n,
+\]
+such that $\bigcup_nX_n$ is dense in $X$.
+\end{notetheorem}
+
+\begin{proof}
+Let $(d_m)$ be dense.  Scan this sequence in order and retain $d_m$ exactly
+when it is not in the span of the previously retained vectors.  Denote the
+resulting linearly independent sequence by $(x_n)$ and put
+$X_n=\Span\{x_1,\ldots,x_n\}$.  Every discarded $d_m$ already belongs to
+one of these spans, so $\bigcup_nX_n$ contains a dense subset.  Since $X$ is
+infinite-dimensional, the retained sequence is infinite, and
+$\dim X_n=n$.
+\end{proof}
+
+\begin{notetheorem}[Every vector space can be normed]
+Every vector space admits a norm.
+\end{notetheorem}
+
+\begin{proof}
+Choose a Hamel basis $(e_i)_{i\in I}$.  Every $x\in X$ has a unique finite
+expansion $x=\sum_{i\in F}a_ie_i$.  Define
+\[
+  \|x\|=\sum_{i\in F}|a_i|.
+\]
+Uniqueness of the expansion makes this well defined, and the norm axioms are
+immediate.
+\end{proof}
+\sourcepages{5--6}
+
+\section{Distance to compact sets and spaces of functions}
+
+\begin{noteproposition}[Distance to a compact set]
+Let $K$ be a nonempty compact subset of a normed space $X$ and define
+\[
+  d_K(x)=\inf_{z\in K}\|x-z\|.
+\]
+Then the infimum is attained for every $x$, and
+\[
+  |d_K(x)-d_K(y)|\le\|x-y\|.
+\]
+In particular, $d_K$ is continuous.
+\end{noteproposition}
+
+\begin{proof}
+Choose $z_n\in K$ with $\|x-z_n\|\to d_K(x)$.  Compactness gives a
+convergent subsequence $z_{n_k}\to z\in K$, and continuity of the norm gives
+$\|x-z\|=d_K(x)$.  For any $z\in K$,
+\[
+  d_K(x)\le\|x-z\|\le\|x-y\|+\|y-z\|.
+\]
+Taking the infimum over $z$ gives $d_K(x)-d_K(y)\le\|x-y\|$; interchange
+$x$ and $y$.
+\end{proof}
+
+\begin{noteremark}[Nearest-point selections]
+A nearest point need not be unique, and an arbitrary selection
+$P(x)\in K$ with $\|x-P(x)\|=d_K(x)$ need not be continuous.  For example,
+for $K=\{-1,1\}\subset\mathbb R$, any nearest-point selection jumps at
+$0$.  What is always continuous is the distance function $d_K$.
+\end{noteremark}
+\sourcepages{7--8}
+
+\begin{notetheorem}[Supremum norm on continuous maps]
+Let $K$ be compact and $Y$ a normed space.  The formula
+\[
+  \|f\|_\infty=\sup_{x\in K}\|f(x)\|
+\]
+defines a norm on $C(K;Y)$.
+\end{notetheorem}
+
+\begin{notetheorem}[Bounded maps]
+For arbitrary $X$ and a normed space $Y$, let $B(X;Y)$ be the vector space of
+bounded maps $f\colon X\to Y$.  Then $\|f\|_\infty$ is a norm on
+$B(X;Y)$.
+\end{notetheorem}
+
+\begin{notetheorem}[Uniform limits preserve continuity]
+If $f_n\colon X\to Y$ are continuous and $f_n\to f$ uniformly, then $f$ is
+continuous.
+\end{notetheorem}
+
+\begin{proof}
+Fix $x\in X$ and $\varepsilon>0$.  Choose $n$ with
+$\|f-f_n\|_\infty<\varepsilon/3$, then choose a neighbourhood $U$ of $x$
+so that $\|f_n(y)-f_n(x)\|<\varepsilon/3$ for $y\in U$.  The triangle
+inequality gives $\|f(y)-f(x)\|<\varepsilon$.
+\end{proof}
+
+\begin{notecorollary}
+The subspace $B(X;Y)\cap C(X;Y)$ is closed in $B(X;Y)$ for the supremum
+norm.
+\end{notecorollary}
+\sourcepages{9--10}
+
+\section{Banach spaces and completeness}
+
+\begin{notedefinition}[Banach space]
+A normed space is a \emph{Banach space} if it is complete for the metric
+$d(x,y)=\|x-y\|$.
+\end{notedefinition}
+
+\begin{notedefinition}[Schauder basis]
+A sequence $(e_n)$ in a normed space $X$ is a \emph{Schauder basis} if every
+$x\in X$ has a unique expansion
+\[
+  x=\sum_{n=1}^{\infty}a_ne_n
+\]
+converging in norm.  Unlike a Hamel basis, a Schauder basis uses infinite
+series and is therefore a topological notion.
+\end{notedefinition}
+
+\begin{noteremark}
+A normed space with a Schauder basis is separable, but not every separable
+Banach space has a Schauder basis.
+\end{noteremark}
+\sourcepage{11}
+
+\begin{notelemma}[Translation and scalar invariance]
+The metric induced by a norm satisfies
+\[
+  d(x+a,y+a)=d(x,y),
+  \qquad
+  d(\alpha x,\alpha y)=|\alpha|d(x,y).
+\]
+\end{notelemma}
+
+\begin{proof}
+Both identities follow immediately from
+$\|(x+a)-(y+a)\|=\|x-y\|$ and
+$\|\alpha(x-y)\|=|\alpha|\|x-y\|$.
+\end{proof}
+\sourcepage{12}
+
+\begin{notetheorem}[Closed subspaces of Banach spaces]
+Let $X$ be a Banach space and $Y\subseteq X$ a linear subspace.  Then $Y$ is
+Banach with the inherited norm if and only if $Y$ is closed in $X$.
+\end{notetheorem}
+
+\begin{proof}
+If $Y$ is closed, a Cauchy sequence in $Y$ converges in $X$ and its limit lies
+in $Y$.  Conversely, if $Y$ is complete and $y_n\in Y$ converges in $X$ to
+$x$, then $(y_n)$ is Cauchy in $Y$ and converges there to some $y\in Y$.
+Uniqueness of limits gives $x=y$.
+\end{proof}
+
+\begin{notedefinition}[Series in normed spaces]
+The series $\sum_{n=1}^{\infty}x_n$ converges if its partial sums converge.
+It is \emph{absolutely convergent} if $\sum_n\|x_n\|<\infty$.
+\end{notedefinition}
+\sourcepage{13}
+
+\begin{notetheorem}[Isomorphic images of Banach spaces]
+Let $X$ be Banach, let $Y$ be normed, and let
+$A\colon X\to Y$ be a bounded bijection with bounded inverse.  Then $Y$ is
+Banach.
+\end{notetheorem}
+
+\begin{proof}
+If $(y_n)$ is Cauchy in $Y$, then
+$\|A^{-1}y_n-A^{-1}y_m\|\le\|A^{-1}\|\|y_n-y_m\|$, so
+$A^{-1}y_n\to x\in X$.  Hence $y_n\to Ax$.
+\end{proof}
+
+\begin{notetheorem}[Closed range from a lower bound]
+Let $X$ be Banach, let $Y$ be normed, and let $A\in\Bop{X}{Y}$.  If
+\[
+  \|Ax\|\ge c\|x\|
+  \qquad(x\in X)
+\]
+for some $c>0$, then $A$ is injective and $\Ran(A)$ is closed in $Y$.
+\end{notetheorem}
+
+\begin{proof}
+Injectivity is immediate.  If $Ax_n\to y$, then
+$\|x_n-x_m\|\le c^{-1}\|Ax_n-Ax_m\|$, so $(x_n)$ is Cauchy and converges
+to some $x\in X$.  Continuity gives $Ax=y$.
+\end{proof}
+\sourcepage{14}
+
+\begin{notetheorem}[Neumann series]
+Let $X$ be Banach and $A\in\Bop{X}{X}$ with $\|A\|<1$.  Then
+\[
+  (I-A)^{-1}=\sum_{n=0}^{\infty}A^n
+\]
+in operator norm, and
+\[
+  \|(I-A)^{-1}\|\le\frac1{1-\|A\|}.
+\]
+\end{notetheorem}
+
+\begin{proof}
+The series converges absolutely in the Banach algebra $\Bop{X}{X}$.  Its
+partial sums $S_N$ satisfy
+$(I-A)S_N=S_N(I-A)=I-A^{N+1}$.  Letting $N\to\infty$ gives the inverse.
+\end{proof}
+
+\begin{notecorollary}[The invertible group is open]
+If $A\in\Bop{X}{X}$ is invertible and
+$\|B-A\|<\|A^{-1}\|^{-1}$, then $B$ is invertible and
+\[
+  \|B^{-1}-A^{-1}\|
+  \le
+  \frac{\|A^{-1}\|^2\|B-A\|}
+       {1-\|A^{-1}\|\|B-A\|}.
+\]
+Thus inversion is continuous on the group of invertible operators.
+\end{notecorollary}
+\sourcepage{15}
+
+\begin{notetheorem}[A Schauder basis implies separability]
+If a normed space has a Schauder basis, then it is separable.
+\end{notetheorem}
+
+\begin{proof}
+Let $(e_n)$ be a Schauder basis.  The set of finite rational (or Gaussian
+rational) linear combinations of the $e_n$ is countable.  Approximation of
+the coefficients in a sufficiently long partial sum shows this set is dense.
+\end{proof}
+
+\begin{noteexercise}[A power-small operator]
+Let $X$ be Banach and suppose $A\in\Bop{X}{X}$ satisfies $\|A^p\|<1$ for
+some $p\ge1$.  Show that $I-A$ is invertible.
+\end{noteexercise}
+
+\begin{proof}
+Since
+\[
+  I-A^p=(I-A)(I+A+\cdots+A^{p-1}),
+\]
+the Neumann theorem makes $I-A^p$ invertible.  The factors commute, so
+\[
+  (I-A)^{-1}=(I+A+\cdots+A^{p-1})(I-A^p)^{-1}.
+\]
+\end{proof}
+\sourcepage{16}
+
+\begin{notetheorem}[Absolute convergence characterizes Banach spaces]
+A normed space $X$ is Banach if and only if every series satisfying
+$\sum_n\|x_n\|<\infty$ converges in $X$.
+\end{notetheorem}
+
+\begin{proof}
+In a Banach space the partial sums are Cauchy because tails have norm bounded
+by the corresponding scalar tail.
+
+Conversely, let $(x_n)$ be Cauchy.  Choose a subsequence $(x_{n_k})$ with
+\[
+  \|x_{n_{k+1}}-x_{n_k}\|<2^{-k}.
+\]
+The series
+$x_{n_1}+\sum_k(x_{n_{k+1}}-x_{n_k})$ converges by hypothesis, so the
+subsequence converges.  A Cauchy sequence with a convergent subsequence
+converges to the same limit.
+\end{proof}
+
+\begin{notetheorem}[Completion of a normed space]
+Every normed space $X$ has a Banach completion $\widehat X$ in which $X$ is
+isometrically embedded as a dense subspace.  It is unique up to an isometric
+isomorphism fixing $X$.
+\end{notetheorem}
+\sourcepage{17}
+
+\begin{notedefinition}[Seminorm]
+A map $p\colon X\to[0,\infty)$ is a seminorm if
+\[
+  p(\alpha x)=|\alpha|p(x),
+  \qquad
+  p(x+y)\le p(x)+p(y).
+\]
+Then $p(0)=0$ and $|p(x)-p(y)|\le p(x-y)$.
+\end{notedefinition}
+
+\begin{noteproposition}[Quotient by the null space]
+Let $N=\{x:p(x)=0\}$.  Then $N$ is a subspace and
+\[
+  \|x+N\|_{X/N}=p(x)
+\]
+is a well-defined norm on $X/N$.
+\end{noteproposition}
+
+\begin{proof}
+If $x-y\in N$, then
+$|p(x)-p(y)|\le p(x-y)=0$, so the formula is independent of the chosen
+representative.  Positive definiteness on the quotient and the remaining norm
+axioms follow directly.
+\end{proof}
+\sourcepage{18}
+
+\section{Finite-dimensional normed spaces}
+
+\begin{notelemma}[Linear combinations]
+If $x_1,\ldots,x_n$ are linearly independent in a normed space, then there is
+$c>0$ such that
+\[
+  \left\|\sum_{j=1}^n a_jx_j\right\|
+  \ge c\sum_{j=1}^n|a_j|
+  \qquad(a_1,\ldots,a_n\in\mathbb K).
+\]
+\end{notelemma}
+
+\begin{proof}
+On the compact set
+$S=\{a\in\mathbb K^n:\sum_j|a_j|=1\}$, the continuous function
+$a\mapsto\|\sum_ja_jx_j\|$ has a minimum.  The minimum is positive, because
+zero would give a nontrivial linear dependence.  Homogeneity yields the
+estimate.
+\end{proof}
+\sourcepage{19}
+
+\begin{notetheorem}[Completeness]
+Every finite-dimensional normed space is Banach.  More generally, every
+finite-dimensional subspace of a normed space is complete.
+\end{notetheorem}
+
+\begin{proof}
+Write $y_m=\sum_{j=1}^na_j^{(m)}e_j$ in a basis.  The preceding lemma shows
+that a Cauchy sequence $(y_m)$ has each scalar coordinate
+$(a_j^{(m)})$ Cauchy.  The coordinates converge in $\mathbb K$, and the
+corresponding vector is the limit of $(y_m)$.
+\end{proof}
+
+\begin{notecorollary}
+Every finite-dimensional subspace of a normed space is closed.
+\end{notecorollary}
+\sourcepage{20}
+
+\begin{notetheorem}[Equivalence of finite-dimensional norms]
+Any two norms on a finite-dimensional vector space are equivalent.
+\end{notetheorem}
+
+\begin{proof}
+Choose a basis and compare each norm with the coordinate $\ell^1$ norm.  The
+upper bounds follow from the triangle inequality, and the lower bounds follow
+from the linear-combination lemma.
+\end{proof}
+
+\begin{notetheorem}[Inequivalent norms in infinite dimension]
+Every infinite-dimensional vector space admits two inequivalent norms.
+\end{notetheorem}
+
+\begin{proof}
+Choose a Hamel basis containing a countable subfamily $(e_n)$.  For a finite
+expansion $x=\sum a_ie_i$, set
+\[
+  \|x\|_1=\sum_i|a_i|,
+  \qquad
+  \|x\|_2=\sum_iw_i|a_i|,
+\]
+where $w_n=n$ on the chosen subfamily and $w_i=1$ elsewhere.  Then
+$\|e_n\|_1=1$ but $\|e_n\|_2=n$, so no uniform comparison
+$\|x\|_2\le C\|x\|_1$ is possible.
+\end{proof}
+\sourcepage{21}
+
+\section{Compactness}
+
+\begin{notedefinition}[Sequential compactness]
+A subset $M$ of a metric space is compact if every sequence in $M$ has a
+subsequence converging to an element of $M$.  In metric spaces this is
+equivalent to the open-cover definition.
+\end{notedefinition}
+
+\begin{notelemma}
+Every compact subset of a metric space is closed and bounded.
+\end{notelemma}
+
+\begin{proof}
+If $M$ were unbounded, one could choose $x_n\in M$ with
+$d(x_n,x_0)>n$, and no subsequence could converge.  If a sequence in $M$
+converges in the ambient space, compactness gives a subsequence converging to
+a point of $M$; uniqueness of the limit puts the original limit in $M$.
+\end{proof}
+
+\begin{noteexample}[The converse fails]
+In $\ell^2$, the set $\{e_n:n\ge1\}$ of standard unit vectors is closed and
+bounded, but not compact, because
+\[
+  \|e_n-e_m\|_2=\sqrt2\qquad(n\ne m).
+\]
+Thus it has no convergent subsequence.
+\end{noteexample}
+\sourcepage{22}
+
+\begin{notetheorem}[Heine--Borel in finite dimension]
+A subset of a finite-dimensional normed space is compact if and only if it is
+closed and bounded.
+\end{notetheorem}
+
+\begin{proof}
+Use a basis to identify the space linearly and homeomorphically with
+$\mathbb K^n$.  Boundedness of the vectors implies boundedness of their
+coordinate tuples; Bolzano--Weierstrass gives a convergent coordinate
+subsequence, and closedness keeps the limit in the set.
+\end{proof}
+
+\begin{notelemma}[Riesz's lemma]
+Let $Y$ be a proper closed subspace of a normed space $X$.  For every
+$0<\theta<1$ there is $z\in X$ such that
+\[
+  \|z\|=1,
+  \qquad
+  \|z-y\|>\theta\quad(y\in Y).
+\]
+\end{notelemma}
+
+\begin{proof}
+Choose $x\notin Y$ and put $d=\dist(x,Y)>0$.  Select $y_0\in Y$ with
+$\|x-y_0\|<d/\theta$ and set
+$z=(x-y_0)/\|x-y_0\|$.  For $y\in Y$,
+\[
+  \|z-y\|
+  =\frac{\|x-(y_0+\|x-y_0\|y)\|}{\|x-y_0\|}
+  \ge\frac d{\|x-y_0\|}>\theta.
+\]
+\end{proof}
+\sourcepage{23}
+
+\begin{noteremark}
+The strict endpoint $\theta=1$ is impossible in the displayed form, because
+$y=0$ gives $\|z-y\|=1$.  If a nearest point to $x$ in $Y$ exists, one may
+obtain the sharp non-strict statement
+$\dist(z,Y)=1$, equivalently $\|z-y\|\ge1$ for every $y\in Y$.
+\end{noteremark}
+
+\begin{notetheorem}[Compact unit ball forces finite dimension]
+If the closed unit ball of a normed space $X$ is compact, then $X$ is
+finite-dimensional.
+\end{notetheorem}
+
+\begin{proof}
+If $X$ were infinite-dimensional, repeatedly apply Riesz's lemma to
+$Y_n=\Span\{x_1,\ldots,x_n\}$ to obtain unit vectors with
+$\|x_n-x_m\|>1/2$ for $n\ne m$.  This bounded sequence has no convergent
+subsequence, contradicting compactness.
+\end{proof}
+
+\begin{noteremark}
+A metric space is compact if and only if it is complete and totally bounded.
+\end{noteremark}
+\sourcepage{24}
+
+\begin{notetheorem}[Banach space of continuous functions]
+Let $K$ be compact and $Y$ Banach.  Then $C(K;Y)$ is Banach under the
+supremum norm.
+\end{notetheorem}
+
+\begin{proof}
+If $(f_n)$ is Cauchy in $\|\cdot\|_\infty$, then for each $x$ the sequence
+$(f_n(x))$ converges in $Y$.  Let $f(x)$ be the pointwise limit.  Passing to
+the limit in the uniform Cauchy estimate shows $f_n\to f$ uniformly, and the
+uniform-limit theorem makes $f$ continuous.
+\end{proof}
+
+\begin{notecorollary}
+If $Y$ is Banach, then $B(X;Y)$ is Banach under the supremum norm.
+\end{notecorollary}
+\sourcepage{25}
+
+\begin{notetheorem}[Best approximation in finite-dimensional subspaces]
+Let $Y$ be a finite-dimensional subspace of a normed space $X$.  For every
+$x\in X$ there is $y_0\in Y$ such that
+\[
+  \|x-y_0\|=\dist(x,Y).
+\]
+If, in addition, $X$ is strictly convex, then $y_0$ is unique.
+\end{notetheorem}
+
+\begin{proof}
+Choose a minimizing sequence in $Y$.  It is bounded, so finite-dimensional
+compactness gives a convergent subsequence; continuity of the norm gives a
+minimizer.  If $y_1\ne y_2$ are minimizers and $X$ is strictly convex, then
+\[
+ \left\|x-\frac{y_1+y_2}{2}\right\|
+ =\left\|\frac{(x-y_1)+(x-y_2)}2\right\|
+ <\dist(x,Y),
+\]
+a contradiction.
+\end{proof}
+
+\begin{noteexample}
+The spaces $\ell^p$ are strictly convex for $1<p<\infty$, but not for
+$p=1$ or $p=\infty$.  For example, in $\ell^1_2$, let
+$Y=\Span\{(1,1)\}$ and $x=(1,0)$.  Then
+\[
+  \|x-t(1,1)\|_1=|1-t|+|t|=1
+  \qquad(0\le t\le1),
+\]
+so the best approximant is not unique.
+\end{noteexample}
+\sourcepage{26}
+
+\begin{notetheorem}
+Every compact subset of an infinite-dimensional normed space has empty
+interior.
+\end{notetheorem}
+
+\begin{proof}
+If a compact set contained a ball $B(x,r)$, then its closed subset
+$\overline B(x,r/2)$ would be compact.  Translation and scaling would make
+the closed unit ball compact, contradicting the preceding theorem.
+\end{proof}
+\sourcepage{27}
+
+\section{Linear and bounded operators}
+
+\begin{notedefinition}[Inverse operator]
+A linear map $T\colon X\to Y$ is invertible if it is bijective.  Its inverse
+$T^{-1}\colon Y\to X$ is then linear.  If $S\colon X\to Y$ and
+$T\colon Y\to Z$ are bijective, then
+\[
+  (TS)^{-1}=S^{-1}T^{-1}.
+\]
+\end{notedefinition}
+
+\begin{notedefinition}[Bounded linear map]
+For normed spaces $V,W$ and a linear map $T\colon V\to W$, define
+\[
+  \|T\|=\sup_{\|v\|\le1}\|Tv\|.
+\]
+The map is \emph{bounded} if $\|T\|<\infty$.  The vector space of bounded
+linear maps is denoted $\Bop{V}{W}$.
+\end{notedefinition}
+\sourcepage{28}
+
+\begin{notetheorem}[Bounded inverse and a lower bound]
+Let $A\colon X\to Y$ be a linear map between normed spaces.  The following
+are equivalent.
+\begin{enumerate}
+  \item $A$ is injective and the inverse
+        $A^{-1}\colon\Ran(A)\to X$ is bounded.
+  \item There is $c>0$ such that
+        $\|Ax\|\ge c\|x\|$ for every $x\in X$.
+\end{enumerate}
+In that case the best lower-bound constant is $c=\|A^{-1}\|^{-1}$.
+\end{notetheorem}
+
+\begin{proof}
+If $A^{-1}$ is bounded, then
+$\|x\|\le\|A^{-1}\|\|Ax\|$.  Conversely, the lower bound gives
+injectivity and, for $y=Ax$,
+$\|A^{-1}y\|=\|x\|\le c^{-1}\|y\|$.
+\end{proof}
+\sourcepage{29}
+
+\begin{noteexercise}[A functional on $c_0$]
+Let $(\alpha_n)\in\ell^1$ and define
+\[
+  f(x)=\sum_{n=1}^{\infty}\alpha_nx_n,
+  \qquad x=(x_n)\in c_0.
+\]
+Then $f\in c_0^*$ and
+\[
+  \|f\|=\sum_{n=1}^{\infty}|\alpha_n|.
+\]
+If infinitely many $\alpha_n$ are nonzero, the norm need not be attained on
+the unit sphere of $c_0$.
+\end{noteexercise}
+
+\begin{proof}
+The estimate $|f(x)|\le\|x\|_\infty\sum|\alpha_n|$ gives the upper bound.
+For $N\ge1$, choose $x^{(N)}$ supported on the first $N$ coordinates with
+$x_n^{(N)}$ equal to the phase of $\alpha_n$.  Then
+$\|x^{(N)}\|_\infty=1$ and
+$|f(x^{(N)})|=\sum_{n\le N}|\alpha_n|$, proving equality after
+$N\to\infty$.  Equality for one $x\in c_0$ would require
+$|x_n|=1$ with the correct phase whenever $\alpha_n\ne0$, which is impossible
+when infinitely many coefficients are nonzero.
+\end{proof}
+\sourcepage{30}
+
+\begin{notetheorem}[Operator norm]
+The operator norm makes $\Bop{V}{W}$ a normed space.  It satisfies
+\[
+  \|ST\|\le\|S\|\,\|T\|,
+  \qquad
+  \|Tv\|\le\|T\|\,\|v\|.
+\]
+If $W$ is Banach, then $\Bop{V}{W}$ is Banach.
+\end{notetheorem}
+
+\begin{proof}
+Only completeness needs comment.  If $(T_n)$ is Cauchy in operator norm, then
+$(T_nv)$ is Cauchy in $W$ for each $v$.  Define $Tv=\lim_nT_nv$.
+Linearity passes to the limit, the uniform operator bound gives boundedness,
+and the Cauchy estimate passes to the limit to show $\|T_n-T\|\to0$.
+\end{proof}
+\sourcepage{31}
+
+\begin{notetheorem}[Finite-dimensional domain]
+Every linear map from a finite-dimensional normed space into a normed space is
+bounded.
+\end{notetheorem}
+
+\begin{proof}
+For a basis $(e_j)_{j=1}^n$, write $x=\sum a_je_j$.  The
+linear-combination lemma bounds $\sum|a_j|$ by a constant multiple of
+$\|x\|$, and therefore
+\[
+  \|Tx\|\le\sum_j|a_j|\|Te_j\|\le C\|x\|.
+\]
+\end{proof}
+
+\begin{notetheorem}[Characterization by linear functionals]
+A normed space is finite-dimensional if and only if every linear functional
+on it is continuous.
+\end{notetheorem}
+
+\begin{proof}
+The forward direction is the preceding theorem.  If $X$ is
+infinite-dimensional, choose linearly independent unit vectors $(e_n)$ and
+extend them to a Hamel basis.  Define a linear functional by
+$\varphi(e_n)=n$ and by zero on the other basis vectors.  Then
+$\|e_n\|=1$ but $|\varphi(e_n)|=n$, so $\varphi$ is unbounded.
+\end{proof}
+\sourcepage{32}
+
+\begin{notetheorem}[Continuity is equivalent to boundedness]
+A linear map between normed spaces is continuous if and only if it is bounded.
+It is enough that it be continuous at one point.
+\end{notetheorem}
+
+\begin{proof}
+A bounded map is Lipschitz.  Conversely, continuity at $0$ gives
+$\delta>0$ such that $\|x\|<\delta$ implies $\|Tx\|<1$.
+For $x\ne0$, apply this to $(\delta/2\|x\|)x$ to obtain
+$\|Tx\|\le2\delta^{-1}\|x\|$.  Continuity at an arbitrary point translates
+to continuity at $0$ by linearity.
+\end{proof}
+
+\begin{notecorollary}
+For a bounded linear operator $T$, the null space $\Ker(T)$ is closed.
+\end{notecorollary}
+\sourcepage{33}
+
+\begin{notedefinition}[Compact operator]
+A linear map $A\colon X\to Y$ is \emph{compact} if it maps every bounded
+sequence in $X$ to a sequence with a convergent subsequence in $Y$.
+Equivalently, the image of every bounded set is relatively compact.  A compact
+linear map is automatically bounded.
+\end{notedefinition}
+
+\begin{notetheorem}[Basic compact-operator criteria]
+Let $A\colon X\to Y$ be linear.
+\begin{enumerate}
+  \item Every compact operator is bounded.
+  \item $A$ is compact if and only if every bounded sequence $(x_n)$ has a
+        subsequence $(x_{n_k})$ for which $(Ax_{n_k})$ converges.
+  \item Every bounded finite-rank operator is compact.
+\end{enumerate}
+\end{notetheorem}
+
+\begin{proof}
+If the image of the unit ball were unbounded, one could choose a sequence whose
+image has no convergent subsequence.  The sequential criterion is exactly the
+definition of relative compactness in metric spaces.  For finite rank, the
+image of a bounded set is bounded in a finite-dimensional space, whose closure
+is compact.
+\end{proof}
+\sourcepages{34--35}
+
+\begin{noteexercise}
+The inverse of a bounded bijective operator need not be bounded when the
+codomain is incomplete.  Let
+\[
+  T\colon \ell^1\longrightarrow \Ran(T)\subset\ell^1,
+  \qquad
+  T(x_n)=\left(\frac{x_n}{n}\right),
+\]
+where the range carries the inherited $\ell^1$ norm.  Then $T$ is a bounded
+bijection onto its range, but
+$\|T^{-1}e_n/n\|_1=1$ while $\|e_n/n\|_1=1/n$, so $T^{-1}$ is
+unbounded.  Accordingly, $\Ran(T)$ is not complete.
+\end{noteexercise}
+\sourcepage{36}
+
+\begin{notetheorem}[Extension from a dense subspace]
+Let $U$ be a dense subspace of a normed space $V$, let $W$ be Banach, and let
+$S\in\Bop{U}{W}$.  Then there is a unique
+$T\in\Bop{V}{W}$ extending $S$, and
+\[
+  \|T\|=\|S\|.
+\]
+\end{notetheorem}
+
+\begin{proof}
+For $v\in V$, choose $u_n\in U$ with $u_n\to v$ and define
+$Tv=\lim_nSu_n$.  The sequence $(Su_n)$ is Cauchy, and completeness of $W$
+provides the limit.  The estimate
+$\|Su_n-Su_n'\|\le\|S\|\|u_n-u_n'\|$ shows independence of the
+approximating sequence.  Passing to limits gives linearity and
+$\|Tv\|\le\|S\|\|v\|$; restriction gives the reverse norm inequality.
+Uniqueness follows from density and continuity.
+\end{proof}
+
+\begin{noteexample}[Completeness of the codomain is essential]
+The identity map from $\mathbb Q$ to $\mathbb Q$, with the usual norm and
+viewed on the dense subspace $\mathbb Q\subset\mathbb R$, has no continuous
+extension $\mathbb R\to\mathbb Q$.
+\end{noteexample}
+\sourcepage{37}
+
+\begin{notecorollary}[Composition estimate]
+If $T\in\Bop{U}{V}$ and $S\in\Bop{V}{W}$, then
+\[
+  \|S\circ T\|\le\|S\|\,\|T\|.
+\]
+\end{notecorollary}
+\sourcepage{38}
+
+\begin{noteexercise}[Subspaces and connectedness]
+\begin{enumerate}
+  \item A linear subspace containing a nonempty open ball is the whole space.
+  \item The only subsets of a normed space that are both open and closed are
+        $\varnothing$ and the whole space.
+  \item The closure of a linear subspace is again a linear subspace.
+\end{enumerate}
+\end{noteexercise}
+
+\begin{proof}
+For (1), translate and scale the ball to show every vector belongs to the
+subspace.  For (2), normed spaces are path connected via line segments.
+For (3), take convergent sequences from the subspace and pass addition and
+scalar multiplication to the limit.
+\end{proof}
+\sourcepage{39}
+
+\begin{notedefinition}[Quotient norm]
+Let $U$ be a subspace of a normed space $V$.  On the algebraic quotient set
+$V/U$ define
+\[
+  \|v+U\|=\inf_{u\in U}\|v+u\|=\dist(v,U).
+\]
+\end{notedefinition}
+
+\begin{notetheorem}[Quotient spaces]
+The quotient formula is a norm if and only if $U$ is closed.  Moreover:
+\begin{enumerate}
+  \item if $V$ is Banach and $U$ is closed, then $V/U$ is Banach;
+  \item if $U$ and $V/U$ are Banach, then $V$ is Banach.
+\end{enumerate}
+\end{notetheorem}
+
+\begin{proof}
+The only nonautomatic norm axiom is positive definiteness:
+$\|v+U\|=0$ exactly when $v\in\overline U$.  Thus it holds precisely when
+$U$ is closed.
+
+For the first completeness statement, from a summable series in $V/U$ choose
+representatives with nearly minimal norm; the resulting corrected series in
+$V$ converges and projects to the required quotient sum.  For the converse,
+let $\sum v_n$ be absolutely convergent in $V$.  Its quotient series
+converges, so after subtracting a suitable $v\in V$ its partial sums approach
+$U$.  Choose corrections in $U$ with summable errors; completeness of $U$
+then gives convergence in $V$.
+\end{proof}
+\sourcepages{40--41}
+
+\begin{notetheorem}[Equivalent boundedness criteria]
+For a linear map $T\colon V\to W$ between normed spaces, the following are
+equivalent:
+\begin{enumerate}
+  \item $T$ is bounded;
+  \item $T$ is continuous at some point;
+  \item $T$ is uniformly continuous;
+  \item $T^{-1}(B_W(0,1))$ contains a neighbourhood of $0$.
+\end{enumerate}
+\end{notetheorem}
+
+\begin{proof}
+Boundedness gives a global Lipschitz estimate.  Continuity at one point
+translates to continuity at zero.  If a ball $B_V(0,\delta)$ is mapped into
+$B_W(0,1)$, homogeneity gives $\|Tv\|\le2\delta^{-1}\|v\|$.
+\end{proof}
+\sourcepage{42}
+
+\section{Dual spaces}
+
+\begin{notedefinition}[Algebraic and continuous duals]
+The algebraic dual of a vector space $X$ is the vector space of all linear
+functionals on $X$.  For a normed space $X$, the \emph{dual space} $X^*$ is
+the subspace of bounded linear functionals, with norm
+\[
+  \|f\|=\sup_{\|x\|\le1}|f(x)|.
+\]
+\end{notedefinition}
+
+\begin{notetheorem}
+The dual $X^*$ of every normed space is Banach.
+\end{notetheorem}
+
+\begin{proof}
+This is the completeness theorem for $\Bop{X}{\mathbb K}$, since the scalar
+field is complete.
+\end{proof}
+\sourcepages{43--44}
+
+\begin{noteexercise}[Codimension-one kernels]
+Let $f\ne0$ be a linear functional on a vector space $X$ and choose
+$x_0$ with $f(x_0)\ne0$.
+\begin{enumerate}
+  \item Every $x\in X$ has a unique representation
+        $x=\alpha x_0+y$ with $y\in\Ker f$.
+  \item If $f_1,f_2\ne0$ have the same kernel, then $f_1$ is a nonzero scalar
+        multiple of $f_2$.
+\end{enumerate}
+\end{noteexercise}
+
+\begin{proof}
+Take $\alpha=f(x)/f(x_0)$ and $y=x-\alpha x_0$.  Uniqueness follows by
+applying $f$.  For the second claim, use the same decomposition and compare
+the values on a vector outside the common kernel.
+\end{proof}
+\sourcepage{45}

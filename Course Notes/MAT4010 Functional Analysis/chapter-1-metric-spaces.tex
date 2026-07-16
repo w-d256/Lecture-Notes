@@ -1,0 +1,40 @@
+\chapter{Metric Spaces}
+
+\section{Isometries and completions}
+
+\begin{notedefinition}[Isometric maps and isometric spaces]
+Let $(X,d_X)$ and $(Y,d_Y)$ be metric spaces.  A map $T\colon X\to Y$ is an
+\emph{isometry} if
+\[
+  d_Y(Tx,Ty)=d_X(x,y)
+  \qquad(x,y\in X).
+\]
+The spaces $X$ and $Y$ are \emph{isometric} if there is a bijective isometry
+from one onto the other.
+\end{notedefinition}
+
+\begin{notetheorem}[Completion]
+Every metric space $(X,d)$ has a completion: there is a complete metric space
+$\widehat X$ and an isometry $J\colon X\to\widehat X$ whose range is dense.
+The completion is unique up to a unique isometry fixing the embedded copy of
+$X$.
+\end{notetheorem}
+
+\begin{noteexercise}
+What is the completion of a discrete metric space?
+\end{noteexercise}
+
+\begin{proof}
+For the discrete metric,
+\[
+  d(x,y)=
+  \begin{cases}
+    0,&x=y,\\
+    1,&x\ne y,
+  \end{cases}
+\]
+every Cauchy sequence is eventually constant: taking $\varepsilon=1/2$
+forces all sufficiently late terms to be equal.  Hence every Cauchy sequence
+already converges in $X$, so $X$ is complete and its completion is $X$ itself.
+\end{proof}
+\sourcepage{2}

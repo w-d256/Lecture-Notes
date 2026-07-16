@@ -1,0 +1,894 @@
+\chapter{Spectral Theory on Normed Spaces}
+
+Throughout the spectral portions of this chapter, scalar fields are complex
+unless explicitly stated otherwise.  For a linear operator
+$T\colon\Dom(T)\subseteq X\to X$ and $\lambda\in\mathbb C$, write
+\[
+  T_\lambda:=T-\lambda I.
+\]
+When $T_\lambda$ is one-to-one, its inverse is understood as a map from
+$\Ran(T_\lambda)$ to $\Dom(T)$.
+
+\section{Resolvents and spectra}
+
+\begin{notedefinition}[Regular values, resolvent, and spectrum]
+Let $X\ne\{0\}$ be a complex Banach space and let
+$T\colon\Dom(T)\subseteq X\to X$ be a closed linear operator.  A number
+$\lambda\in\mathbb C$ is a \emph{regular value} if
+$T_\lambda\colon\Dom(T)\to X$ is bijective and its inverse
+\[
+  R_\lambda(T):=T_\lambda^{-1}\colon X\to X
+\]
+is bounded.  The regular values form the \emph{resolvent set} $\rho(T)$,
+and
+\[
+  \sigma(T):=\mathbb C\setminus\rho(T)
+\]
+is the \emph{spectrum}.
+
+The spectrum is divided as follows:
+\begin{itemize}
+  \item $\lambda$ lies in the point spectrum $\sigma_p(T)$ when
+        $T_\lambda$ is not injective; these are precisely the eigenvalues;
+  \item it lies in the continuous spectrum when $T_\lambda$ is injective
+        and has dense, non-surjective range;
+  \item it lies in the residual spectrum when $T_\lambda$ is injective but
+        its range is not dense.
+\end{itemize}
+The eigenspace corresponding to $\lambda$ is $\Ker(T_\lambda)$.
+\end{notedefinition}
+
+\begin{noteremark}[The convention used in the source]
+The source calls $\lambda$ regular when $T_\lambda$ is injective and its
+inverse is bounded on a dense range.  For a closed operator on a Banach space,
+that convention is equivalent to the standard one above, as the next lemma
+shows.  Bounded everywhere-defined operators are closed, so no distinction
+arises in the remainder of these notes.
+\end{noteremark}
+
+\begin{notelemma}[A bounded inverse on a dense range]
+Let $X$ be a Banach space, let
+$T\colon\Dom(T)\subseteq X\to X$ be closed, and suppose $T_\lambda$ is
+injective with dense range.  If
+$T_\lambda^{-1}\colon\Ran(T_\lambda)\to X$ is bounded, then
+$\Ran(T_\lambda)=X$.
+\end{notelemma}
+
+\begin{proof}
+The inverse is closed because its graph is obtained from
+$\Graph(T_\lambda)$ by interchanging the coordinates.  Its domain is also
+closed: if $y_n\in\Ran(T_\lambda)$ and $y_n\to y$, boundedness makes
+$T_\lambda^{-1}y_n$ Cauchy, hence convergent in $X$, and closedness of the
+inverse puts $y$ back in its domain.  The range is therefore both dense and
+closed, so it is all of $X$.
+\end{proof}
+\sourcepages{156--157}
+
+\begin{noteexample}[A diagonal operator on $\ell^2$]
+Let $(\alpha_j)$ be dense in $[0,1]$ and define
+\[
+  T(\xi_j)=(\alpha_j\xi_j)
+  \qquad\text{on }\ell^2.
+\]
+Then
+\[
+  \sigma_p(T)=\{\alpha_j:j\ge1\},
+  \qquad
+  \sigma(T)=\overline{\{\alpha_j:j\ge1\}}=[0,1].
+\]
+If $\lambda\in[0,1]\setminus\{\alpha_j\}$, choose $j_n$ with
+$\alpha_{j_n}\to\lambda$.  Then
+\[
+  R_\lambda(T)e_{j_n}
+  =\frac1{\alpha_{j_n}-\lambda}e_{j_n},
+\]
+so the inverse is unbounded and $\lambda$ lies in the continuous spectrum.
+\end{noteexample}
+\sourcepage{157}
+
+\begin{notetheorem}[Neumann series]
+If $T\in\Bop{X}{X}$ on a Banach space and $\|T\|<1$, then
+\[
+  (I-T)^{-1}=\sum_{n=0}^{\infty}T^n
+\]
+with convergence in operator norm.
+\end{notetheorem}
+
+\begin{proof}
+The series converges absolutely in the Banach algebra $\Bop{X}{X}$.  Its
+partial sums satisfy
+\[
+  (I-T)\sum_{j=0}^{N}T^j=I-T^{N+1}
+  =\left(\sum_{j=0}^{N}T^j\right)(I-T),
+\]
+and $T^{N+1}\to0$ in norm.
+\end{proof}
+
+\begin{notetheorem}[Openness of the resolvent and local expansion]
+Let $T\in\Bop{X}{X}$ on a complex Banach space.  The resolvent set is open.
+If $\lambda_0\in\rho(T)$ and
+\[
+  |\lambda-\lambda_0|<\frac1{\|R_{\lambda_0}(T)\|},
+\]
+then $\lambda\in\rho(T)$ and
+\[
+  R_\lambda(T)
+  =\sum_{j=0}^{\infty}
+     (\lambda-\lambda_0)^jR_{\lambda_0}(T)^{j+1}.
+\]
+Consequently $\sigma(T)$ is closed and the resolvent is operator-valued
+holomorphic on $\rho(T)$.
+\end{notetheorem}
+
+\begin{proof}
+Factor
+\[
+  T-\lambda I
+  =(T-\lambda_0I)
+   \bigl[I-(\lambda-\lambda_0)R_{\lambda_0}(T)\bigr]
+\]
+and apply the Neumann series to the second factor.
+\end{proof}
+
+\begin{notedefinition}[Spectral radius]
+For $T\in\Bop{X}{X}$, the spectral radius is
+\[
+  r(T):=\sup\{ |\lambda|:\lambda\in\sigma(T)\}.
+\]
+\end{notedefinition}
+\sourcepage{158}
+
+\begin{notetheorem}[Resolvent identity and commutation]
+For $\lambda,\mu\in\rho(T)$,
+\[
+  R_\mu(T)-R_\lambda(T)
+  =(\mu-\lambda)R_\mu(T)R_\lambda(T).
+\]
+If $S\in\Bop{X}{X}$ commutes with $T$, then it commutes with every
+$R_\lambda(T)$.  In particular, all resolvents commute with one another.
+\end{notetheorem}
+
+\begin{proof}
+The first formula follows from
+\[
+  A^{-1}-B^{-1}=A^{-1}(B-A)B^{-1}
+\]
+with $A=T-\mu I$ and $B=T-\lambda I$.  If $ST=TS$, then
+$S(T-\lambda I)=(T-\lambda I)S$; multiplying by the inverse on both sides
+gives $SR_\lambda=R_\lambda S$.
+\end{proof}
+
+\begin{notetheorem}[Polynomial spectral mapping]
+For a polynomial $p$ and $T\in\Bop{X}{X}$,
+\[
+  \sigma(p(T))=p(\sigma(T)).
+\]
+\end{notetheorem}
+
+\begin{proof}
+If $\mu\notin p(\sigma(T))$, factor
+\[
+  p(z)-\mu=c\prod_{j=1}^{m}(z-\lambda_j).
+\]
+Every $\lambda_j$ belongs to $\rho(T)$, so the commuting product
+$p(T)-\mu I$ is invertible.
+
+Conversely, if $\mu=p(\lambda)$ with $\lambda\in\sigma(T)$, polynomial
+division gives
+\[
+  p(T)-p(\lambda)I=(T-\lambda I)q(T).
+\]
+If the left-hand side were invertible, the commuting factors would give both
+a left and a right inverse for $T-\lambda I$, contradicting
+$\lambda\in\sigma(T)$.
+\end{proof}
+
+\begin{notelemma}[Eigenvectors for distinct eigenvalues]
+Eigenvectors corresponding to distinct eigenvalues are linearly independent.
+\end{notelemma}
+\sourcepage{159}
+
+\begin{noteexample}[Idempotent operators]
+If $T^2=T$ and $T\ne0,I$, then
+\[
+  \sigma(T)=\{0,1\}.
+\]
+Indeed, polynomial spectral mapping applied to $p(z)=z^2-z$ gives
+$\sigma(T)\subseteq\{0,1\}$.  Since $T$ and $T-I$ are both noninjective,
+$0$ and $1$ are eigenvalues.
+\end{noteexample}
+\sourcepage{160}
+
+\begin{notetheorem}[Resolvent norm and distance to the spectrum]
+For $\lambda\in\rho(T)$,
+\[
+  \|R_\lambda(T)\|
+  \ge \frac1{\dist(\lambda,\sigma(T))}.
+\]
+Hence the resolvent norm tends to infinity as $\lambda$ approaches the
+spectrum through $\rho(T)$.
+\end{notetheorem}
+
+\begin{proof}
+The local expansion shows that the open disk of radius
+$1/\|R_\lambda(T)\|$ centred at $\lambda$ lies in $\rho(T)$.  Its radius
+cannot exceed the distance from $\lambda$ to the complementary set
+$\sigma(T)$.
+\end{proof}
+\sourcepage{161}
+
+\begin{notetheorem}[Nonempty compact spectrum]
+If $X\ne\{0\}$ is a complex Banach space and $T\in\Bop{X}{X}$, then
+$\sigma(T)$ is nonempty and compact, and
+\[
+  \sigma(T)\subseteq\{\lambda:|\lambda|\le\|T\|\}.
+\]
+\end{notetheorem}
+
+\begin{proof}
+For $|\lambda|>\|T\|$ the Neumann expansion
+\[
+  R_\lambda(T)
+  =-\frac1\lambda\sum_{n=0}^{\infty}\frac{T^n}{\lambda^n}
+\]
+exists, so the spectrum is bounded.  It is closed by openness of the
+resolvent.
+
+If the spectrum were empty, then for every $x\in X$ and $f\in X^*$ the
+scalar function $h(\lambda)=f(R_\lambda(T)x)$ would be entire.  The displayed
+expansion shows that $h(\lambda)\to0$ as $|\lambda|\to\infty$, so Liouville's
+theorem makes $h$ identically zero.  Since bounded functionals separate
+points, $R_\lambda(T)=0$, impossible for an inverse.
+\end{proof}
+
+\begin{notetheorem}[Spectral radius formula]
+For $T\in\Bop{X}{X}$ on a complex Banach space,
+\[
+  r(T)=\lim_{n\to\infty}\|T^n\|^{1/n}
+      =\inf_{n\ge1}\|T^n\|^{1/n}.
+\]
+\end{notetheorem}
+
+\begin{proof}
+The sequence $a_n=\|T^n\|$ is submultiplicative, so
+$a_n^{1/n}$ has a limit equal to its infimum.  Polynomial spectral mapping
+gives
+\[
+  r(T)^n=r(T^n)\le\|T^n\|,
+\]
+therefore $r(T)\le\lim_n\|T^n\|^{1/n}$.
+
+For the reverse inequality, fix $\rho>r(T)$.  The circle
+$|\lambda|=\rho$ lies in the resolvent set.  The Laurent coefficients of the
+resolvent at infinity satisfy the Cauchy formula
+\[
+  T^n=-\frac1{2\pi i}\int_{|\lambda|=\rho}
+       \lambda^nR_\lambda(T)\,\mathrm d\lambda.
+\]
+Thus, with $M_\rho=\max_{|\lambda|=\rho}\|R_\lambda(T)\|$,
+\[
+  \|T^n\|\le M_\rho\rho^{n+1}.
+\]
+Taking $n$th roots and then letting $\rho\downarrow r(T)$ gives the reverse
+inequality.
+\end{proof}
+\sourcepage{162}
+
+\section{Compact operators}
+
+\begin{notedefinition}[Compact linear operator]
+Let $X,Y$ be normed spaces.  A linear operator $T\colon X\to Y$ is
+\emph{compact} if it maps every bounded subset of $X$ to a relatively compact
+subset of $Y$.
+\end{notedefinition}
+
+\begin{notetheorem}[Basic compactness criteria]
+Let $T\colon X\to Y$ be linear.
+\begin{enumerate}
+  \item $T$ is compact if and only if every bounded sequence $(x_n)$ has a
+        subsequence $(x_{n_k})$ for which $(Tx_{n_k})$ converges in $Y$.
+  \item Every compact linear operator is bounded.
+  \item The identity on an infinite-dimensional normed space is not compact.
+  \item If $T$ is bounded and either its domain or its range is
+        finite-dimensional, then $T$ is compact.
+\end{enumerate}
+\end{notetheorem}
+
+\begin{proof}
+The first assertion is sequential compactness in metric spaces.  For the
+second, the relatively compact set $T(B_X)$ is bounded, so
+$\sup_{\|x\|\le1}\|Tx\|<\infty$.  The third follows because the closed unit
+ball is not compact in infinite dimension.  The final assertion follows from
+finite-dimensional Heine--Borel compactness.
+\end{proof}
+
+\begin{notetheorem}[Norm limits of compact operators]
+Let $Y$ be Banach.  If $T_n\in\Kop{X}{Y}$ and $\|T_n-T\|\to0$, then $T$ is
+compact.  Consequently $\Kop{X}{Y}$ is a closed subspace of
+$\Bop{X}{Y}$.
+\end{notetheorem}
+
+\begin{proof}
+Given a bounded sequence, successively extract subsequences on which
+$T_1,T_2,\ldots$ converge, and take the diagonal subsequence $(x_{n_k})$.
+Put $M=\max\{1,\sup_k\|x_{n_k}\|\}$.  Choose $j$ with
+$\|T-T_j\|<\varepsilon/(3M)$ and then $k,\ell$ large enough that
+$\|T_jx_{n_k}-T_jx_{n_\ell}\|<\varepsilon/3$.  It follows that
+$(Tx_{n_k})$ is Cauchy, hence convergent in $Y$.
+\end{proof}
+\sourcepages{163--165}
+
+\begin{notetheorem}[Weak-to-strong continuity]
+If $T\colon X\to Y$ is compact and $x_n\weakto x$, then
+\[
+  Tx_n\longrightarrow Tx
+\]
+in norm.
+\end{notetheorem}
+
+\begin{proof}
+The sequence $(x_n)$ is bounded.  Every subsequence of $(Tx_n)$ has a
+norm-convergent further subsequence by compactness.  Its norm limit must be
+$Tx$, because bounded linear maps preserve weak convergence and weak limits
+are unique.  Therefore the whole sequence converges to $Tx$ in norm.
+\end{proof}
+\sourcepage{164}
+
+\begin{notedefinition}[$\varepsilon$-nets and total boundedness]
+A finite set $F$ is an $\varepsilon$-net for $B$ if every point of $B$ lies
+within distance $\varepsilon$ of a point of $F$.  A set is \emph{totally
+bounded} if it has a finite $\varepsilon$-net for every $\varepsilon>0$.
+\end{notedefinition}
+
+\begin{notelemma}[Total boundedness]
+For a subset $B$ of a metric space:
+\begin{enumerate}
+  \item relative compactness implies total boundedness;
+  \item total boundedness in a complete space implies relative compactness;
+  \item the centres of a finite $\varepsilon$-net may be chosen in $B$;
+  \item every totally bounded set is separable.
+\end{enumerate}
+\end{notelemma}
+
+\begin{proof}
+A compact set is covered by finitely many $\varepsilon$-balls.  Conversely,
+successive finite $2^{-n}$-nets yield a Cauchy subsequence of every sequence;
+completeness supplies its limit.  Replacing each nonempty covering ball by a
+point of $B$ proves the third assertion.  The union of finite $1/n$-nets is a
+countable dense subset.
+\end{proof}
+\sourcepage{166}
+
+\begin{notetheorem}[Separable range and extension to the completion]
+Let $T\colon X\to Y$ be compact.
+\begin{enumerate}
+  \item $\Ran(T)$ is separable.
+  \item If $Y$ is Banach and $\widehat X$ is the completion of $X$, the
+        bounded extension $\widehat T\colon\widehat X\to Y$ is compact.
+\end{enumerate}
+\end{notetheorem}
+
+\begin{proof}
+Since $X=\bigcup_{n\ge1}nB_X$ and each $T(nB_X)$ is relatively compact and
+therefore separable, a countable union of countable dense sets is dense in
+$\Ran(T)$.
+
+For the extension, let $(\widehat x_n)$ be bounded in $\widehat X$ and choose
+$x_n\in X$ with $\|x_n-\widehat x_n\|\to0$.  The sequence $(x_n)$ is bounded,
+so some $Tx_{n_k}$ converges.  Since
+$\widehat T(\widehat x_{n_k}-x_{n_k})\to0$, the corresponding
+$\widehat T\widehat x_{n_k}$ also converges.
+\end{proof}
+
+\begin{notetheorem}[Schauder theorem]
+If $T\colon X\to Y$ is compact, then its adjoint
+$T^*\colon Y^*\to X^*$ is compact.
+\end{notetheorem}
+
+\begin{proof}
+The set $K=\overline{T(B_X)}$ is compact and hence totally bounded.  Given
+$\varepsilon>0$, choose $y_1,\ldots,y_N\in K$ so that every $Tx$ with
+$\|x\|\le1$ is within $\varepsilon/4$ of some $y_j$.  On the dual unit ball,
+the coordinate map
+\[
+  g\longmapsto(g(y_1),\ldots,g(y_N))
+\]
+has totally bounded image in the finite-dimensional space $\mathbb K^N$.
+Choose finitely many representatives so that any two functionals in the same
+coordinate cell differ by less than $\varepsilon/2$ on each $y_j$.
+Then, for $\|x\|\le1$ and the corresponding $j$,
+\[
+ |(g-h)(Tx)|
+ \le |(g-h)(y_j)|+\|g-h\|\,\|Tx-y_j\|<\varepsilon.
+\]
+Thus $T^*(B_{Y^*})$ is totally bounded in the Banach space $X^*$, hence
+relatively compact.
+\end{proof}
+\sourcepage{167}
+
+\section{Spectral structure of compact operators}
+
+\begin{notetheorem}[Nonzero eigenvalues]
+Let $T\colon X\to X$ be compact.  Its set of eigenvalues is at most
+countable, and $0$ is its only possible accumulation point.  Equivalently,
+for every $c>0$ there are only finitely many eigenvalues satisfying
+$|\lambda|\ge c$.
+\end{notetheorem}
+
+\begin{proof}
+Suppose distinct eigenvalues $\lambda_n$ satisfy $|\lambda_n|\ge c>0$, and
+choose eigenvectors so that
+$M_n=\Span\{x_1,\ldots,x_n\}$ is strictly increasing.  By Riesz's lemma choose
+$y_n\in M_n$ with $\|y_n\|=1$ and
+$\dist(y_n,M_{n-1})\ge1/2$.  Each $M_n$ is $T$-invariant.  For $m<n$,
+\[
+  Ty_n-Ty_m
+  =\lambda_n y_n+z_{m,n}
+  \qquad(z_{m,n}\in M_{n-1}),
+\]
+so $\|Ty_n-Ty_m\|\ge c/2$.  This contradicts compactness.  The finiteness
+claim implies countability by taking $c=1/k$.
+\end{proof}
+
+\begin{notelemma}[Composition]
+If $T$ is compact and $S$ is bounded, then $TS$ and $ST$ are compact whenever
+the compositions are defined.
+\end{notelemma}
+\sourcepage{168}
+
+\begin{notetheorem}[Finite-dimensional null spaces]
+Let $T\colon X\to X$ be compact and $\lambda\ne0$.  Then
+\[
+  \dim\Ker(T-\lambda I)<\infty.
+\]
+More generally, every $\Ker(T-\lambda I)^n$ is finite-dimensional.
+\end{notetheorem}
+
+\begin{proof}
+On $N=\Ker(T-\lambda I)$ one has $Tx=\lambda x$.  Hence the image under $T$
+of the closed unit ball of $N$ is a scalar multiple of that ball.  Compactness
+of $T$ makes the ball compact, so $N$ is finite-dimensional.
+
+For powers, the binomial expansion gives
+\[
+  (T-\lambda I)^n=(-\lambda)^nI+K_n,
+\]
+where $K_n$ is compact.  The same argument applied to $K_n$ shows that the
+kernel is finite-dimensional.
+\end{proof}
+
+\begin{notetheorem}[Closed range of a compact perturbation of a scalar]
+Let $X$ be Banach, let $T\colon X\to X$ be compact, and let
+$\lambda\ne0$.  Then
+\[
+  \Ran(T-\lambda I)
+\]
+is closed.  The same is true for every power $(T-\lambda I)^n$.
+\end{notetheorem}
+
+\begin{proof}
+Put $A=T-\lambda I$ and $N=\Ker A$.  The induced injective map
+\[
+  \widetilde A\colon X/N\to X,
+  \qquad \widetilde A(x+N)=Ax,
+\]
+is bounded below.  Otherwise there are cosets of norm one represented by a
+bounded sequence $(x_n)$ with $Ax_n\to0$.  Compactness gives a subsequence
+for which $Tx_n$ converges, and then
+\[
+  \lambda x_n=Tx_n-Ax_n
+\]
+converges.  Its limit belongs to $N$, contradicting
+$\dist(x_n,N)=1$.  A bounded-below operator has closed range.
+
+For $A^n=(-\lambda)^nI+K_n$, apply the same argument to the compact operator
+$K_n$.
+\end{proof}
+
+\begin{notecorollary}
+Let $T\colon X\to Y$ be compact between Banach spaces.  Then
+$\Ran(T)$ contains no closed infinite-dimensional subspace of $Y$.
+\end{notecorollary}
+
+\begin{proof}
+If a closed infinite-dimensional subspace $M\subseteq\Ran(T)$ existed, the
+map $T\colon T^{-1}(M)\to M$ would be a bounded surjection between Banach
+spaces.  The open mapping theorem would make a fixed multiple of the image of
+the unit ball contain $B_M$.  That would make $B_M$ relatively compact,
+contradicting infinite dimensionality.
+\end{proof}
+\sourcepages{169--171}
+
+\section{Stabilization and the Riesz--Schauder theorem}
+
+Throughout this section, $X$ is a Banach space and
+$A=T-\lambda I$, where $T\colon X\to X$ is compact and $\lambda\ne0$.
+Write
+\[
+  N_n:=\Ker A^n,
+  \qquad
+  R_n:=\Ran A^n.
+\]
+Then $N_0\subseteq N_1\subseteq\cdots$ and
+$X=R_0\supseteq R_1\supseteq\cdots$.
+
+\begin{notelemma}[Stabilization of null spaces]
+There is a least integer $p\ge0$ such that
+\[
+  N_p=N_{p+1}=N_{p+2}=\cdots.
+\]
+If $p>0$, all inclusions $N_0\subsetneq N_1\subsetneq\cdots\subsetneq N_p$
+are proper.
+\end{notelemma}
+
+\begin{proof}
+If the chain were strictly increasing forever, Riesz's lemma would provide
+$x_n\in N_n$ with $\|x_n\|=1$ and
+$\dist(x_n,N_{n-1})\ge1/2$.  For $m<n$,
+$Ax_n\in N_{n-1}$ and $Tx_m=Ax_m+\lambda x_m\in N_m\subseteq N_{n-1}$.
+Thus
+\[
+  Tx_n-Tx_m=\lambda x_n+z_{m,n}
+  \qquad(z_{m,n}\in N_{n-1}),
+\]
+so $\|Tx_n-Tx_m\|\ge|\lambda|/2$, contradicting compactness.  Once
+$N_p=N_{p+1}$, applying $A$ shows inductively that every later equality also
+holds.
+\end{proof}
+
+\begin{notelemma}[Stabilization of ranges]
+There is a least integer $q\ge0$ such that
+\[
+  R_q=R_{q+1}=R_{q+2}=\cdots.
+\]
+If $q>0$, all inclusions $R_0\supsetneq R_1\supsetneq\cdots\supsetneq R_q$
+are proper.
+\end{notelemma}
+
+\begin{proof}
+The adjoint $T^*$ is compact and
+\[
+  A^*=T^*-\lambda I.
+\]
+The null-space chain of $A^*$ stabilizes.  Since every $R_n$ is closed and
+\[
+  R_n^\perp=\Ker(A^*)^n,
+\]
+equality of two successive adjoint kernels is equivalent, by Hahn--Banach,
+to equality of the corresponding ranges.
+\end{proof}
+\sourcepages{172--173}
+
+\begin{notetheorem}[Equal ascent and descent]
+The least stabilization indices above are equal: $p=q=:r$.  Consequently
+\[
+  \Ker A^r=\Ker A^{r+1}=\cdots,
+  \qquad
+  \Ran A^r=\Ran A^{r+1}=\cdots.
+\]
+If $r>0$, every preceding inclusion in both chains is proper.
+\end{notetheorem}
+
+\begin{proof}
+If the null chain stabilizes at $p$, then
+\[
+  \Ker A^p\cap\Ran A^p=\{0\}.
+\]
+Indeed, if $x=A^py$ and $A^px=0$, then $A^{2p}y=0$; stabilization gives
+$y\in\Ker A^p$, hence $x=0$.
+
+If the range chain stabilizes at $q$, then
+\[
+  X=\Ker A^q+\Ran A^q.
+\]
+For $x\in X$, equality $\Ran A^q=\Ran A^{2q}$ gives
+$A^qx=A^{2q}y$ for some $y$, and then
+$x-A^qy\in\Ker A^q$.
+
+If $p\le q$, then $\Ker A^p=\Ker A^q$.  Applying $A^p$ to
+$X=\Ker A^q+\Ran A^q$ gives
+$\Ran A^p=\Ran A^{p+q}=\Ran A^q$, so $q\le p$.  If $q\le p$, decompose every
+$x\in\Ker A^p$ as $x=u+v$ with $u\in\Ker A^q$ and
+$v\in\Ran A^q=\Ran A^p$.  Then
+$v\in\Ker A^p\cap\Ran A^p=\{0\}$, so
+$\Ker A^p=\Ker A^q$ and $p\le q$.  Hence $p=q$.
+\end{proof}
+\sourcepage{174}
+
+\begin{notetheorem}[Nonzero spectral values are eigenvalues]
+Let $X$ be a complex Banach space and $T\in\Kop{X}{X}$.  Every
+$\lambda\in\sigma(T)\setminus\{0\}$ is an eigenvalue.
+\end{notetheorem}
+
+\begin{proof}
+If $A=T-\lambda I$ were injective, its null-space chain would stabilize at
+$r=0$.  Equal ascent and descent would then give
+$\Ran A=X$.  Thus $A$ would be a bounded bijection of Banach spaces, and the
+bounded inverse theorem would put $\lambda$ in the resolvent, a contradiction.
+\end{proof}
+\sourcepage{175}
+
+\begin{notetheorem}[Riesz decomposition]
+With $r$ as above,
+\[
+  X=\Ker A^r\oplus\Ran A^r.
+\]
+Both summands are closed and invariant under $A$ and $T$.
+\end{notetheorem}
+
+\begin{proof}
+The intersection is zero by the argument in the preceding theorem, and the
+sum is all of $X$ by range stabilization.  Closedness of the two summands was
+proved above.
+\end{proof}
+\sourcepage{176}
+
+\begin{noteexercise}[Two noncompact operators]
+\begin{enumerate}
+  \item For the diagonal operator on $\ell^2$ with $(\alpha_j)$ dense in
+        $[0,1]$, choose a subsequence with $|\alpha_{j_k}|\ge1/2$.  Then
+        $\|Te_{j_k}-Te_{j_\ell}\|\ge1/\sqrt2$, so $T$ is not compact.
+  \item On $C[0,1]$, the multiplication operator $(Tx)(t)=tx(t)$ is not
+        compact.  The bounded sequence $x_n(t)=t^n$ has images
+        $Tx_n=t^{n+1}$.  Every subsequence converges pointwise to the
+        discontinuous function that is $0$ on $[0,1)$ and $1$ at $1$, so no
+        subsequence can converge uniformly.
+\end{enumerate}
+\end{noteexercise}
+\sourcepage{177}
+
+\section{Fredholm solvability}
+
+Throughout this section, $X$ is a complex Banach space.  Let
+$T\in\Kop{X}{X}$, let $\lambda\ne0$, and put
+\[
+  A:=T-\lambda I.
+\]
+For both real and complex Banach spaces,
+\[
+  A^*=T^*-\lambda I.
+\]
+There is no conjugation here: the Banach-space adjoint acts on complex-linear
+functionals, so $(\lambda I)^*=\lambda I$.  Conjugation appears only after
+identifying a Hilbert space with its dual through the Riesz map.
+
+\begin{notetheorem}[Solvability of $Ax=y$]
+The equation
+\[
+  Ax=y
+\]
+has a solution if and only if
+\[
+  f(y)=0
+  \qquad\text{for every }f\in\Ker A^*.
+\]
+In other words,
+\[
+  \Ran A={}^{\perp}(\Ker A^*).
+\]
+\end{notetheorem}
+
+\begin{proof}
+The identity $(\Ran A)^\perp=\Ker A^*$ holds for every bounded operator.  Here
+$\Ran A$ is closed, so the Hahn--Banach annihilator theorem gives
+\[
+  \Ran A={}^{\perp}\bigl((\Ran A)^\perp\bigr)
+        ={}^{\perp}(\Ker A^*).
+\]
+\end{proof}
+
+\begin{notedefinition}[Normally solvable equation]
+A bounded operator equation $Bx=y$ is called \emph{normally solvable} when
+\[
+  y\in\Ran B
+  \quad\Longleftrightarrow\quad
+  f(y)=0\text{ for every }f\in\Ker B^*.
+\]
+Equivalently, $\Ran B$ is closed.
+\end{notedefinition}
+
+\begin{notelemma}[A bounded choice of solution]
+There is $C>0$ such that whenever $y\in\Ran A$, one can choose a solution
+$\widetilde x$ of $A\widetilde x=y$ satisfying
+\[
+  \|\widetilde x\|\le C\|y\|.
+\]
+\end{notelemma}
+
+\begin{proof}
+The finite-dimensional space $\Ker A$ has a closed complement $M$.  The
+restriction
+\[
+  A|_M\colon M\to\Ran A
+\]
+is a bounded bijection between Banach spaces.  Its inverse is bounded, and
+$\widetilde x=(A|_M)^{-1}y$ has the required estimate.
+\end{proof}
+\sourcepages{178--180}
+
+\begin{notetheorem}[Solvability of the adjoint equation]
+For $g\in X^*$, the equation
+\[
+  A^*f=g
+\]
+has a solution if and only if
+\[
+  g(x)=0
+  \qquad\text{for every }x\in\Ker A.
+\]
+Equivalently,
+\[
+  \Ran A^*=(\Ker A)^\perp.
+\]
+\end{notetheorem}
+
+\begin{proof}
+Define on $\Ran A$ the functional $F(Ax)=g(x)$.  The condition on $g$
+makes $F$ well defined.  For $y=Ax$, choose a solution $\widetilde x$ with
+$\|\widetilde x\|\le C\|y\|$; then
+\[
+  |F(y)|=|g(\widetilde x)|\le C\|g\|\|y\|.
+\]
+Thus $F$ is bounded.  Extend it to $f\in X^*$ by Hahn--Banach.  For every
+$x\in X$,
+$(A^*f)(x)=f(Ax)=F(Ax)=g(x)$, so $A^*f=g$.
+\end{proof}
+\sourcepage{181}
+
+\begin{notetheorem}[Injectivity, surjectivity, and bounded inverses]
+The following are equivalent:
+\begin{enumerate}
+  \item $A$ is injective;
+  \item $A$ is surjective;
+  \item $A$ is bijective.
+\end{enumerate}
+When these conditions hold, $A^{-1}$ is bounded.  The same equivalence holds
+for $A^*$.
+\end{notetheorem}
+
+\begin{proof}
+If $A$ is injective, its ascent is zero; equal ascent and descent imply that
+its range chain stabilizes at zero, so $\Ran A=X$.  Conversely, if $A$ is
+surjective, then $R_0=R_1=X$, so the descent is zero.  Equal ascent and descent
+then gives $N_0=N_1$, hence $\Ker A=\{0\}$.  A bounded bijection between
+Banach spaces has bounded inverse.  Applying the same reasoning to the compact
+operator $T^*$ gives the adjoint statement.
+\end{proof}
+
+\begin{notelemma}[Biorthogonal system]
+If $f_1,\ldots,f_m\in X^*$ are linearly independent, there are
+$z_1,\ldots,z_m\in X$ such that
+\[
+  f_j(z_k)=\delta_{jk}.
+\]
+\end{notelemma}
+
+\begin{proof}
+Proceed by induction.  Suppose $z_1,\ldots,z_m$ have been constructed.  The
+functional $f_{m+1}$ cannot vanish on
+$\bigcap_{j=1}^{m}\Ker f_j$, for otherwise it would be a linear combination
+of $f_1,\ldots,f_m$.  Choose $w$ in that intersection with
+$f_{m+1}(w)\ne0$ and put $z_{m+1}=w/f_{m+1}(w)$.  Replacing each old $z_j$ by
+$z_j-f_{m+1}(z_j)z_{m+1}$ preserves the previous relations and makes the new
+one biorthogonal as well.
+\end{proof}
+\sourcepages{182--183}
+
+\begin{notetheorem}[Equality of nullities]
+For $A=T-\lambda I$ with $\lambda\ne0$,
+\[
+  \dim\Ker A=\dim\Ker A^*<\infty.
+\]
+Equivalently, $A$ has Fredholm index zero.
+\end{notetheorem}
+
+\begin{proof}
+Let $r$ be the common ascent and descent.  The Riesz decomposition gives
+\[
+  X=N\oplus R,
+  \qquad N=\Ker A^r,
+  \quad R=\Ran A^r.
+\]
+The restriction of $A$ to $R$ is bijective, while $N$ is finite-dimensional
+and $A|_N$ is nilpotent.  Therefore finite-dimensional rank--nullity gives
+\[
+  \operatorname{codim}\Ran A=\dim\Ker A.
+\]
+Because $\Ran A$ is closed,
+$\Ker A^*=(\Ran A)^\perp$, whose dimension equals
+$\dim(X/\Ran A)$.  This proves the equality.
+\end{proof}
+
+\begin{notecorollary}
+For a compact operator on a complex Banach space and $\lambda\ne0$,
+\[
+  \lambda\in\sigma_p(T)
+  \quad\Longleftrightarrow\quad
+  \lambda\in\sigma_p(T^*).
+\]
+In particular, every nonzero spectral value of $T$ is an eigenvalue.
+\end{notecorollary}
+\sourcepage{184}
+
+\section{The Fredholm alternative and integral equations}
+
+\begin{notedefinition}[Fredholm alternative]
+A bounded operator $B\colon X\to X$ is said to satisfy the Fredholm
+alternative if exactly one of the following cases occurs:
+\begin{enumerate}
+  \item $B$ and $B^*$ are bijective, so $Bx=y$ and $B^*f=g$ have
+        unique solutions for every $y\in X$ and $g\in X^*$;
+  \item the two homogeneous equations have finite-dimensional nonzero
+        solution spaces of the same dimension, and the nonhomogeneous
+        equations are solvable precisely under the orthogonality conditions
+        \[
+          f(y)=0\quad(f\in\Ker B^*),
+          \qquad
+          g(x)=0\quad(x\in\Ker B).
+        \]
+\end{enumerate}
+\end{notedefinition}
+
+\begin{notetheorem}[Fredholm alternative for compact operators]
+If $T\colon X\to X$ is compact and $\lambda\ne0$, then
+$T-\lambda I$ satisfies the Fredholm alternative.
+\end{notetheorem}
+
+\begin{proof}
+This is the combination of closed range, the two solvability criteria,
+injectivity--surjectivity equivalence, and equality of nullities established
+above.
+\end{proof}
+\sourcepage{185}
+
+\begin{notetheorem}[Arzel\`a--Ascoli, sequential form]
+A uniformly bounded and equicontinuous sequence in $C([a,b])$ has a uniformly
+convergent subsequence.
+\end{notetheorem}
+
+\begin{notetheorem}[Compact integral operator]
+Let $k\in C([a,b]\times[a,b])$ and define
+\[
+  (Tx)(s)=\int_a^b k(s,t)x(t)\,\mathrm dt
+  \qquad(x\in C([a,b])).
+\]
+Then $T\in\Kop{C([a,b])}{C([a,b])}$.
+\end{notetheorem}
+
+\begin{proof}
+Linearity is immediate, and
+\[
+  \|Tx\|_\infty
+  \le \|x\|_\infty
+      \max_{s\in[a,b]}\int_a^b|k(s,t)|\,\mathrm dt.
+\]
+Let $(x_n)$ be bounded by $M$ and put $y_n=Tx_n$.  Uniform continuity of $k$
+on the compact square implies that, whenever $|s_1-s_2|$ is sufficiently
+small,
+\[
+  |y_n(s_1)-y_n(s_2)|
+  \le M\int_a^b|k(s_1,t)-k(s_2,t)|\,\mathrm dt
+  <\varepsilon
+\]
+uniformly in $n$.  Thus $(y_n)$ is uniformly bounded and equicontinuous, so
+Arzel\`a--Ascoli provides a uniformly convergent subsequence.
+\end{proof}
+
+\begin{notecorollary}[Fredholm integral equation]
+For $\mu\ne0$, consider
+\[
+  x(s)-\mu\int_a^b k(s,t)x(t)\,\mathrm dt=\widetilde y(s).
+\]
+Exactly one of the following occurs:
+\begin{enumerate}
+  \item for every $\widetilde y\in C([a,b])$ there is a unique solution;
+  \item the homogeneous equation has a finite-dimensional nonzero solution
+        space, and the nonhomogeneous equation is solvable exactly when its
+        right-hand side annihilates every solution of the adjoint homogeneous
+        equation in the dual space.
+\end{enumerate}
+On $L^2([a,b])$, when $k\in L^2([a,b]^2)$, the same conclusion follows from
+compactness of the Hilbert--Schmidt operator; its Hilbert-space adjoint has
+kernel $\overline{k(t,s)}$.
+\end{notecorollary}
+\sourcepages{186--187}

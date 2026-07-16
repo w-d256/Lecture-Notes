@@ -1,0 +1,1483 @@
+\chapter{Fundamental Theorems for Banach Spaces}
+
+\section{Hahn--Banach theory}
+
+\begin{notedefinition}[Linear functional]
+A linear functional on a vector space $V$ is a linear map
+$\varphi\colon V\to\mathbb K$.
+\end{notedefinition}
+
+\begin{notetheorem}[Bounded functionals and closed kernels]
+Let $V$ be a normed space and let $0\ne\varphi\colon V\to\mathbb K$ be
+linear.  The following are equivalent:
+\begin{enumerate}
+  \item $\varphi$ is bounded;
+  \item $\varphi$ is continuous;
+  \item $\Ker\varphi$ is closed.
+\end{enumerate}
+Since $\varphi\ne0$, its kernel is automatically a proper subspace.  That
+properness alone does not imply boundedness.
+\end{notetheorem}
+
+\begin{proof}
+Boundedness and continuity are equivalent, and continuity makes the inverse
+image of $\{0\}$ closed.  Suppose $\Ker\varphi$ is closed.  Choose
+$x_0\notin\Ker\varphi$.  Every $x$ has the unique form
+$x=y+\alpha x_0$ with $y\in\Ker\varphi$, and closedness gives
+$d:=\dist(x_0,\Ker\varphi)>0$.  Hence
+\[
+  d|\alpha|
+  \le\|\alpha x_0-y'\|
+  \le\|x\|
+\]
+for a suitable $y'\in\Ker\varphi$, while
+$|\varphi(x)|=|\alpha|\,|\varphi(x_0)|$.  Thus
+$|\varphi(x)|\le |\varphi(x_0)|d^{-1}\|x\|$.
+\end{proof}
+\sourcepages{46--47}
+
+\begin{notetheorem}[Bases and discontinuous functionals]
+Every vector space has a Hamel basis.  Consequently, every
+infinite-dimensional normed space has a discontinuous linear functional.
+\end{notetheorem}
+
+\begin{proof}
+The basis theorem follows from Zorn's lemma.  Choose linearly independent unit
+vectors $(e_n)$ and extend them to a Hamel basis.  Prescribe
+$\varphi(e_n)=n$ and $\varphi=0$ on the remaining basis vectors.  The
+resulting algebraic linear functional is unbounded on the unit sphere.
+\end{proof}
+\sourcepages{47--48}
+
+\begin{notelemma}[One-dimensional extension step]
+Let $V$ be a real normed space, let $U\subseteq V$ be a subspace, let
+$\psi\in U^*$, and let $h\notin U$.  There is an extension
+$\widetilde\psi\colon U+\mathbb Rh\to\mathbb R$ with
+$\|\widetilde\psi\|=\|\psi\|$.
+\end{notelemma}
+
+\begin{proof}
+Any extension has the form
+\[
+  \widetilde\psi(u+th)=\psi(u)+tc.
+\]
+The estimate $|\widetilde\psi(u+th)|\le\|\psi\|\|u+th\|$ is equivalent to
+choosing $c$ in the interval
+\[
+\sup_{u\in U}\bigl(-\|\psi\|\|u+h\|-\psi(u)\bigr)
+\le c\le
+\inf_{v\in U}\bigl(\|\psi\|\|v+h\|-\psi(v)\bigr).
+\]
+For $u,v\in U$, the left expression at $u$ is at most the right expression at
+$v$ because
+\[
+  \psi(v)-\psi(u)=\psi(v-u)
+  \le\|\psi\|\|v-u\|
+  \le\|\psi\|\bigl(\|u+h\|+\|v+h\|\bigr).
+\]
+Thus the interval is nonempty.
+\end{proof}
+\sourcepage{49}
+
+\begin{notetheorem}[Hahn--Banach theorem]
+Let $X$ be a real vector space, let $Y\subseteq X$ be a subspace, and let
+$p\colon X\to\mathbb R$ be sublinear.  If $f\colon Y\to\mathbb R$ is linear
+and $f(y)\le p(y)$ on $Y$, then $f$ has a linear extension
+$F\colon X\to\mathbb R$ satisfying $F(x)\le p(x)$ for all $x\in X$.
+\end{notetheorem}
+
+\begin{proof}
+Partially order all dominated extensions by extension.  Unions of chains are
+again dominated extensions, so Zorn's lemma gives a maximal one.  If its
+domain $M$ is not all of $X$, choose $x_0\notin M$.  An extension to
+$M+\mathbb Rx_0$ has the form
+$F_\alpha(m+tx_0)=F(m)+t\alpha$.  Domination is equivalent to
+\[
+  \sup_{m\in M}\bigl(F(m)-p(m-x_0)\bigr)
+  \le\alpha\le
+  \inf_{m\in M}\bigl(p(m+x_0)-F(m)\bigr).
+\]
+Sublinearity shows the left endpoint does not exceed the right endpoint,
+contradicting maximality.  Hence $M=X$.
+\end{proof}
+\sourcepages{50,53--54}
+
+\begin{notetheorem}[Complex Hahn--Banach theorem]
+Let $X$ be a complex vector space, let $Y\subseteq X$, and let
+$p\colon X\to[0,\infty)$ be a seminorm.  If $f\colon Y\to\mathbb C$ is
+complex linear and $|f(y)|\le p(y)$, then there is a complex-linear extension
+$F\colon X\to\mathbb C$ with $|F(x)|\le p(x)$.
+\end{notetheorem}
+
+\begin{proof}
+Let $u=\operatorname{Re}f$, regarded as a real-linear functional.  Extend
+$u$ by the real theorem to a real-linear $U$ with $|U(x)|\le p(x)$.  Define
+\[
+  F(x)=U(x)-iU(ix).
+\]
+Then $F$ is complex linear and extends $f$.  Given $x$ with $F(x)\ne0$,
+choose $\theta$ so that $e^{-i\theta}F(x)=|F(x)|$.  Since
+$F(e^{-i\theta}x)=e^{-i\theta}F(x)$,
+\[
+  |F(x)|=\operatorname{Re}F(e^{-i\theta}x)=U(e^{-i\theta}x)
+  \le p(e^{-i\theta}x)=p(x).
+\]
+\end{proof}
+\sourcepages{50--51,55--56}
+
+\begin{notecorollary}[Norm-preserving extension]
+Let $X$ be a real or complex normed space, let $Y\subseteq X$, and let
+$f\in Y^*$.  Then $f$ has an extension $F\in X^*$ satisfying
+\[
+  \|F\|=\|f\|.
+\]
+\end{notecorollary}
+
+\begin{proof}
+Apply Hahn--Banach with the sublinear functional
+$p(x)=\|f\|\|x\|$.  The domination yields $\|F\|\le\|f\|$; restriction to
+$Y$ yields the reverse inequality.
+\end{proof}
+\sourcepage{56}
+
+\begin{notetheorem}[Norming functional]
+For every nonzero $x_0$ in a normed space $X$, there is $f\in X^*$ such that
+\[
+  \|f\|=1,
+  \qquad
+  f(x_0)=\|x_0\|.
+\]
+Consequently,
+\[
+  \|x\|=\sup_{0\ne f\in X^*}\frac{|f(x)|}{\|f\|}
+       =\sup_{\|f\|\le1}|f(x)|.
+\]
+\end{notetheorem}
+
+\begin{proof}
+On $\Span\{x_0\}$ define
+$g(\alpha x_0)=\alpha\|x_0\|$.  It has norm one.  Extend it by
+Hahn--Banach.  The norm formula follows from the general estimate
+$|f(x)|\le\|f\|\|x\|$ and this norming functional.
+\end{proof}
+\sourcepage{57}
+
+\begin{notetheorem}[Taylor--Foguel unique-extension criterion]
+A normed space $X^*$ is strictly convex if and only if, for every subspace
+$Y\subseteq X$ and every $y^*\in Y^*$, there is at most one norm-preserving
+extension of $y^*$ to $X$.
+\end{notetheorem}
+
+\begin{proof}[Corrected proof outline]
+If $F_1\ne F_2$ are norm-preserving extensions of $y^*$, then
+$(F_1+F_2)/2$ is also an extension and has norm at least $\|y^*\|$.
+Strict convexity gives a contradiction after normalization.
+
+Conversely, suppose $X^*$ is not strictly convex.  Choose distinct
+$F_1,F_2\in S_{X^*}$ with $\|(F_1+F_2)/2\|=1$, and put
+$H=(F_1+F_2)/2$ and $Y=\Ker(F_1-F_2)$.  Choose $x_n\in S_X$ and unimodular
+scalars so that, after replacing $x_n$ by those scalar multiples,
+$H(x_n)\to1$.  Since $\operatorname{Re}F_j(x_n)\le1$ and their average
+tends to $1$, both $F_1(x_n)$ and $F_2(x_n)$ tend to $1$.  Hence
+$(F_1-F_2)(x_n)\to0$.  For the nonzero functional $F_1-F_2$,
+\[
+  \dist(x,Y)=\frac{|(F_1-F_2)(x)|}{\|F_1-F_2\|},
+\]
+so there are $y_n\in Y$ with $\|x_n-y_n\|\to0$.  It follows that
+$\|H|_Y\|=1$.  But $F_1|_Y=F_2|_Y=H|_Y$, and $F_1,F_2$ are two distinct
+norm-preserving extensions of this common restriction.
+\end{proof}
+\sourcepages{58--59}
+
+\begin{notetheorem}[Separating a point from a closed subspace]
+Let $Y$ be a closed subspace of a normed space $X$, let $x_0\notin Y$, and
+put $d=\dist(x_0,Y)$.  Then there is $f\in X^*$ such that
+\[
+  \|f\|=1,
+  \qquad
+  f|_Y=0,
+  \qquad
+  f(x_0)=d.
+\]
+\end{notetheorem}
+
+\begin{proof}
+On $Y+\mathbb Kx_0$ define $g(y+\alpha x_0)=\alpha d$.  Since
+$d\le\|x_0-y\|$ for every $y\in Y$,
+\[
+ |g(y+\alpha x_0)|=|\alpha|d
+ \le\|y+\alpha x_0\|.
+\]
+Thus $\|g\|\le1$, while approximating the distance shows $\|g\|=1$.
+Hahn--Banach extends $g$ with the same norm.
+\end{proof}
+\sourcepage{60}
+
+\begin{notecorollary}[Annihilator criterion for density]
+For a subspace $Y\subseteq X$,
+\[
+  \overline Y=X
+  \quad\Longleftrightarrow\quad
+  \{f\in X^*:f|_Y=0\}=\{0\}.
+\]
+\end{notecorollary}
+
+\begin{proof}
+If $Y$ is dense, continuity forces every functional vanishing on $Y$ to
+vanish on $X$.  If $\overline Y\ne X$, separate a point outside
+$\overline Y$ from the closed subspace $\overline Y$.
+\end{proof}
+
+\begin{notetheorem}[A separable dual forces a separable space]
+If $X^*$ is separable, then $X$ is separable.
+\end{notetheorem}
+
+\begin{proof}
+Choose a dense sequence $(f_n)$ in $S_{X^*}$ and, for each $n$, choose
+$x_n\in S_X$ with $|f_n(x_n)|>1/2$.  Let
+$M=\overline{\Span\{x_n:n\ge1\}}$.  If $M\ne X$, Hahn--Banach gives
+$f\in S_{X^*}$ vanishing on $M$.  Choose $n$ with $\|f-f_n\|<1/2$.
+Then $|f_n(x_n)|=|(f_n-f)(x_n)|<1/2$, a contradiction.
+\end{proof}
+\sourcepages{61--62}
+
+\subsection{Geometric Hahn--Banach theorems}
+
+\begin{notedefinition}[Minkowski functional]
+Let $C\subseteq X$ be open, convex, and contain $0$.  Its gauge is
+\[
+  p_C(x)=\inf\{t>0:x\in tC\}.
+\]
+Then $p_C$ is sublinear, continuous, and
+\[
+  C=\{x:p_C(x)<1\}.
+\]
+\end{notedefinition}
+
+\begin{proof}
+Openness and absorption make $p_C$ finite.  Positive homogeneity follows by
+rescaling.  If $x\in(r+\varepsilon)C$ and
+$y\in(s+\varepsilon)C$, convexity gives
+$x+y\in(r+s+2\varepsilon)C$, so
+$p_C(x+y)\le p_C(x)+p_C(y)$.  A norm ball contained in $C$ gives
+$p_C(x)\le M\|x\|$, hence continuity.  The displayed description of $C$
+follows from openness and convexity.
+\end{proof}
+
+\begin{notetheorem}[Separation of two open convex sets]
+Let $A,B$ be nonempty, disjoint, open, convex subsets of a real normed space
+$X$.  Then there are a nonzero $f\in X^*$ and $\gamma\in\mathbb R$ such that
+\[
+  f(a)\le\gamma\le f(b)
+  \qquad(a\in A,\ b\in B).
+\]
+\end{notetheorem}
+
+\begin{proof}
+Put $C=A-B$.  Then $C$ is open and convex and $0\notin C$.  Choose
+$c_0\in C$, set $U=C-c_0$, and let $p_U$ be its Minkowski functional.  The
+point $x_0=-c_0$ does not belong to $U$, so $p_U(x_0)\ge1$.  On
+$\Span\{x_0\}$ define $g(tx_0)=t p_U(x_0)$ and extend it by Hahn--Banach
+to a continuous functional $f\le p_U$.  For $c\in C$ one has
+$c-c_0\in U$, and therefore
+\[
+  f(c)=f(c-c_0)+f(c_0)<1-p_U(x_0)\le0.
+\]
+Thus $f(a)<f(b)$ for every $a\in A$ and $b\in B$.  Consequently
+$\sup_A f\le\inf_B f$; choose $\gamma$ between these two numbers.
+\end{proof}
+\sourcepages{63--65}
+
+\begin{notetheorem}[Strict separation of a compact set]
+Let $A$ be closed and convex and let $K$ be compact and convex in a real
+normed space, with $A\cap K=\varnothing$.  Then there are
+$f\in X^*\setminus\{0\}$, $\gamma\in\mathbb R$, and $\delta>0$ such that
+\[
+  f(a)\le\gamma-\delta<\gamma+\delta\le f(k)
+  \qquad(a\in A,\ k\in K).
+\]
+\end{notetheorem}
+
+\begin{proof}
+Compactness and closedness give $d=\dist(A,K)>0$.  The open convex
+neighbourhoods $A+B(0,d/3)$ and $K+B(0,d/3)$ are disjoint.  Separate them by
+the preceding theorem.  The two added balls produce a positive gap in the
+functional values.
+\end{proof}
+\sourcepage{65}
+
+\begin{notetheorem}[Nonunique extensions over a strict closed subspace]
+Let $Y$ be a proper closed subspace of a normed space $X$ and let
+$\ell\in Y^*$.  Besides a norm-preserving extension, there are continuous
+extensions with strictly larger norm.
+\end{notetheorem}
+
+\begin{proof}
+Choose a norm-preserving extension $L\in X^*$.  Since $Y$ is proper and
+closed, Hahn--Banach gives a nonzero $g\in X^*$ with $g|_Y=0$.  Then
+$L+tg$ extends $\ell$ for every scalar $t$, and
+$\|L+tg\|\to\infty$ as $|t|\to\infty$.
+\end{proof}
+\sourcepage{66}
+
+\begin{noteexercise}[Continuity of sublinear functionals]
+If a sublinear functional $p$ on a normed space is continuous at $0$ and
+$p(0)=0$, then it is continuous everywhere.
+\end{noteexercise}
+
+\begin{proof}
+Subadditivity gives
+\[
+  p(x)-p(y)\le p(x-y),
+  \qquad
+  p(y)-p(x)\le p(y-x).
+\]
+Both right-hand sides tend to zero as $x\to y$.
+\end{proof}
+\sourcepage{67}
+
+\begin{noteexercise}[Kernel contained in a subspace]
+Let $\varphi$ be a nonzero linear functional on $V$.  If a subspace
+$U\subseteq V$ contains $\Ker\varphi$, then either $U=\Ker\varphi$ or
+$U=V$.
+\end{noteexercise}
+
+\begin{proof}
+If $x\in U\setminus\Ker\varphi$, then every $v\in V$ can be written
+$v=(v-\varphi(v)x/\varphi(x))+\varphi(v)x/\varphi(x)$, with the first term
+in $\Ker\varphi\subseteq U$ and the second in $U$.
+\end{proof}
+
+\begin{noteexercise}[Uniqueness in the one-dimensional extension]
+In the one-dimensional Hahn--Banach step, the extension is unique exactly
+when the lower and upper endpoints of the admissible interval coincide.
+\end{noteexercise}
+
+\begin{noteexercise}[Separating an open ball from the origin]
+If an open ball $B(f_0,r)$ in a normed space does not contain $0$, then there
+is $\varphi\in X^*$ such that
+\[
+  \operatorname{Re}\varphi(f)>0
+  \qquad(f\in B(f_0,r)).
+\]
+\end{noteexercise}
+
+\begin{proof}
+Since $0\notin B(f_0,r)$, we have $\|f_0\|>r$.  By Hahn--Banach, choose
+$\varphi\in X^*$ with $\|\varphi\|=1$ and
+$\varphi(f_0)=\|f_0\|$; in the complex case, rotate a norming functional by a
+unimodular scalar to obtain this normalization.  If $f=f_0+h$ with
+$\|h\|<r$, then
+\[
+  \operatorname{Re}\varphi(f)
+  =\|f_0\|+\operatorname{Re}\varphi(h)
+  \ge \|f_0\|-|\varphi(h)|
+  >\|f_0\|-r
+  >0.
+\]
+\end{proof}
+\sourcepages{68--69}
+
+\begin{noteexercise}[Sublinear level sets and supporting functionals]
+Let $p$ be sublinear on a real vector space.
+\begin{enumerate}
+  \item The set $\{x:p(x)\le1\}$ is convex.
+  \item For every $x_0$ there is a linear functional $f$ such that
+        $f\le p$ on $X$ and $f(x_0)=p(x_0)$.
+\end{enumerate}
+\end{noteexercise}
+
+\begin{proof}
+Convexity is immediate from positive homogeneity and subadditivity.  Define
+$f_0(\alpha x_0)=\alpha p(x_0)$.  For $\alpha<0$, the inequality
+$p(x_0)+p(-x_0)\ge0$ gives
+$f_0(\alpha x_0)\le p(\alpha x_0)$.  Hahn--Banach extends $f_0$.
+\end{proof}
+\sourcepage{70}
+
+\begin{noteexercise}[Hyperplanes]
+A subspace $H$ of a vector space $X$ has codimension one if and only if
+$H=\Ker f$ for some nonzero linear functional $f$.  If two nonzero
+functionals have the same kernel, they are scalar multiples of each other.
+\end{noteexercise}
+
+\begin{proof}
+If $X/H$ is one-dimensional, compose the quotient map with a nonzero linear
+functional on $X/H$.  Conversely, the first isomorphism theorem gives
+$X/\Ker f\cong\Ran f$, which is one-dimensional.  The proportionality claim
+follows from the unique decomposition relative to a vector outside the common
+kernel.
+\end{proof}
+\sourcepage{71}
+
+\section{The dual of $C([a,b])$}
+
+\begin{notetheorem}[Riesz--Stieltjes representation]
+Every bounded linear functional $F$ on $C([a,b])$ has a representation
+\[
+  F(f)=\int_a^b f(t)\,\mathrm{d}\alpha(t),
+\]
+where $\alpha$ is a function of bounded variation on $[a,b]$.  With the
+normalization $\alpha(a)=0$ and right continuity on $(a,b)$, the representing
+function is unique and
+\[
+  \|F\|=\Var_{[a,b]}(\alpha).
+\]
+Equivalently, $C([a,b])^*$ is isometrically the space of finite signed or
+complex regular Borel measures on $[a,b]$.
+\end{notetheorem}
+
+\begin{noteremark}
+The notation $C([a,b])^*\cong BV([a,b])$ requires a normalization: adding a
+constant to $\alpha$ does not change the Riemann--Stieltjes integral.  The
+measure formulation avoids this ambiguity.
+\end{noteremark}
+\sourcepage{72}
+
+\section{Adjoint operators and annihilators}
+
+\begin{notedefinition}[Adjoint]
+Let $T\in\Bop{X}{Y}$.  The adjoint is the bounded linear map
+\[
+  T^*\colon Y^*\to X^*,
+  \qquad
+  (T^*g)(x)=g(Tx).
+\]
+\end{notedefinition}
+
+\begin{notetheorem}[Norm of the adjoint]
+For every bounded operator $T$,
+\[
+  \|T^*\|=\|T\|.
+\]
+\end{notetheorem}
+
+\begin{proof}
+For $g\in Y^*$,
+$\|T^*g\|\le\|g\|\|T\|$, so $\|T^*\|\le\|T\|$.  Conversely, given
+$\varepsilon>0$, choose $x\in S_X$ with
+$\|Tx\|>\|T\|-\varepsilon$.  Hahn--Banach gives $g\in S_{Y^*}$ with
+$g(Tx)=\|Tx\|$.  Hence
+$\|T^*\|\ge\|T^*g\|\ge|T^*g(x)|>\|T\|-\varepsilon$.
+\end{proof}
+\sourcepage{73}
+
+\begin{notedefinition}[Annihilators]
+For $M\subseteq X$, define
+\[
+  M^\perp=\{f\in X^*:f(x)=0\text{ for every }x\in M\}.
+\]
+For $N\subseteq X^*$, define
+\[
+  {}^\perp N=\{x\in X:f(x)=0\text{ for every }f\in N\}.
+\]
+\end{notedefinition}
+
+\begin{notetheorem}[Range--kernel annihilator identities]
+For $T\in\Bop{X}{Y}$,
+\[
+  \overline{\Ran T}={}^\perp\Ker T^*,
+  \qquad
+  \overline{\Ran T^*}^{\;w^*}=(\Ker T)^\perp.
+\]
+In particular,
+\[
+  (\Ran T)^\perp=\Ker T^*.
+\]
+\end{notetheorem}
+
+\begin{proof}
+A functional $g\in Y^*$ annihilates $\Ran T$ exactly when
+$g(Tx)=0$ for every $x$, that is, exactly when $T^*g=0$.  Taking
+preannihilators and using the Hahn--Banach closure theorem gives the first
+identity.  The second is the dual statement with weak-$*$ closure.
+\end{proof}
+\sourcepage{74}
+
+\begin{notedefinition}[Canonical embedding]
+For a normed space $X$, define
+\[
+  J\colon X\to X^{**},
+  \qquad
+  (Jx)(f)=f(x).
+\]
+Then $J$ is a linear isometry.
+\end{notedefinition}
+
+\begin{proof}
+The estimate $\|Jx\|\le\|x\|$ is immediate.  A norming functional
+$f\in S_{X^*}$ with $f(x)=\|x\|$ gives the reverse inequality.
+\end{proof}
+\sourcepage{75}
+
+\begin{notedefinition}[Reflexive space]
+A normed space $X$ is reflexive if the canonical embedding is onto:
+$J(X)=X^{**}$.
+\end{notedefinition}
+
+\begin{notetheorem}
+Every reflexive normed space is Banach, and every finite-dimensional normed
+space is reflexive.
+\end{notetheorem}
+
+\begin{proof}
+The bidual is Banach, and $J(X)$ is closed precisely when $X$ is complete.
+If $J$ is onto, $X$ is isometric to the Banach space $X^{**}$.  In finite
+dimension, $\dim X=\dim X^{**}$ and the injective map $J$ is therefore onto.
+\end{proof}
+\sourcepage{76}
+
+\begin{noteexercise}[Annihilators separate closed subspaces]
+Distinct closed subspaces $Y_1,Y_2$ of a normed space have distinct
+annihilators.  A subset $M\subseteq X$ is total, meaning
+$\overline{\Span M}=X$, if and only if every $f\in X^*$ vanishing on $M$ is
+zero.
+\end{noteexercise}
+
+\begin{proof}
+If $x\in Y_1\setminus Y_2$, separate $x$ from the closed subspace $Y_2$.
+The resulting functional belongs to $Y_2^\perp$ but not $Y_1^\perp$.  The
+totality criterion is the annihilator criterion for density.
+\end{proof}
+\sourcepage{77}
+
+\section{Baire category and its consequences}
+
+\begin{notetheorem}[Baire category theorem]
+Let $X$ be a complete metric space.
+\begin{enumerate}
+  \item $X$ is not a countable union of closed sets with empty interior.
+  \item The intersection of countably many dense open subsets of $X$ is
+        dense, and in particular nonempty.
+\end{enumerate}
+\end{notetheorem}
+
+\begin{proof}
+It is enough to prove the second statement.  Let $(G_n)$ be dense and open and
+let $U$ be a nonempty open set.  Choose a closed ball
+$\overline B(x_1,r_1)\subseteq U\cap G_1$.  Inductively choose
+\[
+  \overline B(x_{n+1},r_{n+1})
+  \subseteq B(x_n,r_n)\cap G_{n+1},
+  \qquad r_{n+1}<\frac12r_n.
+\]
+The centres form a Cauchy sequence and converge to some $x\in X$.  The nesting
+puts $x$ in every $G_n$ and in $U$.  Taking complements gives the first
+statement.
+\end{proof}
+\sourcepage{78}
+
+\begin{notetheorem}[Cantor intersection theorem]
+Let $(F_n)$ be nonempty closed subsets of a complete metric space such that
+\[
+  F_1\supseteq F_2\supseteq\cdots,
+  \qquad
+  \diam(F_n)\longrightarrow0.
+\]
+Then $\bigcap_nF_n$ consists of exactly one point.
+\end{notetheorem}
+
+\begin{proof}
+Choose $x_n\in F_n$.  If $m,n\ge N$, then
+$d(x_m,x_n)\le\diam(F_N)$, so $(x_n)$ is Cauchy.  Let $x_n\to x$.  For every
+$N$, all sufficiently late terms lie in $F_N$, and closedness gives
+$x\in F_N$.  Two points in the intersection have distance at most
+$\diam(F_N)$ for every $N$, hence are equal.
+\end{proof}
+
+\begin{notetheorem}[A closed-set form of Baire]
+If $X$ is complete and $X=\bigcup_{n=1}^{\infty}F_n$ with each $F_n$ closed,
+then some $F_n$ has nonempty interior.  More generally, if an open set
+$U\subseteq\bigcup_nF_n$, then some $F_n$ has nonempty interior relative to
+$U$.
+\end{notetheorem}
+\sourcepages{79--80}
+
+\begin{notetheorem}[No countable Hamel basis]
+An infinite-dimensional Banach space has no countable Hamel basis.
+Consequently, the vector space of polynomials cannot be complete under any
+norm for which its usual countable monomial basis is a Hamel basis.
+\end{notetheorem}
+
+\begin{proof}
+If $(e_n)$ were a Hamel basis, then
+\[
+  X=\bigcup_{n=1}^{\infty}\Span\{e_1,\ldots,e_n\}.
+\]
+Each finite-dimensional span is closed and has empty interior: a subspace
+with nonempty interior is the whole space.  This contradicts Baire's theorem.
+\end{proof}
+\sourcepage{81}
+
+\begin{notetheorem}[Cantor's theorem characterizes completeness]
+A metric space $X$ is complete if and only if every nested sequence of
+nonempty closed sets with diameters tending to zero has nonempty intersection.
+\end{notetheorem}
+
+\begin{proof}
+Only the converse needs proof.  For a Cauchy sequence $(x_n)$ set
+\[
+  F_n=\overline{\{x_k:k\ge n\}}.
+\]
+The sets are nonempty, closed, nested, and their diameters tend to zero.
+A point in their intersection is the limit of $(x_n)$.
+\end{proof}
+\sourcepage{82}
+
+\begin{notetheorem}[Existence of nowhere differentiable functions]
+There are continuous real-valued functions on $[0,1]$ that are differentiable
+at no point.
+\end{notetheorem}
+
+\begin{proof}
+Work in the Banach space $C([0,1])$.  For $m,n\in\mathbb N$, let $F_{m,n}$ be
+the set of functions $f$ for which there is $x\in[0,1]$ satisfying
+\[
+  |f(y)-f(x)|\le m|y-x|
+  \quad\text{whenever }0<|y-x|<1/n.
+\]
+Each $F_{m,n}$ is closed: for uniformly convergent $f_k\to f$, choose witness
+points $x_k$, pass to a convergent subsequence, and pass the inequality to the
+limit.  Each $F_{m,n}$ has empty interior.  Indeed, approximate the centre of
+any ball uniformly by a polygonal function and add a sufficiently small,
+high-frequency sawtooth whose slopes have absolute value larger than
+$m$ plus the finitely many background slopes.  The perturbed function remains
+in the ball but has no point satisfying the displayed local Lipschitz bound.
+
+If $f$ is differentiable at $x$, then for some $m,n$ it belongs to $F_{m,n}$.
+Thus the set of functions differentiable somewhere is contained in the
+countable union $\bigcup_{m,n}F_{m,n}$, a meagre set.  Baire's theorem leaves
+a continuous function outside this union.
+\end{proof}
+\sourcepages{83--84}
+
+\begin{notetheorem}[Uniform boundedness principle]
+Let $X$ be Banach, let $Y$ be normed, and let
+$\mathcal A\subseteq\Bop{X}{Y}$.  If
+\[
+  \sup_{T\in\mathcal A}\|Tx\|<\infty
+  \qquad(x\in X),
+\]
+then
+\[
+  \sup_{T\in\mathcal A}\|T\|<\infty.
+\]
+\end{notetheorem}
+
+\begin{proof}
+Set
+\[
+  F_n=\{x:\sup_{T\in\mathcal A}\|Tx\|\le n\}.
+\]
+The sets $F_n$ are closed and cover $X$.  Baire gives
+$B(x_0,r)\subseteq F_N$ for some $x_0,r,N$.  If $\|h\|<r$, then
+$x_0\pm h\in F_N$, so
+\[
+  2\|Th\|=\|T(x_0+h)-T(x_0-h)\|\le2N.
+\]
+Taking $h=(r/2)x$ for $\|x\|\le1$ gives
+$\|Tx\|\le2N/r$ uniformly in $T$.
+\end{proof}
+\sourcepage{85}
+
+\begin{notetheorem}[Banach--Steinhaus pointwise-limit theorem]
+Let $X$ be Banach, let $Y$ be normed, and let $A_n\in\Bop{X}{Y}$.  Suppose
+$A_nx$ converges for every $x\in X$, and define
+$Ax=\lim_nA_nx$.  Then $A\in\Bop{X}{Y}$ and
+\[
+  \|A\|\le\liminf_{n\to\infty}\|A_n\|.
+\]
+\end{notetheorem}
+
+\begin{proof}
+For every $x$, the sequence $(A_nx)$ is bounded, so uniform boundedness gives
+$M=\sup_n\|A_n\|<\infty$.  Linearity passes to the limit and
+$\|Ax\|\le M\|x\|$.  For $\|x\|=1$,
+\[
+  \|Ax\|=\lim_n\|A_nx\|
+  \le\liminf_n\|A_n\|;
+\]
+take the supremum over the unit sphere.
+\end{proof}
+\sourcepage{86}
+
+\begin{noteexample}[The polynomial space is not complete]
+Let $P([0,1])$ be the polynomial space with the supremum norm.  The Taylor
+polynomials
+\[
+  p_n(x)=\sum_{k=0}^{n}\frac{x^k}{k!}
+\]
+converge uniformly on $[0,1]$ to $e^x$.  Thus $(p_n)$ is Cauchy in the
+supremum norm, but its limit is not a polynomial.  Hence $P([0,1])$ is not
+complete.  This direct argument also avoids the source's attempted use of
+coefficient or derivative functionals, which are not bounded on the full
+polynomial space with the supremum norm.
+\end{noteexample}
+\sourcepages{86--87}
+
+\begin{noteexercise}[Two applications of uniform boundedness]
+\begin{enumerate}
+  \item If $x_n\in X$ and $f(x_n)$ is bounded for every $f\in X^*$, then
+        $(x_n)$ is norm bounded.
+  \item For Banach spaces $X,Y$ and $T_n\in\Bop{X}{Y}$, the following are
+        equivalent:
+        \begin{enumerate}
+          \item $(\|T_n\|)$ is bounded;
+          \item $(\|T_nx\|)$ is bounded for every $x\in X$;
+          \item $(g(T_nx))$ is bounded for every $x\in X$ and $g\in Y^*$.
+        \end{enumerate}
+\end{enumerate}
+\end{noteexercise}
+
+\begin{proof}
+For (1), apply uniform boundedness to the canonical evaluations
+$Jx_n\in X^{**}$ and use $\|Jx_n\|=\|x_n\|$.  For (2), only the last
+implication is nontrivial.  First apply uniform boundedness on $Y^*$ to the
+functionals $g\mapsto g(T_nx)$ for each fixed $x$, obtaining pointwise norm
+boundedness in $Y$; then apply it on $X$ to the operators $T_n$.
+\end{proof}
+\sourcepage{88}
+
+\subsection{Quadrature, interpolation, and Fourier sums}
+
+\begin{notetheorem}[P\'olya's theorem for quadrature formulas]
+Let $w\in L^1(0,1)$ and let
+\[
+  L_n(f)=\sum_{j=0}^{m_n}w_j^{(n)}f(x_j^{(n)}),
+  \qquad f\in C([0,1]),
+\]
+where, for each $n$, the nodes $x_j^{(n)}\in[0,1]$ are distinct.  Assume
+\[
+  L_n(p)\longrightarrow\int_0^1p(t)w(t)\dd t
+  \qquad\text{for every polynomial }p.
+\]
+Then the same convergence holds for every $f\in C([0,1])$ if and only if
+\[
+  \sup_n\sum_j|w_j^{(n)}|<\infty.
+\]
+\end{notetheorem}
+
+\begin{proof}
+The functional norm is
+$\|L_n\|=\sum_j|w_j^{(n)}|$: the upper bound is immediate, and a continuous
+piecewise-linear function can be chosen with prescribed signs at the finitely
+many nodes.  If the norms are uniformly bounded, approximate $f$ uniformly by
+a polynomial $p$ and estimate
+\[
+ |L_n(f)-\textstyle\int fw|
+ \le\|L_n\|\|f-p\|_\infty
+     +|L_n(p)-\textstyle\int pw|
+     +\|w\|_1\|p-f\|_\infty.
+\]
+Conversely, convergence for every $f$ makes $(L_n(f))$ pointwise bounded, so
+uniform boundedness yields $\sup_n\|L_n\|<\infty$.
+\end{proof}
+\sourcepages{89--90}
+
+\begin{notetheorem}[Norm of the Lagrange interpolation operator]
+For distinct nodes $0\le t_0<\cdots<t_n\le1$, let
+\[
+  (L_nf)(t)=\sum_{k=0}^nf(t_k)p_k(t),
+  \qquad
+  p_k(t)=\prod_{j\ne k}\frac{t-t_j}{t_k-t_j}.
+\]
+Then
+\[
+  \|L_n\|
+  =\sup_{t\in[0,1]}\sum_{k=0}^n|p_k(t)|.
+\]
+\end{notetheorem}
+
+\begin{proof}
+The triangle inequality gives the upper bound.  Choose $t^*$ attaining the
+maximum and a continuous piecewise-linear function $f$ with
+$\|f\|_\infty=1$ and
+$f(t_k)=\sign p_k(t^*)$ (using arbitrary phases in the complex case).  Then
+$|(L_nf)(t^*)|=\sum_k|p_k(t^*)|$.
+\end{proof}
+\sourcepages{91--92}
+
+\begin{notetheorem}[Fourier partial sums and the Dirichlet kernel]
+On the Banach space of continuous $2\pi$-periodic functions, the $n$th Fourier
+partial-sum operator satisfies
+\[
+  (S_nf)(t)=\frac1{2\pi}\int_{-\pi}^{\pi}f(t-u)D_n(u)\dd u,
+  \qquad
+  D_n(u)=\frac{\sin((n+\tfrac12)u)}{\sin(u/2)},
+\]
+and
+\[
+  \|S_n\|=\frac1{2\pi}\int_{-\pi}^{\pi}|D_n(u)|\dd u.
+\]
+Moreover, $\|S_n\|\to\infty$ at logarithmic order.  Hence there exists a
+continuous periodic function whose Fourier partial sums diverge at a point.
+\end{notetheorem}
+
+\begin{proof}
+The convolution formula gives the upper bound.  For the reverse bound,
+approximate the phase function $u\mapsto\sign(D_n(-u))$ by continuous
+periodic functions, bounded in modulus by one, in the weighted space
+$L^1(|D_n(u)|\dd u)$.  On each interval where the numerator has fixed sign
+and $|u|$ is small, $|\sin(u/2)|\le |u|/2$.  Summing the resulting harmonic
+lower bounds yields $\|S_n\|\to\infty$.  If every continuous $f$ had
+bounded partial sums at zero, uniform boundedness would force
+$\sup_n\|S_n\|<\infty$, a contradiction.
+\end{proof}
+\sourcepages{93--94}
+
+\begin{notetheorem}[Separate continuity of bilinear maps]
+Let $X$ and $Y$ be Banach spaces, let $Z$ be normed, and let
+$B\colon X\times Y\to Z$ be bilinear.  If $B(\,\cdot\,,y)$ is bounded for
+every fixed $y$ and $B(x,\,\cdot\,)$ is bounded for every fixed $x$, then
+there is $C<\infty$ such that
+\[
+  \|B(x,y)\|\le C\|x\|\|y\|.
+\]
+Thus $B$ is jointly continuous.
+\end{notetheorem}
+
+\begin{proof}
+For $y\in Y$, define $A_yx=B(x,y)$.  For each fixed $x$, the family
+$\{A_y:\|y\|\le1\}$ is pointwise bounded because
+$y\mapsto B(x,y)$ is bounded.  Uniform boundedness gives
+$\sup_{\|y\|\le1}\|A_y\|=C<\infty$, which is the desired estimate.
+\end{proof}
+
+\begin{noteexample}[Completeness is essential]
+Let $c_{00}$ carry the supremum norm and define
+\[
+  B(x,y)=\sum_{k=1}^{\infty}x_ky_k.
+\]
+The sum is finite.  For fixed $x$ or fixed $y$, the resulting functional is
+bounded, but $B$ is not jointly bounded: taking $x=y=(1,\ldots,1,0,\ldots)$
+with $n$ ones gives $B(x,y)=n$ while both sup norms equal one.
+\end{noteexample}
+\sourcepages{95--96}
+
+\begin{notecorollary}[Positive quadrature weights]
+In P\'olya's theorem, if every $w_j^{(n)}\ge0$, convergence on polynomials
+already implies convergence on all continuous functions.
+\end{notecorollary}
+
+\begin{proof}
+Applying polynomial convergence to the constant polynomial $1$ gives
+\[
+  \sum_j|w_j^{(n)}|=\sum_jw_j^{(n)}=L_n(1)
+  \longrightarrow\int_0^1w(t)\dd t.
+\]
+The norms are therefore uniformly bounded, and P\'olya's theorem applies.
+\end{proof}
+\sourcepage{97}
+
+\section{Weak and weak-star convergence}
+
+\begin{notedefinition}[Strong and weak convergence]
+A sequence $(x_n)$ in a normed space $X$ converges strongly to $x$ if
+$\|x_n-x\|\to0$.  It converges weakly to $x$, written
+$x_n\weakto x$, if
+\[
+  f(x_n)\longrightarrow f(x)
+  \qquad(f\in X^*).
+\]
+\end{notedefinition}
+
+\begin{notelemma}[Basic facts]
+If $x_n\weakto x$, then:
+\begin{enumerate}
+  \item the weak limit is unique;
+  \item every subsequence converges weakly to $x$;
+  \item $(x_n)$ is norm bounded;
+  \item $\|x\|\le\liminf_n\|x_n\|$.
+\end{enumerate}
+\end{notelemma}
+
+\begin{proof}
+Functionals separate points, giving uniqueness.  The subsequence statement is
+immediate.  For boundedness, regard $Jx_n$ as functionals on the Banach space
+$X^*$.  They are pointwise bounded, so uniform boundedness gives
+$\sup_n\|Jx_n\|=\sup_n\|x_n\|<\infty$.  A norming functional for $x$ gives
+\[
+  \|x\|=|f(x)|=\lim_n|f(x_n)|
+  \le\liminf_n\|x_n\|.
+\]
+\end{proof}
+\sourcepages{98--99}
+
+\begin{notetheorem}[Strong versus weak convergence]
+Strong convergence implies weak convergence.  The converse holds in
+finite-dimensional normed spaces, but fails in every infinite-dimensional
+Hilbert space: an orthonormal sequence $(e_n)$ satisfies $e_n\weakto0$ while
+$\|e_n\|=1$.
+\end{notetheorem}
+
+\begin{proof}
+For strong convergence,
+$|f(x_n)-f(x)|\le\|f\|\|x_n-x\|$.  In finite dimension, weak convergence of
+the coordinate functionals gives convergence of all coordinates and hence
+norm convergence.  In a Hilbert space, Riesz representation writes every
+$f$ as $f(x)=\langle x,z\rangle$; Bessel's inequality gives
+$\langle e_n,z\rangle\to0$.
+\end{proof}
+
+\begin{noteremark}[Schur's theorem]
+In $\ell^1$, weak convergence of sequences implies norm convergence.  This is
+a special property of $\ell^1$, not a general feature of infinite-dimensional
+Banach spaces.
+\end{noteremark}
+\sourcepages{99--100}
+
+\begin{notelemma}[Testing weak convergence on a total set]
+Let $(x_n)$ be bounded in $X$ and let $M\subseteq X^*$ have norm-dense linear
+span in $X^*$.  If $f(x_n)\to f(x)$ for every $f\in M$, then
+$x_n\weakto x$.
+\end{notelemma}
+
+\begin{proof}
+The convergence extends by linearity to $\Span M$.  If
+$\|x_n\|,\|x\|\le C$ and $g\in X^*$, choose $f\in\Span M$ with
+$\|g-f\|<\varepsilon/(3C)$.  Then
+\[
+ |g(x_n-x)|
+ \le |(g-f)(x_n)|+|f(x_n-x)|+|(f-g)(x)|<\varepsilon
+\]
+for all sufficiently large $n$.
+\end{proof}
+\sourcepage{100}
+
+\begin{notetheorem}[Weak convergence in $\ell^p$]
+Let $1<p<\infty$.  A sequence $x^{(n)}=(x_k^{(n)})$ in $\ell^p$ converges
+weakly to $x=(x_k)$ if and only if
+\begin{enumerate}
+  \item $(\|x^{(n)}\|_p)$ is bounded;
+  \item $x_k^{(n)}\to x_k$ for every coordinate $k$.
+\end{enumerate}
+\end{notetheorem}
+
+\begin{proof}
+Weak convergence gives both conditions.  Conversely, coordinate evaluations
+span the finitely supported sequences, which are dense in
+$(\ell^p)^*=\ell^q$.  Apply the total-set criterion.
+\end{proof}
+
+\begin{notetheorem}[Radon--Riesz property in uniformly convex spaces]
+If $X$ is uniformly convex, $x_n\weakto x$, and
+$\|x_n\|\to\|x\|$, then $x_n\to x$ in norm.
+\end{notetheorem}
+
+\begin{proof}
+The case $x=0$ is immediate.  Otherwise put
+$u_n=x_n/\|x_n\|$ and $u=x/\|x\|$.  Then $u_n\weakto u$ and
+\[
+  \left\|\frac{u_n+u}{2}\right\|
+  \ge \operatorname{Re}f\!\left(\frac{u_n+u}{2}\right)\longrightarrow1
+\]
+for a norming functional $f$ of $u$.  Uniform convexity forces
+$\|u_n-u\|\to0$, and the convergence of norms gives $\|x_n-x\|\to0$.
+\end{proof}
+\sourcepage{101}
+
+\begin{notetheorem}[Weak convergence and operators]
+Let $A\in\Bop{X}{Y}$.
+\begin{enumerate}
+  \item If $x_n\weakto x$, then $Ax_n\weakto Ax$.
+  \item If $A$ is compact and $x_n\weakto x$, then
+        $\|Ax_n-Ax\|\to0$.
+  \item If $B\colon X\times Y\to Z$ is bounded bilinear,
+        $x_n\to x$ strongly, and $y_n\weakto y$, then
+        $B(x_n,y_n)\weakto B(x,y)$; when $Z=\mathbb K$, the convergence is
+        scalar.
+\end{enumerate}
+\end{notetheorem}
+
+\begin{proof}
+For (1), $g(Ax_n)=(A^*g)(x_n)$.  For (2), weak convergence makes $(x_n)$
+bounded.  Every subsequence of $(Ax_n)$ has a norm-convergent further
+subsequence, and (1) forces its limit to be $Ax$; hence the whole sequence
+converges in norm.  For (3), $(y_n)$ is bounded and
+\[
+  \|B(x_n,y_n)-B(x,y_n)\|
+  \le\|B\|\|x_n-x\|\|y_n\|\to0,
+\]
+while $B(x,\cdot)$ is a bounded linear map and therefore preserves weak
+convergence.
+\end{proof}
+\sourcepage{102}
+
+\begin{notedefinition}[Weak topology and weak-$*$ topology]
+The weak topology on $X$ is the coarsest topology making every member of
+$X^*$ continuous.  The weak-$*$ topology on $X^*$ is the coarsest topology
+making every evaluation $f\mapsto f(x)$, $x\in X$, continuous.
+\end{notedefinition}
+
+\begin{notetheorem}[Finite dimensions and sequences]
+In finite dimension, the weak and norm topologies coincide.  In an
+infinite-dimensional normed space the weak topology is strictly coarser.
+For sequences,
+\[
+  x_n\weakto x
+  \quad\Longleftrightarrow\quad
+  f(x_n)\to f(x)\text{ for all }f\in X^*.
+\]
+\end{notetheorem}
+\sourcepage{103}
+
+\begin{notedefinition}[Weak-$*$ convergence of functionals]
+A sequence $(f_n)$ in $X^*$ converges weak-$*$ to $f$ if
+\[
+  f_n(x)\longrightarrow f(x)
+  \qquad(x\in X).
+\]
+Weak convergence in $X^*$ implies weak-$*$ convergence.  If $X$ is reflexive,
+the two notions agree on $X^*$.
+\end{notedefinition}
+
+\begin{notetheorem}[Strong operator limits]
+Let $X$ be Banach, let $Y$ be normed, and let
+$T_n\in\Bop{X}{Y}$.  If $T_nx$ converges in $Y$ for every $x\in X$, then the
+pointwise limit $Tx=\lim_nT_nx$ belongs to $\Bop{X}{Y}$ and
+$\sup_n\|T_n\|<\infty$.
+\end{notetheorem}
+
+\begin{proof}
+The family $(T_n)$ is pointwise bounded, so uniform boundedness gives a common
+operator-norm bound.  Linearity and boundedness pass to the pointwise limit.
+\end{proof}
+\sourcepage{104}
+
+\begin{notedefinition}[Operator convergence]
+For $T_n,T\in\Bop{X}{Y}$:
+\begin{itemize}
+  \item $T_n\to T$ uniformly if $\|T_n-T\|\to0$;
+  \item $T_n\to T$ strongly if $T_nx\to Tx$ for every $x\in X$;
+  \item $T_n\to T$ weakly if $T_nx\weakto Tx$ for every $x\in X$.
+\end{itemize}
+\end{notedefinition}
+
+\begin{notetheorem}[Criterion for strong operator convergence]
+Let $X,Y$ be Banach spaces and let $(T_n)\subseteq\Bop{X}{Y}$.  The sequence
+converges strongly if and only if
+\begin{enumerate}
+  \item $\sup_n\|T_n\|<\infty$;
+  \item for every $x$ in a total subset $M\subseteq X$, the sequence
+        $(T_nx)$ is Cauchy in $Y$.
+\end{enumerate}
+\end{notetheorem}
+
+\begin{proof}
+Only sufficiency needs proof.  Cauchy convergence extends by linearity to
+$\Span M$.  Given $x\in X$, approximate it by $y\in\Span M$ and use the
+uniform bound to control
+$\|(T_n-T_m)(x-y)\|$, while $(T_ny)$ is Cauchy.  Completeness of $Y$ supplies
+the pointwise limit.
+\end{proof}
+
+\begin{notecorollary}
+A sequence $(f_n)\subseteq X^*$ converges weak-$*$ if and only if it is norm
+bounded and $f_n(x)$ is Cauchy for every $x$ in a total subset of $X$.
+\end{notecorollary}
+\sourcepage{105}
+
+\begin{notetheorem}[Reflexivity results recorded in the source]
+The following standard results are used later.
+\begin{enumerate}
+  \item Every finite-dimensional normed space is reflexive.
+  \item Every Hilbert space is reflexive.
+  \item Closed subspaces and finite products of reflexive Banach spaces are
+        reflexive.
+  \item $L^p(\Omega)$ is reflexive for $1<p<\infty$.
+  \item Every uniformly convex Banach space is reflexive
+        (Milman--Pettis theorem).
+  \item A Banach space is reflexive if and only if every bounded sequence has
+        a weakly convergent subsequence (Eberlein--\v{S}mulian plus weak
+        compactness of the unit ball).
+\end{enumerate}
+\end{notetheorem}
+
+\begin{proof}[Editorial note on depth]
+Milman--Pettis and Eberlein--\v{S}mulian are deep theorems.  The source records
+them without complete proofs; they are therefore stated accurately here and
+not represented as consequences of the short handwritten sketches.
+\end{proof}
+\sourcepage{106}
+
+\begin{notetheorem}[Completeness and the canonical image]
+For a normed space $X$, the canonical image $J(X)$ is closed in $X^{**}$ if
+and only if $X$ is Banach.
+\end{notetheorem}
+
+\begin{proof}
+If $X$ is Banach, its isometric image is complete and hence closed.  Conversely,
+if $J(X)$ is closed, it is a Banach subspace of $X^{**}$, and the isometry
+$J\colon X\to J(X)$ makes $X$ complete.
+\end{proof}
+\sourcepage{107}
+
+\begin{notelemma}[Dense testing in the dual]
+Let $(x_n)$ be bounded in a normed space $X$ and let $Y\subseteq X^*$ be
+norm dense.  If $y(x_n)\to y(x)$ for every $y\in Y$, then $x_n\weakto x$.
+\end{notelemma}
+
+\begin{notetheorem}[Bounded almost-everywhere convergence in $L^p$]
+Let $\Omega\subseteq\mathbb R^d$ be open, let $1<p<\infty$, and let
+$(f_n)$ be bounded in $L^p(\Omega)$.  If $f_n\to f$ almost everywhere and
+$f\in L^p(\Omega)$, then $f_n\weakto f$ in $L^p(\Omega)$.
+\end{notetheorem}
+
+\begin{proof}
+Let $q$ be conjugate to $p$.  Given $g\in L^q(\Omega)$, first approximate it
+in $L^q$ by a bounded function $g_0$ supported on a set of finite measure.
+The common $L^p$ bound controls the error uniformly in $n$.  On the support of
+$g_0$, almost-everywhere convergence together with the common $L^p$ bound
+implies $f_n-f\to0$ in $L^1$: use Egorov's theorem off a set of arbitrarily
+small measure and H\"older's inequality on that exceptional set.  Therefore
+$\int g_0(f_n-f)\to0$, and the approximation gives
+$\int g(f_n-f)\to0$.
+\end{proof}
+
+\begin{noteexample}[The alternating-cell sequence in $L^2(0,1)$]
+For $n\ge1$ and $0\le j\le n-1$, define
+\[
+ f_n(t)=
+ \begin{cases}
+   0,&\displaystyle \frac jn\le t<\frac jn+\frac1{2n},\\[4pt]
+   1,&\displaystyle \frac jn+\frac1{2n}\le t<\frac{j+1}{n}.
+ \end{cases}
+\]
+Then $f_n\weakto\tfrac12$ in $L^2(0,1)$.  Indeed, the integrals of
+$f_n-\tfrac12$ over every interval $[0,t]$ tend to zero, and finite linear
+combinations of interval indicators are dense in $L^2(0,1)$; the sequence is
+bounded, so the dense-testing lemma applies.  The convergence is not strong,
+because
+\[
+  \left\|f_n-\frac12\right\|_2=\frac12
+  \qquad(n\ge1).
+\]
+\end{noteexample}
+\sourcepages{108--109}
+
+\begin{notetheorem}[Weak lower semicontinuity of the norm]
+If $x_n\weakto x$, then
+\[
+  \|x\|\le\liminf_{n\to\infty}\|x_n\|.
+\]
+\end{notetheorem}
+
+\begin{proof}
+Choose $f\in X^*$ with $\|f\|=1$ and $f(x)=\|x\|$.  Then
+$|f(x_n)|\le\|x_n\|$ and $f(x_n)\to f(x)$, which gives the inequality.
+\end{proof}
+
+\begin{noteexercise}[Weak limits lie in closed spans]
+If $x_n\in Y$ for a linear subspace $Y\subseteq X$ and $x_n\weakto x$, then
+$x\in\overline Y$.
+\end{noteexercise}
+
+\begin{proof}
+If $x\notin\overline Y$, Hahn--Banach gives $f\in X^*$ vanishing on $Y$ but
+not at $x$, contradicting $f(x_n)\to f(x)$.
+\end{proof}
+\sourcepage{109}
+
+\begin{notetheorem}[Weak-$*$ sequential compactness in the separable case]
+Let $X$ be separable and let $(f_n)$ be a bounded sequence in $X^*$.  Then
+$(f_n)$ has a weak-$*$ convergent subsequence.
+\end{notetheorem}
+
+\begin{proof}
+Choose a dense sequence $(x_j)$ in $X$.  Repeatedly extract subsequences so
+that $f_n(x_j)$ converges for each $j$, then take the diagonal subsequence.
+The pointwise limit on the dense span is bounded by the common norm bound and
+therefore extends uniquely to a member of $X^*$.  Approximation from the dense
+span shows weak-$*$ convergence on all of $X$.
+\end{proof}
+
+\begin{noteremark}
+This is the sequential form of Banach--Alaoglu for separable preduals.  In
+nonseparable settings, weak-$*$ compactness need not be sequential compactness.
+\end{noteremark}
+\sourcepage{110}
+
+\begin{notetheorem}[Toeplitz limit theorem]
+Let $A=(a_{nk})_{n,k\ge1}$ be an infinite matrix and define
+\[
+  (Ax)_n=\sum_{k=1}^{\infty}a_{nk}x_k
+\]
+whenever the sum is meaningful.  The method is regular, meaning it preserves
+limits of convergent scalar sequences, if and only if
+\[
+  \sup_n\sum_{k=1}^{\infty}|a_{nk}|<\infty,
+  \qquad
+  a_{nk}\longrightarrow0\quad(n\to\infty)\text{ for each fixed }k,
+\]
+and
+\[
+  \sum_{k=1}^{\infty}a_{nk}\longrightarrow1.
+\]
+\end{notetheorem}
+
+\begin{proof}[Proof sketch]
+The necessity follows by testing the method on the constant sequence and on
+the coordinate sequences, while uniform boundedness on the Banach space $c$
+of convergent sequences gives the uniform row-$\ell^1$ bound.  Conversely,
+write $x_k=L+(x_k-L)$, split the remainder into a finite head and a uniformly
+small tail, and use the three conditions.
+\end{proof}
+\sourcepage{111}
+
+\section{Open mapping and bounded inverse theorems}
+
+\begin{notetheorem}[Open mapping theorem]
+Let $X$ and $Y$ be Banach spaces and let $T\in\Bop{X}{Y}$ be surjective.
+Then $T$ is an open map.
+\end{notetheorem}
+
+\begin{proof}
+It is enough to show that $T(B_X)$ contains a neighbourhood of $0$.  Since
+\[
+  Y=\bigcup_{n=1}^{\infty}T(nB_X),
+\]
+Baire's theorem gives $n$ such that $\overline{T(nB_X)}$ has nonempty
+interior.  Taking differences and rescaling yields a number $\delta>0$ with
+\[
+  B_Y(0,\delta)\subseteq\overline{T(B_X)}.
+\]
+After rescaling, assume $B_Y(0,1)\subseteq\overline{T(B_X)}$.  Given
+$y\in B_Y(0,1/2)$, choose inductively $x_k\in2^{-k}B_X$ so that
+\[
+  \left\|y-T\sum_{j=1}^{k}x_j\right\|<2^{-k-1}.
+\]
+The series $\sum_kx_k$ converges to $x\in B_X$, and continuity gives
+$Tx=y$.  Thus a ball around $0$ lies in $T(B_X)$; translation and scaling
+prove openness.
+\end{proof}
+\sourcepages{112--113}
+
+\begin{notecorollary}[Bounded inverse theorem]
+A bounded bijective linear map between Banach spaces has a bounded inverse.
+\end{notecorollary}
+
+\begin{proof}
+The inverse is continuous because the original map is open.
+\end{proof}
+
+\begin{noteexample}[A priori estimate for a boundary-value problem]
+Let
+\[
+  L\colon C^2_0([0,1])\to C([0,1]),
+  \qquad
+  Lu=a u''+b u'+cu,
+\]
+where $C^2_0([0,1])=\{u\in C^2([0,1]):u(0)=u(1)=0\}$ carries the norm
+$\|u\|_\infty+\|u'\|_\infty+\|u''\|_\infty$.  If the two-point
+boundary-value problem $Lu=f$ has a unique solution for every
+$f\in C([0,1])$, then $L$ is a bounded bijection between Banach spaces.
+Therefore there is $C>0$ such that
+\[
+  \|u\|_\infty+\|u'\|_\infty+\|u''\|_\infty
+  \le C\|Lu\|_\infty.
+\]
+\end{noteexample}
+\sourcepage{113}
+
+\begin{notetheorem}[Equivalence of complete norms]
+Let $\|\cdot\|_1$ and $\|\cdot\|_2$ be two norms on the same vector space
+$X$, and assume both make $X$ Banach.  If
+\[
+  \|x\|_2\le C\|x\|_1
+\]
+for all $x$, then the norms are equivalent.
+\end{notetheorem}
+
+\begin{proof}
+The identity map from $(X,\|\cdot\|_1)$ to $(X,\|\cdot\|_2)$ is a bounded
+bijection.  The bounded inverse theorem gives
+$\|x\|_1\le C'\|x\|_2$.
+\end{proof}
+\sourcepage{114}
+
+\begin{notetheorem}[Stability of surjectivity]
+Let $X,Y$ be Banach spaces and let $A\in\Bop{X}{Y}$ be surjective.  Then
+there is $\varepsilon>0$ such that every
+$\widetilde A\in\Bop{X}{Y}$ with
+$\|\widetilde A-A\|<\varepsilon$ is surjective.
+\end{notetheorem}
+
+\begin{proof}
+The open mapping theorem gives $c>0$ such that every $y\in Y$ has a preimage
+$x$ with $Ax=y$ and $\|x\|\le c\|y\|$.  Choose
+$\varepsilon<1/c$.  For a target $y$, construct $x_0,x_1,\ldots$ with
+\[
+  Ax_0=y,
+  \qquad
+  Ax_{n+1}=(A-\widetilde A)x_n,
+  \qquad
+  \|x_{n+1}\|\le c\|A-\widetilde A\|\|x_n\|.
+\]
+The series $x=\sum_nx_n$ converges and telescoping gives
+$\widetilde Ax=y$.
+\end{proof}
+\sourcepage{115}
+
+\begin{notetheorem}[Closed range and bounded inverse on the range]
+Let $X,Y$ be Banach spaces and let $T\in\Bop{X}{Y}$ be injective.  The
+inverse $T^{-1}\colon\Ran T\to X$ is bounded if and only if $\Ran T$ is
+closed in $Y$.
+\end{notetheorem}
+
+\begin{proof}
+If $T^{-1}$ is bounded and $Tx_n\to y$, then $(x_n)$ is Cauchy and converges
+to $x$; hence $y=Tx\in\Ran T$.  Conversely, if $\Ran T$ is closed, it is
+Banach, and the bounded bijection $T\colon X\to\Ran T$ has bounded inverse.
+\end{proof}
+\sourcepage{116}
+
+\section{Closed graph theorem and closed operators}
+
+\begin{notetheorem}[Products of Banach spaces]
+If $X$ and $Y$ are Banach spaces, then $X\times Y$ is Banach under either of
+the equivalent norms
+\[
+  \|(x,y)\|_1=\|x\|+\|y\|,
+  \qquad
+  \|(x,y)\|_\infty=\max\{\|x\|,\|y\|\}.
+\]
+\end{notetheorem}
+\sourcepage{117}
+
+\begin{notedefinition}[Closed linear operator]
+Let $T\colon\Dom(T)\subseteq X\to Y$ be linear.  Its graph is
+\[
+  \Graph(T)=\{(x,Tx):x\in\Dom(T)\}\subseteq X\times Y.
+\]
+The operator is \emph{closed} if its graph is closed.
+\end{notedefinition}
+
+\begin{notetheorem}[Closed graph theorem]
+Let $X,Y$ be Banach spaces.  An everywhere-defined linear map
+$T\colon X\to Y$ is bounded if and only if its graph is closed.
+\end{notetheorem}
+
+\begin{proof}
+Boundedness plainly implies closedness.  Conversely, if the graph is closed,
+it is a Banach space with the graph norm
+\[
+  \|x\|_T=\|x\|+\|Tx\|.
+\]
+The projection $S\colon\Graph(T)\to X$, $S(x,Tx)=x$, is a bounded bijection.
+The bounded inverse theorem makes $S^{-1}$ bounded, so
+\[
+  \|x\|+\|Tx\|=\|S^{-1}x\|_T\le C\|x\|.
+\]
+Thus $T$ is bounded.
+\end{proof}
+\sourcepages{117--119}
+
+\begin{notetheorem}[Sequential criterion]
+A linear operator $T\colon\Dom(T)\subseteq X\to Y$ is closed if and only if
+whenever
+\[
+  x_n\in\Dom(T),
+  \qquad
+  x_n\to x,
+  \qquad
+  Tx_n\to y,
+\]
+one has $x\in\Dom(T)$ and $Tx=y$.
+\end{notetheorem}
+
+\begin{notetheorem}[Closedness from a closed domain]
+If $\Dom(T)$ is closed in $X$ and $T\colon\Dom(T)\to Y$ is bounded, then
+$T$ is closed.  Conversely, if $X$ and $Y$ are Banach and $T$ is closed,
+then $\Dom(T)$ is complete for the graph norm, not necessarily for the
+original norm.
+\end{notetheorem}
+
+\begin{noteexample}[Differentiation]
+Let
+\[
+  D\colon C^1([0,1])\subset C([0,1])\to C([0,1]),
+  \qquad Du=u'.
+\]
+With the supremum norm on both copies of $C([0,1])$, the operator is closed
+but unbounded.  Indeed, $u_n\to u$ uniformly and $u_n'\to v$ uniformly imply
+\[
+  u_n(t)-u_n(0)=\int_0^tu_n'(s)\dd s
+  \longrightarrow\int_0^tv(s)\dd s,
+\]
+so $u\in C^1$ and $u'=v$.  On the other hand,
+$u(t)=t^n$ has norm one while $\|u'\|_\infty=n$.
+\end{noteexample}
+\sourcepage{120}
+
+\begin{noteexercise}[Inverse and compact-set properties]
+Let $T\colon\Dom(T)\subseteq X\to Y$ be closed.
+\begin{enumerate}
+  \item If $T^{-1}$ exists, then $T^{-1}$ is closed.
+  \item The image $T(C)$ of a compact set $C\subseteq\Dom(T)$ is closed in
+        $Y$.
+  \item The inverse image $T^{-1}(K)$ of a compact set $K\subseteq Y$ is
+        closed in $X$.
+\end{enumerate}
+\end{noteexercise}
+
+\begin{proof}
+The graph of $T^{-1}$ is obtained from the graph of $T$ by swapping the two
+coordinates.  For (2), a convergent sequence $Tx_n\to y$ with $x_n\in C$
+has a convergent subsequence $x_{n_k}\to x\in C$; closedness gives $Tx=y$.
+For (3), if $x_n\to x$ and $Tx_n\in K$, compactness gives a subsequence
+$Tx_{n_k}\to y\in K$, and closedness gives $Tx=y$.
+\end{proof}
+\sourcepage{121}
+
+\begin{notetheorem}[Compact domain]
+Let $K$ be a compact metric space, let $Y$ be a normed space, and let
+$T\colon K\to Y$ be a bijection whose graph is closed in $K\times Y$.
+Then $T^{-1}\colon T(K)\to K$ is continuous.
+\end{notetheorem}
+
+\begin{proof}
+If $y_n\to y$ in $T(K)$ and $x_n=T^{-1}y_n$, compactness gives a
+convergent subsequence $x_{n_k}\to x\in K$.  Closedness gives $Tx=y$, so
+$x=T^{-1}y$.  Every subsequence has a further subsequence converging to the
+same point $T^{-1}y$, hence the whole sequence converges.
+\end{proof}
+
+\begin{notetheorem}[Closed range from a bounded inverse]
+Let $T$ be closed, let $X$ be Banach, and suppose
+$T^{-1}\colon\Ran T\to X$ exists and is bounded.  Then $\Ran T$ is closed.
+\end{notetheorem}
+
+\begin{proof}
+If $y_n=Tx_n\to y$, boundedness of $T^{-1}$ makes $(x_n)$ Cauchy, hence
+$x_n\to x\in X$.  Closedness gives $x\in\Dom(T)$ and $Tx=y$.
+\end{proof}
+\sourcepage{122}
+
+\begin{notetheorem}[Termwise differentiation]
+Suppose $u_n\in C^1([0,1])$, the series $\sum_nu_n$ converges uniformly to
+$u$, and the derivative series $\sum_nu_n'$ converges uniformly to $v$.
+Then $u\in C^1([0,1])$ and $u'=v$.
+\end{notetheorem}
+
+\begin{proof}
+The partial sums $s_N$ satisfy
+$(s_N,Ds_N)\to(u,v)$ in $C([0,1])\times C([0,1])$.  Closedness of the
+differentiation operator gives the conclusion.
+\end{proof}
+
+\begin{notetheorem}[Closed graph extension criterion]
+Let $G\subseteq X\times Y$ be a linear subspace.  There is a linear operator
+$T$ with $G=\Graph(T)$ if and only if
+\[
+  (0,y)\in G\quad\Longrightarrow\quad y=0.
+\]
+If $G$ is closed, the resulting operator is closed.
+\end{notetheorem}
+
+\begin{proof}
+The condition ensures that for each $x$ there is at most one $y$ with
+$(x,y)\in G$.  Define the domain as the set of such $x$ and set $Tx=y$.
+Linearity follows because $G$ is a subspace, and closedness of $G$ is exactly
+closedness of the operator.
+\end{proof}
+\sourcepages{123--124}

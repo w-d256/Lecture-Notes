@@ -1,0 +1,102 @@
+\documentclass[11pt,oneside]{book}
+\usepackage{notes-preamble}
+\pgfplotsset{compat=1.18,compat/show suggested version=false}
+
+\allowdisplaybreaks
+\setcounter{secnumdepth}{2}
+\setcounter{tocdepth}{2}
+\emergencystretch=3em
+\hbadness=10000
+\vbadness=10000
+\titleformat{\chapter}
+  {\fontsize{22}{26}\normalfont\bfseries\raggedright}
+  {Chapter \thechapter}
+  {22pt}
+  {\uline{#1}}
+
+% Standard amsthm environments, numbered consecutively within each section.
+\theoremstyle{plain}
+\newtheorem{notetheorem}{Theorem}[section]
+\newtheorem{noteproposition}[notetheorem]{Proposition}
+\newtheorem{notelemma}[notetheorem]{Lemma}
+\newtheorem{notecorollary}[notetheorem]{Corollary}
+
+\theoremstyle{definition}
+\newtheorem{notedefinition}[notetheorem]{Definition}
+\newtheorem{noteexercise}[notetheorem]{Exercise}
+\newtheorem{noteexample}[notetheorem]{Example}
+\newtheorem{notealgorithm}[notetheorem]{Algorithm}
+
+\theoremstyle{remark}
+\newtheorem{noteremark}[notetheorem]{Remark}
+
+% Retain the original color-box presentation around the numbered statements.
+\tcolorboxenvironment{notedefinition}{boxrule=0pt,boxsep=0pt,colback=red!10,left=8pt,right=8pt,enhanced jigsaw,borderline west={2pt}{0pt}{red},sharp corners,before skip=10pt,after skip=10pt,breakable}
+\tcolorboxenvironment{noteproposition}{boxrule=0pt,boxsep=0pt,colback=Orange!10,left=8pt,right=8pt,enhanced jigsaw,borderline west={2pt}{0pt}{Orange},sharp corners,before skip=10pt,after skip=10pt,breakable}
+\tcolorboxenvironment{notetheorem}{boxrule=0pt,boxsep=0pt,colback=blue!10,left=8pt,right=8pt,enhanced jigsaw,borderline west={2pt}{0pt}{blue},sharp corners,before skip=10pt,after skip=10pt,breakable}
+\tcolorboxenvironment{notelemma}{boxrule=0pt,boxsep=0pt,colback=Cyan!10,left=8pt,right=8pt,enhanced jigsaw,borderline west={2pt}{0pt}{Cyan},sharp corners,before skip=10pt,after skip=10pt,breakable}
+\tcolorboxenvironment{notecorollary}{boxrule=0pt,boxsep=0pt,colback=violet!10,left=8pt,right=8pt,enhanced jigsaw,borderline west={2pt}{0pt}{violet},sharp corners,before skip=10pt,after skip=10pt,breakable}
+\tcolorboxenvironment{noteremark}{boxrule=0pt,boxsep=0pt,blanker,borderline west={2pt}{0pt}{Green},left=8pt,right=8pt,before skip=10pt,after skip=10pt,breakable}
+\tcolorboxenvironment{noteexample}{boxrule=0pt,boxsep=0pt,blanker,borderline west={2pt}{0pt}{Black},left=8pt,right=8pt,before skip=10pt,after skip=10pt,breakable}
+\tcolorboxenvironment{noteexercise}{boxrule=0pt,boxsep=0pt,colback=gray!8,left=8pt,right=8pt,enhanced jigsaw,borderline west={2pt}{0pt}{gray},sharp corners,before skip=10pt,after skip=10pt,breakable}
+\tcolorboxenvironment{notealgorithm}{boxrule=0pt,boxsep=0pt,colback=Yellow!12,left=8pt,right=8pt,enhanced jigsaw,borderline west={2pt}{0pt}{Goldenrod},sharp corners,before skip=10pt,after skip=10pt,breakable}
+
+\newcommand{\sourcepage}[1]{\par\nobreak\nointerlineskip\hbox to \linewidth{\hfill\smash{\footnotesize\textcolor{gray}{Source PDF p.~#1}}}}
+\newcommand{\sourcepages}[1]{\par\nobreak\nointerlineskip\hbox to \linewidth{\hfill\smash{\footnotesize\textcolor{gray}{Source PDF pp.~#1}}}}
+
+\newcommand{\Dom}{\operatorname{D}}
+\newcommand{\Ran}{\operatorname{Ran}}
+\newcommand{\Ker}{\operatorname{Ker}}
+\newcommand{\Graph}{\operatorname{Graph}}
+\newcommand{\Span}{\operatorname{span}}
+\newcommand{\dist}{\operatorname{dist}}
+\newcommand{\diam}{\operatorname{diam}}
+\newcommand{\supp}{\operatorname{supp}}
+\newcommand{\Int}{\operatorname{int}}
+\newcommand{\conv}{\operatorname{conv}}
+\newcommand{\aco}{\operatorname{aco}}
+\newcommand{\weakto}{\rightharpoonup}
+\newcommand{\weakstarto}{\overset{*}{\rightharpoonup}}
+\newcommand{\Bop}[2]{\mathcal{B}(#1,#2)}
+\newcommand{\Kop}[2]{\mathcal{K}(#1,#2)}
+\newcommand{\Id}{I}
+\newcommand{\closure}[1]{\overline{#1}}
+\newcommand{\ann}[1]{#1^{\perp}}
+\newcommand{\preann}[1]{{}^{\perp}\!#1}
+\newcommand{\spec}{\sigma}
+\newcommand{\res}{\rho}
+\newcommand{\spr}{r}
+\newcommand{\dd}{\,\mathrm{d}}
+\newcommand{\sign}{\operatorname{sgn}}
+\newcommand{\Var}{\operatorname{Var}}
+\newcommand{\card}{\operatorname{card}}
+
+
+\title{\Huge \textbf{Functional Analysis}}
+\author{Wei Chen}
+\date{16 July 2026}
+
+\begin{document}
+\maketitle
+\allowdisplaybreaks
+	\pagenumbering{roman}
+	\setcounter{page}{1}
+	\begin{center}
+		\Large\textbf{Preface} 
+
+        
+        
+    \end{center}~\
+        This is the lecture note for the course \textit{Functional Analysis} which followed the textbook \textit{Introductory Functional Analysis with Applications} by Erwin Kreyszig. The course is taught by Prof. Yutian Li in 2023 Spring at the Chinese University of Hong Kong, Shenzhen. The note is edited and revised with the support of ChatGPT. The materials presume a basic knowledge of real analysis and general topology, so contents that are close to the boundary of these prerequisites may be omitted. Topics of the note include: normed spaces and Banach spaces, Hilbert spaces, fundamental theorems in functional analysis, and spectral theory.
+	\newpage
+	\tableofcontents
+
+\mainmatter
+\input{chapter-1-metric-spaces}
+\input{chapter-2-normed-banach-spaces}
+\input{chapter-3-fundamental-theorems}
+\input{chapter-4-hilbert-spaces}
+\input{chapter-5-spectral-theory}
+
+
+\end{document}
