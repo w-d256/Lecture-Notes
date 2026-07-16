@@ -1,0 +1,494 @@
+\chapter{Operator Semigroups and Hille--Yosida}
+
+\section{Strongly continuous semigroups and generators}
+
+\begin{notedefinition}
+Let $X$ be a Banach space.  A family $(T(t))_{t\ge0}\subseteq\Bop{X}{X}$ is a
+\emph{strongly continuous semigroup}, or $C_0$-semigroup, if
+\[
+  T(0)=I,
+  \qquad
+  T(t+s)=T(t)T(s),
+\]
+and
+\[
+  \lim_{t\downarrow0}T(t)x=x
+  \qquad(x\in X).
+\]
+Its \emph{infinitesimal generator} is
+\[
+  Ax=\lim_{t\downarrow0}\frac{T(t)x-x}{t},
+\]
+with domain
+\[
+  \Dom(A)=\left\{x\in X:
+       \lim_{t\downarrow0}\frac{T(t)x-x}{t}
+       \text{ exists in }X\right\}.
+\]
+\end{notedefinition}
+\begin{noteproposition}
+Let $A$ be the generator of a $C_0$-semigroup $(T(t))$.  Then:
+\begin{enumerate}
+  \item $A$ is linear and $\Dom(A)$ is dense in $X$;
+  \item $T(t)\Dom(A)\subseteq\Dom(A)$ and
+        $AT(t)x=T(t)Ax$ for $x\in\Dom(A)$;
+  \item for $x\in\Dom(A)$, the orbit is continuously differentiable and
+        \[
+          \frac{\dd}{\dd t}T(t)x=AT(t)x=T(t)Ax;
+        \]
+  \item $A$ is closed.
+\end{enumerate}
+\end{noteproposition}
+
+\begin{proof}
+Linearity follows from the limit.  For density, set
+\[
+  x_h=\frac1h\int_0^hT(s)x\,\dd s.
+\]
+Strong continuity gives $x_h\to x$, while
+\[
+  \frac{T(t)x_h-x_h}{t}
+  =\frac1h\left(
+       \frac1t\int_h^{h+t}T(s)x\,\dd s
+       -\frac1t\int_0^tT(s)x\,\dd s
+    \right)
+  \longrightarrow\frac{T(h)x-x}{h}.
+\]
+Thus $x_h\in\Dom(A)$.
+
+For $x\in\Dom(A)$,
+\[
+ \frac{T(h)T(t)x-T(t)x}{h}
+ =T(t)\frac{T(h)x-x}{h}\longrightarrow T(t)Ax,
+\]
+which proves invariance and commutation.  The derivative at arbitrary $t$
+follows from the semigroup law; continuity of $s\mapsto T(s)Ax$ makes it a
+continuous derivative.
+
+Finally, suppose $x_n\to x$ and $Ax_n\to y$.  The fundamental theorem of
+calculus gives
+\[
+  T(t)x_n-x_n=\int_0^tT(s)Ax_n\,\dd s.
+\]
+Passing to the limit yields
+\[
+  T(t)x-x=\int_0^tT(s)y\,\dd s.
+\]
+Divide by $t$ and let $t\downarrow0$ to obtain $x\in\Dom(A)$ and $Ax=y$.
+\end{proof}
+\begin{notedefinition}
+A $C_0$-semigroup is a \emph{contraction semigroup} if
+$\|T(t)\|\le1$ for every $t\ge0$.
+\end{notedefinition}
+
+\section{Resolvents of generators}
+
+\begin{notelemma}[Laplace-transform resolvent]
+Let $(T(t))$ be a contraction semigroup with generator $A$.  For
+$\operatorname{Re}\lambda>0$, define
+\[
+  R(\lambda,A)x
+  =\int_0^\infty e^{-\lambda t}T(t)x\,\dd t.
+\]
+Then the Bochner integral is well defined,
+\[
+  R(\lambda,A)=(\lambda I-A)^{-1},
+  \qquad
+  \|R(\lambda,A)\|\le\frac1{\operatorname{Re}\lambda}.
+\]
+For real $\lambda>0$,
+\[
+  \|\lambda R(\lambda,A)\|\le1.
+\]
+\end{notelemma}
+
+\begin{proof}
+The norm estimate follows from
+\[
+ \int_0^\infty e^{-\operatorname{Re}\lambda t}\|T(t)x\|\,\dd t
+ \le\frac{\|x\|}{\operatorname{Re}\lambda}.
+\]
+For $s>0$, the semigroup law and a change of variables give
+\[
+ \frac{T(s)-I}{s}R(\lambda,A)x
+ =\frac1s\int_0^\infty e^{-\lambda t}
+       \bigl(T(t+s)-T(t)\bigr)x\,\dd t
+ \longrightarrow \lambda R(\lambda,A)x-x.
+\]
+Hence $R(\lambda,A)x\in\Dom(A)$ and
+$(\lambda I-A)R(\lambda,A)x=x$.  If $x\in\Dom(A)$, integration by parts in
+$e^{-\lambda t}T(t)x$ gives
+$R(\lambda,A)(\lambda I-A)x=x$.  Thus it is the inverse.
+\end{proof}
+\begin{notecorollary}
+The generator of a contraction semigroup is densely defined and closed,
+$(0,\infty)\subseteq\rho(A)$, and
+\[
+  \|\lambda(\lambda I-A)^{-1}\|\le1
+  \qquad(\lambda>0).
+\]
+\end{notecorollary}
+
+\section{The contraction Hille--Yosida theorem}
+
+\begin{notetheorem}[Hille--Yosida theorem, contraction form]
+Let $A\colon\Dom(A)\subseteq X\to X$ be linear.  Then $A$ generates a
+contraction $C_0$-semigroup if and only if
+\begin{enumerate}
+  \item $A$ is densely defined and closed;
+  \item $(0,\infty)\subseteq\rho(A)$;
+  \item $\|\lambda(\lambda I-A)^{-1}\|\le1$ for every $\lambda>0$.
+\end{enumerate}
+\end{notetheorem}
+
+\begin{proof}[Sufficiency]
+For $\lambda>0$, define the bounded Yosida approximation
+\[
+  A_\lambda
+  =\lambda A(\lambda I-A)^{-1}
+  =\lambda^2(\lambda I-A)^{-1}-\lambda I.
+\]
+Set
+\[
+  T_\lambda(t)=e^{tA_\lambda}.
+\]
+Since $\|\lambda(\lambda I-A)^{-1}\|\le1$,
+\[
+  \|T_\lambda(t)\|
+  =\left\|e^{-\lambda t}
+     \exp\bigl(t\lambda^2(\lambda I-A)^{-1}\bigr)\right\|
+  \le1.
+\]
+For $x\in\Dom(A)$,
+\[
+  A_\lambda x=\lambda(\lambda I-A)^{-1}Ax\longrightarrow Ax
+\]
+as $\lambda\to\infty$.  The resolvent identity shows that the bounded
+operators $A_\lambda$ commute.  Duhamel's formula therefore gives, for
+$x\in\Dom(A)$,
+\[
+  \|T_\lambda(t)x-T_\mu(t)x\|
+  \le\int_0^t
+       \|(A_\lambda-A_\mu)x\|\,\dd s
+  =t\|(A_\lambda-A_\mu)x\|,
+\]
+uniformly for $t$ in compact intervals.  Density of $\Dom(A)$ and the
+contraction bounds extend this Cauchy property to every $x\in X$.  Define
+\[
+  T(t)x=\lim_{\lambda\to\infty}T_\lambda(t)x.
+\]
+Uniform convergence on compact time intervals gives the semigroup law,
+strong continuity, and $\|T(t)\|\le1$.  For $x\in\Dom(A)$,
+\[
+  T(t)x-x=\lim_{\lambda\to\infty}
+          \int_0^tT_\lambda(s)A_\lambda x\,\dd s
+        =\int_0^tT(s)Ax\,\dd s,
+\]
+so the generator extends $A$.  Equality of resolvents for one positive
+parameter, or closedness of $A$, shows that the generator is exactly $A$.
+Necessity was proved by the Laplace-transform lemma.
+\end{proof}
+\begin{notecorollary}[Uniqueness and the abstract Cauchy problem]
+A generator determines its $C_0$-semigroup uniquely.  If $x_0\in\Dom(A)$,
+then
+\[
+  u(t)=T(t)x_0
+\]
+is the unique classical solution of
+\[
+  u'(t)=Au(t),
+  \qquad u(0)=x_0.
+\]
+Moreover, $\Dom(A^2)$ is a core for $A$ and hence is dense in $\Dom(A)$ for
+the graph norm.
+\end{notecorollary}
+
+\begin{proof}
+If $u$ is another classical solution and $T$ is generated by $A$, then for
+fixed $t$,
+\[
+  \frac{\dd}{\dd s}T(t-s)u(s)
+  =-AT(t-s)u(s)+T(t-s)Au(s)=0,
+\]
+so $u(t)=T(t)u(0)$.  For the core statement, apply
+$\lambda R(\lambda,A)$ to elements of $\Dom(A)$: these approximants lie in
+$\Dom(A^2)$ and converge in the graph norm as $\lambda\to\infty$.
+\end{proof}
+\begin{notetheorem}[Euler approximation]
+If $A$ generates a contraction semigroup, then for every $x\in X$ and $t\ge0$,
+\[
+  T(t)x
+  =\lim_{n\to\infty}
+     \left(I-\frac{t}{n}A\right)^{-n}x.
+\]
+\end{notetheorem}
+
+\begin{proof}
+The expression is the exponential approximation associated with the Yosida
+operator at $\lambda=n/t$; the convergence follows from the construction in
+the Hille--Yosida proof.
+\end{proof}
+\section{Exponentially bounded semigroups}
+
+\begin{notelemma}
+Every $C_0$-semigroup is exponentially bounded: there are $M\ge1$ and
+$\omega\in\mathbb R$ such that
+\[
+  \|T(t)\|\le Me^{\omega t}
+  \qquad(t\ge0).
+\]
+\end{notelemma}
+
+\begin{proof}
+Strong continuity and uniform boundedness give
+$M_0=\sup_{0\le t\le1}\|T(t)\|<\infty$.  Writing $t=n+s$ with
+$n\in\mathbb N_0$ and $0\le s<1$ gives
+$\|T(t)\|\le M_0^{n+1}\le M e^{\omega t}$ for suitable $M,\omega$.
+\end{proof}
+\begin{notelemma}[Higher resolvent powers]
+If $\|T(t)\|\le Me^{\omega t}$ and $A$ is its generator, then for
+$\operatorname{Re}\lambda>\omega$ and $n\ge1$,
+\[
+  R(\lambda,A)^n x
+  =\frac1{(n-1)!}
+    \int_0^\infty t^{n-1}e^{-\lambda t}T(t)x\,\dd t,
+\]
+and therefore
+\[
+  \|R(\lambda,A)^n\|
+  \le\frac{M}{(\operatorname{Re}\lambda-\omega)^n}.
+\]
+\end{notelemma}
+
+\begin{proof}
+The formula for $n=1$ is the Laplace representation.  Induction, Fubini's
+theorem, and the semigroup law reduce the $n$-fold integral over
+$t_1+\cdots+t_n=t$ to the simplex volume $t^{n-1}/(n-1)!$.  The estimate is
+the Gamma-integral calculation.
+\end{proof}
+\begin{notetheorem}[Hille--Yosida--Phillips theorem]
+Let $A$ be densely defined and closed.  It generates a $C_0$-semigroup
+satisfying
+\[
+  \|T(t)\|\le Me^{\omega t}
+\]
+if and only if $(\omega,\infty)\subseteq\rho(A)$ and
+\[
+  \|R(\lambda,A)^n\|
+  \le\frac{M}{(\lambda-\omega)^n}
+  \qquad(\lambda>\omega,\ n\ge1).
+\]
+\end{notetheorem}
+
+\begin{proof}[Proof outline]
+Necessity is the preceding lemma.  For sufficiency, shift the operator by
+$\omega I$ and apply the Yosida construction with the uniform power bounds.
+Those bounds replace the contraction estimate and yield uniformly bounded
+approximating semigroups after multiplication by $e^{-\omega t}$.  Passing to
+the strong limit gives the required semigroup and growth estimate.
+\end{proof}
+\section{Examples}
+
+\begin{notetheorem}[Translation semigroup]
+Let
+\[
+  X=C_0([0,\infty))
+  =\{f\in C([0,\infty)):f(t)\to0\text{ as }t\to\infty\}
+\]
+with the supremum norm, and define
+\[
+  (T(t)f)(x)=f(x+t).
+\]
+Then $(T(t))$ is a contraction $C_0$-semigroup.  Its generator is
+\[
+  Af=f',
+\]
+with domain
+\[
+  \Dom(A)=\{f\in C_0([0,\infty)):
+               f\text{ is }C^1\text{ and }f'\in C_0([0,\infty))\}.
+\]
+\end{notetheorem}
+
+\begin{proof}
+Uniform continuity of every $f\in C_0([0,\infty))$ gives strong continuity.
+For $f\in\Dom(A)$, the difference quotient converges uniformly to $f'$.  For
+the converse, if the uniform difference quotient converges to $g$, then
+\[
+  f(x+t)-f(x)=\int_0^t g(x+s)\,\dd s,
+\]
+so $f$ is differentiable with $f'=g\in C_0$.
+\end{proof}
+\begin{noteproposition}[Positive self-adjoint operators]
+Let $H$ be a Hilbert space and let $A$ be densely defined, self-adjoint, and
+positive:
+\[
+  \inner{Ax}{x}\ge0
+  \qquad(x\in\Dom(A)).
+\]
+Then $-A$ generates a contraction $C_0$-semigroup.
+\end{noteproposition}
+
+\begin{proof}
+For $\lambda>0$,
+\[
+  \|\lambda x+Ax\|\,\|x\|
+  \ge\operatorname{Re}\inner{(\lambda I+A)x}{x}
+  \ge\lambda\|x\|^2,
+\]
+so $\|\lambda(\lambda I+A)^{-1}\|\le1$ whenever the inverse exists.  The
+spectral theorem, or the standard range argument for positive self-adjoint
+operators, gives $\Ran(\lambda I+A)=H$.  Hille--Yosida applied to $-A$ gives
+the claim.  The sign is essential: a positive operator itself generally
+produces growth rather than a contraction.
+\end{proof}
+\section{Dissipative operators and Lumer--Phillips}
+
+\begin{notedefinition}
+For $x\in X$, the normalized duality set is
+\[
+  \mathcal J(x)
+  =\{x^*\in X^*:x^*(x)=\|x\|^2,
+                    \ \|x^*\|=\|x\|\}.
+\]
+It is nonempty by Hahn--Banach.  A densely defined operator $A$ is
+\emph{accretive} if, for every $x\in\Dom(A)$, there is
+$x^*\in\mathcal J(x)$ with
+\[
+  \operatorname{Re}x^*(Ax)\ge0.
+\]
+It is \emph{dissipative} if $-A$ is accretive.
+\end{notedefinition}
+
+\begin{noteproposition}
+An operator $A$ is dissipative if and only if
+\[
+  \|(\lambda I-A)x\|\ge\lambda\|x\|
+  \qquad(x\in\Dom(A),\ \lambda>0).
+\]
+\end{noteproposition}
+
+\begin{proof}
+If $x^*\in\mathcal J(x)$ and
+$\operatorname{Re}x^*(Ax)\le0$, then
+\[
+ \|(\lambda I-A)x\|\,\|x\|
+ \ge\operatorname{Re}x^*((\lambda I-A)x)
+ \ge\lambda\|x\|^2.
+\]
+The converse follows by taking a supporting functional for $x$ and
+letting $\lambda\downarrow0$ in the norm inequality, or equivalently by the
+standard directional-derivative characterization of the norm.
+\end{proof}
+\begin{notetheorem}[Lumer--Phillips theorem]
+Let $A$ be densely defined on a Banach space.  Then $A$ generates a contraction
+$C_0$-semigroup if and only if
+\begin{enumerate}
+  \item $A$ is dissipative;
+  \item $\Ran(\lambda_0I-A)=X$ for some $\lambda_0>0$.
+\end{enumerate}
+In this case the range condition holds for every $\lambda>0$.
+\end{notetheorem}
+
+\begin{proof}
+A contraction generator is dissipative by differentiating
+$\|T(t)x\|\le\|x\|$ at $t=0$ through a supporting functional, and its positive
+resolvent is onto.  Conversely, dissipativity makes
+$\lambda I-A$ injective with inverse norm at most $1/\lambda$ on its range.
+The resolvent identity propagates surjectivity from one positive $\lambda_0$
+to all positive $\lambda$ by overlapping Neumann-series intervals.  The
+operator is closed, and the contraction Hille--Yosida theorem applies.
+\end{proof}
+\begin{notecorollary}
+Let $A$ be densely defined and closed on a Banach space.  If both $A$ and its
+Banach adjoint $A^*$ are dissipative, then $A$ generates a contraction
+$C_0$-semigroup.
+\end{notecorollary}
+
+\begin{proof}
+Dissipativity makes $\Ran(I-A)$ closed.  If it were not dense, Hahn--Banach
+would give $0\ne f\in X^*$ annihilating it.  Then $f\in\Dom(A^*)$ and
+$(I-A^*)f=0$, contradicting the dissipative inequality for $A^*$.  Hence the
+range is dense and closed, so it equals $X$.  Apply Lumer--Phillips.
+\end{proof}
+\begin{notedefinition}
+Let $A$ be closed.  A subspace $D\subseteq\Dom(A)$ is a \emph{core} for $A$ if
+the graph of $A|_D$ is dense in $\Graph(A)$, equivalently, if $D$ is dense in
+$\Dom(A)$ for the graph norm $\|x\|+\|Ax\|$.
+\end{notedefinition}
+
+\begin{notetheorem}[Invariant cores]
+Let $A$ generate a $C_0$-semigroup $(T(t))$.  Suppose
+$D\subseteq\Dom(A)$ is dense in $X$ and $T(t)D\subseteq D$ for every $t\ge0$.
+Then $D$ is a core for $A$.
+\end{notetheorem}
+
+\begin{proof}
+Let $B$ be the graph closure of $A|_D$.  Invariance and the orbit derivative
+show that $B\subseteq A$ and that $B$ generates the restriction of the same
+semigroup to its closure.  For sufficiently large $\lambda$, the Laplace
+resolvent maps the dense set $D$ into the graph closure of $A|_D$.  Since the
+resolvent is bounded and onto $\Dom(A)$ in the graph norm, that closure is all
+of $\Dom(A)$.
+\end{proof}
+\begin{notetheorem}[Gaussian heat semigroup]
+On $X=C_0(\mathbb R^d)$, define for $t>0$
+\[
+  (T(t)f)(x)
+  =\frac1{(4\pi t)^{d/2}}
+     \int_{\mathbb R^d}
+       e^{-|x-y|^2/(4t)}f(y)\,\dd y,
+  \qquad T(0)=I.
+\]
+Then $(T(t))$ is a contraction $C_0$-semigroup.  Its generator is the closure
+of
+\[
+  \Delta\colon C_c^\infty(\mathbb R^d)\to C_0(\mathbb R^d),
+\]
+and $C_c^\infty(\mathbb R^d)$ is a core.
+\end{notetheorem}
+
+\begin{proof}
+The Gaussian kernels form an approximate identity and satisfy
+$G_t*G_s=G_{t+s}$, which follows from Fourier transform or direct Gaussian
+integration.  Positivity and unit mass give the contraction estimate, and
+approximate-identity convergence gives strong continuity on $C_0$.  For
+$u\in C_c^\infty$, differentiation under the integral or Fourier transform
+gives
+$\frac{\dd}{\dd t}T(t)u=\Delta T(t)u=T(t)\Delta u$.  The invariant-core
+theorem identifies the generator with the closure of $\Delta$ on
+$C_c^\infty$.
+\end{proof}
+\begin{noteremark}
+The same formula is not strongly continuous on all of $C_b(\mathbb R^d)$:
+functions in $C_b$ need not be uniformly continuous.  The correct standard
+spaces are $C_0(\mathbb R^d)$ or the bounded uniformly continuous functions.
+\end{noteremark}
+
+\begin{notetheorem}[Poisson semigroup]
+Let
+\[
+  P_t(x)=c_d\frac{t}{(t^2+|x|^2)^{(d+1)/2}},
+  \qquad t>0,
+\]
+where $c_d$ normalizes the integral to one.  Then
+\[
+  T(t)f=P_t*f
+\]
+defines a contraction $C_0$-semigroup on $C_0(\mathbb R^d)$.  Its generator
+is
+\[
+  A=-(-\Delta)^{1/2},
+\]
+so on a suitable core
+\[
+  A^2=-\Delta.
+\]
+\end{notetheorem}
+
+\begin{proof}
+The Fourier multiplier of $P_t$ is $e^{-t|\xi|}$, so the semigroup property
+and contraction estimate follow.  Differentiation at $t=0$ gives the multiplier
+$-|\xi|$, which is $-(-\Delta)^{1/2}$.  Squaring gives the multiplier
+$|\xi|^2$, corresponding to $-\Delta$.
+\end{proof}

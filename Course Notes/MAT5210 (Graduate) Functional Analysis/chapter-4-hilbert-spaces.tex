@@ -1,0 +1,273 @@
+\chapter{Hilbert Spaces}
+
+\section{Orthogonality and direct sums}
+
+\begin{noteproposition}[Orthogonal density criterion]
+Let $H$ be a Hilbert space and let $M\subseteq H$ be a linear subspace.  Then
+\[
+  \overline M=H
+  \quad\Longleftrightarrow\quad
+  M^\perp=\{0\}.
+\]
+\end{noteproposition}
+
+\begin{proof}
+If $\overline M=H$, continuity of the inner product makes every vector
+orthogonal to $M$ orthogonal to all of $H$, hence zero.  Conversely, if
+$\overline M\ne H$, the projection theorem gives a nonzero component of some
+$x\notin\overline M$ in $(\overline M)^\perp=M^\perp$.
+\end{proof}
+
+\begin{noteproposition}
+For any nonempty subset $S$ of an inner-product space,
+\[
+  S^\perp=\{x:\inner{x}{s}=0\text{ for every }s\in S\}
+\]
+is a closed linear subspace.  In a Hilbert space,
+\[
+  S^\perp=(\overline{\Span S})^\perp,
+  \qquad
+  S^{\perp\perp}=\overline{\Span S}.
+\]
+Moreover, $S\cap S^\perp=\{0\}$ whenever $S$ is a subspace.
+\end{noteproposition}
+\begin{notetheorem}[Orthogonal direct-sum theorem]
+Let $M$ be a closed linear subspace of a Hilbert space $H$.  Then
+\[
+  H=M\oplus M^\perp.
+\]
+Thus every $x\in H$ has a unique decomposition
+\[
+  x=P_Mx+(x-P_Mx),
+  \qquad
+  P_Mx\in M,
+  \quad x-P_Mx\in M^\perp.
+\]
+\end{notetheorem}
+
+\section{Inner products and projections}
+
+\begin{notedefinition}
+An inner product on a real vector space is a symmetric positive-definite
+bilinear form.  On a complex vector space it is a positive-definite
+sesquilinear form, conjugate linear in one variable and linear in the other.
+The induced norm is
+\[
+  \|x\|=\sqrt{\inner{x}{x}}.
+\]
+A complete inner-product space is a \emph{Hilbert space}.
+\end{notedefinition}
+
+\begin{noteproposition}
+Every inner product satisfies the Cauchy--Schwarz inequality
+\[
+  |\inner{x}{y}|\le\|x\|\,\|y\|
+\]
+and the parallelogram identity
+\[
+  \|x+y\|^2+\|x-y\|^2
+  =2\|x\|^2+2\|y\|^2.
+\]
+Conversely, a norm comes from an inner product if and only if it satisfies the
+parallelogram identity; the inner product is recovered by polarization.
+\end{noteproposition}
+\begin{notetheorem}[Projection theorem]
+Let $K$ be a nonempty closed convex subset of a Hilbert space $H$.  For every
+$f\in H$ there is a unique $u\in K$ satisfying
+\[
+  \|f-u\|=\dist(f,K).
+\]
+It is characterized by the variational inequality
+\[
+  \operatorname{Re}\inner{f-u}{v-u}\le0
+  \qquad(v\in K).
+\]
+We write $u=P_Kf$.
+\end{notetheorem}
+
+\begin{proof}
+Let $d=\dist(f,K)$ and choose a minimizing sequence $(u_n)\subseteq K$.
+Convexity gives $(u_n+u_m)/2\in K$.  The parallelogram identity yields
+\[
+ \|u_n-u_m\|^2
+ =2\|f-u_n\|^2+2\|f-u_m\|^2
+  -4\left\|f-\frac{u_n+u_m}{2}\right\|^2,
+\]
+which tends to zero.  Thus $(u_n)$ is Cauchy and converges to some $u\in K$;
+continuity gives $\|f-u\|=d$.
+
+For $v\in K$ and $0<t\le1$, the point $u+t(v-u)$ lies in $K$.  Minimality
+implies
+\[
+  \|f-u\|^2
+  \le\|f-u-t(v-u)\|^2
+  =\|f-u\|^2-2t\operatorname{Re}\inner{f-u}{v-u}
+    +t^2\|v-u\|^2.
+\]
+Divide by $t$ and let $t\downarrow0$ to obtain the inequality.  Conversely,
+the inequality gives, for $v\in K$,
+\[
+  \|f-v\|^2
+  =\|f-u\|^2+\|u-v\|^2
+    +2\operatorname{Re}\inner{f-u}{u-v}
+  \ge\|f-u\|^2.
+\]
+If $u_1,u_2$ both satisfy the variational inequalities, use $v=u_2$ in the
+first and $v=u_1$ in the second; adding gives
+$\|u_1-u_2\|^2\le0$.
+\end{proof}
+\begin{noteproposition}[Nonexpansiveness of metric projection]
+For every nonempty closed convex $K\subseteq H$,
+\[
+  \|P_Kf-P_Kg\|\le\|f-g\|
+  \qquad(f,g\in H).
+\]
+\end{noteproposition}
+
+\begin{proof}
+Apply the variational inequality to $P_Kf$ with competitor $P_Kg$ and to
+$P_Kg$ with competitor $P_Kf$.  Adding gives
+\[
+  \|P_Kf-P_Kg\|^2
+  \le\operatorname{Re}\inner{P_Kf-P_Kg}{f-g}
+  \le\|P_Kf-P_Kg\|\,\|f-g\|.
+\]
+\end{proof}
+
+\begin{notecorollary}[Orthogonal projections]
+If $M$ is a closed linear subspace, then $P_M$ is linear, bounded, and
+$\|P_M\|\le1$.  It is characterized by
+\[
+  P_Mf\in M,
+  \qquad
+  f-P_Mf\in M^\perp.
+\]
+If $M\ne\{0\}$, then $\|P_M\|=1$.
+\end{notecorollary}
+
+\begin{proof}
+The variational inequality may be tested with $u\pm v$ and, in the complex
+case, $u\pm iv$ for $v\in M$, so it reduces to orthogonality.  Uniqueness of
+the orthogonal decomposition gives linearity.  Nonexpansiveness gives the norm
+bound.
+\end{proof}
+\section{Riesz representation}
+
+\begin{notetheorem}[Riesz representation theorem]
+For every $\ell\in H^*$ there is a unique $y\in H$ such that
+\[
+  \ell(x)=\inner{x}{y}
+  \qquad(x\in H)
+\]
+(with the variables adjusted to the chosen complex convention), and
+$\|\ell\|=\|y\|$.
+\end{notetheorem}
+
+\begin{proof}
+If $\ell=0$, take $y=0$.  Otherwise $M=\Ker\ell$ is a closed proper subspace.
+Choose $0\ne z\in M^\perp$.  For each $x\in H$, the vector
+\[
+  x-\frac{\ell(x)}{\ell(z)}z
+\]
+belongs to $M$, hence is orthogonal to $z$.  Therefore
+\[
+  \ell(x)=\frac{\ell(z)}{\|z\|^2}\inner{x}{z},
+\]
+which has the required form.  Cauchy--Schwarz gives
+$\|\ell\|\le\|y\|$, while testing at $x=y/\|y\|$ gives equality.
+\end{proof}
+\section{Orthogonal sums and orthonormal bases}
+
+\begin{notedefinition}
+Let $(E_n)_{n\ge1}$ be closed subspaces of a Hilbert space $H$.  Their
+Hilbert direct sum is
+\[
+  \bigoplus_{n=1}^{\infty}E_n
+  =\left\{(u_n):u_n\in E_n,
+                 \ \sum_{n=1}^{\infty}\|u_n\|^2<\infty\right\}
+\]
+with inner product
+$\inner{(u_n)}{(v_n)}=\sum_n\inner{u_n}{v_n}$.
+\end{notedefinition}
+
+\begin{notelemma}[Orthogonal series]
+If $(v_n)$ is an orthogonal sequence in $H$ and
+$\sum_n\|v_n\|^2<\infty$, then $\sum_nv_n$ converges in $H$ and
+\[
+  \left\|\sum_{n=1}^{\infty}v_n\right\|^2
+  =\sum_{n=1}^{\infty}\|v_n\|^2.
+\]
+\end{notelemma}
+
+\begin{proof}
+For $m>n$, orthogonality gives
+\[
+  \left\|\sum_{k=n+1}^m v_k\right\|^2
+  =\sum_{k=n+1}^m\|v_k\|^2,
+\]
+so the partial sums are Cauchy.  The norm identity follows by passage to the
+limit.
+\end{proof}
+
+\begin{notetheorem}[Projections onto mutually orthogonal subspaces]
+Let $(E_n)$ be mutually orthogonal closed subspaces and let $P_n=P_{E_n}$.  For
+all $u\in H$,
+\[
+  \sum_{n=1}^{\infty}\|P_nu\|^2\le\|u\|^2,
+\]
+and the series $\sum_nP_nu$ converges.  If
+$E=\overline{\Span\bigcup_nE_n}$, then
+\[
+  u=P_Eu=\sum_{n=1}^{\infty}P_nu,
+  \qquad
+  \|P_Eu\|^2=\sum_{n=1}^{\infty}\|P_nu\|^2.
+\]
+\end{notetheorem}
+
+\begin{proof}
+Finite orthogonality gives
+\[
+ \left\|\sum_{n=1}^N P_nu\right\|^2
+ =\sum_{n=1}^N\|P_nu\|^2
+ =\inner{u}{\sum_{n=1}^N P_nu}
+ \le\|u\|\left\|\sum_{n=1}^N P_nu\right\|.
+\]
+This yields Bessel's bound and convergence.  The limit lies in $E$, and the
+difference from $u$ is orthogonal to every $E_n$, hence to $E$; it is
+therefore $P_Eu$.
+\end{proof}
+\begin{notedefinition}
+A sequence $(e_n)$ is an \emph{orthonormal basis} of $H$ if
+\[
+  \inner{e_n}{e_m}=\delta_{nm}
+  \qquad\text{and}\qquad
+  \overline{\Span\{e_n:n\ge1\}}=H.
+\]
+\end{notedefinition}
+
+\begin{notetheorem}[Fourier expansion and Parseval identity]
+If $(e_n)$ is an orthonormal basis, then for every $u\in H$,
+\[
+  u=\sum_{n=1}^{\infty}\inner{u}{e_n}e_n,
+  \qquad
+  \|u\|^2=\sum_{n=1}^{\infty}|\inner{u}{e_n}|^2.
+\]
+Conversely, for every $(a_n)\in\ell^2$ the series $\sum_na_ne_n$ converges to
+a unique $u\in H$ satisfying
+\[
+  \inner{u}{e_n}=a_n,
+  \qquad
+  \|u\|^2=\sum_n|a_n|^2.
+\]
+\end{notetheorem}
+
+\begin{notetheorem}
+Every separable Hilbert space has a countable orthonormal basis.
+\end{notetheorem}
+
+\begin{proof}
+Choose a countable dense set, discard vectors already in the span of their
+predecessors, and apply the Gram--Schmidt process.  The resulting orthonormal
+sequence has dense linear span because it spans the same finite-dimensional
+spaces at each stage as the retained dense sequence.
+\end{proof}

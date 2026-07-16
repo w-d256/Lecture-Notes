@@ -1,0 +1,204 @@
+\chapter{Lebesgue Spaces}
+
+Throughout this chapter, $\Omega\subseteq\mathbb R^d$ is measurable and all
+$L^p$ spaces are taken with respect to Lebesgue measure unless stated
+otherwise.  For $1<p<\infty$, the conjugate exponent is
+$p'=p/(p-1)$.
+
+\section{Uniform convexity, reflexivity, and duality}
+
+\begin{notetheorem}
+For $1<p<\infty$, the space $L^p(\Omega)$ is uniformly convex and therefore
+reflexive.
+\end{notetheorem}
+
+\begin{proof}
+Clarkson's inequalities give, for $2\le p<\infty$,
+\[
+ \left\|\frac{f+g}{2}\right\|_p^p
+ +\left\|\frac{f-g}{2}\right\|_p^p
+ \le \frac{\|f\|_p^p+\|g\|_p^p}{2},
+\]
+and the dual Clarkson inequality gives the corresponding estimate for
+$1<p\le2$.  If $\|f\|_p,\|g\|_p\le1$ and $\|f-g\|_p\ge\varepsilon$, these
+inequalities bound $\|(f+g)/2\|_p$ by $1-\delta_p(\varepsilon)$ for some
+positive $\delta_p(\varepsilon)$.  Thus $L^p$ is uniformly convex, and the
+Milman--Pettis theorem yields reflexivity.
+\end{proof}
+\begin{notetheorem}[Riesz representation for $L^p$]
+Let $1<p<\infty$.  For each $g\in L^{p'}(\Omega)$, the formula
+\[
+  T_g(f)=\int_\Omega f g\,\dd x
+\]
+defines an element of $(L^p(\Omega))^*$, and
+\[
+  \|T_g\|=\|g\|_{p'}.
+\]
+Every element of $(L^p(\Omega))^*$ is of this form.  Hence
+\[
+  (L^p(\Omega))^*\cong L^{p'}(\Omega)
+\]
+isometrically.
+\end{notetheorem}
+
+\begin{proof}
+Hölder's inequality gives $\|T_g\|\le\|g\|_{p'}$.  Taking
+\[
+  f=\frac{|g|^{p'-2}\overline g}{\|g\|_{p'}^{p'-1}}
+\]
+(with the evident real-valued version) gives equality when $g\ne0$.
+
+Let $J\colon L^{p'}\to(L^p)^*$ be $Jg=T_g$.  It is an isometry, so its range
+is closed.  If $\Phi\in(L^p)^{**}$ annihilates $J(L^{p'})$, reflexivity of
+$L^p$ gives $\Phi=J_{L^p}f$ for some $f\in L^p$, and then
+\[
+  0=\Phi(Jg)=\int_\Omega f g\,\dd x
+  \qquad(g\in L^{p'}).
+\]
+Choosing the usual truncations of $|f|^{p-2}\overline f$ gives $f=0$.
+Therefore $J(L^{p'})$ has zero annihilator and is weakly dense; since it is a
+closed linear subspace, it equals $(L^p)^*$.
+\end{proof}
+\begin{notetheorem}[The endpoint duality theorem]
+For a $\sigma$-finite measure space, and in particular for Lebesgue measure on
+$\Omega\subseteq\mathbb R^d$,
+\[
+  (L^1(\Omega))^*\cong L^\infty(\Omega)
+\]
+isometrically through the same pairing
+$T_g(f)=\int_\Omega fg$.
+\end{notetheorem}
+
+\begin{proof}[Proof sketch]
+Hölder's inequality gives the isometric embedding
+$L^\infty\hookrightarrow(L^1)^*$.  Given $T\in(L^1)^*$, define the signed or
+complex measure $\nu(A)=T(\one_A)$ on sets of finite measure.  It is absolutely
+continuous with respect to Lebesgue measure and satisfies
+$|\nu(A)|\le\|T\|\,|A|$.  Radon--Nikodym gives a density
+$g\in L^\infty$ with $\|g\|_\infty\le\|T\|$, and density of simple functions
+then yields $T(f)=\int fg$.  The reverse norm inequality follows by testing on
+sets where $|g|$ is close to its essential supremum.
+\end{proof}
+\begin{noteremark}
+Except in the finite-dimensional case (equivalently, when the measure algebra
+has only finitely many atoms), $L^1(\Omega)$ is not reflexive.  Indeed, if it
+were reflexive then its dual $L^\infty(\Omega)$ would also be reflexive, which
+fails on every genuinely infinite measure algebra.  Likewise
+$L^\infty(\Omega)$ is nonreflexive except in the same finite-dimensional
+situation.
+\end{noteremark}
+\section{Separability and dense classes}
+
+\begin{notetheorem}
+For $1\le p<\infty$, the space $L^p(\mathbb R^d)$ is separable.  The space
+$L^\infty(\mathbb R^d)$ is not separable.
+\end{notetheorem}
+
+\begin{proof}
+Finite linear combinations, with rational coefficients, of indicators of
+rectangles with rational endpoints form a countable set.  Simple-function
+approximation and regularity of Lebesgue measure show that this set is dense in
+$L^p$ for $p<\infty$.  For $L^\infty$, choose infinitely many pairwise
+measurably distinguishable sets $A_\alpha$ such that
+$\|\one_{A_\alpha}-\one_{A_\beta}\|_\infty=1$ whenever $\alpha\ne\beta$;
+there are uncountably many such indicators, so no countable set can be dense.
+\end{proof}
+\begin{notetheorem}
+For $1\le p<\infty$, $C_c(\mathbb R^d)$ and $C_c^\infty(\mathbb R^d)$ are
+dense in $L^p(\mathbb R^d)$.
+\end{notetheorem}
+
+\begin{proof}
+First approximate by compactly supported simple functions, then use regularity
+of Lebesgue measure and Urysohn-type cutoff functions to approximate their
+indicators by functions in $C_c$.  Mollification of a compactly supported
+continuous function gives $C_c^\infty$ functions converging uniformly, hence
+in $L^p$.
+\end{proof}
+\section{Convolution and mollifiers}
+
+\begin{notetheorem}[Young's convolution inequality]
+Let $1\le p\le\infty$, $f\in L^1(\mathbb R^d)$, and
+$g\in L^p(\mathbb R^d)$.  Then
+\[
+  (f*g)(x)=\int_{\mathbb R^d}f(x-y)g(y)\,\dd y
+\]
+is defined for almost every $x$, belongs to $L^p$, and satisfies
+\[
+  \|f*g\|_p\le\|f\|_1\|g\|_p.
+\]
+\end{notetheorem}
+
+\begin{proof}
+For $p=1$ and $p=\infty$, use Tonelli's theorem and the essential-supremum
+bound.  For $1<p<\infty$, Hölder's inequality with respect to the measure
+$|f(x-y)|\dd y$ gives
+\[
+ |(f*g)(x)|^p
+ \le \|f\|_1^{p-1}
+     \int |f(x-y)|\,|g(y)|^p\,\dd y.
+\]
+Integrating in $x$ and applying Tonelli yields the result.
+\end{proof}
+
+\begin{noteproposition}[Differentiation of convolution]
+If $f\in C_c^k(\mathbb R^d)$ and $g\in L^1_{\mathrm{loc}}(\mathbb R^d)$,
+then $f*g\in C^k$ wherever the convolution is defined, and
+\[
+  D^\alpha(f*g)=(D^\alpha f)*g
+  \qquad(|\alpha|\le k).
+\]
+\end{noteproposition}
+\begin{notedefinition}
+A sequence $(\rho_n)$ is an \emph{approximate identity} or a sequence of
+\emph{mollifiers} if
+\[
+  \rho_n\in C_c^\infty(\mathbb R^d),\qquad
+  \rho_n\ge0,
+  \qquad
+  \int\rho_n=1,
+  \qquad
+  \supp\rho_n\subseteq B(0,1/n).
+\]
+A standard choice is $\rho_n(x)=n^d\rho(nx)$ for a fixed nonnegative
+$\rho\in C_c^\infty(B(0,1))$ with integral one.
+\end{notedefinition}
+
+\begin{noteproposition}
+Let $(\rho_n)$ be mollifiers.
+\begin{enumerate}
+  \item If $f\in C_c(\mathbb R^d)$, then $\rho_n*f\to f$ uniformly.
+  \item If $f\in L^p(\mathbb R^d)$ with $1\le p<\infty$, then
+        $\rho_n*f\to f$ in $L^p$.
+\end{enumerate}
+\end{noteproposition}
+
+\begin{proof}
+For continuous compactly supported $f$,
+\[
+ |(\rho_n*f)(x)-f(x)|
+ \le\int\rho_n(y)|f(x-y)-f(x)|\,\dd y,
+\]
+and uniform continuity makes the right-hand side tend uniformly to zero.  The
+$L^p$ statement follows by approximating $f$ by a function in $C_c$, using
+Young's inequality for the two error terms.
+\end{proof}
+\begin{notecorollary}[Vanishing weak gradient]
+Let $\Omega\subseteq\mathbb R^d$ be open and connected, and let
+$u\in L^1_{\mathrm{loc}}(\Omega)$.  If
+\[
+  \int_\Omega u\,\partial_j\varphi\,\dd x=0
+  \qquad
+  (\varphi\in C_c^\infty(\Omega),\ 1\le j\le d),
+\]
+then $u$ is almost everywhere equal to a constant on $\Omega$.
+\end{notecorollary}
+
+\begin{proof}
+On every ball $B$ compactly contained in $\Omega$, mollification gives smooth
+functions $u_\varepsilon$ with $\nabla u_\varepsilon=0$ on a slightly smaller
+ball.  Hence each $u_\varepsilon$ is constant there.  Passing to the
+$L^1_{\mathrm{loc}}$ limit shows that $u$ is almost everywhere constant on
+that ball.  Overlapping balls propagate the same constant throughout each
+connected component; connectedness gives a single constant on $\Omega$.
+\end{proof}

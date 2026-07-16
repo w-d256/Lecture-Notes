@@ -1,0 +1,87 @@
+\documentclass[11pt,oneside]{book}
+\usepackage{notes-preamble}
+\pgfplotsset{compat=1.18}
+
+\allowdisplaybreaks
+\setcounter{secnumdepth}{2}
+\setcounter{tocdepth}{2}
+\emergencystretch=3em
+
+% Numbered theorem environments sharing one counter within each section.
+\theoremstyle{mystyle}
+\newtheorem{notedefinition}{Definition}[section]
+\newtheorem{noteproposition}[notedefinition]{Proposition}
+\newtheorem{notetheorem}[notedefinition]{Theorem}
+\newtheorem{notelemma}[notedefinition]{Lemma}
+\newtheorem{notecorollary}[notedefinition]{Corollary}
+\newtheorem{noteremark}[notedefinition]{Remark}
+\newtheorem{noteexample}[notedefinition]{Example}
+\newtheorem{noteexercise}[notedefinition]{Exercise}
+
+\tcolorboxenvironment{notedefinition}{boxrule=0pt,boxsep=0pt,colback=red!10,left=8pt,right=8pt,enhanced jigsaw,borderline west={2pt}{0pt}{red},sharp corners,before skip=10pt,after skip=10pt,breakable}
+\tcolorboxenvironment{noteproposition}{boxrule=0pt,boxsep=0pt,colback=Orange!10,left=8pt,right=8pt,enhanced jigsaw,borderline west={2pt}{0pt}{Orange},sharp corners,before skip=10pt,after skip=10pt,breakable}
+\tcolorboxenvironment{notetheorem}{boxrule=0pt,boxsep=0pt,colback=blue!10,left=8pt,right=8pt,enhanced jigsaw,borderline west={2pt}{0pt}{blue},sharp corners,before skip=10pt,after skip=10pt,breakable}
+\tcolorboxenvironment{notelemma}{boxrule=0pt,boxsep=0pt,colback=Cyan!10,left=8pt,right=8pt,enhanced jigsaw,borderline west={2pt}{0pt}{Cyan},sharp corners,before skip=10pt,after skip=10pt,breakable}
+\tcolorboxenvironment{notecorollary}{boxrule=0pt,boxsep=0pt,colback=violet!10,left=8pt,right=8pt,enhanced jigsaw,borderline west={2pt}{0pt}{violet},sharp corners,before skip=10pt,after skip=10pt,breakable}
+\tcolorboxenvironment{noteremark}{boxrule=0pt,boxsep=0pt,blanker,borderline west={2pt}{0pt}{Green},left=8pt,right=8pt,before skip=10pt,after skip=10pt,breakable}
+\tcolorboxenvironment{noteexample}{boxrule=0pt,boxsep=0pt,blanker,borderline west={2pt}{0pt}{Black},left=8pt,right=8pt,before skip=10pt,after skip=10pt,breakable}
+\tcolorboxenvironment{noteexercise}{boxrule=0pt,boxsep=0pt,colback=gray!8,left=8pt,right=8pt,enhanced jigsaw,borderline west={2pt}{0pt}{gray},sharp corners,before skip=10pt,after skip=10pt,breakable}
+
+\newcommand{\Dom}{\operatorname{D}}
+\newcommand{\Ran}{\operatorname{Ran}}
+\newcommand{\Ker}{\operatorname{Ker}}
+\newcommand{\Graph}{\operatorname{Graph}}
+\newcommand{\Span}{\operatorname{span}}
+\newcommand{\dist}{\operatorname{dist}}
+\newcommand{\supp}{\operatorname{supp}}
+\newcommand{\Int}{\operatorname{int}}
+\newcommand{\conv}{\operatorname{conv}}
+\newcommand{\aco}{\operatorname{aco}}
+\newcommand{\esssup}{\operatorname*{ess\,sup}}
+\newcommand{\weakto}{\rightharpoonup}
+\newcommand{\weakstarto}{\overset{*}{\rightharpoonup}}
+\newcommand{\dual}[2]{\left\langle #1,#2\right\rangle}
+\newcommand{\Bop}[2]{\mathcal{B}(#1,#2)}
+\newcommand{\Kop}[2]{\mathcal{K}(#1,#2)}
+\newcommand{\Id}{I}
+\newcommand{\dd}{\,\mathrm{d}}
+\newcommand{\cC}{\mathcal{C}}
+\newcommand{\cD}{\mathcal{D}}
+\newcommand{\cS}{\mathcal{S}}
+\newcommand{\cW}{\mathcal{W}}
+\newcommand{\one}{\mathbf{1}}
+\newcommand{\closure}[1]{\overline{#1}}
+\newcommand{\ann}[1]{#1^{\perp}}
+\newcommand{\preann}[1]{{}^{\perp}\!#1}
+
+
+
+\title{\Huge \textbf{Topics in Functional Analysis}}
+\author{Wei Chen}
+\date{16 July 2026}
+
+\begin{document}
+\maketitle
+	\allowdisplaybreaks
+	\pagenumbering{roman}
+	\setcounter{page}{1}
+	\begin{center}
+		\Large\textbf{Preface} 
+
+        
+        
+    \end{center}~\
+        This is the lecture note for the graduate course \textit{Functional Analysis} taught by Prof. Yutian Li in 2023 Fall at the Chinese University of Hong Kong, Shenzhen. The note is edited and revised with the support of ChatGPT. The materials presume a basic knowledge of functional analysis, so contents that are close to the boundary of these prerequisites may be omitted. Topics of the note include: review of linear functional analysis, weak convergence, spectral theory, semigroups, Sobolev spaces, and calculus of variations.
+	\newpage
+	\tableofcontents
+\pagenumbering{arabic}
+\input{chapter-1-great-theorems}
+\input{chapter-2-weak-convergence}
+\input{chapter-3-lp-spaces}
+\input{chapter-4-hilbert-spaces}
+\input{chapter-5-spectral-theory}
+\input{chapter-6-semigroups}
+\input{chapter-7-sobolev-spaces}
+\input{chapter-8-calculus-of-variations}
+
+\end{document}

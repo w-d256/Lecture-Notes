@@ -1,0 +1,280 @@
+\chapter{Calculus of Variations and Distributions}
+
+\section{Quadratic minimization}
+
+\begin{notetheorem}[Coercive quadratic minimization]
+Let $V$ be a real Banach space and let
+$a\colon V\times V\to\mathbb R$ be continuous, symmetric, and coercive:
+there are $M,\alpha>0$ such that
+\[
+  |a(u,v)|\le M\|u\|\,\|v\|,
+  \qquad
+  a(v,v)\ge\alpha\|v\|^2.
+\]
+For $\ell\in V^*$ define
+\[
+  J_\ell(v)=\frac12a(v,v)-\ell(v).
+\]
+If $K\subseteq V$ is nonempty, closed, and convex, then $J_\ell$ has a unique
+minimizer $u\in K$.  The solution map $\ell\mapsto u$ is Lipschitz continuous.
+It is linear when $K$ is a linear subspace.
+\end{notetheorem}
+
+\begin{proof}
+The form $a$ is an inner product, and
+$\|v\|_a=\sqrt{a(v,v)}$ is equivalent to the original norm.  Since $V$ is
+complete in the original norm, it is complete in $\|\cdot\|_a$ and is
+therefore a Hilbert space.  Riesz representation gives a unique $c\in V$ such
+that
+\[
+  \ell(v)=a(c,v).
+\]
+Then
+\[
+  J_\ell(v)
+  =\frac12\|v-c\|_a^2-\frac12\|c\|_a^2.
+\]
+Thus the minimizer is the metric projection $P_K^ac$ in the Hilbert norm
+$\|\cdot\|_a$.  Existence, uniqueness, and nonexpansiveness follow from the
+projection theorem.  Since
+\[
+  \|c_1-c_2\|_a
+  \le\alpha^{-1/2}\|\ell_1-\ell_2\|_{V^*}
+\]
+up to the norm-equivalence constants, the solution map is Lipschitz.  If $K$ is
+a subspace, the orthogonal projection is linear.
+\end{proof}
+
+\begin{notecorollary}[Variational inequality]
+The minimizer $u\in K$ is characterized by
+\[
+  a(u,v-u)\ge\ell(v-u)
+  \qquad(v\in K).
+\]
+If $K$ is a linear subspace, this is equivalent to the variational equation
+\[
+  a(u,v)=\ell(v)
+  \qquad(v\in K).
+\]
+\end{notecorollary}
+
+\begin{proof}
+For $v\in K$ and $0<t\le1$, minimality of $u$ applied to
+$u+t(v-u)$ gives
+\[
+  0\le\frac{J(u+t(v-u))-J(u)}{t}
+  =a(u,v-u)-\ell(v-u)+\frac t2a(v-u,v-u).
+\]
+Let $t\downarrow0$.  Conversely, expanding $J(v)-J(u)$ and using the
+inequality gives nonnegativity.  If $K$ is a subspace, test with
+$u\pm v$ to obtain equality.
+\end{proof}
+\begin{noteremark}
+The first variation of
+$J(v)=\frac12a(v,v)-\ell(v)$ in the direction $w$ is
+\[
+  J'(v)w=a(v,w)-\ell(w).
+\]
+The additional term $\frac12a(w,w)$ in the finite difference
+$J(v+w)-J(v)$ is second order.  Quadratic minimization on a subspace therefore
+produces a linear variational equation, while nonlinear functionals generally
+produce nonlinear Euler--Lagrange equations.
+\end{noteremark}
+\section{Lax--Milgram and Stampacchia}
+
+\begin{notetheorem}[Lax--Milgram lemma]
+Let $H$ be a real or complex Hilbert space and let
+$a\colon H\times H\to\mathbb K$ be a continuous bilinear or sesquilinear form.
+Assume coercivity:
+\[
+  \operatorname{Re}a(v,v)\ge\alpha\|v\|^2
+  \qquad(v\in H)
+\]
+for some $\alpha>0$.  Then, for every $\ell\in H^*$, there is a unique
+$u\in H$ such that
+\[
+  a(u,v)=\ell(v)
+  \qquad(v\in H).
+\]
+Moreover,
+\[
+  \|u\|\le\frac1\alpha\|\ell\|,
+\]
+and the map $\ell\mapsto u$ is bounded and linear.
+\end{notetheorem}
+
+\begin{proof}
+Riesz representation defines a bounded operator $A\in\Bop{H}{H}$ by
+\[
+  a(u,v)=\inner{Au}{v}.
+\]
+Coercivity gives
+\[
+  \alpha\|u\|^2
+  \le\operatorname{Re}\inner{Au}{u}
+  \le\|Au\|\,\|u\|,
+\]
+so $A$ is injective, bounded below, and has closed range.  If
+$y\perp\Ran(A)$, then $A^*y=0$ and
+\[
+  \alpha\|y\|^2
+  \le\operatorname{Re}a(y,y)
+  =\operatorname{Re}\inner{Ay}{y}
+  =\operatorname{Re}\inner{y}{A^*y}=0,
+\]
+so $y=0$.  Thus the range is dense and closed, hence all of $H$.  Solve
+$Au=f$, where $f$ is the Riesz representative of $\ell$.  The estimate follows
+from the lower bound.
+\end{proof}
+
+\begin{notetheorem}[Stampacchia variational inequality]
+Let $H$ be a Hilbert space, let $K\subseteq H$ be nonempty, closed, and convex,
+and let $a\colon H\times H\to\mathbb K$ be continuous and coercive.  For every
+$\ell\in H^*$ there is a unique $u\in K$ such that
+\[
+  \operatorname{Re}a(u,v-u)
+  \ge\operatorname{Re}\ell(v-u)
+  \qquad(v\in K).
+\]
+The solution depends Lipschitz continuously on $\ell$.
+\end{notetheorem}
+
+\begin{proof}
+Let $A$ and $f$ be the Riesz representatives of $a$ and $\ell$.  For
+$\rho>0$, define
+\[
+  \Phi(u)=P_K(u-\rho(Au-f)).
+\]
+Using nonexpansiveness of $P_K$, continuity of $A$, and coercivity, one finds
+for sufficiently small $\rho>0$ that
+\[
+  \|\Phi(u)-\Phi(v)\|^2
+  \le\bigl(1-2\rho\alpha+\rho^2\|A\|^2\bigr)\|u-v\|^2.
+\]
+Thus $\Phi$ is a contraction and has a unique fixed point $u\in K$.  The
+projection characterization of this fixed point is exactly the variational
+inequality.  Comparing the inequalities for two right-hand sides and using
+coercivity gives
+\[
+  \alpha\|u_1-u_2\|^2
+  \le\|\ell_1-\ell_2\|\,\|u_1-u_2\|,
+\]
+which proves Lipschitz dependence.
+\end{proof}
+\section{Test functions and weak derivatives}
+
+\begin{notedefinition}
+Let $\Omega\subseteq\mathbb R^N$ be open.  The test-function space is
+\[
+  \mathcal D(\Omega)=C_c^\infty(\Omega).
+\]
+The space $L^1_{\mathrm{loc}}(\Omega)$ consists of measurable functions that
+are integrable over every compact subset of $\Omega$.
+\end{notedefinition}
+
+\begin{notedefinition}
+Let $u\in L^1_{\mathrm{loc}}(\Omega)$ and let $\alpha$ be a multi-index.  A
+function $v\in L^1_{\mathrm{loc}}(\Omega)$ is the weak derivative
+$D^\alpha u$ if
+\[
+  \int_\Omega v\varphi\,\dd x
+  =(-1)^{|\alpha|}
+    \int_\Omega uD^\alpha\varphi\,\dd x
+  \qquad(\varphi\in\mathcal D(\Omega)).
+\]
+\end{notedefinition}
+\section{Distributions}
+
+\begin{notedefinition}
+A \emph{distribution} on $\Omega$ is a linear functional
+$T\colon\mathcal D(\Omega)\to\mathbb K$ such that, for every compact
+$K\subseteq\Omega$, there are $C_K>0$ and $m_K\in\mathbb N_0$ with
+\[
+  |T(\varphi)|
+  \le C_K
+      \max_{|\alpha|\le m_K}
+      \sup_{x\in K}|D^\alpha\varphi(x)|
+\]
+for every $\varphi\in\mathcal D(\Omega)$ supported in $K$.  The space of all
+distributions is denoted by $\mathcal D'(\Omega)$.
+\end{notedefinition}
+
+\begin{noteremark}[Topology]
+A sequence $\varphi_n$ converges to $\varphi$ in $\mathcal D(\Omega)$ if there
+is one compact $K\Subset\Omega$ containing all supports and
+\[
+  \sup_{x\in K}|D^\alpha(\varphi_n-\varphi)(x)|\longrightarrow0
+\]
+for every multi-index $\alpha$.  The full test-function topology is an
+inductive-limit topology and is generally not metrizable.  A sequence
+$T_n\in\mathcal D'(\Omega)$ converges distributionally to $T$ if
+\[
+  T_n(\varphi)\longrightarrow T(\varphi)
+  \qquad(\varphi\in\mathcal D(\Omega)).
+\]
+\end{noteremark}
+\begin{noteproposition}[Regular distributions]
+Every $u\in L^1_{\mathrm{loc}}(\Omega)$ defines a distribution
+$T_u$ by
+\[
+  T_u(\varphi)=\int_\Omega u\varphi\,\dd x.
+\]
+The map $u\mapsto T_u$ is injective modulo equality almost everywhere.
+\end{noteproposition}
+
+\begin{proof}
+If $\supp\varphi\subseteq K$, then
+\[
+  |T_u(\varphi)|
+  \le\|u\|_{L^1(K)}\|\varphi\|_{L^\infty(K)}.
+\]
+If $T_u=0$, testing against mollified cutoffs and using the fundamental lemma
+of the calculus of variations gives $u=0$ almost everywhere.
+\end{proof}
+
+\begin{noteexample}[Dirac delta]
+For $a\in\Omega$, the Dirac distribution is
+\[
+  \delta_a(\varphi)=\varphi(a).
+\]
+It is not a regular distribution.
+\end{noteexample}
+
+\begin{proof}
+Suppose $\delta_a=T_u$ for some $u\in L^1_{\mathrm{loc}}$.  Choose
+$\psi\in C_c^\infty(B(0,1))$ with $0\le\psi\le1$ and $\psi(0)=1$, and set
+$\psi_k(x)=\psi(k(x-a))$.  Then $\delta_a(\psi_k)=1$, whereas
+\[
+  \left|\int u\psi_k\right|
+  \le\int_{B(a,1/k)}|u(x)|\,\dd x\longrightarrow0
+\]
+by absolute continuity of the Lebesgue integral, a contradiction.
+\end{proof}
+\begin{notedefinition}[Distributional derivatives]
+For $T\in\mathcal D'(\Omega)$ and a multi-index $\alpha$, define
+\[
+  D^\alpha T(\varphi)
+  =(-1)^{|\alpha|}T(D^\alpha\varphi).
+\]
+Then $D^\alpha T$ is again a distribution.
+\end{notedefinition}
+
+\begin{noteproposition}
+If $u\in C^{|\alpha|}(\Omega)$, then
+\[
+  D^\alpha T_u=T_{D^\alpha u}.
+\]
+More generally, when $u\in L^1_{\mathrm{loc}}$, the regular distribution
+$T_v$ is $D^\alpha T_u$ exactly when $v$ is the weak derivative
+$D^\alpha u$.
+\end{noteproposition}
+
+\begin{proof}
+Repeated integration by parts against compactly supported test functions gives
+\[
+  D^\alpha T_u(\varphi)
+  =(-1)^{|\alpha|}\int uD^\alpha\varphi
+  =\int D^\alpha u\,\varphi.
+\]
+The final statement is precisely the definition of weak differentiation.
+\end{proof}

@@ -1,0 +1,474 @@
+\chapter{Review of the Great Theorems}
+
+\section{Hahn--Banach theory}
+
+\begin{notetheorem}[Hahn--Banach theorem over real vector spaces]
+Let $X$ be a real vector space, let $Y\subseteq X$ be a linear subspace, and
+let $p\colon X\to\mathbb R$ be sublinear:
+\[
+  p(\alpha x)=\alpha p(x)\quad(\alpha\ge0),
+  \qquad
+  p(x+y)\le p(x)+p(y).
+\]
+If $f\colon Y\to\mathbb R$ is linear and $f(y)\le p(y)$ for every $y\in Y$,
+then there is a linear functional $\widetilde f\colon X\to\mathbb R$ such that
+\[
+  \widetilde f|_Y=f,
+  \qquad
+  \widetilde f(x)\le p(x)\quad(x\in X).
+\]
+\end{notetheorem}
+
+\begin{proof}
+Partially order the set of dominated linear extensions $(Z,g)$ of $(Y,f)$ by
+extension.  Every chain has the upper bound obtained by taking the union of its
+domains and functionals, so Zorn's lemma gives a maximal extension $(M,g)$.
+If $M\ne X$, choose $x_0\notin M$.  An extension to $M+\mathbb Rx_0$ has the
+form
+\[
+  g_\alpha(m+t x_0)=g(m)+t\alpha.
+\]
+The domination condition is equivalent to
+\[
+ \sup_{m\in M}\bigl(g(m)-p(m-x_0)\bigr)
+ \le \alpha \le
+ \inf_{m\in M}\bigl(p(m+x_0)-g(m)\bigr).
+\]
+Sublinearity of $p$ shows that the left endpoint is no larger than the right
+one.  Choosing such an $\alpha$ contradicts maximality.  Hence $M=X$.
+\end{proof}
+\begin{notecorollary}[Norm-preserving Hahn--Banach extension]
+Let $X$ be a normed space, let $Y\subseteq X$ be a linear subspace, and let
+$f\in Y^*$.  There is $\widetilde f\in X^*$ satisfying
+\[
+  \widetilde f|_Y=f,
+  \qquad
+  \|\widetilde f\|=\|f\|.
+\]
+\end{notecorollary}
+
+\begin{proof}
+Apply Hahn--Banach with $p(x)=\|f\|\,\|x\|$.  The domination gives
+$\|\widetilde f\|\le\|f\|$, while restriction to $Y$ gives the reverse
+inequality.
+\end{proof}
+
+\begin{noteremark}[A useful uniqueness criterion]
+If $X^*$ is strictly convex, then every norm-preserving Hahn--Banach extension
+is unique.  Indeed, if $F_1$ and $F_2$ are two distinct extensions of $f$ with
+$\|F_1\|=\|F_2\|=\|f\|>0$, then $(F_1+F_2)/2$ is another extension and must
+have norm at least $\|f\|$; this contradicts strict convexity after
+normalization.  The converse is not automatic from the one-line argument in
+the source and is therefore not asserted here without an additional global
+unique-extension hypothesis.
+\end{noteremark}
+\begin{noteproposition}[Norming functionals]
+Let $X$ be a normed space and let $x\in X\setminus\{0\}$.  There is
+$f_x\in X^*$ such that
+\[
+  f_x(x)=\|x\|,
+  \qquad
+  \|f_x\|=1.
+\]
+Consequently, continuous linear functionals separate points: if $x\ne y$,
+then some $f\in X^*$ satisfies $f(x)\ne f(y)$.
+\end{noteproposition}
+
+\begin{proof}
+Define $g(tx)=t\|x\|$ on $\operatorname{span}\{x\}$.  Then $\|g\|=1$ and a
+norm-preserving Hahn--Banach extension gives $f_x$.  Apply this to $x-y$ for
+the separation statement.
+\end{proof}
+\section{Geometric separation}
+
+\begin{notelemma}[Minkowski functional]
+Let $X$ be a normed space and let $C\subseteq X$ be open and convex with
+$0\in C$.  Define
+\[
+  p_C(x)=\inf\{t>0:x\in tC\}.
+\]
+Then $p_C$ is finite and sublinear.  Moreover, for some $M>0$,
+\[
+  p_C(x)\le M\|x\|\quad(x\in X),
+  \qquad
+  C=\{x\in X:p_C(x)<1\}.
+\]
+\end{notelemma}
+
+\begin{proof}
+Choose $r>0$ with $B(0,r)\subseteq C$.  Then $x\in tC$ for every
+$t>\|x\|/r$, so $p_C(x)\le\|x\|/r$.  Positive homogeneity follows directly
+from the definition.  If $a>p_C(x)$ and $b>p_C(y)$, then $x/a,y/b\in C$ and
+convexity yields
+\[
+  \frac{x+y}{a+b}
+   =\frac{a}{a+b}\frac{x}{a}+
+     \frac{b}{a+b}\frac{y}{b}\in C.
+\]
+Letting $a\downarrow p_C(x)$ and $b\downarrow p_C(y)$ proves subadditivity.
+Finally, openness and convexity give $C=\{p_C<1\}$.
+\end{proof}
+\begin{notelemma}[Separation of an open convex set and a point]
+Let $C\subseteq X$ be open and convex and let $x_0\notin C$.  Then there are
+$f\in X^*\setminus\{0\}$ and $\alpha\in\mathbb R$ such that
+\[
+  f(x)<\alpha=f(x_0)\qquad(x\in C).
+\]
+\end{notelemma}
+
+\begin{proof}
+Translate so that $0\in C$.  Let $p_C$ be the Minkowski functional and define
+$g(tx_0)=t$ on $\operatorname{span}\{x_0\}$.  Since $p_C(x_0)\ge1$, one
+checks that $g\le p_C$ on this line; for negative $t$ this follows from
+$g(tx_0)\le0\le p_C(tx_0)$.  Hahn--Banach gives $f\le p_C$ on $X$.  Thus
+$f(x_0)=1$ and $f(x)<1$ for $x\in C$.
+\end{proof}
+
+\begin{notetheorem}[Geometric Hahn--Banach separation]
+Let $A,B$ be nonempty disjoint convex subsets of a normed space $X$.
+
+\begin{enumerate}
+  \item If $A$ is open, then there are $f\in X^*\setminus\{0\}$ and
+        $\alpha\in\mathbb R$ such that
+        \[
+          f(a)<\alpha\le f(b)
+          \qquad(a\in A,\ b\in B).
+        \]
+  \item If $A$ is closed and $B$ is compact, then there are
+        $f\in X^*\setminus\{0\}$, $\alpha\in\mathbb R$, and $\varepsilon>0$
+        such that
+        \[
+          f(a)+\varepsilon\le\alpha\le f(b)
+          \qquad(a\in A,\ b\in B).
+        \]
+\end{enumerate}
+\end{notetheorem}
+
+\begin{proof}
+For the first assertion, $A-B$ is open and convex and does not contain $0$.
+Separating $0$ from $A-B$ gives $f(a-b)<0$, hence
+$\sup_A f\le\inf_B f$, with strict inequality on the open side.
+
+For the second assertion, $A-B$ is closed because $B$ is compact, and
+$0\notin A-B$.  Hence $B(0,r)\cap(A-B)=\varnothing$ for some $r>0$.  Apply
+the first assertion to the open ball and the convex set $A-B$.  The resulting
+functional is bounded away from zero on $A-B$, which gives the stated strict
+gap after rescaling and changing sign if necessary.
+\end{proof}
+\section{Baire category and uniform boundedness}
+
+\begin{notedefinition}
+A subset $N$ of a topological space is \emph{nowhere dense} if
+$\operatorname{int}(\overline N)=\varnothing$.  A space is of the
+\emph{first category} if it is a countable union of nowhere dense sets, and of
+the \emph{second category} otherwise.
+\end{notedefinition}
+
+\begin{notelemma}
+For a subset $A$ of a topological space $X$, the following are equivalent:
+\begin{enumerate}
+  \item $A$ is dense in $X$;
+  \item every nonempty open subset of $X$ meets $A$;
+  \item $\operatorname{int}(X\setminus A)=\varnothing$.
+\end{enumerate}
+\end{notelemma}
+
+\begin{notetheorem}[Baire category theorem]
+Every nonempty complete metric space is of the second category.  Equivalently:
+\begin{enumerate}
+  \item a countable union of closed sets with empty interior has empty
+        interior;
+  \item a countable intersection of open dense sets is dense.
+\end{enumerate}
+\end{notetheorem}
+
+\begin{proof}
+Let $(U_n)$ be open dense subsets of a complete metric space $X$, and let
+$O\subseteq X$ be nonempty and open.  Choose a closed ball
+$\overline B(x_1,r_1)\subseteq O\cap U_1$.  Inductively choose
+\[
+  \overline B(x_{n+1},r_{n+1})
+  \subseteq B(x_n,r_n)\cap U_{n+1},
+  \qquad 0<r_{n+1}\le \tfrac12r_n.
+\]
+Then $(x_n)$ is Cauchy.  If $x_n\to x$, the closed-ball nesting gives
+$x\in\overline B(x_n,r_n)\subseteq U_n$ for every $n$, and also $x\in O$.
+Thus $O\cap\bigcap_nU_n\ne\varnothing$, so the intersection is dense.
+Taking complements gives the closed-set formulation.
+\end{proof}
+\begin{noteexample}
+A normed space with a countably infinite Hamel basis cannot be complete: it is
+the union of the finite-dimensional spans of the first $n$ basis vectors, each
+of which is closed and has empty interior.  Baire's theorem also underlies the
+existence of continuous nowhere differentiable functions on $[0,1]$.
+\end{noteexample}
+
+\begin{notetheorem}[Uniform boundedness principle]
+Let $X$ be a Banach space, let $Y$ be a normed space, and let
+$\{T_i:i\in I\}\subseteq\Bop{X}{Y}$.  If
+\[
+  \sup_{i\in I}\|T_i x\|<\infty
+  \qquad(x\in X),
+\]
+then
+\[
+  \sup_{i\in I}\|T_i\|<\infty.
+\]
+\end{notetheorem}
+
+\begin{proof}
+Set
+\[
+  F_n=\{x\in X:\sup_{i\in I}\|T_i x\|\le n\}.
+\]
+Each $F_n$ is closed and $X=\bigcup_nF_n$.  Baire's theorem gives
+$x_0\in X$ and $r>0$ with $B(x_0,r)\subseteq F_N$ for some $N$.  If
+$\|h\|<r$, then $x_0\pm h\in F_N$, and therefore
+\[
+  2\|T_i h\|
+  =\|T_i(x_0+h)-T_i(x_0-h)\|
+  \le2N.
+\]
+Taking $h=(r/2)x$ with $\|x\|\le1$ gives
+$\|T_i x\|\le2N/r$ uniformly in $i$.
+\end{proof}
+\begin{notetheorem}[Banach--Steinhaus pointwise-limit theorem]
+Let $X$ be Banach, let $Y$ be normed, and let
+$T_n\in\Bop{X}{Y}$.  Suppose $T_nx$ converges for every $x\in X$, and define
+$Tx=\lim_nT_nx$.  Then $T\in\Bop{X}{Y}$ and
+\[
+  \|T\|\le\liminf_{n\to\infty}\|T_n\|.
+\]
+\end{notetheorem}
+
+\begin{proof}
+Linearity is inherited from the pointwise limit.  For every $x$, the sequence
+$(T_nx)$ is bounded, so uniform boundedness yields
+$M:=\sup_n\|T_n\|<\infty$.  Hence $\|Tx\|\le M\|x\|$.  More precisely,
+for $\|x\|=1$,
+\[
+  \|Tx\|=\lim_n\|T_nx\|
+  \le\liminf_n\|T_n\|,
+\]
+and taking the supremum over the unit sphere gives the claim.
+\end{proof}
+
+\begin{notetheorem}[Weak boundedness implies norm boundedness]
+Let $B\subseteq X$, where $X$ is a normed space.  If $f(B)$ is bounded in
+$\mathbb K$ for every $f\in X^*$, then $B$ is norm bounded.
+\end{notetheorem}
+
+\begin{proof}
+For $b\in B$, define $J_b\in(X^*)^*$ by $J_b(f)=f(b)$.  The family
+$\{J_b:b\in B\}$ is pointwise bounded on the Banach space $X^*$, so uniform
+boundedness gives $\sup_{b\in B}\|J_b\|<\infty$.  Hahn--Banach gives
+$\|J_b\|=\|b\|$, and the result follows.
+\end{proof}
+\section{Open mapping, bounded inverse, and equivalent norms}
+
+\begin{notedefinition}
+A map between topological spaces is \emph{open} if it sends open sets to open
+sets.
+\end{notedefinition}
+
+\begin{notetheorem}[Banach open mapping theorem]
+Let $X$ and $Y$ be Banach spaces and let $T\in\Bop{X}{Y}$ be surjective.  Then
+$T$ is an open map.
+\end{notetheorem}
+
+\begin{proof}
+It is enough to show that $T(B_X)$ contains a neighbourhood of $0$.  Since
+\[
+  Y=\bigcup_{n=1}^{\infty}T(nB_X),
+\]
+Baire's theorem gives $n$ such that $\overline{T(nB_X)}$ has nonempty
+interior.  Taking differences shows that, for some $\delta>0$,
+\[
+  B_Y(0,\delta)\subseteq\overline{T(B_X)}.
+\]
+After rescaling, assume $B_Y(0,1)\subseteq\overline{T(B_X)}$.  Given
+$y\in B_Y(0,1/2)$, choose inductively $x_k\in2^{-k}B_X$ so that
+\[
+  \left\|y-T\sum_{j=1}^{k}x_j\right\|<2^{-k-1}.
+\]
+The series $\sum_kx_k$ converges to some $x$ with $\|x\|<1$, and continuity
+of $T$ gives $Tx=y$.  Thus $B_Y(0,1/2)\subseteq T(B_X)$.  Translation and
+scaling now show that every open set has open image.
+\end{proof}
+\begin{notecorollary}[Bounded inverse theorem]
+A bounded bijective linear map between Banach spaces has a bounded inverse.
+\end{notecorollary}
+
+\begin{proof}
+The open mapping theorem says that $T^{-1}$ is continuous at $0$, hence
+bounded.
+\end{proof}
+
+\begin{noteexample}[A priori estimate for a boundary-value problem]
+Let
+\[
+ X=\{u\in C^2[0,1]:u(0)=u(1)=0\},
+ \quad
+ \|u\|_X=\|u\|_\infty+\|u'\|_\infty+\|u''\|_\infty,
+\]
+and let $Y=C[0,1]$ with the supremum norm.  For continuous coefficients
+$a,b,c$, the operator
+\[
+  Lu=a u''+b u'+cu
+\]
+is bounded from $X$ to $Y$.  If the boundary-value problem $Lu=f$ has a
+unique solution $u\in X$ for every $f\in Y$---equivalently, if $L$ is
+bijective---then the bounded inverse theorem gives a constant $C$ such that
+\[
+  \|u\|_X\le C\|Lu\|_\infty.
+\]
+The bijectivity hypothesis is essential; it does not follow merely from the
+formula for $L$.
+\end{noteexample}
+\begin{notetheorem}[Equivalence of complete norms]
+Let $\|\cdot\|_1$ and $\|\cdot\|_2$ be norms making the same vector space $X$
+Banach.  If
+\[
+  \|x\|_2\le C\|x\|_1\qquad(x\in X),
+\]
+then there is $C'>0$ such that
+\[
+  \|x\|_1\le C'\|x\|_2\qquad(x\in X).
+\]
+Thus the two norms are equivalent and induce the same topology.
+\end{notetheorem}
+
+\begin{proof}
+The identity map $(X,\|\cdot\|_1)\to(X,\|\cdot\|_2)$ is a bounded bijection
+between Banach spaces.  Apply the bounded inverse theorem.
+\end{proof}
+\section{Closed operators and the closed graph theorem}
+
+\begin{notedefinition}
+For a linear operator $T\colon\Dom(T)\subseteq X\to Y$, its graph is
+\[
+  \Graph(T)=\{(x,Tx):x\in\Dom(T)\}\subseteq X\times Y.
+\]
+The operator is \emph{closed} if its graph is closed.  Equivalently,
+whenever $x_n\in\Dom(T)$, $x_n\to x$ in $X$, and $Tx_n\to y$ in $Y$, one
+has $x\in\Dom(T)$ and $Tx=y$.
+\end{notedefinition}
+
+\begin{noteremark}
+Every bounded linear operator is closed.  The converse fails when the domain
+is not complete.  For example,
+\[
+  D\colon C^1[0,1]\subset C[0,1]\to C[0,1],
+  \qquad Du=u',
+\]
+is closed when both spaces use the supremum norm, but it is unbounded.
+\end{noteremark}
+\begin{notetheorem}[Banach closed graph theorem]
+Let $X$ and $Y$ be Banach spaces.  An everywhere-defined linear map
+$T\colon X\to Y$ is bounded if and only if it is closed.
+\end{notetheorem}
+
+\begin{proof}
+Only the closed-to-bounded direction needs proof.  Equip $X$ with the graph
+norm
+\[
+  \|x\|_T=\|x\|_X+\|Tx\|_Y.
+\]
+Closedness of $T$ implies that $(X,\|\cdot\|_T)$ is complete.  The identity
+map
+\[
+  (X,\|\cdot\|_T)\longrightarrow(X,\|\cdot\|_X)
+\]
+is a bounded bijection, so its inverse is bounded.  Hence
+$\|x\|_T\le C\|x\|_X$, and therefore $\|Tx\|_Y\le(C-1)\|x\|_X$.
+\end{proof}
+\begin{notetheorem}[Everywhere-defined symmetric maps]
+Let $H$ be a real Hilbert space and let $T\colon H\to H$ be a map satisfying
+\[
+  \inner{Tx}{y}=\inner{x}{Ty}
+  \qquad(x,y\in H).
+\]
+Then $T$ is linear and bounded.  The same conclusion holds over a complex Hilbert space when the inner
+product is taken linear in the first variable and the symmetric identity
+$\inner{Tx}{y}=\inner{x}{Ty}$ is imposed.
+\end{notetheorem}
+
+\begin{proof}
+For $x_1,x_2,y\in H$ and scalars $a,b$,
+\[
+ \inner{T(ax_1+bx_2)-aTx_1-bTx_2}{y}
+ =\inner{ax_1+bx_2}{Ty}-a\inner{x_1}{Ty}-b\inner{x_2}{Ty}=0.
+\]
+Thus $T$ is linear.  If $x_n\to x$ and $Tx_n\to z$, then for every $y\in H$,
+\[
+  \inner{z}{y}
+  =\lim_n\inner{Tx_n}{y}
+  =\lim_n\inner{x_n}{Ty}
+  =\inner{x}{Ty}
+  =\inner{Tx}{y}.
+\]
+Hence $z=Tx$, so $T$ is closed.  The closed graph theorem gives boundedness.
+\end{proof}
+\section{Adjoints, compact maps, and closed ranges}
+
+\begin{notedefinition}
+For normed spaces $X,Y$ and $T\in\Bop{X}{Y}$, the adjoint
+$T^*\colon Y^*\to X^*$ is defined by
+\[
+  (T^*y^*)(x)=y^*(Tx).
+\]
+A bounded linear map $T\colon X\to Y$ is \emph{compact} if it maps bounded
+sets to relatively compact sets, equivalently, if every bounded sequence
+$(x_n)$ has a subsequence for which $(Tx_{n_k})$ converges in $Y$.
+\end{notedefinition}
+
+\begin{notetheorem}[Schauder theorem]
+A bounded linear operator $T\colon X\to Y$ is compact if and only if its
+adjoint $T^*\colon Y^*\to X^*$ is compact.
+\end{notetheorem}
+
+\begin{noteremark}
+A proof is given in Chapter~6, where compact operators are studied
+systematically.
+\end{noteremark}
+
+\begin{notetheorem}[Closed range theorem]
+Let $X,Y$ be Banach spaces and $T\in\Bop{X}{Y}$.  Then the following are
+equivalent:
+\begin{enumerate}
+  \item $\Ran(T)$ is norm closed in $Y$;
+  \item $\Ran(T^*)$ is norm closed in $X^*$;
+  \item $\Ran(T^*)$ is weak-$*$ closed in $X^*$.
+\end{enumerate}
+Whenever these conditions hold,
+\[
+  \Ran(T)=\preann{\Ker(T^*)},
+  \qquad
+  \Ran(T^*)=\ann{\Ker(T)}.
+\]
+Without a closed-range hypothesis one always has
+\[
+  \overline{\Ran(T)}=\preann{\Ker(T^*)},
+  \qquad
+  \overline{\Ran(T^*)}^{\,w^*}=\ann{\Ker(T)}.
+\]
+\end{notetheorem}
+
+\begin{notecorollary}
+For $T\in\Bop{X}{Y}$ between Banach spaces, the following are equivalent:
+\begin{enumerate}
+  \item $T$ is surjective;
+  \item there is $c>0$ such that $\|T^*y^*\|\ge c\|y^*\|$ for every
+        $y^*\in Y^*$;
+  \item $T^*$ is injective and has closed range.
+\end{enumerate}
+\end{notecorollary}
+
+\begin{proof}
+If $T$ is surjective, its induced map $X/\Ker T\to Y$ is a bounded bijection,
+so the bounded inverse theorem yields the lower bound on $T^*$.  Conversely,
+the lower bound makes $T^*$ injective with closed range.  The closed range
+theorem then gives
+$\overline{\Ran(T)}=\preann{\Ker(T^*)}=Y$, while $\Ran(T)$ is closed, so
+$\Ran(T)=Y$.
+\end{proof}
