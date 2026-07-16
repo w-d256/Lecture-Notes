@@ -1,0 +1,102 @@
+\documentclass[11pt,oneside]{book}
+
+\usepackage{notes-preamble}
+
+\allowdisplaybreaks
+\setcounter{secnumdepth}{3}
+\setcounter{tocdepth}{2}
+\emergencystretch=3em
+
+\theoremstyle{mystyle}
+\newtheorem{exercise}[de]{Exercise}
+\newtheorem{notation}[de]{Notation}
+
+\tcolorboxenvironment{exercise}{
+  boxrule=0pt,
+  boxsep=0pt,
+  colback=Yellow!10,
+  left=8pt,
+  right=8pt,
+  enhanced jigsaw,
+  borderline west={2pt}{0pt}{Goldenrod},
+  sharp corners,
+  before skip=10pt,
+  after skip=10pt,
+  breakable
+}
+
+\newcommand{\pow}{\mathcal{P}}
+\newcommand{\1}{\mathbf{1}}
+\newcommand{\cA}{\mathcal{A}}
+\newcommand{\cB}{\mathcal{B}}
+\newcommand{\cC}{\mathcal{C}}
+\newcommand{\cD}{\mathcal{D}}
+\newcommand{\cE}{\mathcal{E}}
+\newcommand{\cF}{\mathcal{F}}
+\newcommand{\cL}{\mathcal{L}}
+\newcommand{\cM}{\mathcal{M}}
+\newcommand{\cN}{\mathcal{N}}
+\newcommand{\cP}{\mathcal{P}}
+\newcommand{\cR}{\mathcal{R}}
+\newcommand{\cS}{\mathcal{S}}
+\newcommand{\cT}{\mathcal{T}}
+\newcommand{\cU}{\mathcal{U}}
+\newcommand{\cV}{\mathcal{V}}
+\newcommand{\olR}{\overline{\R}}
+\newcommand{\restr}{\mathbin{\upharpoonright}}
+\newcommand{\ac}{\mathrm{ac}}
+\newcommand{\sing}{\mathrm{s}}
+\newcommand{\loc}{\mathrm{loc}}
+\newcommand{\weakto}{\rightharpoonup}
+\newcommand{\weakstarto}{\overset{*}{\rightharpoonup}}
+\DeclareMathOperator{\card}{card}
+\DeclareMathOperator{\supp}{supp}
+\DeclareMathOperator{\sgn}{sgn}
+\DeclareMathOperator{\dist}{dist}
+\DeclareMathOperator{\esssup}{ess\,sup}
+\DeclareMathOperator{\diam}{diam}
+\DeclareMathOperator{\Var}{Var}
+\DeclareMathOperator{\TV}{TV}
+\DeclareMathOperator{\BV}{BV}
+\DeclareMathOperator{\NBV}{NBV}
+\DeclareMathOperator{\Lip}{Lip}
+\DeclareMathOperator{\AC}{AC}
+\DeclareMathOperator{\osc}{osc}
+\DeclareMathOperator{\RePart}{Re}
+\DeclareMathOperator{\ImPart}{Im}
+
+\hypersetup{
+  pdftitle={Real Analysis},
+  pdfauthor={Wei Chen}
+}
+
+\title{\Huge \textbf{Real Analysis}}
+\author{Wei Chen}
+\date{July 2026}
+
+\begin{document}
+\maketitle
+	\allowdisplaybreaks
+	\pagenumbering{roman}
+	\setcounter{page}{1}
+	\begin{center}
+		\Large\textbf{Preface}
+    \end{center}~\
+    This is a reading note of measure theory and real analysis. The note is revised and edited using ChatGPT. The note presumes basic knowledge in mathematical analysis. Topics of the note include: measure and integration, differentiation in $\R$ and in general measure spaces, and $L^p$ spaces. In particular, Chapter 1, 2, 3, and 5 are mainly based on the book \textit{Real Analysis: Modern Techniques and Their Applications} by Gerald B. Folland, and Chapter 4 and 6 are based on the book \textit{Measure, Integraion, and Real Analysis} by Sheldon Axler. The note also contains some additional materials from \textit{Real Analysis} by H. L. Royden and P. M. Fitzpatrick in Chapter 3 and 6.
+\frontmatter
+\hypersetup{pageanchor=false}
+\maketitle
+\clearpage
+\hypersetup{pageanchor=true}
+\setcounter{page}{1}
+\tableofcontents
+
+
+\mainmatter
+\input{Chapter 1.tex}
+\input{Chapter 2.tex}
+\input{Chapter 3.tex}
+\input{Chapter 4.tex}
+\input{Chapter 5.tex}
+\input{Chapter 6.tex}
+\end{document}

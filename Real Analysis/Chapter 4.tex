@@ -1,0 +1,808 @@
+\chapter{Differentiation on the Real Line}
+\setcounter{section}{4}
+
+Throughout this section, $m$ denotes Lebesgue measure on $\R$. Intervals are assumed nondegenerate unless stated otherwise.
+
+\section{Maximal functions and the differentiation theorem}
+
+\begin{prop}[Markov's inequality]
+Let $(X,\cM,\mu)$ be a measure space and let $h\in L^1(\mu)$. For every $c>0$,
+\[
+\mu\bigl(\{x:|h(x)|\geq c\}\bigr)\leq \frac{\norm{h}_1}{c}.
+\]
+\end{prop}
+
+\begin{proof}
+If $E_c=\{|h|\geq c\}$, then
+\[
+\norm{h}_1\geq \int_{E_c}|h|\,\d\mu\geq c\mu(E_c).
+\]
+\end{proof}
+
+\begin{lem}[Three-times covering lemma]
+Let $I_1,\dots,I_N$ be bounded open intervals. There is a pairwise disjoint subcollection $I_{j_1},\dots,I_{j_k}$ such that
+\[
+\bigcup_{i=1}^N I_i\subseteq \bigcup_{\ell=1}^k 3I_{j_\ell},
+\]
+where $3I$ is the interval with the same center as $I$ and three times its length.
+\end{lem}
+
+\begin{proof}
+Choose an interval of maximal length, remove every interval meeting it, and repeat. The selected intervals are disjoint. Every discarded interval $I$ meets a selected interval $J$ with $|I|\leq |J|$. The distance between their centers is at most $(|I|+|J|)/2\leq |J|$, so $I\subseteq 3J$.
+\end{proof}
+
+\begin{de}[Hardy--Littlewood maximal function]
+For $h\in L^1_{\loc}(\R)$, define
+\[
+Mh(x)=\sup_{r>0}\frac{1}{2r}\int_{x-r}^{x+r}|h(y)|\,\d y.
+\]
+\end{de}
+
+\begin{thm}[Weak $(1,1)$ maximal inequality on $\R$]
+If $h\in L^1(\R)$ and $c>0$, then
+\[
+m\bigl(\{x:Mh(x)>c\}\bigr)\leq \frac{3}{c}\norm{h}_1.
+\]
+\end{thm}
+
+\begin{proof}
+Let $E_c=\{Mh>c\}$. For each $x\in E_c$, choose an interval $I_x$ centered at $x$ such that
+\[
+\frac1{|I_x|}\int_{I_x}|h|>c.
+\]
+If $K\subseteq E_c$ is compact, finitely many $I_x$ cover $K$. Apply the three-times covering lemma to obtain pairwise disjoint $I_1,\dots,I_N$ such that $K\subseteq\bigcup_j3I_j$. Then
+\[
+m(K)\leq 3\sum_{j=1}^N|I_j|
+ <\frac3c\sum_{j=1}^N\int_{I_j}|h|
+ \leq \frac3c\norm{h}_1.
+\]
+The set $E_c$ is open, because one interval witnessing $Mh(x)>c$ also witnesses the inequality at all nearby centers after a small enlargement. Inner regularity of Lebesgue measure now gives the estimate for $E_c$.
+\end{proof}
+
+\begin{thm}[Lebesgue differentiation theorem, oscillation form]
+If $f\in L^1(\R)$, then for almost every $x\in\R$,
+\[
+\lim_{r\downarrow0}\frac1{2r}\int_{x-r}^{x+r}|f(y)-f(x)|\,\d y=0.
+\]
+\end{thm}
+
+\begin{proof}
+For a locally integrable function $u$, set
+\[
+Du(x)=\limsup_{r\downarrow0}\frac1{2r}\int_{x-r}^{x+r}|u(y)-u(x)|\,\d y.
+\]
+If $g\in C_c(\R)$, uniform continuity gives $Dg=0$ everywhere. For arbitrary $f\in L^1$ and $g\in C_c$,
+\[
+Df(x)\leq M(f-g)(x)+|f(x)-g(x)|+Dg(x).
+\]
+Consequently, for $\alpha>0$,
+\[
+\{Df>2\alpha\}
+ \subseteq \{M(f-g)>\alpha\}\cup\{|f-g|>\alpha\}.
+\]
+The maximal inequality and Markov's inequality imply
+\[
+m(\{Df>2\alpha\})\leq \frac4\alpha\norm{f-g}_1.
+\]
+Because $C_c(\R)$ is dense in $L^1(\R)$, the right-hand side can be made arbitrarily small. Thus $m(\{Df>2\alpha\})=0$ for every rational $\alpha>0$, and hence $Df=0$ almost everywhere.
+\end{proof}
+
+\begin{cor}[Lebesgue differentiation theorem, average form]
+If $f\in L^1_{\loc}(\R)$, then
+\[
+\lim_{r\downarrow0}\frac1{2r}\int_{x-r}^{x+r}f(y)\,\d y=f(x)
+\]
+for almost every $x\in\R$.
+\end{cor}
+
+\begin{proof}
+Localize $f$ to a bounded interval and use
+\[
+\left|\frac1{2r}\int_{x-r}^{x+r}f(y)\,\d y-f(x)\right|
+\leq \frac1{2r}\int_{x-r}^{x+r}|f(y)-f(x)|\,\d y.
+\]
+\end{proof}
+
+\begin{cor}[Differentiation of indefinite integrals]
+Let $f\in L^1(\R)$ and define
+\[
+F(x)=\int_{-\infty}^x f(t)\,\d t.
+\]
+Then $F'(x)=f(x)$ for almost every $x$.
+\end{cor}
+
+\begin{proof}
+For $h>0$,
+\[
+\frac{F(x+h)-F(x)}h=\frac1h\int_x^{x+h}f(t)\,\d t.
+\]
+The one-sided version of the differentiation theorem follows from the symmetric version by comparing $[x,x+h]$ with $[x-h,x+h]$. The same argument applies for $h<0$.
+\end{proof}
+
+\begin{de}[Density]
+For a measurable set $E\subseteq\R$, the density of $E$ at $x$ is the limit, when it exists,
+\[
+\lim_{r\downarrow0}\frac{m(E\cap(x-r,x+r))}{2r}.
+\]
+\end{de}
+
+\begin{thm}[Lebesgue density theorem]
+If $E\subseteq\R$ is measurable, then the density of $E$ is $1$ at almost every point of $E$ and $0$ at almost every point of $E^c$.
+\end{thm}
+
+\begin{proof}
+Apply the differentiation theorem locally to $\1_E$. The limiting average is $\1_E(x)$ almost everywhere.
+\end{proof}
+
+\begin{exercise}
+There is no measurable set $E\subseteq[0,1]$ satisfying
+\[
+m(E\cap[0,x])=\frac{x}{2}\qquad(0\leq x\leq1).
+\]
+\end{exercise}
+
+\begin{proof}
+The function $G(x)=m(E\cap[0,x])$ is absolutely continuous and satisfies $G'=\1_E$ almost everywhere. If $G(x)=x/2$, then $G'=1/2$ almost everywhere, contradicting $\1_E\in\{0,1\}$ almost everywhere.
+\end{proof}
+
+\section{Vitali coverings and monotone functions}
+
+\begin{prop}[Prescribed countable discontinuity set]
+If $C=\{c_1,c_2,\dots\}\subset(a,b)$ is countable, then
+\[
+f(x)=\sum_{n=1}^{\infty}2^{-n}\1_{[c_n,b)}(x)
+\]
+is increasing and has discontinuity set exactly $C$.
+\end{prop}
+
+\begin{proof}
+The series converges uniformly, so $f$ is well defined and increasing. At $c_n$ the $n$th summand has a jump of size $2^{-n}$, hence $f$ is discontinuous. If $x\notin C$, choose a finite partial sum whose tail has norm below $\varepsilon$, and use continuity of that finite sum at $x$.
+\end{proof}
+
+\begin{de}[Vitali cover]
+A family $\cV$ of closed bounded intervals is a \emph{Vitali cover} of $E\subseteq\R$ if for every $x\in E$ and every $\varepsilon>0$ there is $I\in\cV$ with $x\in I$ and $|I|<\varepsilon$.
+\end{de}
+
+\begin{thm}[Vitali covering theorem]
+Let $E\subseteq\R$ have finite outer measure, and let $\cV$ be a Vitali cover of $E$. Then there is a finite or countable pairwise disjoint family $(I_k)\subseteq\cV$ such that
+\[
+m^*\left(E\setminus\bigcup_k I_k\right)=0.
+\]
+\end{thm}
+
+\begin{proof}
+Choose an open set $O\supseteq E$ with $m(O)<\infty$, and discard intervals not contained in $O$. If finitely many disjoint intervals already cover $E$, there is nothing to prove. Otherwise choose $I_1\in\cV$, and, after $I_1,\dots,I_n$ have been chosen, let $s_n$ be the supremum of the lengths of intervals in $\cV$ disjoint from the selected ones. Choose $I_{n+1}$ disjoint from the preceding intervals with $|I_{n+1}|>s_n/2$.
+
+The intervals are disjoint and lie in $O$, so $\sum_k|I_k|<\infty$ and hence $|I_k|\to0$. We claim
+\[
+E\setminus\bigcup_{k=1}^n I_k\subseteq\bigcup_{k>n}5I_k.
+\]
+Indeed, if $x$ lies in the left-hand side, take $I\in\cV$ containing $x$ and disjoint from $I_1,\dots,I_n$. It must meet some later $I_N$; otherwise it would remain eligible forever, contradicting $|I_k|\to0$. Taking the first such $N$, we have $|I|\leq s_{N-1}<2|I_N|$, and the intersection implies $I\subseteq5I_N$. Therefore
+\[
+m^*\left(E\setminus\bigcup_k I_k\right)
+ \leq 5\sum_{k>n}|I_k|\xrightarrow[n\to\infty]{}0.
+\]
+\end{proof}
+
+\begin{de}[Dini derivatives]
+For a real-valued function $f$ and an interior point $x$ of its domain, define
+\[
+\overline D f(x)=\limsup_{h\to0}\frac{f(x+h)-f(x)}h,
+\qquad
+\underline D f(x)=\liminf_{h\to0}\frac{f(x+h)-f(x)}h.
+\]
+The one-sided Dini derivatives are defined analogously.
+\end{de}
+
+\begin{lem}[A level-set estimate for an increasing function]
+Let $f$ be increasing on $[a,b]$. For $\alpha>0$,
+\[
+m^*\bigl(\{x\in(a,b):\overline D f(x)>\alpha\}\bigr)
+ \leq \frac{f(b)-f(a)}{\alpha}.
+\]
+In particular,
+\[
+m^*\bigl(\{x:\overline D f(x)=\infty\}\bigr)=0.
+\]
+\end{lem}
+
+\begin{proof}
+Let
+\[
+E_\alpha=\{x\in(a,b):\overline D f(x)>\alpha\},
+\]
+and fix $0<\beta<\alpha$. For every $x\in E_\alpha$, there are arbitrarily short intervals $[c,d]\subset(a,b)$ containing $x$ for which
+\[
+f(d)-f(c)>\beta(d-c).
+\]
+Indeed, this follows directly from the definition of the upper Dini derivative, using $[x,x+h]$ when $h>0$ and $[x+h,x]$ when $h<0$. These intervals form a Vitali cover of $E_\alpha$. Select a pairwise disjoint subfamily $([c_k,d_k])$ covering $E_\alpha$ up to a null set. Since $f$ is increasing and the intervals are disjoint,
+\[
+\begin{aligned}
+m^*(E_\alpha)
+&\leq\sum_k(d_k-c_k)\\
+&<\frac1\beta\sum_k\bigl(f(d_k)-f(c_k)\bigr)\\
+&\leq\frac{f(b)-f(a)}\beta.
+\end{aligned}
+\]
+Letting $\beta\uparrow\alpha$ proves the first assertion. Finally,
+\[
+\{\overline D f=\infty\}\subseteq\{\overline D f>n\}
+\]
+for every $n$, and the preceding estimate tends to zero as $n\to\infty$.
+\end{proof}
+
+\begin{thm}[Lebesgue's theorem for monotone functions]
+Every monotone function on an interval is differentiable almost everywhere.
+\end{thm}
+
+\begin{proof}
+It is enough to consider an increasing function $f$ on a bounded interval $(a,b)$. For rational numbers $0<\beta<\alpha$, define
+\[
+E_{\alpha,\beta}
+ =\{x\in(a,b):\overline D f(x)>\alpha>\beta>\underline D f(x)\}.
+\]
+We show $m^*(E_{\alpha,\beta})=0$. Fix $\varepsilon>0$ and choose an open set $O$ with
+\[
+E_{\alpha,\beta}\subseteq O\subseteq(a,b),
+\qquad m(O)\leq m^*(E_{\alpha,\beta})+\varepsilon.
+\]
+The intervals $[c,d]\subseteq O$ for which
+\[
+f(d)-f(c)<\beta(d-c)
+\]
+form a Vitali cover of $E_{\alpha,\beta}$. Select disjoint intervals $[c_k,d_k]$ covering all but a set of outer measure below $\varepsilon$. On each selected interval, apply the preceding lemma to the restriction of $f$ and the set $E_{\alpha,\beta}\cap[c_k,d_k]$:
+\[
+m^*(E_{\alpha,\beta}\cap[c_k,d_k])
+ \leq \frac{f(d_k)-f(c_k)}\alpha.
+\]
+Hence
+\[
+\begin{aligned}
+m^*(E_{\alpha,\beta})
+&\leq \varepsilon+\frac1\alpha\sum_k(f(d_k)-f(c_k))\\
+&<\varepsilon+\frac\beta\alpha\sum_k(d_k-c_k)\\
+&\leq \varepsilon+\frac\beta\alpha\bigl(m^*(E_{\alpha,\beta})+\varepsilon\bigr).
+\end{aligned}
+\]
+Since $\beta/\alpha<1$ and the outer measure is finite, letting $\varepsilon\downarrow0$ gives $m^*(E_{\alpha,\beta})=0$.
+
+At every point where the upper and lower Dini derivatives differ, or one is infinite, the point belongs to one of countably many sets of the form just considered or to an infinite-derivative level set. Thus the exceptional set is null.
+\end{proof}
+
+\begin{cor}
+If $f$ is increasing on $[a,b]$, then $f'\in L^1(a,b)$ and
+\[
+\int_a^b f'(x)\,\d x\leq f(b)-f(a).
+\]
+\end{cor}
+
+\begin{proof}
+Extend $f$ to $[a,b+1]$ by $f(x)=f(b)$ for $x>b$. For $h>0$, set
+\[
+D_hf(x)=\frac{f(x+h)-f(x)}h\geq0.
+\]
+At almost every $x\in(a,b)$, $D_hf(x)\to f'(x)$. Fatou's lemma and monotonicity give
+\[
+\begin{aligned}
+\int_a^b f'
+&\leq\liminf_{h\downarrow0}\int_a^bD_hf(x)\,\d x\\
+&=\liminf_{h\downarrow0}\frac1h
+ \left(\int_b^{b+h}f-\int_a^{a+h}f\right)
+\leq f(b)-f(a).
+\end{aligned}
+\]
+\end{proof}
+
+\section{Functions of bounded variation}
+
+\begin{de}[Variation]
+Let $f:[a,b]\to\R$ and let $P=
+\{a=x_0<x_1<\cdots<x_n=b\}$ be a partition. Define
+\[
+V(f,P)=\sum_{j=1}^n|f(x_j)-f(x_{j-1})|,
+\qquad
+\TV(f;[a,b])=\sup_PV(f,P).
+\]
+The function $f$ is of \emph{bounded variation} on $[a,b]$ if $\TV(f;[a,b])<\infty$.
+\end{de}
+
+\begin{prop}[Variation function]
+If $f\in\BV([a,b])$, define
+\[
+V_f(x)=\TV(f;[a,x]),\qquad a\leq x\leq b.
+\]
+Then $V_f$ is increasing, and both $V_f+f$ and $V_f-f$ are increasing.
+\end{prop}
+
+\begin{proof}
+Variation is additive over adjacent intervals:
+\[
+\TV(f;[a,v])=\TV(f;[a,u])+\TV(f;[u,v])
+\qquad(a\leq u\leq v\leq b).
+\]
+Also $|f(v)-f(u)|\leq\TV(f;[u,v])$. Therefore
+\[
+V_f(v)-V_f(u)\geq |f(v)-f(u)|,
+\]
+which is equivalent to the monotonicity of $V_f\pm f$.
+\end{proof}
+
+\begin{thm}[Jordan decomposition for functions]
+A real-valued function $f$ on $[a,b]$ is of bounded variation if and only if it is the difference of two increasing functions.
+\end{thm}
+
+\begin{proof}
+If $f=g-h$ with $g,h$ increasing, then for every partition $P$,
+\[
+V(f,P)\leq g(b)-g(a)+h(b)-h(a).
+\]
+Conversely, if $f\in\BV([a,b])$, then
+\[
+g(x)=\frac{V_f(x)+f(x)-f(a)}2,
+\qquad
+h(x)=\frac{V_f(x)-f(x)+f(a)}2
+\]
+are increasing and $f=f(a)+g-h$.
+\end{proof}
+
+\begin{cor}
+Every function of bounded variation is differentiable almost everywhere. Its derivative belongs to $L^1(a,b)$ and
+\[
+\int_a^b|f'(x)|\,\d x\leq\TV(f;[a,b]).
+\]
+\end{cor}
+
+\begin{proof}
+Write $f=g-h$ with $g,h$ increasing. Both are differentiable almost everywhere, so $f'=g'-h'$ almost everywhere. Moreover,
+\[
+\int_a^b|f'|\leq\int_a^b(g'+h')
+\leq g(b)-g(a)+h(b)-h(a).
+\]
+Using the canonical Jordan decomposition above gives the stated bound.
+\end{proof}
+
+\begin{prop}[Algebra properties]
+If $f,g\in\BV([a,b])$ and $\alpha,\beta\in\C$, then $\alpha f+\beta g\in\BV([a,b])$. Since BV functions on a compact interval are bounded, $fg\in\BV([a,b])$ as well, and
+\[
+\TV(fg)\leq \norm{f}_\infty\TV(g)+\norm{g}_\infty\TV(f).
+\]
+\end{prop}
+
+\begin{proof}
+The linear assertion follows directly from the triangle inequality. For a partition,
+\[
+|f_jg_j-f_{j-1}g_{j-1}|
+\leq |f_j|\,|g_j-g_{j-1}|+|g_{j-1}|\,|f_j-f_{j-1}|.
+\]
+Summing and taking the supremum gives the product estimate.
+\end{proof}
+
+\begin{prop}[Lower semicontinuity of total variation]
+If $f_n:[a,b]\to\R$ converges pointwise to $f$, then
+\[
+\TV(f;[a,b])\leq\liminf_{n\to\infty}\TV(f_n;[a,b]).
+\]
+\end{prop}
+
+\begin{proof}
+For every fixed partition $P$,
+\[
+V(f,P)=\lim_{n\to\infty}V(f_n,P)
+\leq\liminf_{n\to\infty}\TV(f_n;[a,b]).
+\]
+Take the supremum over $P$.
+\end{proof}
+
+\begin{eg}[Oscillatory examples]
+Define $f(0)=g(0)=0$ and, for $x\neq0$,
+\[
+f(x)=x^2\cos(1/x^2),
+\qquad
+g(x)=x^2\cos(1/x).
+\]
+Then $f$ is not of bounded variation near $0$. Indeed, at
+\[
+x_n=(n\pi)^{-1/2}
+\]
+the values alternate in sign and have magnitude $1/(n\pi)$, so suitable partition sums dominate a constant multiple of the harmonic series. By contrast, $g$ is of bounded variation on $[-1,1]$ because
+\[
+g'(x)=2x\cos(1/x)+\sin(1/x)\in L^1(-1,1).
+\]
+More generally, for $\alpha,\beta>0$,
+\[
+h(x)=x^\alpha\sin(x^{-\beta}),\quad h(0)=0,
+\]
+belongs to $\BV([0,1])$ exactly when $\alpha>\beta$.
+\end{eg}
+
+\begin{proof}
+The preceding argument proves the first assertion. When $\alpha>\beta$, the derivative
+\[
+h'(x)=\alpha x^{\alpha-1}\sin(x^{-\beta})
+      -\beta x^{\alpha-\beta-1}\cos(x^{-\beta})
+\]
+is integrable near $0$. If $\alpha\leq\beta$, choose successive points where the sine equals $1$ and $-1$. The corresponding variation dominates a constant multiple of
+\[
+\sum_{n=1}^{\infty}n^{-\alpha/\beta},
+\]
+which diverges.
+\end{proof}
+
+\begin{prop}
+Assume $f\in C([a,b])\cap C^1((a,b))$. Then
+\[
+f\in\BV([a,b])\quad\Longleftrightarrow\quad f'\in L^1(a,b).
+\]
+\end{prop}
+
+\begin{proof}
+The forward implication is the preceding corollary. Conversely, on every compact subinterval $[u,v]\subset(a,b)$,
+\[
+f(v)-f(u)=\int_u^v f'(t)\,\d t.
+\]
+By continuity at the endpoints this identity extends to $a\leq u<v\leq b$. Hence for every partition $P$,
+\[
+V(f,P)\leq\int_a^b|f'|,
+\]
+so $f$ has bounded variation.
+\end{proof}
+
+\begin{remark}
+A continuous function need not have bounded variation on any nondegenerate interval. Any continuous nowhere differentiable function provides an example, because every BV function is differentiable almost everywhere.
+\end{remark}
+
+\section{Absolute continuity}
+
+\begin{de}[Absolute continuity]
+A function $f:[a,b]\to\R$ is \emph{absolutely continuous} if for every $\varepsilon>0$ there is $\delta>0$ such that for every finite pairwise disjoint collection of intervals $(a_k,b_k)\subset[a,b]$,
+\[
+\sum_k(b_k-a_k)<\delta
+\quad\Longrightarrow\quad
+\sum_k|f(b_k)-f(a_k)|<\varepsilon.
+\]
+\end{de}
+
+\begin{prop}
+Every Lipschitz function on $[a,b]$ is absolutely continuous.
+\end{prop}
+
+\begin{proof}
+If $|f(v)-f(u)|\leq L|v-u|$, take $\delta=\varepsilon/L$.
+\end{proof}
+
+\begin{thm}[Jordan decomposition inside $\AC$]
+If $f\in\AC([a,b])$, then $f\in\BV([a,b])$. Moreover, $f$ is the difference of two increasing absolutely continuous functions.
+\end{thm}
+
+\begin{proof}
+Choose $\delta$ for $\varepsilon=1$. Every partition can be grouped into at most $1+(b-a)/\delta$ subcollections whose total interval lengths are below $\delta$. Hence the variation of $f$ is uniformly bounded.
+
+Let $V_f$ be the variation function. For pairwise disjoint intervals $(c_k,d_k)$ of sufficiently small total length, refine partitions inside each interval and combine them. The absolute continuity of $f$ gives
+\[
+\sum_k\bigl(V_f(d_k)-V_f(c_k)\bigr)<\varepsilon.
+\]
+Thus $V_f$ is absolutely continuous. The canonical functions
+\[
+g=\frac{V_f+f-f(a)}2,
+\qquad h=\frac{V_f-f+f(a)}2
+\]
+are increasing and absolutely continuous, and $f=f(a)+g-h$.
+\end{proof}
+
+\begin{remark}[Strict inclusions]
+On a compact interval,
+\[
+C^1\subsetneq\Lip\subsetneq\AC\subsetneq\BV.
+\]
+For example, $|x|$ is Lipschitz but not $C^1$, $\sqrt{x}$ is absolutely continuous on $[0,1]$ but not Lipschitz, and the Cantor function is continuous and of bounded variation but not absolutely continuous. A step function shows that BV functions need not be continuous.
+\end{remark}
+
+\begin{de}[Divided differences and local averages]
+Extend $f\in C([a,b])$ constantly outside $[a,b]$. For $h>0$, define
+\[
+D_hf(x)=\frac{f(x+h)-f(x)}h,
+\qquad
+A_hf(x)=\frac1h\int_x^{x+h}f(t)\,\d t.
+\]
+Then, for $a\leq u<v\leq b$,
+\[
+\int_u^vD_hf(x)\,\d x=A_hf(v)-A_hf(u).
+\]
+\end{de}
+
+\begin{thm}[Absolute continuity and uniform integrability]
+Let $f\in C([a,b])$. Then $f$ is absolutely continuous if and only if the family
+\[
+\{D_hf:0<h\leq1\}
+\]
+is uniformly integrable on $[a,b]$.
+\end{thm}
+
+\begin{proof}
+Assume first that $f$ is absolutely continuous. By the Jordan decomposition inside $\AC$, write
+\[
+f=f(a)+g-k,
+\]
+where $g$ and $k$ are increasing and absolutely continuous. Extend them constantly to $[a,b+1]$. It is enough to treat $g$, because
+\[
+|D_hf|\leq D_hg+D_hk.
+\]
+Given $\varepsilon>0$, choose $\delta>0$ from the absolute continuity of $g$. Let $E\subseteq[a,b]$ be measurable with $m(E)<\delta$. Ignoring the endpoints, which form a null set, choose a relatively open set
+\[
+E\cap(a,b)\subseteq O=\bigsqcup_j(a_j,b_j)\subseteq(a,b),
+\qquad m(O)<\delta.
+\]
+Since $D_hg\geq0$, Tonelli's theorem and the identity for local averages give, for $0<h\leq1$,
+\[
+\begin{aligned}
+\int_E D_hg
+&\leq\sum_j\int_{a_j}^{b_j}D_hg(x)\,\d x\\
+&=\frac1h\int_0^h
+  \sum_j\bigl(g(b_j+t)-g(a_j+t)\bigr)\,\d t\\
+&\leq\varepsilon.
+\end{aligned}
+\]
+For each fixed $t$, the translated intervals remain pairwise disjoint and have total length below $\delta$; the estimate for a countable family follows from the finite one by monotone convergence. Thus the divided differences of $g$, and similarly those of $k$, are uniformly integrable.
+
+Conversely, suppose the divided differences are uniformly integrable. Given $\varepsilon>0$, choose $\delta>0$ such that
+\[
+m(E)<\delta\quad\Longrightarrow\quad
+\sup_{0<h\leq1}\int_E|D_hf|<\varepsilon.
+\]
+For pairwise disjoint intervals $(c_j,d_j)$ of total length below $\delta$,
+\[
+\begin{aligned}
+\sum_j|A_hf(d_j)-A_hf(c_j)|
+&=\sum_j\left|\int_{c_j}^{d_j}D_hf(x)\,\d x\right|\\
+&\leq\int_{\cup_j(c_j,d_j)}|D_hf|<\varepsilon.
+\end{aligned}
+\]
+The constant extension of $f$ is uniformly continuous on $[a,b+1]$, so $A_hf\to f$ uniformly on $[a,b]$. Letting $h\downarrow0$ gives the defining estimate for absolute continuity.
+\end{proof}
+
+\begin{eg}[Local absolute continuity need not be global]
+The function
+\[
+f(x)=\begin{cases}x\sin(1/x),&x>0,\\0,&x=0,
+\end{cases}
+\]
+is absolutely continuous on $[\varepsilon,1]$ for every $\varepsilon>0$, but it is not of bounded variation on $[0,1]$ and hence is not absolutely continuous there.
+\end{eg}
+
+\begin{prop}
+Let $f:[0,1]\to\R$ be increasing and continuous. If $f$ is absolutely continuous on $[\varepsilon,1]$ for every $\varepsilon>0$, then $f$ is absolutely continuous on $[0,1]$.
+\end{prop}
+
+\begin{proof}
+Fix $\varepsilon>0$. By continuity at $0$, choose $\eta>0$ so that
+\[
+f(\eta)-f(0)<\frac{\varepsilon}{2}.
+\]
+Absolute continuity on $[\eta,1]$ supplies $\delta>0$ such that every finite pairwise disjoint family of subintervals of $[\eta,1]$ having total length below $\delta$ has total $f$-increment below $\varepsilon/2$.
+
+Now take pairwise disjoint intervals in $[0,1]$ with total length below $\delta$, splitting at $\eta$ whenever necessary. Because $f$ is increasing, the sum of the increments contributed by the pieces in $[0,\eta]$ is at most $f(\eta)-f(0)$, while the remaining pieces contribute less than $\varepsilon/2$. Hence the total increment is below $\varepsilon$, proving absolute continuity on $[0,1]$ directly from the definition.
+\end{proof}
+
+\begin{thm}[Fundamental theorem of calculus for absolutely continuous functions]
+If $f\in\AC([a,b])$, then $f$ is differentiable almost everywhere, $f'\in L^1(a,b)$, and
+\[
+f(x)=f(a)+\int_a^x f'(t)\,\d t
+\qquad(a\leq x\leq b).
+\]
+Conversely, every function of this form is absolutely continuous.
+\end{thm}
+
+\begin{proof}
+By the Jordan decomposition inside $\AC$, write
+\[
+f=f(a)+g-k,
+\]
+where $g$ and $k$ are increasing and absolutely continuous. The monotone differentiation theorem shows that $g'$ and $k'$ exist almost everywhere and belong to $L^1(a,b)$.
+
+Fix $x\in[a,b]$. For $h>0$, use the constant extension and set
+\[
+D_hg(t)=\frac{g(t+h)-g(t)}h.
+\]
+Then $D_hg\to g'$ almost everywhere on $[a,x]$. By the preceding theorem, the family $(D_hg)_{0<h\leq1}$ is uniformly integrable. The Vitali convergence theorem therefore gives
+\[
+\int_a^x g'(t)\,\d t
+ =\lim_{h\downarrow0}\int_a^xD_hg(t)\,\d t
+ =\lim_{h\downarrow0}\bigl(A_hg(x)-A_hg(a)\bigr)
+ =g(x)-g(a).
+\]
+The same argument applies to $k$. Subtracting yields
+\[
+f(x)=f(a)+\int_a^xf'(t)\,\d t,
+\qquad f'=g'-k'\in L^1(a,b).
+\]
+
+Conversely, if $f(x)=f(a)+\int_a^x u$ with $u\in L^1$, then for every finite pairwise disjoint family of intervals,
+\[
+\sum_j|f(b_j)-f(a_j)|
+\leq\int_{\cup_j(a_j,b_j)}|u|.
+\]
+Absolute continuity of the Lebesgue integral makes the right-hand side arbitrarily small when the union has sufficiently small measure.
+\end{proof}
+
+\begin{cor}[Monotone characterization]
+If $f$ is increasing on $[a,b]$, then
+\[
+f\in\AC([a,b])
+\quad\Longleftrightarrow\quad
+\int_a^b f'=f(b)-f(a).
+\]
+\end{cor}
+
+\begin{proof}
+The forward implication follows from the fundamental theorem. Conversely, for $x\in[a,b]$,
+\[
+0\leq f(x)-f(a)-\int_a^x f'
+\leq f(b)-f(a)-\int_a^b f'=0,
+\]
+where the first inequality follows by applying the monotone derivative bound on $[a,x]$ and the second on $[x,b]$.
+\end{proof}
+
+\begin{lem}
+If $u\in L^1(a,b)$ and
+\[
+\int_c^d u(t)\,\d t=0
+\]
+for every interval $[c,d]\subseteq[a,b]$, then $u=0$ almost everywhere.
+\end{lem}
+
+\begin{proof}
+The function $U(x)=\int_a^x u$ is identically zero. By differentiation of indefinite integrals, $u=U'=0$ almost everywhere.
+\end{proof}
+
+\begin{thm}[Lusin's property $(N)$]
+Every absolutely continuous function maps Lebesgue-null sets to Lebesgue-null sets. It also maps Lebesgue-measurable sets to Lebesgue-measurable sets.
+\end{thm}
+
+\begin{proof}
+Let $N$ be null and $\varepsilon>0$. Cover $N$ by pairwise disjoint open intervals whose total length is below the $\delta$ supplied by absolute continuity. The image of each interval is contained in an interval of length at most the oscillation of $f$ there, and the sum of these oscillations is below $\varepsilon$. Hence $m^*(f(N))=0$.
+
+For a measurable $E\subseteq[a,b]$, choose an $F_\sigma$ set $F\subseteq E$ with $m(E\setminus F)=0$. The image of each compact component used to build $F$ is compact, so $f(F)$ is $F_\sigma$. The remaining image $f(E\setminus F)$ is null. Therefore $f(E)$ is measurable.
+\end{proof}
+
+\begin{exercise}[Composition can destroy absolute continuity]
+On $[-1,1]$, let
+\[
+f(x)=x^{1/3},
+\qquad
+g(x)=\begin{cases}x^2\cos\!\left(\dfrac{\pi}{2x}\right),&x\neq0,\\0,&x=0.
+\end{cases}
+\]
+Then $f$ and $g$ are absolutely continuous, but $f\circ g$ is not of bounded variation and hence is not absolutely continuous.
+\end{exercise}
+
+\begin{proof}
+The function $f$ is an indefinite integral of an $L^1$ function, and $g$ is absolutely continuous because $g'\in L^1$. Along the partition containing $\pm1/(2k)$ and $\pm1/(2k-1)$, the variation of $f\circ g$ dominates a constant multiple of
+\[
+\sum_{k=1}^{n}k^{-2/3},
+\]
+which diverges.
+\end{proof}
+
+\section{Singular functions and the Lebesgue decomposition of BV functions}
+
+\begin{de}[Singular function]
+A function $s\in\BV([a,b])$ is called \emph{singular} if $s'=0$ almost everywhere. The Cantor--Lebesgue function is the standard nonconstant example.
+\end{de}
+
+\begin{thm}[Lebesgue decomposition of a BV function]
+Every $f\in\BV([a,b])$ can be written
+\[
+f=g+s,
+\]
+where $g$ is absolutely continuous and $s$ is singular. Two such decompositions differ only by transferring an additive constant between $g$ and $s$; imposing $g(a)=0$ makes the decomposition unique.
+\end{thm}
+
+\begin{proof}
+Since $f'\in L^1$, define
+\[
+g(x)=\int_a^x f'(t)\,\d t,
+\qquad s=f-g.
+\]
+Then $g$ is absolutely continuous, $s\in\BV$, and $s'=0$ almost everywhere. If $f=g_1+s_1=g_2+s_2$, then $g_1-g_2=s_2-s_1$ is both absolutely continuous and singular. Its derivative is zero almost everywhere, so the fundamental theorem makes it constant.
+\end{proof}
+
+\begin{cor}[Banach--Zarecki theorem for increasing functions]
+Let $f:[a,b]\to\R$ be increasing and continuous. Then $f$ is absolutely continuous if and only if it maps null sets to null sets.
+\end{cor}
+
+\begin{proof}
+Only the converse needs proof. Let $\mu_f$ be the Lebesgue--Stieltjes measure determined by
+\[
+\mu_f((u,v])=f(v)-f(u).
+\]
+Continuity and monotonicity of $f$ imply that the pushforward of $\mu_f$ under $f$ is Lebesgue measure on $[f(a),f(b)]$: first check this on half-open intervals and then apply the monotone-class theorem.
+
+Let $N\subseteq[a,b]$ be a Borel null set. By property $(N)$, $f(N)$ is null; choose a Borel null set $B$ containing $f(N)$. Since $N\subseteq f^{-1}(B)$,
+\[
+0\leq\mu_f(N)\leq\mu_f(f^{-1}(B))=m(B)=0.
+\]
+Thus $\mu_f\ll m$. The Radon--Nikodym theorem gives $u\in L^1(a,b)$ with $\d\mu_f=u\,\d m$, and therefore
+\[
+f(x)-f(a)=\mu_f((a,x])=\int_a^xu(t)\,\d t.
+\]
+The fundamental theorem now shows that $f$ is absolutely continuous.
+\end{proof}
+
+\begin{prop}[Variation and the derivative]
+If $f\in\BV([a,b])$, then
+\[
+\int_a^b|f'|\leq\TV(f;[a,b]).
+\]
+Equality holds if and only if $f$ is absolutely continuous.
+\end{prop}
+
+\begin{proof}
+The inequality was proved above. At every point where both $f'$ and $V_f'$ exist, the estimate
+\[
+V_f(y)-V_f(x)\geq|f(y)-f(x)|
+\]
+implies
+\[
+V_f'(x)\geq|f'(x)|.
+\]
+Consequently,
+\[
+\int_a^b|f'|\leq\int_a^bV_f'
+\leq V_f(b)-V_f(a)=\TV(f;[a,b]).
+\]
+
+Suppose equality holds in the stated inequality. Then both inequalities in the last display are equalities, so
+\[
+\int_a^bV_f'=V_f(b)-V_f(a).
+\]
+The monotone characterization of absolute continuity shows that $V_f$ is absolutely continuous. Hence the canonical Jordan components
+\[
+\frac{V_f+f-f(a)}2,
+\qquad
+\frac{V_f-f+f(a)}2
+\]
+are absolutely continuous, and therefore so is $f$.
+
+Conversely, if $f$ is absolutely continuous, then for every partition
+\[
+\sum_j|f(x_j)-f(x_{j-1})|
+\leq\sum_j\int_{x_{j-1}}^{x_j}|f'|
+=\int_a^b|f'|.
+\]
+Taking the supremum and combining with the opposite inequality gives equality.
+\end{proof}
+
+\begin{exercise}
+A singular increasing function that is not constant cannot be absolutely continuous. More quantitatively, if $s(a)=0$ and $s(b)>0$, then for every $\varepsilon>0$ there are pairwise disjoint intervals $(a_k,b_k)$ with
+\[
+\sum_k(b_k-a_k)<\varepsilon,
+\qquad
+\sum_k\bigl(s(b_k)-s(a_k)\bigr)>s(b)-\varepsilon.
+\]
+Countable nonnegative linear combinations of singular increasing functions are singular whenever the series converges pointwise to a finite value.
+\end{exercise}
+
+\begin{proof}
+Let
+\[
+E=\{x\in(a,b):s'(x)=0\},
+\qquad m([a,b]\setminus E)=0.
+\]
+Fix $\varepsilon,\delta>0$ and put $\alpha=\varepsilon/(2(b-a))$. Intervals $[c,d]$ containing a point of $E$ and satisfying
+\[
+s(d)-s(c)<\alpha(d-c)
+\]
+form a Vitali cover of $E$. Choose finitely many pairwise disjoint such intervals whose union leaves less than $\delta$ of $E$ uncovered. Their total $s$-increment is below $\varepsilon/2$. The complementary intervals have total length below $\delta$ and, by additivity of increments for an increasing function, carry more than $s(b)-s(a)-\varepsilon$ of the total increase. This proves the quantitative assertion.
+
+Conversely, let $u$ be increasing and have this concentration property. Since $u'\in L^1(a,b)$, choose $\delta>0$ so that $m(A)<\delta$ implies $\int_Au'<\eta$. Apply the concentration property with an error smaller than $\min\{\delta,\eta\}$, and let $A$ be the union of the resulting pairwise disjoint intervals. Thus $m(A)<\delta$, while the complementary intervals $J$ carry total $u$-increment below $\eta$. The monotone derivative bound on each complementary interval gives
+\[
+\int_a^b u'
+\leq \int_Au'+\sum_J\bigl(u(\sup J)-u(\inf J)\bigr)
+<2\eta.
+\]
+Letting $\eta\downarrow0$ shows that $u'=0$ almost everywhere. Finally, let $s=\sum_ns_n$ be finite-valued, with each $s_n$ singular and increasing. Given $\varepsilon$ and $\delta$, choose $N$ so that
+\[
+\sum_{n>N}\bigl(s_n(b)-s_n(a)\bigr)<\frac{\varepsilon}{2}.
+\]
+The finite sum $\sum_{n\leq N}s_n$ is singular and has the concentration property just proved. The same intervals then miss at most an additional $\varepsilon/2$ of the increase of the full series. Hence $s$ has the concentration property and is singular.
+\end{proof}

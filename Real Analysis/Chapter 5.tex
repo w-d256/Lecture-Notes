@@ -1,0 +1,1057 @@
+\chapter{Signed Measures and Differentiation}
+
+\section{Signed and complex measures}
+
+\begin{de}[Signed measure]
+Let $(X,\cM)$ be a measurable space. A \emph{signed measure} is a countably additive function
+\[
+\nu:\cM\longrightarrow[-\infty,\infty]
+\]
+with $\nu(\e)=0$ that does not take both values $+\infty$ and $-\infty$.
+\end{de}
+
+\begin{prop}[Continuity]
+Let $\nu$ be a signed measure.
+\begin{enumerate}
+  \item If $E_n\uparrow E$, then $\nu(E_n)\to\nu(E)$ in the extended real line.
+  \item If $E_n\downarrow E$ and $\nu(E_1)$ is finite, then $\nu(E_n)\to\nu(E)$.
+\end{enumerate}
+\end{prop}
+
+\begin{proof}
+Disjointify the increasing sequence. For the decreasing case, apply the increasing result to $E_1\setminus E_n$ and subtract from the finite number $\nu(E_1)$.
+\end{proof}
+
+\begin{de}[Positive and negative sets]
+A measurable set $P$ is \emph{positive} for $\nu$ if $\nu(E)\geq0$ for every measurable $E\subseteq P$. A measurable set $N$ is \emph{negative} if $\nu(E)\leq0$ for every measurable $E\subseteq N$. A set that is both positive and negative is $\nu$-null.
+\end{de}
+
+\begin{lem}
+A countable union of positive sets is positive, and a countable union of negative sets is negative.
+\end{lem}
+
+\begin{proof}
+Disjointify the family. Every measurable subset of the union decomposes into countably many subsets of the original sets, and countable additivity preserves the sign.
+\end{proof}
+
+\begin{lem}[Positive-subset lemma]
+If $\nu(E)>0$, then $E$ contains a positive measurable subset $P$ with $\nu(P)>0$.
+\end{lem}
+
+\begin{proof}
+No measurable subset of $E$ can have measure $-\infty$. Indeed, if $A\subseteq E$ had $\nu(A)=-\infty$, then the definition of a signed measure would rule out $\nu(E\setminus A)=+\infty$, and countable additivity would force $\nu(E)=-\infty$, a contradiction.
+
+Put $E_0=E$. If $E_{k-1}$ is not positive, let $n_k$ be the least positive integer for which there is a measurable set $A_k\subseteq E_{k-1}$ satisfying
+\[
+\nu(A_k)<-\frac1{n_k},
+\]
+and set $E_k=E_{k-1}\setminus A_k$. If no such integer exists, the current remainder is positive and the construction stops.
+
+The sets $A_k$ are pairwise disjoint, and the integers $n_k$ are nondecreasing. They must tend to infinity: otherwise they would eventually be bounded by some $N$, and the union of infinitely many disjoint $A_k$ would have measure at most $-\sum 1/N=-\infty$, which is impossible for a subset of $E$. Likewise, $\sum_k\nu(A_k)>-\infty$.
+
+Let
+\[
+P=E\setminus\bigcup_kA_k.
+\]
+Then
+\[
+\nu(P)=\nu(E)-\sum_k\nu(A_k)>0.
+\]
+If $P$ contained a measurable $A$ with $\nu(A)<0$, choose $n$ with $\nu(A)<-1/n$. For all sufficiently large $k$, $n_k>n$, while $A\subseteq E_{k-1}$ would still be available in the construction, contradicting the minimality of $n_k$. Thus $P$ is positive.
+\end{proof}
+
+\begin{thm}[Hahn decomposition]
+For every signed measure $\nu$ there are a positive set $P$ and a negative set $N$ such that
+\[
+X=P\sqcup N.
+\]
+If $X=P'\sqcup N'$ is another such decomposition, then $P\triangle P'$ and $N\triangle N'$ are $\nu$-null.
+\end{thm}
+
+\begin{proof}
+Assume, after replacing $\nu$ by $-\nu$ if needed, that $\nu$ never takes $+\infty$. Let
+\[
+\alpha=\sup\{\nu(A):A\text{ is positive}\}.
+\]
+The number $\alpha$ is finite: otherwise a countable union of positive sets would have measure $+\infty$. Choose positive sets $P_n$ with $\nu(P_n)\to\alpha$ and set $P=\bigcup_nP_n$. Then $P$ is positive and $\nu(P)=\alpha$. Put $N=X\setminus P$.
+
+If $N$ were not negative, some measurable $E\subseteq N$ would satisfy $\nu(E)>0$. By the positive-subset lemma, $E$ would contain a positive set $A$ with $\nu(A)>0$. Then $P\cup A$ would be positive and have measure larger than $\alpha$, a contradiction. Hence $N$ is negative.
+
+For uniqueness, $P\cap N'$ is both positive and negative, hence null; similarly $P'\cap N$ is null. These two sets form the symmetric differences.
+\end{proof}
+
+\begin{de}[Mutual singularity]
+Positive measures $\lambda$ and $\mu$ are \emph{mutually singular}, written $\lambda\perp\mu$, if there are disjoint measurable sets $A,B$ with $A\cup B=X$ such that $\lambda$ is concentrated on $A$ and $\mu$ is concentrated on $B$. For a signed or complex measure $\nu$, the notation $\nu\perp\mu$ means $|\nu|\perp\mu$.
+\end{de}
+
+\begin{thm}[Jordan decomposition]
+For every signed measure $\nu$ there are unique mutually singular positive measures $\nu^+$ and $\nu^-$ such that
+\[
+\nu=\nu^+-\nu^-.
+\]
+If $X=P\sqcup N$ is a Hahn decomposition, then
+\[
+\nu^+(E)=\nu(E\cap P),
+\qquad
+\nu^-(E)=-\nu(E\cap N).
+\]
+At least one of $\nu^+(X)$ and $\nu^-(X)$ is finite.
+\end{thm}
+
+\begin{proof}
+The formulas define positive measures concentrated on disjoint sets and clearly give $\nu=\nu^+-\nu^-$. If $\nu=\lambda-\mu$ with $\lambda\perp\mu$, choose disjoint carriers $A,B$. Then $A$ is positive and $B$ negative for $\nu$, so the Hahn uniqueness statement identifies the two parts.
+\end{proof}
+
+\begin{de}[Total variation]
+The \emph{total variation} of a signed measure is
+\[
+|\nu|=\nu^++\nu^-.
+\]
+A signed measure is finite or $\sigma$-finite when $|\nu|$ has the corresponding property. Integration is defined by
+\[
+\int f\,\d\nu=\int f\,\d\nu^+-\int f\,\d\nu^-
+\]
+whenever $f\in L^1(|\nu|)$.
+\end{de}
+
+\begin{prop}[Basic total-variation facts]
+Let $\nu$ be a signed measure.
+\begin{enumerate}
+  \item A set $E$ is $\nu$-null if and only if $|\nu|(E)=0$.
+  \item If $f\in L^1(|\nu|)$, then
+  \[
+  \left|\int f\,\d\nu\right|\leq\int|f|\,\d|\nu|.
+  \]
+  \item For $E\in\cM$,
+  \[
+  |\nu|(E)=\sup\left\{\left|\int_E f\,\d\nu\right|:f\text{ measurable},\ |f|\leq1\right\}.
+  \]
+  \item If $\rho,\eta$ are positive measures and $\rho\perp\eta$, then
+  \[
+  \rho+\eta\perp\lambda
+  \quad\Longleftrightarrow\quad
+  \rho\perp\lambda\text{ and }\eta\perp\lambda.
+  \]
+\end{enumerate}
+\end{prop}
+
+\begin{proof}
+The first two statements follow immediately from the Jordan decomposition. For the third, the inequality ``$\leq$'' is the second statement. On a Hahn decomposition $X=P\sqcup N$, take $f=\1_P-\1_N$ on $E$ to obtain equality. The last assertion follows by intersecting or uniting carriers.
+\end{proof}
+
+\begin{prop}[Extremal formulas]
+For $E\in\cM$,
+\[
+\nu^+(E)=\sup\{\nu(F):F\subseteq E,\ F\in\cM\},
+\]
+\[
+\nu^-(E)=-\inf\{\nu(F):F\subseteq E,\ F\in\cM\},
+\]
+and
+\[
+|\nu|(E)=\sup\left\{\sum_{j=1}^n|\nu(E_j)|:
+E=\bigsqcup_{j=1}^nE_j\right\}.
+\]
+The same supremum is obtained if countable measurable partitions are allowed.
+\end{prop}
+
+\begin{proof}
+On a Hahn decomposition, $\nu(F)\leq\nu^+(F)\leq\nu^+(E)$, with equality for $F=E\cap P$. The negative formula is analogous. For a partition,
+\[
+\sum_j|\nu(E_j)|\leq\sum_j|\nu|(E_j)=|\nu|(E).
+\]
+Equality is attained by the two-set partition $E\cap P,E\cap N$.
+\end{proof}
+
+\begin{de}[Complex measure and its variation]
+A \emph{complex measure} on $(X,\cM)$ is a countably additive map $\nu:\cM\to\C$. Its total variation is
+\[
+|\nu|(E)=\sup\left\{\sum_{j=1}^n|\nu(E_j)|:
+E=\bigsqcup_{j=1}^nE_j,\ E_j\in\cM\right\}.
+\]
+This formula defines a finite positive measure. Indeed, countable additivity follows by refining partitions with a disjoint measurable decomposition, and finiteness follows from
+\[
+|\nu|(X)\leq |\Re\nu|(X)+|\Im\nu|(X)<\infty.
+\]
+\end{de}
+
+\begin{remark}
+Writing $\nu=\nu_1+i\nu_2$, the real and imaginary parts are finite signed measures. Applying Jordan decomposition to each yields a representation as a linear combination of four finite positive measures. For $f\in L^1(|\nu|)$ we define
+\[
+\int f\,\d\nu
+ =\int f\,\d(\Re\nu)+i\int f\,\d(\Im\nu).
+\]
+This definition agrees with integration against the polar factor obtained below.
+\end{remark}
+
+\begin{thm}[Polar decomposition of a complex measure]
+For every complex measure $\nu$ there is a measurable function $h$ such that
+\[
+|h|=1\quad |\nu|\text{-almost everywhere},
+\qquad
+\nu(E)=\int_E h\,\d|\nu|.
+\]
+Consequently,
+\[
+\left|\int f\,\d\nu\right|\leq\int|f|\,\d|\nu|
+\]
+for every $f\in L^1(|\nu|)$.
+\end{thm}
+
+\begin{proof}
+Let
+\[
+\mu=|\Re\nu|+|\Im\nu|.
+\]
+The finite signed Radon--Nikodym theorem, proved below, gives a function $f\in L^1(\mu)$ such that $\nu=f\mu$. For every finite measurable partition $(E_j)$ of $E$,
+\[
+\sum_j|\nu(E_j)|
+\leq\sum_j\int_{E_j}|f|\,\d\mu
+=\int_E|f|\,\d\mu,
+\]
+so $|\nu|(E)\leq\int_E|f|\,\d\mu$.
+
+For the reverse inequality, put
+\[
+\theta=\begin{cases}\overline f/|f|,&f\neq0,\\0,&f=0.\end{cases}
+\]
+Choose simple functions $\theta_n$ with $|\theta_n|\leq1$ and
+\[
+\int_E|\theta_n-\theta|\,|f|\,\d\mu\longrightarrow0.
+\]
+For a simple $\theta_n$, the partition definition of variation gives
+\[
+\left|\int_E\theta_n\,\d\nu\right|\leq|\nu|(E).
+\]
+Passing to the limit yields $\int_E|f|\,\d\mu\leq|\nu|(E)$. Hence
+\[
+|\nu|=|f|\mu.
+\]
+Define $h=f/|f|$ on $\{f\neq0\}$ and $h=0$ elsewhere. Then $\nu=h|\nu|$ and $|h|=1$ $|\nu|$-almost everywhere. The integral inequality follows immediately.
+\end{proof}
+
+\begin{prop}[Equivalent descriptions of complex variation]
+For a complex measure $\nu$ and $E\in\cM$, the following quantities are equal:
+\begin{align*}
+&\sup\left\{\sum_{j=1}^n|\nu(E_j)|:E=\bigsqcup_{j=1}^nE_j\right\},\\
+&\sup\left\{\sum_{j=1}^n|\nu(E_j)|:E_j\text{ disjoint and }\bigcup_jE_j\subseteq E\right\},\\
+&\sup\left\{\left|\int_E\phi\,\d\nu\right|:\phi\text{ simple},\ |\phi|\leq1\right\}.
+\end{align*}
+Their common value is $|\nu|(E)$.
+\end{prop}
+
+\begin{proof}
+The first two suprema agree after adding the unused remainder. For a simple function constant on a finite partition, the triangle inequality gives an upper bound by the partition sum. Conversely, on each partition element choose a unimodular scalar that rotates $\nu(E_j)$ to the positive real axis. Approximate the polar factor $\overline h$ by simple functions to obtain the full value $|\nu|(E)$.
+\end{proof}
+
+\section{Absolute continuity and the Radon--Nikodym theorem}
+
+\begin{de}[Absolute continuity]
+Let $\nu$ be a signed or complex measure and $\mu$ a positive measure. We write $\nu\ll\mu$ if
+\[
+\mu(E)=0\quad\Longrightarrow\quad\nu(E)=0.
+\]
+Equivalently, $|\nu|\ll\mu$.
+\end{de}
+
+\begin{thm}[$\varepsilon$--$\delta$ characterization]
+Let $\nu$ be a finite signed or complex measure and let $\mu$ be a positive measure. Then
+\[
+\nu\ll\mu
+\]
+if and only if for every $\varepsilon>0$ there is $\delta>0$ such that
+\[
+\mu(E)<\delta\quad\Longrightarrow\quad |\nu|(E)<\varepsilon.
+\]
+\end{thm}
+
+\begin{proof}
+The $\varepsilon$--$\delta$ condition plainly implies absolute continuity. Conversely, suppose $|\nu|\ll\mu$ but the condition fails. Then there are $\varepsilon>0$ and sets $E_n$ with
+\[
+\mu(E_n)<2^{-n},
+\qquad |\nu|(E_n)\geq\varepsilon.
+\]
+Set $F_k=\bigcup_{n\geq k}E_n$ and $F=\bigcap_kF_k$. Then $\mu(F)=0$, while $F_k\downarrow F$ and finiteness of $|\nu|$ gives
+\[
+|\nu|(F)=\lim_k|\nu|(F_k)\geq\varepsilon,
+\]
+a contradiction.
+\end{proof}
+
+\begin{cor}[Absolute continuity of the integral]
+If $f\in L^1(\mu)$, then for every $\varepsilon>0$ there is $\delta>0$ such that
+\[
+\mu(E)<\delta\quad\Longrightarrow\quad\int_E|f|\,\d\mu<\varepsilon.
+\]
+\end{cor}
+
+\begin{proof}
+Apply the theorem to the finite measure $\nu(E)=\int_E|f|\,\d\mu$.
+\end{proof}
+
+\begin{lem}[A comparison lemma]
+Let $\lambda$ and $\mu$ be finite positive measures. Either $\lambda\perp\mu$, or there are $\varepsilon>0$ and a measurable set $E$ with $\mu(E)>0$ such that
+\[
+\lambda(A)\geq\varepsilon\mu(A)
+\]
+for every measurable $A\subseteq E$.
+\end{lem}
+
+\begin{proof}
+For each $n$, take a Hahn decomposition $X=P_n\sqcup N_n$ for the signed measure $\lambda-\mu/n$. Put
+\[
+P=\bigcup_{n=1}^{\infty}P_n,
+\qquad N=\bigcap_{n=1}^{\infty}N_n.
+\]
+If $\mu(P)=0$, then $\mu$ is concentrated on $N$. Moreover, for every measurable $A\subseteq N$ and every $n$,
+\[
+\lambda(A)\leq\frac1n\mu(A),
+\]
+because $N\subseteq N_n$. Since $\mu$ is finite, letting $n\to\infty$ gives $\lambda(A)=0$. Thus $\lambda$ is concentrated on $P$, and $\lambda\perp\mu$.
+
+If $\mu(P)>0$, then $\mu(P_n)>0$ for some $n$. On $P_n$, the signed measure $\lambda-\mu/n$ is positive, so
+\[
+\lambda(A)\geq\frac1n\mu(A)
+\]
+for every measurable $A\subseteq P_n$. Take $E=P_n$ and $\varepsilon=1/n$.
+\end{proof}
+
+\begin{thm}[Lebesgue--Radon--Nikodym theorem, finite case]
+Let $\nu$ be a finite signed measure and $\mu$ a finite positive measure. There are unique objects
+\[
+\lambda\perp\mu,
+\qquad f\in L^1(\mu),
+\]
+such that
+\[
+\nu(E)=\lambda(E)+\int_Ef\,\d\mu
+\qquad(E\in\cM).
+\]
+If $\nu\ll\mu$, then $\lambda=0$. The function $f$ is unique $\mu$-almost everywhere and is denoted $\d\nu/\d\mu$.
+\end{thm}
+
+\begin{proof}
+First suppose $\nu$ is positive. Let $\cF$ be the set of measurable $g\geq0$ satisfying
+\[
+\int_Eg\,\d\mu\leq\nu(E)
+\qquad(E\in\cM).
+\]
+The class is closed under pointwise maxima. Put
+\[
+\alpha=\sup_{g\in\cF}\int g\,\d\mu.
+\]
+Choose $g_n\in\cF$ with integrals tending to $\alpha$, replace them by the successive maxima, and let $f=\sup_ng_n$. Monotone convergence gives $f\in\cF$ and $\int f=\alpha$. Define
+\[
+\lambda(E)=\nu(E)-\int_Ef\,\d\mu.
+\]
+Then $\lambda$ is a positive measure. If $\lambda$ were not singular to $\mu$, the comparison lemma would give $E$ and $\varepsilon>0$ with $\lambda\geq\varepsilon\mu$ on $E$. But then $f+\varepsilon\1_E\in\cF$ and has integral larger than $\alpha$, a contradiction. Thus $\lambda\perp\mu$.
+
+Apply the positive result to $\nu^+$ and $\nu^-$ and subtract. For uniqueness, if
+\[
+\lambda+f\mu=\lambda'+f'\mu,
+\qquad \lambda,\lambda'\perp\mu,
+\]
+then $\lambda-\lambda'=(f'-f)\mu$ is both singular and absolutely continuous with respect to $\mu$, hence zero. Therefore $\lambda=\lambda'$ and $f=f'$ almost everywhere.
+\end{proof}
+
+\begin{thm}[Sigma-finite form]
+Let $\mu$ be $\sigma$-finite and let $\nu$ be a $\sigma$-finite signed measure. Then there are unique signed measures $\lambda,\rho$ such that
+\[
+\nu=\lambda+\rho,
+\qquad \lambda\perp\mu,
+\qquad \rho\ll\mu.
+\]
+Moreover, there is a measurable function $f$, finite $\mu$-almost everywhere, such that
+\[
+\rho(E)=\int_Ef\,\d\mu
+\]
+whenever the integral is defined. On a countable partition on which $|\nu|$ and $\mu$ are finite, $f$ is integrable on every piece. If $\nu$ is finite, then $f\in L^1(\mu)$.
+\end{thm}
+
+\begin{proof}
+Choose a countable measurable partition $(X_n)$ such that both $\mu(X_n)$ and $|\nu|(X_n)$ are finite. Apply the finite theorem to the restrictions on each $X_n$, and sum the resulting mutually disjoint pieces. The local densities patch to a finite-valued measurable function almost everywhere. Uniqueness follows by restriction to the same partition.
+\end{proof}
+
+\begin{thm}[Extended Radon--Nikodym theorem]
+Let $\mu$ be a $\sigma$-finite positive measure.
+\begin{enumerate}
+  \item If $\nu$ is an arbitrary positive measure with $\nu\ll\mu$, then there is a measurable $f:X\to[0,\infty]$ such that
+  \[
+  \nu(E)=\int_Ef\,\d\mu
+  \qquad(E\in\cM).
+  \]
+  \item If $\nu$ is a signed measure with $|\nu|\ll\mu$, then there is a measurable extended-real function $f$ such that
+  \[
+  \nu(E)=\int_Ef\,\d\mu
+  \]
+  whenever either side is defined.
+\end{enumerate}
+\end{thm}
+
+\begin{proof}
+First suppose that $\mu(X)<\infty$ and $\nu$ is positive. Let $\cS$ be the family of measurable sets on which $\nu$ is $\sigma$-finite, and put
+\[
+c=\sup\{\mu(S):S\in\cS\}.
+\]
+Choose $S_n\in\cS$ with $\mu(S_n)\to c$ and let $S=\bigcup_nS_n$. Then $S\in\cS$ and $\mu(S)=c$. The sigma-finite theorem supplies a density $f_0$ for $\nu\restr S$ with respect to $\mu\restr S$. Define the extended-valued function
+\[
+f(x)=
+\begin{cases}
+f_0(x),&x\in S,\\
++\infty,&x\notin S.
+\end{cases}
+\]
+If $\mu(E\setminus S)=0$, absolute continuity gives $\nu(E\setminus S)=0$, and the desired identity follows on $S$. If $\mu(E\setminus S)>0$, then $\nu(E\setminus S)=\infty$; otherwise adjoining $E\setminus S$ to $S$ would produce a $\nu$-sigma-finite set of $\mu$-measure larger than $c$. In this case both sides are infinite.
+
+For sigma-finite $\mu$, apply the finite construction on a disjoint finite-measure partition and patch the densities. For a signed measure, apply the positive result to the mutually singular Jordan parts and choose their densities on disjoint Hahn carriers. Their difference is then well defined almost everywhere and gives the stated formula.
+\end{proof}
+
+\begin{prop}[Chain rule]
+If $\nu\ll\mu\ll\lambda$ and the measures are $\sigma$-finite, then
+\[
+\frac{\d\nu}{\d\lambda}
+ =\frac{\d\nu}{\d\mu}\frac{\d\mu}{\d\lambda}
+\qquad\lambda\text{-almost everywhere}.
+\]
+\end{prop}
+
+\begin{proof}
+For every measurable $E$,
+\[
+\nu(E)=\int_E\frac{\d\nu}{\d\mu}\,\d\mu
+ =\int_E\frac{\d\nu}{\d\mu}\frac{\d\mu}{\d\lambda}\,\d\lambda.
+\]
+Uniqueness of the Radon--Nikodym derivative gives the result.
+\end{proof}
+
+\begin{prop}[Product rule]
+For $j=1,2$, let $\nu_j\ll\mu_j$ be $\sigma$-finite positive measures. Then
+\[
+\nu_1\times\nu_2\ll\mu_1\times\mu_2
+\]
+and
+\[
+\frac{\d(\nu_1\times\nu_2)}{\d(\mu_1\times\mu_2)}(x_1,x_2)
+ =\frac{\d\nu_1}{\d\mu_1}(x_1)
+  \frac{\d\nu_2}{\d\mu_2}(x_2)
+\]
+for $(\mu_1\times\mu_2)$-almost every $(x_1,x_2)$.
+\end{prop}
+
+\begin{proof}
+The right-hand side integrates over measurable rectangles to
+\[
+\nu_1(A_1)\nu_2(A_2).
+\]
+Uniqueness of the product measure and then uniqueness of the Radon--Nikodym derivative complete the proof.
+\end{proof}
+
+\begin{eg}[Why finiteness and sigma-finiteness matter]
+Let $X=\N$, let $\nu$ be counting measure, and let
+\[
+\mu(E)=\sum_{n\in E}2^{-n}.
+\]
+Then $\nu\ll\mu$, but no global $\varepsilon$--$\delta$ estimate can hold because $\mu(\{n\})\to0$ while $\nu(\{n\})=1$.
+
+On $[0,1]$, Lebesgue measure is absolutely continuous with respect to counting measure, since the only counting-null set is empty. Nevertheless, it has no density with respect to counting measure: a density would have to vanish at every singleton and hence integrate to zero. Counting measure on an uncountable set is not $\sigma$-finite.
+\end{eg}
+
+\begin{de}[Decomposable measure]
+A measure $\mu$ is \emph{decomposable} if there is a pairwise disjoint family $\cF\subseteq\cM$ such that
+\begin{enumerate}
+  \item $\mu(F)<\infty$ for every $F\in\cF$;
+  \item $X=\bigcup_{F\in\cF}F$;
+  \item $E\subseteq X$ is measurable if and only if $E\cap F$ is measurable for every $F\in\cF$;
+  \item for measurable $E$,
+  \[
+  \mu(E)=\sum_{F\in\cF}\mu(E\cap F),
+  \]
+  where the unordered nonnegative sum is used.
+\end{enumerate}
+\end{de}
+
+\begin{prop}
+Every $\sigma$-finite measure is decomposable. Let $\mu$ be decomposable with decomposition $\cF$, and let $\nu$ be a signed measure satisfying $|\nu|\ll\mu$. Then there is a measurable extended-real function $f$ such that
+\[
+\nu(E)=\int_Ef\,\d\mu
+\]
+for every $\mu$-sigma-finite measurable set $E$. On every $F\in\cF$ on which $|\nu|$ is $\sigma$-finite, the function $f$ is finite $\mu$-almost everywhere.
+\end{prop}
+
+\begin{proof}
+A $\sigma$-finite cover can be disjointified to give a countable decomposition, including any null pieces. For general decomposable $\mu$, apply the extended Radon--Nikodym theorem to the restrictions of $\nu$ and $\mu$ on each $F\in\cF$, obtaining a density $f_F$; on a $\mu$-null piece take $f_F=0$. Define $f=f_F$ on $F$. The measurability criterion in the definition of decomposability makes $f$ measurable.
+
+Suppose first that $E$ has finite $\mu$-measure, and put
+\[
+\cF_E=\{F\in\cF:\mu(E\cap F)>0\}.
+\]
+The family $\cF_E$ is countable because the unordered sum of the positive numbers $\mu(E\cap F)$ is finite. Let
+\[
+R=E\setminus\bigcup_{F\in\cF_E}(E\cap F).
+\]
+Then $R$ is measurable and the decomposition formula gives $\mu(R)=0$, hence $|\nu|(R)=0$. Countable additivity and the corresponding decomposition of the integral now give
+\[
+\nu(E)=\sum_{F\in\cF_E}\nu(E\cap F)
+       =\sum_{F\in\cF_E}\int_{E\cap F}f\,\d\mu
+       =\int_Ef\,\d\mu.
+\]
+Disjointifying a sigma-finite cover of $E$ extends the identity to every $\mu$-sigma-finite set. If $|\nu|\restr F$ is sigma-finite, the ordinary Radon--Nikodym theorem yields a finite density almost everywhere on that piece.
+\end{proof}
+
+\section{Complex Radon--Nikodym theory}
+
+\begin{thm}
+Let $\nu$ be a complex measure and let $\mu$ be a $\sigma$-finite positive measure. If $\nu\ll\mu$, then there is a unique $f\in L^1(\mu)$ such that
+\[
+\nu(E)=\int_Ef\,\d\mu.
+\]
+Moreover,
+\[
+|\nu|(E)=\int_E|f|\,\d\mu,
+\qquad
+\frac{\d|\nu|}{\d\mu}=\left|\frac{\d\nu}{\d\mu}\right|
+\quad\mu\text{-almost everywhere}.
+\]
+\end{thm}
+
+\begin{proof}
+Apply the signed Radon--Nikodym theorem to the real and imaginary parts and combine the two densities, obtaining $\nu=f\mu$ with $f\in L^1(\mu)$. The phase-approximation argument in the polar-decomposition proof gives
+\[
+|\nu|(E)=\int_E|f|\,\d\mu
+\]
+for every measurable $E$. This is exactly the asserted derivative identity. Uniqueness follows from uniqueness of the real and imaginary Radon--Nikodym derivatives.
+\end{proof}
+
+\begin{cor}[Polar factor and chain rule]
+If $\nu$ is a complex measure, then
+\[
+\frac{\d\nu}{\d|\nu|}=h,
+\qquad |h|=1\quad |\nu|\text{-almost everywhere}.
+\]
+If $\mu$ and $\lambda$ are $\sigma$-finite positive measures and $\nu$ is a complex measure satisfying $\nu\ll\mu\ll\lambda$, then
+\[
+\frac{\d\nu}{\d\lambda}
+ =\frac{\d\nu}{\d\mu}\frac{\d\mu}{\d\lambda}
+\qquad\lambda\text{-almost everywhere}.
+\]
+\end{cor}
+
+\begin{prop}[Triangle inequality for variation]
+If $\nu_1$ and $\nu_2$ are complex measures, then
+\[
+|\nu_1+\nu_2|\leq|\nu_1|+|\nu_2|.
+\]
+\end{prop}
+
+\begin{proof}
+Take $\mu=|\nu_1|+|\nu_2|$. Then $\nu_j=f_j\mu$ and
+\[
+|\nu_1+\nu_2|(E)=\int_E|f_1+f_2|\,\d\mu
+\leq\int_E(|f_1|+|f_2|)\,\d\mu.
+\]
+\end{proof}
+
+\section{Differentiation of Measures in Euclidean Space}
+
+Let $m$ denote Lebesgue measure on $\R^n$, and let $B(x,r)$ be the open Euclidean ball centered at $x$ of radius $r$.
+
+\begin{lem}[Three-times covering lemma for balls]
+From every finite family of balls in $\R^n$ one can select pairwise disjoint balls $B_1,\dots,B_N$ such that
+\[
+\bigcup_{B\text{ in the original family}}B
+\subseteq\bigcup_{j=1}^N3B_j.
+\]
+Consequently, if the original union has measure greater than $c$, then
+\[
+\sum_{j=1}^Nm(B_j)>3^{-n}c.
+\]
+\end{lem}
+
+\begin{proof}
+Choose successively a ball of largest remaining radius and discard all balls meeting it. A discarded ball has radius no larger than the selected ball it meets, and is therefore contained in its triple. The measure estimate follows from disjointness and $m(3B_j)=3^nm(B_j)$.
+\end{proof}
+
+\begin{de}[Local averages]
+For $f\in L^1_{\loc}(\R^n)$ and $r>0$, define
+\[
+A_rf(x)=\frac1{m(B(x,r))}\int_{B(x,r)}f(y)\,\d y.
+\]
+\end{de}
+
+\begin{lem}
+If $f\in L^1_{\loc}(\R^n)$, then $(r,x)\mapsto A_rf(x)$ is jointly continuous on $(0,\infty)\times\R^n$.
+\end{lem}
+
+\begin{proof}
+On a compact set of parameters, all relevant balls lie in one fixed bounded set. Changes in the center are controlled by continuity of translations in $L^1$, and changes in the radius are controlled by the measure of the symmetric difference of the balls. The normalizing volume is continuous and bounded away from zero there.
+\end{proof}
+
+\begin{de}[Hardy--Littlewood maximal function in $\R^n$]
+For $f\in L^1_{\loc}(\R^n)$, define
+\[
+Mf(x)=\sup_{r>0}A_r|f|(x).
+\]
+The level sets $\{Mf>\alpha\}$ are open by the preceding lemma.
+\end{de}
+
+\begin{thm}[Hardy--Littlewood maximal inequality]
+For $f\in L^1(\R^n)$ and $\alpha>0$,
+\[
+m(\{Mf>\alpha\})\leq\frac{3^n}{\alpha}\norm{f}_1.
+\]
+\end{thm}
+
+\begin{proof}
+Let $K$ be a compact subset of $\{Mf>\alpha\}$. For each $x\in K$, choose a ball $B_x$ centered at $x$ with
+\[
+\int_{B_x}|f|>\alpha m(B_x).
+\]
+A finite subfamily covers $K$. Select disjoint balls by the covering lemma. Then
+\[
+m(K)\leq3^n\sum_jm(B_j)
+<\frac{3^n}{\alpha}\sum_j\int_{B_j}|f|
+\leq\frac{3^n}{\alpha}\norm{f}_1.
+\]
+Take the supremum over compact $K$.
+\end{proof}
+
+\begin{thm}[Lebesgue differentiation theorem in $\R^n$]
+If $f\in L^1_{\loc}(\R^n)$, then
+\[
+\lim_{r\downarrow0}A_rf(x)=f(x)
+\]
+for almost every $x\in\R^n$.
+\end{thm}
+
+\begin{proof}
+Fix a ball $B(0,N)$. Only sufficiently small radii matter, so after multiplying $f$ by the indicator of a slightly larger ball we may assume $f\in L^1$. Given $\varepsilon>0$, choose $g\in C_c(\R^n)$ with $\norm{f-g}_1<\varepsilon$. Since $A_rg(x)\to g(x)$ everywhere,
+\[
+\limsup_{r\downarrow0}|A_rf(x)-f(x)|
+\leq M(f-g)(x)+|f(x)-g(x)|.
+\]
+The maximal inequality and Markov's inequality show that the set where the left side exceeds a fixed positive number has measure bounded by a constant times $\norm{f-g}_1$. Let $\varepsilon\downarrow0$ and then let $N\to\infty$.
+\end{proof}
+
+\begin{thm}[Lebesgue points]
+If $f\in L^1_{\loc}(\R^n)$, then for almost every $x$,
+\[
+\lim_{r\downarrow0}\frac1{m(B(x,r))}
+\int_{B(x,r)}|f(y)-f(x)|\,\d y=0.
+\]
+Such points are called \emph{Lebesgue points} of $f$.
+\end{thm}
+
+\begin{proof}
+Apply the differentiation theorem to $|f-c|$ for each $c$ in a countable dense subset of $\C$. Outside the union of the resulting null sets, approximate $f(x)$ by such a $c$ and use the triangle inequality.
+\end{proof}
+
+\begin{de}[Sets shrinking nicely]
+A family $(E_r)_{r>0}$ shrinks nicely to $x$ if there is $c>0$ such that
+\[
+x\in E_r\subseteq B(x,r),
+\qquad
+m(E_r)\geq c\,m(B(x,r))
+\]
+for all sufficiently small $r$.
+\end{de}
+
+\begin{cor}
+If $f\in L^1_{\loc}(\R^n)$ and $(E_r)$ shrinks nicely to $x$, then for almost every $x$,
+\[
+\lim_{r\downarrow0}\frac1{m(E_r)}\int_{E_r}f(y)\,\d y=f(x).
+\]
+\end{cor}
+
+\begin{proof}
+At a Lebesgue point,
+\[
+\frac1{m(E_r)}\int_{E_r}|f-f(x)|
+\leq\frac1{c\,m(B(x,r))}\int_{B(x,r)}|f-f(x)|\to0.
+\]
+\end{proof}
+
+\begin{de}[Regular Borel measure]
+A Borel measure $\nu$ on $\R^n$ is \emph{regular} if it is finite on compact sets, inner regular on open sets, and outer regular on Borel sets. A signed or complex Borel measure is regular when its total variation is regular.
+\end{de}
+
+\begin{thm}[Differentiation of regular measures]
+Let $\nu$ be a regular signed or complex Borel measure on $\R^n$, finite on compact sets, and write its Lebesgue decomposition with respect to $m$ as
+\[
+\nu=\lambda+f\,m,
+\qquad \lambda\perp m.
+\]
+For every family $(E_r)$ shrinking nicely to $x$,
+\[
+\lim_{r\downarrow0}\frac{\nu(E_r)}{m(E_r)}=f(x)
+\]
+for almost every $x$.
+\end{thm}
+
+\begin{proof}
+The absolutely continuous part follows from the preceding corollary. It remains to prove that the density of the singular part is zero. Fix $N\in\N$ and restrict $|\lambda|$ to the compact ball $\overline{B(0,N+1)}$; this restriction is finite and controls every sufficiently small ball centered in $B(0,N)$.
+
+For a finite positive Borel measure $\eta$, the covering argument used for the Hardy--Littlewood theorem gives
+\[
+m\left(\left\{x:\sup_{r>0}
+\frac{\eta(B(x,r))}{m(B(x,r))}>\alpha\right\}\right)
+\leq\frac{3^n}{\alpha}\eta(\R^n).
+\]
+Let $Z$ be a Lebesgue-null Borel set carrying the restricted singular measure. By regularity, for every $\varepsilon>0$ there is a compact set $K\subseteq Z$ such that
+\[
+|\lambda|\bigl(\overline{B(0,N+1)}\setminus K\bigr)<\varepsilon.
+\]
+If $x\notin K$, all sufficiently small balls centered at $x$ avoid $K$. Therefore, outside the null set $K$, the set on which
+\[
+\limsup_{r\downarrow0}
+\frac{|\lambda|(B(x,r))}{m(B(x,r))}>\alpha
+\]
+has measure at most $3^n\varepsilon/\alpha$. Letting $\varepsilon\downarrow0$ shows that the centered density is zero almost everywhere in $B(0,N)$. Since $N$ is arbitrary, this holds almost everywhere in $\R^n$.
+
+If $(E_r)$ shrinks nicely to $x$, then
+\[
+\frac{|\lambda|(E_r)}{m(E_r)}
+\leq c^{-1}\frac{|\lambda|(B(x,r))}{m(B(x,r))},
+\]
+so the same conclusion holds for the given family. Combining the singular and absolutely continuous parts proves the theorem.
+\end{proof}
+
+\begin{de}[Uncentered maximal function]
+Define
+\[
+M^*f(x)=\sup_{B\ni x}\frac1{m(B)}\int_B|f|,
+\]
+where the supremum is over all balls containing $x$.
+\end{de}
+
+\begin{prop}
+For every locally integrable $f$,
+\[
+Mf\leq M^*f\leq2^nMf.
+\]
+\end{prop}
+
+\begin{proof}
+The first inequality is immediate. If $B(y,r)$ contains $x$, then $B(y,r)\subseteq B(x,2r)$ and
+\[
+\frac1{m(B(y,r))}\int_{B(y,r)}|f|
+\leq2^n\frac1{m(B(x,2r))}\int_{B(x,2r)}|f|.
+\]
+\end{proof}
+
+\begin{exercise}[Sharpness at infinity]
+If $0\neq f\in L^1(\R^n)$, then there are $C,R>0$ such that
+\[
+Mf(x)\geq C|x|^{-n}
+\qquad(|x|>R).
+\]
+In particular, the weak $(1,1)$ estimate cannot in general be strengthened to $Mf\in L^1$.
+\end{exercise}
+
+\begin{proof}
+Choose $R_0$ with $\int_{B(0,R_0)}|f|=a>0$. For $|x|>2R_0$, the ball $B(x,2|x|)$ contains $B(0,R_0)$, so
+\[
+Mf(x)\geq\frac{a}{m(B(x,2|x|))}=C|x|^{-n}.
+\]
+\end{proof}
+
+\section{Functions of Bounded Variation and Borel Measures on the Real Line}
+
+\begin{prop}[Right-continuous modification]
+Let $F:\R\to\R$ be increasing and define
+\[
+G(x)=F(x+)=\lim_{y\downarrow x}F(y).
+\]
+Then the discontinuity set of $F$ is countable, $G$ is increasing and right-continuous, and
+\[
+F'(x)=G'(x)
+\]
+for almost every $x$.
+\end{prop}
+
+\begin{proof}
+For each $k,N\in\N$, there are only finitely many points in $[-N,N]$ at which the jump exceeds $1/k$, because the sum of disjoint jumps is bounded by $F(N+1)-F(-N-1)$. Hence the discontinuity set $D$ is countable. The function $G$ is plainly increasing and right-continuous.
+
+Both $F$ and $G$ are differentiable almost everywhere by Lebesgue's theorem for monotone functions. Let $x\notin D$ be a point at which both derivatives exist, and put $H=G-F$. Then $H(x)=0$ and $H$ vanishes on the dense set $\R\setminus D$. Choose $h_j\to0$ with $x+h_j\notin D$. Along this sequence,
+\[
+\frac{H(x+h_j)-H(x)}{h_j}=0.
+\]
+Since $H'(x)$ exists, it must be zero. Thus $F'(x)=G'(x)$ outside a null set.
+\end{proof}
+
+\begin{de}[Global variation]
+For $F:\R\to\C$, define
+\[
+T_F(x)=\sup\left\{\sum_{j=1}^n|F(x_j)-F(x_{j-1})|:
+-\infty<x_0<\cdots<x_n=x\right\}.
+\]
+We write $F\in\BV(\R)$ if $T_F(\infty)=\sup_xT_F(x)<\infty$. We write $F\in\NBV(\R)$ if, in addition, $F$ is right-continuous and
+\[
+F(-\infty)=\lim_{x\to-\infty}F(x)=0.
+\]
+\end{de}
+
+\begin{lem}
+If $F\in\BV(\R)$ is real-valued, then $T_F+F$ and $T_F-F$ are increasing.
+\end{lem}
+
+\begin{proof}
+For $x<y$,
+\[
+T_F(y)-T_F(x)\geq|F(y)-F(x)|.
+\]
+\end{proof}
+
+\begin{thm}[Characterizations of $\BV(\R)$]
+Let $F:\R\to\C$.
+\begin{enumerate}
+  \item $F\in\BV(\R)$ if and only if $\Re F,\Im F\in\BV(\R)$.
+  \item A real-valued $F$ belongs to $\BV(\R)$ if and only if it is the difference of two bounded increasing functions.
+  \item Every $F\in\BV(\R)$ has finite one-sided limits at every point and finite limits at $\pm\infty$.
+  \item The discontinuity set of a BV function is at most countable.
+\end{enumerate}
+\end{thm}
+
+\begin{proof}
+The first assertion follows from
+\[
+|z|\leq|\Re z|+|\Im z|,
+\qquad |\Re z|,|\Im z|\leq|z|.
+\]
+For real $F$, use
+\[
+F=\frac12(T_F+F)-\frac12(T_F-F).
+\]
+The remaining claims follow from the corresponding facts for bounded increasing functions.
+\end{proof}
+
+\begin{prop}
+For $F\in\BV(\R)$, the variation function $T_F$ is right-continuous if and only if $F$ is right-continuous.
+\end{prop}
+
+\begin{proof}
+If $T_F$ is right-continuous, then
+\[
+|F(x+h)-F(x)|\leq T_F(x+h)-T_F(x)\to0.
+\]
+Conversely, assume that $F$ is right-continuous. Write
+\[
+V(u,v)=\TV(F;[u,v]).
+\]
+Fix $x\in\R$ and $\varepsilon>0$. Choose a partition
+\[
+x=t_0<t_1<\cdots<t_N=x+1
+\]
+whose variation sum is larger than $V(x,x+1)-\varepsilon$. For $0<h<t_1-x$, the partition $x+h<t_1<\cdots<t_N$ gives
+\[
+V(x+h,x+1)
+\geq V(x,x+1)-\varepsilon-|F(x+h)-F(x)|.
+\]
+Using additivity of variation over adjacent intervals,
+\[
+0\leq V(x,x+h)
+=V(x,x+1)-V(x+h,x+1)
+\leq\varepsilon+|F(x+h)-F(x)|.
+\]
+Right continuity of $F$ and then $\varepsilon\downarrow0$ imply $V(x,x+h)\to0$. Since
+\[
+T_F(x+h)-T_F(x)=V(x,x+h),
+\]
+the function $T_F$ is right-continuous.
+\end{proof}
+
+\begin{thm}[Lebesgue--Stieltjes correspondence]
+If $\mu$ is a complex Borel measure on $\R$, then
+\[
+F_\mu(x)=\mu(( -\infty,x])
+\]
+belongs to $\NBV(\R)$. Conversely, for every $F\in\NBV(\R)$ there is a unique complex Borel measure $\mu_F$ satisfying
+\[
+\mu_F((a,b])=F(b)-F(a).
+\]
+Moreover,
+\[
+|\mu_F|=\mu_{T_F}.
+\]
+\end{thm}
+
+\begin{proof}
+For a positive measure the correspondence is the Lebesgue--Stieltjes construction. Apply it to the Jordan decompositions of the real and imaginary parts. Uniqueness follows because the half-open intervals generate $\cB(\R)$. For a finite partition,
+\[
+\sum_j|F(x_j)-F(x_{j-1})|
+ =\sum_j|\mu_F((x_{j-1},x_j])|.
+\]
+Taking suprema and using the partition description of total variation gives $|\mu_F|((a,b])=\mu_{T_F}((a,b])$, hence equality on all Borel sets.
+\end{proof}
+
+\begin{thm}[Derivative of a BV distribution function]
+Let $F\in\NBV(\R)$ and write
+\[
+\mu_F=\lambda+f\,m,
+\qquad \lambda\perp m.
+\]
+Then $F'$ exists almost everywhere, $F'\in L^1(\R)$, and
+\[
+F'(x)=f(x)
+\]
+for almost every $x$. In particular,
+\[
+\mu_F\perp m\quad\Longleftrightarrow\quad F'=0\text{ almost everywhere},
+\]
+and
+\[
+\mu_F\ll m
+\quad\Longleftrightarrow\quad
+F(x)=\int_{-\infty}^xF'(t)\,\d t.
+\]
+\end{thm}
+
+\begin{proof}
+For $h>0$,
+\[
+\frac{F(x+h)-F(x)}h
+ =\frac{\mu_F((x,x+h])}{h}.
+\]
+The one-sided intervals $(x,x+h]$ are uniformly comparable with centered intervals: they lie in $(x-h,x+h)$ and have half its length. The proof of the differentiation theorem therefore applies to this one-sided family and identifies the limit with the density $f(x)$ almost everywhere. The singular part has density zero. The two equivalences follow from uniqueness of the Lebesgue decomposition and the fundamental theorem for absolutely continuous functions.
+\end{proof}
+
+\begin{de}[Absolute continuity of an NBV function]
+An $F\in\NBV(\R)$ is called \emph{absolutely continuous} if it is absolutely continuous on every compact interval.
+\end{de}
+
+\begin{prop}
+For $F\in\NBV(\R)$,
+\[
+F\text{ is absolutely continuous}
+\quad\Longleftrightarrow\quad
+\mu_F\ll m.
+\]
+In that case $\d\mu_F=F'\,\d m$.
+\end{prop}
+
+\begin{proof}
+If $F$ is absolutely continuous, the interval criterion and outer regularity show that $m(E)=0$ implies $|\mu_F|(E)=0$. Conversely, if $\mu_F\ll m$, then $F(x)-F(a)=\int_{(a,x]}(\d\mu_F/\d m)\,\d m$, so $F$ is absolutely continuous on compact intervals.
+\end{proof}
+
+\begin{thm}[Fundamental theorem of calculus for Lebesgue integrals]
+For $-\infty<a<b<\infty$, the following are equivalent for a function $F:[a,b]\to\C$:
+\begin{enumerate}
+  \item $F$ is absolutely continuous;
+  \item there exists $f\in L^1(a,b)$ such that
+  \[
+  F(x)-F(a)=\int_a^xf(t)\,\d t;
+  \]
+  \item $F$ is differentiable almost everywhere, $F'\in L^1(a,b)$, and
+  \[
+  F(x)-F(a)=\int_a^xF'(t)\,\d t.
+  \]
+\end{enumerate}
+\end{thm}
+
+\begin{proof}
+This is the compact-interval form already proved in Chapter~2, now restated in measure language: $F$ is absolutely continuous exactly when its Stieltjes measure has no singular part.
+\end{proof}
+
+\begin{thm}[Lebesgue--Stieltjes integration by parts]
+Let $F,G\in\NBV(\R)$, and suppose at least one of them is continuous. Then for $a<b$,
+\[
+\int_{(a,b]}F\,\d\mu_G+
+\int_{(a,b]}G\,\d\mu_F
+=F(b)G(b)-F(a)G(a).
+\]
+\end{thm}
+
+\begin{proof}
+It is enough by linearity to treat bounded increasing real-valued functions. On the triangle
+\[
+\Omega=\{(x,y):a<x\leq y\leq b\},
+\]
+Fubini--Tonelli gives
+\[
+(\mu_F\times\mu_G)(\Omega)
+ =\int_{(a,b]}(F(y)-F(a))\,\d\mu_G(y),
+\]
+and, using the complementary triangle,
+\[
+(\mu_F\times\mu_G)(\Omega)
+ =\mu_F((a,b])\mu_G((a,b])-
+ \int_{(a,b]}(G(x)-G(a))\,\d\mu_F(x).
+\]
+If one function is continuous, the diagonal has zero product measure, so the two triangular decompositions match without a jump correction. Rearranging yields the formula.
+\end{proof}
+
+\begin{thm}[Change of variables for an increasing map]
+Let $G:[a,b]\to[c,d]$ be continuous and increasing with $G(a)=c$ and $G(b)=d$. Then the pushforward of $\mu_G$ under $G$ is Lebesgue measure on $[c,d]$. Thus, for every nonnegative or integrable $f$,
+\[
+\int_c^df(y)\,\d y
+=\int_a^bf(G(x))\,\d\mu_G(x).
+\]
+The conclusion can fail if $G$ is merely right-continuous.
+\end{thm}
+
+\begin{proof}
+For an interval $(u,v]\subseteq[c,d]$, the preimage under $G$ is an interval up to endpoints, and its $\mu_G$-measure is $v-u$ by continuity. A monotone-class argument extends equality to all Borel sets, and then to integrals. A step function $G$ gives a counterexample without continuity: its Stieltjes measure is atomic, while Lebesgue measure is not.
+\end{proof}
+
+\begin{prop}[Lipschitz characterization]
+A function $F:\R\to\C$ is Lipschitz with constant $M$ if and only if it is absolutely continuous on every compact interval and
+\[
+|F'(x)|\leq M
+\]
+for almost every $x$.
+\end{prop}
+
+\begin{proof}
+A Lipschitz function is absolutely continuous, and difference quotients are bounded by $M$, so $|F'|\leq M$ almost everywhere. Conversely,
+\[
+|F(y)-F(x)|=\left|\int_x^yF'(t)\,\d t\right|
+\leq M|y-x|.
+\]
+\end{proof}
+
+\begin{prop}[Differentiating a monotone series]
+Let $(F_j)$ be nonnegative increasing functions on $[a,b]$, and suppose
+\[
+F(x)=\sum_{j=1}^{\infty}F_j(x)<\infty
+\]
+for every $x$. Then
+\[
+F'(x)=\sum_{j=1}^{\infty}F_j'(x)
+\]
+for almost every $x$.
+\end{prop}
+
+\begin{proof}
+After normalizing at $a$, the associated positive measures satisfy
+\[
+\mu_F=\sum_{j=1}^{\infty}\mu_{F_j}.
+\]
+Taking absolutely continuous parts with respect to Lebesgue measure and using uniqueness of the Lebesgue decomposition gives
+\[
+F'\,m=\sum_jF_j'\,m.
+\]
+\end{proof}
+
+\begin{eg}[A strictly increasing singular continuous function]
+Enumerate the rational subintervals of $[0,1]$ as $(a_n,b_n)$. Let $C_n$ be a rescaled Cantor function that is $0$ on $(-\infty,a_n]$ and $1$ on $[b_n,\infty)$. Then
+\[
+G(x)=\sum_{n=1}^{\infty}2^{-n}C_n(x)
+\]
+converges uniformly, is continuous, and satisfies $G'=0$ almost everywhere. It is strictly increasing because every interval $(x,y)$ contains some $(a_n,b_n)$, and the corresponding summand increases by $2^{-n}$ between $x$ and $y$.
+\end{eg}
+
+\begin{eg}[A continuous function monotone on no interval]
+There is a Borel set $A\subseteq[0,1]$ such that every nondegenerate interval $I\subseteq[0,1]$ satisfies
+\[
+0<m(A\cap I)<m(I).
+\]
+Define
+\[
+F(x)=m(A\cap[0,x]),
+\qquad G(x)=2F(x)-x.
+\]
+Then $F$ is absolutely continuous and strictly increasing, while $G$ is absolutely continuous and continuous but monotone on no nondegenerate interval. Indeed,
+\[
+G'=2\1_A-1
+\]
+almost everywhere, and both signs occur on sets of positive measure inside every interval.
+\end{eg}

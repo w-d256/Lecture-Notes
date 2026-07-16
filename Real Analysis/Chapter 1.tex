@@ -1,0 +1,143 @@
+\chapter{Preliminaries}
+
+\section{Maximal principles and choice}
+
+\begin{de}[Partially ordered sets]
+A \emph{partially ordered set} is a pair $(X,\preccurlyeq)$ for which $\preccurlyeq$ is reflexive, antisymmetric, and transitive. A subset $C\subseteq X$ is a \emph{chain} if every two elements of $C$ are comparable. An element $u\in X$ is an \emph{upper bound} for $C$ if $c\preccurlyeq u$ for every $c\in C$. An element $m\in X$ is \emph{maximal} if $m\preccurlyeq x$ implies $x=m$.
+\end{de}
+
+\begin{thm}[Hausdorff maximal principle]
+Every partially ordered set contains a maximal chain.
+\end{thm}
+
+\begin{thm}[Zorn's lemma]
+Let $(X,\preccurlyeq)$ be a partially ordered set. If every chain in $X$ has an upper bound in $X$, then $X$ contains a maximal element.
+\end{thm}
+
+\begin{prop}
+The Hausdorff maximal principle and Zorn's lemma are equivalent.
+\end{prop}
+
+\begin{proof}
+Assume the Hausdorff maximal principle and let $C$ be a maximal chain in $X$. By hypothesis, $C$ has an upper bound $u\in X$. If $u\preccurlyeq y$, then $y$ is comparable with every element of $C$, so $C\cup\{y\}$ is a chain. Maximality of $C$ gives $y\in C$, and because $u$ is an upper bound of $C$, we also have $y\preccurlyeq u$. Thus $y=u$, and $u$ is maximal.
+
+Conversely, let $\cC$ be the set of all chains in $X$, ordered by inclusion. If $\mathscr D\subseteq\cC$ is a chain of chains, then $\bigcup\mathscr D$ is again a chain in $X$ and is an upper bound of $\mathscr D$. Zorn's lemma therefore yields a maximal element of $\cC$, which is a maximal chain in $X$.
+\end{proof}
+
+\begin{thm}[Well-ordering theorem]
+Every nonempty set can be well ordered.
+\end{thm}
+
+\begin{proof}
+Let $X$ be nonempty. Consider all pairs $(A,\leq_A)$ such that $A\subseteq X$ and $\leq_A$ well orders $A$. Order these pairs by \emph{initial-segment extension}: $(A,\leq_A)\preccurlyeq(B,\leq_B)$ when $A$ is an initial segment of $B$ and the two orders agree on $A$.
+
+The union of a chain of such partial well-orderings is well defined and is again a well-ordering of the union of their underlying sets. Zorn's lemma gives a maximal pair $(M,\leq_M)$. If $M\neq X$, choose $x\in X\setminus M$ and extend the order by declaring every element of $M$ to be smaller than $x$. This contradicts maximality. Hence $M=X$.
+\end{proof}
+
+\begin{thm}[Axiom of choice]
+For every family $(X_\alpha)_{\alpha\in A}$ of nonempty sets, the Cartesian product $\prod_{\alpha\in A}X_\alpha$ is nonempty.
+\end{thm}
+
+\begin{proof}
+Well order $\bigcup_{\alpha\in A}X_\alpha$. For each $\alpha$, let $f(\alpha)$ be the least element of $X_\alpha$. Then $f\in\prod_{\alpha\in A}X_\alpha$.
+\end{proof}
+
+\begin{cor}
+If $(X_\alpha)_{\alpha\in A}$ is a pairwise disjoint family of nonempty sets, there is a set $C\subseteq\bigcup_{\alpha\in A}X_\alpha$ containing exactly one element of each $X_\alpha$.
+\end{cor}
+
+\begin{proof}
+Choose $f(\alpha)\in X_\alpha$ and set $C=\{f(\alpha):\alpha\in A\}$. Disjointness ensures that these chosen elements are distinct.
+\end{proof}
+
+\section{Well-ordered sets and transfinite arguments}
+
+\begin{de}[Initial segment]
+Let $(X,<)$ be well ordered. For $x\in X$, the initial segment determined by $x$ is
+\[
+I_x=\{y\in X:y<x\}.
+\]
+A subset $J\subseteq X$ is an initial segment if $y\in J$ and $x<y$ imply $x\in J$.
+\end{de}
+
+\begin{thm}[Transfinite induction]
+Let $(X,<)$ be well ordered and let $A\subseteq X$. Suppose that for every $x\in X$,
+\[
+I_x\subseteq A \quad\Longrightarrow\quad x\in A.
+\]
+Then $A=X$.
+\end{thm}
+
+\begin{proof}
+If $A\neq X$, let $x_0$ be the least element of $X\setminus A$. Every predecessor of $x_0$ belongs to $A$, so $I_{x_0}\subseteq A$. The hypothesis gives $x_0\in A$, a contradiction.
+\end{proof}
+
+\begin{prop}[Unions of initial segments]
+If $(X,<)$ is well ordered and $A\subseteq X$, then
+\[
+J=\bigcup_{x\in A}I_x
+\]
+is either $X$ or an initial segment $I_y$ for a unique $y\in X$.
+\end{prop}
+
+\begin{proof}
+The set $J$ is downward closed. If $J\neq X$, let $y$ be the least element of $X\setminus J$. Then every $z<y$ lies in $J$, while no $z\geq y$ lies in $J$; otherwise downward closure would force $y\in J$. Hence $J=I_y$.
+\end{proof}
+
+\begin{prop}[Comparison theorem]
+If $X$ and $Y$ are well ordered, exactly one of the following possibilities occurs:
+\begin{enumerate}
+  \item $X$ is order isomorphic to $Y$;
+  \item $X$ is order isomorphic to a proper initial segment of $Y$;
+  \item $Y$ is order isomorphic to a proper initial segment of $X$.
+\end{enumerate}
+\end{prop}
+
+\begin{proof}
+Consider all order isomorphisms between initial segments of $X$ and initial segments of $Y$, ordered by extension. The union of a chain is again such an isomorphism, so Zorn's lemma gives a maximal one, say $f:A\to B$. If both $A$ and $B$ were proper initial segments, their least omitted elements could be matched, extending $f$. Thus at least one of $A=X$ or $B=Y$ holds. The three alternatives follow, and two distinct alternatives cannot hold simultaneously because no well-ordered set is isomorphic to a proper initial segment of itself.
+\end{proof}
+
+\begin{thm}[The first uncountable well-order]
+There exists an uncountable well-ordered set $\Omega$ such that every proper initial segment of $\Omega$ is countable. Any two such well-ordered sets are order isomorphic.
+\end{thm}
+
+\begin{proof}
+Well order an uncountable set $X$. If every proper initial segment of $X$ is countable, take $\Omega=X$. Otherwise, let $x$ be the least point for which $I_x$ is uncountable and take $\Omega=I_x$. Every proper initial segment of $\Omega$ is then countable by minimality.
+
+For uniqueness, compare two candidates $\Omega$ and $\Omega'$. If one were isomorphic to a proper initial segment of the other, it would be countable, contradicting uncountability. Hence they are isomorphic.
+\end{proof}
+
+\begin{prop}
+Every countable subset $A\subseteq\Omega$ has an upper bound in $\Omega$.
+\end{prop}
+
+\begin{proof}
+The set $J=\bigcup_{x\in A}I_x$ is a countable union of countable sets and is therefore countable. Hence $J\neq\Omega$, so $J=I_y$ for some $y\in\Omega$. For each $x\in A$, the inclusion $I_x\subseteq I_y$ implies $x\leq y$. Thus $y$ is an upper bound for $A$.
+\end{proof}
+
+\section{Unordered sums}
+
+\begin{de}
+For a function $f:X\to[0,\infty]$, define the unordered sum
+\[
+\sum_{x\in X}f(x)
+ =\sup\left\{\sum_{x\in F}f(x):F\subseteq X\text{ finite}\right\}.
+\]
+\end{de}
+
+\begin{prop}
+Let $A=\{x\in X:f(x)>0\}$. If $A$ is uncountable, then $\sum_{x\in X}f(x)=\infty$. If $A$ is countable and $g:\N\to A$ is a bijection, then
+\[
+\sum_{x\in X}f(x)=\sum_{n=1}^{\infty}f(g(n)).
+\]
+\end{prop}
+
+\begin{proof}
+Write
+\[
+A=\bigcup_{n=1}^{\infty}\{x:f(x)\geq 1/n\}.
+\]
+If $A$ is uncountable, one of these level sets is infinite. Choosing finite subsets of arbitrarily large cardinality shows that the finite partial sums are unbounded.
+
+If $A$ is countable, every finite subset of $A$ is contained in some initial segment $\{g(1),\dots,g(N)\}$, so each finite partial sum is bounded by a sufficiently long series partial sum. Conversely, every series partial sum is one of the finite partial sums appearing in the defining supremum. Taking suprema gives equality.
+\end{proof}

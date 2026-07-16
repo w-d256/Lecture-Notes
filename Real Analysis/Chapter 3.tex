@@ -1,0 +1,1495 @@
+\chapter{Integration}
+
+\section{Measurable functions}
+
+\begin{de}[Measurable map]
+Let $(X,\cM)$ and $(Y,\cN)$ be measurable spaces. A map $f:X\to Y$ is \emph{$(\cM,\cN)$-measurable} if
+\[
+f^{-1}(B)\in\cM\qquad(B\in\cN).
+\]
+When the sigma-algebras are understood, we simply say that $f$ is measurable.
+\end{de}
+
+\begin{prop}[Checking a generator]
+If $\cN=\sigma(\cE)$, then $f:X\to Y$ is measurable if and only if $f^{-1}(E)\in\cM$ for every $E\in\cE$.
+\end{prop}
+
+\begin{proof}
+The class
+\[
+\cC=\{B\subseteq Y:f^{-1}(B)\in\cM\}
+\]
+is a sigma-algebra on $Y$. Thus $\cE\subseteq\cC$ implies $\cN\subseteq\cC$.
+\end{proof}
+
+\begin{cor}
+Every continuous map between topological spaces is Borel measurable.
+\end{cor}
+
+\begin{prop}[Real-valued criterion]
+For $f:X\to\R$, the following are equivalent:
+\begin{enumerate}
+  \item $f$ is measurable;
+  \item $\{f>a\}\in\cM$ for every $a\in\R$;
+  \item $\{f\geq a\}\in\cM$ for every $a\in\R$;
+  \item $\{f<a\}\in\cM$ for every $a\in\R$;
+  \item $\{f\leq a\}\in\cM$ for every $a\in\R$.
+\end{enumerate}
+It is enough to test rational $a$.
+\end{prop}
+
+\begin{proof}
+Each listed family of rays generates $\cB_{\R}$, and strict and non-strict inequalities are related by countable unions and intersections, for example
+\[
+\{f>a\}=\bigcup_{n=1}^{\infty}\{f\geq a+1/n\}.
+\]
+\end{proof}
+
+\begin{de}[Measurability on a subset]
+If $E\subseteq X$, the trace sigma-algebra is $\cM_E=\{A\cap E:A\in\cM\}$. A function $f:E\to Y$ is measurable when it is $(\cM_E,\cN)$-measurable.
+\end{de}
+
+\begin{prop}[Coordinate maps]
+Let $Y=\prod_{\alpha\in A}Y_\alpha$ with the product sigma-algebra. A map $f:X\to Y$ is measurable if and only if every coordinate $\pi_\alpha\circ f$ is measurable.
+\end{prop}
+
+\begin{proof}
+The forward implication follows because the coordinate projections are measurable. Conversely, the inverse image under $f$ of a generating cylinder $\pi_\alpha^{-1}(E)$ is $(\pi_\alpha\circ f)^{-1}(E)$.
+\end{proof}
+
+\begin{cor}
+A complex-valued function is measurable if and only if its real and imaginary parts are measurable.
+\end{cor}
+
+\begin{prop}[Algebraic operations]
+If $f,g:X\to\C$ are measurable, then $f+g$, $fg$, and $|f|$ are measurable. If $f$ and $g$ are real-valued, then $\max(f,g)$ and $\min(f,g)$ are also measurable.
+\end{prop}
+
+\begin{proof}
+The map $x\mapsto(f(x),g(x))$ is measurable into $\C^2$. Addition and multiplication are continuous on $\C^2$, and absolute value is continuous. For real-valued functions,
+\[
+\max(f,g)=\frac{f+g+|f-g|}{2},
+\qquad
+\min(f,g)=\frac{f+g-|f-g|}{2}.
+\]
+\end{proof}
+
+\begin{prop}[Limits]
+If $(f_n)$ is a sequence of extended-real-valued measurable functions, then
+\[
+\sup_nf_n,\quad \inf_nf_n,\quad \limsup_nf_n,\quad \liminf_nf_n
+\]
+are measurable. If $f_n(x)$ converges for every $x$ in a measurable set $E$, the pointwise limit on $E$ is measurable.
+\end{prop}
+
+\begin{proof}
+For example,
+\[
+\left\{\sup_nf_n>a\right\}=\bigcup_n\{f_n>a\},
+\]
+and
+\[
+\limsup_nf_n=\inf_k\sup_{n\geq k}f_n,
+\qquad
+\liminf_nf_n=\sup_k\inf_{n\geq k}f_n.
+\]
+On the convergence set, the two limits agree.
+\end{proof}
+
+\begin{de}[Positive and negative parts]
+For a real-valued function $f$, define
+\[
+f^+=\max(f,0),\qquad f^-=\max(-f,0).
+\]
+Then $f=f^+-f^-$ and $|f|=f^++f^-$.
+\end{de}
+
+\begin{de}[Simple function]
+A measurable function $\phi:X\to[0,\infty)$ is \emph{simple} if it has finite range. Its standard representation is
+\[
+\phi=\sum_{j=1}^na_j\1_{E_j},
+\]
+where the $a_j$ are distinct nonnegative numbers and the $E_j$ are pairwise disjoint measurable sets.
+\end{de}
+
+\begin{thm}[Dyadic approximation]
+If $f:X\to[0,\infty]$ is measurable, there is an increasing sequence of nonnegative simple functions $\phi_n$ such that $\phi_n\uparrow f$. One convenient choice is
+\[
+\phi_n
+ =\sum_{k=0}^{n2^n-1}k2^{-n}
+   \1_{\{k2^{-n}\leq f<(k+1)2^{-n}\}}
+   +n\1_{\{f\geq n\}}.
+\]
+Moreover, $0\leq f-\phi_n<2^{-n}$ on $\{f<n\}$.
+\end{thm}
+
+\begin{proof}
+Each level set is measurable. The formula rounds $f$ downward to the nearest dyadic multiple of $2^{-n}$ below height $n$ and truncates higher values at $n$. Refinement of the dyadic grid and the increasing truncation level give $\phi_n\leq\phi_{n+1}\leq f$, and the stated error estimate implies pointwise convergence.
+\end{proof}
+
+\begin{thm}[Completeness and almost-everywhere modification]
+The following statements are equivalent for a measure space $(X,\cM,\mu)$:
+\begin{enumerate}
+  \item $\mu$ is complete;
+  \item whenever $f$ is measurable and $g=f$ almost everywhere, then $g$ is measurable;
+  \item whenever $f_n$ are measurable and $f_n\to f$ almost everywhere, then $f$ is measurable.
+\end{enumerate}
+\end{thm}
+
+\begin{proof}
+Assume completeness and let $N$ be a measurable null set outside which $f=g$. For every Borel set $B$,
+\[
+g^{-1}(B)=\bigl(f^{-1}(B)\cap N^c\bigr)\cup\bigl(g^{-1}(B)\cap N\bigr),
+\]
+and the second term is measurable by completeness. The limit assertion follows by replacing the functions on one null exceptional set and using the measurable limsup and liminf.
+
+Conversely, if completeness fails, choose a nonmeasurable $A\subseteq N$ with $N$ measurable and null. Then $\1_A=0$ almost everywhere but is not measurable, contradicting either assertion.
+\end{proof}
+
+\begin{prop}[Representative on the original sigma-algebra]
+Let $\overline\cM$ be the completion of $\cM$. Every real- or complex-valued $\overline\cM$-measurable function $f$ has an $\cM$-measurable representative $g$ such that $f=g$ almost everywhere.
+\end{prop}
+
+\begin{proof}
+For a nonnegative function, replace the measurable sets in the standard representations of simple approximants by $\cM$-measurable sets differing from them only on null sets. A countable union of the exceptional null sets is still null. Outside that union, the resulting $\cM$-measurable simple functions converge to $f$; define $g$ as their limit there and set $g=0$ on the measurable null set. Apply this construction to positive and negative parts, and then to real and imaginary parts, for the general case.
+\end{proof}
+
+\begin{remark}[Arithmetic on $\olR$]
+When extended-real-valued functions are used, products are interpreted with the convention $0(\pm\infty)=0$. Addition is not intrinsically defined at $(\infty,-\infty)$ and $(-\infty,\infty)$; if a convention is imposed, the resulting operation must be treated as a piecewise Borel map. Proofs should never conceal an expression of the form $\infty-\infty$.
+\end{remark}
+
+\begin{prop}[The convergence set]
+For real-valued measurable functions $f_n$, the set on which $(f_n)$ converges to a finite limit is measurable and equals
+\[
+\{\limsup f_n=\liminf f_n\}
+\cap\{\limsup f_n<\infty\}
+\cap\{\liminf f_n>-\infty\}.
+\]
+For complex-valued functions, the same conclusion follows from the measurable Cauchy criterion.
+\end{prop}
+
+\begin{prop}[Reconstruction from level sets]
+Suppose $(E_a)_{a\in\R}$ is an increasing family of measurable sets such that
+\[
+E_a=\bigcap_{b>a}E_b,
+\qquad
+\bigcup_{a\in\R}E_a=X,
+\qquad
+\bigcap_{a\in\R}E_a=\varnothing.
+\]
+Then there is a measurable $f:X\to\R$ satisfying
+\[
+\{f\leq a\}=E_a\qquad(a\in\R).
+\]
+\end{prop}
+
+\begin{proof}
+For each $x$, the set $A_x=\{a:x\in E_a\}$ is nonempty, proper, and upward closed. Define
+\[
+f(x)=\inf A_x=\sup\{a:x\notin E_a\}.
+\]
+The right-continuity condition on the family gives $x\in E_a$ exactly when $f(x)\leq a$. Measurability also follows from
+\[
+\{f<a\}=\bigcup_{\substack{q\in\Q\\q<a}}E_q.
+\]
+\end{proof}
+
+\begin{prop}[A Lebesgue-measurable non-Borel set]
+There exists a Lebesgue-measurable subset of $[0,1]$ that is not Borel.
+\end{prop}
+
+\begin{proof}
+Let $c$ be the Cantor function and define $g(x)=x+c(x)$. The map $g:[0,1]\to[0,2]$ is strictly increasing and continuous, hence a homeomorphism. On each complementary interval of the Cantor set $C$, the function $c$ is constant, so $g$ preserves the length of that interval. Since the complementary intervals have total length $1$, one obtains $m(g(C))=1$.
+
+Choose a nonmeasurable set $A\subseteq g(C)$ and put $B=g^{-1}(A)\subseteq C$. Because $C$ is null, $B$ is Lebesgue measurable. If $B$ were Borel, then $A=g(B)$ would be Borel under the homeomorphism, a contradiction.
+\end{proof}
+
+\section{The integral of nonnegative functions}
+
+\begin{de}[Integral of a simple function]
+For a nonnegative simple function $\phi=\sum_{j=1}^na_j\1_{E_j}$ in standard form, define
+\[
+\int_X\phi\,\d\mu=\sum_{j=1}^na_j\mu(E_j),
+\]
+with the convention $0\cdot\infty=0$.
+\end{de}
+
+\begin{prop}
+For nonnegative simple functions $\phi,\psi$ and $c\geq0$:
+\begin{enumerate}
+  \item $\int c\phi=c\int\phi$;
+  \item $\int(\phi+\psi)=\int\phi+\int\psi$;
+  \item $\phi\leq\psi$ implies $\int\phi\leq\int\psi$;
+  \item $E\mapsto\int_E\phi\,\d\mu$ is a measure.
+\end{enumerate}
+\end{prop}
+
+\begin{proof}
+Refine the standard representations by all intersections of their level sets. The assertions then reduce to finite sums and countable additivity of $\mu$.
+\end{proof}
+
+\begin{de}[Nonnegative integral]
+For a measurable $f:X\to[0,\infty]$, define
+\[
+\int_Xf\,\d\mu
+ =\sup\left\{\int_X\phi\,\d\mu:
+   \phi\text{ simple and }0\leq\phi\leq f\right\}.
+\]
+\end{de}
+
+\begin{thm}[Monotone convergence theorem]
+If $0\leq f_n\uparrow f$ almost everywhere, then
+\[
+\int f_n\,\d\mu\uparrow\int f\,\d\mu.
+\]
+\end{thm}
+
+\begin{proof}
+After setting all functions equal to zero on one measurable null set, assume pointwise increase everywhere. Monotonicity gives $\lim_n\int f_n\leq\int f$. Let $0\leq\phi\leq f$ be simple and fix $0<c<1$. Put
+\[
+E_n=\{f_n\geq c\phi\}.
+\]
+Then $E_n\uparrow X$ on the support of $\phi$, and
+\[
+\int f_n\geq c\int_{E_n}\phi.
+\]
+Continuity from below for the measure $A\mapsto\int_A\phi$ gives
+\[
+\lim_n\int f_n\geq c\int\phi.
+\]
+Let $c\uparrow1$ and take the supremum over $\phi$.
+\end{proof}
+
+\begin{cor}[Linearity on nonnegative functions]
+For nonnegative measurable $f,g$ and $a,b\geq0$,
+\[
+\int(af+bg)\,\d\mu
+ =a\int f\,\d\mu+b\int g\,\d\mu.
+\]
+\end{cor}
+
+\begin{proof}
+Approximate $f$ and $g$ from below by increasing simple functions and apply monotone convergence.
+\end{proof}
+
+\begin{prop}
+For a nonnegative measurable function $f$,
+\[
+\int f\,\d\mu=0
+\quad\Longleftrightarrow\quad
+f=0\text{ almost everywhere}.
+\]
+\end{prop}
+
+\begin{proof}
+If $f=0$ almost everywhere, every simple $\phi\leq f$ vanishes almost everywhere. Conversely,
+\[
+\{f>0\}=\bigcup_{n=1}^{\infty}\{f\geq1/n\}.
+\]
+If one level set had positive measure, then $\int f\geq n^{-1}\mu\{f\geq1/n\}>0$.
+\end{proof}
+
+\begin{cor}
+If $0\leq f_n\uparrow f$ almost everywhere, then $\int f_n\uparrow\int f$ even when the monotonicity and convergence fail on a null set.
+\end{cor}
+
+\begin{thm}[Fatou's lemma]
+For nonnegative measurable functions $f_n$,
+\[
+\int\liminf_{n\to\infty}f_n\,\d\mu
+ \leq\liminf_{n\to\infty}\int f_n\,\d\mu.
+\]
+\end{thm}
+
+\begin{proof}
+For each $k$, the functions $g_k=\inf_{n\geq k}f_n$ increase to $\liminf f_n$. Since $g_k\leq f_n$ for every $n\geq k$,
+\[
+\int g_k\leq\inf_{n\geq k}\int f_n.
+\]
+Apply monotone convergence and let $k\to\infty$.
+\end{proof}
+
+\begin{prop}[Finite integral]
+If $f\geq0$ and $\int f\,\d\mu<\infty$, then $f<\infty$ almost everywhere and the set $\{f>0\}$ is sigma-finite.
+\end{prop}
+
+\begin{proof}
+If $E=\{f=\infty\}$ had positive measure, then $a\1_E\leq f$ for every $a>0$, forcing $\int f=\infty$. Moreover,
+\[
+\{f>0\}=\bigcup_{n=1}^{\infty}\{f\geq1/n\},
+\qquad
+\mu\{f\geq1/n\}\leq n\int f.
+\]
+\end{proof}
+
+\begin{prop}[A measure with density]
+Let $f\geq0$ be measurable and define
+\[
+\lambda(E)=\int_E f\,\d\mu.
+\]
+Then $\lambda$ is a measure. For every nonnegative measurable $g$,
+\[
+\int g\,\d\lambda=\int gf\,\d\mu.
+\]
+\end{prop}
+
+\begin{proof}
+Countable additivity follows from monotone convergence applied to disjoint indicator sums. The integral identity is immediate for indicators, then for simple functions, and finally for arbitrary nonnegative $g$ by monotone convergence.
+\end{proof}
+
+\begin{prop}[Convergence on every measurable subset]
+Suppose $f_n,f\geq0$, $f_n\to f$ pointwise, and
+\[
+\int f_n\,\d\mu\longrightarrow\int f\,\d\mu<\infty.
+\]
+Then for every $E\in\cM$,
+\[
+\int_Ef_n\,\d\mu\longrightarrow\int_Ef\,\d\mu.
+\]
+\end{prop}
+
+\begin{proof}
+Fatou's lemma applied on $E$ and $E^c$ gives lower bounds for both pieces. Since the sums of the two pieces converge to the finite total integral, neither piece can have a limsup larger than its limiting integral. Thus both converge.
+\end{proof}
+
+\begin{prop}[Finite-measure support approximation]
+If $f\geq0$ and $\int f<\infty$, then for every $\varepsilon>0$ there is a measurable set $E$ with $\mu(E)<\infty$ and
+\[
+\int_Ef>\int f-\varepsilon.
+\]
+\end{prop}
+
+\begin{proof}
+Choose a simple $\phi\leq f$ with $\int\phi>\int f-\varepsilon$. In its standard representation, every positive coefficient is attached to a finite-measure set, because $\int\phi<\infty$. The union of those finitely many sets is a suitable $E$.
+\end{proof}
+
+\section{Integrable functions and convergence theorems}
+
+\begin{de}[Signed and complex integrals]
+For a measurable real-valued $f$, define
+\[
+\int f=\int f^+-\int f^-
+\]
+whenever at least one term is finite. The function is \emph{integrable} if $\int|f|<\infty$. A complex-valued function is integrable if its real and imaginary parts are integrable, and then
+\[
+\int f=\int\Re f+i\int\Im f.
+\]
+The space of almost-everywhere equivalence classes of integrable functions is denoted $L^1(\mu)$, with norm
+\[
+\norm{f}_1=\int|f|\,\d\mu.
+\]
+\end{de}
+
+\begin{prop}
+The space $L^1(\mu)$ is a complex vector space, the integral is linear, and
+\[
+\left|\int f\,\d\mu\right|\leq\int|f|\,\d\mu.
+\]
+Moreover, $\norm{f-g}_1=0$ if and only if $f=g$ almost everywhere.
+\end{prop}
+
+\begin{proof}
+The real case follows by applying the nonnegative theory to positive and negative parts. For complex $f$, choose $\alpha\in\C$ with $|\alpha|=1$ and $\alpha\int f=|\int f|$. Then
+\[
+\left|\int f\right|=\Re\int\alpha f
+ =\int\Re(\alpha f)\leq\int|f|.
+\]
+The last assertion follows from the zero-integral criterion for nonnegative functions.
+\end{proof}
+
+\begin{thm}[Dominated convergence theorem]
+Let $f_n\to f$ almost everywhere and suppose $|f_n|\leq g$ almost everywhere for an integrable $g$. Then $f$ is integrable and
+\[
+\int f_n\,\d\mu\longrightarrow\int f\,\d\mu,
+\qquad
+\norm{f_n-f}_1\longrightarrow0.
+\]
+\end{thm}
+
+\begin{proof}
+The bound passes to the limit, so $|f|\leq g$. For real-valued functions, Fatou's lemma applied to $g+f_n$ and $g-f_n$ yields
+\[
+\int f\leq\liminf_n\int f_n
+\leq\limsup_n\int f_n\leq\int f.
+\]
+Apply the same argument to $|f_n-f|\leq2g$ to obtain $L^1$ convergence. For complex functions, apply the real theorem separately to real and imaginary parts; both are dominated by $g$.
+\end{proof}
+
+\begin{thm}[Termwise integration of an absolutely summable series]
+If $(f_n)\subseteq L^1(\mu)$ and
+\[
+\sum_{n=1}^{\infty}\int|f_n|\,\d\mu<\infty,
+\]
+then $\sum_nf_n(x)$ converges absolutely for almost every $x$, its sum belongs to $L^1(\mu)$, and
+\[
+\int\sum_{n=1}^{\infty}f_n\,\d\mu
+ =\sum_{n=1}^{\infty}\int f_n\,\d\mu.
+\]
+\end{thm}
+
+\begin{proof}
+Monotone convergence gives
+\[
+\int\sum_n|f_n|=\sum_n\int|f_n|<\infty,
+\]
+so the series of absolute values is finite almost everywhere. The partial sums are dominated by $\sum_n|f_n|$, and dominated convergence completes the proof.
+\end{proof}
+
+\begin{thm}[Approximation in $L^1(\R)$]
+For every $f\in L^1(\R)$ and $\varepsilon>0$, there exist
+\begin{enumerate}
+  \item an integrable simple function $\phi$ with finite-measure support;
+  \item a simple function whose level sets are finite unions of bounded intervals;
+  \item a continuous compactly supported function $g$;
+\end{enumerate}
+within $\varepsilon$ of $f$ in $L^1$.
+\end{thm}
+
+\begin{proof}
+Truncate $f$ in value and in space, then use dyadic simple approximation to obtain the first statement. By regularity, every finite-measure level set can be approximated in symmetric difference by a finite union of bounded intervals, which gives the second statement. Indicators of bounded intervals can be approximated in $L^1$ by continuous piecewise-linear functions; linearity gives the final approximation.
+\end{proof}
+
+\begin{thm}[Continuity under the integral sign]
+Let $f:X\times[a,b]\to\C$. Assume $f(\cdot,t)$ is measurable for every $t$, $f(x,\cdot)$ is continuous for almost every $x$, and
+\[
+|f(x,t)|\leq g(x)
+\]
+for an integrable $g$. Then
+\[
+F(t)=\int_Xf(x,t)\,\d\mu(x)
+\]
+is continuous on $[a,b]$.
+\end{thm}
+
+\begin{proof}
+If $t_n\to t$, then $f(x,t_n)\to f(x,t)$ almost everywhere and the sequence is dominated by $g$. Apply dominated convergence.
+\end{proof}
+
+\begin{thm}[Differentiation under the integral sign]
+Assume $f(\cdot,t)$ is measurable for every $t\in[a,b]$, $f(x,\cdot)$ is differentiable on $(a,b)$ for almost every $x$, and
+\[
+\left|\frac{\partial f}{\partial t}(x,t)\right|\leq g(x)
+\]
+for all $t\in(a,b)$ and an integrable $g$. If $f(\cdot,t_0)$ is integrable for one $t_0\in(a,b)$, then $f(\cdot,t)$ is integrable for every $t\in(a,b)$, and $F:(a,b)\to\C$ defined by $F(t)=\int f(x,t)\,\d\mu(x)$ is differentiable with
+\[
+F'(t)=\int_X\frac{\partial f}{\partial t}(x,t)\,\d\mu(x).
+\]
+\end{thm}
+
+\begin{proof}
+The derivative bound and the mean value theorem show that every section $f(\cdot,t)$ is integrable. For $h\neq0$, the difference quotient is bounded by $g$ and converges almost everywhere to $\partial_tf(x,t)$. Dominated convergence gives the derivative formula.
+\end{proof}
+
+\begin{thm}[Riemann and Lebesgue integration]
+If $f:[a,b]\to\R$ is bounded and Riemann integrable, then $f$ is Lebesgue measurable and integrable, and the two integrals agree. More generally, a bounded function on $[a,b]$ is Riemann integrable if and only if its set of discontinuities has Lebesgue measure zero.
+\end{thm}
+
+\begin{proof}
+Choose nested partitions with mesh tending to zero. The lower step functions increase, the upper step functions decrease, and their integrals converge to the lower and upper Riemann integrals. Their pointwise limits agree at every continuity point. Thus the two limiting step functions agree almost everywhere exactly when the discontinuity set is null, and in that case their common almost-everywhere value is $f$. The Lebesgue integral is then squeezed between the lower and upper sums.
+\end{proof}
+
+\begin{prop}[Uniform convergence]
+If $\mu(X)<\infty$, $f_n\in L^1(\mu)$, and $f_n\to f$ uniformly, then $f\in L^1(\mu)$ and
+\[
+\norm{f_n-f}_1\leq\mu(X)\norm{f_n-f}_\infty\longrightarrow0.
+\]
+On an infinite-measure space this can fail.
+\end{prop}
+
+\begin{eg}
+On $\R$,
+\[
+f_n=\frac1n\1_{[0,n]}
+\]
+converges uniformly to $0$, but $\int f_n=1$. Also,
+\[
+f_n=f\1_{[-n,n]},
+\qquad
+f(x)=\frac1{1+|x|},
+\]
+converges uniformly to the nonintegrable function $f$.
+\end{eg}
+
+\begin{thm}[Generalized dominated convergence]
+Suppose $f_n\to f$ almost everywhere, $|f_n|\leq g_n$, the functions $g_n$ are nonnegative and integrable, $g_n\to g$ almost everywhere, and
+\[
+\int g_n\,\d\mu\longrightarrow\int g\,\d\mu<\infty.
+\]
+Then $f\in L^1$ and $\int f_n\to\int f$.
+\end{thm}
+
+\begin{proof}
+The limit satisfies $|f|\leq g$. For real-valued $f_n$, Fatou's lemma applied to the nonnegative functions $g_n+f_n$ and $g_n-f_n$ gives the two inequalities needed to squeeze the integrals of $f_n$ to $\int f$. For complex-valued functions, apply the real-valued result separately to the real and imaginary parts, both of which are dominated in absolute value by $g_n$.
+\end{proof}
+
+\begin{thm}[Scheff\'e's lemma]
+Let $f_n,f\geq0$. If $f_n\to f$ almost everywhere and $\int f_n\to\int f<\infty$, then
+\[
+\norm{f_n-f}_1\longrightarrow0.
+\]
+The same conclusion holds if convergence is only in measure.
+\end{thm}
+
+\begin{proof}
+Since $f_n\wedge f\to f$ almost everywhere and $0\leq f_n\wedge f\leq f$, dominated convergence gives
+\[
+\int(f_n\wedge f)\to\int f.
+\]
+Now use
+\[
+\norm{f_n-f}_1
+ =\int f_n+\int f-2\int(f_n\wedge f).
+\]
+For convergence in measure, every subsequence has a further subsequence converging almost everywhere; the preceding argument then forces every subsequence of the $L^1$ distances to have a further subsequence tending to zero.
+\end{proof}
+
+\begin{prop}[Simple-function sandwiches on a completion]
+Assume $\mu(X)<\infty$, let $\overline\cM$ be the completion of $\cM$, and let $f:X\to\R$ be bounded. Then $f$ is $\overline\cM$-measurable if and only if there are $\cM$-measurable simple functions $\phi_n,\psi_n$ such that
+\[
+\phi_n\leq f\leq\psi_n\quad\text{almost everywhere},
+\qquad
+\int(\psi_n-\phi_n)\,\d\mu<2^{-n}.
+\]
+In that case,
+\[
+\int\phi_n\,\d\mu\longrightarrow\int f\,\d\overline\mu
+\longleftarrow\int\psi_n\,\d\mu.
+\]
+\end{prop}
+
+\begin{proof}
+Replace $f$ by an $\cM$-measurable representative $g$. Choose lower and upper simple approximations with pointwise gap below $2^{-n}/(1+\mu(X))$. They sandwich $f$ outside the null set on which $f$ and $g$ differ, and
+\[
+\int(\psi_n-\phi_n)\,\d\mu<2^{-n}.
+\]
+Conversely, take the union of the measurable null exceptional sets in the sandwiches and modify the simple functions there so that $\phi_n\leq\psi_n$ everywhere. Since
+\[
+\sum_n\int(\psi_n-\phi_n)\,\d\mu<\infty,
+\]
+monotone convergence applied to the series of nonnegative gaps shows that $\sum_n(\psi_n-\phi_n)<\infty$ almost everywhere. Hence the gaps tend to zero, and the inequalities force $\phi_n\to f$ and $\psi_n\to f$ almost everywhere. The limit is an $\cM$-measurable representative of $f$, proving completed measurability. The integral convergence follows from the same sandwich estimate.
+\end{proof}
+
+\begin{eg}[Dense singularities]
+Let
+\[
+h(x)=x^{-1/2}\1_{(0,1)}(x),
+\]
+let $(r_n)$ enumerate $\Q$, and set
+\[
+g(x)=\sum_{n=1}^{\infty}2^{-n}h(x-r_n).
+\]
+Then $g\in L^1(\R)$ and
+\[
+\int g=2.
+\]
+The function is essentially unbounded on every interval and has no continuous representative obtained by changing it on a null set. Moreover, $g^2$ is not integrable on any interval.
+\end{eg}
+
+\begin{proof}
+Termwise integration gives $\int g=\sum_n2^{-n}\int h=2$. Every interval contains some $r_n$, and near that point the $n$th summand exceeds any prescribed bound on a set of positive measure. Hence $g$ is essentially unbounded on every interval, which is incompatible with equality almost everywhere to a continuous function. Finally, on a one-sided neighborhood of $r_n$,
+\[
+g(x)^2\geq4^{-n}(x-r_n)^{-1},
+\]
+whose integral diverges.
+\end{proof}
+
+\begin{thm}[Continuity of an indefinite integral]
+If $f\in L^1(\R)$ and
+\[
+F(x)=\int_{(-\infty,x]}f(t)\,\d t,
+\]
+then $F$ is continuous.
+\end{thm}
+
+\begin{proof}
+The Lebesgue integral is absolutely continuous: for every $\varepsilon>0$ there is $\delta>0$ such that $m(A)<\delta$ implies $\int_A|f|<\varepsilon$. Therefore
+\[
+|F(x+h)-F(x)|
+ \leq\int_{[\min(x,x+h),\max(x,x+h)]}|f(t)|\,\d t
+\]
+is smaller than $\varepsilon$ when $|h|<\delta$.
+\end{proof}
+
+\begin{exercise}[An instructive series]
+Let $0<a<b$ and
+\[
+f_n(x)=ae^{-nax}-be^{-nbx},
+\qquad x\geq0.
+\]
+Then
+\[
+\sum_{n=1}^{\infty}\int_0^\infty|f_n(x)|\,\d x=\infty,
+\qquad
+\sum_{n=1}^{\infty}\int_0^\infty f_n(x)\,\d x=0,
+\]
+but $\sum_nf_n\in L^1(0,\infty)$ and
+\[
+\int_0^\infty\sum_{n=1}^{\infty}f_n(x)\,\d x
+ =\log\frac ba.
+\]
+\end{exercise}
+
+\begin{proof}
+The sign change of $f_n$ occurs at $x=c/n$, where
+\[
+c=\frac{\log(b/a)}{b-a}.
+\]
+A direct computation gives
+\[
+\int_0^\infty|f_n(x)|\,\d x
+ =\frac{2(e^{-ac}-e^{-bc})}{n},
+\]
+so the absolute integrals form a divergent harmonic series. Each signed integral is zero. On the other hand,
+\[
+\sum_{n=1}^{\infty}f_n(x)
+ =\frac{a}{e^{ax}-1}-\frac{b}{e^{bx}-1},
+\]
+which is bounded near $0$ and integrable at infinity. Its antiderivative is
+\[
+\log(1-e^{-ax})-\log(1-e^{-bx}),
+\]
+and evaluation at $0$ and $\infty$ gives $\log(b/a)$.
+\end{proof}
+
+\section{Modes of convergence}
+
+\begin{de}[Convergence in measure]
+A sequence of measurable functions $f_n$ \emph{converges in measure} to $f$ if for every $\varepsilon>0$,
+\[
+\mu\{|f_n-f|>\varepsilon\}\longrightarrow0.
+\]
+It is \emph{Cauchy in measure} if for every $\varepsilon>0$,
+\[
+\mu\{|f_n-f_m|>\varepsilon\}\longrightarrow0
+\qquad(n,m\to\infty).
+\]
+\end{de}
+
+\begin{prop}
+Convergence in $L^1$ implies convergence in measure.
+\end{prop}
+
+\begin{proof}
+For every $\varepsilon>0$, Markov's inequality gives
+\[
+\mu\{|f_n-f|>\varepsilon\}
+ \leq\frac1\varepsilon\int|f_n-f|\,\d\mu.
+\]
+\end{proof}
+
+\begin{thm}[Cauchy in measure]
+If $(f_n)$ is Cauchy in measure, there is a measurable $f$ such that $f_n\to f$ in measure. Moreover, there is a subsequence converging to $f$ almost everywhere. Limits in measure are unique almost everywhere.
+\end{thm}
+
+\begin{proof}
+Choose a subsequence $g_j=f_{n_j}$ such that
+\[
+\mu\{|g_{j+1}-g_j|>2^{-j}\}<2^{-j}.
+\]
+Let $A_j=\{|g_{j+1}-g_j|>2^{-j}\}$. Since $\sum_j\mu(A_j)<\infty$,
+\[
+\mu(\limsup_jA_j)=0.
+\]
+Outside this null set, only finitely many bad increments occur, and the tail is dominated by the convergent series $\sum_j2^{-j}$. Thus $g_j(x)$ is Cauchy almost everywhere; let $f$ be its limit there and define it to be zero on the exceptional set.
+
+More quantitatively,
+\[
+\mu\{|g_j-f|>2^{-j+1}\}
+ \leq\sum_{k\geq j}\mu(A_k)
+ \leq2^{-j+1},
+\]
+so $g_j\to f$ in measure. Since the original sequence is Cauchy in measure, for fixed $j$ and sufficiently large $n$,
+\[
+\mu\{|f_n-g_j|>\varepsilon/2\}
+\]
+is small. Combining this with $g_j\to f$ in measure proves $f_n\to f$ in measure.
+
+If $f_n\to f$ and $f_n\to g$ in measure, then
+\[
+\mu\{|f-g|>\varepsilon\}
+ \leq\mu\{|f-f_n|>\varepsilon/2\}
+   +\mu\{|f_n-g|>\varepsilon/2\},
+\]
+so $f=g$ almost everywhere.
+\end{proof}
+
+\begin{cor}[Subsequence principle]
+If $f_n\to f$ in measure, there is a subsequence $f_{n_j}\to f$ almost everywhere. More generally, a numerical property $a_n\to0$ follows once every subsequence has a further subsequence along which the property holds.
+\end{cor}
+
+\begin{proof}
+Choose $n_j$ so that
+\[
+\mu\{|f_{n_j}-f|>2^{-j}\}<2^{-j}
+\]
+and apply the same summable-exceptional-set argument.
+\end{proof}
+
+\begin{thm}[Egoroff]
+Suppose $\mu(X)<\infty$ and $f_n\to f$ almost everywhere. For every $\varepsilon>0$, there is a measurable $A\subseteq X$ with $\mu(A)<\varepsilon$ such that $f_n\to f$ uniformly on $X\setminus A$.
+\end{thm}
+
+\begin{proof}
+After changing the functions on a null set, assume convergence everywhere. For $k,n\geq1$, put
+\[
+E_{n,k}=\bigcup_{m\geq n}\{|f_m-f|\geq1/k\}.
+\]
+For fixed $k$, the sets $E_{n,k}$ decrease to $\varnothing$. Since $\mu(X)<\infty$, continuity from above gives $\mu(E_{n,k})\to0$. Choose $n_k$ so that $\mu(E_{n_k,k})<\varepsilon2^{-k}$ and let $A=\bigcup_kE_{n_k,k}$. If $x\notin A$ and $m\geq n_k$, then $|f_m(x)-f(x)|<1/k$, which is uniform convergence.
+\end{proof}
+
+\begin{de}[Almost uniform convergence]
+The sequence $f_n$ converges \emph{almost uniformly} to $f$ if for every $\varepsilon>0$ there is a measurable $A$ with $\mu(A)<\varepsilon$ such that $f_n\to f$ uniformly on $X\setminus A$.
+\end{de}
+
+\begin{prop}
+Almost uniform convergence implies almost-everywhere convergence and convergence in measure.
+\end{prop}
+
+\begin{proof}
+Choose exceptional sets $A_k$ with $\mu(A_k)<2^{-k}$. Outside $\limsup A_k$, which is null, each point is excluded from all sufficiently large $A_k$ and hence sees pointwise convergence. For convergence in measure, fix $\delta>0$, choose $A$ with arbitrarily small measure, and use uniform convergence on $A^c$.
+\end{proof}
+
+\begin{thm}[Fatou under convergence in measure]
+If $f_n\geq0$ and $f_n\to f$ in measure, then
+\[
+\int f\,\d\mu\leq\liminf_n\int f_n\,\d\mu.
+\]
+\end{thm}
+
+\begin{proof}
+Choose a subsequence along which the integrals converge to the liminf. That subsequence has a further subsequence converging almost everywhere to $f$. Apply Fatou's lemma to the subsubsequence.
+\end{proof}
+
+\begin{thm}[Dominated convergence in measure]
+If $f_n\to f$ in measure and $|f_n|\leq g$ for an integrable $g$, then
+\[
+\norm{f_n-f}_1\longrightarrow0
+\quad\text{and}\quad
+\int f_n\longrightarrow\int f.
+\]
+\end{thm}
+
+\begin{proof}
+Every subsequence has a further subsequence converging almost everywhere to $f$. Dominated convergence gives $L^1$ convergence along that subsubsequence. Therefore no subsequence of $\norm{f_n-f}_1$ can stay bounded away from zero.
+\end{proof}
+
+\begin{prop}[Limits of indicator functions]
+If $\mu(E_n)<\infty$ and $\1_{E_n}\to f$ in $L^1$, then $f=\1_E$ almost everywhere for some measurable set $E$.
+\end{prop}
+
+\begin{proof}
+Choose a subsequence converging almost everywhere. At every point where a sequence of zeros and ones converges, its limit is zero or one. Thus $f$ is almost everywhere $\{0,1\}$-valued. The set $E=\{f>1/2\}$ is measurable and has the required property.
+\end{proof}
+
+\begin{prop}[Composition and convergence]
+Let $\Phi:\C\to\C$ be continuous.
+\begin{enumerate}
+  \item If $f_n\to f$ almost everywhere, then $\Phi(f_n)\to\Phi(f)$ almost everywhere.
+  \item If $\Phi$ is uniformly continuous, it preserves uniform, almost uniform, and in-measure convergence.
+\end{enumerate}
+The uniform-continuity hypothesis in the second statement cannot in general be omitted.
+\end{prop}
+
+\begin{proof}
+The first assertion is pointwise continuity. For the second, choose $\delta$ from uniform continuity. Then
+\[
+\{|\Phi(f_n)-\Phi(f)|>\varepsilon\}
+ \subseteq\{|f_n-f|>\delta\},
+\]
+which proves the in-measure assertion; the uniform and almost uniform cases are immediate.
+\end{proof}
+
+\begin{thm}[Dominated Egoroff theorem]
+Suppose $f_n\to f$ almost everywhere and $|f_n|\leq g$ for some $g\in L^1(\mu)$. Then $f_n\to f$ almost uniformly, even when $\mu(X)=\infty$.
+\end{thm}
+
+\begin{proof}
+Partition $\{g>0\}$ into the finite-measure set $\{g\geq1\}$ and the measurable sets
+\[
+B_k=\left\{\frac1{k+1}\leq g<\frac1k\right\},
+\qquad k\geq1.
+\]
+Given $\varepsilon>0$, apply Egoroff on each member of this countable partition and remove a set $A_k$ of measure below a summable allocation of $\varepsilon$. Let $A$ be the union of those exceptional sets.
+
+For a prescribed tolerance $\eta>0$, choose $K$ so large that $2/K<\eta$. On the tail $\bigcup_{k\geq K}B_k$, the domination gives $|f_n-f|\leq2g<\eta$. On the finitely many remaining pieces after removal of their exceptional sets, choose a common index from uniform convergence. On $\{g=0\}$ all the functions and the limit vanish. This proves uniform convergence on $X\setminus A$.
+\end{proof}
+
+\begin{thm}[Lusin]
+Let $f:[a,b]\to\C$ be Lebesgue measurable and finite almost everywhere. For every $\varepsilon>0$, there is a compact set $K\subseteq[a,b]$ such that
+\[
+m([a,b]\setminus K)<\varepsilon
+\]
+and $f\restr K$ is continuous.
+\end{thm}
+
+\begin{proof}
+Choose $M$ so that $m\{|f|>M\}<\varepsilon/3$, and let $f_M$ be the bounded truncation of $f$. The function $f_M$ belongs to $L^1([a,b])$, so choose continuous functions $g_n$ converging to it in $L^1$. A subsequence converges almost everywhere; Egoroff gives a measurable set of measure below $\varepsilon/3$ outside which the convergence is uniform. Remove also the set $\{|f|>M\}$, where $f$ and $f_M$ may differ. By inner regularity, choose a compact subset of the remaining measurable set losing less than another $\varepsilon/3$ of measure. On that compact set, $f=f_M$ is the uniform limit of continuous functions.
+\end{proof}
+
+\begin{prop}[Uniformity in a parameter]
+Let $\mu(X)<\infty$ and let $f:X\times[0,1]\to\C$ satisfy: $f(\cdot,y)$ is measurable for every $y$, and $f(x,\cdot)$ is continuous for every $x$. For $0<\eta,\delta<1$, define
+\[
+E_{\eta,\delta}
+ =\{x:|f(x,y)-f(x,0)|\leq\eta\text{ for all }0\leq y<\delta\}.
+\]
+Then $E_{\eta,\delta}$ is measurable. Moreover, for every $\varepsilon>0$, there is a measurable $A$ with $\mu(A)<\varepsilon$ such that
+\[
+f(x,y)\longrightarrow f(x,0)
+\]
+uniformly for $x\in X\setminus A$ as $y\downarrow0$.
+\end{prop}
+
+\begin{proof}
+Continuity in $y$ gives
+\[
+E_{\eta,\delta}
+ =X\setminus
+ \bigcup_{q\in\Q\cap[0,\delta)}
+ \{x:|f(x,q)-f(x,0)|>\eta\},
+\]
+so the set is measurable. For fixed $k$, the sets $E_{1/k,1/n}$ increase to $X$ as $n\to\infty$. Choose $n_k$ such that the complement has measure below $\varepsilon2^{-k}$, and remove the union of these complements. The resulting estimates are uniform in $x$.
+\end{proof}
+
+\section{Product measures and iterated integration}
+
+\begin{de}[Product measure]
+Let $(X,\cM,\mu)$ and $(Y,\cN,\nu)$ be measure spaces. On measurable rectangles define
+\[
+\pi(A\times B)=\mu(A)\nu(B),
+\]
+with $0\cdot\infty=0$, and extend $\pi$ additively to the algebra of finite disjoint unions of rectangles. The measure obtained from the Carath\'eodory construction is denoted $\mu\times\nu$. If both measures are sigma-finite, it is the unique measure on $\cM\otimes\cN$ satisfying
+\[
+(\mu\times\nu)(A\times B)=\mu(A)\nu(B).
+\]
+\end{de}
+
+\begin{de}[Sections]
+For $E\subseteq X\times Y$, define
+\[
+E_x=\{y\in Y:(x,y)\in E\},
+\qquad
+E^y=\{x\in X:(x,y)\in E\}.
+\]
+For a function $f:X\times Y\to\olR$, define $f_x(y)=f(x,y)$ and $f^y(x)=f(x,y)$.
+\end{de}
+
+\begin{prop}[Measurable sections]
+If $E\in\cM\otimes\cN$, then $E_x\in\cN$ for every $x$ and $E^y\in\cM$ for every $y$. If $f$ is product-measurable, then all its sections are measurable.
+\end{prop}
+
+\begin{proof}
+The sets whose sections are measurable form a sigma-algebra containing all rectangles. For functions, apply the set result to inverse images of Borel sets.
+\end{proof}
+
+\begin{de}[Monotone class]
+A collection $\cC\subseteq\pow(X)$ is a \emph{monotone class} if it is closed under increasing countable unions and decreasing countable intersections.
+\end{de}
+
+\begin{thm}[Monotone class lemma]
+If $\cA$ is an algebra, then the monotone class generated by $\cA$ equals $\sigma(\cA)$.
+\end{thm}
+
+\begin{proof}
+Let $\cC$ be the monotone class generated by $\cA$. For fixed $E\in\cC$, define
+\[
+\cC(E)=\{F\in\cC:E\setminus F,\ F\setminus E,\ E\cap F\in\cC\}.
+\]
+This is a monotone class. If $E\in\cA$, then $\cA\subseteq\cC(E)$, so $\cC(E)=\cC$. It follows in turn that for every $F\in\cC$, one has $\cA\subseteq\cC(F)$ and hence $\cC(F)=\cC$. Thus $\cC$ is closed under relative complements and finite intersections; since $X\in\cA$, it is an algebra. Closure under increasing unions now implies closure under arbitrary countable unions, so $\cC$ is a sigma-algebra.
+\end{proof}
+
+\begin{thm}[Section formula]
+Suppose $\mu$ and $\nu$ are sigma-finite and $E\in\cM\otimes\cN$. Then the functions
+\[
+x\longmapsto\nu(E_x),
+\qquad
+y\longmapsto\mu(E^y)
+\]
+are measurable and
+\[
+(\mu\times\nu)(E)
+ =\int_X\nu(E_x)\,\d\mu(x)
+ =\int_Y\mu(E^y)\,\d\nu(y).
+\]
+\end{thm}
+
+\begin{proof}
+First assume both measures are finite. The formula is immediate for rectangles. Let $\cC$ be the class of sets for which the first section function is measurable and the first equality holds. Increasing unions are handled by monotone convergence. Decreasing intersections are handled by continuity from above, using finiteness. Thus $\cC$ is a monotone class containing the rectangle algebra, so the monotone class lemma gives $\cC=\cM\otimes\cN$. The second equality is symmetric.
+
+For sigma-finite measures, choose disjoint finite-measure partitions $X=\bigsqcup_nX_n$ and $Y=\bigsqcup_mY_m$, apply the finite result on each $X_n\times Y_m$, and sum by monotone convergence.
+\end{proof}
+
+\begin{thm}[Fubini--Tonelli]
+Let $(X,\cM,\mu)$ and $(Y,\cN,\nu)$ be sigma-finite.
+\begin{enumerate}
+  \item If $f:X\times Y\to[0,\infty]$ is measurable, then the section integrals are measurable and
+  \[
+  \int_{X\times Y}f\,\d(\mu\times\nu)
+   =\int_X\left(\int_Yf(x,y)\,\d\nu(y)\right)\d\mu(x)
+   =\int_Y\left(\int_Xf(x,y)\,\d\mu(x)\right)\d\nu(y).
+  \]
+  \item If $f\in L^1(\mu\times\nu)$, then $f_x\in L^1(\nu)$ for almost every $x$, $f^y\in L^1(\mu)$ for almost every $y$, both iterated integrals are integrable, and the same equality holds.
+\end{enumerate}
+\end{thm}
+
+\begin{proof}
+For an indicator function, the assertion is the section formula. It follows for nonnegative simple functions by linearity and for arbitrary nonnegative functions by monotone convergence. This proves Tonelli's theorem.
+
+If $f\in L^1$, apply Tonelli to $|f|$. The resulting finite iterated integral shows that almost every section is integrable. Apply the nonnegative result to $f^+$ and $f^-$, or separately to real and imaginary parts in the complex case.
+\end{proof}
+
+\begin{thm}[Completed product spaces]
+Let $(X,\cM,\mu)$ and $(Y,\cN,\nu)$ be complete sigma-finite measure spaces, and let $\lambda$ be the completion of $\mu\times\nu$. If $f$ is $\lambda$-measurable and either nonnegative or integrable, then its sections are measurable for almost every base point and the Fubini--Tonelli identities remain valid.
+\end{thm}
+
+\begin{proof}
+A product-null measurable set has null sections for almost every $x$ and almost every $y$ by the section formula. Choose an $(\cM\otimes\cN)$-measurable representative $g$ equal to $f$ outside a $\lambda$-null set. Fubini--Tonelli applies to $g$, and completeness of the factor measures makes the corresponding sections of $f$ measurable almost everywhere. The integrals agree because $f=g$ almost everywhere.
+\end{proof}
+
+\begin{exercise}[A diagonal when sigma-finiteness fails]
+Let $X=Y=[0,1]$, let $\mu$ be Lebesgue measure, let $\nu$ be counting measure, and let
+\[
+D=\{(x,x):x\in[0,1]\}.
+\]
+The diagonal is a Borel subset of $[0,1]^2$, hence product-measurable. Then
+\[
+\int_X\nu(D_x)\,\d\mu(x)=1,
+\qquad
+\int_Y\mu(D^y)\,\d\nu(y)=0,
+\qquad
+(\mu\times\nu)(D)=\infty.
+\]
+\end{exercise}
+
+\begin{proof}
+Every vertical section is a singleton of counting measure $1$, whereas every horizontal section is a singleton of Lebesgue measure zero.
+
+To compute the product outer measure, suppose $D$ had a rectangle cover $(A_j\times B_j)$ of finite total cost. Whenever $B_j$ is infinite, finiteness of the cost forces $\mu(A_j)=0$. Such rectangles cover diagonal coordinates only in a null set. Rectangles with finite $B_j$ cover only countably many diagonal coordinates altogether. A null set together with a countable set cannot cover $[0,1]$, a contradiction. Thus every rectangle cover has infinite cost.
+\end{proof}
+
+\begin{exercise}[Unequal iterated sums]
+On $\N^2$ with counting measure, define
+\[
+f(m,n)=
+\begin{cases}
+1,&m=n,\\
+-1,&m=n+1,\\
+0,&\text{otherwise}.
+\end{cases}
+\]
+Then
+\[
+\sum_{m=1}^{\infty}\left(\sum_{n=1}^{\infty}f(m,n)\right)=1,
+\qquad
+\sum_{n=1}^{\infty}\left(\sum_{m=1}^{\infty}f(m,n)\right)=0.
+\]
+\end{exercise}
+
+\begin{proof}
+For fixed $m$, the row sum is $1$ when $m=1$ and $0$ otherwise. For fixed $n$, the two nonzero column entries cancel. Since $\sum_{m,n}|f(m,n)|=\infty$, Fubini's theorem does not apply.
+\end{proof}
+
+\begin{prop}[Subgraphs]
+Let $f:X\to[0,\infty]$ be measurable and define
+\[
+G_f=\{(x,t)\in X\times[0,\infty):0\leq t<f(x)\}.
+\]
+Then $G_f$ is measurable and
+\[
+(\mu\times m)(G_f)=\int_Xf\,\d\mu.
+\]
+The same conclusion holds with $0\leq t\leq f(x)$.
+\end{prop}
+
+\begin{proof}
+The extended-real map $(x,t)\mapsto f(x)-t$ is measurable, so $G_f$ is its inverse image of $(0,\infty]$. Its vertical section at $x$ has length $f(x)$, and Tonelli gives the formula.
+\end{proof}
+
+\begin{prop}[Products of integrable functions]
+Let the measure spaces be arbitrary. If $f\in L^1(\mu)$ and $g\in L^1(\nu)$, then
+\[
+h(x,y)=f(x)g(y)
+\]
+belongs to $L^1(\mu\times\nu)$ and
+\[
+\int_{X\times Y}h\,\d(\mu\times\nu)
+ =\left(\int_Xf\,\d\mu\right)
+  \left(\int_Yg\,\d\nu\right).
+\]
+\end{prop}
+
+\begin{proof}
+The function $h$ is measurable because $(x,y)\mapsto(f(x),g(y))$ is measurable and multiplication is continuous. Approximate $|f|$ and $|g|$ from below by simple functions. The rectangle formula gives
+\[
+\int |f(x)g(y)|\,\d(\mu\times\nu)
+ =\int|f|\,\d\mu\int|g|\,\d\nu<\infty.
+\]
+Approximating $f$ and $g$ by complex simple functions and passing in $L^1$ gives the signed formula.
+\end{proof}
+
+\begin{prop}[A countable counting-measure factor]
+Let $Y$ be countable with counting measure. For every measurable $E\subseteq X\times Y$,
+\[
+(\mu\times\#)(E)=\sum_{y\in Y}\mu(E^y).
+\]
+For every nonnegative measurable $f$,
+\[
+\int_{X\times Y}f\,\d(\mu\times\#)
+ =\sum_{y\in Y}\int_Xf(x,y)\,\d\mu(x).
+\]
+\end{prop}
+
+\begin{proof}
+The disjoint decomposition
+\[
+E=\bigsqcup_{y\in Y}E^y\times\{y\}
+\]
+gives the set formula. Apply it to simple functions and then use monotone convergence.
+\end{proof}
+
+\section{Lebesgue measure in Euclidean space and changes of variables}
+
+\begin{de}
+Lebesgue measure $m_n$ on $\R^n$ is the completion of the $n$-fold product of one-dimensional Lebesgue measure. Its measurable sets are called Lebesgue-measurable subsets of $\R^n$.
+\end{de}
+
+\begin{thm}[Regularity and approximation in $\R^n$]
+For every Lebesgue-measurable $E\subseteq\R^n$,
+\[
+m_n(E)=\inf\{m_n(U):E\subseteq U,\ U\text{ open}\}.
+\]
+If $m_n(E)<\infty$, then
+\[
+m_n(E)=\sup\{m_n(K):K\subseteq E,\ K\text{ compact}\}.
+\]
+Every measurable set differs from a $G_\delta$ set and from an $F_\sigma$ set by a null set. Moreover, every $f\in L^1(\R^n)$ can be approximated in $L^1$ by simple functions supported on finite unions of rectangles, and then by continuous compactly supported functions.
+\end{thm}
+
+\begin{proof}
+Open sets are countable unions of rectangles with rational endpoints. The product outer measure therefore gives outer approximation by such rectangles. For a finite-measure set, work inside a large bounded rectangle and apply outer regularity to the complement to obtain compact inner approximation. A monotone exhaustion handles infinite sets. The $G_\delta$ and $F_\sigma$ statements follow from nested open approximations and their complements.
+
+For functions, first approximate by finite-support simple functions. Approximate each finite-measure level set by a finite union of rectangles in symmetric difference. Finally, approximate rectangle indicators by continuous functions that are $1$ on a slightly smaller rectangle and taper linearly to $0$ in a thin boundary layer.
+\end{proof}
+
+\begin{thm}[Translation invariance]
+For $a\in\R^n$, let $\tau_a(x)=x+a$. If $E$ is Lebesgue measurable and $f$ is nonnegative or integrable, then
+\[
+m_n(E+a)=m_n(E),
+\qquad
+\int_{\R^n}f(x+a)\,\d x=
+\int_{\R^n}f(x)\,\d x.
+\]
+\end{thm}
+
+\begin{proof}
+On Borel sets, $E\mapsto m_n(E+a)$ is a sigma-finite measure agreeing with $m_n$ on rectangles, so uniqueness gives equality. Translations therefore preserve Borel null sets and hence the completion. The integral formula follows first for indicators and simple functions, then by monotone convergence and decomposition into positive and negative parts.
+\end{proof}
+
+\begin{thm}[Invertible linear changes of variables]
+Let $T\in GL(n,\R)$. If $E$ is Lebesgue measurable, then $T(E)$ is Lebesgue measurable and
+\[
+m_n(T(E))=|\det T|\,m_n(E).
+\]
+If $f$ is nonnegative or integrable, then
+\[
+\int_{\R^n}f(Tx)\,\d x
+ =\frac1{|\det T|}\int_{\R^n}f(y)\,\d y.
+\]
+\end{thm}
+
+\begin{proof}
+First work with Borel sets. Every invertible matrix is a product of elementary matrices: coordinate permutations, nonzero diagonal scalings, and shears. A permutation preserves measure. A diagonal scaling follows from the one-dimensional formula and Fubini. A shear has determinant $1$ and preserves measure because one coordinate is translated by a function of the remaining coordinates; Fubini reduces the calculation to translation invariance on each section. Composing the elementary formulas gives the determinant factor.
+
+The image of a Borel null set is null by the formula. Hence an arbitrary Lebesgue-measurable set, written as a Borel set modified by a null set, is sent to a Lebesgue-measurable set. The integral formula follows from the set formula by the standard indicator--simple--monotone approximation argument.
+\end{proof}
+
+\begin{thm}[Nonlinear change of variables]
+Let $\Omega\subseteq\R^n$ be open and let $G:\Omega\to G(\Omega)$ be a $C^1$ diffeomorphism. If $f$ is nonnegative measurable or integrable on $G(\Omega)$, then
+\[
+\int_{G(\Omega)}f(y)\,\d y
+ =\int_\Omega f(G(x))\,|\det DG(x)|\,\d x.
+\]
+In particular, for measurable $E\subseteq\Omega$,
+\[
+m_n(G(E))=\int_E|\det DG(x)|\,\d x.
+\]
+\end{thm}
+
+\begin{proof}
+We outline the standard local-linearization proof. On a compact set $K\Subset\Omega$, the derivative $DG$ is uniformly continuous and $|\det DG|$ is bounded away from zero. For every $\varepsilon>0$, sufficiently small cubes $Q\subset K$ satisfy
+\[
+G(x)=G(x_Q)+DG(x_Q)(x-x_Q)+R_Q(x),
+\qquad
+|R_Q(x)-R_Q(z)|\leq\varepsilon|x-z|.
+\]
+The linear change-of-variables theorem and elementary inner and outer estimates then give
+\[
+(1-\eta_\varepsilon)|\det DG(x_Q)|m_n(Q)
+ \leq m_n(G(Q))
+ \leq(1+\eta_\varepsilon)|\det DG(x_Q)|m_n(Q),
+\]
+where $\eta_\varepsilon\to0$ as $\varepsilon\to0$.
+
+Partition $K$ into small cubes, discard a boundary set of arbitrarily small measure, and sum these estimates. This proves the set formula first for compact sets and then, by regularity, for all measurable sets contained in $K$. Exhaust $\Omega$ by compact sets. The function formula follows for indicators, then for simple functions, nonnegative functions by monotone convergence, and integrable functions by applying the result to positive and negative parts.
+\end{proof}
+
+\begin{exercise}[Failure of Fubini without absolute integrability]
+On $(0,1)^2$, define
+\[
+f(x,y)=\frac{x^2-y^2}{(x^2+y^2)^2}.
+\]
+Then the two iterated integrals exist but are unequal:
+\[
+\int_0^1\left(\int_0^1f(x,y)\,\d x\right)\d y=-\frac\pi4,
+\qquad
+\int_0^1\left(\int_0^1f(x,y)\,\d y\right)\d x=\frac\pi4.
+\]
+Consequently, $f$ is not integrable on $(0,1)^2$.
+\end{exercise}
+
+\begin{proof}
+Observe that
+\[
+\frac{x^2-y^2}{(x^2+y^2)^2}
+ =-\frac{\partial}{\partial x}\frac{x}{x^2+y^2}
+ =\frac{\partial}{\partial y}\frac{y}{x^2+y^2}.
+\]
+Integrating the first identity in $x$ and the second in $y$ gives the displayed values. If $f$ were integrable, Fubini's theorem would force equality.
+\end{proof}
+
+\begin{prop}[A triangular integral operator]
+Let $f\in L^1(0,a)$ and define
+\[
+g(x)=\int_x^a\frac{f(t)}t\,\d t,
+\qquad0<x<a.
+\]
+Then $g\in L^1(0,a)$ and
+\[
+\int_0^ag(x)\,\d x=\int_0^af(t)\,\d t.
+\]
+\end{prop}
+
+\begin{proof}
+First verify absolute integrability on the triangle:
+\[
+\int_0^a\int_x^a\frac{|f(t)|}{t}\,\d t\,\d x
+ =\int_0^a\frac{|f(t)|}{t}\int_0^t\d x\,\d t
+ =\int_0^a|f(t)|\,\d t<\infty.
+\]
+Fubini's theorem then permits the same interchange without absolute values and gives the formula.
+\end{proof}
+
+\begin{de}[Fractional integral]
+For $\alpha>0$ and a suitable function $f$ on $[0,\infty)$, define
+\[
+(I_\alpha f)(x)
+ =\frac1{\Gamma(\alpha)}
+   \int_0^x(x-t)^{\alpha-1}f(t)\,\d t.
+\]
+\end{de}
+
+\begin{prop}[Semigroup property]
+Whenever the relevant integrals are absolutely convergent,
+\[
+I_\alpha(I_\beta f)=I_{\alpha+\beta}f.
+\]
+If $n\in\N$ and $f$ is continuous, then $I_nf$ is $n$ times differentiable and
+\[
+\frac{\d^n}{\d x^n}I_nf=f.
+\]
+\end{prop}
+
+\begin{proof}
+Fubini gives
+\[
+I_\alpha(I_\beta f)(x)
+ =\frac1{\Gamma(\alpha)\Gamma(\beta)}
+  \int_0^xf(u)
+   \int_u^x(x-t)^{\alpha-1}(t-u)^{\beta-1}\,\d t\,\d u.
+\]
+With $t=u+s(x-u)$, the inner integral equals
+\[
+(x-u)^{\alpha+\beta-1}B(\alpha,\beta)
+ =(x-u)^{\alpha+\beta-1}
+   \frac{\Gamma(\alpha)\Gamma(\beta)}{\Gamma(\alpha+\beta)}.
+\]
+This proves the semigroup identity. The differentiation formula follows by iterating the fundamental theorem of calculus.
+\end{proof}
+
+\section{Polar coordinates}
+
+\begin{de}[Surface measure]
+Let
+\[
+S^{n-1}=\{x\in\R^n:|x|=1\}
+\]
+and let
+\[
+\Phi:(0,\infty)\times S^{n-1}\longrightarrow\R^n\setminus\{0\},
+\qquad
+\Phi(r,\omega)=r\omega.
+\]
+For a Borel set $E\subseteq S^{n-1}$, define
+\[
+\sigma(E)
+ =n\,m_n\{r\omega:0<r\leq1,\ \omega\in E\}.
+\]
+\end{de}
+
+\begin{thm}[Polar-coordinate formula]
+The set function $\sigma$ is a finite Borel measure on $S^{n-1}$. If $f$ is nonnegative measurable or integrable on $\R^n$, then
+\[
+\int_{\R^n}f(x)\,\d x
+ =\int_{S^{n-1}}\int_0^\infty
+   f(r\omega)r^{n-1}\,\d r\,\d\sigma(\omega).
+\]
+\end{thm}
+
+\begin{proof}
+The definition is countably additive because disjoint Borel subsets of the sphere generate disjoint cones. Let $\rho$ be the measure on $(0,\infty)$ with density $r^{n-1}$ with respect to Lebesgue measure. Pull Lebesgue measure back through the Borel isomorphism $\Phi$. On a rectangle $(a,b]\times E$,
+\begin{align*}
+m_n\{r\omega:a<r\leq b,\ \omega\in E\}
+ &=m_n(bC_E)-m_n(aC_E)\\
+ &=\frac{b^n-a^n}{n}\sigma(E)\\
+ &=\rho((a,b])\sigma(E),
+\end{align*}
+where $C_E=\{r\omega:0<r\leq1,\omega\in E\}$. Uniqueness of the sigma-finite product extension gives the equality of measures on $(0,\infty)\times S^{n-1}$. The integral formula follows by transporting indicators, then simple and general functions.
+\end{proof}
+
+\begin{cor}[Radial functions]
+If $f(x)=g(|x|)$ is nonnegative or integrable, then
+\[
+\int_{\R^n}f(x)\,\d x
+ =\sigma(S^{n-1})\int_0^\infty g(r)r^{n-1}\,\d r.
+\]
+More generally, if $f(x)=g(|x|)h(x/|x|)$ is measurable and integrable (or nonnegative), then the integral factors into the corresponding radial and spherical integrals.
+\end{cor}
+
+\begin{prop}[Area of the sphere and volume of the ball]
+One has
+\[
+\sigma(S^{n-1})=\frac{2\pi^{n/2}}{\Gamma(n/2)}
+\]
+and, for the unit ball $B^n$,
+\[
+m_n(B^n)=\frac{\pi^{n/2}}{\Gamma(n/2+1)}.
+\]
+\end{prop}
+
+\begin{proof}
+Fubini and the one-dimensional Gaussian integral give
+\[
+\int_{\R^n}e^{-|x|^2}\,\d x=\pi^{n/2}.
+\]
+Polar coordinates give
+\[
+\pi^{n/2}
+ =\sigma(S^{n-1})\int_0^\infty e^{-r^2}r^{n-1}\,\d r
+ =\frac12\sigma(S^{n-1})\Gamma(n/2).
+\]
+The ball formula follows from
+\[
+m_n(B^n)=\int_{S^{n-1}}\int_0^1r^{n-1}\,\d r\,\d\sigma
+ =\frac1n\sigma(S^{n-1}).
+\]
+\end{proof}
+
+\begin{prop}[Absolute monomials on the sphere]
+Let $\alpha_j>-1$ and put $\beta_j=(\alpha_j+1)/2$. Then
+\[
+\int_{S^{n-1}}\prod_{j=1}^n|\omega_j|^{\alpha_j}\,\d\sigma(\omega)
+ =\frac{2\prod_{j=1}^n\Gamma(\beta_j)}
+        {\Gamma(\beta_1+\cdots+\beta_n)}.
+\]
+\end{prop}
+
+\begin{proof}
+Evaluate
+\[
+\int_{\R^n}e^{-|x|^2}\prod_{j=1}^n|x_j|^{\alpha_j}\,\d x
+\]
+in two ways. Fubini gives $\prod_j\Gamma(\beta_j)$. Polar coordinates give the desired spherical integral times
+\[
+\int_0^\infty e^{-r^2}r^{n-1+\sum_j\alpha_j}\,\d r
+ =\frac12\Gamma\left(\sum_j\beta_j\right).
+\]
+Equating the two expressions yields the formula.
+\end{proof}
+
+\section{Absolute continuity, uniform integrability, and tightness}
+
+\begin{lem}[Finite partition for Lebesgue measure]
+If $E\subseteq\R$ is measurable with $m(E)<\infty$ and $\delta>0$, then $E$ is the disjoint union of finitely many measurable sets, each of measure below $\delta$.
+\end{lem}
+
+\begin{proof}
+Choose $N$ so large that $m(E\setminus[-N,N])<\delta$. Partition $[-N,N]$ into finitely many half-open intervals of length below $\delta$, intersect them with $E$, and add the remaining set $E\setminus[-N,N]$.
+\end{proof}
+
+\begin{thm}[Absolute continuity of the integral]
+If $f\in L^1(E)$, then for every $\varepsilon>0$ there is $\delta>0$ such that
+\[
+A\subseteq E,\quad m(A)<\delta
+\quad\Longrightarrow\quad
+\int_A|f|<\varepsilon.
+\]
+Conversely, if $m(E)<\infty$, $f$ is measurable, and there are numbers $\delta>0$ and $C<\infty$ such that $m(A)<\delta$ implies $\int_A|f|\leq C$, then $f\in L^1(E)$.
+\end{thm}
+
+\begin{proof}
+Choose $M>0$ so that
+\[
+\int_{\{|f|>M\}}|f|<\varepsilon/2
+\]
+and take $\delta=\varepsilon/(2M)$. Then
+\[
+\int_A|f|
+ \leq M m(A)+\int_{\{|f|>M\}}|f|<\varepsilon.
+\]
+
+For the converse, partition $E$ into finitely many sets of measure below $\delta$ and sum the corresponding bounds.
+\end{proof}
+
+\begin{de}[Uniform integrability]
+A family $\cF\subseteq L^1(E)$ is \emph{uniformly integrable} on $E$ if for every $\varepsilon>0$ there is $\delta>0$ such that
+\[
+m(A)<\delta
+\quad\Longrightarrow\quad
+\sup_{f\in\cF}\int_A|f|<\varepsilon.
+\]
+\end{de}
+
+\begin{prop}
+Every finite family of integrable functions is uniformly integrable.
+\end{prop}
+
+\begin{proof}
+Apply absolute continuity of the integral to each member and take the minimum of the finitely many resulting $\delta$ values.
+\end{proof}
+
+\begin{thm}[Vitali convergence on a finite-measure set]
+Let $m(E)<\infty$. Suppose $f_n\to f$ almost everywhere on $E$ and $(f_n)$ is uniformly integrable. Then $f\in L^1(E)$ and
+\[
+\norm{f_n-f}_{L^1(E)}\longrightarrow0.
+\]
+In particular, $\int_Ef_n\to\int_Ef$.
+\end{thm}
+
+\begin{proof}
+First choose $\delta$ so that every set of measure below $\delta$ carries less than $1$ of the $L^1$ mass of every $f_n$. Partition $E$ into finitely many such sets. Fatou's lemma on each piece shows that $f$ is integrable.
+
+Now fix $\varepsilon>0$ and choose $\delta$ so that
+\[
+\sup_n\int_A|f_n|<\varepsilon/4
+\]
+whenever $m(A)<\delta$. Fatou's lemma also gives $\int_A|f|\leq\varepsilon/4$. By Egoroff's theorem, choose $A\subseteq E$ with $m(A)<\delta$ such that $f_n\to f$ uniformly on $E\setminus A$. If $m(E\setminus A)>0$, take $n$ large enough that
+\[
+\sup_{E\setminus A}|f_n-f|<\frac{\varepsilon}{2m(E\setminus A)};
+\]
+the zero-measure case is immediate. Then
+\[
+\int_E|f_n-f|
+ \leq\int_A|f_n|+\int_A|f|
+    +\int_{E\setminus A}|f_n-f|<\varepsilon.
+\]
+\end{proof}
+
+\begin{cor}
+Let $m(E)<\infty$, let $h_n\geq0$ be integrable, and suppose $h_n\to0$ almost everywhere. Then
+\[
+\int_Eh_n\longrightarrow0
+\]
+if and only if $(h_n)$ is uniformly integrable.
+\end{cor}
+
+\begin{proof}
+Uniform integrability implies convergence by Vitali's theorem. Conversely, if the integrals tend to zero, the tail is uniformly controlled because $\int_Ah_n\leq\int_Eh_n$, and the finitely many initial functions form a uniformly integrable family.
+\end{proof}
+
+\begin{eg}[Why finite measure matters]
+On $\R$, the functions
+\[
+f_n=\1_{[n,n+1]}
+\]
+are uniformly integrable and converge pointwise to $0$, but $\int f_n=1$ for every $n$. Their mass escapes to infinity.
+\end{eg}
+
+\begin{eg}[Signed cancellation does not imply uniform integrability]
+On $[-1,1]$, let
+\[
+h_n=n\bigl(\1_{[0,1/n]}-\1_{[-1/n,0)}\bigr).
+\]
+Then $\int h_n=0$ for every $n$, but the family is not uniformly integrable because
+\[
+m([0,1/n])\to0,
+\qquad
+\int_0^{1/n}|h_n|=1.
+\]
+\end{eg}
+
+\begin{prop}[Three useful tests and counterexamples]
+On $[0,1]$:
+\begin{enumerate}
+  \item The unit ball $\{f:\int|f|\leq1\}$ of $L^1$ is not uniformly integrable.
+  \item The family $\{f:|f|\leq1\}$ is uniformly integrable.
+  \item Even among continuous functions, a uniform bound on signed integrals over intervals does not imply uniform integrability.
+\end{enumerate}
+\end{prop}
+
+\begin{proof}
+For the first assertion, use $f_n=n\1_{[0,1/n]}$. The second follows from $\int_A|f|\leq m(A)$. For the third, let
+\[
+f_n(x)=n^2\sin(2\pi n^2x).
+\]
+Every interval integral has absolute value at most $1/\pi$, but with $A_n=[0,1/n]$,
+\[
+m(A_n)\to0,
+\qquad
+\int_{A_n}|f_n(x)|\,\d x=\frac{2n}{\pi},
+\]
+so uniform integrability fails.
+\end{proof}
+
+\begin{de}[Tightness]
+A family $\cF\subseteq L^1(E)$ is \emph{tight} on $E$ if for every $\varepsilon>0$ there is a measurable $E_0\subseteq E$ with $m(E_0)<\infty$ such that
+\[
+\sup_{f\in\cF}\int_{E\setminus E_0}|f|<\varepsilon.
+\]
+\end{de}
+
+\begin{thm}[Vitali convergence on a general space]
+Let $f_n\to f$ almost everywhere on a measurable set $E$. If $(f_n)$ is uniformly integrable and tight on $E$, then $f\in L^1(E)$ and
+\[
+\norm{f_n-f}_{L^1(E)}\longrightarrow0.
+\]
+\end{thm}
+
+\begin{proof}
+Given $\varepsilon>0$, choose a finite-measure $E_0\subseteq E$ such that
+\[
+\sup_n\int_{E\setminus E_0}|f_n|<\varepsilon.
+\]
+Fatou's lemma gives the same bound for $f$. On $E_0$, the restrictions remain uniformly integrable, so the finite-measure Vitali theorem gives
+\[
+\int_{E_0}|f_n-f|\to0.
+\]
+Therefore
+\[
+\int_E|f_n-f|
+ \leq\int_{E_0}|f_n-f|
+   +\int_{E\setminus E_0}|f_n|
+   +\int_{E\setminus E_0}|f|
+\]
+is eventually smaller than a constant multiple of $\varepsilon$.
+\end{proof}
+
+\begin{cor}
+Let $h_n\geq0$ be integrable and suppose $h_n\to0$ almost everywhere on $E$. Then
+\[
+\int_Eh_n\longrightarrow0
+\]
+if and only if $(h_n)$ is uniformly integrable and tight.
+\end{cor}
+
+\begin{proof}
+The reverse implication is the general Vitali theorem. Conversely, if the integrals tend to zero, the tail is uniformly integrable and tight simply because its total mass is small. The finitely many initial functions are uniformly integrable, and each can be made small outside a suitable finite-measure set; taking the union of those finitely many sets proves tightness of the whole sequence.
+\end{proof}

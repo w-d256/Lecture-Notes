@@ -1,0 +1,713 @@
+\chapter{$L^p$ Spaces}
+
+\section{Definitions and basic inequalities}
+
+Let $(X,\cM,\mu)$ be a measure space and let $0<p\leq\infty$.
+
+\begin{de}[$L^p$ norms]
+For a measurable function $f:X\to\C$, define
+\[
+\norm{f}_p=\left(\int_X|f|^p\,\d\mu\right)^{1/p}
+\qquad(0<p<\infty),
+\]
+and
+\[
+\norm{f}_\infty=\esssup_X|f|
+ =\inf\{C\geq0:|f|\leq C\text{ almost everywhere}\}.
+\]
+The space $L^p(\mu)$ consists of equivalence classes modulo equality almost everywhere for which the corresponding quantity is finite.
+\end{de}
+
+\begin{prop}
+For every $0<p\leq\infty$, $L^p(\mu)$ is a vector space. If $1\leq p\leq\infty$, then $\norm{\cdot}_p$ is a norm. If $0<p<1$, then
+\[
+\norm{f+g}_p^p\leq\norm{f}_p^p+\norm{g}_p^p,
+\]
+so $d(f,g)=\norm{f-g}_p^p$ is a translation-invariant metric.
+\end{prop}
+
+\begin{proof}
+For $p\geq1$, the elementary estimate
+\[
+|f+g|^p\leq2^{p-1}(|f|^p+|g|^p)
+\]
+shows closure under addition; Minkowski's inequality below gives the triangle inequality. For $0<p<1$, concavity of $t^p$ gives $(a+b)^p\leq a^p+b^p$. The $p=\infty$ case follows directly from the essential supremum.
+\end{proof}
+
+\begin{de}[Conjugate exponent]
+For $1\leq p\leq\infty$, the conjugate exponent $p'$ is determined by
+\[
+\frac1p+\frac1{p'}=1,
+\]
+with $1'=\infty$ and $\infty'=1$.
+\end{de}
+
+\begin{lem}[Young's inequality]
+If $1<p<\infty$ and $a,b\geq0$, then
+\[
+ab\leq\frac{a^p}{p}+\frac{b^{p'}}{p'}.
+\]
+Equality holds exactly when $a^p=b^{p'}$.
+\end{lem}
+
+\begin{proof}
+The convexity inequality for the exponential, or equivalently the tangent-line inequality for $t\mapsto t^p/p$, yields the result after a one-variable minimization.
+\end{proof}
+
+\begin{thm}[Hölder's inequality]
+If $1\leq p\leq\infty$ and $f\in L^p(\mu)$, $g\in L^{p'}(\mu)$, then $fg\in L^1(\mu)$ and
+\[
+\int_X|fg|\,\d\mu\leq\norm{f}_p\norm{g}_{p'}.
+\]
+\end{thm}
+
+\begin{proof}
+For $1<p<\infty$, normalize so that both norms are $1$, apply Young's inequality pointwise to $|f||g|$, and integrate. The endpoint cases follow directly from the definition of the essential supremum.
+\end{proof}
+
+\begin{cor}[Finite-measure embedding]
+If $\mu(X)<\infty$ and $1\leq p<q\leq\infty$, then
+\[
+L^q(\mu)\subseteq L^p(\mu),
+\qquad
+\norm{f}_p\leq\mu(X)^{1/p-1/q}\norm{f}_q.
+\]
+\end{cor}
+
+\begin{proof}
+If $q<\infty$, apply Hölder to $|f|^p\cdot1$ with exponents $q/p$ and $q/(q-p)$. If $q=\infty$, use
+\[
+\int_X|f|^p\,\d\mu\leq\norm{f}_\infty^p\mu(X).
+\]
+\end{proof}
+
+\begin{prop}[Multiplication operators]
+Let $1\leq p,q,r\leq\infty$ satisfy
+\[
+\frac1q=\frac1p+\frac1r.
+\]
+If $h\in L^r(\mu)$, then multiplication by $h$ defines a bounded linear map
+\[
+M_h:L^p(\mu)\longrightarrow L^q(\mu),
+\qquad M_hf=hf,
+\]
+and
+\[
+\norm{M_hf}_q\leq\norm{h}_r\norm{f}_p.
+\]
+\end{prop}
+
+\begin{proof}
+When all exponents are finite, apply Holder's inequality to $|h|^q$ and $|f|^q$ with exponents $r/q$ and $p/q$. The endpoint cases follow directly from the essential-supremum definition.
+\end{proof}
+
+\begin{thm}[Dual formula for the norm]
+Let $1\leq p<\infty$. Then
+\[
+\norm{f}_p
+=\sup\left\{\left|\int_X f\overline h\,\d\mu\right|:
+ h\in L^{p'}(\mu),\ \norm{h}_{p'}\leq1\right\}.
+\]
+\end{thm}
+
+\begin{proof}
+Hölder gives the upper bound. If $1<p<\infty$ and $f\neq0$, take
+\[
+h=\frac{f|f|^{p-2}}{\norm{f}_p^{p-1}}.
+\]
+Then $\norm{h}_{p'}=1$ and the integral equals $\norm{f}_p$. For $p=1$, take $h=f/|f|$ on $\{f\neq0\}$ and $h=0$ elsewhere.
+\end{proof}
+
+\begin{thm}[Minkowski's inequality]
+If $1\leq p\leq\infty$ and $f,g\in L^p(\mu)$, then
+\[
+\norm{f+g}_p\leq\norm{f}_p+\norm{g}_p.
+\]
+\end{thm}
+
+\begin{proof}
+For $1<p<\infty$, use the dual formula:
+\[
+\left|\int(f+g)\overline h\right|
+\leq\norm{f}_p\norm{h}_{p'}+\norm{g}_p\norm{h}_{p'}.
+\]
+Take the supremum over $\norm{h}_{p'}\leq1$. The cases $p=1$ and $p=\infty$ follow from the pointwise triangle inequality.
+\end{proof}
+
+\begin{prop}[Equality in Hölder]
+Let $1<p<\infty$, and suppose $f\in L^p$, $g\in L^{p'}$ are not zero. Equality
+\[
+\left|\int f\overline g\,\d\mu\right|=\norm{f}_p\norm{g}_{p'}
+\]
+holds if and only if there is a constant $c>0$ such that
+\[
+|f|^p=c|g|^{p'}
+\]
+almost everywhere and there is a unimodular constant $\zeta$ for which
+\[
+\zeta f\overline g\geq0
+\]
+almost everywhere. Equivalently, $f\overline g$ has one constant complex phase on $\{fg\neq0\}$.
+\end{prop}
+
+\begin{proof}
+Equality in the integrated Young inequality forces equality pointwise almost everywhere after normalization, which gives proportionality of the powers. Equality in $|\int f\overline g|\leq\int|fg|$ gives phase alignment.
+\end{proof}
+
+\begin{prop}[Equality in Minkowski]
+Let $1<p<\infty$ and let $f,g\in L^p$ be nonzero. Equality
+\[
+\norm{f+g}_p=\norm{f}_p+\norm{g}_p
+\]
+holds if and only if there are nonnegative constants $a,b$, not both zero, such that
+\[
+af=bg
+\]
+almost everywhere.
+\end{prop}
+
+\begin{proof}
+Equality in the dual proof of Minkowski forces equality in Hölder for both $f$ and $g$ against the same norming function, and also forces their phases to agree. The Hölder equality characterization then gives proportionality. The converse is immediate.
+\end{proof}
+
+\begin{prop}[Equality in the $L^1$ triangle inequality]
+For $f,g\in L^1(\mu)$,
+\[
+\norm{f+g}_1=\norm{f}_1+\norm{g}_1
+\]
+if and only if
+\[
+f\overline g\geq0
+\]
+almost everywhere.
+\end{prop}
+
+\begin{proof}
+The equality of norms is equivalent to $|f+g|=|f|+|g|$ almost everywhere, which is exactly the condition that $f$ and $g$ point in the same complex direction.
+\end{proof}
+
+\begin{prop}[Strict convexity]
+Let $1<p<\infty$. If
+\[
+\norm{f}_p=\norm{g}_p=1,
+\qquad
+\norm{\tfrac12(f+g)}_p=1,
+\]
+then $f=g$ almost everywhere. Thus $L^p(\mu)$ is strictly convex for $1<p<\infty$.
+\end{prop}
+
+\begin{proof}
+The hypotheses imply equality in Minkowski's inequality. Hence $af=bg$ almost everywhere for some nonnegative constants $a,b$, not both zero. Equality of the two norms forces $a=b$, and therefore $f=g$ almost everywhere.
+\end{proof}
+
+\begin{remark}
+Strict convexity can fail at the endpoints. In $L^1$, take two disjoint nonnegative unit vectors. In $L^\infty$, distinct unit vectors may have a midpoint of norm one.
+\end{remark}
+
+\begin{prop}[A dual formula for $L^\infty$]
+Assume $\mu$ is $\sigma$-finite. Then for $f\in L^\infty(\mu)$,
+\[
+\norm{f}_\infty
+=\sup\left\{\left|\int_X f\overline h\,\d\mu\right|:
+ h\in L^1(\mu),\ \norm{h}_1\leq1\right\}.
+\]
+\end{prop}
+
+\begin{proof}
+The upper bound is Hölder. Let $M=\norm{f}_\infty$. If $M=0$, the result is immediate. Otherwise fix $0<\varepsilon<M$. The set $E=\{|f|>M-\varepsilon\}$ has positive measure. Sigma-finiteness supplies a measurable $F\subseteq E$ with $0<\mu(F)<\infty$. Set
+\[
+h=\frac{f}{|f|}\frac{\1_F}{\mu(F)}
+\]
+on $\{f\neq0\}$. Then $\norm{h}_1=1$ and the pairing exceeds $M-\varepsilon$.
+\end{proof}
+
+\section{Completeness and almost-everywhere subsequences}
+
+\begin{thm}[Completeness of $L^p$]
+For $1\leq p\leq\infty$, the normed space $L^p(\mu)$ is complete.
+\end{thm}
+
+\begin{proof}
+First let $p<\infty$, and let $(f_n)$ be Cauchy. Choose a subsequence $(f_{n_k})$ such that
+\[
+\norm{f_{n_{k+1}}-f_{n_k}}_p<2^{-k}.
+\]
+Set
+\[
+g_N=|f_{n_1}|+\sum_{k=1}^{N}|f_{n_{k+1}}-f_{n_k}|.
+\]
+Minkowski gives
+\[
+\sup_N\norm{g_N}_p
+\leq\norm{f_{n_1}}_p+1<\infty.
+\]
+By monotone convergence, $g=\lim_Ng_N$ belongs to $L^p$, hence is finite almost everywhere. Therefore the telescoping series converges almost everywhere to a measurable function $f$, and $|f_{n_k}|\leq g$.
+
+For fixed $k$, Fatou's lemma gives
+\[
+\norm{f-f_{n_k}}_p
+\leq\liminf_{j\to\infty}\norm{f_{n_j}-f_{n_k}}_p.
+\]
+The right side tends to zero as $k\to\infty$. Thus the subsequence converges to $f$ in $L^p$, and the original Cauchy sequence does as well.
+
+For $p=\infty$, choose the same type of subsequence with summable $L^\infty$ differences. The resulting series converges uniformly outside one null set, producing the $L^\infty$ limit.
+\end{proof}
+
+\begin{cor}[Almost-everywhere subsequence]
+If $f_n\to f$ in $L^p(\mu)$ for $1\leq p<\infty$, then some subsequence converges to $f$ almost everywhere.
+\end{cor}
+
+\begin{proof}
+Choose a subsequence with
+\[
+\sum_k\norm{f_{n_{k+1}}-f_{n_k}}_p<\infty
+\]
+and use the pointwise convergence argument in the completeness proof.
+\end{proof}
+
+\begin{cor}[A dominating subsequence]
+If $f_n\to f$ in $L^p(\mu)$ for $1\leq p<\infty$, then there are a subsequence $(f_{n_k})$ and a function $g\in L^p(\mu)$ such that
+\[
+|f_{n_k}|\leq g
+\]
+almost everywhere for every $k$.
+\end{cor}
+
+\begin{proof}
+Choose the subsequence so that the sum of successive $L^p$ distances is finite and take
+\[
+g=|f_{n_1}|+\sum_k|f_{n_{k+1}}-f_{n_k}|.
+\]
+\end{proof}
+
+\begin{prop}[The range $0<p<1$]
+For $0<p<1$, the metric space
+\[
+\bigl(L^p(\mu),d(f,g)=\norm{f-g}_p^p\bigr)
+\]
+is complete, although $\norm{\cdot}_p$ is not a norm unless the space is trivial.
+\end{prop}
+
+\begin{proof}
+Choose a subsequence for which the sum of the $p$th powers of successive distances is finite. Since
+\[
+\left|\sum_k u_k\right|^p\leq\sum_k|u_k|^p,
+\]
+the same telescoping argument proves almost-everywhere and metric convergence.
+\end{proof}
+
+\section{Duality and reflexivity}
+
+\begin{prop}[Natural map into the dual]
+Let $1\leq p<\infty$ and $g\in L^{p'}(\mu)$. In the endpoint case $p=1$, assume additionally that $\mu$ is $\sigma$-finite. Define
+\[
+\Phi_g(f)=\int_Xf\overline g\,\d\mu.
+\]
+Then $\Phi_g\in(L^p)^*$ and
+\[
+\norm{\Phi_g}=\norm{g}_{p'}.
+\]
+The map $g\mapsto\Phi_g$ is a conjugate-linear isometric injection.
+\end{prop}
+
+\begin{proof}
+Hölder gives boundedness and the upper estimate. The norm formula gives equality. If $\Phi_g=0$, test against a norming function supported where $g\neq0$ to obtain $g=0$ almost everywhere.
+\end{proof}
+
+\begin{thm}[Riesz representation for $L^p$]
+Assume $\mu$ is $\sigma$-finite and $1\leq p<\infty$. Every bounded linear functional on $L^p(\mu)$ has the form
+\[
+\Phi(f)=\int_Xf\overline g\,\d\mu
+\]
+for a unique $g\in L^{p'}(\mu)$, and $\norm{\Phi}=\norm{g}_{p'}$.
+\end{thm}
+
+\begin{proof}
+Choose a measurable partition $(X_n)$ with finite measure. On finite-measure sets define
+\[
+\nu(E)=\Phi(\1_E).
+\]
+Continuity of $\Phi$ and dominated convergence show that $\nu$ is countably additive and absolutely continuous with respect to $\mu$. Radon--Nikodym gives a density $\overline g$ on each $X_n$, and the densities patch together.
+
+For bounded simple $f$ of finite-measure support, $\Phi(f)=\int f\overline g$. Density extends the identity to all of $L^p$. Finally, boundedness of $\Phi$ and the dual norm formula on finite-measure truncations show $g\in L^{p'}$ and $\norm{g}_{p'}\leq\norm{\Phi}$. The reverse inequality is the preceding proposition.
+\end{proof}
+
+\begin{cor}[Dual of $\ell^p$]
+For $1\leq p<\infty$, the dual is conjugate-linearly and isometrically identified with
+\[
+(\ell^p)^*\cong\ell^{p'}
+\]
+through
+\[
+\Phi_b(a)=\sum_{k=1}^{\infty}a_k\overline{b_k}.
+\]
+\end{cor}
+
+\begin{proof}
+Apply the representation theorem to counting measure on $\N$.
+\end{proof}
+
+\begin{thm}[Reflexivity]
+If $1<p<\infty$ and $\mu$ is $\sigma$-finite, then $L^p(\mu)$ is reflexive. In particular, $\ell^p$ is reflexive for $1<p<\infty$.
+\end{thm}
+
+\begin{proof}
+The dual of $L^p$ is $L^{p'}$, and the dual of $L^{p'}$ is $L^p$. Under these identifications, the canonical embedding of $L^p$ into its bidual is the identity.
+\end{proof}
+
+\begin{prop}
+The space $\ell^1$ is not reflexive.
+\end{prop}
+
+\begin{proof}
+The dual of $\ell^1$ is $\ell^\infty$. On the subspace $c\subset\ell^\infty$ of convergent sequences, the limit map is a bounded linear functional. By Hahn--Banach it extends to a functional $L\in(\ell^\infty)^*$. If $L$ were represented by an element $a\in\ell^1$, then $L(e_n)=a_n$. But $e_n\to0$ pointwise and the limit functional is zero on every $e_n$, so $a_n=0$ for all $n$, while $L(1,1,\dots)=1$. This is impossible. Thus the canonical image of $\ell^1$ in its bidual is not onto.
+\end{proof}
+
+\section{Approximation, separability, and translations}
+
+\begin{thm}[Density of simple functions]
+If $0<p<\infty$ and $f\in L^p(\mu)$, then for every $\varepsilon>0$ there is an integrable simple function $s$ such that
+\[
+\norm{f-s}_p<\varepsilon.
+\]
+\end{thm}
+
+\begin{proof}
+Approximate $|f|$ pointwise by dyadic simple functions bounded by $|f|$, restore the phase of $f$, and apply dominated convergence to $|f-s_n|^p$.
+\end{proof}
+
+\begin{thm}[Density of compactly supported continuous functions]
+For $1\leq p<\infty$, the space $C_c(\R^n)$ is dense in $L^p(\R^n)$.
+\end{thm}
+
+\begin{proof}
+First approximate by simple functions of finite-measure support. By regularity, approximate the sets in those simple functions by finite unions of rectangles, and then approximate rectangle indicators by continuous cutoff functions. The resulting $L^p$ error can be made arbitrarily small.
+\end{proof}
+
+\begin{remark}[Failure in $L^\infty$]
+Step functions built from finitely many intervals are not dense in $L^\infty([0,1])$. Let $C$ be a fat Cantor set with $0<m(C)<1$ and empty interior. Suppose a finite interval step function $s$ satisfied
+\[
+\norm{\1_C-s}_\infty<\frac13.
+\]
+Because $m(C)>0$, one interval of constancy $I$ satisfies $m(I\cap C)>0$, forcing the corresponding constant to exceed $2/3$. Since $C$ has empty interior, $I\setminus C$ contains a nonempty open interval and therefore has positive measure; on that same set the constant would have to be below $1/3$. This contradiction proves the failure of density.
+\end{remark}
+
+\begin{prop}[Separability]
+For $1\leq p<\infty$, the spaces $\ell^p$ and $L^p(\R^n)$ are separable. The spaces $\ell^\infty$ and $L^\infty([a,b])$ are not separable when $a<b$.
+\end{prop}
+
+\begin{proof}
+Finitely supported sequences with rational real and imaginary parts form a countable dense subset of $\ell^p$. Rational linear combinations of indicators of rational rectangles form a countable dense subset of $L^p(\R^n)$.
+
+The uncountable family of $0$--$1$ sequences is $1$-separated in $\ell^\infty$. Likewise, the functions $\1_{[a,x]}$, $x\in[a,b]$, are pairwise distance $1$ in $L^\infty([a,b])$.
+\end{proof}
+
+\begin{cor}
+There is no continuous surjection from $L^1([a,b])$ onto $L^\infty([a,b])$ when $a<b$.
+\end{cor}
+
+\begin{proof}
+A continuous image of a separable metric space is separable, whereas $L^\infty([a,b])$ is not.
+\end{proof}
+
+\begin{prop}[Bounded functions and changes of exponent]
+Let $E$ be measurable. If $f\in L^p(E)\cap L^\infty(E)$ and $q>p$, then
+\[
+\norm{f}_q^q\leq\norm{f}_\infty^{q-p}\norm{f}_p^p.
+\]
+In particular, $f\in L^q(E)$.
+\end{prop}
+
+\begin{proof}
+Use $|f|^q=|f|^{q-p}|f|^p\leq\norm{f}_\infty^{q-p}|f|^p$ almost everywhere.
+\end{proof}
+
+\begin{de}[Translations]
+For $f:\R^n\to\C$ and $t\in\R^n$, define
+\[
+\tau_tf(x)=f(x-t).
+\]
+\end{de}
+
+\begin{thm}[Continuity of translations]
+Let $1\leq p<\infty$ and $f\in L^p(\R^n)$. Then
+\[
+\norm{\tau_tf}_p=\norm{f}_p
+\]
+and
+\[
+\lim_{t\to0}\norm{\tau_tf-f}_p=0.
+\]
+Moreover, the function $t\mapsto\norm{\tau_tf-f}_p$ is bounded and uniformly continuous.
+\end{thm}
+
+\begin{proof}
+Translation invariance of Lebesgue measure gives the norm identity and the bound
+\[
+\norm{\tau_tf-f}_p\leq2\norm{f}_p.
+\]
+For $g\in C_c(\R^n)$, uniform continuity and compact support imply $\norm{\tau_tg-g}_p\to0$. Given $f$, choose such a $g$ with $\norm{f-g}_p$ small and use
+\[
+\norm{\tau_tf-f}_p
+\leq2\norm{f-g}_p+\norm{\tau_tg-g}_p.
+\]
+Finally,
+\[
+\bigl|\norm{\tau_tf-f}_p-\norm{\tau_sf-f}_p\bigr|
+\leq\norm{\tau_{t-s}f-f}_p,
+\]
+which proves uniform continuity.
+\end{proof}
+
+\begin{prop}[Dilations]
+For $t\neq0$ define $R_tf(x)=f(tx)$ on $\R^n$. Then, for $0<p<\infty$,
+\[
+\norm{R_tf}_p=|t|^{-n/p}\norm{f}_p,
+\]
+while $\norm{R_tf}_\infty=\norm{f}_\infty$.
+\end{prop}
+
+\begin{proof}
+For finite $p$, use the change of variables $y=tx$. The essential-supremum identity is immediate because dilation preserves null sets.
+\end{proof}
+
+\begin{cor}[$L^p$ Lebesgue points]
+If $1\leq p<\infty$ and $f\in L^p_{\loc}(\R^n)$, then for almost every $x$,
+\[
+\lim_{r\downarrow0}\frac1{m(B(x,r))}
+\int_{B(x,r)}|f(y)-f(x)|^p\,\d y=0.
+\]
+\end{cor}
+
+\begin{proof}
+Apply the Lebesgue differentiation theorem to $|f-c|^p$ for a countable dense set of constants $c$, and approximate $f(x)$ by one of them.
+\end{proof}
+
+\begin{thm}[Riesz criterion for indefinite integrals]
+Let $1<p<\infty$ and let $F:[a,b]\to\C$. The following are equivalent:
+\begin{enumerate}
+  \item there is $f\in L^p(a,b)$ such that
+  \[
+  F(x)=F(a)+\int_a^xf(t)\,\d t;
+  \]
+  \item there is $M<\infty$ such that every partition $a=x_0<\cdots<x_n=b$ satisfies
+  \[
+  \sum_{k=1}^n
+  \frac{|F(x_k)-F(x_{k-1})|^p}{|x_k-x_{k-1}|^{p-1}}
+  \leq M.
+  \]
+\end{enumerate}
+The least admissible $M$ is $\norm{f}_p^p$.
+\end{thm}
+
+\begin{proof}
+If $F(x)-F(a)=\int_a^xf$, Holder's inequality on each subinterval gives
+\[
+|F(x_k)-F(x_{k-1})|^p
+\leq |x_k-x_{k-1}|^{p-1}
+\int_{x_{k-1}}^{x_k}|f|^p.
+\]
+Summing yields the partition bound with $M=\norm{f}_p^p$.
+
+Conversely, define on interval step functions
+\[
+\Lambda\left(\sum_{k=1}^nc_k\1_{(x_{k-1},x_k]}\right)
+ =\sum_{k=1}^nc_k\bigl(F(x_k)-F(x_{k-1})\bigr).
+\]
+The definition is unchanged by refinement. Discrete Holder gives
+\[
+|\Lambda(g)|
+\leq
+\left(\sum_{k=1}^n
+\frac{|F(x_k)-F(x_{k-1})|^p}{|x_k-x_{k-1}|^{p-1}}
+\right)^{1/p}
+\left(\sum_{k=1}^n|c_k|^{p'}|x_k-x_{k-1}|\right)^{1/p'}
+\leq M^{1/p}\norm{g}_{p'}.
+\]
+Thus $\Lambda$ extends to a bounded functional on $L^{p'}(a,b)$. The $L^p$ representation theorem gives $f\in L^p(a,b)$ such that $\Lambda(g)=\int_a^bgf$. Testing $g=\1_{(a,x]}$ yields the desired formula for $F$. The norm identity in the representation theorem shows that the least $M$ equals $\norm{f}_p^p$.
+\end{proof}
+
+\begin{exercise}[A small-interval limit]
+For $1\leq p<\infty$, determine all $\lambda\in\R$ for which
+\[
+\lim_{\varepsilon\downarrow0}
+\varepsilon^{-\lambda}\int_0^\varepsilon f(x)\,\d x=0
+\]
+for every $f\in L^p([0,1])$. For $p=\infty$, answer the analogous question.
+\end{exercise}
+
+\begin{proof}
+If $1<p<\infty$, Hölder gives
+\[
+\left|\varepsilon^{-\lambda}\int_0^\varepsilon f\right|
+\leq \varepsilon^{1/p'-\lambda}
+\left(\int_0^\varepsilon|f|^p\right)^{1/p}.
+\]
+This tends to zero when $\lambda\leq1/p'$; at equality the local $L^p$ integral tends to zero. For $p=1$, the same conclusion is $\lambda\leq0$. Necessity follows by testing $f(x)=x^{-\alpha}$ with $\alpha<1/p$ and letting $\alpha\uparrow1/p$. Thus the answer for finite $p$ is
+\[
+\lambda\leq1-\frac1p.
+\]
+For $p=\infty$, the estimate is $\norm{f}_\infty\varepsilon^{1-\lambda}$, so every $\lambda<1$ works, while $f\equiv1$ excludes $\lambda\geq1$.
+\end{proof}
+
+\begin{eg}[Two incomplete normed spaces]
+The polynomial space on $[a,b]$ with the supremum norm is not complete: the partial sums of the exponential series are uniformly Cauchy but converge to a nonpolynomial function.
+
+If $E=[0,1]$ and $1\leq p_1<p_2<\infty$, then $L^{p_2}(E)$ equipped with the $L^{p_1}$ norm is not complete. Choose $q$ with $p_1<q<p_2$ and approximate $x^{-1/q}$ by truncations in $L^{p_2}$. The truncations are Cauchy in $L^{p_1}$, but their $L^{p_1}$ limit does not belong to $L^{p_2}$.
+\end{eg}
+
+\section{Uniform integrability and convergence}
+
+\begin{de}[Uniform integrability]
+A family $\cF\subseteq L^1(E)$ is \emph{uniformly integrable} on $E$ if
+\[
+\sup_{f\in\cF}\int_E|f|<\infty
+\]
+and, for every $\varepsilon>0$, there is $\delta>0$ such that
+\[
+A\subseteq E,\quad m(A)<\delta
+\quad\Longrightarrow\quad
+\sup_{f\in\cF}\int_A|f|<\varepsilon.
+\]
+On a general measure space, replace $m$ by the underlying measure. For Lebesgue measure on a finite-measure set, the uniform $L^1$ bound follows from the small-set condition by partitioning the set into finitely many sufficiently small pieces; it is stated explicitly here so that the definition also works on spaces with atoms.
+\end{de}
+
+\begin{prop}
+Every finite family of integrable functions is uniformly integrable. If $m(E)<\infty$, every family bounded in $L^p(E)$ for some $p>1$ is uniformly integrable in $L^1(E)$.
+\end{prop}
+
+\begin{proof}
+For a finite family, take the minimum of the finitely many $\delta$ values supplied by absolute continuity of the integral. If $\sup_{f\in\cF}\norm{f}_p\leq M$, Hölder gives
+\[
+\int_A|f|\leq M\,m(A)^{1/p'}.
+\]
+\end{proof}
+
+\begin{thm}[Vitali convergence theorem on a finite-measure set]
+Assume $m(E)<\infty$, $f_n\to f$ in measure on $E$, and $(f_n)$ is uniformly integrable. Then $f\in L^1(E)$ and
+\[
+\norm{f_n-f}_1\to0.
+\]
+In particular,
+\[
+\int_Ef_n\to\int_Ef.
+\]
+\end{thm}
+
+\begin{proof}
+Every subsequence has a further subsequence converging almost everywhere. It therefore suffices to prove the result under almost-everywhere convergence. Fatou's lemma and uniform integrability show $f\in L^1$. Given $\varepsilon>0$, choose $\delta$ from uniform integrability; Fatou gives the same small-set estimate for $f$. Egoroff's theorem yields a measurable $A\subseteq E$ with $m(A)<\delta$ such that $f_n\to f$ uniformly on $E\setminus A$. Then
+\[
+\int_E|f_n-f|
+\leq\int_A|f_n|+\int_A|f|+
+ m(E)\sup_{E\setminus A}|f_n-f|,
+\]
+which is eventually small.
+\end{proof}
+
+\begin{cor}[Scheffé--Riesz convergence criterion]
+Let $1\leq p<\infty$. If $f_n\to f$ almost everywhere and
+\[
+\int|f_n|^p\to\int|f|^p<\infty,
+\]
+then
+\[
+\norm{f_n-f}_p\to0.
+\]
+\end{cor}
+
+\begin{proof}
+Set
+\[
+g_n=2^{p-1}(|f_n|^p+|f|^p)-|f_n-f|^p\geq0.
+\]
+Then $g_n\to2^p|f|^p$ almost everywhere. Fatou's lemma gives
+\[
+2^p\int|f|^p
+\leq\liminf_n\int g_n
+=2^p\int|f|^p-
+\limsup_n\int|f_n-f|^p.
+\]
+Thus the last limsup is zero.
+\end{proof}
+
+\begin{de}[Tightness]
+A family $\cF\subseteq L^1(E)$ is \emph{tight} if for every $\varepsilon>0$ there is a measurable $E_0\subseteq E$ with finite measure such that
+\[
+\sup_{f\in\cF}\int_{E\setminus E_0}|f|<\varepsilon.
+\]
+\end{de}
+
+\begin{thm}[Vitali convergence on a general measure space]
+Let $f_n\to f$ in measure. If $(f_n)$ is uniformly integrable and tight, then $f\in L^1$ and
+\[
+\norm{f_n-f}_1\to0.
+\]
+Conversely, $L^1$ convergence implies uniform integrability and tightness.
+\end{thm}
+
+\begin{proof}
+Choose a finite-measure set $E_0$ making all tails small. Fatou gives the same tail estimate for $f$. Apply the finite-measure Vitali theorem on $E_0$ and then add the tails.
+
+Conversely, if $f_n\to f$ in $L^1$, then a tail of the sequence is uniformly close to the singleton $\{f\}$, which is uniformly integrable and tight; the finitely many initial terms do not affect either property.
+\end{proof}
+
+\begin{thm}[$L^p$ Vitali criterion]
+Let $1\leq p<\infty$ and suppose $f_n\to f$ almost everywhere. Then
+\[
+f_n\to f\text{ in }L^p(E)
+\]
+if and only if the family $(|f_n|^p)$ is uniformly integrable and tight in $L^1(E)$.
+\end{thm}
+
+\begin{proof}
+If $p=1$, the implication from $L^p$ convergence follows from
+\[
+\bigl||f_n|-|f|\bigr|\leq|f_n-f|.
+\]
+If $p>1$, use
+\[
+\bigl||u|^p-|v|^p\bigr|
+\leq p(|u|+|v|)^{p-1}|u-v|
+\]
+and Hölder's inequality to obtain $|f_n|^p\to|f|^p$ in $L^1$. In either case, uniform integrability and tightness follow from $L^1$ convergence.
+
+Conversely, Fatou's lemma shows that $|f|^p$ is integrable and inherits the same small-set and tail bounds. Since
+\[
+|f_n-f|^p\leq2^{p-1}(|f_n|^p+|f|^p),
+\]
+the family $|f_n-f|^p$ is uniformly integrable and tight. Apply the general Vitali theorem to the almost-everywhere convergent sequence $|f_n-f|^p\to0$.
+\end{proof}
+
+\begin{cor}
+Assume $m(E)<\infty$, $f_n\to f$ almost everywhere, and for some $\theta>0$,
+\[
+\sup_n\norm{f_n}_{p+\theta}<\infty.
+\]
+Then $f_n\to f$ in $L^p(E)$.
+\end{cor}
+
+\begin{proof}
+The family $|f_n|^p$ is bounded in $L^{1+\theta/p}(E)$ and is therefore uniformly integrable. Tightness is automatic on a finite-measure set. Apply the $L^p$ Vitali criterion.
+\end{proof}
+
+\begin{eg}[Uniform-integrability tests]
+On $[0,1]$, the family $\{f:|f|\leq1\}$ is uniformly integrable. By contrast, the family of continuous functions satisfying $\int_0^1|f|\leq1$ is not uniformly integrable: continuous triangular spikes of height $n$ and base $2/n$ give a counterexample.
+
+Bounds on signed interval integrals do not control uniform integrability. For example,
+\[
+f_n(x)=n^2\sin(2\pi n^2x)
+\]
+has uniformly bounded integrals over every interval, but on $A_n=[0,1/n]$,
+\[
+\int_{A_n}|f_n|\asymp n
+\]
+while $m(A_n)\to0$.
+\end{eg}
+
+\begin{eg}[Escape of mass]
+On $\R$, the sequence
+\[
+f_n=\1_{[n,n+1]}
+\]
+is uniformly integrable and converges pointwise to zero, but $\int f_n=1$ for every $n$. It is not tight. This is why tightness is indispensable on infinite-measure spaces.
+\end{eg}
