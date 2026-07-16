@@ -1,27 +1,27 @@
 \chapter{Roots of Unity and M\"obius Inversion}
 
-\begin{notedefinition}[8.1]
+\begin{de}
 A complex number $z$ is an $n$th root of unity if $z^n=1$.  It is a primitive $n$th root of unity if it is not a root of unity of any smaller positive order.
-\end{notedefinition}
+\end{de}
 
-\begin{notetheorem}[8.1]
+\begin{thm}
 If $\zeta$ is a primitive $n$th root of unity, then
 \[
  \zeta,\zeta^2,\ldots,\zeta^n
 \]
 are precisely the $n$ distinct roots of $x^n-1$.
-\end{notetheorem}
+\end{thm}
 \begin{proof}
 Each power is an $n$th root.  If $\zeta^i=\zeta^j$, then
 $\zeta^{i-j}=1$, so $n\mid i-j$; among $1,\ldots,n$ this forces $i=j$.  A degree-$n$ polynomial has at most $n$ roots.
 \end{proof}
 
-\begin{notetheorem}[8.2]
+\begin{thm}
 If $\zeta$ is a primitive $n$th root of unity, then $\zeta^k$ is primitive if and only if
 \[
  \gcd(k,n)=1.
 \]
-\end{notetheorem}
+\end{thm}
 \begin{proof}
 The order formula is
 \[
@@ -30,11 +30,11 @@ The order formula is
 proved exactly as in Theorem 4.5.
 \end{proof}
 
-\begin{notedefinition}[8.2]
+\begin{de}
 Let $F(n)$ be the sum of all $n$th roots of unity, and let $f(n)$ be the sum of all primitive $n$th roots of unity.
-\end{notedefinition}
+\end{de}
 
-\begin{notetheorem}[8.3]
+\begin{thm}
 For every $n\in\N$,
 \[
  F(n)=I(n)=
@@ -45,7 +45,7 @@ For every $n\in\N$,
  \qquad
  f(n)=\mobius(n).
 \]
-\end{notetheorem}
+\end{thm}
 \begin{proof}
 For $n>1$, the roots of $x^n-1$ have sum $0$ by Vieta's formula; for $n=1$, the only root is $1$.  Every $n$th root has a unique exact order $d\mid n$, so
 \[
@@ -55,20 +55,20 @@ M\"obius inversion gives
 $f(n)=\sum_{d\mid n}\mobius(d)F(n/d)=\mobius(n)$.
 \end{proof}
 
-\begin{notedefinition}[8.3]
+\begin{de}
 Let $\zeta_n$ be a primitive $n$th root of unity.  The $n$th cyclotomic polynomial is
 \[
  \Phi_n(x)=\prod_{\substack{1\le k\le n\\\gcd(k,n)=1}}
  (x-\zeta_n^k).
 \]
-\end{notedefinition}
+\end{de}
 
-\begin{notetheorem}[8.4]
+\begin{thm}
 For every $n\in\N$,
 \[
  \Phi_n(x)\in\Z[x].
 \]
-\end{notetheorem}
+\end{thm}
 \begin{proof}
 The roots of $x^n-1$ split according to their exact orders, giving
 \[
@@ -77,12 +77,12 @@ The roots of $x^n-1$ split according to their exact orders, giving
 Induct on $n$.  For every proper divisor $d<n$, the polynomial $\Phi_d$ is monic with integer coefficients.  Their product is therefore monic in $\Z[x]$ and divides $x^n-1$ in $\C[x]$.  Long division by a monic integer polynomial produces an integer quotient, which is $\Phi_n$.
 \end{proof}
 
-\begin{notetheorem}[8.5 (explicit formula)]
+\begin{thm}[explicit formula]
 For every $n\in\N$,
 \[
  \Phi_n(x)=\prod_{d\mid n}(x^d-1)^{\mobius(n/d)}.
 \]
-\end{notetheorem}
+\end{thm}
 \begin{proof}
 The factorization
 $x^n-1=\prod_{d\mid n}\Phi_d(x)$
