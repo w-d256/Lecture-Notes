@@ -68,7 +68,6 @@ For all $x,y\in H$,
   \|x+y\|^2+\|x-y\|^2=2\|x\|^2+2\|y\|^2.
 \]
 \end{notetheorem}
-\sourcepages{125--126}
 
 \begin{noteexample}[$\ell^p$ is not Hilbert when $p\ne2$]
 For $x=(1,1,0,\ldots)$ and $y=(1,-1,0,\ldots)$,
@@ -108,7 +107,6 @@ By Cauchy--Schwarz,
 \]
 The sequence $(y_n)$ is bounded.
 \end{proof}
-\sourcepage{127}
 
 \begin{notetheorem}[Operator norm through the inner product]
 Let $A\in\Bop{H_1}{H_2}$ between Hilbert spaces.  Then
@@ -145,7 +143,6 @@ Complex conjugation on $\mathbb C$ is an isometry fixing $0$ but is not
 complex linear.  Thus the preceding statement is a real theorem unless an
 additional complex-linearity condition is imposed.
 \end{noteexample}
-\sourcepage{128}
 
 \begin{notetheorem}[Mazur--Ulam theorem]
 Every surjective isometry between real normed spaces is affine.  Thus, if
@@ -160,7 +157,6 @@ by $f(0)$ turns the map into an additive homogeneous map.  The source's
 strictly-convex ball-intersection proof covers only a special case; the
 statement above is the full theorem.
 \end{proof}
-\sourcepage{129}
 
 \begin{noteexercise}[Vanishing quadratic form]
 Let $H$ be a complex inner-product space and let $T\in\Bop{H}{H}$.  If
@@ -176,7 +172,6 @@ $b(x,y)=\langle Tx,y\rangle$.  Its diagonal values determine the entire form,
 so $b=0$ and $T=0$.  Over $\mathbb R$, a nonzero skew-symmetric rotation of
 $\mathbb R^2$ satisfies $\langle Tx,x\rangle=0$.
 \end{proof}
-\sourcepage{130}
 
 \section{Metric and orthogonal projections}
 
@@ -208,7 +203,6 @@ The midpoint belongs to $C$, so the last norm is at least $d$; hence $(c_n)$
 is Cauchy.  Completeness and closedness give a minimizer.  If $c,c'$ are two
 minimizers, the same identity applied to them gives $\|c-c'\|=0$.
 \end{proof}
-\sourcepages{131--132}
 
 \begin{notedefinition}[Orthogonal projection]
 If $M$ is a closed subspace of a Hilbert space, the nearest-point map
@@ -240,7 +234,6 @@ $\|x-y\|^2=\|x-m\|^2+\|m-y\|^2$ for $y\in M$.
 The orthogonality characterization proves linearity.  Finally,
 $\|x\|^2=\|P_Mx\|^2+\|x-P_Mx\|^2$.
 \end{proof}
-\sourcepages{132--133}
 
 \begin{notetheorem}[Variational inequality for convex projection]
 Let $C$ be nonempty, closed, and convex.  For $x\in H$ and $y\in C$,
@@ -272,7 +265,6 @@ For $y=P_Cx$ and $v=P_Cu$, apply the inequality twice to obtain
 If $C$ is a subspace, this is the orthogonal projection and is linear.  The
 range of any linear projection is a subspace, giving the converse.
 \end{proof}
-\sourcepage{134}
 
 \begin{noteexercise}[Resolvent of a projection]
 Let $P$ be a bounded projection, $P^2=P$.  If $\lambda\notin\{0,1\}$, then
@@ -300,12 +292,10 @@ The distances $\|x-x_n\|$ increase and are bounded above by
 $\dist(x,C)$.  The projection inequalities show $(x_n)$ is Cauchy.  Its limit
 lies in every $C_n$ and attains the distance to $C$.
 \end{proof}
-\sourcepage{135}
 
 \begin{noteremark}
 Source pages 136--137 are blank and contain no mathematical material.
 \end{noteremark}
-\sourcepages{136--137}
 
 \section{Orthogonal complements and Riesz representation}
 
@@ -331,7 +321,6 @@ For subsets and subspaces of a Hilbert space:
 Linearity is immediate.  Closedness follows by passing inner products to the
 limit.  The remaining statements follow directly from the definition.
 \end{proof}
-\sourcepage{138}
 
 \begin{notetheorem}[Double orthogonal complement]
 For every subspace $M$ of a Hilbert space,
@@ -359,7 +348,6 @@ Every $x$ has the unique form
 \]
 with the two summands in $M$ and $M^\perp$.
 \end{notetheorem}
-\sourcepage{139}
 
 \begin{notetheorem}[Range and kernel of an orthogonal projection]
 For a closed subspace $M$,
@@ -371,7 +359,6 @@ For a closed subspace $M$,
   P_{M^\perp}=I-P_M.
 \]
 \end{notetheorem}
-\sourcepage{140}
 
 \begin{notetheorem}[Riesz representation theorem]
 For every bounded linear functional $\varphi$ on a Hilbert space $H$, there
@@ -399,7 +386,6 @@ $n+\alpha u$, and then
 Uniqueness follows by testing the difference against itself.  Cauchy--Schwarz
 gives $\|\varphi\|\le\|h\|$, while testing $h/\|h\|$ gives equality.
 \end{proof}
-\sourcepage{141}
 
 \begin{notetheorem}[Representation of bounded sesquilinear forms]
 Let $H_1,H_2$ be Hilbert spaces and let
@@ -427,7 +413,6 @@ For every closed subspace $M$,
   H=M\oplus M^\perp.
 \]
 \end{notecorollary}
-\sourcepage{142}
 
 \begin{noteexercise}[Strict convexity of the Hilbert ball]
 The closed unit ball of an inner-product space is strictly convex: if
@@ -446,7 +431,6 @@ The parallelogram identity gives
   =1-\frac14\|x-y\|^2.
 \]
 \end{proof}
-\sourcepage{143}
 
 \begin{notetheorem}[Hilbert-space extension of operators]
 Let $U$ be a closed subspace of a Hilbert space $H$, let $W$ be Banach, and
@@ -465,7 +449,6 @@ For a nonclosed $U$, first extend $S$ continuously to $\overline U$.
 Since $P_U|_U=I$ and $\|P_U\|\le1$, one has
 $\|T\|\le\|S\|$.  Restriction to $U$ gives the reverse inequality.
 \end{proof}
-\sourcepage{144}
 
 \begin{noteexercise}[Equality in the triangle inequality for functionals]
 Let $\varphi,\psi\in H^*$ be nonzero and suppose
@@ -482,7 +465,6 @@ the Hilbert-space triangle inequality for $h+k$, so $h$ and $k$ are
 nonnegative real multiples.  In $\ell^\infty_2{}^*=\ell^1_2$, equality can
 hold for independent positive coordinate functionals.
 \end{proof}
-\sourcepage{145}
 
 \section{Orthonormal families and bases}
 
@@ -507,7 +489,6 @@ finite $F_0\subseteq I$ such that
 \]
 for every finite $F\supseteq F_0$.
 \end{notedefinition}
-\sourcepage{146}
 
 \begin{notetheorem}[Linear combinations of an orthonormal family]
 Let $(e_i)_{i\in I}$ be orthonormal in a Hilbert space.  The unordered series
@@ -532,7 +513,6 @@ when the scalar unordered sum is finite.  Completeness gives convergence and
 passing to the limit gives the norm identity.  Only countably many $a_i$ can
 be nonzero.
 \end{proof}
-\sourcepage{147}
 
 \begin{notetheorem}[Bessel's inequality]
 For an orthonormal family $(e_i)_{i\in I}$ and $x\in H$,
@@ -563,7 +543,6 @@ For $x$ in this closed span,
   x=\sum_{i\in I}\langle x,e_i\rangle e_i.
 \]
 \end{notetheorem}
-\sourcepage{148}
 
 \begin{notetheorem}[Maximal orthonormal families]
 An orthonormal family $(e_i)$ is maximal if and only if its closed linear span
@@ -575,7 +554,6 @@ If the closed span is proper, choose a nonzero vector in its orthogonal
 complement and normalize it; adjoining that vector enlarges the family.
 Conversely, a vector orthogonal to a dense span is zero.
 \end{proof}
-\sourcepage{149}
 
 \begin{notedefinition}[Orthonormal basis]
 An orthonormal family with dense linear span is an orthonormal basis.
@@ -596,7 +574,6 @@ and
   \|x\|^2=\sum_{i\in I}|\langle x,e_i\rangle|^2.
 \]
 \end{notetheorem}
-\sourcepage{150}
 
 \begin{notetheorem}[Totality]
 A subset $M\subseteq H$ is total if and only if $M^\perp=\{0\}$.  If $H$ is
@@ -615,7 +592,6 @@ fixed countable dense set.  Thus the family is countable.  For existence,
 apply Gram--Schmidt to a dense sequence after discarding vectors already in
 the span of their predecessors.
 \end{proof}
-\sourcepages{151--152}
 
 \begin{notetheorem}[Classification by Hilbert dimension]
 Two Hilbert spaces are isometrically isomorphic if and only if their
@@ -638,7 +614,6 @@ Parseval shows that $T$ is a surjective linear isometry.  Conversely, a
 surjective linear isometry sends an orthonormal basis to an orthonormal basis,
 so the cardinalities agree.
 \end{proof}
-\sourcepage{153}
 
 \begin{notetheorem}[Projection and Fourier coefficients]
 Let $(e_i)_{i\in I}$ be an orthonormal basis of a closed subspace $M$.  Then
@@ -658,7 +633,6 @@ The difference between $x$ and the displayed sum is orthogonal to every basis
 vector and hence to $M$.  The functional statement follows by applying the
 Riesz theorem and Parseval to its representing vector.
 \end{proof}
-\sourcepage{154}
 
 \begin{noteexercise}[No nonzero vector orthogonal to a total family]
 If $M$ is total and $x\perp M$, then $x=0$.
@@ -668,4 +642,3 @@ If $M$ is total and $x\perp M$, then $x=0$.
 Orthogonality to $M$ implies orthogonality to its closed span, which is all of
 $H$; in particular $\langle x,x\rangle=0$.
 \end{proof}
-\sourcepage{155}

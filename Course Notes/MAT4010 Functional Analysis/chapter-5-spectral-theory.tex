@@ -62,7 +62,6 @@ $T_\lambda^{-1}y_n$ Cauchy, hence convergent in $X$, and closedness of the
 inverse puts $y$ back in its domain.  The range is therefore both dense and
 closed, so it is all of $X$.
 \end{proof}
-\sourcepages{156--157}
 
 \begin{noteexample}[A diagonal operator on $\ell^2$]
 Let $(\alpha_j)$ be dense in $[0,1]$ and define
@@ -84,7 +83,6 @@ $\alpha_{j_n}\to\lambda$.  Then
 \]
 so the inverse is unbounded and $\lambda$ lies in the continuous spectrum.
 \end{noteexample}
-\sourcepage{157}
 
 \begin{notetheorem}[Neumann series]
 If $T\in\Bop{X}{X}$ on a Banach space and $\|T\|<1$, then
@@ -136,7 +134,6 @@ For $T\in\Bop{X}{X}$, the spectral radius is
   r(T):=\sup\{ |\lambda|:\lambda\in\sigma(T)\}.
 \]
 \end{notedefinition}
-\sourcepage{158}
 
 \begin{notetheorem}[Resolvent identity and commutation]
 For $\lambda,\mu\in\rho(T)$,
@@ -186,7 +183,6 @@ $\lambda\in\sigma(T)$.
 \begin{notelemma}[Eigenvectors for distinct eigenvalues]
 Eigenvectors corresponding to distinct eigenvalues are linearly independent.
 \end{notelemma}
-\sourcepage{159}
 
 \begin{noteexample}[Idempotent operators]
 If $T^2=T$ and $T\ne0,I$, then
@@ -197,7 +193,6 @@ Indeed, polynomial spectral mapping applied to $p(z)=z^2-z$ gives
 $\sigma(T)\subseteq\{0,1\}$.  Since $T$ and $T-I$ are both noninjective,
 $0$ and $1$ are eigenvalues.
 \end{noteexample}
-\sourcepage{160}
 
 \begin{notetheorem}[Resolvent norm and distance to the spectrum]
 For $\lambda\in\rho(T)$,
@@ -215,7 +210,6 @@ $1/\|R_\lambda(T)\|$ centred at $\lambda$ lies in $\rho(T)$.  Its radius
 cannot exceed the distance from $\lambda$ to the complementary set
 $\sigma(T)$.
 \end{proof}
-\sourcepage{161}
 
 \begin{notetheorem}[Nonempty compact spectrum]
 If $X\ne\{0\}$ is a complex Banach space and $T\in\Bop{X}{X}$, then
@@ -272,7 +266,6 @@ Thus, with $M_\rho=\max_{|\lambda|=\rho}\|R_\lambda(T)\|$,
 Taking $n$th roots and then letting $\rho\downarrow r(T)$ gives the reverse
 inequality.
 \end{proof}
-\sourcepage{162}
 
 \section{Compact operators}
 
@@ -316,7 +309,6 @@ $\|T-T_j\|<\varepsilon/(3M)$ and then $k,\ell$ large enough that
 $\|T_jx_{n_k}-T_jx_{n_\ell}\|<\varepsilon/3$.  It follows that
 $(Tx_{n_k})$ is Cauchy, hence convergent in $Y$.
 \end{proof}
-\sourcepages{163--165}
 
 \begin{notetheorem}[Weak-to-strong continuity]
 If $T\colon X\to Y$ is compact and $x_n\weakto x$, then
@@ -332,7 +324,6 @@ norm-convergent further subsequence by compactness.  Its norm limit must be
 $Tx$, because bounded linear maps preserve weak convergence and weak limits
 are unique.  Therefore the whole sequence converges to $Tx$ in norm.
 \end{proof}
-\sourcepage{164}
 
 \begin{notedefinition}[$\varepsilon$-nets and total boundedness]
 A finite set $F$ is an $\varepsilon$-net for $B$ if every point of $B$ lies
@@ -357,7 +348,6 @@ completeness supplies its limit.  Replacing each nonempty covering ball by a
 point of $B$ proves the third assertion.  The union of finite $1/n$-nets is a
 countable dense subset.
 \end{proof}
-\sourcepage{166}
 
 \begin{notetheorem}[Separable range and extension to the completion]
 Let $T\colon X\to Y$ be compact.
@@ -404,7 +394,6 @@ Then, for $\|x\|\le1$ and the corresponding $j$,
 Thus $T^*(B_{Y^*})$ is totally bounded in the Banach space $X^*$, hence
 relatively compact.
 \end{proof}
-\sourcepage{167}
 
 \section{Spectral structure of compact operators}
 
@@ -434,7 +423,6 @@ claim implies countability by taking $c=1/k$.
 If $T$ is compact and $S$ is bounded, then $TS$ and $ST$ are compact whenever
 the compositions are defined.
 \end{notelemma}
-\sourcepage{168}
 
 \begin{notetheorem}[Finite-dimensional null spaces]
 Let $T\colon X\to X$ be compact and $\lambda\ne0$.  Then
@@ -497,7 +485,6 @@ spaces.  The open mapping theorem would make a fixed multiple of the image of
 the unit ball contain $B_M$.  That would make $B_M$ relatively compact,
 contradicting infinite dimensionality.
 \end{proof}
-\sourcepages{169--171}
 
 \section{Stabilization and the Riesz--Schauder theorem}
 
@@ -557,7 +544,6 @@ The null-space chain of $A^*$ stabilizes.  Since every $R_n$ is closed and
 equality of two successive adjoint kernels is equivalent, by Hahn--Banach,
 to equality of the corresponding ranges.
 \end{proof}
-\sourcepages{172--173}
 
 \begin{notetheorem}[Equal ascent and descent]
 The least stabilization indices above are equal: $p=q=:r$.  Consequently
@@ -593,7 +579,6 @@ $v\in\Ran A^q=\Ran A^p$.  Then
 $v\in\Ker A^p\cap\Ran A^p=\{0\}$, so
 $\Ker A^p=\Ker A^q$ and $p\le q$.  Hence $p=q$.
 \end{proof}
-\sourcepage{174}
 
 \begin{notetheorem}[Nonzero spectral values are eigenvalues]
 Let $X$ be a complex Banach space and $T\in\Kop{X}{X}$.  Every
@@ -606,7 +591,6 @@ $r=0$.  Equal ascent and descent would then give
 $\Ran A=X$.  Thus $A$ would be a bounded bijection of Banach spaces, and the
 bounded inverse theorem would put $\lambda$ in the resolvent, a contradiction.
 \end{proof}
-\sourcepage{175}
 
 \begin{notetheorem}[Riesz decomposition]
 With $r$ as above,
@@ -621,7 +605,6 @@ The intersection is zero by the argument in the preceding theorem, and the
 sum is all of $X$ by range stabilization.  Closedness of the two summands was
 proved above.
 \end{proof}
-\sourcepage{176}
 
 \begin{noteexercise}[Two noncompact operators]
 \begin{enumerate}
@@ -635,7 +618,6 @@ proved above.
         subsequence can converge uniformly.
 \end{enumerate}
 \end{noteexercise}
-\sourcepage{177}
 
 \section{Fredholm solvability}
 
@@ -704,7 +686,6 @@ restriction
 is a bounded bijection between Banach spaces.  Its inverse is bounded, and
 $\widetilde x=(A|_M)^{-1}y$ has the required estimate.
 \end{proof}
-\sourcepages{178--180}
 
 \begin{notetheorem}[Solvability of the adjoint equation]
 For $g\in X^*$, the equation
@@ -733,7 +714,6 @@ Thus $F$ is bounded.  Extend it to $f\in X^*$ by Hahn--Banach.  For every
 $x\in X$,
 $(A^*f)(x)=f(Ax)=F(Ax)=g(x)$, so $A^*f=g$.
 \end{proof}
-\sourcepage{181}
 
 \begin{notetheorem}[Injectivity, surjectivity, and bounded inverses]
 The following are equivalent:
@@ -772,7 +752,6 @@ $f_{m+1}(w)\ne0$ and put $z_{m+1}=w/f_{m+1}(w)$.  Replacing each old $z_j$ by
 $z_j-f_{m+1}(z_j)z_{m+1}$ preserves the previous relations and makes the new
 one biorthogonal as well.
 \end{proof}
-\sourcepages{182--183}
 
 \begin{notetheorem}[Equality of nullities]
 For $A=T-\lambda I$ with $\lambda\ne0$,
@@ -808,7 +787,6 @@ For a compact operator on a complex Banach space and $\lambda\ne0$,
 \]
 In particular, every nonzero spectral value of $T$ is an eigenvalue.
 \end{notecorollary}
-\sourcepage{184}
 
 \section{The Fredholm alternative and integral equations}
 
@@ -839,7 +817,6 @@ This is the combination of closed range, the two solvability criteria,
 injectivity--surjectivity equivalence, and equality of nullities established
 above.
 \end{proof}
-\sourcepage{185}
 
 \begin{notetheorem}[Arzel\`a--Ascoli, sequential form]
 A uniformly bounded and equicontinuous sequence in $C([a,b])$ has a uniformly
@@ -891,4 +868,3 @@ On $L^2([a,b])$, when $k\in L^2([a,b]^2)$, the same conclusion follows from
 compactness of the Hilbert--Schmidt operator; its Hilbert-space adjoint has
 kernel $\overline{k(t,s)}$.
 \end{notecorollary}
-\sourcepages{186--187}

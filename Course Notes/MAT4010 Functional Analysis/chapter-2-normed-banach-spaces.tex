@@ -57,7 +57,6 @@ basis.
 Apply Zorn's lemma to the linearly independent sets containing the given
 family.  A maximal member spans the whole space.
 \end{proof}
-\sourcepages{3--4}
 
 \begin{notedefinition}[Equivalent norms]
 Two norms $\|\cdot\|_1$ and $\|\cdot\|_2$ on a vector space $X$ are
@@ -122,7 +121,6 @@ expansion $x=\sum_{i\in F}a_ie_i$.  Define
 Uniqueness of the expansion makes this well defined, and the norm axioms are
 immediate.
 \end{proof}
-\sourcepages{5--6}
 
 \section{Distance to compact sets and spaces of functions}
 
@@ -155,7 +153,6 @@ $P(x)\in K$ with $\|x-P(x)\|=d_K(x)$ need not be continuous.  For example,
 for $K=\{-1,1\}\subset\mathbb R$, any nearest-point selection jumps at
 $0$.  What is always continuous is the distance function $d_K$.
 \end{noteremark}
-\sourcepages{7--8}
 
 \begin{notetheorem}[Supremum norm on continuous maps]
 Let $K$ be compact and $Y$ a normed space.  The formula
@@ -187,7 +184,6 @@ inequality gives $\|f(y)-f(x)\|<\varepsilon$.
 The subspace $B(X;Y)\cap C(X;Y)$ is closed in $B(X;Y)$ for the supremum
 norm.
 \end{notecorollary}
-\sourcepages{9--10}
 
 \section{Banach spaces and completeness}
 
@@ -210,7 +206,6 @@ series and is therefore a topological notion.
 A normed space with a Schauder basis is separable, but not every separable
 Banach space has a Schauder basis.
 \end{noteremark}
-\sourcepage{11}
 
 \begin{notelemma}[Translation and scalar invariance]
 The metric induced by a norm satisfies
@@ -226,7 +221,6 @@ Both identities follow immediately from
 $\|(x+a)-(y+a)\|=\|x-y\|$ and
 $\|\alpha(x-y)\|=|\alpha|\|x-y\|$.
 \end{proof}
-\sourcepage{12}
 
 \begin{notetheorem}[Closed subspaces of Banach spaces]
 Let $X$ be a Banach space and $Y\subseteq X$ a linear subspace.  Then $Y$ is
@@ -244,7 +238,6 @@ Uniqueness of limits gives $x=y$.
 The series $\sum_{n=1}^{\infty}x_n$ converges if its partial sums converge.
 It is \emph{absolutely convergent} if $\sum_n\|x_n\|<\infty$.
 \end{notedefinition}
-\sourcepage{13}
 
 \begin{notetheorem}[Isomorphic images of Banach spaces]
 Let $X$ be Banach, let $Y$ be normed, and let
@@ -272,7 +265,6 @@ Injectivity is immediate.  If $Ax_n\to y$, then
 $\|x_n-x_m\|\le c^{-1}\|Ax_n-Ax_m\|$, so $(x_n)$ is Cauchy and converges
 to some $x\in X$.  Continuity gives $Ax=y$.
 \end{proof}
-\sourcepage{14}
 
 \begin{notetheorem}[Neumann series]
 Let $X$ be Banach and $A\in\Bop{X}{X}$ with $\|A\|<1$.  Then
@@ -302,7 +294,6 @@ $\|B-A\|<\|A^{-1}\|^{-1}$, then $B$ is invertible and
 \]
 Thus inversion is continuous on the group of invertible operators.
 \end{notecorollary}
-\sourcepage{15}
 
 \begin{notetheorem}[A Schauder basis implies separability]
 If a normed space has a Schauder basis, then it is separable.
@@ -329,7 +320,6 @@ the Neumann theorem makes $I-A^p$ invertible.  The factors commute, so
   (I-A)^{-1}=(I+A+\cdots+A^{p-1})(I-A^p)^{-1}.
 \]
 \end{proof}
-\sourcepage{16}
 
 \begin{notetheorem}[Absolute convergence characterizes Banach spaces]
 A normed space $X$ is Banach if and only if every series satisfying
@@ -355,7 +345,6 @@ Every normed space $X$ has a Banach completion $\widehat X$ in which $X$ is
 isometrically embedded as a dense subspace.  It is unique up to an isometric
 isomorphism fixing $X$.
 \end{notetheorem}
-\sourcepage{17}
 
 \begin{notedefinition}[Seminorm]
 A map $p\colon X\to[0,\infty)$ is a seminorm if
@@ -381,7 +370,6 @@ $|p(x)-p(y)|\le p(x-y)=0$, so the formula is independent of the chosen
 representative.  Positive definiteness on the quotient and the remaining norm
 axioms follow directly.
 \end{proof}
-\sourcepage{18}
 
 \section{Finite-dimensional normed spaces}
 
@@ -402,7 +390,6 @@ $a\mapsto\|\sum_ja_jx_j\|$ has a minimum.  The minimum is positive, because
 zero would give a nontrivial linear dependence.  Homogeneity yields the
 estimate.
 \end{proof}
-\sourcepage{19}
 
 \begin{notetheorem}[Completeness]
 Every finite-dimensional normed space is Banach.  More generally, every
@@ -419,7 +406,6 @@ corresponding vector is the limit of $(y_m)$.
 \begin{notecorollary}
 Every finite-dimensional subspace of a normed space is closed.
 \end{notecorollary}
-\sourcepage{20}
 
 \begin{notetheorem}[Equivalence of finite-dimensional norms]
 Any two norms on a finite-dimensional vector space are equivalent.
@@ -447,7 +433,6 @@ where $w_n=n$ on the chosen subfamily and $w_i=1$ elsewhere.  Then
 $\|e_n\|_1=1$ but $\|e_n\|_2=n$, so no uniform comparison
 $\|x\|_2\le C\|x\|_1$ is possible.
 \end{proof}
-\sourcepage{21}
 
 \section{Compactness}
 
@@ -476,7 +461,6 @@ bounded, but not compact, because
 \]
 Thus it has no convergent subsequence.
 \end{noteexample}
-\sourcepage{22}
 
 \begin{notetheorem}[Heine--Borel in finite dimension]
 A subset of a finite-dimensional normed space is compact if and only if it is
@@ -510,7 +494,6 @@ $z=(x-y_0)/\|x-y_0\|$.  For $y\in Y$,
   \ge\frac d{\|x-y_0\|}>\theta.
 \]
 \end{proof}
-\sourcepage{23}
 
 \begin{noteremark}
 The strict endpoint $\theta=1$ is impossible in the displayed form, because
@@ -534,7 +517,6 @@ subsequence, contradicting compactness.
 \begin{noteremark}
 A metric space is compact if and only if it is complete and totally bounded.
 \end{noteremark}
-\sourcepage{24}
 
 \begin{notetheorem}[Banach space of continuous functions]
 Let $K$ be compact and $Y$ Banach.  Then $C(K;Y)$ is Banach under the
@@ -551,7 +533,6 @@ uniform-limit theorem makes $f$ continuous.
 \begin{notecorollary}
 If $Y$ is Banach, then $B(X;Y)$ is Banach under the supremum norm.
 \end{notecorollary}
-\sourcepage{25}
 
 \begin{notetheorem}[Best approximation in finite-dimensional subspaces]
 Let $Y$ be a finite-dimensional subspace of a normed space $X$.  For every
@@ -584,7 +565,6 @@ $Y=\Span\{(1,1)\}$ and $x=(1,0)$.  Then
 \]
 so the best approximant is not unique.
 \end{noteexample}
-\sourcepage{26}
 
 \begin{notetheorem}
 Every compact subset of an infinite-dimensional normed space has empty
@@ -596,7 +576,6 @@ If a compact set contained a ball $B(x,r)$, then its closed subset
 $\overline B(x,r/2)$ would be compact.  Translation and scaling would make
 the closed unit ball compact, contradicting the preceding theorem.
 \end{proof}
-\sourcepage{27}
 
 \section{Linear and bounded operators}
 
@@ -617,7 +596,6 @@ For normed spaces $V,W$ and a linear map $T\colon V\to W$, define
 The map is \emph{bounded} if $\|T\|<\infty$.  The vector space of bounded
 linear maps is denoted $\Bop{V}{W}$.
 \end{notedefinition}
-\sourcepage{28}
 
 \begin{notetheorem}[Bounded inverse and a lower bound]
 Let $A\colon X\to Y$ be a linear map between normed spaces.  The following
@@ -637,7 +615,6 @@ $\|x\|\le\|A^{-1}\|\|Ax\|$.  Conversely, the lower bound gives
 injectivity and, for $y=Ax$,
 $\|A^{-1}y\|=\|x\|\le c^{-1}\|y\|$.
 \end{proof}
-\sourcepage{29}
 
 \begin{noteexercise}[A functional on $c_0$]
 Let $(\alpha_n)\in\ell^1$ and define
@@ -663,7 +640,6 @@ $N\to\infty$.  Equality for one $x\in c_0$ would require
 $|x_n|=1$ with the correct phase whenever $\alpha_n\ne0$, which is impossible
 when infinitely many coefficients are nonzero.
 \end{proof}
-\sourcepage{30}
 
 \begin{notetheorem}[Operator norm]
 The operator norm makes $\Bop{V}{W}$ a normed space.  It satisfies
@@ -681,7 +657,6 @@ $(T_nv)$ is Cauchy in $W$ for each $v$.  Define $Tv=\lim_nT_nv$.
 Linearity passes to the limit, the uniform operator bound gives boundedness,
 and the Cauchy estimate passes to the limit to show $\|T_n-T\|\to0$.
 \end{proof}
-\sourcepage{31}
 
 \begin{notetheorem}[Finite-dimensional domain]
 Every linear map from a finite-dimensional normed space into a normed space is
@@ -709,7 +684,6 @@ extend them to a Hamel basis.  Define a linear functional by
 $\varphi(e_n)=n$ and by zero on the other basis vectors.  Then
 $\|e_n\|=1$ but $|\varphi(e_n)|=n$, so $\varphi$ is unbounded.
 \end{proof}
-\sourcepage{32}
 
 \begin{notetheorem}[Continuity is equivalent to boundedness]
 A linear map between normed spaces is continuous if and only if it is bounded.
@@ -727,7 +701,6 @@ to continuity at $0$ by linearity.
 \begin{notecorollary}
 For a bounded linear operator $T$, the null space $\Ker(T)$ is closed.
 \end{notecorollary}
-\sourcepage{33}
 
 \begin{notedefinition}[Compact operator]
 A linear map $A\colon X\to Y$ is \emph{compact} if it maps every bounded
@@ -753,7 +726,6 @@ definition of relative compactness in metric spaces.  For finite rank, the
 image of a bounded set is bounded in a finite-dimensional space, whose closure
 is compact.
 \end{proof}
-\sourcepages{34--35}
 
 \begin{noteexercise}
 The inverse of a bounded bijective operator need not be bounded when the
@@ -768,7 +740,6 @@ bijection onto its range, but
 $\|T^{-1}e_n/n\|_1=1$ while $\|e_n/n\|_1=1/n$, so $T^{-1}$ is
 unbounded.  Accordingly, $\Ran(T)$ is not complete.
 \end{noteexercise}
-\sourcepage{36}
 
 \begin{notetheorem}[Extension from a dense subspace]
 Let $U$ be a dense subspace of a normed space $V$, let $W$ be Banach, and let
@@ -794,7 +765,6 @@ The identity map from $\mathbb Q$ to $\mathbb Q$, with the usual norm and
 viewed on the dense subspace $\mathbb Q\subset\mathbb R$, has no continuous
 extension $\mathbb R\to\mathbb Q$.
 \end{noteexample}
-\sourcepage{37}
 
 \begin{notecorollary}[Composition estimate]
 If $T\in\Bop{U}{V}$ and $S\in\Bop{V}{W}$, then
@@ -802,7 +772,6 @@ If $T\in\Bop{U}{V}$ and $S\in\Bop{V}{W}$, then
   \|S\circ T\|\le\|S\|\,\|T\|.
 \]
 \end{notecorollary}
-\sourcepage{38}
 
 \begin{noteexercise}[Subspaces and connectedness]
 \begin{enumerate}
@@ -819,7 +788,6 @@ subspace.  For (2), normed spaces are path connected via line segments.
 For (3), take convergent sequences from the subspace and pass addition and
 scalar multiplication to the limit.
 \end{proof}
-\sourcepage{39}
 
 \begin{notedefinition}[Quotient norm]
 Let $U$ be a subspace of a normed space $V$.  On the algebraic quotient set
@@ -850,7 +818,6 @@ converges, so after subtracting a suitable $v\in V$ its partial sums approach
 $U$.  Choose corrections in $U$ with summable errors; completeness of $U$
 then gives convergence in $V$.
 \end{proof}
-\sourcepages{40--41}
 
 \begin{notetheorem}[Equivalent boundedness criteria]
 For a linear map $T\colon V\to W$ between normed spaces, the following are
@@ -868,7 +835,6 @@ Boundedness gives a global Lipschitz estimate.  Continuity at one point
 translates to continuity at zero.  If a ball $B_V(0,\delta)$ is mapped into
 $B_W(0,1)$, homogeneity gives $\|Tv\|\le2\delta^{-1}\|v\|$.
 \end{proof}
-\sourcepage{42}
 
 \section{Dual spaces}
 
@@ -889,7 +855,6 @@ The dual $X^*$ of every normed space is Banach.
 This is the completeness theorem for $\Bop{X}{\mathbb K}$, since the scalar
 field is complete.
 \end{proof}
-\sourcepages{43--44}
 
 \begin{noteexercise}[Codimension-one kernels]
 Let $f\ne0$ be a linear functional on a vector space $X$ and choose
@@ -907,4 +872,3 @@ Take $\alpha=f(x)/f(x_0)$ and $y=x-\alpha x_0$.  Uniqueness follows by
 applying $f$.  For the second claim, use the same decomposition and compare
 the values on a vector outside the common kernel.
 \end{proof}
-\sourcepage{45}
