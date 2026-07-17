@@ -1,0 +1,847 @@
+\chapter{Exponential Family}
+
+\section{Lecture 12: Definitions and Basic Properties}
+Consider a random variable $X = (X_{1}, \dots, X_{m}) \in \mathcal{X} \subseteq \mathbb{R}^{m}$ equipped with a $\sigma$-finite measure $\mu$ (typically a counting measure or the Lebesgue measure).
+
+\begin{de}
+    A parametric statistical model for $X$ is defined as an exponential family with canonical parameter vector $\Theta = (\theta_1, \dots, \theta_d)$ and canonical statistics $t(x) = (t_1(x), \dots, t_d(x))$ if it admits a density with respect to $\mu$ of the form:
+\begin{equation*}
+    f(x; \theta) = h(x) \exp\{\langle \theta, t(x) \rangle - A(\theta)\} \label{eq:exp_fam}
+\end{equation*}
+\end{de}
+\begin{remark}
+    Formally, $\mathcal{X}$ is defined as the smallest closed set such that $P_{\theta}(x \in \mathcal{X}) = 1$, and it is independent of $\theta$.
+\end{remark}
+
+\begin{de}
+    The term $A(\theta)$ acts as a normalization constant (log-partition function) and is related to the partition function $Z(\theta)$ as follows:
+\begin{align*}
+    Z(\theta) := \int_{\mathcal{X}} h(x) \exp\{\langle \theta, t(x) \rangle\} \mu(dx),\quad 
+    A(\theta) = \log Z(\theta)
+\end{align*}
+Consequently, the integral of the unnormalized density is $e^{A(\theta)}$.
+
+The space of the canonical parameter $\Theta$ is defined as the set where the partition function is finite:
+\begin{equation*}
+    \Theta := \{ \theta \in \mathbb{R}^{d} : Z(\theta) < +\infty \}
+\end{equation*}
+\end{de}
+
+
+\begin{eg}[Bernoulli Distribution]
+    Consider $X \sim \text{Bern}(p)$ where $p \in (0, 1)$. The probability mass function is:
+\begin{equation*}
+    f(x;p) = p^x (1-p)^{1-x} = \exp\left\{ x \log \frac{p}{1-p} + \log(1-p) \right\}
+\end{equation*}
+Mapping this to the exponential family form:
+\begin{itemize}
+    \item \textbf{Canonical Parameter:} $\theta = \log \frac{p}{1-p}$ (Log-odds).
+    \item \textbf{Inverse Mapping:} $p = \frac{e^{\theta}}{1+e^{\theta}}$.
+    \item \textbf{Log-Partition Function:} $A(\theta) = \log(1+e^{\theta})$ (derived from $\log(1-p)$).
+    \item \textbf{Canonical Statistic:} $t(x) = x$.
+\end{itemize}
+\end{eg}
+
+
+\begin{eg}[Univariate Gaussian]
+    Consider $X \sim N(\mu, \sigma^2)$. The density is expanded as:
+\begin{equation*}
+    f(x; \mu, \sigma^2) = \frac{1}{\sqrt{2\pi}} \exp\left\{ -\frac{x^2}{2\sigma^2} + \frac{x\mu}{\sigma^2} + \frac{1}{2}\left( \log\left(\frac{1}{\sigma^2}\right) - \frac{\mu^2}{\sigma^2} \right) \right\}
+\end{equation*}
+Identifying the components:
+\begin{itemize}
+    \item \textbf{Canonical Statistic:} $t(x) = (x, -\frac{x^2}{2}) \in \mathbb{R}^2$.
+    \item \textbf{Canonical Parameter:} $\theta = (\frac{\mu}{\sigma^2}, \frac{1}{\sigma^2}) \in \mathbb{R}^2$.
+    \item \textbf{Base Function:} $h(x) = \frac{1}{\sqrt{2\pi}}$.
+    \item \textbf{Log-Partition Function:} $A(\theta) = -\frac{1}{2} (\log(\theta_2) - \frac{\theta_1^2}{\theta_2})$.
+\end{itemize}
+\end{eg}
+\begin{eg}[Centered Multivariate Gaussian]
+    Consider $X \sim N_m(0, \Sigma)$ with covariance $\Sigma$ and precision matrix $K := \Sigma^{-1}$. The density is:
+\begin{equation*}
+    f(x; K) = \frac{1}{(2\pi)^{m/2}} \sqrt{\det(K)} \exp\left( -\frac{1}{2} x^T K x \right)
+\end{equation*}
+Using the trace trick $x^T K x = \text{tr}(K x x^T) = \langle K, x x^T \rangle$, we find:
+\begin{itemize}
+    \item \textbf{Canonical Parameter:} $\theta = K$.
+    \item \textbf{Base Function:} $h(x) = (2\pi)^{-m/2}$.
+    \item \textbf{Log-Partition Function:} $A(K) = -\frac{1}{2} \log \det(K)$.
+    \item \textbf{Canonical Statistic:} $t(x) = -\frac{1}{2} xx^T$.
+\end{itemize}
+\end{eg}
+
+\begin{remark}[Connection with Statistical Inference]
+    Given a sample $x_{1:n} = (x_1, \dots, x_n)$ i.i.d. from $\mathbb{P}$, the log-likelihood function is defined as:
+\begin{equation*}
+    l_n(\theta) := \frac{1}{n} \sum_{i=1}^{n} \log f(x_i; \theta)
+\end{equation*}
+Substituting the exponential family form, the log-likelihood becomes:
+\begin{equation*}
+    l_n(\theta) = \left\langle \theta, \frac{1}{n}\sum_{i=1}^{n}t(x_i) \right\rangle - A(\theta) + \text{const}
+\end{equation*}
+This demonstrates that inference depends on the data only through the empirical mean of the canonical statistics $\bar{\mu}_n$.
+\end{remark}
+
+\begin{de}
+    An exponential family representation is considered \textbf{minimal} if the canonical statistics and parameters satisfy the following conditions(to ensure the representation is unique and efficient):
+    \begin{enumerate}
+    \item \textbf{No redundancy on statistics:} There is no hyperplane $H(\alpha, c) = \{x : \langle \alpha, t(x) \rangle = c\}$ such that $P_\theta(x \in H) = 1$.
+    \item \textbf{No redundancy on parameters:} There is no hyperplane containing the parameter space $\Theta$.
+\end{enumerate}
+\end{de}
+\begin{eg}[Bernoulli Distribution]
+    \textbf{Non-Minimal Representation:}
+Consider the Bernoulli distribution modeled with $t(x) = (\mathbb{I}\{x=0\}, \mathbb{I}\{x=1\})$.
+Since $\mathbb{I}\{x=0\} + \mathbb{I}\{x=1\} = 1$, the statistics satisfy a linear constraint $\langle \mathbf{1}, t(x) \rangle = 1$. Because of this linear dependency, this parametrization is \textbf{not minimal}.
+
+\textbf{Minimal Representation:}
+By recognizing $\mathbb{I}\{x=1\} = 1 - \mathbb{I}\{x=0\}$, we can reduce the statistic to $t(x) = \mathbb{I}\{x=1\}$ (or simply $x$). This yields the standard minimal parametrization.
+\end{eg}
+
+
+\begin{de}
+    A minimal exponential family is called ``full'' if its parameter space $\Theta$ is maximal (i.e., $\Theta$ contains all $\theta$ for which the partition function $Z(\theta)$ is finite). Otherwise it is called curved.
+\end{de}
+
+In a full exponential family, the canonical statistic $t(x)$ is \textbf{minimally sufficient} for $\theta$. Under regularity conditions, the distribution of the statistic $T = t(X)$ itself forms an exponential family:
+\begin{equation}
+    f(t; \theta) = g(t) \exp\{\langle \theta, t \rangle - A(\theta)\}
+\end{equation}
+Here, the base measure $g(t)$ is derived by integrating (or summing) $h(x)$ over the level set $\{x : t(x) = t\}$.
+
+\begin{de}
+    Let $t(x)$ be a sufficient statistic. It is minimal if, for every other sufficient statistic $t^{\prime}(x)$, there exists a measurable function $g$ such that:
+\begin{align*}
+t(x)=g\left(t^{\prime}(x)\right)
+\end{align*}
+\end{de}
+
+\begin{remark}
+    This is equivalent to the statement that if $t^{\prime}(x)=t^{\prime}(y)$, then it must imply that $t(x)=t(y)$.
+\end{remark}
+
+\begin{prop}
+    In a full exponential family, $t(x)$ is minimally sufficient.
+\end{prop}
+\begin{remark}
+    Recall the \textbf{Fisher-Neyman Factorization Theorem}: A statistic $t(x)$ is sufficient if and only if the density factorizes as:
+\begin{equation}
+    f(x; \theta) = h(x) g_\theta(t(x))
+\end{equation}
+For exponential families, $t(x)$ naturally fits this form.
+\end{remark}
+\begin{proof}[Intuition]
+If $t'(x)$ is another sufficient statistic, the ratio $f(x;\theta)/f(y;\theta)$ must be independent of $\theta$ whenever $t'(x) = t'(y)$. For exponential families, this ratio is proportional to $\exp\{\langle \theta, t(x) - t(y) \rangle\}$. For this to be independent of $\theta$ for all $\theta$, we essentially need $t(x) = t(y)$ (assuming minimality), implying $t(x)$ is a function of any other sufficient statistic.
+\end{proof}
+
+
+\begin{thm}
+    For every exponential family defined with parameter space $\Theta$, the following properties hold:
+\begin{enumerate}
+    \item \textbf{Convex Set:} The parameter space $\Theta$ is a convex set.
+    \item \textbf{Convex Function:} The log-partition function $A(\theta)$ is convex on $\Theta$.
+    \item \textbf{Strict Convexity \& Identifiability:} If the exponential family is minimal, $A(\theta)$ is \textbf{strictly convex}. This implies that the mapping from parameters to distributions is one-to-one: $P_{\theta_1} = P_{\theta_2}$ if and only if $\theta_1 = \theta_2$.
+    \item \textbf{Continuity:} $A(\theta)$ is lower semi-continuous on $\Theta$ and continuous in the interior of $\Theta$.
+\end{enumerate}
+\end{thm}
+
+
+\begin{eg}[Implications for Maximum Likelihood Estimation (MLE)]
+    These properties ensure that MLE is a well-posed convex optimization problem. The negative log-likelihood is given by:
+\begin{equation}
+    -l_n(\theta) = -\langle \theta, \bar{\mu}_n \rangle + A(\theta) + \text{const}
+\end{equation}
+Since $A(\theta)$ is convex and the term $-\langle \theta, \bar{\mu}_n \rangle$ is linear (and thus convex), the negative log-likelihood is a convex function over a convex set. Therefore, gradient descent (or Newton's method) is guaranteed to find the global optimal solution (the MLE) effectively.
+\end{eg}
+
+\begin{proof}
+    \textbf{Proof of Convexity:} Let $\theta_1,\theta_2\in\Theta$ and $\lambda\in(0,1)$. Define
+\[
+\theta_\lambda = (1-\lambda)\theta_1 + \lambda\theta_2.
+\]
+Then
+\[
+Z(\theta_\lambda)
+= \int h(x)e^{\langle \theta_\lambda, t(x)\rangle}\mu(dx)
+= \int h(x)\left(e^{\langle \theta_1,t(x)\rangle}\right)^{1-\lambda}
+\left(e^{\langle \theta_2,t(x)\rangle}\right)^{\lambda}\mu(dx).
+\]
+Applying Hölder’s inequality with exponents $\frac{1}{1-\lambda}$ and $\frac{1}{\lambda}$,
+\[
+Z(\theta_\lambda)
+\le Z(\theta_1)^{1-\lambda} Z(\theta_2)^{\lambda}.
+\]
+Taking logs,
+\[
+A(\theta_\lambda)
+\le (1-\lambda)A(\theta_1) + \lambda A(\theta_2).
+\]
+Thus $\Theta$ is convex and $A$ is convex.
+
+\textbf{Proof of (ii):} Equality in Hölder occurs iff the two functions are proportional a.e., i.e.
+\[
+e^{\langle \theta_1,t(x)\rangle} = C\, e^{\langle \theta_2,t(x)\rangle} \quad \mu\text{-a.e.}
+\]
+Taking logs gives
+\[
+\langle \theta_1-\theta_2, t(x)\rangle = \text{const.}
+\]
+\textbf{Proof of Strict Convexity:} If the family is minimal, the sufficient statistics are not linearly dependent a.s., so the equality condition cannot hold unless $\theta_1=\theta_2$. Hence $A$ is strictly convex.
+\textbf{Proof of Lower Semicontinuity:} Let $\theta_n\to\theta$. Define $g_n(x)=h(x)e^{\langle \theta_n,t(x)\rangle}$. Then
+\[
+Z(\theta)=\int \liminf g_n(x)\,\mu(dx)
+\le \liminf \int g_n(x)\,\mu(dx) = \liminf Z(\theta_n)
+\]
+by Fatou’s lemma. Taking logs gives lower semicontinuity.
+\end{proof}
+
+\begin{de}
+A minimal exponential family is \textbf{regular} if $\Theta$ is open.
+\end{de}
+\begin{remark}
+    If $\mathcal{X}$ is finite, $\Theta=\mathbb{R}^d$ and the family is regular.
+\end{remark}
+
+\begin{remark}[Local moment condition]
+Fix $\theta_0\in\Theta$. Assume there exists $r>0$ such that the closed ball $B(\theta_0,r)\subset\Theta$ and
+\begin{align}
+\int_{\mathcal X} \|t(x)\|\, e^{\theta^\top t(x)} h(x)\,\nu(dx) < \infty,
+\qquad
+\int_{\mathcal X} \|t(x)\|^2\, e^{\theta^\top t(x)} h(x)\,\nu(dx) < \infty,
+\label{eq:localmom}
+\end{align}
+for all $\theta\in B(\theta_0,r)$. This is automatically satisfied in many common regular families; it ensures
+we may differentiate $Z(\theta)$ under the integral sign up to second order in a neighborhood of $\theta_0$.
+\end{remark}
+
+
+\begin{lem}[Interchange of differentiation and integration]
+\label{lem:diff-under-int}
+Assume \eqref{eq:localmom} holds at some $\theta_0\in\Theta$. Then $Z$ is twice continuously differentiable
+in a neighborhood of $\theta_0$, and for $i,j\in\{1,\dots,d\}$,
+\begin{align}
+\frac{\partial Z}{\partial \theta_i}(\theta)
+&=
+\int_{\mathcal X} t_i(x)\, e^{\theta^\top t(x)} h(x)\,\nu(dx),
+\label{eq:dZ}
+\\
+\frac{\partial^2 Z}{\partial \theta_i\,\partial \theta_j}(\theta)
+&=
+\int_{\mathcal X} t_i(x)t_j(x)\, e^{\theta^\top t(x)} h(x)\,\nu(dx),
+\label{eq:d2Z}
+\end{align}
+for all $\theta$ in a (possibly smaller) neighborhood of $\theta_0$.
+\end{lem}
+
+\begin{proof}
+We prove \eqref{eq:dZ}; the proof of \eqref{eq:d2Z} is analogous.
+
+Fix $i$ and consider $u\to 0$. For $\theta$ near $\theta_0$ and $u$ small, write
+\[
+\frac{Z(\theta+u e_i)-Z(\theta)}{u}
+=
+\int_{\mathcal X}
+\frac{e^{(\theta+u e_i)^\top t(x)} - e^{\theta^\top t(x)}}{u}\, h(x)\,\nu(dx),
+\]
+where $e_i$ is the $i$th coordinate vector in $\mathbb R^d$.
+
+For each fixed $x$, the function $s\mapsto e^{(\theta+s e_i)^\top t(x)}$ is differentiable, and by the
+(one-dimensional) mean value theorem there exists $\xi=\xi(x,u)\in(0,1)$ such that
+\[
+\frac{e^{(\theta+u e_i)^\top t(x)} - e^{\theta^\top t(x)}}{u}
+=
+t_i(x)\, e^{(\theta+\xi u e_i)^\top t(x)}.
+\]
+Hence, for $|u|\le r$ and $\theta\in B(\theta_0,r/2)$ we have $\theta+\xi u e_i\in B(\theta_0,r)$, so
+\[
+\left|
+\frac{e^{(\theta+u e_i)^\top t(x)} - e^{\theta^\top t(x)}}{u}
+\right|
+\le
+|t_i(x)| \sup_{\vartheta\in B(\theta_0,r)} e^{\vartheta^\top t(x)}.
+\]
+By \eqref{eq:localmom} (and shrinking neighborhoods if needed), the right-hand side is integrable w.r.t.\ $h(x)\nu(dx)$,
+so dominated convergence applies. Therefore, we may pass the limit inside the integral:
+\[
+\frac{\partial Z}{\partial \theta_i}(\theta)
+=
+\int_{\mathcal X} \lim_{u\to 0}
+\frac{e^{(\theta+u e_i)^\top t(x)} - e^{\theta^\top t(x)}}{u}\, h(x)\,\nu(dx)
+=
+\int_{\mathcal X} t_i(x)\, e^{\theta^\top t(x)} h(x)\,\nu(dx).
+\]
+Continuity of the derivatives in a neighborhood follows similarly. The second derivative formula \eqref{eq:d2Z} is obtained
+by repeating the same argument with $t_i(x)e^{\theta^\top t(x)}$ in place of $e^{\theta^\top t(x)}$ and using the
+$\|t(x)\|^2$ integrability in \eqref{eq:localmom}.
+\end{proof}
+
+\begin{prop}[Derivatives of the log-partition function]
+\label{prop:grad-hess-A}
+Let $\theta\in\Theta$ and assume \eqref{eq:localmom} holds in a neighborhood of $\theta$.
+Then $A(\theta)=\log Z(\theta)$ is twice continuously differentiable in a neighborhood of $\theta$ and
+\begin{align}
+\nabla A(\theta) &= \mathbb E_\theta[t(X)] \eqqcolon \mu(\theta), \label{eq:gradA}\\
+\nabla^2 A(\theta) &= \var_\theta(t(X)) \eqqcolon V(\theta). \label{eq:hessA}
+\end{align}
+In components,
+\[
+\frac{\partial^2 A}{\partial\theta_i\partial\theta_j}(\theta)
+=
+\Cov_\theta\big(t_i(X),t_j(X)\big).
+\]
+\end{prop}
+
+\begin{proof}
+Since $Z(\theta)>0$ on $\Theta$, by the chain rule,
+\[
+\frac{\partial A}{\partial\theta_i}(\theta)
+=
+\frac{1}{Z(\theta)}\frac{\partial Z}{\partial\theta_i}(\theta).
+\]
+Using Lemma~\ref{lem:diff-under-int} and the definition of $p_\theta$,
+\begin{align*}
+\frac{\partial A}{\partial\theta_i}(\theta)
+&=
+\frac{1}{Z(\theta)}\int_{\mathcal X} t_i(x)\, e^{\theta^\top t(x)} h(x)\,\nu(dx)
+=
+\int_{\mathcal X} t_i(x)\, \frac{e^{\theta^\top t(x)} h(x)}{Z(\theta)}\,\nu(dx)
+\\
+&=
+\int_{\mathcal X} t_i(x)\, p_\theta(x)\,\nu(dx)
+=
+\mathbb E_\theta[t_i(X)].
+\end{align*}
+Stacking coordinates yields \eqref{eq:gradA}.
+
+For the Hessian, differentiate once more:
+\[
+\frac{\partial^2 A}{\partial\theta_i\partial\theta_j}(\theta)
+=
+\frac{\partial}{\partial\theta_j}\left(\frac{1}{Z(\theta)}\frac{\partial Z}{\partial\theta_i}(\theta)\right)
+=
+\frac{1}{Z(\theta)}\frac{\partial^2 Z}{\partial\theta_i\partial\theta_j}(\theta)
+-\frac{1}{Z(\theta)^2}\frac{\partial Z}{\partial\theta_i}(\theta)\frac{\partial Z}{\partial\theta_j}(\theta).
+\]
+Apply Lemma~\ref{lem:diff-under-int} again:
+\[
+\frac{1}{Z(\theta)}\frac{\partial^2 Z}{\partial\theta_i\partial\theta_j}(\theta)
+=
+\mathbb E_\theta[t_i(X)t_j(X)],
+\qquad
+\frac{1}{Z(\theta)}\frac{\partial Z}{\partial\theta_i}(\theta)
+=
+\mathbb E_\theta[t_i(X)].
+\]
+Thus
+\[
+\frac{\partial^2 A}{\partial\theta_i\partial\theta_j}(\theta)
+=
+\mathbb E_\theta[t_i(X)t_j(X)]
+-\mathbb E_\theta[t_i(X)]\,\mathbb E_\theta[t_j(X)]
+=
+\Cov_\theta\big(t_i(X),t_j(X)\big).
+\]
+In matrix form this is exactly \eqref{eq:hessA}.
+\end{proof}
+
+\begin{remark}[Smoothness and higher derivatives]
+Under mild strengthened versions of \eqref{eq:localmom} (existence of local exponential moments of all orders),
+one can iterate the above argument to show $A$ is $C^\infty$ on $\Theta$, and in fact real-analytic.
+Moreover, higher derivatives of $A$ correspond to higher-order cumulants of $t(X)$ under $p_\theta$.
+\end{remark}
+
+\begin{remark}
+    For i.i.d.\ data,
+\[
+\ell_n(\theta)=\langle \theta,\bar t_n\rangle - A(\theta),
+\quad
+\bar t_n=\frac{1}{n}\sum t(X_i).
+\]
+Observed and Fisher information:
+\[
+J(\theta)=-\nabla^2\ell_n(\theta)=\nabla^2A(\theta),
+\quad
+I(\theta)=\mathbb{E}_\theta[J(\theta)].
+\]
+\end{remark}
+
+Recall that $\mathcal{X}$ is formally defined as the support of $\mathbb{P}_{\boldsymbol{\theta}}$. Define $\mathcal{K}$ to be the convex hull of the image $\mathbf{t}(\mathcal{X})$ :
+\begin{align*}
+\mathcal{K}:=\operatorname{conv}(\mathbf{t}(\mathcal{X})) .
+\end{align*}
+
+\begin{eg}
+    For the multivariate Gaussian distribution, $\mathbf{x} \in \mathbb{R}^m$ and so $\mathbf{t}(\mathbf{x})=-\frac{1}{2} \mathbf{x} \mathbf{x}^{\top}$ is a rank-one negative semi-definite matrix. In this case, the convex hull of all such matrices, namely $\mathcal{K}$, is the cone of all negative semidefinite matrices.
+\end{eg}
+
+
+The next results offer an alternative parametrization for the exponential model.
+
+\begin{prop}
+    In a regular exponential family:
+    \begin{enumerate}
+        \item The mapping $\mu: \mathbb{R}^d \rightarrow \mathbb{R}^d$ given by $\boldsymbol{\theta} \mapsto \nabla A(\boldsymbol{\theta})$ is one-to-one on $\Theta$.
+        \item The log-likelihood function with data $\bar{\mu} \in \mathcal{K}$ has a maximum in $\Theta$ if and only if $\overline{\boldsymbol{\mu}} \in \mu(\Theta)$ and then the maximum $\overline{\boldsymbol{\theta}}$ is given uniquely as $\overline{\boldsymbol{\theta}}=\mu^{-1}(\overline{\boldsymbol{\mu}})$.
+        \item $\mu(\Theta)=\operatorname{int}(\mathcal{K})$ and so in particular $\mu(\Theta)$ is open.
+    \end{enumerate}
+\end{prop}
+
+\begin{remark}
+    A direct consequence of the result $(a)$ is that we can alternatively parametrize the exponential family using the mean of the canonical statistics
+    \[
+    \nabla A(\boldsymbol\theta)=\mathbb{E}_\theta[t(X)],
+    \]
+    and from the result (c), it is a diffeomorphism between the natural parameter space $\Theta$ and the interior of the mean-parameter space $\operatorname{int}(\mathcal{K})$.
+\end{remark}
+
+\section{Lecture 13: Conditional Inference}
+
+We will consider partitioning of the sufficient statistics $\mathbf{t}$ into $\boldsymbol{u}$ and $v$, $\mathbf{t}=(\boldsymbol{u}, \boldsymbol{v})$ with the corresponding partition of $\boldsymbol{\theta}=\left(\boldsymbol{\theta}_u, \boldsymbol{\theta}_v\right)$ and $\mu=\left(\mu_u, \mu_v\right)$. We consider two basic examples.
+\begin{eg}
+    We have shown that $X \sim N(\mu, \sigma)$ forms an exponential family with $\mathbf{t}(x)=\left(x,-x^2 / 2\right), \boldsymbol{\theta}=\left(\frac{\mu}{\sigma^2}, \frac{1}{\sigma^2}\right)$ and $\boldsymbol{\mu}=\left(\mu,-\frac{1}{2}\left(\mu^2+\right.\right. \left.\sigma^2\right)$ ). Given a sample $x_i$ for $i=1, \ldots, n$, we get an exponential family with the same canonical parameter and the sufficient statistics $\mathbf{t}\left(\mathbf{x}_{1: n}\right)= \left(\sum_i x_i,-\frac{1}{2} \sum_i x_i^2\right)$ and the mean parameter $\left(n \mu,-\frac{n}{2}\left(\mu^2+\sigma^2\right)\right)$. Here we could take $\boldsymbol{u}(x)=\sum_i x_i$ and $\boldsymbol{v}(x)=-\frac{1}{2} \sum_i x_i^2$ or the other way around.
+\end{eg}
+
+\begin{prop}[Marginal distribution] 
+In a regular exponential family with $\mathbf{t}=(\boldsymbol{u}, \boldsymbol{v})$ and $\boldsymbol{\theta}=\left(\boldsymbol{\theta}_{\boldsymbol{u}}, \boldsymbol{\theta}_v\right)$ the marginal model for $\boldsymbol{u}$ is a regular exponential family for each given $\boldsymbol{\theta}_v$, depending on $\boldsymbol{\theta}_v$ but with the same parameter space for its mean value parameter $\mu_u$.
+\end{prop}
+
+\begin{proof}
+    The marginal distribution for $u$ is obtained by integrating $v$ out:
+\begin{align*}
+\begin{aligned}
+f(\boldsymbol{u} ; \boldsymbol{\theta}) & =\int g(\boldsymbol{u}, \boldsymbol{v}) \exp \left\{\left\langle\boldsymbol{\theta}_u, \boldsymbol{u}\right\rangle+\left\langle\boldsymbol{\theta}_v, \boldsymbol{v}\right\rangle-A\left(\boldsymbol{\theta}_u, \boldsymbol{\theta}_v\right)\right\} \mathrm{d} v \\
+& =\exp \left\{\left\langle\boldsymbol{\theta}_u, \boldsymbol{u}\right\rangle-A\left(\boldsymbol{\theta}_u, \boldsymbol{\theta}_v\right)\right\}\left(\int g(\boldsymbol{u}, \boldsymbol{v}) \exp \left\{\left\langle\boldsymbol{\theta}_v, \boldsymbol{v}\right\rangle\right\} \mathrm{d} v\right) .
+\end{aligned}
+\end{align*}
+
+For any fixed $\boldsymbol{\theta}_v$ this has the form of a regular exponential family. This exponential family has canonical parameter $\boldsymbol{\theta}_u$ but the space of canonical parameters will typically depend on $\boldsymbol{\theta}_v$ (it is an intersection of $\Theta$ with $\boldsymbol{\theta}_v=$ fixed). However, the mean parameter space is always the same and equal to the interior of the convex hull of $\boldsymbol{u}(\mathcal{X})$, which is equal to the projection of $\mu(\Theta)$ on the $u$ coordinates (i.e. $\mu_u$).
+\end{proof}
+
+\begin{prop}
+    [Conditional distribution] With the same setting as in the previous proposition, the conditional model for $\mathbf{x}$ given $\boldsymbol{u}$ (and thus also for $\boldsymbol{v}$ given $\boldsymbol{u}$ ) is a regular exponential family with canonical statistics $\boldsymbol{v}$. The conditional model depends on $\boldsymbol{u}$ but with one and the same canonical parameter $\boldsymbol{\theta}_v$ as in the joint model.
+\end{prop}
+
+\begin{proof}
+    We have
+\begin{align*}
+f(\mathbf{x} \mid \boldsymbol{u} ; \boldsymbol{\theta})=\frac{f(\boldsymbol{u}, \mathbf{x} ; \boldsymbol{\theta})}{f(\boldsymbol{u} ; \boldsymbol{\theta})}=\frac{h(\mathbf{x}) \exp \left\{\left\langle\boldsymbol{\theta}_v, v(\mathbf{x})\right\}\right.}{\int g(\boldsymbol{u}, v) \exp \left\{\left\langle\boldsymbol{\theta}_v, v(\mathbf{x})\right\} \mathrm{d} v\right.} .
+\end{align*}
+
+For the fixed value of $u$, the expression in the denominator does not depend on $\mathbf{x}$ but only on $\boldsymbol{\theta}_v$ and so it represents the normalizing constant of this distribution. Note $f(\mathbf{x} \mid \boldsymbol{u} ; \boldsymbol{\theta})$ is defined only for those $\mathbf{x}$ for which $\mathbf{t}(\mathbf{x})=(\boldsymbol{u}(\mathbf{x}), \boldsymbol{v}(\mathbf{x})) \in \mathbf{t}(\mathcal{X})$, and thus the space of sufficient statistics depends on $\boldsymbol{u}$. However, the canonical parameter is the same, $\boldsymbol{\theta}_v$ in the projection $\Theta_v$ of $\Theta$ on the coordinates $\boldsymbol{\theta}_v$. To get $f(\boldsymbol{v} \mid \boldsymbol{u} ; \boldsymbol{\theta})$ we only substitute $h(\mathbf{x})$ for $g(\boldsymbol{u}, \boldsymbol{v})$ above but otherwise the argument is the same.
+\end{proof}
+
+\begin{remark}
+    Explicit calculations with these marginal and conditional distributions are typically hard but the two results above are important in guiding our analysis.
+\end{remark}
+
+As a corollary of the above two results, we obtain a useful result on a range of possible alternative parametrizations. 
+
+For a given split $\mathbf{t}=(\boldsymbol{u}, \boldsymbol{v})$ consider the vector $(\boldsymbol{\mu}_u, \boldsymbol{\theta}_v)$ with $\boldsymbol{\mu}_u \in \mu_u(\Theta)$ and $\boldsymbol{\theta}_v \in \Theta_v$. Here by $\Theta_v$ we denote the projection of $\Theta$ on the coordinates $\boldsymbol{\theta}_v$ and by $\mu_u(\Theta)$ we mean the projection of $\mu(\Theta)$ on the coordinates $\mu_u$.
+
+\begin{prop}
+    The mixed parametrization $(\boldsymbol{\mu}_{\boldsymbol{u}}, \boldsymbol{\theta}_v)$ is a valid parametrization with the parameter space $\mu_u(\Theta) \times \Theta_v$ (variational independence!). The Fisher information for $(\boldsymbol{\mu}_u, \boldsymbol{\theta}_v)$ is
+\begin{align*}
+I\left(\boldsymbol{\mu}_{u^{\prime}}, \boldsymbol{\theta}_v\right)=\left[\begin{array}{cc}
+\left(\Sigma_{u u}\right)^{-1} & 0 \\
+0 & \left(\left(\Sigma^{-1}\right)_{v v}\right)^{-1}
+\end{array}\right],
+\end{align*}
+where $\Sigma=\operatorname{var}(\mathbf{t})$ and $\Sigma_{u u}=\operatorname{var}(\boldsymbol{u})$. The same formula holds for the observed information in the MLE, $J\left(\bar{\mu}_u, \overline{\boldsymbol{\theta}}_v\right)$.
+\end{prop}
+
+\begin{proof}
+Fix an exponential family with canonical statistics $\mathbf{t}(\mathbf{x})$ and canonical parameter $\boldsymbol{\theta} \in \Theta$. Note that the distribution of $\mathbf{t}(\mathbf{X})$ is an exponential family with the same canonical parameter. This distribution is uniquely defined by the marginal distribution of $u$ and the conditional distribution of $v$ given $u$. The latter forms an exponential family with canonical parameter $\boldsymbol{\theta}_v \in \Theta_v$. Now fix $\boldsymbol{\theta}_v$, which corresponds to fixing the conditional distribution of $v$ given $u$. Therefore, the marginal distribution of $u$ is an exponential family with the mean parameter $\mu_u$. Hence, the range of this mean parameter is the interior of the convex hull of $\boldsymbol{u}(\mathcal{X})$ (independent on $\boldsymbol{\theta}_v$ ). This is precisely the projection of $\boldsymbol{\mu}(\Theta)$ on $\boldsymbol{\mu}_u$ and this shows that the map $\boldsymbol{\theta} \mapsto\left(\boldsymbol{\mu}_u, \boldsymbol{\theta}_v\right)$ is one-to-one with range $\mu_u(\Theta) \times \Theta_v$.
+\end{proof}
+
+Now suppose $\psi$ is the parameter of interest, where $(\lambda, \psi)$ is a transformation of $\boldsymbol{\theta}$. For simplicity we focus on the case when $\boldsymbol{\psi}=\boldsymbol{\theta}_v$ and $\lambda=\mu_u$ is regarded as nuisance parameter. Recall that $\lambda=\mu_u=\mathbb{E}_{\boldsymbol{\theta}}(u)$ is the preferable nuisance parameter (rather than $\boldsymbol{\theta}_u$), since $\boldsymbol{\theta}_v$ and $\boldsymbol{\mu}_u$ are variation independent and information orthogonal.
+
+\begin{prop}[Conditionality principle for full families]
+    Statistical inference about the canonical parameter component $\boldsymbol{\theta}_v$ in presence of the nuisance parameter $\boldsymbol{\lambda}=\boldsymbol{\mu}_u=\mathbb{E}_{\boldsymbol{\theta}}(\boldsymbol{u})$ should be made conditional on $\boldsymbol{u}$, that is, the conditional model for $\mathbf{x}$ or $\boldsymbol{v}$ given $\boldsymbol{u}$.
+\end{prop}
+\begin{remark}
+    In words, the conditional principle is exercised as follows:
+    \begin{enumerate}
+        \item Observe data $X_1,\cdots,X_n$.
+        \item Derive the marginal model of $\boldsymbol{\mu}_u$ assuming $\boldsymbol{\theta}_v$ is fixed and using the data to make inference on $\boldsymbol{\mu}_u$. (Under a regular exponential family, the \emph{MLE} is independent of $\boldsymbol{\theta}_v$).
+        \item Derive the conditional model $\boldsymbol{\theta}_v\mid \boldsymbol{\mu_u}$ and make inference on $\boldsymbol{\theta}_v$.
+    \end{enumerate}
+\end{remark}
+
+This is only a recommendation so rather than providing a formal proof we motivate this statement informally.
+\begin{eg}
+   [Conditional MLE for the variance component in the normal family]
+Let
+\[
+X_1,\dots,X_n \stackrel{\mathrm{iid}}{\sim} N(m,\sigma^2),
+\]
+and consider the mixed parametrization
+\[
+\lambda=\mu_1=m,
+\qquad
+\theta_2=\frac{1}{\sigma^2}.
+\]
+Then:
+\begin{enumerate}
+    \item the MLE of the nuisance mean-parameter is
+    \[
+    \hat\lambda=\bar X;
+    \]
+    \item the conditional likelihood of $\theta_2$ given $\bar X$ is
+    \[
+    L_c(\theta_2\mid \bar X=\bar x)\propto \theta_2^{(n-1)/2}
+    \exp\!\left\{-\frac{\theta_2}{2}\sum_{i=1}^n (X_i-\bar X)^2\right\};
+    \]
+    \item hence the conditional maximum likelihood estimator of $\theta_2$ is
+    \[
+    \hat\theta_2^{\,c}
+    =
+    \frac{n-1}{\sum_{i=1}^n (X_i-\bar X)^2},
+    \]
+    or equivalently,
+    \[
+    \hat\sigma_c^2
+    =
+    \frac{1}{n-1}\sum_{i=1}^n (X_i-\bar X)^2.
+    \]
+\end{enumerate} 
+\end{eg}
+
+\begin{proof}
+The joint density of $X_1,\dots,X_n$ under the parametrization $(\lambda,\theta_2)$ is
+\[
+f(x_1,\dots,x_n;\lambda,\theta_2)
+=
+(2\pi)^{-n/2}\theta_2^{n/2}
+\exp\!\left\{-\frac{\theta_2}{2}\sum_{i=1}^n (x_i-\lambda)^2\right\}.
+\]
+Let
+\[
+\bar x=\frac1n\sum_{i=1}^n x_i,
+\qquad
+R=\sum_{i=1}^n (x_i-\bar x)^2.
+\]
+Using the decomposition
+\[
+\sum_{i=1}^n (x_i-\lambda)^2
+=
+\sum_{i=1}^n (x_i-\bar x)^2+n(\bar x-\lambda)^2
+=
+R+n(\bar x-\lambda)^2,
+\]
+we obtain
+\[
+f(x;\lambda,\theta_2)
+=
+(2\pi)^{-n/2}\theta_2^{n/2}
+\exp\!\left\{-\frac{\theta_2}{2}R\right\}
+\exp\!\left\{-\frac{n\theta_2}{2}(\bar x-\lambda)^2\right\}.
+\]
+
+First, consider inference for the nuisance parameter $\lambda$. The marginal law of $\bar X$ is
+\[
+\bar X\sim N\!\left(\lambda,\frac{1}{n\theta_2}\right),
+\]
+so its log-likelihood is, up to an additive constant,
+\[
+\ell_{\mathrm{marg}}(\lambda,\theta_2;\bar x)
+=
+\frac12\log\theta_2-\frac{n\theta_2}{2}(\bar x-\lambda)^2.
+\]
+For fixed $\theta_2$, this is maximized at
+\[
+\hat\lambda=\bar x.
+\]
+Thus the MLE of the nuisance mean-parameter is
+\[
+\hat\lambda=\bar X.
+\]
+
+Now apply the mixed-parametrization principle: inference about the canonical component $\theta_2$ in the presence of the nuisance parameter $\lambda$ should be made conditionally on $U=\bar X$. The conditional density is
+\[
+f(x\mid \bar x;\theta_2)
+=
+\frac{f(x;\lambda,\theta_2)}{f_{\bar X}(\bar x;\lambda,\theta_2)}.
+\]
+Since
+\[
+f_{\bar X}(\bar x;\lambda,\theta_2)
+=
+\left(\frac{n\theta_2}{2\pi}\right)^{1/2}
+\exp\!\left\{-\frac{n\theta_2}{2}(\bar x-\lambda)^2\right\},
+\]
+the terms involving $\lambda$ cancel, leaving
+\[
+f(x\mid \bar x;\theta_2)
+\propto
+\theta_2^{(n-1)/2}
+\exp\!\left\{-\frac{\theta_2}{2}R\right\}.
+\]
+Hence the conditional log-likelihood is
+\[
+\ell_c(\theta_2\mid \bar x)
+=
+\frac{n-1}{2}\log\theta_2-\frac{\theta_2}{2}R+\text{const}.
+\]
+Differentiating with respect to $\theta_2$,
+\[
+\frac{d}{d\theta_2}\ell_c(\theta_2\mid \bar x)
+=
+\frac{n-1}{2\theta_2}-\frac{R}{2}.
+\]
+Setting this equal to zero gives
+\[
+\hat\theta_2^{\,c}
+=
+\frac{n-1}{R}
+=
+\frac{n-1}{\sum_{i=1}^n (X_i-\bar X)^2}.
+\]
+Since $\theta_2=1/\sigma^2$, the corresponding conditional estimator of $\sigma^2$ is
+\[
+\hat\sigma_c^2
+=
+\frac{1}{\hat\theta_2^{\,c}}
+=
+\frac{1}{n-1}\sum_{i=1}^n (X_i-\bar X)^2.
+\]
+This proves the result.
+\end{proof}
+
+\begin{remark}
+This conditional estimator differs from the ordinary joint MLE of $\sigma^2$, which is
+\[
+\hat\sigma^2_{\mathrm{MLE}}
+=
+\frac{1}{n}\sum_{i=1}^n (X_i-\bar X)^2.
+\]
+The reason is that the conditional likelihood removes the nuisance location parameter by conditioning on $\bar X$, so the residual variation carries only $n-1$ degrees of freedom.
+\end{remark}
+\section{Lecture 14: Applications}
+\subsection{KL Divergence}
+The Fenchel conjugate of the cumulant function $A$ is the function
+\begin{align*}
+A^*(\mathbf{t})=\sup \left\{\langle\boldsymbol{\theta}, \mathbf{t}\rangle-A(\boldsymbol{\theta}): \boldsymbol{\theta} \in \mathbb{R}^d\right\} .
+\end{align*}
+
+\begin{prop}
+    The function $A^*$ admits the following properties:
+    \begin{itemize}
+        \item For regular exponential families $A^*(\mathbf{t})<\infty$ if and only if $\mathbf{t} \in \mu(\Theta)$.
+        \item  The function $A^*$ is convex as a supremum of linear functions and, in fact, strictly convex.
+        \item  If $\mathbf{t} \in \mu(\Theta)$, the unique optimizer of the log-likelihood is $\theta(\mathbf{t})$, where $\theta: M \rightarrow \Theta$ is the inverse of the map $\mu: \Theta \rightarrow M$. It follows that, for $\mathbf{t} \in \mu(\Theta)$,
+\begin{align*}
+A^*(\mathbf{t})=\langle\theta(\mathbf{t}), \mathbf{t}\rangle-A(\theta(\mathbf{t}))
+\end{align*}
+    \end{itemize}
+\end{prop}
+\begin{remark}
+    Alternatively, for $\boldsymbol{\theta} \in \Theta$,
+\begin{align*}
+A^*(\mu(\boldsymbol{\theta}))=\langle\boldsymbol{\theta}, \mu(\boldsymbol{\theta})\rangle-A(\boldsymbol{\theta})
+\end{align*}
+implying in particular that $A^*$ is smooth, since $\mu$ and $A$ are both smooth. Since $\mu(\theta(\mathbf{t}))=\mathbf{t}$, we obtain
+\begin{align*}
+\nabla A^*(\mathbf{t})=\theta(\mathbf{t})+\nabla \theta(\mathbf{t}) \cdot \mathbf{t}-\nabla \theta(\mathbf{t}) \cdot \mu(\theta(\mathbf{t}))=\theta(\mathbf{t}),
+\end{align*}
+where the gradient is taken with respect to $t$.
+\end{remark} 
+\begin{de}
+    For two distributions over some state-space $\mathcal{X}$ with densities $p, q$ with respect to some measure $\mu$, the Kullback-Leibler divergence $\mathrm{K}(p, q)$ is defined as
+\begin{align*}
+\mathrm{K}(p, q):=\int_{\mathcal{X}} p(\mathbf{x}) \log \frac{p(\mathbf{x})}{q(\mathbf{x})} \mu(\mathrm{d} \mathbf{x}) .
+\end{align*}
+\end{de}
+
+The following result is well-known.
+\begin{prop}
+    We have $K(p, q) \geq 0$ with equality if and only if $p=q$ almost surely.
+\end{prop}
+
+
+
+Given two distributions $\mathbb{P}_{\theta_1}, \mathbb{P}_{\theta_2}$ in the given exponential family we write the corresponding Kullback-Leibler divergence as $K\left(\boldsymbol{\theta}_1, \boldsymbol{\theta}_2\right)$. We easily check that
+\begin{align*}
+K\left(\boldsymbol{\theta}_1, \boldsymbol{\theta}_2\right)=A\left(\boldsymbol{\theta}_2\right)-A\left(\boldsymbol{\theta}_1\right)-\left\langle\boldsymbol{\theta}_2-\boldsymbol{\theta}_1, \boldsymbol{\mu}_1\right\rangle .
+\end{align*}
+
+\begin{prop}
+    Consider two distributions in the exponential family (1.1), one with the mean parameter $\mu_1 \in \mu(\Theta)$ and the other with canonical parameter $\boldsymbol{\theta}_2 \in \Theta$. If this exponential family is regular, the Kullback-Leibler divergence between these two distributions is
+\begin{align*}
+\mathrm{K}\left(\mu_1, \theta_2\right)=-\left\langle\mu_1, \theta_2\right\rangle+A^*\left(\mu_1\right)+A\left(\theta_2\right) .
+\end{align*}
+
+
+The Kullback-Leibler divergence is well defined and nonnegative over $\mu(\Theta) \times \Theta$. Moreover, $\boldsymbol{K}\left(\boldsymbol{\mu}_1, \boldsymbol{\theta}_2\right)=0$ if and only if $\boldsymbol{\mu}_1=\mu\left(\boldsymbol{\theta}_2\right)$.
+\end{prop}
+
+\begin{proof}
+    It suffices to notice that $A^*(\mu_1)=\langle \boldsymbol{\theta_1},\mu_1\rangle-A(\boldsymbol{\theta_1})$.
+\end{proof}
+
+The reason to express the Kullback-Leibler distance in terms of $\mu_1$ and $\theta_2$ rather than $\theta_1, \theta_2$ (as usually done in the literature) is that we wish to exploit the following basic result.
+\begin{prop}
+    The Kullback-Leibler divergence $\mathrm{K}\left(\boldsymbol{\mu}_1, \boldsymbol{\theta}_2\right)$ is strictly convex both in $\mu_1$ and in $\boldsymbol{\theta}_2$.
+\end{prop}
+
+\begin{proof}
+    This follows directly from
+    \begin{align*}
+\mathrm{K}\left(\mu_1, \theta_2\right)=-\left\langle\mu_1, \theta_2\right\rangle+A^*\left(\mu_1\right)+A\left(\theta_2\right) .
+\end{align*}
+    and the fact that both $A(\boldsymbol{\theta})$ and $A^*(\boldsymbol{\mu})$ are strictly convex functions.
+\end{proof}
+
+We state now the most fundamental results motivating exponential families. The maximum entropy principle states that under uncertainty, one should take a model which maximizes the entropy subject to constraints on the known features about the system. We show that the exponential family arises naturally if the constraint is given by the expected value of some statistics.
+
+Recall that for a distribution $\mathbb{P}$ that admits a density function $p(x)$ with respect to the base measure $\mu$, the entropy $H_{\mathbb{P}}$ of $\mathbb{P}$ is
+\begin{align*}
+\mathrm{H}_{\mathbb{P}}=-\mathbb{E}_{\mathbb{P}} \log p(X)=-\int \log p(x) p(x) \mu(\mathrm{d} x) .
+\end{align*}
+
+
+For notational simplicity, in what follows consider the exponential family where the function $h(\mathbf{x})$ has been incorporated into the base measure $\mu$. In this case each distribution in this family has the same support, which is equal to the support of $\mu$. For such an exponential family $\mathbb{P}_\theta$ we have
+\begin{align*}
+\mathrm{H}_{\mathbb{P}_{\boldsymbol{\theta}}}=-\langle\boldsymbol{\theta}, \mu(\boldsymbol{\theta})\rangle+A(\boldsymbol{\theta})=-A^*(\mu(\boldsymbol{\theta})).
+\end{align*}
+
+Consider the problem of maximizing the entropy for all distributions $\mathbb{P}$ that admit a density function absolutely continuous with respect to $\mu$ and $\mathbb{E}_{\mathbb{P}}(t(X))=t_0$
+\begin{align*}
+\operatorname{maximize} \mathrm{H}_{\mathrm{P}} \quad \text { s.t. } \mathbb{P} \sim \mu, \quad \mathbb{E}_{\mathbb{P}} t(X)=t_0 .
+\end{align*}
+
+The following result provides an important characterization of exponential families.
+\begin{thm}
+    Consider the exponential family and suppose there exists $\boldsymbol{\theta}_0 \in \Theta$ such that $\nabla A\left(\boldsymbol{\theta}_0\right)=\boldsymbol{t}_0$. Then for any distribution $\mathbb{P}$, which satisfies the mean condition $\mathbb{E}_{\mathbb{P}} t(X)=t_0$, we have
+\begin{align*}
+H_{\mathbb{P}_{\theta_0}}-H_{\mathbb{P}}=K\left(\mathbb{P}, \mathbb{P}_{\theta_0}\right) .
+\end{align*}
+Thus, $\mathbb{P}_{\theta_0}$ is the unique solution to the maximum entropy problem.
+\end{thm}
+\begin{proof}
+    Note that $\nabla A\left(\boldsymbol{\theta}_0\right)=t_0$ is equivalent to $\mu\left(\boldsymbol{\theta}_0\right)=\mathbb{E}_{\boldsymbol{\theta}_0} \mathbf{t}(X)=\mathbf{t}_0$. Let $p(\mathbf{x})$ be the density of $\mathbb{P}$ with respect to $\mu$. Consider
+\begin{align*}
+\begin{aligned}
+\mathrm{K}\left(\mathbb{P}, \mathbb{P}_{\theta_0}\right) & =\int p(\mathbf{x}) \log \frac{p(\mathbf{x})}{f\left(\mathbf{x} ; \boldsymbol{\theta}_0\right)} \mu(\mathrm{d} \mathbf{x}) \\
+& =-H_{\mathbb{P}}-\int\left(\left\langle\boldsymbol{\theta}_0, \mathbf{t}(\mathbf{x})\right\rangle-A\left(\boldsymbol{\theta}_0\right)\right) p(x) \mu(\mathrm{d} \mathbf{x}) \\
+& =-H_{\mathbb{P}}-\left\langle\boldsymbol{\theta}_0, \mathbf{t}_0\right\rangle+A\left(\boldsymbol{\theta}_0\right) = H_{\mathbb{P}_{\theta_0}}-H_{\mathbb{P}} .
+\end{aligned}
+\end{align*}
+Therefore, $H_{\mathbb{P}} \leq H_{\mathbb{P}_{\theta_0}}$ with equality if and only if $\mathbb{P}=\mathbb{P}_{\theta_0}$. This concludes the proof.
+\end{proof}
+\subsection{Generalized Linear Models}
+The generalized linear models are formulated based on the construction of exponential families. Here we provide only a basic treatment that explains the origin of the construction and the most important examples.
+
+Consider the pairs $\left(y_1, x_1\right), \ldots,\left(y_n, x_n\right)$, where the input $x_1, \ldots, x_n \in \mathbb{R}^d$ are considered fixed and the outputs $y_1, \ldots, y_n$ are independent observations each from density
+\begin{align*}
+f\left(y_i ; \mathbf{x}_i, w, \sigma^2\right)=h\left(y_i, \sigma^2\right) \exp \left\{\frac{1}{\sigma^2}\left(y_i \theta_i(w)-A\left(\theta_i(w)\right)\right)\right\} .
+\end{align*}
+where $\theta_i(w)=\mathbf{x}_i^{\top} w$ and $\sigma^2$ is called the dispersion term. From the standard theory, we get immediately that
+\begin{align*}
+\mu\left(\theta_i\right):=\mathbb{E}\left[Y_i \mid \mathbf{x}_i, w, \sigma^2\right]=A^{\prime}\left(\theta_i\right) .
+\end{align*}
+Indeed, the standard result show that for a fixed $\sigma^2, \mathbb{E}\left(\frac{1}{\sigma^2} Y\right)= \frac{1}{\sigma^2} A^{\prime}(\theta)$. In the same way, we argue that
+\begin{align*}
+V\left(\theta, \sigma^2\right):=\operatorname{var}_\theta\left(Y_i \mid \mathbf{x}_i, w, \sigma^2\right)=\sigma^2 A^{\prime \prime}\left(\theta_i\right) .
+\end{align*}
+
+
+From now on we fix $\sigma^2$ and with no loss of generality we take $\sigma^2=1$. The log-likelihood function is
+\begin{align*}
+\ell_n(w)=\frac{1}{n} \sum_{i=1}^n \log f\left(y_i ; \mathbf{x}_i, w\right)=\left(\frac{1}{n} \sum_{i=1}^n y_i \mathbf{x}_i\right)^{\top} w-\frac{1}{n} \sum_{i=1}^n A\left(\mathbf{x}_i^{\top} w\right)+\text { const. }
+\end{align*}
+Since a composition of a convex and a linear function is convex, we conclude that $\ell_n(w)$ is a concave function.
+
+Let $\mathbf{X} \in \mathbb{R}^{n \times d}$ be the data matrix with rows $\mathbf{x}_i$ and let $\mathbf{y}$ be the vectors with entries $y_i$. It can be shown that the unique optimizer of $\ell_n(w)$ (if it exists), must satisfy the likelihood equations
+\begin{align*}
+\mathbf{X}^{\top} \mathbf{y}=\mathbf{X}^{\top} A^{\prime}(\mathbf{X} \widehat{w}),
+\end{align*}
+where the function $A^{\prime}$ is applied elementwise to the vector $\mathbf{X} \widehat{w}$. In machine learning ,it is customary to call $A^{\prime}$ in this context an activation function.
+
+\begin{eg}[Linear regression] Consider the univariate Gaussian distribution. Suppose now that $\sigma^2$ is fixed and the model is parametrized only by the mean $\mu$. We can rewrite the density as
+\begin{align*}
+f\left(y ; \mu, \sigma^2\right)=\frac{1}{\sqrt{2 \pi \sigma^2}} e^{-\frac{y^2}{2 \sigma^2}} \exp \left\{\frac{1}{\sigma^2}\left(y \mu-\frac{\mu^2}{2}\right)\right\}=h\left(y, \sigma^2\right) \exp \left\{\frac{1}{\sigma^2}(y \mu-A(\mu))\right\},
+\end{align*}
+where $h\left(y, \sigma^2\right)=\frac{1}{\sqrt{2 \pi \sigma^2}} e^{-\frac{y^2}{2 \sigma^2}}$ and $A(\mu)=\mu^2 / 2$. If we model the mean $\mu$ as a linear function of a vector $\mathbf{x}, \mu=w^{\top} \mathbf{x}$ we get the standard Gaussian linear regression
+\begin{align*}
+f\left(y \mid \mathbf{x}, w, \sigma^2\right)=\frac{1}{\sqrt{2 \pi \sigma^2}} \exp \left\{-\frac{1}{2 \sigma^2}\left(y-w^{\top} \mathbf{x}\right)^2\right\} .
+\end{align*}
+
+
+We easily see that this is a generalized linear model as defined above. As $A^{\prime}(\mu)=\mu$ and $A^{\prime \prime}(\mu)=1$, we get $\mathbb{E}\left(Y \mid \mathbf{x}, w, \sigma^2\right)=\mu=w^{\top} \mathbf{x}$, $\operatorname{var}\left(Y \mid \mathbf{x}, w, \sigma^2\right)=\sigma^2$ and the MLE equations are $\mathbf{X}^{\top} \mathbf{y}= \mathbf{X}^{\top} \mathbf{X}$ w, which are identical to the OLS estimating equations.
+\end{eg}
+
+\begin{eg}
+    [Binomial regression] The binomial distribution for the number of successes in $n$ trials, $y \in\{0, \ldots, n\}$ has the probability mass function
+\begin{align*}
+\operatorname{Bin}(y ; n, p)=\binom{n}{y} p^y(1-p)^{n-y}=\binom{n}{y} \exp \left\{y \log \frac{p}{1-p}+n \log (1-p)\right\} .
+\end{align*}
+If $\theta=\log \frac{p}{1-p}$ then $p=\frac{e^\theta}{1+e^\theta}$, which is typically called a sigmoid function and denoted by $\sigma(\theta)$. Moreover, $A(\theta)=n \log \left(1+e^\theta\right)$ and so $A^{\prime}(\theta)= n \sigma(\theta)$. Now we use this distribution for the GLM setup. If the response variable is the number of successes in $n$ trials, $y \in\{0, \ldots, n\}$, we can use binomial regression, which is defined by
+\begin{align*}
+f(y ; \mathbf{x}, N, w)=\operatorname{Bin}\left(y ; n, \sigma\left(w^{\top} \mathbf{x}\right)\right),
+\end{align*}
+where the logistic regression becomes a special case with $n=1$. This clearly has the right form and $\mathbb{E}(Y)=n \theta, \operatorname{var}(Y)=n p(1-p)$. The likelihood equations are
+\begin{align*}
+\mathbf{X}^{\top} \mathbf{y}=n \mathbf{X}^{\top} \sigma(\mathbf{X} \hat{w}) .
+\end{align*}
+\end{eg}
+
+\begin{eg}[Poisson regression] 
+The Poisson distribution is a distribution over $\mathcal{X}=\{0,1,2, \ldots\}$ with the probability mass function
+\begin{align*}
+f(y ; \mu)=\frac{\mu^y}{y!} e^{-\mu}=\frac{1}{y!}\exp\left(y\log \mu - \mu\right) \quad y \in \mathcal{X} .
+\end{align*}
+
+
+This is an exponential family with canonical parameter $\theta=\log (\mu)$ and $A(\theta)=\mu=\exp(\theta)$. In Poisson regression, we take $\theta=w^{\top} x$.
+\end{eg}
+
+\begin{remark}
+    Modelling the canonical parameters as a linear function of external variables is not the only choice. For example, the Bernoulli distribution gives the logistic regression. An alternative approach is to model $p=\Phi\left(w^{\top} x\right)$, which gives the probit regression. Generalized linear models with non-canonical link functions correspond to curved exponential families.
+\end{remark}
+
+
+\subsection{Conjugate Priors}
+An important advantage of exponential families over more general classes of distributions is that they admit an explicit conjugate prior for Bayesian computations. The conjugate prior measure for the exponential family is given by the density (w.r.t. the Lebesgue measure) of the form
+\begin{align*}
+\pi(\boldsymbol{\theta})=C \exp \left\{\langle\boldsymbol{\theta}, \tau\rangle-n_0 A(\boldsymbol{\theta})\right\}, \quad \tau \in \mathbb{R}^d, n_0 \geq 0 .
+\end{align*}
+
+Note that $\pi(\boldsymbol{\theta}) \equiv 0$ outside of $\Theta$ because there $A(\boldsymbol{\theta}) \equiv+\infty$. It can also be shown that the distribution is normalizable if $n_0>0$ and $\tau / n_0 \in \mathcal{K}=\operatorname{conv}(T(\mathcal{X}))$.
+
+\begin{prop}
+    For a regular exponential family, consider the conjugate prior
+\begin{align*}
+\pi(\boldsymbol{\theta})=C \exp \left\{\langle\boldsymbol{\theta}, \tau\rangle-n_0 A(\boldsymbol{\theta})\right\}, \quad \tau \in \mathbb{R}^d, n_0 \geq 0 .
+\end{align*}
+If $\boldsymbol{\mu}$ is the mean parameter then we have $\mathbb{E}_{\boldsymbol{\theta}}[\boldsymbol{\mu}]=\frac{\tau}{n_0}$.
+\end{prop}
+\begin{proof}
+We use the fact that $\boldsymbol{\mu}=\nabla A(\boldsymbol{\theta})$. We have
+\begin{align*}
+\begin{aligned}
+\mathbb{E}_{\boldsymbol{\theta}}\left[\tau-n_0 \nabla A(\boldsymbol{\theta})\right] & =\int_{\Theta}\left(\tau-n_0 \nabla A(\boldsymbol{\theta})\right) C \exp \left\{\langle\boldsymbol{\theta}, \tau\rangle-n_0 A(\boldsymbol{\theta})\right\} \mathrm{d} \boldsymbol{\theta} \\
+& =\int_{\Theta} \nabla\left(C \exp \left\{\langle\boldsymbol{\theta}, \tau\rangle-n_0 A(\boldsymbol{\theta})\right\}\right) \mathrm{d} \boldsymbol{\theta} \\
+& =\int_{\Theta} \nabla \pi(\boldsymbol{\theta}) \mathrm{d} \boldsymbol{\theta}=0
+\end{aligned}
+\end{align*}
+
+\end{proof}
+
+\begin{eg}
+    Consider the data $\mathbf{x}_1, \ldots, \mathbf{x}_n$ from the distribution $\mathbb{P}_\theta$. If the prior is of the form above, then the posterior $\pi\left(\boldsymbol{\theta} \mid \mathbf{x}_{1: n}\right)$ satisfies
+\begin{align*}
+\begin{aligned}
+\pi\left(\boldsymbol{\theta} \mid \mathbf{x}_{1: n}\right) & \propto \pi(\boldsymbol{\theta}) \prod_{i=1}^n f\left(\mathbf{x}_i ; \boldsymbol{\theta}\right) \\
+& =C \prod_{i=1}^n h\left(\mathbf{x}_i\right) \exp \left\{\left\langle\boldsymbol{\theta}, \tau+\sum_{i=1}^n \mathbf{t}\left(\mathbf{x}_i\right)\right\rangle-\left(n+n_0\right) A(\boldsymbol{\theta})\right\}
+\end{aligned}
+\end{align*}
+And so it has the same general form as the prior, where $(\tau, n_0)$ is replaced with $\left(\tau+n \bar{\mu}_n, n_0+n\right)$. The Bayes estimator of the mean parameter is then
+\begin{align*}
+\mathbb{E}\left[\boldsymbol{\mu} \mid \mathbf{x}_{1: n}\right]=\frac{\tau+n \bar{\mu}_n}{n_0+n}=\lambda \frac{\tau}{n_0}+(1-\lambda) \bar{\mu}_{n^{\prime}}
+\end{align*}
+where $\lambda=\frac{n_0}{n_0+n}$ and so the Bayes estimator is a convex combination of the MLE $\bar{\mu}_n$ and the prior mean $\tau / n_0$.
+\end{eg}
+
+\begin{remark}
+    We can easily define conjugate priors over non-canonical parameters. For example, to get a conjugate prior over the mean parameter we simply change $\boldsymbol{\theta}$ with $\theta(\boldsymbol{\mu})$ and change the definition of $C$ so that the corresponding expression integrates to 1. Note that this is not the same as the density obtained through the change of variable formula.
+\end{remark}

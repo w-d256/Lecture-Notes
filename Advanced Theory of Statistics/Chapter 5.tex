@@ -1,0 +1,515 @@
+\chapter{Multiple Testing}
+\section{Lecture 17: Testing using Family-wise Error Rate }
+\subsection{Testing on Submodels}
+Consider an exponential family and a $p$-dimensional linear space $\mathcal{L} \subseteq \mathbb{R}^d$ and the corresponding $\Theta_0=\Theta \cap \mathcal{L}$. There exists a simple affine change of coordinates form $\theta$ to $(\lambda, \psi)$ such that $\Theta_0=\{(\boldsymbol{\lambda}, \boldsymbol{\psi}): \boldsymbol{\psi}=\mathbf{0}\}$. If the basis of $\mathcal{L}$ is given by the columns of $\mathbb{R}^{d \times p}$ then $\boldsymbol{\theta}=A \boldsymbol{\lambda}$ parametrizes $\Theta_0$. Thus, for $\boldsymbol{\theta} \in \Theta_0$ we have
+\begin{align*}
+\langle\boldsymbol{\theta}, t\rangle=\langle A \boldsymbol{\lambda}, t\rangle=\left\langle\boldsymbol{\lambda}, A^{\top} t\right\rangle=\langle\boldsymbol{\lambda}, u\rangle,
+\end{align*}
+where $u=A^{\top} t$ is the sufficient statistics of the $p$-dimensional model parametrized by $\Theta_0$.
+
+Thus, without loss of generality we decompose $\mathbf{t}=(u, v)$ with $\boldsymbol\lambda=\mu_u$ and $\boldsymbol{\psi}=\boldsymbol{\theta}_v$. We want to test the $q$-dimensional hypothesis $\psi_0=0$, where $(q=d-p)$:
+\begin{align*}
+H_0: \quad \boldsymbol{\psi}=0, \quad \text { versus } \quad \boldsymbol{\psi} \neq 0 .
+\end{align*}
+We first consider a model reduction of the canonical statistics from $t=(u, v)$ to $u$. Recall that any inference on $\psi$ should be done conditionally on $u$. All information provided by $u$ is consumed in estimating $\mu_u$ and this parameter has no information about $\psi$ by variational inference.
+% --- Concrete example: testing a linear submodel in an exponential family ---
+
+\begin{eg}
+    Let $X_1,\dots,X_n\in\mathbb{R}^2$ be i.i.d.
+\[
+X_i \sim \mathcal{N}_2(\mu, I_2),\qquad \mu=(\mu_1,\mu_2)^\top .
+\]
+This is a regular exponential family with natural parameter $\theta=\mu\in\mathbb{R}^d$ ($d=2$) and sufficient statistic
+\[
+t=\sum_{i=1}^n X_i\in\mathbb{R}^2.
+\]
+Up to an additive constant, the log-likelihood is
+\[
+\ell(\theta)=\langle \theta,t\rangle-\frac{n}{2}\|\theta\|^2.
+\]
+
+Consider the $p$-dimensional linear space ($p=1$)
+\[
+\mathcal{L}=\{(\alpha,\alpha):\alpha\in\mathbb{R}\}=\mathrm{span}\{(1,1)\}.
+\]
+Choose the basis matrix $A\in\mathbb{R}^{2\times 1}$ as
+\[
+A=\frac{1}{\sqrt{2}}
+\begin{pmatrix}
+1\\[2pt]
+1
+\end{pmatrix},
+\qquad
+\Theta_0=\Theta\cap \mathcal{L}=\{\theta:\theta_1=\theta_2\}.
+\]
+Then $\theta=A\lambda$ parametrizes $\Theta_0$, and for $\theta\in\Theta_0$,
+\[
+\langle \theta,t\rangle=\langle A\lambda,t\rangle=\langle \lambda, A^\top t\rangle
+=\langle \lambda,u\rangle,
+\qquad
+u:=A^\top t=\frac{t_1+t_2}{\sqrt{2}}.
+\]
+Hence the reduced model has $1$-dimensional sufficient statistic $u$. Recall that the desired parametrization of $(\boldsymbol{\lambda},\boldsymbol{\psi})$ satisfies
+\[
+\Theta_0=\{(\lambda,\psi):\psi=0\}.
+\]
+Let $B$ be an orthonormal basis of $\mathcal{L}^\perp$:
+\[
+B=\frac{1}{\sqrt{2}}
+\begin{pmatrix}
+1\\[2pt]
+-1
+\end{pmatrix}.
+\]
+The corresponding decomposition of the sufficient statistic (under an affine transformation) is
+\[
+u=A^\top t=\frac{t_1+t_2}{\sqrt{2}},\qquad
+v=B^\top t=\frac{t_1-t_2}{\sqrt{2}}.
+\]
+The corresponding parameters that are variational independent are then given by
+\[
+\boldsymbol\lambda=\mu_u=\frac{1}{\sqrt{2}}(\mu_1+\mu_2),\quad  \boldsymbol{\psi}=\boldsymbol{\theta}_v=\frac{1}{\sqrt{2}}(\mu_1-\mu_2)
+\]
+Here $q=d-p=1$, and the hypothesis
+\[
+H_0:\ \psi=0
+\quad \text{vs}\quad
+H_1:\ \psi\neq 0
+\]
+is equivalent to
+\[
+H_0:\ \mu_1=\mu_2
+\quad \text{vs}\quad
+H_1:\ \mu_1\neq \mu_2.
+\]
+A convenient (Wald/LR/score-equivalent) test statistic is
+\[
+W=\frac{v^2}{n}
+=\frac{1}{n}\left(\frac{t_1-t_2}{\sqrt{2}}\right)^2
+=\frac{n}{2}\,(\bar X_1-\bar X_2)^2,
+\]
+and under $H_0$,
+\[
+W\ \sim\ \chi^2_{1}.
+\]
+\end{eg}
+
+
+
+
+Consider the conditional distribution for $v$ given $u$. Inserting $\psi=0$ simplifies this to
+\begin{align*}
+f_0(v \mid u)=\frac{g(u, v)}{g_0(u)},
+\end{align*}
+where index 0 indicates distribution under $H_0$, and in particular $g_0(u)=\int g(u, v) \mathrm{d} v$ is the structure function in the marginal exponential family for $u$ under $H_0$. Note that, under the null, the conditional distribution of $v$ given $u$ is parameter-free.
+
+We propose the following test for 
+$$
+H_0: \boldsymbol{\psi}=\mathbf{0}\quad \text{v.s.}\quad H_1: \boldsymbol{\psi} \neq \mathbf{0}
+$$
+\begin{enumerate}
+    \item Use $f_0(v \mid \bar{u})$ as the test statistic, which, under the null, is equal to the conditional density of $v$ given $\bar{u}$.
+    \item Reject $H_0$ if $f_0(\bar{v} \mid \bar{u})$ is too small, and calculate the $p$-value as
+\begin{align*}
+\mathbb{P}\left(f_0(v \mid \bar{u}) \leq f_0(\bar{v} \mid \bar{u})\right)=\int_{f_0(v \mid \pi) \leq f_0(\bar{v} \mid \pi)} f_0(v \mid \bar{u}) \mathrm{d} v,
+\end{align*}
+where $\bar{u}, \bar{v}$ denote the observed quantities.
+\end{enumerate}
+
+
+\begin{remark}
+    These test follow the Fisher's principle of exact tests. "Exactness" comes from the fact that the test achieves exactly the desired size $\alpha$ (as opposed to approximate tests). One obvious question is about the power of such a procedure.
+\end{remark}
+
+
+Consider a special case of the above setting when $\mathbf{t}=(u, v)$ with $v$ one-dimensional. In this case $\theta_v$ is one-dimensional too and we can obtain a uniform most powerful test for $H_0: \psi=0$ versus $H_1: \psi \neq 0$. Recall that, under the null, the conditional distribution of $v$ given $u$ is parameter-free. We will then use $v$ directly as the test statistic with $u$
+fixed and consider the test $\varphi^*(x)$ defined as
+\begin{align*}
+\varphi^*(x)= \begin{cases}1 & \text { if } v>c^*(u), \\ 1 & \text { if } v<c_*(u), \\ \gamma^*(u) & \text { if } v=c^*(u), \\ \gamma_*(u) & \text { if } v=c_*(u), \\ 0 & \text { if } v \in\left(c_*(u), c^*(u)\right),\end{cases}
+\end{align*}
+with $c(\cdot)$ and $\gamma(\cdot)$ adjusted so that the test has exactly level $\alpha$.
+\begin{thm}
+    If the exponential family is regular and $\theta_v$ is one-dimensional, then $\varphi^*$ is a uniformly most powerful unbiased test of $H_0: \theta_v=0$ versus $H_1: \theta_v \neq 0$.
+\end{thm}
+
+\begin{eg}[Mean value test for a normal distribution] 
+Consider testing $H_0: \mu=0$ for a sample of size $n$ from $N\left(\mu, \sigma^2\right)$. Note that the canonical parameters of this family are $\left(\frac{\mu}{\sigma^2},-\frac{1}{2 \sigma^2}\right)$ with sufficient statistics $(\sum x_i,\sum x_i^2)$, so equivalently we would like to test $\theta_1=0$ with $v=\sum_i x_i$. The exact test should be conditional, given $u=\sum_i x_i^2=\|x\|^2$. 
+
+Indeed, from the lemma below, $u \Perp v / \sqrt{u}$ and the vector $\frac{1}{\sqrt{u}}\left(x_1, \ldots, x_n\right)$ is uniformly distributed on the $(n-1)$-dimensional unit sphere. Therefore, under $H_0: \mu=0$, define
+\begin{align*}
+Z:=\frac{V}{\sqrt{n U}} .
+\end{align*}
+Then given $U=u$,
+\begin{align*}
+Z \mid(U=u) \stackrel{d}{=} S_1,
+\end{align*}
+where $S_1$ is the first coordinate of a point uniform on the unit sphere $S^{n-1}$. That coordinate has density on $[-1,1]$
+\begin{align*}
+f_Z(z)=c_n\left(1-z^2\right)^{\frac{n-3}{2}}, \quad c_n=\frac{\Gamma(n / 2)}{\sqrt{\pi} \Gamma((n-1) / 2)} .
+\end{align*}
+
+Therefore, the conditional density of $V \mid U=u$ is
+\begin{align*}
+f_0(v \mid u)=\frac{1}{\sqrt{n u}} c_n\left(1-\frac{v^2}{n u}\right)^{\frac{n-3}{2}}, \quad|v| \leq \sqrt{n u},
+\end{align*}
+and $0$ otherwise. The test proposed above is then equivalent to a test on the ratio $v/\sqrt{u}$.
+
+The last step is to show that this test is equivalent to the t-test. Let $\tau= \sqrt{n} x / s$ be the t-test statistic. Let us rewrite $v / \sqrt{u}$ as
+\begin{align*}
+\frac{n \bar{x}}{\sqrt{\sum_i x_i^2}}=\frac{n \bar{x}}{\sqrt{(n-1) s^2+n x^2}}=\frac{n \bar{x} / s}{\sqrt{(n-1)+(\sqrt{n} x / s)^2}}=\frac{\sqrt{n} \tau}{\sqrt{(n-1)+\tau^2}} .
+\end{align*}
+The right-hand side is seen to be an odd function and a monotone function of $\tau$. Thus, a single tail or a symmetric pair of tails in $u / \sqrt{v}$ is equivalent to a single or symmetric pair of tails in the usual $t$-test.
+\end{eg}
+
+\subsection{The Bonferroni Procedure}
+As a general motivation, consider the problem of simultaneously testing a finite number of null hypotheses $H_0^i$ for $i=1, \ldots, m$.
+\begin{eg}
+    Suppose that we have $m$ genes and data about expression levels for each gene among healthy individuals and those with lung cancer.
+    
+\begin{tabular}{l|l|l} 
+& Healthy ( $k$ patients) & Lung cancer (l patients) \\
+\hline Expression Level of Gene $i$ & $x_{i j}^{(0)}, 1 \leq j \leq k$ & $x_{i j}^{(1)}, 1 \leq j \leq l$
+\end{tabular}
+
+The $i$-th null hypothesis, denoted $H_0^i$, would state that the mean expression level of the $i$-th gene is the same in both groups of patients.
+\end{eg}
+
+
+We assume that the tests for the individual hypotheses are available ($T_i$ test statistic, $R_i$ rejection region, and the test rejects if $T_i \in R_i$, $P_i$ the associated p-value, i.e. the smallest $\alpha$ leading to rejection). And the problem is how to combine them into a simultaneous test procedure. The easiest yet extremely naive approach is to disregard the multiplicity and simply test each hypothesis at level $\alpha$. However, with such a procedure, the probability of one or more false rejections rapidly increases with $n$. For example, if all tests are independent, of size $\alpha$, and all null hypotheses are true, then
+\begin{align*}
+\mathbb{P}_0\left(\bigcap\left\{T_i \notin R_i\right\}\right)=\prod_{i=1}^m \mathbb{P}_0\left(T_i \notin R_i\right)=(1-\alpha)^m .
+\end{align*}
+In this sense, the claim that the procedure controls the probability of false rejections at level $\alpha$ is clearly misleading.
+\begin{de}
+    Let $\mathcal{H}_0 \subseteq\{1, \ldots, m\}$ be the index set of the true hypotheses and let $\mathcal{R} \subseteq\{1, \ldots, m\}$ be the (random) set of rejected hypotheses. Denote $m_0=\left|\mathcal{H}_0\right|$. The family-wise error rate (FWER) is
+\begin{align*}
+\text { FWER }=\mathbb{P}\left(\left|\mathcal{H}_0 \cap \mathcal{R}\right| \geq 1\right) .
+\end{align*}
+\end{de}
+
+
+
+A natural approach is to replace the usual condition for testing a single hypothesis, that the probability of false rejection not exceed $\alpha$, by the requirement
+\begin{align*}
+\text { FWER } \leq \alpha
+\end{align*}
+for all possible combinations of true and false hypotheses. Methods that control the FWER are often described by the p-values of individual tests.
+
+
+For simplicity, we first restrict our discussion to the important example given by the Gaussian sequence model. Consider a model $Y_i=\mu_i+\varepsilon_i$ for $i=1, \ldots, m$, where $\epsilon_i \sim N(0,1)$. For now, we will not assume that $\varepsilon_i$ are independent. Also, the case when the variance of the noise is a general $\sigma^2>0$ but known can be easily covered. The typical question that is asked about this model is how we can test, which elements of $\mu=\left(\mu_1, \ldots, \mu_m\right)$ are zero, or perhaps, which elements of $\mu$ are equal to each other.
+
+In the question of testing which $\mu_i$ are zero, we already mentioned the naive approach: take $z_{\alpha / 2}=\Phi^{-1}(1-\alpha / 2)$. Test $H_0^i: \mu_i=0$ using the test statistic $T_i=\left|Y_i\right|$ and rejection rule $1\left\{\left|Y_i\right|>z_{\alpha / 2}\right\}$. One classical fix is given by the Bonferroni correction, which is to use $\alpha / m$ instead of $\alpha$. Now, we test $H_0^i: \mu_i=0$ with the test $\mathbb{1}\left\{\left|Y_i\right|>z_{\alpha / 2 m}\right\}$. Assuming all the nulls are true, we obtain
+\begin{align*}
+\text { FWER }=\mathbb{P}_0\left(\exists i\left|\varepsilon_i\right|>z_{\alpha / 2 m}\right) \leq \sum_{i=1}^m \mathbb{P}_0\left(\left|\varepsilon_i\right|>z_{\alpha / 2 m}\right)=m \frac{\alpha}{m}=\alpha,
+\end{align*}
+where in the inequality we used the union bound. 
+\begin{remark}
+    The union bound can be conservative, which implies that the Bonferroni bound can be conservative too. In the special case when all $\varepsilon_i$ are independent, the events $\left\{\left|\varepsilon_i\right|>z_{\alpha / 2 m}\right\}$ are independent and
+\begin{align*}
+\begin{aligned}
+\text { FWER } & =\mathbb{P}_0\left(\exists i\left|\varepsilon_i\right|>z_{\alpha / 2 m}\right)=1-\prod_{i=1}^m \mathbb{P}_0\left(\left|\varepsilon_i\right| \leq z_{\alpha / 2 m}\right) \\
+& =1-\left(1-\frac{\alpha}{m}\right)^m \approx 1-e^{-\alpha} \approx \alpha
+\end{aligned}
+\end{align*}
+Therefore, in this case, the Bonferroni procedure provides a good control over the family-wise error rate. This also tells us that if we have many hypotheses (e.g. $m=10,000$ genes in the biological example) then Bonferroni's test has size approximately $1-e^{-\alpha}$, which for small $\alpha$ is approximately $\alpha$. For example, if $\alpha=0.05$, then $1-e^{-\alpha}=0.04877 \ldots$. So to get a test of size 0.05 , we could test each hypothesis at level $0.0512 / m$.
+\end{remark}
+
+
+
+
+\begin{remark}
+    (Šidák correction). The above calculation shows that we could use $z_{\tilde{\alpha} / 2}$ with $\tilde{\alpha}=1-(1-\alpha)^{1 / m}$ in order to get the error rate precisely under independence.
+\end{remark}
+
+
+The Bonferroni correction can become overly conservative in the case when $\varepsilon_i$ are dependent. In the extreme situation, when they are all equal, we get
+\begin{align*}
+\text { FWER }=\mathbb{P}\left(\exists i\left|\varepsilon_i\right|>z_{\alpha / 2 m}\right)=\mathbb{P}\left(\left|\varepsilon_1\right|>z_{\alpha / 2 m}\right)=\frac{\alpha}{m} .
+\end{align*}
+
+\begin{remark}
+    In this section, we always assumed that $\sigma^2=1$ or equivalently that $\sigma^2$ is known. If it is unknown, it can still often be estimated using replicates. So suppose $Y_{i j}=\mu_i+\varepsilon_{i j}$, where $\varepsilon_{i j} \stackrel{\text { i.i.d. }}{\sim} N\left(0, \sigma^2\right)$ for $i=1, \ldots, m$ and $j=1, \ldots, n$. Let $\bar{Y}_i=\frac{1}{n} \sum_j Y_{i j}, \bar{\varepsilon}_i=\frac{1}{n} \sum_j \varepsilon_{i j}$. Then $\bar{Y}_i=\mu_i+\bar{\varepsilon}_i$ with $\bar{\varepsilon}_i \stackrel{\text { i.i.d. }}{\sim} N\left(0, \sigma^2 / n\right)$. Using ideas in Example 1.4.5, we can then simply construct an estimate $\hat{\sigma}^2$ of $\sigma^2$, where $\hat{\sigma}^2 \Perp \bar{\varepsilon}_1, \ldots, \bar{\varepsilon}_m$. Moreover,
+
+\begin{align*}
+\frac{\hat{\sigma}^2}{\sigma^2}(n-1) m \sim \chi_{(n-1) m}^2
+\end{align*}
+
+
+Now the correct modification of Bonferroni bounds is to use the quantiles of $t_{(n-1) m}$ instead of $N(0,1)$.
+\end{remark}
+
+
+First, recall a basic fact of statistical tests. Suppose a null hypothesis $H_0$ is true, and we perform a statistical test of $H_0$ and obtain a p-value $P$. What is the distribution of $P$? We have the following standard lemma:
+
+\begin{lem}
+Let $P$ be the p-value of a statistical testing problem with rejection for small $T$ or large $T$, or both large and small $T$. Then, under the null hypothesis $H_0$,
+    \begin{align*}
+\mathbb{P}(P \leq u) \leq u \quad \text { for all } u \in(0,1) .
+\end{align*}
+Moreover, if our test statistic $T$ has a continuous distribution under $H_0$, then for any $u \in(0,1)$
+\begin{align*}
+\mathbb{P}_0(P \leq u)=u .
+\end{align*}
+So $P \sim U(0,1)$ under the null.
+\end{lem}
+\begin{thm}
+    [Bonferroni Procedure] If, for $i=1, \ldots, m$, hypothesis $H_0^i$ is rejected when $P_i \leq \alpha / m$, then the FWER for the simultaneous testing of $H_0^1, \ldots, H_0^m$ satisfies FWER $\leq \alpha$.
+\end{thm}
+
+\begin{proof}
+    Suppose hypotheses $H_0^i$ with $i \in \mathcal{H}_0$ are true, and the others are false. From the union bound, it follows that
+\begin{align*}
+\begin{aligned}
+\text { FWER } & =\mathbb{P}\left(\text { reject any } H_0^i \text { with } i \in \mathcal{H}_0\right) \leq \sum_{i \in \mathcal{H}_0} \mathbb{P}\left(\text { reject } H_0^i\right) \\
+& =\sum_{i \in \mathcal{H}_0} \mathbb{P}\left(P_i \leq \frac{\alpha}{m}\right) \stackrel{(3.16)}{\leq} \sum_{i \in \mathcal{H}_0} \frac{\alpha}{m} \leq \frac{m_0}{m} \alpha \leq \alpha
+\end{aligned}
+\end{align*}
+\end{proof}
+
+
+\begin{remark}
+    From the proof, it is clear that, although this procedure controls FWER, it is generally too conservative to be useful in detecting $H_0^i$ that are false. If $m_0$ is smaller than $m$, using $\alpha / m_0$ would be preferable. The problem, of course, is that $m_0$ is not known. Note, however, that if one $H_0^i$ is false, then $m_0 \leq m-1$ and we could use $\alpha /(m-1)$ as the threshold. If this $H_0^i$ was true and we rejected it, then we already made a mistake, so we can do whatever we want, and there is no harm in using $\alpha /(m-1)$ for the other hypotheses (in our situation, if we make a mistake, it does not matter how many).
+\end{remark}
+
+\subsection{The Holm Procedure}
+The Holm procedure tries to make use of the above observations. It can conveniently be stated in terms of the p -values $P_1, \ldots, P_n$ of the $n$ individual tests. The procedure starts by sorting the p -values. 
+
+\begin{de}[The Holm Procedure]
+    Call them $P_{(1)} \leq \cdots \leq P_{(m)}$. Then The Holm Procedure goes as follows:
+    \begin{enumerate}
+        \item If $P_{(1)} \leq \frac{\alpha}{m}$, reject $H_0^{(1)}$ and continue. Else stop.
+        \item If $P_{(2)} \leq \frac{\alpha}{m-1}$, reject $H_0^{(2)}$ and continue. Else stop.
+        \item ... ...
+        \item If $P_{(m)} \leq \alpha$, reject $H_0^{(m)}$.
+    \end{enumerate}
+In other words, the procedure finds the smallest $r$ such that $P_{(r)}> \frac{1}{m-(r-1)} \alpha$ and it rejects the null hypotheses $H_0^{(1)}, \ldots, H_0^{(r-1)}$.
+\end{de}
+
+\begin{thm}
+    The Holm procedure satisfies FWER $\leq \alpha$.
+\end{thm}
+
+
+\begin{remark}
+The Holm procedure is an adapted version of the Bonferroni procedure: once we reject a hypothesis, we treat the problem with the remaining hypothesis as a new problem and apply the Bonferroni procedure. This gives the adapted threshold $\alpha/k$.
+\end{remark}
+
+\begin{proof}
+Suppose $\mathcal{H}_0$ is the set of true hypotheses. Order the P-values as above $P_{(1)} \leq \cdots \leq P_{(m)}$. Ideally, if $i \in \mathcal{H}_0$ then $P_i$ appears later in this order sequence. Let $j$ be the smallest (random) index satisfying
+\begin{align*}
+P_{(j)}=\min _{i \in \mathcal{H}_0} P_i .
+\end{align*}
+
+Note that, by construction, $j \leq m-m_0+1$ (there are at least $m_0-1$ indices following $(j)$). Now, the Holm procedure commits a false rejection if and only if $r \geq j+1$, or in other words,
+\begin{align*}
+P_{(1)} \leq \frac{\alpha}{m}, \quad P_{(2)} \leq \frac{\alpha}{m-1}, \quad \ldots, \quad P_{(j)} \leq \frac{\alpha}{m-j+1}
+\end{align*}
+which implies that
+\begin{align*}
+\min _{i \in \mathcal{H}_0} P_i=P_{(j)} \leq \frac{\alpha}{m-j+1} \leq \frac{\alpha}{m_0} .
+\end{align*}
+We thus get
+\begin{align*}
+\begin{aligned}
+\mathbb{P}\left(\left|\mathcal{H}_0 \cap \mathcal{R}\right| \geq 1\right) & =\mathbb{P}\left(P_{(1)} \leq \frac{\alpha}{m}, \ldots, P_{(j)} \leq \frac{\alpha}{m-j+1}\right) \\
+& \leq \mathbb{P}\left(\min _{i \in \mathcal{H}_0} P_i \leq \frac{\alpha}{m-j+1}\right) \leq \mathbb{P}\left(\min _{i \in \mathcal{H}_0} P_i \leq \frac{\alpha}{m_0}\right) .
+\end{aligned}
+\end{align*}
+
+
+By the union bound, the probability of a false rejection is bounded above by
+\begin{align*}
+\mathbb{P}\left(\min _{i \in \mathcal{H}_0} P_i \leq \frac{\alpha}{m_0}\right) \leq \sum_{i \in \mathcal{H}_0} \mathbb{P}\left(P_i \leq \frac{\alpha}{m_0}\right) \leq \alpha
+\end{align*}
+
+
+This means that the Holm procedure is strictly more powerful than the Bonferroni procedure without any additional assumptions. 
+\end{proof}
+
+\begin{remark}
+    However, when $m$ is very large, the Holm procedure may not substantially differ from the Bonferroni correction.
+\end{remark}
+\section{Lecture 18: Testing using False Discovery Rate}
+
+Controlling the FWER may be too conservative and greatly reduce our power to detect real effects, especially when $m$ is large. 
+\begin{de}
+    In many modern "large-scale testing" applications, focus has shifted from FWER to the false-discovery proportion (FDP)
+\begin{align*}
+\mathrm{FDP}=\frac{\left|\mathcal{H}_0 \cap \mathcal{R}\right|}{|\mathcal{R}| \vee 1}
+\end{align*}
+and on procedures that control its expected value $$\mathbb{E}(\mathrm{FDP})=\mathbb{E}\frac{\left|\mathcal{H}_0 \cap \mathcal{R}\right|}{|\mathcal{R}| \vee 1}$$, called the false-discovery rate (FDR).
+\end{de}
+\begin{remark}
+    The FDR can be interpreted as follows: if $\mathrm{FDR} \leq 0.1$, we expect around $90 \%$ of the discoveries to be true.
+\end{remark}
+
+
+Controlling FDR is a shift in paradigm - we are willing to tolerate some type I errors (false discoveries), as long as most of the discoveries we make are still true. It has been argued that in applications where the statistical test is thought of as providing a "definitive answer" for whether an effect is real, FWER control is still the correct objective. In contrast, for applications where the statistical test identifies candidate effects that are likely to be real and which merit further study, it may be better to target FDR control.
+
+\subsection{The Benjamini-Hochberg Procedure}
+The false discovery rate depends heavily on the number of true hypotheses. Thus, any procedure that controls FDR should be adaptive. As we showed earlier, if $i \in \mathcal{H}_0$ then $\mathbb{P}\left(P_i \leq u\right) \leq u$ for all $u \in(0,1)$. The Benjamini-Hochberg (BH) procedure compares the sorted p-values to a diagonal cutoff line, finds the largest p-value that still falls below this line, and rejects the null hypotheses for the p-values up to and including this one. 
+
+
+\begin{de}[The Benjamini-Hochberg Procedure]
+The BH procedure at level $\alpha$ is defined as follows:
+\begin{enumerate}
+    \item Sort the p-values. Call them $P_{(1)} \leq \cdots \leq P_{(m)}$ as before.
+    \item Find the largest $r$ such that $P_{(r)} \leq \frac{r}{m} \alpha$.
+    \item Reject the null hypotheses $H_0^{(1)}, \ldots, H_0^{(r)}$.
+\end{enumerate}
+\end{de}
+
+\begin{remark}
+    Just to avoid confusion with the Holm procedure, note that we do not require that $P_{(j)} \leq \frac{j}{m} \alpha$ for $j<r$.
+\end{remark}
+\begin{lem}
+    Suppose the B-H procedure rejects exactly $r$ hypotheses. Then $i \in \mathcal{R}$ if and only if $P_i \leq \frac{r}{m} \alpha$.
+\end{lem}
+
+\begin{proof}
+    If $i \in \mathcal{R}$ then $P_i \leq P_{(r)} \leq \frac{r}{m} \alpha$, which proves the right implication. For the left implication, we argue using a contrapositive statement. Suppose $i \notin \mathcal{R}$, let $s$ be such that $P_i=P_{(s)}$. Then $s>r$ and $P_{(s)}>\frac{s}{m} \alpha>\frac{r}{m} \alpha$.
+\end{proof}
+
+\begin{thm}
+    [Benjamini and Hochberg] Consider tests of m null hypotheses. If the test statistics (or equivalently, p-values) of these tests are independent, then the FDR of the above procedure satisfies
+\begin{align*}
+\mathrm{FDR} \leq \alpha \frac{m_0}{m} \leq \alpha .
+\end{align*}
+\end{thm}
+
+\begin{proof}
+    We have
+\begin{align*}
+\mathrm{FDR}=\mathbb{E}\left(\frac{\left|\mathcal{H}_0 \cap \mathcal{R}\right|}{|\mathcal{R}| \vee 1}\right)=\mathbb{E}\left(\frac{\sum_{i \in \mathcal{H}_0} \mathbb{1}\{i \in \mathcal{R}\}}{|\mathcal{R}| \vee 1}\right)=\sum_{i \in \mathcal{H}_0} \mathbb{E}\left(\frac{\mathbb{1}\{i \in \mathcal{R}\}}{|\mathcal{R}| \vee 1}\right) .
+\end{align*}
+
+
+Let $R=|\mathcal{R}|$ and let $R_{\backslash i}$ be the number of rejections if we replace $P_i$ with zero and run $\mathrm{BH}_\alpha$ on $P_1, \ldots, P_{i-1}, 0, P_{i+1}, \ldots, P_m$. Note that $P_i \Perp R_{\backslash i}$ and $R_{\backslash i} \geq 1$. Consider the following claim that
+$$i \in \mathcal{R} \quad \Leftrightarrow \quad R=R_{\backslash i} \quad \Leftrightarrow \quad P_i \leq \frac{\alpha R_{-i}}{m}.$$
+
+Before we prove the claim, we show how it helps us to prove the theorem. Assuming that the claim holds
+\begin{align*}
+\begin{aligned}
+\mathrm{FDR} & =\sum_{i \in \mathcal{H}_0} \mathbb{E}\left(\frac{\mathbb{1}\left\{P_i \leq \frac{\alpha R_{-i}}{m}\right\}}{R_{\backslash i}}\right)=\sum_{i \in \mathcal{H}_0} \mathbb{E}\left(\frac{\mathbb{P}\left(\left.P_i \leq \frac{\alpha R_{-i}}{m} \right\rvert\, R_{\backslash i}\right)}{R_{\backslash i}}\right) \\
+& \stackrel{P_i \Perp R_{-i}}{\leq} \sum_{i \in \mathcal{H}_0} \mathbb{E}\left(\frac{\frac{\alpha R_{-i}}{m}}{R_{\backslash i}}\right)=\alpha \frac{m_0}{m} \leq \alpha .
+\end{aligned}
+\end{align*}
+
+
+It remains to prove the claim. We do it in several steps.
+
+$\left[i \in \mathcal{R} \Rightarrow P_i \leq \frac{\alpha R_i}{m}\right]$: First note that $\mathrm{BH}_\alpha$ is monotone in the p-values: If $P_i \geq P_i^{\prime}$ for all $i$ then $R \leq R^{\prime}$. From this it follows that $R \leq R_{\backslash i}$. Suppose $i \in \mathcal{R}$. Then
+\begin{align*}
+P_i \leq \frac{\alpha R}{m} \leq \frac{\alpha R_{\backslash i}}{m} .
+\end{align*}
+
+$\left[P_i \leq \frac{\alpha R_{-i}}{m} \Rightarrow R=R_{\backslash i}\right]$: By definition of $R_{\backslash i}$, we must have $R_{\backslash i}$ many values from $P_1, \ldots, P_{i-1}, 0, P_{i+1}, \ldots, P_m$ which are $\leq \frac{\alpha R_{\backslash i}}{m}$. Since $P_i \leq \frac{\alpha R_{-i}}{m}$, it follows that there are $R_{\backslash i}$ many values from $P_1, \ldots, P_{i-1}, P_i, P_{i+1}, \ldots, P_m$ which are $\leq \frac{\alpha R_{V i}}{m}$. In particular, $R \geq R_{\backslash i}$. The other inequality was shown above and so we get equality.
+
+$\left[R=R_{\backslash i} \Rightarrow i \in \mathcal{R}\right]$: We prove this implication by contradiction. Suppose $R=R_{\backslash i}$ but $i \notin \mathcal{R}$. If $i \notin \mathcal{R}$ then $P_i>\frac{\alpha R}{m}$ and there are $R$ many $P_j$ 's with $P_j \leq \frac{\alpha R}{m}$. Now run $\mathrm{BH}_\alpha$ on $P_1 \ldots, P_{i-1}, 0, P_{i+1}, \ldots, P_m$. Then there are $R+1$ many values $\leq \frac{\alpha R}{m} \leq \frac{\alpha(R+1)}{m}$. Thus, we must have $R_{\backslash i} \geq R+1>R$, which gives contradiction.
+\end{proof}
+
+\subsection{The Benjamini-Yekutieli Justification}
+
+The main problem with the validation of the Benjamini-Hochberg procedure is that it requires that the hypotheses are independent. Handling all the dependence structure between the hypotheses is hard. One popular setting where the B-H procedure can still be validated is when the dependence between the p-values satisfies a form of positive dependence. We will now discuss this in more detail.
+\begin{de}
+    A set $S \subset \mathbb{R}^n$ is nondecreasing if $x \in S$ and $y \geq x$ implies that $y \in S$.
+\end{de}
+
+\begin{de}
+    A random vector $X=\left(X_1, \ldots, X_m\right)$ is positively regression dependent (PRDS) on $I \subseteq\{1, \ldots, m\}$  if $\mathbb{P}\left(X \in S \mid X_i=x_i\right)$ is non-decreasing in $x_i$ for every nondecreasing set $S$ and any $i \in I$.
+\end{de}
+
+
+If $\left(X_1, \ldots, X_m\right)$ is PDRS on $I$ and $Y_i:=f_i\left(X_i\right)$ for all $1 \leq i \leq m$ with $f_i$ strictly increasing or decreasing, then $\left(Y_1, \ldots, Y_m\right)$ is PRDS on $I$ as well. Transformation of this form are called co-monotone transformations. Thus PRDS property is preserved under co-monotone transformations. It follows that $P_i=\mathbb{P}\left(T_i \leq X_i\right)$ is PDRS as well (at least in the continuous case).
+\begin{thm}
+    If the joint distribution of $P=\left(P_1, \ldots, P_m\right)$ is PRDS on the subset $\mathcal{H}_0$, the Benjamini-Hochberg procedure controls the FDR at level $\frac{m_0}{m} \alpha$.
+\end{thm}
+
+
+The proof of this result relies on the following proposition.
+\begin{prop}
+    If $P$ is PRDS on the set of true nulls, then the function $\mathbb{P}\left(P \in S \mid P_i \leq t\right)$ for $i \in \mathcal{H}_0$ is non-decreasing in $t$ for $S$ a non-decreasing set.
+\end{prop}
+
+\begin{proof}
+    For any $t, \mathbb{P}\left(\boldsymbol{P} \in S \mid P_i \leq t\right)=\frac{\mathbf{P}\left(\boldsymbol{P} \in S, P_i \leq t\right)}{\mathbb{P}\left(P_i \leq t\right)}$. For $t>t^{\prime}$, we have that
+\begin{align*}
+\mathbb{P}\left(\mathbb{P} \in S \mid P_i \leq t^{\prime}\right)=\frac{\mathbb{P}\left(P \in S, P_i \leq t\right)+\mathbb{P}\left(P \in S, P_i \in\left(t, t^{\prime}\right]\right)}{\mathbb{P}\left(P_i \leq t\right)+\mathbb{P}\left(P_i \in\left(t, t^{\prime}\right]\right)}
+\end{align*}
+
+
+To show that $\mathbb{P}\left(\boldsymbol{P} \in S \mid P_i \leq t^{\prime}\right) \leq \mathbb{P}\left(\boldsymbol{P} \in S \mid P_i \leq t\right)$, it suffices to show that
+\begin{align*}
+\frac{\mathbb{P}\left(\mathbb{P} \in S, P_i \leq t\right)}{\mathbb{P}\left(P_i \leq t\right)} \leq \frac{\mathbb{P}\left(\mathbb{P} \in S, P_i \in\left(t, t^{\prime}\right]\right)}{\mathbb{P}\left(P_i \in\left(t, t^{\prime}\right]\right)} .
+\end{align*}
+
+
+The last statement is because for any positive number $a, b, c, d, \frac{a}{b} \leq \frac{a+c}{b+d}$ if and only if $\frac{a}{b} \leq \frac{c}{d}$. If $F_i$ denotes the CDF of $P_i$ then
+\begin{align*}
+\begin{aligned}
+\mathbb{P}\left(\boldsymbol{P} \in S, P_i \in\left(t, t^{\prime}\right]\right) & =\mathbb{E} \mathbb{1}\left\{\boldsymbol{P} \in S, P_i \in\left(t, t^{\prime}\right]\right\} \\
+& =\mathbb{E}\left[\mathbb{1}\left\{P_i \in\left(t, t^{\prime}\right]\right\} \mathbb{E}\left(\mathbb{1}\{\boldsymbol{P} \in S\} \mid P_i\right)\right] \\
+& =\mathbb{E}\left[\mathbb{1}\left\{P_i \in\left(t, t^{\prime}\right]\right\} \mathbb{P}\left(\boldsymbol{P} \in S \mid P_i\right)\right] \\
+& =\int_t^{t^{\prime}} \mathbb{P}\left(\boldsymbol{P} \in S \mid P_i=s\right) \mathrm{d} F_i(s) \\
+& \stackrel{(P R D S)}{\geq} \int_t^{t^{\prime}} \mathbb{P}\left(\boldsymbol{P} \in S \mid P_i=t\right) \mathrm{d} F_i(s) \\
+& =\mathbb{P}\left(\boldsymbol{P} \in S \mid P_i=t\right) \mathbb{P}\left(P_i \in\left(t, t^{\prime}\right]\right)
+\end{aligned}
+\end{align*}
+
+
+Similarly we have
+\begin{align*}
+\begin{aligned}
+\mathbb{P}\left(\boldsymbol{P} \in S, P_i \leq t\right) & =\int_0^t \mathbb{P}\left(\boldsymbol{P} \in S \mid P_i=s\right) \mathrm{d} F_i(s) \\
+& \stackrel{(P R D S)}{\leq} \int_0^t \mathbb{P}\left(\boldsymbol{P} \in S \mid P_i=t\right) \mathrm{d} F_i(s) \\
+& =\quad \mathbb{P}\left(\boldsymbol{P} \in S \mid P_i=t\right) \mathbb{P}\left(P_i \leq t\right)
+\end{aligned}
+\end{align*}
+
+
+We have just shown that
+\begin{align*}
+\frac{\mathbb{P}\left(\boldsymbol{P} \in S, P_i \leq t\right)}{\mathbb{P}\left(P_i \leq t\right)} \leq \mathbb{P}\left(\boldsymbol{P} \in S \mid P_i=t\right) \leq \frac{\mathbb{P}\left(\boldsymbol{P} \in S, P_i \in\left(t, t^{\prime}\right]\right)}{\mathbb{P}\left(P_i \in\left(t, t^{\prime}\right]\right)}
+\end{align*}
+as claimed.
+\end{proof}
+
+\begin{proof}[Proof of The Benjamini-Yekutieli justification]
+Since we have
+\begin{align*}
+\mathrm{FDR}=\sum_{i \in \mathcal{H}_0} \mathbb{E}\left(\frac{\mathbb{1}\{i \in \mathcal{R}\}}{|\mathcal{R}| \vee 1}\right)
+\end{align*}
+
+Note that it is enough to show that $\mathbb{E}\left(\frac{\mathbb{1}\{i \in \mathcal{R}\}}{|\mathcal{R}| \mathrm{v} 1}\right) \leq \alpha / m$ for $i \in \mathcal{H}_0$.
+By the lemma above, if $r$ rejections are made, then $H_0^i$ is rejected if and only if $P_i \leq \frac{a r}{m}$. Hence, $\mathbb{1}\{i \in \mathcal{R}\}=\mathbb{1}\left\{P_i \leq \frac{a r}{m}\right\}$. This gives
+\begin{align*}
+\mathbb{E}\left(\frac{\mathbb{1}\{i \in \mathcal{R}\}}{R \vee 1}\right)=\mathbb{E}\left(\mathbb{E}\left[\left.\frac{\mathbb{1}\{i \in \mathcal{R}\}}{R \vee 1} \right\rvert\, R\right]\right)=\mathbb{E}\left(\frac{1}{R \vee 1} \mathbb{P}[i \in \mathcal{R} \mid R]\right)=\sum_{r=1}^m \frac{1}{r} \mathbb{P}\left(P_i \leq \frac{\alpha r}{m}, R=r\right) .
+\end{align*}
+
+
+For any true null, we now have
+\begin{align*}
+\begin{aligned}
+\sum_{r=1}^m \frac{1}{r} \mathbb{P}\left(P_i \leq \frac{\alpha r}{m}, R=r\right) & =\sum_{r=1}^m \frac{1}{r} \mathbb{P}\left(P_i \leq \frac{\alpha r}{m}\right) \mathbb{P}\left(|\mathcal{R}|=r \left\lvert\, P_i \leq \frac{\alpha r}{m}\right.\right) \\
+& \leq \frac{\alpha}{m} \sum_{r=1}^m \mathbb{P}\left(R=r \left\lvert\, P_i \leq \frac{\alpha r}{m}\right.\right)
+\end{aligned}
+\end{align*}
+
+
+Hence, it suffices to show that $\sum_{r=1}^m \mathbb{P}\left(R=r \left\lvert\, P_i \leq \frac{\alpha r}{m}\right.\right) \leq 1$. Observe that $\{R \leq r\}$ is an increasing event, that is, it can be written as $\{\boldsymbol{P} \in S\}$ for some non-decreasing set $S$. This is because increasing all p-values increases the $p$-value at each rank. Hence, any ranked $p$-value above the threshold remains above its threshold, that is, we accept at least as many as before, and hence, do not reject more hypotheses. Using this, we get that
+\begin{align*}
+\begin{aligned}
+\sum_{r=1}^m \mathbb{P}\left(R=r \left\lvert\, P_i \leq \frac{\alpha r}{m}\right.\right) & =\left(\mathbb{P}\left(R \leq m \mid P_i \leq \alpha\right)-\mathbb{P}\left(R \leq 0 \left\lvert\, P_i \leq \frac{\alpha}{m}\right.\right)\right) \\
+& +\sum_{r=1}^{m-1}\left(\mathbb{P}\left(R \leq r \left\lvert\, P_i \leq \frac{\alpha r}{m}\right.\right)-\mathbb{P}\left(R \leq r \left\lvert\, P_i \leq \frac{\alpha(r+1)}{m}\right.\right)\right)
+\end{aligned}
+\end{align*}
+
+
+Note that each summand in the second line is non-positive since $\mathbb{P}\left(R \leq r \mid P_i \leq x\right)$ is increasing in $x$. Also $\mathbb{P}\left(R \leq 0 \left\lvert\, P_i \leq \frac{\alpha}{m}\right.\right) \geq 0$, which implies that
+\begin{align*}
+\sum_{k=1}^m \mathbb{P}\left(R=k \left\lvert\, P_i \leq \frac{\alpha k}{m}\right.\right) \leq \mathbb{P}\left(R \leq m \mid P_i \leq \alpha\right) \leq 1
+\end{align*}
+
+
+As stated before, this proves the upper bound on the FDR.
+\end{proof}

@@ -1,0 +1,891 @@
+\chapter{Asymptotic Theory}
+
+\section{Lecture 5: M-estimation}
+\subsection{Introduction to M-estimation Problems}
+We consider a general estimation problem where the goal is to find a parameter $\theta$ that minimizes a population-level objective (or risk) function, $F(\theta)$.
+
+\begin{de}[Population-Level Problem]
+Let $f(\theta; X)$ be a loss function for a parameter $\theta \in \Theta$ and a random variable $X \sim P$. The population-level risk is the expected loss:
+$$ F(\theta) = \E[f(\theta; X)] $$
+The true or optimal parameter $\theta^*$ is the minimizer of this risk:
+$$ \theta^* = \argmin_{\theta \in \Theta} \{F(\theta)\} $$
+\end{de}
+
+In practice, we do not know the true distribution $P$ and cannot compute $F(\theta)$ directly. Instead, we use a sample of data $X_1, \dots, X_n \stackrel{i.i.d.}{\sim} P$ to construct an empirical version of the risk. This leads to the method of M-estimation.
+
+\begin{de}[M-estimation / ERM / SAA]
+The empirical risk function (or Sample Average Approximation) is defined as:
+$$ F_n(\theta) = \frac{1}{n} \sum_{i=1}^n f(\theta; X_i) $$
+The M-estimator, denoted $\hat{\theta}_n$, is the minimizer of the empirical risk:
+$$ \hat{\theta}_n = \argmin_{\theta \in \Theta} \{F_n(\theta)\} = \argmin_{\theta \in \Theta} \left\{ \frac{1}{n} \sum_{i=1}^n f(\theta; X_i) \right\} $$
+This is also known as Empirical Risk Minimization (ERM). Sometimes, a regularization term is added to the objective function. 
+\end{de}
+
+\begin{remark}
+    Examples include Maximum Likelihood Estimation (MLE), regression, and classification.
+\end{remark}
+
+We evaluate the quality of the estimator $\hat{\theta}_n$ by how close it is to the optimal $\theta^*$. This can be measured in two main ways:
+\begin{itemize}
+    \item \textbf{Function Value (Excess Risk):} The difference in the population risk, $F(\hat{\theta}_n) - F(\theta^*)$.
+    \item \textbf{Parameter Estimation Error:} The distance between the parameters, $\|\hat{\theta}_n - \theta^*\|$.
+\end{itemize}
+Our goal is to show that as the sample size $n$ increases, $\hat{\theta}_n$ converges to $\theta^*$. We start by analyzing the excess risk, $F(\hat{\theta}_n) - F(\theta^*)$. We can decompose the excess risk into three terms:
+\begin{align*}
+    F(\hat{\theta}_n) - F(\theta^*) = \underbrace{\left( F(\hat{\theta}_n) - F_n(\hat{\theta}_n) \right)}_{\text{Term 1: Hard}} + \underbrace{\left( F_n(\hat{\theta}_n) - F_n(\theta^*) \right)}_{\text{Term 2: } \le 0} + \underbrace{\left( F_n(\theta^*) - F(\theta^*) \right)}_{\text{Term 3: Easy}}
+\end{align*}
+Let's analyze each term:
+\begin{itemize}
+    \item \textbf{Term 2:} By the definition of $\hat{\theta}_n$ as the minimizer of $F_n(\theta)$, we have $F_n(\hat{\theta}_n) \le F_n(\theta)$ for all $\theta \in \Theta$. In particular, $F_n(\hat{\theta}_n) \le F_n(\theta^*)$, so this term is always less than or equal to zero.
+    \item \textbf{Term 3:} This term compares the empirical risk and population risk at a \textit{fixed} point $\theta^*$. By the Law of Large Numbers (LLN), $F_n(\theta^*) \xrightarrow{P} F(\theta^*)$. Thus, this term converges to zero. Concentration inequalities (e.g., Hoeffding's inequality) can provide non-asymptotic bounds on this convergence.
+    \item \textbf{Term 1:} This term is difficult because it involves the difference between the population and empirical risk evaluated at the \textit{random} estimator $\hat{\theta}_n$, which itself depends on the data (and thus on $F_n$).
+\end{itemize}
+To handle the "hard" term, we bound it by the worst-case deviation over the entire parameter space:
+$$ |F(\hat{\theta}_n) - F_n(\hat{\theta}_n)| \le \sup_{\theta \in \Theta} |F(\theta) - F_n(\theta)| $$
+The key to proving consistency is showing that this supremum converges to zero. This is the essence of the Uniform Law of Large Numbers (ULLN).
+
+\begin{de}[Uniform Law of Large Numbers]
+The ULLN holds if the empirical process, $\sup_{\theta \in \Theta} |F_n(\theta) - F(\theta)|$, converges to zero in probability:
+$$ \sup_{\theta \in \Theta} |F_n(\theta) - F(\theta)| \xrightarrow{P} 0 $$
+\end{de}
+\begin{remark}
+    Empirical process theory is the field that studies the properties of such processes, including uniform convergence, non-asymptotic bounds, and their limiting distributions.
+\end{remark}
+
+
+If the ULLN holds, then Term 1 converges to 0. Since Term 3 also converges to 0 and Term 2 is non-positive, we can conclude that the excess risk converges to 0, i.e., $F(\hat{\theta}_n) \xrightarrow{P} F(\theta^*)$. This establishes consistency in terms of the function value.
+
+\subsection{Conditions for Consistency}
+Consistency in value $(F(\hat{\theta}_n) \to F(\theta^*))$ does not automatically guarantee consistency in the parameter ($\hat{\theta}_n \to \theta^*$). We need an additional identifiability condition.
+
+\begin{prop}
+    Suppose that for every $\epsilon > 0$, the true minimum is well-separated, i.e.,
+$$ \inf_{\theta: \|\theta - \theta^*\| \ge \epsilon} F(\theta) > F(\theta^*) $$
+Then, if the ULLN holds (which implies $F(\hat{\theta}_n) \xrightarrow{P} F(\theta^*)$), it follows that $\hat{\theta}_n \xrightarrow{P} \theta^*$.
+\end{prop}
+
+\begin{proof}[Proof Sketch]
+The condition implies that there exists some $\delta > 0$ such that $\inf_{\|\theta - \theta^*\| \ge \epsilon} F(\theta) > F(\theta^*) + \delta$. 
+Therefore,
+$$ 
+\pr(\|\hat{\theta}_n - \theta^*\| \ge \epsilon) \le \pr(F(\hat{\theta}_n) \ge F(\theta^*) + \delta) 
+$$
+Since $F(\hat{\theta}_n) \xrightarrow{P} F(\theta^*)$, the probability on the right-hand side goes to 0 as $n \to \infty$. Thus, $\hat{\theta}_n \xrightarrow{P} \theta^*$.
+\end{proof}
+
+Now we consider the case when the ULLN holds.
+\begin{enumerate}
+    \item \textbf{Case 1: Finite Parameter Space.}
+If the parameter space $\Theta$ is finite (i.e., $|\Theta| < \infty$), the ULLN is straightforward to prove using a union bound.
+\begin{proof}
+For any $\epsilon > 0$,
+\begin{align*}
+    \pr\left( \sup_{\theta \in \Theta} |F_n(\theta) - F(\theta)| > \epsilon \right) &= \pr\left( \bigcup_{\theta \in \Theta} \{|F_n(\theta) - F(\theta)| > \epsilon\} \right) \\
+    &\le \sum_{\theta \in \Theta} \pr(|F_n(\theta) - F(\theta)| > \epsilon)
+\end{align*} 
+For each fixed $\theta$, the standard LLN implies $\pr(|F_n(\theta) - F(\theta)| > \epsilon) \to 0$ as $n \to \infty$. Since the sum is finite, the entire expression converges to 0.
+\end{proof}
+\item \textbf{Case 2: Infinite/Uncountable Parameter Space.}
+When $\Theta$ is infinite (e.g., a compact subset of $\R^d$), the union bound argument fails. The idea is to use \textbf{discretization}. We argue that if $F_n(\theta)$ is close to $F(\theta)$ on a finite "net" of points, and the function $f$ is smooth enough, then $F_n(\theta)$ will be close to $F(\theta)$ everywhere. The "size" or "complexity" of the space $\Theta$ can be measured using covering and packing numbers.
+\end{enumerate}
+Let $(K, \rho)$ be a metric space.
+\begin{de}[Covering Number]
+The \textbf{covering number}, $N(K, \rho, \epsilon)$, is the minimum number of closed balls of radius $\epsilon$ needed to cover the set $K$.
+$$ N(K, \rho, \epsilon) := \min \left\{ N : \exists \{\theta_i\}_{i=1}^N \text{ s.t. } K \subseteq \bigcup_{i=1}^N B_{\rho}(\theta_i, \epsilon) \right\} $$
+where $B_{\rho}(\theta_i, \epsilon)$ is the closed ball of radius $\epsilon$ centered at $\theta_i$.
+\end{de}
+
+\begin{de}[Packing Number]
+The \textbf{packing number}, $M(K, \rho, \epsilon)$, is the maximum number of points that can be placed in $K$ such that the distance between any two distinct points is at least $\epsilon$.
+$$ M(K, \rho, \epsilon) := \max \left\{ M : \exists \{\theta_i\}_{i=1}^M \subseteq K \text{ s.t. } \rho(\theta_i, \theta_j) \ge \epsilon \text{ for all } i \ne j \right\} $$
+\end{de}
+
+These two concepts are closely related, as described by the following duality theorem.
+\begin{thm}[Duality]
+For any set $K$ and $\epsilon > 0$, the packing and covering numbers are related by:
+$$ M(K, \rho, 2\epsilon) \le N(K, \rho, \epsilon) \le M(K, \rho, \epsilon) $$
+\end{thm}
+\begin{proof}
+    Let $\{\theta_j\}_{j=1}^M$ be a \textit{maximal} $\epsilon$-packing of $K$. By maximality, for any $\theta \in K$, there must exist some $j \in \{1, \dots, M\}$ such that $\rho(\theta, \theta_j) < \epsilon$. If this were not the case, we could add $\theta$ to the packing, contradicting its maximality. Therefore, the set of balls $\{B(\theta_j, \epsilon)\}_{j=1}^M$ forms an $\epsilon$-covering of $K$. Since the minimal covering $N(K, \rho, \epsilon)$ can only be smaller, we have $N(K, \rho, \epsilon) \le M$.
+
+    Let $\{\theta_i\}_{i=1}^M$ be a $2\epsilon$-packing of $K$ (so $\rho(\theta_i, \theta_k) \ge 2\epsilon$ for $i \ne k$) and let $\{\psi_j\}_{j=1}^N$ be an $\epsilon$-covering of $K$. We want to show $M \le N$.
+    For each $\theta_i$ in the packing, it must be contained in at least one ball from the covering, say $\theta_i \in B(\psi_j, \epsilon)$.
+    Suppose two distinct points from the packing, $\theta_i$ and $\theta_k$, fall into the same ball $B(\psi_j, \epsilon)$. Then by the triangle inequality:
+    $$ \rho(\theta_i, \theta_k) \le \rho(\theta_i, \psi_j) + \rho(\psi_j, \theta_k) \le \epsilon + \epsilon = 2\epsilon $$
+    But this contradicts the fact that $\{\theta_i\}_{i=1}^M$ is a $2\epsilon$-packing, which requires $\rho(\theta_i, \theta_k) \ge 2\epsilon$. Therefore, each $\theta_i$ must map to a different ball in the covering, which implies $M \le N$.
+
+\end{proof}
+
+\begin{eg}
+    Let $K = \{\theta \in \R^d : \|\theta\|_2 \le 1\}$ be the unit ball in $\R^d$. We can bound its covering number using volume arguments.
+\begin{itemize}
+    \item \textbf{Upper bound (via packing):} Consider an $\epsilon/2$-packing $\{\theta_i\}_{i=1}^M$. The balls $B(\theta_i, \epsilon/4)$ are disjoint. All these balls are contained within a larger ball of radius $1 + \epsilon/4$. By comparing volumes:
+    $$ \sum_{i=1}^M \text{Vol}(B(\theta_i, \epsilon/4)) \le \text{Vol}(B(0, 1+\epsilon/4)) $$
+    $$ M \cdot V_d (\epsilon/4)^d \le V_d (1+\epsilon/4)^d \implies M \le \left(\frac{1+\epsilon/4}{\epsilon/4}\right)^d = \left(1 + \frac{4}{\epsilon}\right)^d $$
+    By the duality theorem, $N(K, \epsilon) \le M(K, \epsilon) \le (1+4/\epsilon)^d \approx (4/\epsilon)^d$.
+
+    \item \textbf{Lower bound (via covering):} If $\{ \psi_j \}_{j=1}^N$ is an $\epsilon$-covering of $K$, then $K \subseteq \bigcup_{j=1}^N B(\psi_j, \epsilon)$. Comparing volumes:
+    $$ \text{Vol}(K) \le \sum_{j=1}^N \text{Vol}(B(\psi_j, \epsilon)) \implies V_d (1)^d \le N \cdot V_d \epsilon^d \implies N \ge \left(\frac{1}{\epsilon}\right)^d $$
+\end{itemize}
+Combining these, we see that for the Euclidean unit ball, $N(K, \epsilon)$ scales like $(C/\epsilon)^d$ for some constant $C$.
+\end{eg}
+
+
+\subsection{Consistency of M-Estimators}
+We return to the M-estimation problem where $\hat{\theta}_n = \argmin_{\theta \in \Theta} F_n(\theta)$. We established previously that the consistency of the estimator, $\hat{\theta}_n \xrightarrow{P} \theta^*$, is implied by two main conditions:
+\begin{enumerate}
+    \item $\theta^*$ is a unique minimizer of the population risk $F(\theta) = \E[f(\theta; X)]$.
+    \item The Uniform Law of Large Numbers (ULLN) holds: $\sup_{\theta \in \Theta} |F_n(\theta) - F(\theta)| \xrightarrow{P} 0$.
+\end{enumerate}
+
+The following theorem provides a set of sufficient conditions for the ULLN to hold, which is often easier to verify than working with covering numbers directly.
+
+\begin{thm}[Sufficient Conditions for ULLN]
+Suppose the following conditions hold:
+\begin{enumerate}
+    \item The parameter space $\Theta$ is a compact set.
+    \item The function $f(\cdot; x)$ is continuous on $\Theta$ for (almost) every $x$.
+    \item There is a dominating function such that $\E[\sup_{\theta \in \Theta} |f(\theta; X)|] < \infty$.
+\end{enumerate}
+Then the ULLN holds: $\sup_{\theta \in \Theta} |F_n(\theta) - F(\theta)| \xrightarrow{P} 0$.
+\end{thm}
+\begin{proof}[Proof Sketch]
+The proof relies on a discretization argument enabled by the compactness of $\Theta$.
+
+\textbf{1. Discretization:} Since $\Theta$ is compact, for any $\delta > 0$, we can find a finite $\delta$-covering, $\{\theta_j\}_{j=1}^N$. Any $\theta \in \Theta$ is within $\delta$ of some $\theta_j$.
+
+\textbf{2. Decomposition:} Using the triangle inequality, for any $\theta \in B(\theta_j, \delta)$, we can bound the deviation:
+$$ |F_n(\theta) - F(\theta)| \le \underbrace{|F_n(\theta) - F_n(\theta_j)|}_{\text{Term A}} + \underbrace{|F_n(\theta_j) - F(\theta_j)|}_{\text{Term B}} + \underbrace{|F(\theta_j) - F(\theta)|}_{\text{Term C}} $$
+Taking the supremum over all $\theta \in \Theta$:
+$$ \sup_{\theta \in \Theta} |F_n(\theta) - F(\theta)| \le \max_{j \le N} \sup_{\theta \in B(\theta_j, \delta)} \left( |F_n(\theta) - F_n(\theta_j)| + |F(\theta_j) - F(\theta)| \right) + \max_{j \le N} |F_n(\theta_j) - F(\theta_j)| $$
+
+\textbf{3. Analyzing the Terms:}
+\begin{itemize}
+    \item \textbf{Terms C (Fluctuations in $F$):} From continuity of $f$, we know that $F$ is also continuous and hence uniformly continuous on $\Theta$. We can then choose $\delta$ such that this term is less than $\epsilon/3$.
+    \item \textbf{Term B (Center Points):} For any fixed $\delta$, the covering $\{\theta_j\}$ is finite. By the standard LLN, $|F_n(\theta_j) - F(\theta_j)| \xrightarrow{P} 0$ for each $j$. By a union bound, $\max_{j \le N} |F_n(\theta_j) - F(\theta_j)| \xrightarrow{P} 0$ as $n \to \infty$.
+    
+    \item \textbf{Terms A (Fluctuations):} These terms measure the modulus of continuity of $F_n$ and $F$. We need to show they can be made arbitrarily small by choosing a small $\delta$. Let's analyze the expectation of their supremum:
+    $$ \E\left[ \sup_{\rho(\theta, \theta') \le \delta} |f(\theta; X) - f(\theta'; X)| \right] $$
+    Let $M_\delta(X) = \sup_{\rho(\theta, \theta') \le \delta} |f(\theta; X) - f(\theta'; X)|$.
+    \begin{itemize}
+        \item By the continuity of $f(\cdot; X)$, we have $M_\delta(X) \to 0$ pointwise as $\delta \to 0$.
+        \item By the triangle inequality, $|M_\delta(X)| \le 2 \sup_{\theta \in \Theta} |f(\theta; X)|$. Condition (3) of the theorem, $\E[\sup_{\theta \in \Theta} |f(\theta; X)|] < \infty$, ensures this upper bound is integrable.
+        \item By the Dominated Convergence Theorem (DCT), we can exchange the limit and expectation:
+        $$ \lim_{\delta \to 0} \E[M_\delta(X)] = \E\left[\lim_{\delta \to 0} M_\delta(X)\right] = \E[0] = 0 $$
+    \end{itemize}
+    This shows that for any $\epsilon > 0$, we can first choose $\delta$ small enough to make the expected fluctuation term less than $\epsilon/3$. Therefore, for each $j\le N$, we have
+\[
+\E\brackets*{|F_n(\theta) - F_n(\theta_j)|}\le \E\left[ \sup_{\rho(\theta, \theta') \le \delta} |f(\theta; X) - f(\theta'; X)| \right]<\epsilon/3
+\]
+    An application of Markov's inequality suggests that
+    \[
+    \max_{j \le N} \sup_{\theta \in B(\theta_j, \delta)}|F_n(\theta) - F_n(\theta_j)| \xrightarrow{P} 0.
+    \]
+\end{itemize}
+This completes the proof that the overall supremum converges to zero in probability.
+\end{proof}
+
+\section{Lecture 6: Techniques in Empirical Processes}
+\subsection{The Symmetrization Technique}
+In the proof of the Uniform Law of Large Numbers (ULLN), a key step is to bound the deviation of the empirical process from its mean on the center points of a covering, i.e., bounding $\pr(\max_{j \le N} |F_n(\theta_j) - F(\theta_j)| > \epsilon)$. A simple approach uses a union bound:
+$$ \pr\left(\max_{j \le N} |F_n(\theta_j) - F(\theta_j)| > \epsilon\right) \le \sum_{j=1}^N \pr(|F_n(\theta_j) - F(\theta_j)| > \epsilon) \le N \cdot \sup_{\theta \in \Theta} \pr(|F_n(\theta) - F(\theta)| > \epsilon) $$
+\begin{itemize}
+    \item If the loss function $f$ is bounded, we can use Hoeffding's inequality, $\pr(|F_n(\theta) - F(\theta)| > \epsilon) \le 2e^{-2n\epsilon^2}$. To make the total probability small, we need $N \cdot e^{-2n\epsilon^2} \to 0$, which leads to a rate of $\epsilon \approx \sqrt{\frac{\log N}{n}}$.
+    \item If $f$ is only assumed to have finite variance (heavy-tailed), a naive application of Chebyshev's inequality gives $\pr(|F_n(\theta) - F(\theta)| > \epsilon) \le \frac{\text{Var}(f(\theta; X))}{n\epsilon^2}$. This leads to a much slower rate of $\epsilon \approx \sqrt{\frac{N}{n}}$, which is often too slow for consistency.
+\end{itemize}
+To overcome this issue with heavy-tailed functions and to develop more powerful, data-dependent bounds, we introduce the \textbf{symmetrization} technique.
+
+Let $\mathcal{F}$ be a class of functions. We adopt the notation $P_n f = \frac{1}{n}\sum_{i=1}^n f(X_i)$ for the empirical measure and $Pf = \E[f(X)]$ for the true expectation. Our goal is to bound the expected supremum deviation, $\E[\sup_{f \in \mathcal{F}} |P_n f - Pf|]$.
+
+\begin{de}[Rademacher Complexity]
+Let $\mathcal{F}$ be a class of functions. Let $\{\epsilon_i\}_{i=1}^n$ be a sequence of i.i.d. Rademacher random variables, where $\pr(\epsilon_i = 1) = \pr(\epsilon_i = -1) = 1/2$. The Rademacher complexity of $\mathcal{F}$ is defined as:
+$$ \mathcal{R}_n(\mathcal{F}) := \E\left[ \sup_{f \in \mathcal{F}} \left| \frac{1}{n} \sum_{i=1}^n \epsilon_i f(X_i) \right| \right] $$
+The expectation is taken over both the data $\{X_i\}$ and the Rademacher variables $\{\epsilon_i\}$.
+\end{de}
+
+The key insight of symmetrization is that the original problem can be bounded by this seemingly more complex quantity.
+\begin{thm}[Symmetrization Lemma]
+For any function class $\mathcal{F}$, we have:
+$$ \E\left[\sup_{f \in \mathcal{F}} |P_n f - Pf|\right] \le 2 \mathcal{R}_n(\mathcal{F}) $$
+\end{thm}
+\begin{proof}
+Let $\{X_i'\}_{i=1}^n$ be a "ghost sample", an independent copy of the original data $\{X_i\}_{i=1}^n$.
+\begin{align*}
+    \E\left[\sup_{f \in \mathcal{F}} |P_n f - Pf|\right] &= \E\left[\sup_{f \in \mathcal{F}} \left| \frac{1}{n}\sum_{i=1}^n f(X_i) - \E[f(X_i')] \right|\right] \\
+    &= \E\left[\sup_{f \in \mathcal{F}} \left| \E_{X'}\left[\frac{1}{n}\sum_{i=1}^n (f(X_i) - f(X_i'))\right] \right|\right] \\
+    &\le \E\left[\sup_{f \in \mathcal{F}} \left| \frac{1}{n}\sum_{i=1}^n (f(X_i) - f(X_i')) \right|\right] \quad \text{(by Jensen's inequality)}
+\end{align*}
+Now, introduce Rademacher variables $\epsilon_i$. Since $f(X_i) - f(X_i')$ is symmetric about 0, multiplying by $\epsilon_i$ does not change its distribution.
+\begin{align*}
+    &= \E\left[\sup_{f \in \mathcal{F}} \left| \frac{1}{n}\sum_{i=1}^n \epsilon_i(f(X_i) - f(X_i')) \right|\right] \\
+    &\le \E\left[\sup_{f \in \mathcal{F}} \left| \frac{1}{n}\sum_{i=1}^n \epsilon_i f(X_i) \right|\right] + \E\left[\sup_{f \in \mathcal{F}} \left| \frac{1}{n}\sum_{i=1}^n \epsilon_i f(X_i') \right|\right] \quad \text{(triangle ineq.)} \\
+    &= 2 \E\left[\sup_{f \in \mathcal{F}} \left| \frac{1}{n}\sum_{i=1}^n \epsilon_i f(X_i) \right|\right] = 2 \mathcal{R}_n(\mathcal{F})
+\end{align*}
+The last step holds because $\{X_i\}$ and $\{X_i'\}$ are identically distributed.
+\end{proof}
+\begin{remark}
+    The Rademacher complexity $\mathcal{R}_n(\mathcal{F})$ can be analyzed by first conditioning on the data $\{X_i\}_{i=1}^n$. The inner expectation over $\{\epsilon_i\}$ is often much easier to handle using concentration inequalities for sums of independent (but not identically distributed) random variables.
+\end{remark} 
+
+
+
+\subsection{The Chaining Technique}
+
+
+Let $A = \{ (f(X_1), \dots, f(X_n)) : f \in \mathcal{F} \} \subseteq \R^n$. The (conditional) Rademacher complexity is a property of this set $A$.
+$$ R_n(A) := \E_{\epsilon}\left[ \sup_{a \in A} \left| \frac{1}{n} \sum_{i=1}^n \epsilon_i a_i \right| \right] $$
+This quantity measures the complexity of the set $A$, interpreted as its maximum correlation with a random direction vector $(\epsilon_1, \dots, \epsilon_n)$.
+
+If the set $A$ is finite, we can bound its Rademacher complexity using a moment-generating function argument.
+\begin{lem}
+For a finite set $A \subseteq \R^n$,
+$$ R_n(A) \le \frac{\max_{a \in A} \|a\|_2}{\sqrt{n}} \sqrt{2 \log |A|} $$
+\end{lem}
+\begin{proof}[Proof Sketch]
+The proof uses Jensen's inequality for the convex function $x \mapsto \exp(\lambda x)$, a union bound, and Hoeffding's lemma for Rademacher variables ($\E[e^{\lambda \sum \epsilon_i a_i}] = \prod \E[e^{\lambda \epsilon_i a_i}] \le \prod e^{\lambda^2 a_i^2/2} = e^{\lambda^2 \|a\|_2^2/2}$).
+$$ R_n(A) \le \frac{1}{\lambda n} \log \E \left[ \exp\left(\lambda \sup_{a \in A} \sum \epsilon_i a_i\right) \right] \le \frac{1}{\lambda n} \left( \log|A| + \frac{\lambda^2}{2} \max_{a \in A} \|a\|_2^2 \right) $$
+Choosing the optimal $\lambda$ yields the result.
+\end{proof}
+
+For an infinite set $A$, we can use a one-step discretization (or "chaining") argument. Let $\{a^{(j)}\}_{j=1}^M$ be a $\delta$-covering of $A$ under the empirical norm $\|a\|_n = \sqrt{\frac{1}{n}\sum a_i^2}$. Let $\pi(a) = \argmin_{j} \|a-a^{(j)}\|_n$.
+\begin{align*}
+    R_n(A) &= \E\left[\sup_{a \in A} \frac{1}{n} \left| \sum \epsilon_i (a_i - \pi(a)_i + \pi(a)_i) \right| \right] \\
+    &\le \E\left[\sup_{a \in A} \frac{1}{n} \left| \sum \epsilon_i (a_i - \pi(a)_i) \right| \right] + \E\left[\sup_{a \in A} \frac{1}{n} \left| \sum \epsilon_i \pi(a)_i \right| \right] \\
+    &\le \E\left[\sup_{a \in A} \| \epsilon/n \|_n \| a - \pi(a) \|_n \right] + \E\left[\max_{j \le M} \frac{1}{n} \left| \sum \epsilon_i a_i^{(j)} \right| \right] \quad \text{(by Cauchy-Schwarz)}
+\end{align*}
+The first term is bounded by $\delta$ since $\|\epsilon/n\|_n = 1$ and $\|a - \pi(a)\|_n \le \delta$. The second term is the Rademacher complexity of the finite covering, which we can bound using the previous lemma. This leads to Dudley's entropy integral bound, which for one-step discretization is:
+$$ R_n(A) \lesssim \inf_{\delta > 0} \left( \delta + \frac{\text{diam}(A)}{\sqrt{n}} \sqrt{\log N(A, \|\cdot\|_n, \delta)} \right) $$
+For a $d$-dimensional parametric model, the covering number $N(A, \delta) \approx (C/\delta)^d$. Optimizing for $\delta$ (roughly $\delta \propto 1/\sqrt{n}$) leads to a complexity bound:
+$$ R_n(A) \lesssim \sqrt{\frac{d \log n}{n}} $$
+This demonstrates how the complexity of the function class (measured by dimension $d$) controls the rate of uniform convergence. For more complex non-parametric models, this gap can be larger.
+
+Chaining is a powerful refinement of the single-step discretization method used to bound the Rademacher complexity of an infinite set $A \subseteq \R^n$. Instead of using a single approximation, chaining uses a sequence of increasingly accurate finite approximations.
+
+
+Let $A_0, A_1, \dots, A_m, \dots$ be a sequence of finite sets that provide progressively better approximations to the set $A$. Let $\pi_m(a)$ be the best approximation to a vector $a \in A$ from the set $A_m$. We assume that the approximation error goes to zero as $m \to \infty$.
+
+We can express any vector $a \in A$ as a telescoping sum. Let $\pi_0(a) = 0$. Then,
+$$ a = a - \pi_0(a) = \sum_{m=0}^{\infty} (\pi_{m+1}(a) - \pi_m(a)) $$
+Using this identity, we can decompose the Rademacher complexity:
+$$ \E\left[\sup_{a \in A} \frac{1}{n} \epsilon^T a \right] = \E\left[\sup_{a \in A} \frac{1}{n} \sum_{m=0}^{\infty} \epsilon^T (\pi_{m+1}(a) - \pi_m(a)) \right] \le \sum_{m=0}^{\infty} \E\left[\sup_{a \in A} \frac{1}{n} \left| \epsilon^T (\pi_{m+1}(a) - \pi_m(a)) \right| \right] $$
+
+
+Let's assume that for each $m$, the set $A_m$ is a $\delta_m$-covering of $A$ under the empirical norm $\| \cdot \|_n$. This means for any $a \in A$, $\|\pi_m(a) - a\|_n \le \delta_m$.
+The term for each increment can be bounded. The pair $(\pi_m(a), \pi_{m+1}(a))$ takes values in a finite set of cardinality at most $|A_m| \cdot |A_{m+1}|$. The difference vector $\pi_{m+1}(a) - \pi_m(a)$ is bounded in norm:
+$$ \|\pi_{m+1}(a) - \pi_m(a)\|_n \le \|\pi_{m+1}(a) - a\|_n + \|a - \pi_m(a)\|_n \le \delta_{m+1} + \delta_m $$
+Using the bound for the Rademacher complexity of a finite set, we have:
+$$ \E\left[\sup_{a \in A} \frac{1}{n} \left| \epsilon^T (\pi_{m+1}(a) - \pi_m(a)) \right| \right] \le \frac{\max \|\pi_{m+1}(a) - \pi_m(a)\|_n}{\sqrt{n}} \sqrt{2 \log(|A_m| \cdot |A_{m+1}|)} $$
+$$ \le \frac{\delta_m + \delta_{m+1}}{\sqrt{n}} \sqrt{2 \log(|A_m| \cdot |A_{m+1}|)} $$
+Summing these bounds over all $m$ gives a total bound on the Rademacher complexity. This multi-scale argument is formalized by Dudley's theorem, which relates the Rademacher complexity to an integral involving the covering numbers of the set.
+
+\begin{thm}[Dudley's Entropy Integral]
+There exists a universal constant $C > 0$ such that for any set $A \subseteq \R^n$, its Rademacher complexity is bounded by:
+$$ R_n(A) \le \frac{C}{\sqrt{n}} \int_0^{\text{diam}(A)} \sqrt{\log N(A, \|\cdot\|_n, \delta)} \, d\delta $$
+where $\text{diam}(A) = \sup_{a \in A} \|a\|_n$ and $N(A, \|\cdot\|_n, \delta)$ is the $\delta$-covering number of $A$ with respect to the empirical norm.
+\end{thm}
+\begin{proof}[Proof Sketch]
+Let $D = \text{diam}(A)$. We choose a dyadic (geometric) sequence of scales $\delta_m = D/2^m$ for $m=0, 1, 2, \dots$. Let $A_m$ be a minimal $\delta_m$-covering of $A$, with $A_0=\{0\}$.
+The bound on the $m$-th increment involves terms like $(\delta_m + \delta_{m+1})$ and $\log(|A_m||A_{m+1}|)$. Since $|A_m| = N(A, \delta_m)$ and $\delta_m + \delta_{m+1} = 3D/2^{m+1}$, substituting these into the sum gives:
+$$ R_n(A) \le \sum_{m=0}^\infty \frac{3D/2^{m+1}}{\sqrt{n}} \sqrt{2\log(N(A, D/2^m)N(A, D/2^{m+1}))} $$
+Since $N(A, \cdot)$ is a decreasing function, $N(A, D/2^{m+1}) \ge N(A, D/2^m)$, so we can simplify the log term to $\log(N(A, D/2^{m+1})^2) = 2\log(N(A, D/2^{m+1}))$. The sum becomes:
+$$ \sum_{m=0}^\infty \frac{3D}{2^{m+1}\sqrt{n}} \sqrt{4\log N(A, D/2^{m+1})} $$
+This sum can be interpreted as a Riemann sum approximation of an integral. The term $D/2^{m+1}$ is the width of an interval, and the square root term is the height. Therefore, noting that the integrand is increasing with respect to $\delta$, we have
+\[
+\sum_{m=0}^\infty \frac{3D}{2^{m+1}\sqrt{n}} \sqrt{4\log N(A, D/2^{m+1})}\le \frac{6}{\sqrt{n}} \int_0^D \sqrt{\log N(A, \delta)} \d \delta.
+\]
+
+
+
+\end{proof}
+
+The theorem can be translated back from the vector set $A$ to the original function class $\mathcal{F}$.
+
+\begin{thm}
+Consider a function class $\mathcal{F}$ with an envelope function $G$, such that $|f(x)| \le G(x)$ for all $f \in \mathcal{F}$ and for all $x$. Then there exists a constant $c$ such that:
+$$ \E\left[\sup_{f \in \mathcal{F}} |P_n f - Pf|\right] \le c \sqrt{\frac{\E[G(X)^2]}{n}} \int_0^1 \sqrt{\log \sup_Q N(\mathcal{F}, L^2(Q), \delta \|G\|_{L^2(Q)})} \, d\delta $$
+Here, $L^2(Q)$ is the norm $\|f\|_{L^2(Q)} = (\int f^2 dQ)^{1/2}$, and the supremum $\sup_Q$ is taken over all discrete probability measures on at most $n$ points. The term $N(\mathcal{F}, L^2(Q), \epsilon)$ is the "worst-case $L^2$ covering number".
+\end{thm}
+
+\begin{proof}
+    Let $A_X=\left\{\left(f(X_i)\right)_{i=1}^n\in \R^n:f\in\F\right\}$ be the random realization of the sets $A$ above. Then, by Dudley's entropy integral and scaling, we have
+    \begin{align*}
+        \E\left[\sup_{f \in \mathcal{F}} |P_n f - Pf|\right]&\lesssim \E_X\brackets*{ \frac{1}{\sqrt{n}} \int_0^{\operatorname{diam}(A_X)} \sqrt{\log N(A_X, \|\cdot\|_n, \delta)} \, d\delta}\\
+        &\lesssim \frac{1}{\sqrt{n}}\E_X\brackets*{ \|G\|_{L^2(Q_X)} \int_0^{\operatorname{diam}(A_X)/\|G\|_{L^2(Q_X)}} \sqrt{\log N(A_X, \|\cdot\|_n, \delta\|G\|_{L^2(Q_X)})} \, d\delta}\\
+        &=\frac{1}{\sqrt{n}}\E_X\brackets*{ \|G\|_{L^2(Q_X)} \int_0^{\operatorname{diam}(A_X)/\|G\|_{L^2(Q_X)}} \sqrt{\log N(\mathcal{F}, L^2(Q_X), \delta \|G\|_{L^2(Q_X)})} \, d\delta}\\
+        &\le \frac{1}{\sqrt{n}}\E_X\brackets*{ \|G\|_{L^2(Q_X)} \int_0^{1} \sqrt{\log \sup_Q N(\mathcal{F}, L^2(Q), \delta \|G\|_{L^2(Q)})} \, d\delta}\\
+        &= \sqrt{\frac{\E[G(X)^2]}{n}} \int_0^{1} \sqrt{\log \sup_Q N(\mathcal{F}, L^2(Q), \delta \|G\|_{L^2(Q)})} \, d\delta.
+    \end{align*}
+    which completes the proof.
+\end{proof}
+
+\begin{remark}
+    \begin{itemize}
+    \item The Dudley integral may diverge if the upper bound used for the covering number is too loose. In such cases, one must find tighter bounds on $N(\mathcal{F}, \epsilon)$.
+    \item A more advanced technique called \textbf{"generic chaining"} provides a tighter bound that is known to be optimal in many settings, though it is often less convenient to apply than Dudley's integral.
+    \item The problem of bounding the expected supremum deviation is thus reduced to the geometric problem of bounding the covering numbers of the function class $\mathcal{F}$.
+\end{itemize}
+\end{remark}
+
+\section{Lecture 7: VC Dimension and Applications}
+\subsection{VC Dimension of Sets}
+
+
+\subsection{VC Dimension of Binary Functions}
+The primary quantity of interest in statistical learning theory is often the uniform deviation of the empirical mean from the true expectation over a class of functions $\F$:
+$$
+\sup_{f \in \F} \left| P_n f-Pf \right|
+$$
+This quantity can be bounded using techniques like \textbf{symmetrization} (leading to Rademacher complexity) and \textbf{Dudley chaining}, which involves the (log) covering numbers of the function class $\F$. The Vapnik-Chervonenkis (VC) theory provides a different, combinatorial approach to understanding the "complexity" of a function class, particularly for binary functions.
+
+We now focus on \textbf{binary functions}, where $f: \X \to \{0, 1\}$.
+
+\begin{de}[Shattering]
+We say a set of $n$ points, $S = \{x_1, x_2, \dots, x_n\}$, is \textbf{shattered} by a function class $\F$ if $\F$ can generate every possible binary labeling on these $n$ points.
+That is, the set of projected vectors is the entire hypercube:
+$$
+\left\{ (f(x_1), f(x_2), \dots, f(x_n)) : f \in \F \right\} = \{0, 1\}^n
+$$
+The size of this set of labelings is $2^n$.
+\end{de}
+
+\begin{de}[VC Dimension]
+The \textbf{Vapnik-Chervonenkis (VC) dimension} of a function class $\F$, denoted $\VC(\F)$, is the largest integer $D$ such that there exists \emph{some} set of $D$ points $\{x_1, \dots, x_D\} \subseteq \X$ that is shattered by $\F$.
+
+If $\F$ can shatter sets of arbitrarily large size, we say $\VC(\F) = \infty$.
+\end{de}
+
+\begin{eg}[Indicator of line segments]
+Let $\X = \R$ and let $\F$ be the class of indicator functions of intervals:
+$$
+\F = \{ 1_{x \in [\theta_1, \theta_2]} : \theta_1, \theta_2 \in \R \}
+$$
+\begin{itemize}
+    \item \textbf{D=1:} We can shatter one point $x_1$.
+    \begin{itemize}
+        \item To get $\{1\}$: Choose $[\theta_1, \theta_2] = [x_1, x_1]$.
+        \item To get $\{0\}$: Choose $[\theta_1, \theta_2] = [x_1+1, x_1+2]$.
+    \end{itemize}
+    So, $\VC(\F) \ge 1$.
+
+    \item \textbf{D=2:} We can shatter two points $x_1 < x_2$.
+    \begin{itemize}
+        \item To get $\{0, 0\}$: Choose an interval to the right of $x_2$.
+        \item To get $\{1, 0\}$: Choose $[\theta_1, \theta_2] = [x_1, x_1]$.
+        \item To get $\{0, 1\}$: Choose $[\theta_1, \theta_2] = [x_2, x_2]$.
+        \item To get $\{1, 1\}$: Choose $[\theta_1, \theta_2] = [x_1, x_2]$.
+    \end{itemize}
+    All 4 combinations are possible, so $\VC(\F) \ge 2$.
+
+    \item \textbf{D=3:} We \textbf{cannot} shatter any set of three points $x_1 < x_2 < x_3$.
+    Consider the labeling $(1, 0, 1)$. This would require an interval $[\theta_1, \theta_2]$ that contains $x_1$ and $x_3$ but \emph{not} $x_2$. This is impossible for a single contiguous interval.
+\end{itemize}
+Since $\F$ can shatter 2 points but not 3 points, we conclude $\VC(\F) = 2$.
+\end{eg}
+
+\begin{eg}[Union of K intervals]
+Let $\F$ be the class of indicator functions of unions of $K$ intervals:
+$$
+\F = \left\{ 1_{x \in \bigcup_{j=1}^K [\theta_j, \psi_j]} \right\}
+$$
+This class is parameterized by $2K$ variables. It can be shown that $\VC(\F) = 2K$.
+We can see that $\VC(\F) < 2K+2$. Consider $2K+2$ points in order, $x_1, \dots, x_{2K+2}$. The alternating labeling $(1, 0, 1, 0, \dots, 1, 0)$ has $K+1$ ones. This labeling would require $K+1$ distinct intervals to achieve, which is not possible with a function from $\F$.
+\end{eg}
+
+Sauer's Lemma (also known as the Sauer-Shelah Lemma) provides a crucial bound on the number of distinct labelings a function class $\F$ can generate on $n$ points, based on its VC dimension. This number is often called the \textbf{growth function}.
+
+\begin{lem}[Sauer's Lemma]
+Let $\F$ be a function class with $\VC(\F) = D < \infty$. Let $\Pi_{\F}(S) = |\{ (f(x_1), \dots, f(x_n)) : f \in \F \}|$ be the number of distinct labelings $\F$ induces on a specific set $S = \{x_1, \dots, x_n\}$.
+
+Then for any $n \ge D$:
+$$
+\Pi_{\F}(S) \le \sum_{i=0}^D \binom{n}{i}
+$$
+\end{lem}
+
+\begin{remark}
+    Letting $\Phi_n(D) = \sum_{i=0}^D \binom{n}{i}$, the lemma states $\Pi_{\F}(S) \le \Phi_n(D)$.
+This bound holds regardless of the choice of $S$, so it also bounds the growth function $\Pi_{\F}(n) = \max_{|S|=n} \Pi_{\F}(S)$.
+
+For large $n$, this bound is approximately $\left( \frac{en}{D} \right)^D$, which is polynomial in $n$, whereas $2^n$ is exponential.
+\end{remark}
+\begin{eg}[Linear Classifiers (Half-Spaces)]
+    Let $\F$ be the class of linear threshold functions (half-spaces through the origin) in $\R^d$:
+$$
+\F = \{ 1_{\{\theta^T x \ge 0\}} : \theta \in \R^d \}
+$$
+Then $\VC(\F) = d$.
+
+To show this, it is equivalent to showing that no set of $d+1$ points $\{x_1, \dots, x_{d+1}\}$ in $\R^d$ can be shattered.
+\begin{enumerate}
+    \item Since we have $d+1$ vectors in $\R^d$, they must be linearly dependent.
+    Thus, $\exists \lambda_1, \dots, \lambda_{d+1}$, not all zero, such that $\sum_{i=1}^{d+1} \lambda_i x_i = 0$.
+    \item Let's construct a labeling that $\F$ cannot achieve. Define the labeling $b = (b_1, \dots, b_{d+1})$ by:
+    $$
+    b_i = \begin{cases} 1 & \text{if } \lambda_i > 0 \\ 0 & \text{if } \lambda_i \le 0 \end{cases}
+    $$
+    \item Assume for contradiction that this labeling is achievable. Then $\exists \theta \in \R^d$ such that:
+    \begin{itemize}
+        \item If $\lambda_i > 0$, then $b_i = 1 \implies \theta^T x_i \ge 0$.
+        \item If $\lambda_i \le 0$, then $b_i = 0 \implies \theta^T x_i < 0$. (Unless $\lambda_i = 0$, in which case $\theta^T x_i$ can be anything, but $\lambda_i \theta^T x_i = 0$).
+    \end{itemize}
+    \item Let's analyze the sign of $\lambda_i (\theta^T x_i)$:
+    \begin{itemize}
+        \item If $\lambda_i > 0$: $\lambda_i (\theta^T x_i) \ge 0$.
+        \item If $\lambda_i < 0$: $\theta^T x_i < 0$, so $\lambda_i (\theta^T x_i) > 0$.
+        \item If $\lambda_i = 0$: $\lambda_i (\theta^T x_i) = 0$.
+    \end{itemize}
+    \item Since not all $\lambda_i$ are zero, at least one of these terms must be strictly positive (from a non-zero $\lambda_i$).
+    \item Therefore, $\sum_{i=1}^{d+1} \lambda_i (\theta^T x_i) > 0$.
+    \item But we can rewrite the sum: $\sum_{i=1}^{d+1} \lambda_i (\theta^T x_i) = \theta^T \left( \sum_{i=1}^{d+1} \lambda_i x_i \right) = \theta^T (0) = 0$.
+    \item We have the contradiction $0 > 0$. Thus, the labeling $b$ is not achievable, and $\F$ cannot shatter any set of $d+1$ points.
+\end{enumerate}
+(It can also be shown that $\VC(\F) \ge d$, for example by picking the standard basis vectors plus the origin, so $\VC(\F)=d$. For general half-spaces $1_{\{\theta^T x + b \ge 0\}}$, $\VC = d+1$.)
+\end{eg}
+
+A "naive" application of Sauer's Lemma to bound the generalization error gives:
+$$
+\E[\sup_{f \in \F} \left| P_n f-Pf \right|] \le C \sqrt{\frac{\log \Pi_{\F}(n)}{n}} \le C \sqrt{\frac{\log( (en/D)^D )}{n}} = C' \sqrt{\frac{D \log(n/D)}{n}}
+$$
+This bound is "suboptimal" due to the $\log n$ term. A more powerful result connects VC dimension directly to covering numbers, independent of $n$.
+
+\begin{thm}[VC Bound on Covering Numbers]
+Let $\F$ be a class of binary functions with $\VC(\F) = D < \infty$. Then for any probability measure $Q$ and any $\varepsilon \in (0, 1)$, the $L_2(Q)$ covering number is bounded by:
+$$
+\log N(\varepsilon, \F, L_2(Q)) \le C \cdot D \cdot \log\left(\frac{1}{\varepsilon}\right)
+$$
+for some universal constant $C$.
+\end{thm}
+
+\begin{proof}
+Let $\{f_1, \dots, f_N\}$ be a maximal $\varepsilon$-packing of $\F$ under $L_2(Q)$. This means $N(\varepsilon, \F, L_2(Q)) \approx N$ and for all $i \ne j$, $\|f_i - f_j\|_{L_2(Q)} \ge \varepsilon$. Note that for binary functions, the $L_2(Q)$ distance squared is the probability of disagreement:
+    $$
+    \|f_i - f_j\|_{L_2(Q)}^2 = \int (f_i(x) - f_j(x))^2 dQ(x) = \int 1_{\{f_i(x) \ne f_j(x)\}} dQ(x) = Q(f_i \ne f_j)
+    $$
+So, for our packing, $Q(f_i \ne f_j) \ge \varepsilon^2$ for all $i \ne j$.
+    
+Now pick $n$ i.i.d. samples $S = \{x_1, \dots, x_n\} \sim Q$ and consider the probability that a specific pair $f_i, f_j$ are \emph{not} distinguishable on $S$:
+    \begin{align*}
+    \pr( (f_i(x_1), \dots, f_i(x_n)) = (f_j(x_1), \dots, f_j(x_n)) ) &= \prod_{k=1}^n \pr(f_i(x_k) = f_j(x_k)) \\
+    &= \prod_{k=1}^n (1 - Q(f_i \ne f_j)) \\
+    &\le (1 - \varepsilon^2)^n \le \exp(-n \varepsilon^2)
+    \end{align*}
+ By a union bound over all $\binom{N}{2} < N^2/2$ pairs, we have
+    $$
+    \pr(\exists i \ne j \text{ not distinguishable on } S) \le \binom{N}{2} \exp(-n \varepsilon^2) \le N^2 \exp(-n \varepsilon^2)
+    $$
+ We want to choose $n$ such that this probability is $< 1$. If we set $n > \frac{2 \log N}{\varepsilon^2}$, then the probability is $< N^2 \exp(-\frac{2 \log N}{\varepsilon^2} \varepsilon^2) = N^2 \cdot N^{-2} = 1$. This means there \emph{exists} a set $S$ of size $n = O(\frac{\log N}{\varepsilon^2})$ such that all $N$ functions $f_1, \dots, f_N$ produce distinct labeling vectors on $S$. Let $A = \{ (f_i(x_1), \dots, f_i(x_n)) : i \in [N] \}$ be this set of labelings. We have $|A| = N$. By Sauer's Lemma, $|A| \le \Pi_{\F}(S) \le \Phi_n(D) \le \left(\frac{en}{D}\right)^D$. We now have a system of two inequalities:
+    \begin{enumerate}
+        \item $N \le \left(\frac{en}{D}\right)^D \implies \log N \le D \log(en/D)$
+        \item $n \approx O\left(\frac{\log N}{\varepsilon^2}\right)$
+    \end{enumerate}
+Plugging (a) into (b) gives $n \approx O\left(\frac{D \log(en/D)}{\varepsilon^2}\right)$. Solving this for $n$ shows that $n$ is bounded by something proportional to $\frac{D}{\varepsilon^2} \log(1/\varepsilon)$. Plugging this back into (a), we have
+    $$
+    \log N \le D \log\left(\frac{e}{D} \cdot O\left(\frac{D}{\varepsilon^2} \log(1/\varepsilon)\right)\right) \approx O(D \log(1/\varepsilon))
+    $$
+which gives the desired result.
+\end{proof}
+
+\begin{remark}
+    We can now plug this covering number bound into the Dudley integral to get the "optimal" VC bound.
+\begin{align*}
+\E\left[ \sup_{f \in \F} \left| \frac{1}{n} \sum f(X_i) - \E[f(X)] \right| \right] &\le \frac{C}{\sqrt{n}} \int_0^1 \sqrt{\log \sup_Q \N(\varepsilon, \F, L_2(Q))} d\varepsilon \\
+&\le \frac{C}{\sqrt{n}} \int_0^1 \sqrt{C' \cdot D \cdot \log(1/\varepsilon)} d\varepsilon \\
+&= \frac{C'' \sqrt{D}}{\sqrt{n}} \int_0^1 \sqrt{\log(1/\varepsilon)} d\varepsilon
+\end{align*}
+The integral $\int_0^1 \sqrt{\log(1/\varepsilon)} d\varepsilon$ is a finite constant (it's $\sqrt{\pi}/2$).
+Therefore, we get the classic VC generalization bound:
+$$
+\E\left[ \sup_{f \in \F} \left| \frac{1}{n} \sum f(X_i) - \E[f(X)] \right| \right] \le O\left(\sqrt{\frac{D}{n}}\right)
+$$
+where $D = \VC(\F)$. For linear classifiers in $\R^d$, $D = d+1$, so the bound is $O\left(\sqrt{\frac{d+1}{n}}\right)$.
+This bound is a significant improvement over the $O\left(\sqrt{\frac{D \log n}{n}}\right)$ naive bound.
+\end{remark}
+\subsection{VC Subgraph Dimension and Generalizations}
+The standard Vapnik-Chervonenkis (VC) dimension applies to classes of binary functions ($\F: \X \to \{0, 1\}$). To analyze real-valued function classes ($\F: \X \to \R$), we introduce the concept of the VC subgraph dimension.
+
+\begin{de}[VC Subgraph Dimension]
+Let $\F$ be a class of real-valued functions $f: \X \to \R$. The \textbf{subgraph} of a function $f$ is the set $\{(x, t) \in \X \times \R : t \le f(x)\}$.
+The \textbf{VC subgraph dimension} of $\F$, denoted $\VC(\F)$, is defined as the standard VC dimension of the associated class of binary functions $\mathcal{G}$ defined on $\X \times \R$:
+$$
+\mathcal{G} = \{ (x, t) \mapsto 1_{\{t \le f(x)\}} : f \in \F \}
+$$
+Equivalently, $\VC(\F)$ is the largest integer $D$ such that there exists a set of $D$ points $\{(x_1, t_1), \dots, (x_D, t_D)\}$ that is shattered by $\mathcal{G}$. That is, for every binary vector $(b_1, \dots, b_D) \in \{0, 1\}^D$, there exists a function $f \in \F$ such that:
+$$
+1_{\{t_i \le f(x_i)\}} = b_i \quad \text{for all } i=1, \dots, D
+$$
+This means $\F$ can "separate" the points, with $f(x_i) \ge t_i$ if $b_i=1$ and $f(x_i) < t_i$ if $b_i=0$.
+\end{de}
+
+\begin{eg}[Affine Functions]
+Let 
+\[
+\F = \{ f: x \mapsto \theta^T x - \theta_0 : \theta \in \R^d, \theta_0 \in \R \}
+\]
+be the class of affine functions on $\R^d$. The subgraph class is 
+\[
+\mathcal{G} = \{ (x, t) \mapsto 1_{\{t \le \theta^T x - \theta_0\}} \} = \{ (x, t) \mapsto 1_{\{\theta^T x - \theta_0 - t \ge 0\}} \}.
+\]
+This is a class of homogeneous half-spaces on the input $(x, 1, t) \in \R^{d+2}$.
+The VC dimension of homogeneous half-spaces in $\R^{k}$ is $k$. Therefore, $\VC(\F) = d+2$.
+(The note states $\VC(\F) \le d+1$, which corresponds to linear functions through the origin, $f(x) = \theta^T x$).
+\end{eg}
+
+The VC subgraph dimension provides a powerful, distribution-free way to bound the covering numbers of real-valued function classes.
+
+\begin{thm}[Covering Numbers via VC Dimension]
+Let $\F$ be a class of real-valued functions with an \textbf{envelope} $F(x)$. Let $D = \VC(\F)$ be the VC subgraph dimension.
+Then, for any probability measure $Q$ and any $\varepsilon > 0$, the $L_2(Q)$ covering number is bounded by:
+$$
+\sup_Q N(\F,\varepsilon \|F\|_{L_2(Q)},  L_2(Q)) \le \left(\frac{C}{\varepsilon}\right)^{C_2 D}
+$$
+for universal constants $C, C_2$.
+\end{thm}
+
+\begin{proof}[Proof Sketch]
+The key idea is to relate the $L_2(Q)$ distance between two functions $f, g \in \F$ to the $L_2(\tilde{Q})$ distance between their corresponding subgraph indicators $h_f, h_g \in \mathcal{G}$.
+\begin{enumerate}
+    \item We can write $f(x) - g(x) = \int_{-F(x)}^{F(x)} (1_{\{t \le f(x)\}} - 1_{\{t \le g(x)\}}) dt$.
+    \item Applying Cauchy-Schwarz and several inequalities leads to a bound of the form:
+    $$
+    \|f - g\|_{L_2(Q)}^2 \le C \|F\|_{L_2(Q)}^2 \cdot \|h_f - h_g\|_{L_2(\tilde{Q})}^2
+    $$
+    where $d\tilde{Q}(x, t) = \frac{F(x) dt dQ(x)}{\iint F(x) dt dQ(x)}$ is a probability measure on the subgraph domain $\{(x,t) : |t| \le F(x)\}$.
+    \item This implies that an $\varepsilon'$-covering of the binary class $\mathcal{G}$ (under $L_2(\tilde{Q})$) provides an $\varepsilon$-covering of $\F$ (under $L_2(Q)$), where $\varepsilon \approx C' \|F\|_{L_2(Q)} \varepsilon'$.
+    \item Since $\mathcal{G}$ is a binary class with VC dimension $D$, its covering number is bounded by $\N(\varepsilon', \mathcal{G}, L_2(\tilde{Q})) \le (C'' / \varepsilon')^{C_3 D}$.
+    \item Substituting $\varepsilon' \approx \varepsilon / (C' \|F\|_{L_2(Q)})$ gives the final result.
+\end{enumerate}
+\end{proof}
+
+For many non-parametric classes, the VC subgraph dimension is infinite. This motivates a scale-dependent measure of complexity.
+
+\begin{de}[$\varepsilon$-Fat Shattering Dimension]
+A set of points $\{x_1, \dots, x_D\}$ is \textbf{$\varepsilon$-shattered} by $\F$ if there exist "thresholds" $t_1, \dots, t_D$ such that for any binary sequence $(b_1, \dots, b_D) \in \{0, 1\}^D$, there exists a function $f \in \F$ that satisfies:
+\begin{itemize}
+    \item $f(x_i) \ge t_i + \varepsilon$ if $b_i = 1$
+    \item $f(x_i) < t_i$ if $b_i = 0$
+\end{itemize}
+(Note: Definitions may vary, e.g., $f(x_i) \le t_i - \varepsilon$ for $b_i=0$).
+The \textbf{$\varepsilon$-fat shattering dimension}, $\fat_\varepsilon(\F)$, is the largest integer $D$ for which such an $\varepsilon$-shattered set exists.
+\end{de}
+
+This dimension measures the complexity of $\F$ at a specific scale $\varepsilon$.
+
+\begin{thm}[Mendelson-Vershynin Theorem]
+If $\mathcal{F}$ is uniformly bounded by 1:
+$$
+\sup_Q M(\epsilon; \mathcal{F}, L^2(Q)) \le \left(\frac{1}{\epsilon}\right)^{C \cdot fat_{c\epsilon}(\mathcal{F})}
+$$
+By Dudley's chaining integral, we get:
+$$
+\sup_{f \in \mathcal{F}} |(P_n - P)f| \le \frac{C}{\sqrt{n}} \int_0^1 \sqrt{fat_{c\epsilon}(\mathcal{F}) \cdot \log(1/\epsilon)} d\epsilon
+$$
+\end{thm}
+
+\begin{thm}[Rudelson-Vershynin Theorem]
+Under mild assumptions, we have
+$$
+\sup_Q M(\epsilon; \mathcal{F}, L^2(Q)) \le \exp\left( C \cdot fat_{c\epsilon}(\mathcal{F}) \right)
+$$
+This implies a tighter bound:
+$$
+\sup_{f \in \mathcal{F}} |(P_n - P)f| \le \frac{C}{\sqrt{n}} \int_0^1 \sqrt{fat_{c\epsilon}(\mathcal{F})} d\epsilon
+$$
+\end{thm}
+
+\section{Lecture 8: Localization and Bayesian Estimators}
+\subsection{Localication Techniques}
+Consider the standard M-estimation problem:
+$$
+\hat{\theta}_n = \text{argmin}_{\theta \in \Theta} L_n(\theta), \quad \theta^* = \text{argmin}_{\theta \in \Theta} L(\theta)
+$$
+where $L_n(\theta) = \frac{1}{n}\sum_{i=1}^n l(x_i;\theta)$.
+The standard global bound on the excess risk is derived via uniform convergence over the entire parameter space $\Theta$:
+$$
+L(\hat{\theta}_n) - L(\theta^*) \le 2 \sup_{\theta \in \Theta} |L_n(\theta) - L(\theta)| \lesssim \sqrt{\frac{VC(\mathcal{F})}{n}}
+$$
+\begin{remark}
+    Taking the supremum over the entire space $\Theta$ is often too conservative. Intuitively, consistency implies that $\hat{\theta}_n$ eventually falls within a small neighborhood of $\theta^*$. If we knew this a priori, we could restrict the complexity analysis to a local neighborhood $\Theta \cap \{\theta : \|\theta - \theta^*\| \le r\}$. This creates a "Chicken and Egg" problem:
+\begin{enumerate}
+    \item To improve the bound, we need to know $\hat{\theta}_n$ is close to $\theta^*$.
+    \item To show $\hat{\theta}_n$ is close to $\theta^*$, we need a tight bound.
+\end{enumerate}
+\end{remark}
+
+ 
+The solution is the method of \textbf{Localization} (or Peeling): we can derive tighter bounds by analyzing the \textit{local modulus of continuity} of the empirical process.
+
+\begin{thm}[Localization]
+    Assume that
+\begin{enumerate}
+    \item \textbf{Curvature Assumption (Strong Convexity-type condition):}
+    Assume the population risk behaves quadratically near the optimum:
+    $$
+    L(\theta) - L(\theta^*) \ge \|\theta - \theta^*\|^2
+    $$
+    
+    \item \textbf{Local Modulus of Continuity:}
+    Let $\phi_n(u)$ be an upper bound on the expected supremum of the empirical process restricted to a ball of radius $u$:
+    $$
+    \mathbb{E}\left[ \sup_{\theta \in \Theta, \|\theta - \theta^*\| \le u} \left| (P_n - P)(l_\theta - l_{\theta^*}) \right| \right] \le \phi_n(u)
+    $$
+    
+    \item \textbf{Sub-quadratic Growth:}
+    Assume $\phi_n(u)$ does not grow too fast. Specifically, for some $\alpha < 2$:
+    $$
+    \phi_n(cx) \le c^\alpha \phi_n(x) \quad \forall c > 1, x > 0
+    $$
+\end{enumerate}
+The critical radius $\delta_n$ is defined as the fixed point solution (or the smallest value) satisfying:
+$$
+\phi_n(\delta_n) \le \delta_n^2
+$$
+Under the assumptions above, for any $\epsilon > 0$, there exists a constant $C_\epsilon$ such that with probability at least $1-\epsilon$:
+$$
+\|\hat{\theta}_n - \theta^*\| \le C_\epsilon \cdot \delta_n
+$$
+\end{thm}
+
+\begin{proof}
+Using the definition of $\hat{\theta}_n$ and the curvature assumption:
+\begin{align*}
+\|\hat{\theta}_n - \theta^*\|^2 &\le L(\hat{\theta}_n) - L(\theta^*) \\
+&= (L(\hat{\theta}_n) - L_n(\hat{\theta}_n)) + (L_n(\hat{\theta}_n) - L_n(\theta^*)) + (L_n(\theta^*) - L(\theta^*)) \\
+&\le (L(\hat{\theta}_n) - L_n(\hat{\theta}_n)) + 0 + (L_n(\theta^*) - L(\theta^*)) \\
+&= (P_n - P)(l_{\theta^*} - l_{\hat{\theta}_n})
+\end{align*}
+
+We wish to bound the probability $\mathbb{P}(\|\hat{\theta}_n - \theta^*\| \ge 2^M \delta_n)$ by decomposing the event into disjoint "layers":
+$$
+\mathbb{P}(\|\hat{\theta}_n - \theta^*\| \ge 2^M \delta_n) = \sum_{j \ge M} \mathbb{P}\left( 2^{j-1}\delta_n < \|\hat{\theta}_n - \theta^*\| \le 2^j \delta_n \right)
+$$
+For a specific shell where $\|\hat{\theta}_n - \theta^*\| \le 2^j \delta_n$, the error is bounded by the supremum over the ball of radius $u = 2^j \delta_n$.
+Also, from the first inequality, if $\|\hat{\theta}_n - \theta^*\| > 2^{j-1}\delta_n$, then the process value must be large:
+$$
+(P_n - P)(l_{\theta^*} - l_{\hat{\theta}_n}) \ge \|\hat{\theta}_n - \theta^*\|^2 > (2^{j-1}\delta_n)^2
+$$
+By Markov's inequality and the definition of $\phi_n$:
+\begin{align*}
+\text{Prob of shell } j &\le \mathbb{P}\left( \sup_{\|\theta-\theta^*\| \le 2^j \delta_n} |(P_n - P)(l_{\theta^*} - l_\theta)| \ge 2^{2j-2}\delta_n^2 \right) \\
+&\le \frac{\phi_n(2^j \delta_n)}{2^{2j-2}\delta_n^2}
+\end{align*}
+Using the sub-quadratic growth assumption $\phi_n(cx) \le c^\alpha \phi_n(x)$:
+$$
+\phi_n(2^j \delta_n) \le 2^{j\alpha} \phi_n(\delta_n) \le 2^{j\alpha} \delta_n^2 \quad (\text{since } \phi_n(\delta_n) \le \delta_n^2)
+$$
+Substituting back:
+$$
+\text{Prob} \le \frac{2^{j\alpha} \delta_n^2}{2^{2j-2}\delta_n^2} = 4 \cdot 2^{(\alpha-2)j}
+$$
+Since $\alpha < 2$, the term $(\alpha-2)$ is negative, and the sum over $j$ forms a convergent geometric series. By choosing $M$ large enough, we can make the total probability arbitrarily small ($\le \epsilon$).
+\end{proof}
+
+\begin{eg}
+    Let's apply this to a standard parametric class $\Theta = \mathbb{R}^d$. Assume the loss function is Lipschitz with respect to $\theta$:
+$$
+|l_{\theta_1}(x) - l_{\theta_2}(x)| \le M(x) \|\theta_1 - \theta_2\|_2
+$$
+where $M(x)$ is an envelope function with finite second moment $\|M\|_{L^2(P)}$.
+We analyze the local class $\mathcal{F}_u = \{l_\theta - l_{\theta^*} : \|\theta - \theta^*\| \le u\}$.
+
+Note that the envelope of $\mathcal{F}_u$ is $F_u(x) = u \cdot M(x)$. The covering number of the parameter space (a ball of radius $u$ in $\mathbb{R}^d$) scales with dimension $d$:
+$$
+\log N(\epsilon \|F_u\|; \mathcal{F}_u, \|\cdot\|) \approx \log \left( \frac{u}{\epsilon u} \right)^d = d \log \left(\frac{1}{\epsilon}\right)
+$$
+By Dudley's entropy integral, the local modulus $\phi_n(u)$ is bounded by:
+\begin{align*}
+\phi_n(u) &\le C \frac{\|F_u\|_{L^2}}{\sqrt{n}} \int_0^1 \sqrt{\log N(\dots)} d\epsilon \\
+&= C \frac{u \|M\|_{L^2}}{\sqrt{n}} \int_0^1 \sqrt{d \log(1/\epsilon)} d\epsilon
+\end{align*}
+The integral $\int_0^1 \sqrt{\log(1/\epsilon)} d\epsilon$ is a constant. Thus,
+$$
+\phi_n(u) \le C' \sqrt{\frac{d}{n}} \|M\|_{L^2(P)} \cdot u
+$$
+We then solve for $\delta_n$ such that $\phi_n(\delta_n) = \delta_n^2$:
+$$
+C' \sqrt{\frac{d}{n}} \delta_n = \delta_n^2 \implies \delta_n = C' \sqrt{\frac{d}{n}}
+$$
+
+The estimation error bound is then
+$$
+\|\hat{\theta}_n - \theta^*\| = O_p\left( \sqrt{\frac{d}{n}} \right)
+$$
+This recovers the standard parametric rate of convergence, which is significantly faster than the slow rates (e.g., $n^{-1/4}$ or slower) that might be implied by loose global bounds without curvature assumptions.
+\end{eg}
+
+\begin{eg}
+    We now consider a scenario where the Lipschitz condition fails or the geometry of the problem changes, leading to a slower rate of convergence ($n^{-1/3}$).
+
+Consider the estimator defined by maximizing the probability mass captured by a fixed-width interval. This corresponds to minimizing the loss:
+$$
+f_\theta(x) = - \mathbb{1}_{\{x \in [\theta - 1, \theta + 1]\}}
+$$
+\begin{itemize}
+    \item Population Risk: $P f_\theta = - \mathbb{P}(X \in [\theta-1, \theta+1])$.
+    \item Empirical Risk: $P_n f_\theta = - \frac{1}{n} \sum_{i=1}^n \mathbb{1}\{x_i \in [\theta-1, \theta+1]\}$.
+\end{itemize}
+
+Assume the density $p(x)$ is continuously differentiable. We analyze the second derivative of the population risk at the optimum $\theta^*$:
+$$
+\left. \frac{d^2}{d\theta^2} P f_\theta \right|_{\theta^*} = p'(\theta^* - 1) - p'(\theta^* + 1)
+$$
+Assuming this quantity is strictly positive, the risk is locally quadratic:
+$$
+P f_\theta - P f_{\theta^*} \ge C_0 |\theta - \theta^*|^2 \quad \text{for } \theta \in (\theta^* - \delta_0, \theta^* + \delta_0)
+$$
+By consistency, for large $n$, we can restrict our attention to this local interval. We must bound the expectation of the supremum over the local class $\mathcal{F}_r = \{f_\theta - f_{\theta^*} : |\theta - \theta^*| \le r\}$.
+
+\textbf{1. Envelope Function:}
+The difference $|f_\theta(x) - f_{\theta^*}(x)|$ is non-zero only when $x$ falls in the symmetric difference of the intervals $[\theta-1, \theta+1]$ and $[\theta^*-1, \theta^*+1]$. This region consists of two small strips of width at most $r$ near the endpoints.
+We define the envelope $G(x)$:
+$$
+G(x) = \mathbb{1}\{x \in [\theta^*+1-r, \theta^*+1+r] \cup [\theta^*-1-r, \theta^*-1+r]\}
+$$
+
+\textbf{2. Second Moment of the Envelope:}
+Crucially, the variance scales linearly with $r$, not $r^2$ (unlike the Lipschitz case):
+$$
+\mathbb{E}[G(x)^2] = \mathbb{P}(X \in \text{small strips}) \le 4 p_{\max} r
+$$
+
+\textbf{3. VC Dimension:}
+The class of intervals has VC dimension $\le 2$. The local class $\mathcal{F}_r$ has VC dimension $\le 8$. Thus, the entropy integral is bounded by a constant.
+
+\textbf{4. Modulus of Continuity:}
+Using Dudley's entropy bound:
+$$
+\mathbb{E}\left[ \sup_{\mathcal{F}_r} |(P_n - P)(f_\theta - f_{\theta^*})| \right] \le C \sqrt{\frac{\mathbb{E}[G^2]}{n}} \int_0^1 \sqrt{\log N(\dots)} d\delta
+$$
+Substituting the bound for $\mathbb{E}[G^2]$:
+$$
+\phi_n(r) \le C \sqrt{\frac{p_{\max} r}{n}}
+$$
+By solving the fixed point equation $\delta_n^2 = \phi_n(\delta_n)$, we have $\delta_n \approx n^{-1/3}$.
+\begin{thm}[Cube Root Rate]
+For the interval location estimator, under the assumed curvature conditions:
+$$
+|\hat{\theta}_n - \theta^*| \le O_p\left( n^{-1/3} \right)
+$$
+\end{thm}
+\end{eg}
+
+
+\begin{remark}
+    Since the convergence rate is $n^{-1/3}$, we look for a limiting distribution of $n^{1/3}(\hat{\theta}_n - \theta^*)$. Indeed, it is given by:
+$$
+n^{1/3}(\hat{\theta}_n - \theta^*) \xrightarrow{d} \text{argmax}_{t \in \mathbb{R}} \{ \mathbb{G}(t) - ct^2 \}
+$$
+\begin{itemize}
+    \item $\mathbb{G}$ is some Gaussian Process originating from zero.
+    \item $ct^2$ is a drift term representing the quadratic curvature of the population risk.
+    \item The limit is \textbf{non-Gaussian}. It is the location of the maximum of a Brownian motion with quadratic drift.
+\end{itemize}
+\end{remark}
+
+\subsection{Convergence of Bayesian Estimators}
+In the Bayesian framework, we observe data $X_1, \dots, X_n \overset{i.i.d.}{\sim} P_{\theta^*}$ given a prior distribution $\pi$ on the parameter space $\Theta$. The inference is based on the posterior distribution:
+$$
+\pi(\theta | X^n) = \frac{\pi(\theta) \prod_{i=1}^n p_\theta(X_i)}{\int_\Theta \pi(\vartheta) \prod_{i=1}^n p_\vartheta(X_i) d\vartheta}
+$$
+
+We are interested in three main asymptotic properties:
+\begin{enumerate}
+    \item \textbf{Posterior Consistency:} Does the posterior mass concentrate around the true parameter $\theta^*$?
+    $$
+    \forall \epsilon > 0, \quad \pi(\{\theta : \|\theta - \theta^*\| > \epsilon\} \mid X^n) \xrightarrow{P} 0
+    $$
+    \item \textbf{Contraction Rate:} How fast does the mass concentrate? We look for a sequence $\epsilon_n \to 0$ such that with high probability:
+    $$
+    \pi(\{\theta : \|\theta - \theta^*\| \ge \epsilon_n\} \mid X^n) \le \delta
+    $$
+    \item \textbf{Asymptotic Posterior Shape:} Does the posterior converge to a specific distribution?
+    $$
+    d_{TV}(\pi(\cdot | X^n), \mathcal{D}) \xrightarrow{P} 0
+    $$
+\end{enumerate}
+
+Schwartz's Theorem provides sufficient conditions for posterior consistency.
+
+\begin{thm}[Schwartz]
+Posterior consistency holds if the following two conditions are met:
+\begin{enumerate}
+    \item \textbf{KL Support (Prior Condition):} The prior places positive mass on any Kullback-Leibler (KL) neighborhood of the true parameter $\theta^*$.
+    $$
+    \forall \epsilon > 0, \quad \pi(\{\theta : D_{KL}(P_{\theta^*} || P_\theta) \le \epsilon\}) > 0
+    $$
+    \item \textbf{Existence of Tests (Testing Condition):} For every $\epsilon > 0$, there exists a sequence of tests $\phi_n$ (functions of $X^n \to \{0,1\}$) that can distinguish $\theta^*$ from the complement of the neighborhood $\{\theta : \|\theta - \theta^*\| \ge \epsilon\}$:
+    $$
+    \mathbb{E}_{\theta^*}[\phi_n] \to 0 \quad \text{and} \quad \sup_{\|\theta - \theta^*\| \ge \epsilon} \mathbb{E}_\theta[1 - \phi_n] \to 0
+    $$
+\end{enumerate}
+\end{thm}
+
+\begin{remark}
+The sequence of tests $\phi_n$ is purely a theoretical device used to prove the mass in the complement vanishes. The actual Bayesian algorithm does not need to know these tests.
+\end{remark}
+
+\begin{proof}
+    The proof relies on bounding the posterior probability of the complement set $U^c = \{\theta : \|\theta - \theta^*\| > \epsilon\}$.
+$$
+\pi(U^c | X^n) = \frac{\int_{U^c} \prod \frac{p_\theta}{p_{\theta^*}}(X_i) \pi(\theta) d\theta}{\int_{\Theta} \prod \frac{p_\theta}{p_{\theta^*}}(X_i) \pi(\theta) d\theta} = \frac{\text{Numerator}}{\text{Denominator}}
+$$
+
+We first construct tests with exponentially decaying error probabilities:
+\begin{enumerate}
+    \item Assume there exists a test $\phi_{n_0}$ for a fixed sample size $n_0$ with Type I and Type II errors bounded by $1/4$.
+    \item For large $n$, divide the data into $K = n/n_0$ independent blocks.
+    \item Apply the base test to each block to get outcomes $Y_1, \dots, Y_K$.
+    \item Define the boosted test $\tilde{\phi}_n$ by a majority vote:
+    $$
+    \tilde{\phi}_n(X^n) = \mathbb{1}\left\{ \frac{1}{K} \sum_{j=1}^K Y_j > \frac{1}{2} \right\}
+    $$
+    \item By Hoeffding's inequality, the errors of $\tilde{\phi}_n$ decay exponentially:
+    $$
+    \mathbb{E}_{\theta^*}[\tilde{\phi}_n] \le e^{-cn}, \quad \sup_{\theta \in U^c} \mathbb{E}_\theta[1 - \tilde{\phi}_n] \le e^{-cn}
+    $$
+\end{enumerate}
+We use the tests $\tilde \phi_n$ to control the numerator. Let $R_n(\theta) = \prod \frac{p_\theta(X_i)}{p_{\theta^*}(X_i)}$, then
+$$
+\text{Numerator} = \int_{U^c} R_n(\theta) \pi(\theta) d\theta
+$$
+Since $\E_\theta^*[\phi_n]$ converges to zero, we can incorporate the test into the posterior probability:
+\begin{align*}
+\mathbb{E}_{\theta^*} \left[ (1 - \tilde\phi_n) \int_{U^c} R_n(\theta) \pi(\theta) d\theta \right] &= \int_{U^c} \mathbb{E}_{\theta^*} [ (1 -\tilde \phi_n) R_n(\theta) ] \pi(\theta) d\theta \\
+&= \int_{U^c} \mathbb{E}_{\theta} [ 1 -\tilde \phi_n(X^n) ] \pi(\theta) d\theta \\
+&\le \sup_{\theta \in U^c} \mathbb{E}_{\theta} [ 1 -\tilde \phi_n ] \cdot \pi(U^c) \\
+&\le \exp(-cn)
+\end{align*}
+Thus, the numerator is exponentially small with high probability.
+
+To lower-bound the denominator, it suffices to focus on a KL-neighborhood $\Theta_0 = \{\theta : D_{KL}(P_{\theta^*} || P_\theta) \le \epsilon\}$. The log-likelihood ratio behaves according to the Law of Large Numbers:
+$$
+\frac{1}{n} \sum_{i=1}^n \log \frac{p_{\theta^*}(X_i)}{p_\theta(X_i)} \xrightarrow{P} \mathbb{E}_{\theta^*} \left[ \log \frac{p_{\theta^*}}{p_\theta} \right] = D_{KL}(P_{\theta^*} || P_\theta)
+$$
+Therefore,
+$$
+\frac{1}{n} \log \prod_{i=1}^n \frac{p_\theta(X_i)}{p_{\theta^*}(X_i)} \approx - D_{KL}(P_{\theta^*} || P_\theta) \ge -\epsilon \quad \text{for } \theta \in \Theta_0
+$$
+Using the assumption on the prior, we have
+$$
+\text{Denominator} \ge \int_{\Theta_0} e^{-n(D_{KL} + \text{small})} \pi(\theta) d\theta \ge e^{-2n\epsilon} \pi(\Theta_0)
+$$
+Combining the bounds on the numerator and denominator, we have
+$$
+\pi(U^c | X^n) \le \frac{\exp(-cn)}{\pi(\Theta_0) \exp(-2n\epsilon)}
+$$
+By choosing $\epsilon$ small enough such that $2\epsilon < c$, the ratio goes to 0 as $n \to \infty$.
+\end{proof}
+
+
+
+The Bernstein-von Mises (BvM) theorem describes the asymptotic shape of the posterior distribution.
+
+\begin{thm}[Bernstein-von Mises]
+Assuming sufficient regularity conditions (similar to those required for the asymptotic normality of the MLE), the posterior distribution converges in total variation to a normal distribution centered at the MLE $\hat{\theta}_n$ with covariance equal to the inverse Fisher information:
+$$
+d_{TV} \left( \pi(\cdot | X^n), \mathcal{N}(\hat{\theta}_n, (n I(\theta^*))^{-1}) \right) \xrightarrow{P} 0
+$$
+\end{thm}
+
+\begin{remark}
+This theorem justifies the use of Bayesian credible intervals as frequentist confidence intervals in large samples for regular models. In irregular cases (e.g., boundaries), the limit may be different (e.g., functionals of Brownian motion).
+\end{remark}

@@ -1,0 +1,1894 @@
+\chapter{Classical Decision Theory}
+
+\section{Lecture 1, 19: Basic Concentration Inequalities}
+
+We start with the introduction to concentration inequalities.
+
+There are several refinements to the Chebyshev inequality. For many random variables, the moment generating function will exist in a neighborhood around 0. In these cases, we can use the mgf to produce a tail bound.
+
+Define $\mu=\mathbb{E}[X]$. For any $t>0$, we have that,
+\begin{align*}
+\mathbb{P}((X-\mu) \geq u)=\mathbb{P}(\exp (t(X-\mu)) \geq \exp (t u)) \leq \frac{\mathbb{E}[\exp (t(X-\mu))]}{\exp (t u)}
+\end{align*}
+by applying Markov's inequality. Now $t$ is a parameter we can choose to get a tight upper bound, i.e., we can write this bound as:
+\begin{align*}
+\mathbb{P}((X-\mu) \geq u) \leq \inf _{0 \leq t \leq b} \exp (-t(u+\mu)) \mathbb{E}[\exp (t X)]
+\end{align*}
+This bound is known as Chernoff's bound. Suppose that, $X \sim N\left(\mu, \sigma^2\right)$, then a simple calculation gives that the mgf of $X$ is:
+\begin{align*}
+M_X(t)=\mathbb{E}[\exp (t X)]=\exp \left(t \mu+t^2 \sigma^2 / 2\right) .
+\end{align*}
+The mgf is defined for all $t$. To apply the Chernoff bound we then need to compute:
+\begin{align*}
+\inf _{t \geq 0} \exp (-t(u+\mu)) \exp \left(t \mu+t^2 \sigma^2 / 2\right)=\inf _{t \geq 0} \exp \left(-t u+t^2 \sigma^2 / 2\right),
+\end{align*}
+which is minimized when $t=u / \sigma^2$ which in turn yields the tail bound,
+\begin{align*}
+\mathbb{P}(X-\mu \geq u) \leq \exp \left(-u^2 /\left(2 \sigma^2\right)\right)
+\end{align*}
+This is often referred to as a one-sided or upper tail bound. We also have the two-sided Gaussian tail bound:
+\begin{align*}
+\mathbb{P}(|X-\mu| \geq u) \leq 2 \exp \left(-u^2 /\left(2 \sigma^2\right)\right)
+\end{align*}
+
+The main thing to observe is that this inequality is much sharper than Chebyshev's inequality. In particular, suppose we consider the average of i.i.d. Gaussian random variables, i.e. we have $X_1, \ldots, X_n \sim N\left(\mu, \sigma^2\right)$ and we construct the estimate:
+\begin{align*}
+\widehat{\mu}=\frac{1}{n} \sum_{i=1}^n X_i
+\end{align*}
+Using the fact that the average of Gaussian RVs is Gaussian, we obtain that $\widehat{\mu}$ has a $N\left(\mu, \sigma^2 / n\right)$ distribution. In this case, using the Gaussian tail bound we derived, we obtain that,
+\begin{align*}
+\mathbb{P}(|\widehat{\mu}-\mu| \geq t \sigma / \sqrt{n}) \leq 2 \exp \left(-t^2 / 2\right)
+\end{align*}
+This is an example of an exponential tail inequality. It turns out that the Gaussian tail inequality from the previous section is much more broadly applicable to a class of random variables called sub-Gaussian random variables. 
+
+\begin{de}
+    A random variable $X$ with mean $\mu$ is sub-Gaussian if there exists a positive number $\sigma$ such that,
+\begin{align*}
+\mathbb{E}[\exp (t(X-\mu))] \leq \exp \left(\sigma^2 t^2 / 2\right),
+\end{align*}
+for all $t \in \mathbb{R}$. Such a random variable is called $\sigma$-sub-Gaussian.
+\end{de}
+\begin{remark}
+    Gaussian random variables with variance $\sigma^2$ satisfy the above condition with equality, so a $\sigma$-sub-Gaussian random variable basically just has an mgf that is dominated by a Gaussian with variance $\sigma$.
+\end{remark}
+
+\begin{eg}
+    (Rademacher random variables are 1-sub-Gaussian) Let $X$ be a Rademacher random variable, which takes the values $\{+1,-1\}$ equiprobably. In this case, we can see that,
+\begin{align*}
+\begin{aligned}
+\mathbb{E}[\exp (t X)] & =\frac{1}{2}[\exp (t)+\exp (-t)] \\
+& =\frac{1}{2}\left[\sum_{k=0}^{\infty} \frac{(-t)^k}{k!}+\sum_{k=0}^{\infty} \frac{t^k}{k!}\right] \\
+& =\sum_{k=0}^{\infty} \frac{t^{2 k}}{(2 k)!} \leq \sum_{k=0}^{\infty} \frac{t^{2 k}}{2^k k!} \\
+& =\exp \left(t^2 / 2\right)
+\end{aligned}
+\end{align*}
+This shows that Rademacher random variables are 1-sub-Gaussian.
+\end{eg}
+
+\begin{eg}
+    (Bounded random variables are sub-Gaussian) Let $X$ be a random variable with zero mean and with support on some bounded interval $[a, b]$. WLOG, one may assume that $X$ has a zero mean. Let $X^{\prime}$ denote an independent copy of $X$ then we have that,
+\begin{align*}
+\mathbb{E}_X[\exp (t X)]=\mathbb{E}_X\left[\exp \left(t\left(X-\mathbb{E}\left[X^{\prime}\right]\right)\right] \leq \mathbb{E}_{X, X^{\prime}}\left[\exp \left(t\left(X-X^{\prime}\right)\right],\right.\right.
+\end{align*}
+using Jensen's inequality and the convexity of the function $g(x)=\exp (x)$.
+Now, let $\epsilon$ be a Rademacher random variable. Then note that the distribution of $X-X^{\prime}$ is identical to the distribution of $X^{\prime}-X$ and, more importantly, of $\epsilon\left(X-X^{\prime}\right)$. So we obtain that,
+\begin{align*}
+\begin{aligned}
+\mathbb{E}_{X, X^{\prime}}\left[\exp \left(t\left(X-X^{\prime}\right)\right]\right. & =\mathbb{E}_{X, X^{\prime}}\left[\mathbb{E}_\epsilon\left[\exp \left(t \epsilon\left(X-X^{\prime}\right)\right]\right]\right. \\
+& \leq \mathbb{E}_{X, X^{\prime}}\left[\exp \left(t^2\left(X-X^{\prime}\right)^2 / 2\right]\right.
+\end{aligned}
+\end{align*}
+
+where we just use the result that Rademacher random variables are 1-sub-Gaussian. Now using the boundedness of $X-X'$, we obtain that
+\begin{align*}
+\mathbb{E}_X[\exp (t X)] \leq \exp \left(t^2(b-a)^2 / 2\right),
+\end{align*}
+which in turn shows that bounded random variables are $(b-a)$-sub-Gaussian. Using some refined analysis, one can show that $X$ is indeed \textcolor{blue}{$(b-a)/2$-sub-Gaussian.}
+\end{eg}
+ 
+
+It is straightforward to go through the above Chernoff bound to conclude that for a sub-Gaussian random variable, we have the same two-sided exponential tail bound.
+
+\begin{thm}
+Let $X$ be a $\sigma$-sub-Gaussian random variable, then
+\begin{align*}
+\mathbb{P}(|X-\mu| \geq u) \leq 2 \exp \left(-u^2 /\left(2 \sigma^2\right)\right)
+\end{align*}
+\end{thm}
+
+
+
+The following elementary result will be useful.
+\begin{lem}
+    Suppose that $X=\left(X_1, \ldots, X_n\right)$ is a random vector such that $X_i$ is $\sigma_i$-sub-Gaussian for $i=1, \ldots, n$. If $X_i$ are independent and $u \in \mathbb{R}^n$, then the random variable $u^{\top} X$ is sub-Gaussian with parameter $\sigma=\sqrt{\sigma_1^2 u_1^2+\ldots+\sigma_n^2 u_n^2}$.
+\end{lem}
+
+We list a couple of useful observations that follow directly from this lemma. They show that the $\sigma$ parameter behaves similarly to the standard deviation.
+
+\begin{cor}
+    For a collection of independent $\sigma$-sub-Gaussian random variables $X_1, \ldots, X_n$, their average $\bar{X}_n$ is sub-Gaussian with parameter $\sigma / \sqrt{n}$.
+\end{cor}
+
+\begin{cor}
+    If $X$ is $\sigma$-sub-Gaussian, then $a X+b(a \in \mathbb{R}, b \in \mathbb{R})$ is sub-Gaussian with parameter $|a| \sigma$. In particular, $-X$ is $\sigma$-sub-Gaussian.
+\end{cor}
+
+\begin{cor}
+    If $X=\left(X_1, \ldots, X_n\right)$ is a vector of independent random variables such that each $X_i$ is $\sigma$-sub-Gaussian, and $\|\boldsymbol{u}\|=1$, then $\boldsymbol{u}^T X$ is $\sigma$-sub-Gaussian.
+\end{cor}
+
+
+
+\begin{cor}
+    Suppose we have $n$ i.i.d. $\sigma$-sub-Gaussian random variables $X_1, X_2, \ldots, X_n$ with a common mean $\mu$. Then we also have the following tail estimate for their average $\widehat{\mu}= n^{-1} \sum_i X_i$:
+    \begin{align*}
+\mathbb{P}(|\widehat{\mu}-\mu| \geq k \sigma / \sqrt{n}) \leq 2 \exp \left(-k^2 / 2\right).
+\end{align*}
+\end{cor} 
+
+\begin{remark}
+    Actually, we have a tighter Hoeffding bound when the random variables are supported on $[a,b]$ and i.i.d.:
+    \[
+    \mathbb{P}\left(\left|\hat{\mu}-\mu\right| \geq t/\sqrt{n}\right) \leq 2 \exp \left(-\frac{2 t^2}{(b-a)^2}\right)
+    \]
+\end{remark}
+
+The following result applies Chernoff bounds to a sequence of sub-Gaussian variables.
+
+\begin{prop}
+    [Hoeffding inequality] If $X_i$ are independent $\sigma_i$-subGaussian then for all $t \geq 0$ we have
+\begin{align*}
+\mathbb{P}\left(\left|\bar{X}_n-\mathbb{E}\left(\bar{X}_n\right)\right| \geq t\right) \leq 2 e^{-t^2 n^2 /\left(2 \sum_i \sigma_i^2\right)}
+\end{align*}
+\end{prop}
+
+
+\begin{proof}
+    It sufficies to notice that $\bar{X}_n$ is sub-Gaussian with parameter
+\begin{align*}
+\sigma=\frac{1}{n} \sqrt{\sum_{i=1}^n \sigma_i^2}.
+\end{align*}
+\end{proof}
+
+\begin{remark}
+    If $\sigma_i=\sigma$ for all $i$ we also note that the Hoeffding inequality implies
+\begin{align*}
+\mathbb{P}\left(\left|\sqrt{n}\left(\bar{X}_n-\mathbb{E}\left(\bar{X}_n\right)\right)\right| \geq t\right) \leq 2 e^{-t^2 /\left(2 \sigma^2\right)}
+\end{align*}
+\end{remark}
+
+Another general type of bound on the moment generating function is the following.
+\begin{de}
+    A random variable with mean $\mu=\mathbb{E X}$ is sub-exponential if there are non-negative parameters $v, \alpha$ such that
+\begin{align*}
+\mathbb{E}\left(e^{\lambda(X-\mu)}\right) \leq e^{v^2 \lambda^2 / 2} \quad \text { for all }|\lambda|<\frac{1}{\alpha} .
+\end{align*}
+\end{de}
+
+\begin{remark}
+    This condition is rather mild, and it is essentially equivalent to the existence of the cumulant generating function in a neighbourhood of zero.
+\end{remark}
+
+\begin{eg}
+    Let $Z \sim N(0,1)$ and let $X=Z^2$. For $\lambda<1 / 2$, we have
+\begin{align*}
+\mathbb{E}\left(e^{\lambda(X-1)}\right)=\frac{1}{\sqrt{2 \pi}} \int_{\mathbb{R}} e^{\lambda\left(z^2-1\right)} e^{-z^2 / 2} \mathrm{~d} z= \begin{cases}\frac{e^{-\lambda}}{\sqrt{1-2 \lambda}} & \text { if } \lambda<\frac{1}{2}, \\ +\infty & \text { if } \lambda \geq \frac{1}{2} .\end{cases}
+\end{align*}
+In particular, since the moment generating function is not defined everywhere, X is not sub-Gaussian. With a bit of calculus, we see that
+\begin{align*}
+\frac{e^{-\lambda}}{\sqrt{1-2 \lambda}} \leq e^{4 \lambda^2 / 2} \quad \text { for all }|\lambda|<\frac{1}{4}
+\end{align*}
+and so $X$ is sub-exponential with parameters $(v, \alpha)=(2,4)$.
+\end{eg}
+
+
+
+
+With essentially the same proof, the linearity of sub-Gaussian random variables generalizes to subexponential variables.
+
+\begin{lem}
+    Suppose that $X=\left(X_1, \ldots, X_n\right)$ is a random vector such that $X_i$ is $\left(v_i, \alpha_i\right)$-sub-exponential for $i=1, \ldots, n$. If $X_i$ are independent and $u \in \mathbb{R}^n$, then the random variable $u^{\top} X$ is sub-exponential with parameters $v=\sqrt{v_1^2 u_1^2+\ldots+v_n^2 u_n^2}$ and $\alpha=\max _i\left|u_i\right| \alpha_i$.
+\end{lem}
+
+
+We obtain simple concentration inequalities for sub-exponential variables.
+\begin{prop}
+    Suppose that $X$ is sub-exponential with parameters $(v, \alpha)$ and $t \geq 0$. Then
+\begin{align*}
+\mathbb{P}(X-\mu \geq t) \leq \begin{cases}e^{-\frac{t^2}{2 v^2}} & \text { if } 0 \leq t \leq \frac{v^2}{\alpha} \\ e^{-\frac{t}{2 \alpha}} & \text { if } t>\frac{v^2}{\alpha}\end{cases}
+\end{align*}
+and
+\begin{align*}
+\mathbb{P}(|X-\mu| \geq t) \leq \begin{cases}2 e^{-\frac{t^2}{2 v^2}} & \text { if } 0 \leq t \leq \frac{v^2}{\alpha} \\ 2 e^{-\frac{t}{2 \alpha}} & \text { if } t>\frac{v^2}{\alpha}\end{cases}
+\end{align*}
+\end{prop}
+
+\begin{proof}
+    Using the Chernoff bound, we know that
+\begin{align*}
+\mathbb{P}(X-\mu \geq t) \leq \inf _{\lambda \in\left[0, \frac{1}{\alpha}\right)}\left\{\mathbb{E} e^{\lambda(X-\mathbb{E} X)} e^{-\lambda t}\right\} \leq \inf _{\lambda \in\left[0, \frac{1}{\alpha}\right)}\left\{e^{v^2 \lambda^2 / 2-\lambda t}\right\} .
+\end{align*}
+
+
+The global optimum of $e^{v^2 \lambda^2 / 2-\lambda t}$ is $\lambda^*=t / v^2 \geq 0$. Thus, if $t / v^2< 1 / \alpha$ (equiv. $v^2>t \alpha$ ), we get the sub-Gaussian bound $e^{-t^2 /\left(2 v^2\right)}$.
+Otherwise, if $v^2 \leq t \alpha$, the infimum is obtained on the boundary $\lambda^*=1 / \alpha$ and it is equal to $e^{\nu^2 /\left(2 \alpha^2\right)-t / \alpha}$. Note however that the fact that $v^2 \leq t \alpha$, allows to bound this by $e^{-t /(2 \alpha)}$.
+\end{proof}
+
+ 
+\begin{remark}
+    These propositions now give a handful of useful results. For example, if $X_i$ are independent sub-exponential with parameters $(v, \alpha)$ then $\bar{X}_n$ is sub-exponential with parameters $\left(\frac{v}{\sqrt{n}}, \frac{\alpha}{n}\right)$ and so
+\begin{align*}
+\mathbb{P}\left(\left|\bar{X}_n-\mu\right| \geq t\right) \leq \begin{cases}2 e^{-\frac{t^2 n}{2 v^2}} & \text { if } 0 \leq t \leq \frac{v^2}{\alpha} \\ 2 e^{-\frac{t n}{2 \alpha}} & \text { if } t>\frac{v^2}{\alpha}\end{cases}
+\end{align*}
+\end{remark}
+
+
+
+To conclude the introduction to concentration inequalities, we present one of its applications in probabilistic combinatorics.
+
+\begin{de}
+    For any integer $n>0$, define the Hamming distance on the hypercube $\{0,1\}^n$
+\begin{align*}
+d_H(x, y):=\sum_{i=1}^n \mathbf{1}_{x_i \neq y_i}, \quad \text { for any } x, y \in\{0,1\}^n
+\end{align*}
+\end{de}
+
+\begin{thm} (Gilbert–Varshamov bound for Hamming packing) There exists a universal constant $c>0$, such that for any $n>0$, there exists a subset $A \subseteq\{0,1\}^n$ with $|A| \geq e^{c n}$, satisfying
+\begin{align*}
+d_H(x, y) \geq \frac{n}{4}, \quad \text { for any pair } x, y \in A .
+\end{align*}
+\end{thm}
+
+\begin{proof}
+    We use a brute-force search. Let $M$ be some constant to be determined, and $X_1,\cdots,X_M$ be i.i.d. samples from the uniform distribution on $\{0,1\}^n$. For any $i\neq j$, since $d_H(X_i,X_j)$ is the sum of $n$ independent Rademacher random variables, we have
+    \[
+    \pr\paren*{d_H(X_i,X_j)\le n/4}\le 2\exp\paren*{-n/8}.
+    \]
+    Therefore,
+    \[
+    \pr\paren*{d_H(x, y) \geq \frac{n}{4},\text { for any pair } x, y \in A }\le M^2  \pr\paren*{d_H(X_i,X_j)\le n/4}\le 2M^2\exp\paren*{-n/8}
+    \]
+    and it suffices to take $M=\floor{\frac{1}{2}\exp(n/16)}$. Hence, $c=1/16$ suffices.
+\end{proof}
+
+\section{Lecture 2, 15: Criteria for Decision Rules}
+
+
+Now we turn to the framework of decision theory. The goal of classical decision theory is to compare different statistical models and to find or prove the optimality of a specific model.
+
+We start with formulating a statistical model and the method we use to evaluate it.
+
+\begin{de}
+A statistical model is a collection of probability distributions $\mathcal{P}=\left\{\mathbb{P}_\theta: \theta \in \Theta\right\}$ of the observed data $X$, parametrized smoothly by the parameter $\Theta$.
+
+Suppose that we observe the data $X \sim \mathbb{P}_{\theta^*}$ for some $\theta^* \in \Theta$, and we have the following attributes of a statistical task:
+\begin{enumerate}
+    \item A decision rule $\delta$ that maps data $X$ to an action $a \in \mathcal{A}$.
+    \item A loss function $L:\Theta\times\mathcal{A}\mapsto \mathbb{R}_+$ that determines the loss of an action under this model.
+    \item The risk of a decision rule $\delta$ under the model $\theta$ defined as
+    \[
+    R(\theta;\delta) =\mathbb{E}_\theta[L(\theta ; \delta(X))] .
+    \]
+    where $\mathbb{E}_{\theta}$ denotes the expectation under $\pr_{\Theta}$.
+\end{enumerate}
+\end{de}
+
+We then illustrate some examples of statistical tasks.
+
+\begin{eg}
+    (Estimation) The goal is to estimate some quantity of a model, specified as $g(\theta^*)$. To this end, the decision rule $\delta$ is now an estimator $\hat g$ that operates on data, and usually one uses the mean square error to quantify the error of this estimation. Thus, in this task, $L(\theta;\hat g(X))=(g(\theta)-\hat g(X))^2$.
+\end{eg}
+
+\begin{eg}
+    (Testing) The goal is to decide whether the true parameter $\theta^*$ lies in some subset $\Theta_0$ of probability models. To formulate this, let the action set be $\mathcal{A}=\{0,1\}$, where 0 denotes acceptance and 1 denotes rejection. The loss function is then
+    \[
+    L(\theta;a)=\begin{cases}
+        1,\quad \theta\in\Theta_0, a=1 \text{ or } \theta\notin \Theta_0, a=0,\\
+        0,\quad \text{otherwise}.
+    \end{cases}
+    \]
+    As a consequence, $R(\theta;\delta)$ is then the probability of the occurrence of type-I error if $\theta\in\Theta_0$ and the probability of the occurrence of type-II error otherwise.
+\end{eg}
+
+In this lecture, we will go over three criteria for comparison of decision rules, including the admissibility of decision rules, Bayes procedures, and minimax procedures, and demonstrate some of their properties.
+
+We start with the definition of admissibility, which is simply the decision rules that are not dominated by any other decision rules under any $\theta\in\Theta$.
+
+\begin{de}
+    Suppose $X$ has distribution from a family $\mathcal{P}=\left\{P_\theta: \theta \in \Omega\right\}$ and that $\delta$ is a decision rule. Then $\delta$ is called inadmissible if there exists another decision rule $\tilde{\delta}$ such that
+    \[
+    R(\tilde\delta;\theta)\le R(\delta;\theta),\quad \forall\theta\in\Theta
+    \]
+    and strict inequality holds for some $\theta\in\Theta$. If $\delta$ is not inadmissible, then $\delta$ is admissible.
+\end{de}
+
+The problem with this straightforward definition is that, sometimes, naive decision rules may be admissible and classical decision rules may be inadmissible. See the following examples.
+
+\begin{eg}
+    (Naive decision rules may be admissible) Suppose we have i.i.d. random variables $X_1, X_2, \ldots, X_n \sim \mathcal{N}\left(\theta, \sigma^2 \right)$ where $\theta\in \mathbb{R}$ is unknown and $\sigma^2$ is known. Our goal is to estimate $\theta$ with an estimator $\hat{\theta}$ under the mean-square loss. 
+
+    We now show that the naive estimator $\hat{\delta}\equiv0$ is admissible. Indeed, if some $\tilde\delta$ strictly dominates $\hat{\delta}$, we know that $\tilde\delta$ will achieve zero loss in the case that $\theta=0$. This indicates that $\tilde\delta(X)=0$ for all possible $X=(X_1, X_2, \ldots, X_n)$. Since the Gaussian distribution has full support over the real line, we know that $\tilde\delta$ is identically zero and hence $\hat{\delta}$ is admissible.
+\end{eg}
+
+
+Based on this drawback, it is reasonable to find some features that capture the risk $R(\delta;\theta)$ for all $\theta$ instead of considering them simultaneously. There are two main approaches: the first one is to consider a weighted average of the loss function among $\theta$, which leads to a Bayes procedure; the other one is to consider the worst case among all $\theta$, which leads to a minimax procedure.
+
+\begin{de}
+     Suppose $X$ has distribution from a family $\mathcal{P}=\left\{P_\theta: \theta \in \Omega\right\}$ and that we impose a prior $\pi$ on $\Theta$. The Bayes risk is then defined as
+     \[
+     r_\pi(\delta)=\int_\Theta \E_\theta\brackets*{L(\theta;\delta(X))} \pi(\d \theta),
+     \]
+     and the Bayes decision rule is then
+     \[
+     \delta_{\operatorname{Bayes},\pi}=\operatornamewithlimits{argmin}_{\delta}  r_\pi(\theta)
+     \]
+\end{de}
+
+\begin{prop}
+    Suppose that the distribution of $X\sim P_\theta$ has density $p_\theta$ with respect to some base measure $\lambda$. Then the Bayes decision rule is given by
+    $$\delta_{\text{Bayes},\pi}(\mathbf{x}) = \underset{a \in A}{\operatorname{argmin}} \E_{\pi(\cdot|\mathbf{x})}[L(\theta,a)],$$
+where $\pi(\theta|\mathbf{x}) = \frac{p_{\theta}(\mathbf{x})}{\int_{\Theta} p_{\theta'}(\mathbf{x}) \pi(d\theta')}\pi(d\theta) $ is the posterior distribution of $\theta$.
+\end{prop}
+
+\begin{proof}
+    Since the density of $X$ is given by $p_\theta$, we have
+    $$ 
+    r_{\pi}(\delta) = \int_{\Theta} \int_{X} L(\theta; \delta(\mathbf{x})) p_{\theta}(x) \lambda(d\mathbf{x})\pi(d\theta) = \int_{\mathbf{X}} \left[ \int_{\Theta} L(\theta; \delta(\mathbf{x})) p_{\theta}(\mathbf{x}) \pi(d\theta) \right] \lambda(d\mathbf{x}),
+    $$
+and the result can be seen from that for each fixed $\mathbf{x}$, $\pi(\theta|\mathbf{x})\propto p_\theta(\mathbf{x})\pi(d\theta)$.
+\end{proof}
+
+\begin{de}
+     Suppose $X$ has distribution from a family $\mathcal{P}=\left\{P_\theta: \theta \in \Omega\right\}$. The minimax decision rule is defined as
+     \[
+     \delta_{\operatorname{minimax}}=\operatornamewithlimits{argmin}_{\delta}  \sup_{\theta} R(\theta;\delta)
+     \]
+\end{de}
+
+\begin{remark}
+    From a game-theoretic perspective, $\delta_{\operatorname{minimax}}$ can be viewed as the optimal strategy of the zero-sum game between the statistician and the environment with the reward $R(\theta;\delta)$. As a result, we have the following propositions from game theory.
+\end{remark}
+
+\begin{prop}
+    (Weak duality) Suppose $X$ has distribution from a family $\mathcal{P}=\left\{P_\theta: \theta \in \Omega\right\}$. Then it holds that
+    $$
+    \sup_\theta \inf_\delta R(\theta;\delta) \leq \inf_\delta \sup_\theta  R(\theta;\delta)
+    $$
+\end{prop}
+
+\begin{prop}
+    (Strong duality) Suppose in addition that the spaces $\Theta$, $\mathcal{A}$, and $X$ are finite, then strong duality holds:
+    $$
+    \sup_\theta \inf_\delta R(\theta;\delta) = \inf_\delta \sup_\theta  R(\theta;\delta)
+    $$
+\end{prop}
+
+Now we turn to relations and properties between these procedures.
+
+\begin{prop}
+     Bayes rules with constant risks are minimax. 
+\end{prop}
+
+\begin{proof}
+Let $\theta$ be a Bayes rule under prior $\pi$ with constant risk. Consider another decision rule $\delta^{\prime}$, then
+\begin{align*}
+\begin{aligned}
+\sup _{\theta \in \Theta} R\left(\theta; \delta^{\prime}\right) & \geq \int_{\Theta} R\left(\theta, \delta^{\prime}\right) \pi(d \theta)\geq \int_{\Theta} R\left(\theta, \delta\right) \pi(d \theta)=\sup _{\theta \in \Theta} R(\theta, \delta)
+\end{aligned}
+\end{align*}
+\end{proof}
+
+The next result gives a connection between minimax and Bayesian rules as a generalization of the previous results.
+\begin{thm}
+    Let $\delta^*$ be a Bayes rule for some prior $\pi$. Suppose that
+\begin{align*}
+R\left(\theta, \delta^*\right) \leq r\left(\pi, \delta^*\right) \quad \text { for all } \quad \theta \in \Theta .
+\end{align*}
+Then $\delta^*$ is minimax.
+\end{thm}
+
+\begin{proof}
+    We prove the contrapositive statement. If $\delta^*$ is not minimax then there exists $\delta_0$ such that $\bar{R}\left(\delta_0\right)<\bar{R}\left(\delta^*\right)$. However, the fact that $r\left(\pi, \delta_0\right) \leq \sup _\theta R\left(\theta, \delta_0\right)$ implies that
+\begin{align*}
+r\left(\pi, \delta_0\right) \leq \bar{R}\left(\delta_0\right)<\bar{R}\left(\delta^*\right) \leq r\left(\pi, \delta^*\right) .
+\end{align*}
+But this contradicts the fact that $\delta^*$ is a Bayesian rule.
+\end{proof}
+
+\begin{prop}
+    Suppose that $\exists\left(\pi_j, r_j\right)_{j=1}^{\infty}$ such that $r_j$ is the Bayes risk under $\pi_j$ using the Bayes decision rule. Suppose that there exists another decision rule $\delta$ such that $\liminf _{j\rightarrow+\infty} r_j \geq \sup _\theta R(\theta, \delta)$, then $\delta$ is minimax.
+\end{prop}
+
+\begin{proof}
+    For another decision rule $\delta^{\prime}$, we have
+\begin{align*}
+\begin{aligned}
+\sup _\theta R\left(\theta, \delta^{\prime}\right) & \geq\liminf _{j \rightarrow+\infty} \int_{\Theta} R\left(\theta, \delta^{\prime}\right) \pi_j(d \theta) \\
+& \geq \liminf _{j \rightarrow+\infty} \int_{\Theta} R\left(\theta, \delta_{\text {Bayes }}\right) \pi_j(d \theta) \\
+& =\liminf _{j \rightarrow+\infty} r_j \geq \sup_\theta R(\theta, \delta) .
+\end{aligned}
+\end{align*}
+\end{proof}
+
+\begin{prop}
+Unique Bayes rules $\delta$ are admissible.
+\end{prop}
+
+\begin{proof}
+    Suppose $\delta^{\prime}$ dominates $\delta$, then we have
+\begin{align*}
+r_\pi\left(\delta^{\prime}\right)=\int R\left(\theta; \delta^{\prime}\right) \pi(d \theta) \leq \int R(\theta; \delta) \pi(d \theta)=r_\pi(\delta)
+\end{align*}
+
+So $\delta^{\prime}=\delta$ by uniqueness.
+\end{proof}
+
+\begin{prop}
+    When $|\Theta|<+\infty$, admissible rules are Bayes (under some prior $\pi$).
+\end{prop}
+
+\begin{proof}
+Let $\delta_0$ be admissible and $|\Theta|=k$. Consider the convex set
+\[
+T := \{\,\left(R(\theta_i;\delta)-R(\theta_i;\delta_0)\right)_{i=1,\cdots,k}:\ \delta\ \text{a rule}\,\}\subset\mathbb{R}^k.
+\]
+Because $R(\theta;\cdot)$ is convex (mixtures of randomized rules produce convex combinations of risk vectors), $T$ is convex and contains the origin $0$ (corresponding to $\delta=\delta_0$). Admissibility of $\delta_0$ means precisely that there is no $t\in T$ with $t\le 0$ (component-wise) and $t\neq 0$. Equivalently,
+\[
+T\cap\big(-\mathbb{R}^k_{++}\big)=\varnothing,
+\]
+where $\mathbb{R}^k_{++}=\{x\in\mathbb{R}^k:\ x_i>0,\ \forall i\}$.
+
+The sets $T$ and $-\,\mathbb{R}^k_{++}$ are convex and disjoint, and $-\,\mathbb{R}^k_{++}$ is an open convex cone. By the separating hyperplane theorem, there exists a nonzero vector $\pi\in\mathbb{R}^k$ and a scalar $c$ such that
+\[
+\pi\cdot t \ge c \quad\text{for all } t\in T,
+\qquad\text{and}\qquad
+\pi\cdot y \le c \quad\text{for all } y\in -\mathbb{R}^k_{++}.
+\]
+Because $0\in T$, plugging $t=0$ gives $0=\pi\cdot 0 \ge c$, so $c\le0$. Replace $\pi$ by $-\pi$ if necessary so that $c\le 0$ still holds; we may then take $c=0$ by scaling the separating hyperplane (the sign and scale of $\pi$ are not important for separation). Thus we obtain a nonzero $\pi$ with
+\[
+\pi\cdot t \ge 0 \quad\text{for all } t\in T,
+\]
+and
+\[
+\pi\cdot y \le 0 \quad\text{for all } y\in -\mathbb{R}^k_{++}.
+\]
+
+The second condition implies that $\pi_i\ge 0$ for every $i$: indeed, taking $y=-e_i\in -\mathbb{R}^k_{++}$ (where $e_i$ is the $i$th standard basis vector) yields $-\pi_i\le 0$, hence $\pi_i\ge0$. Not all $\pi_i$ are zero because $\pi\neq 0$. Normalize $\pi$ by dividing by $\sum_i\pi_i$ to obtain a probability vector (prior) which we again denote by $\pi=(\pi_1,\dots,\pi_k)$ with $\pi_i\ge0$, $\sum_i\pi_i=1$.
+
+Now for any decision rule $\delta$ let $t=R(\delta)-R(\delta_0)\in T$. The inequality $\pi\cdot t\ge0$ becomes
+\[
+\sum_{i=1}^k \pi_i \big(R(\theta_i,\delta)-R(\theta_i,\delta_0)\big)\ge 0,
+\]
+or equivalently
+\[
+r_\pi(\delta)\ge r_\pi(\delta_0).
+\]
+Therefore $\delta_0$ attains the minimal Bayes risk with respect to the prior $\pi$, i.e. $\delta_0$ is a Bayes rule for $\pi$. This completes the proof.
+\end{proof}
+
+
+
+
+\section{Lecture 3, 16: (Unbiased) Estimation}
+\subsection{Construction of UMVUE}
+
+An estimator is called unbiased if $\mathbb{E}_\theta \delta(X)=\theta$ for all $\theta$. Sometimes the following definition is used instead.
+\begin{de}
+    For a loss $L(\theta, a)$ a decision rule $\delta$ is unbiased with respect to $L$ if
+\begin{align*}
+\mathbb{E}_\theta\left(L\left(\theta^{\prime}, \delta(X)\right)\right) \geq \mathbb{E}_\theta(L(\theta, \delta(X)))=R(\theta, \delta) \quad \text { for all } \theta, \theta^{\prime} \in \Theta .
+\end{align*}
+\end{de}
+
+
+
+We start with the introduction of sufficient statistics.
+\begin{eg}
+    Suppose that we have observations $X_1, X_2 \ldots X_n \stackrel{\text { iid }}{\sim} \operatorname{Ber}(p)$ from a Bernoulli distribution with an unknown parameter $p$. Then we know that the statistics $T\left(X_1,\cdots,X_n\right)=X_1+\cdots+X_n \sim \operatorname{Binom}(n, p)$ follows a Binomial distribution. 
+    
+    Moreover, based on this statistics, we can obtain the distribution of the data without knowing the exact value of $p$: the conditional distribution of $X=(X_1,\cdots,X_n)$ conditioned on $\{T=t\}$ is the uniform distribution among all subsets with $t$ ones in $\{0,1\}^n$.
+\end{eg}
+This idea can be further generalized to other cases.
+
+ \begin{de}
+     A statistics $T$ is called sufficient if the distribution of the data $X$ is independent of $\theta$ given $T(X)$. In other words, there exists a distribution $\mu_X$ such that
+     \[
+     \mu_X(B)=\pr_\theta\left(X\in B|T(X)=t\right),\quad \forall\theta\in\Theta, B \in \mathcal{B}, t\in \mathbb{R}.
+     \]
+ \end{de}
+
+We have the following nice characterization of sufficient statistics.
+\begin{de}
+    A family of distributions $\mathcal{P}=\left\{P_\theta: \theta \in \Omega\right\}$ is dominated if there exists a measure $\mu$ with $P_\theta$ absolutely continuous with respect to $\mu$, for all $\theta \in \Omega$.
+\end{de}
+
+\begin{thm}
+    (Factorization Theorem). Let $\mathcal{P}=\left\{P_\theta: \theta \in \Omega\right\}$ be a family of distributions dominated by $\mu$. A necessary and sufficient condition for a statistic $T$ to be sufficient is that there exist functions $g_\theta \geq 0$ and $h \geq 0$ such that the densities $p_\theta$ for the family satisfy
+\begin{align*}
+p_\theta(x)=g_\theta(T(x)) h(x), \text { for a.e. } x \text { under } \mu .
+\end{align*}
+\end{thm}
+
+\begin{proof}
+    Necessity: We construct $g_\theta$ and $h$ as
+\begin{align*}
+g_\theta(t)=P_\theta(T(x)=t), \quad h(x)=P_{\theta_0}(X=x \mid T(x)=t)
+\end{align*}
+Then by definition of sufficiency, $h(x)$ is independent of $t$. Therefore,
+\begin{align*}
+P_\theta(x)=P_\theta(X=x)=P_\theta(T(x)=t) P_\theta\left(X=x(T(x)=t)=g_\theta(T(x)) h(x) .\right.
+\end{align*}
+
+
+Sufficiency: Assume $P_\theta(x)=\rho_\theta(T(x)) h(x)$. Then $\forall \theta_0 \in \mathbb{H}, t=T(x)$
+\begin{align*}
+\begin{aligned}
+P_{\theta_0}(X=x \mid T(X)=t) & =\frac{P_{\theta_0}(X=x, T(X)=t)}{P_{\theta_0}(T(X)=t)}=\frac{P_{\theta_0}(X=x)}{\int_{T(x)=t} P_{\theta_0}(x) d x} \\
+& =\frac{P_{\theta_0}(x)}{\int_{T(x)=t} P_{\theta_0}(x) d x}=\frac{g_{\theta_0}(T(x)) h(x)}{g_{\theta_0}(t) \int_{T(x)=t} h(x) d x} \\
+& =\frac{h(x)}{\int_{T(x)=t} h(x) d x}
+\end{aligned}
+\end{align*}
+which is independent of $\theta_0 \in \Theta$.
+\end{proof}
+
+\begin{eg}
+    Let $P_\theta(x)=h(x) \exp \left(\eta(\theta)^{\top} T(x)-B(\theta)\right)$ be an exponential family. Then $T(X)$ is sufficient. Moreover, if $X_1, \cdots, X_n \sim P_\theta(x)$. then $\sum_{i=1}^n T\left(X_i\right)$ is sufficient.
+\end{eg}
+
+In essence, the complete statistics capture all the information available in the distribution family $\mathcal{P}$. To gather this information with minimal effort, we need the notion of minimal statistics.
+\begin{de}
+$T(X)$ is a minimal sufficient statistic if
+\begin{itemize}
+    \item It is a sufficient statistic for $\theta$.
+    \item For any other sufficient statistic $S(X)$, there exists a function $g$ such that $T(X)= g(S(X))$.
+\end{itemize}
+\end{de}
+
+This gives rise to the so-called complete statistics.
+
+\begin{de}
+    A statistic $T$ is complete for a family $\mathcal{P}=\left\{P_\theta: \theta \in \Omega\right\}$ if
+\begin{align*}
+E_\theta f(T)=0, \text { for all } \theta,
+\end{align*}
+imply $f(T)=0$ (a.e. $\mathcal{P}$ ).
+\end{de}
+
+
+\begin{eg}
+    Suppose $X_1, \ldots, X_n$ are i.i.d. from a uniform distribution on $(0, \theta)$. Using indicator functions, the joint density is $I\left\{\min x_i>0\right\} I\left\{\max x_i<\right. \theta\} / \theta^n$, and so $T=\max \left\{X_1, \ldots, X_n\right\}$ is sufficient by the factorization theorem. Note that $T$ has density $n t^{n-1} / \theta^n, t \in(0, \theta)$. Suppose $E_\theta f(T)=0$ for all $\theta>0$; then
+\begin{align*}
+E_\theta[f(T)]=\frac{n}{\theta^n} \int_0^\theta[f(t)] t^{n-1} d t=0
+\end{align*}
+From this, $[f(t)-c] t^{n-1}=0$ for a.e. $t>0$. So $f(T)=c$ (a.e. $\mathcal{P}$ ), and $T$ is complete.
+\end{eg}
+
+
+\begin{thm}
+    Suppose $\mathcal{P}=\left\{P_\theta: \theta \in \Omega\right\}$ is a dominated family with densities $p_\theta(x)=g_\theta(T(x)) h(x)$. If $p_\theta(x) \propto{ }_\theta p_\theta(y)$ implies $T(x)=T(y)$, then $T$ is minimal sufficient.
+\end{thm}
+
+\begin{proof}
+    A proper proof of this result unfortunately involves measure-theoretic niceties, but here is the basic idea. Suppose $\tilde{T}$ is sufficient. Then $p_\theta(x)= \tilde{g}_\theta(\tilde{T}(x)) \tilde{h}(x)$ (a.e. $\mu$ ). Assume this equation holds for all $x$. If $T$ is not a function of $\tilde{T}$, then there must be two data sets $x$ and $y$ that give the same value for $\tilde{T}, \tilde{T}(x)=\tilde{T}(y)$, but different values for $T, T(x) \neq T(y)$. But then
+\begin{align*}
+p_\theta(x)=\tilde{g}_\theta(\tilde{T}(x)) \tilde{h}(x) \propto_\theta \tilde{g}_\theta(\tilde{T}(y)) \tilde{h}(y)=p_\theta(y),
+\end{align*}
+and from the condition on $T$ in the theorem, $T(x)$ must equal $T(y)$. Thus $T$ is a function of $\tilde{T}$. Because $\tilde{T}$ was an arbitrary sufficient statistic, $T$ is minimal.
+\end{proof}
+
+\begin{thm}
+    If $T$ is complete and sufficient, then $T$ is minimal sufficient.
+\end{thm}
+\begin{proof}
+    Let $\tilde{T}$ be a minimal sufficient statistic, and assume $T$ and $\tilde{T}$ are both bounded random variables. Then $\tilde{T}=f(T)$. Define $g(\tilde{T})=E_\theta[T \mid \tilde{T}]$, noting that this function is independent of $\theta$ because $\tilde{T}$ is sufficient. By smoothing, $E_\theta g(\tilde{T})=E_\theta T$, and so $E_\theta[T-g(\tilde{T})]=0$, for all $\theta$. But $T-g(\tilde{T})=T-g(f(T))$, a function of $T$, and so by completeness, $T=g(\tilde{T})$ (a.e. $\mathcal{P}$ ). This establishes a one-to-one relationship between $T$ and $\tilde{T}$. From the definition of minimal sufficiency, $T$ must also be minimal sufficient.
+
+    For the general case, first note that sufficiency and completeness are both preserved by one-to-one transformations, so two statistics can be considered equivalent if they are related by a one-to-one (bimeasurable) function. But there are one-to-one bi-measurable functions from $\mathbb{R}^n$ to $\mathbb{R}$, and so any random vector is equivalent to a single random variable. Using this, if $T$ and $\tilde{T}$ are random vectors, the result follows easily from the one-dimensional case, transforming both of them to equivalent random variables.
+\end{proof}
+
+We now extend the previous example and show that the statistics $T$ of a (sufficiently regular) exponential family are minimal.
+
+\begin{de}
+    An exponential family with densities $p_\theta(x)=\exp \{\eta(\theta) \cdot T(x)-B(\theta)\} h(x), \theta \in \Omega$, is said to be of full rank if the interior of $\eta(\Omega)$ is not empty and if $T_1, \ldots, T_s$ do not satisfy a linear constraint of the form $v \cdot T=c$ (a.e. $\mu$).
+\end{de}
+
+\begin{remark}
+    If $\Omega \subset \mathbb{R}^s$ and $\eta$ is continuous and one-to-one (injective), and the interior of $\Omega$ is nonempty, then the interior of $\eta(\Omega)$ cannot be empty. This follows from the "invariance of domain" theorem of Brouwer.
+\end{remark}
+
+
+If the interior of $\eta(\Omega)$ is not empty, then the linear span of $\eta(\Omega) \ominus \eta(\Omega)$ will be all of $\mathbb{R}^s$, and, $T$ will be minimal sufficient. The following result shows that in this case $T$ is also complete.
+
+\begin{thm}
+    In an exponential family of full rank, $T$ is complete.
+\end{thm}
+
+\begin{proof}
+    Let $\eta\left(\theta_0\right)$ be an interior point of $\eta(\Theta)$. Suppose $\mathbb{E}_\theta[f(T(x))]=0$ for some $f$, then $\forall \theta \in \Theta$,
+\begin{align*}
+\begin{aligned}
+0 & =\int_{\mathbb{R}^d} f(t) h(t) \exp \left(\eta^{\top}(\theta) t-A(\theta)\right) d t \\
+\Rightarrow 0 & =\int_{\mathbb{R}^d} f(t) h(t) \exp \left(\eta^{\top}(\theta) t\right) d t
+\end{aligned}
+\end{align*}
+So the Laplace transform of $f \cdot v$ is 0, by the uniqueness of the Laplace transform $f(t) v(t)\equiv0$ and hence $f \equiv 0$.
+\end{proof}
+
+\begin{de}
+    A statistic $V$ is called ancillary if its distribution does not depend on $\theta$. 
+\end{de}
+
+An ancillary statistic $V$, by itself, provides no useful information about $\theta$. But in some situations $V$ can be a function of a minimal sufficient statistic $T$. The following result of Basu shows that when $T$ is complete it will contain no ancillary information. 
+\begin{thm}[Basu]
+ If $T$ is complete and sufficient for $\mathcal{P}=\left\{P_\theta: \theta \in\right. \Omega\}$, and if $V$ is ancillary, then $T$ and $V$ are independent under $P_\theta$ for any $\theta \in \Omega$.
+\end{thm}
+
+\begin{proof}
+    Define $q_A(t)=P_\theta(V \in A \mid T=t)$, so that $q_A(T)=P_\theta(V \in A \mid T)$, and define $p_A=P_\theta(V \in A)$. By sufficiency and ancillarity, neither $p_A$ nor $q_A(t)$ depend on $\theta$. Also, by smoothing,
+\begin{align*}
+p_A=P_\theta(V \in A)=E_\theta P_\theta(V \in A \mid T)=E_\theta q_A(T),
+\end{align*}
+and so, by completeness, $q_A(T)=p_A$ (a.e. $\mathcal{P}$ ). By smoothing,
+\begin{align*}
+\begin{aligned}
+P_\theta(T \in B, V \in A) & =E_\theta 1_B(T) 1_A(V) \\
+& =E_\theta E_\theta\left(1_B(T) 1_A(V) \mid T\right) \\
+& =E_\theta 1_B(T) E_\theta\left(1_A(V) \mid T\right) \\
+& =E_\theta 1_B(T) q_A(T) \\
+& =E_\theta 1_B(T) p_A \\
+& =P_\theta(T \in B) P_\theta(V \in A) .
+\end{aligned}
+\end{align*}
+Here $A$ and $B$ are arbitrary Borel sets, and so $T$ and $V$ are independent.
+\end{proof}
+
+
+\begin{eg}
+    Suppose $X_1, \ldots, X_n$ are i.i.d. from $N\left(\mu, \sigma^2\right)$, and take $\mathcal{P}= \mathcal{P}_\sigma=\left\{N\left(\mu, \sigma^2\right)^n: \mu \in \mathbb{R}\right\}$. (Thus $\mathcal{P}_\sigma$ is the family of all normal distributions with standard deviation the fixed value $\sigma$.) With $\bar{x}=\left(x_1+\cdots+x_n\right) / n$, the joint density can be written as
+\begin{align*}
+\frac{1}{\left(2 \pi \sigma^2\right)^{n / 2}} \exp \left[\frac{n \mu}{\sigma^2} \bar{x}-\frac{n \mu^2}{2 \sigma^2}-\frac{1}{2 \sigma^2} \sum_{i=1}^n x_i^2\right] .
+\end{align*}
+
+
+These densities for $\mathcal{P}_\sigma$ form a full rank exponential family, and so the average $\bar{X}=\left(X_1+\cdots+X_n\right) / n$ is a complete sufficient statistic for $\mathcal{P}_\sigma$. Define
+\begin{align*}
+S^2=\frac{1}{n-1} \sum_{i=1}^n\left(X_i-\bar{X}\right)^2
+\end{align*}
+called the sample variance. For the family $\mathcal{P}_\sigma, S^2$ is ancillary. To see this, let $Y_i=X_i-\mu, i=1, \ldots, n$. Because
+\begin{align*}
+\begin{aligned}
+P_\mu\left(Y_i \leq y\right)=P_\mu\left(X_i \leq y+\mu\right) & =\int_{-\infty}^{y+\mu} \exp \left[-\frac{1}{2 \sigma^2}(x-\mu)^2\right] \frac{d x}{\sqrt{2 \pi \sigma^2}} \\
+& =\int_{-\infty}^y \exp \left[-\frac{1}{2 \sigma^2} u^2\right] \frac{d u}{\sqrt{2 \pi \sigma^2}}
+\end{aligned}
+\end{align*}
+and the integrand is the density for $N\left(0, \sigma^2\right), Y_i \sim N\left(0, \sigma^2\right)$. Then $Y_1, \ldots, Y_n$ are i.i.d. from $N\left(0, \sigma^2\right)$. Because $\bar{Y}=\left(Y_1+\cdots+Y_n\right) / n=\bar{X}-\mu, X_i-\bar{X}= Y_i-\bar{Y}, i=1, \ldots, n$, and
+\begin{align*}
+S^2=\frac{1}{n-1} \sum_{i=1}^n\left(Y_i-\bar{Y}\right)^2
+\end{align*}
+Because the joint distribution of $Y_1, \ldots, Y_n$ depends on $\sigma$ but not $\mu, S^2$ is ancillary for $\mathcal{P}_\sigma$. Hence, by Basu's theorem, $\bar{X}$ and $S^2$ are independent.
+\end{eg}
+
+
+
+
+ The existence of sufficient statistics allows us to operate on the statistics, which have a fixed distribution based on $T$, instead of the data itself, which may have different distributions as $\theta$ varies.
+
+ \begin{thm}
+     Suppose $X$ has distribution from a family $\mathcal{P}=\left\{P_\theta: \theta \in \Omega\right\}$ and that $T=T(X)$ is sufficient. Then, for any decision rule $\delta(X)$ of $g(\theta)$, there exists a randomized decision rule $\tilde{\delta}$ based on $T$ that has the same distribution as $T(X)$. Consequently, it has the same risk function as $\delta(X)$.
+ \end{thm}
+
+\begin{proof}
+    It suffices to take $\tilde\delta(T(X))=\delta(Y)$, where $Y$ is distributed as $X|T(X)$.
+\end{proof}
+
+ \begin{thm}
+     (Rao-Blackwellization) Suppose $X$ has distribution from a family $\mathcal{P}=\left\{P_\theta: \theta \in \Omega\right\}$ and that $T=T(X)$ is sufficient. If $L(\theta, \cdot)$ is convex in the action space $\mathcal{A}$, then for any decision rule $\delta$, the new decision rule $\eta(T(X)):=\mathbb{E}[\delta(X) \mid T(x)]$ that operates on $T(X)$ satisfies $R(\theta ; \eta) \leq R(\theta ; \delta)$. 
+ \end{thm}
+
+\begin{proof}
+    Follows from an application of Jensen's inequality.
+\end{proof}
+
+\begin{remark}
+    The estimated risk $R(\theta ; \eta)$ is computable since it does not rely on the model parameter $\theta$.
+\end{remark}
+
+\begin{de}
+    An estimator $\delta$ is called unbiased for $g(\theta)$ if
+\begin{align*}
+E_\theta \delta(X)=g(\theta), \quad \forall \theta \in \Omega .
+\end{align*}
+If an unbiased estimator exists, $g$ is called U-estimable.
+\end{de}
+
+
+
+\begin{de}
+    An unbiased estimator $\delta$ is uniformly minimum variance unbiased (UMVU) if
+\begin{align*}
+\operatorname{Var}_\theta(\delta) \leq \operatorname{Var}_\theta\left(\delta^*\right), \quad \forall \theta \in \Omega,
+\end{align*}
+for any competing unbiased estimator $\delta^*$.
+\end{de}
+
+Since the space of unbiased estimators is a linear space and UMVU acts as a projection under the $L^2$ norm, we have the following theorem:
+\begin{thm}
+An unbiased estimator $T$ is the UMVUE for its expected value if and only if its covariance with any unbiased estimator of zero is exactly zero. That is, $\operatorname{Cov}(T, U)=0$ for all statistics $U$ where $E[U]=0$.
+\end{thm}
+
+In a general setting, there is no reason to suspect that there will be a UMVU estimator. However, if the family has a complete sufficient statistic, a UMVU will exist, at least when $g$ is U-estimable.
+
+\begin{thm}
+    Suppose $g$ is $U$-estimable and $T$ is complete sufficient. Then there is an essentially unique unbiased estimator based on $T$ that is UMVU.
+\end{thm}
+\begin{proof}
+    Let $\delta=\delta(X)$ be any unbiased estimator and define
+\begin{align*}
+\eta(T)=E[\delta \mid T],
+\end{align*}
+as in the Rao-Blackwell theorem. By smoothing,
+\begin{align*}
+g(\theta)=E_\theta \delta=E_\theta E_\theta[\delta \mid T]=E_\theta \eta(T),
+\end{align*}
+and thus $\eta(T)$ is unbiased. Suppose $\eta^*(T)$ is also unbiased. Then
+\begin{align*}
+E_\theta\left[\eta(T)-\eta^*(T)\right]=0, \quad \forall \theta \in \Omega,
+\end{align*}
+and by completeness, $\eta(T)-\eta^*(T)=0$ (a.e. $\mathcal{P}$ ). This shows that the estimator $\eta(T)$ is essentially unique; any other unbiased estimator based on $T$ will equal $\eta(T)$ except on a $\mathcal{P}$-null set. The estimator $\eta(T)$ has minimum variance by the Rao-Blackwell theorem with squared error loss. Specifically, if $\delta^*$ is any unbiased estimator, then $\eta^*(T)=E_\theta\left(\delta^* \mid T\right)$ is unbiased by the calculation above. With squared error loss, the risk of $\delta^*$ or $\eta^*(T)$ is the variance, and so
+\begin{align*}
+\operatorname{Var}_\theta\left(\delta^*\right) \geq \operatorname{Var}_\theta\left(\eta^*(T)\right)=\operatorname{Var}_\theta(\eta(T)), \quad \forall \theta \in \Omega
+\end{align*}
+Thus, $\eta(T)$ is UMVU.
+\end{proof}
+
+\begin{remark}
+    This also gives a way to compute the UMVU.
+\end{remark}
+
+\subsection{Lower Bounds of Risks of Unbiased Estimators}
+
+We now introduce the famous Cramer-Rao lower bound of unbiased estimators. We start with the definition of properties of score functions.
+
+\begin{lem}[Fisher's identity]
+    Let $l(\theta;X) =  \log p_\theta(X)$. Then
+\begin{align*}
+\begin{aligned}
+\mathbb{E}_\theta\left[\nabla_\theta l(\theta ; X)\right] & =\int\nabla_\theta l(\theta ; x)p_\theta(x) d \mu(x)=\nabla_\theta\left(\int p_\theta(x) d \mu(x)\right)=0 .
+\end{aligned}
+\end{align*}
+\end{lem}
+
+\begin{lem}
+    From Fisher's identity, we have
+\begin{align*}
+\mathbb{E}_\theta\left[\frac{\partial}{\partial \theta_j} l(\theta ; X)\right]=0 .
+\end{align*}
+Therefore,
+\begin{align*}
+\begin{aligned}
+0 & =\frac{\partial}{\partial \theta_i} \mathbb{E}_\theta\left[\frac{\partial}{\partial \theta_j} l(\theta ; x)\right] =\frac{\partial}{\partial \theta_i} \int \frac{\partial}{\partial \theta_j} l(\theta ; x) \cdot e^{l(\theta ; x)} d \mu(x)  \\
+& =\int\left(\frac{\partial^2 l(\theta ; x)}{\partial \theta_j \partial \theta_i}+\frac{\partial l(\theta ; x)}{\partial \theta_i} \cdot \frac{\partial l(\theta, x)}{\partial \theta_j}\right) e^{l(\theta ; x)} d \mu(x).
+\end{aligned}
+\end{align*}
+
+and we have
+\begin{align*}
+\mathbb{E}_\theta\left[\nabla \ell(\theta ; X) \nabla \ell(\theta ; X)^{\top}\right]=-\mathbb{E}_\theta\left[\nabla^2 \ell(\theta ; X)\right] .
+\end{align*}
+
+\end{lem}
+
+\begin{thm}[Cramer-Rao lower bound]    
+Let $\delta$ be an unbiased estimator for $g(\theta) \in \mathbb{R}$. Assume that $(p_\theta: \theta \in \Theta)$ has a shared support for all $\theta$, and 
+$$
+\log p_\theta(x) \in C^2, \quad \mathbb{E}\left|\nabla \log p_\theta(x)\right|^2<+\infty.
+$$
+Then we have the Cramer-Rao lower bound
+\begin{align*}
+\var_\theta(\delta(X)) \geq \nabla g(\theta)^{\top} I(\theta)^{-1} \nabla g(\theta)
+\end{align*}
+where the Fisher information matrix is given by
+$$I(\theta):=\mathbb{E}_\theta\left[\nabla \log p_\theta(x) \nabla \log p_\theta(x)^{\top}\right].$$
+\end{thm}
+
+\begin{proof}
+From Fisher's identity, we have
+\begin{align*}
+\int \nabla_\theta l(\theta ; x) e^{l (\theta ; x)} d \mu(x)=0 .
+\end{align*}
+and therefore,
+\begin{align*}
+\begin{aligned}
+\nabla g(\theta) & =\int(\delta(x)-g(\theta)) \cdot \nabla_\theta l(\theta ; x) \cdot e^{l(\theta ; x)} d \mu(x) \\
+& =\mathbb{E}_\theta\left[(\delta(x)-g(\theta)) \cdot \nabla_\theta l(\theta ; x)\right] .
+\end{aligned}
+\end{align*}
+Consider the quadratic form
+\begin{align*}
+u \in \mathbb{R}^d \mapsto \mathbb{E}_0\left[\left(u^{\top} \nabla_\theta l(\theta ; x)-(\delta(x)-g(\theta))\right)^2\right] 
+\end{align*}
+which is nonnegative, a direct expansion with respect to $u$ suggests that
+\begin{align*}
+0 \leq u^{\top} I(\theta) u-2 u^{\top} \mathbb{E}_\theta\left[(\delta(x)-g(\theta)) \cdot \nabla_\theta l(\theta ; x)\right]+\var_\theta[\delta(X)]
+\end{align*}
+The conclusion then follows from noting that $\mathbb{E}_\theta\left[(\delta(x)-g(\theta)) \cdot \nabla_\theta l(\theta ; x)\right]=\nabla g(\theta)$.
+\end{proof}
+
+\begin{cor}
+Let $g: \mathbb{R}^d \rightarrow \mathbb{R}^k$ and $\delta$ be a multi-dimensional unbiased estimator of $g(\theta)$. Then
+\begin{align*}
+\mathbb{E}\left[(\delta(X)-g(\theta))^{\otimes 2}\right]  \succeq\nabla g(\theta)^{\top} I(\theta)^{-1} \nabla g(\theta).
+\end{align*}
+In particular, when $g(\theta)=\theta$,
+\begin{align*}
+\mathbb{E}\left[\|\delta(X)-\theta \|_2^2\right] \geq \operatorname{Tr}\left(I(\theta)^{-1}\right) .
+\end{align*}
+\end{cor}
+
+\begin{remark}
+    The CR lower bound is usually not achieved by unbiased estimation. However, it is achieved asymptotically by the maximum likelihood estimator.
+\end{remark}
+
+\begin{remark}
+    To attain the CRLB, an estimator must satisfy the condition for equality in the Cauchy-Schwarz inequality used to derive the bound. This occurs if and only if the estimator is a linear function of the score function.
+
+For regular exponential families, the score function is linear in the sufficient statistic $S$. Therefore, an unbiased estimator can only achieve the CRLB if it is a linear function of the sufficient statistic $S$.
+\end{remark}
+
+\begin{remark}
+    When $p_\theta(x)$ is singular or has discontinuities, the CR lower bound may not hold. For example, consider $ X_1,X_2,\cdots,X_n \sim \operatorname{Unif}([0,\theta])$. Then the UPVU is given by $f(X)=\frac{n+1}{n}\max _{i} X_i$, and $\operatorname{Var}_\theta[f(X)]=\frac{\theta^2}{n(n+2)}$, which is better than the CR lower bound.
+\end{remark}
+
+
+We now introduce the Van-Trees inequality, also known as the Bayesian Cramér-Rao bound, which extends the classical Cramér--Rao inequality to the Bayesian setting. Consider the Bayes risk
+\begin{align*}
+r_\pi(\delta):=\int_{\Theta} \mathbb{E}_\theta\left[(\delta(x)-g(\theta))^2\right] \pi(d \theta) .
+\end{align*}
+\begin{thm}[van-Trees inequality]
+    For any estimator $\delta$ and prior $\pi$ compactly supported on $\Theta$, we have
+\begin{align*}
+r_\pi(\delta) \geq\left(\int_{\Theta} \nabla g(\theta) \pi(d \theta)\right)^{\top} \left(\int_{\Theta} I(\theta) \pi(d \theta)+J(\pi)\right)^{-1} \left(\int_{\Theta} \nabla g(\theta) \pi(d \theta)\right),
+\end{align*}
+where $J(\pi):=\int_{\Theta} \nabla_\theta \log \pi(\theta) \nabla_\theta \log \pi(\theta)^{\top} \pi(d \theta)$ is the Information theorist's Fisher information.
+\end{thm}
+
+Similar to the proof of the Cramer-Rao lower bound, we start with two lemmas.
+
+\begin{lem}Suppose that the distribution of $X$ under $\theta$ has density $p_\theta$ with respect to some base measure $\mu$, then
+\begin{enumerate}
+    \item $\iint \nabla_{\theta} (p_{\theta}(x) \pi(\theta))d\mu(x) d\theta = 0$
+    \item $\iint g(\theta) \cdot \nabla_{\theta} (p_{\theta}(x) \pi(\theta))d\mu(x) d\theta = - \iint \nabla_{\theta} g(\theta) \cdot p_{\theta}(x) \pi(\theta)d\mu(x) d\theta$
+\end{enumerate}
+
+
+\end{lem}
+\begin{proof}
+(a) Using $\int p_\theta(x)\,d\mu(x)=1$ and differentiation under the integral,
+\[
+\iint \nabla_\theta(p_\theta(x)\pi(\theta))\,d\mu(x)\,d\theta
+= \int \nabla_\theta\!\left(\pi(\theta)\int p_\theta(x)\,d\mu(x)\right)\,d\theta
+= \int \nabla_\theta \pi(\theta)\,d\theta.
+\]
+By compact support and vanishing boundary terms, $\int \nabla_\theta\pi(\theta)\,d\theta=0$.
+
+(b) Observe that
+\[
+\nabla_\theta\!\big(g(\theta)p_\theta(x)\pi(\theta)\big)
+= \nabla_\theta g(\theta)\,p_\theta(x)\pi(\theta) + g(\theta)\,\nabla_\theta(p_\theta(x)\pi(\theta)).
+\]
+Integrating over $(x,\theta)$ yields
+\[
+\iint g(\theta)\,\nabla_\theta(p_\theta(x)\pi(\theta))\,d\mu\,d\theta
++ \iint \nabla_\theta g(\theta)\,p_\theta(x)\pi(\theta)\,d\mu\,d\theta
+= \iint \nabla_\theta\!\big(g(\theta)p_\theta(x)\pi(\theta)\big)\,d\mu\,d\theta.
+\]
+As in (a), differentiation under the integral gives
+\[
+\iint \nabla_\theta\!\big(g(\theta)p_\theta(x)\pi(\theta)\big)\,d\mu\,d\theta
+= \int \nabla_\theta\!\left(\pi(\theta)g(\theta)\int p_\theta(x)\,d\mu(x)\right)\,d\theta
+= \int \nabla_\theta(\pi(\theta)g(\theta))\,d\theta = 0,
+\]
+again by compact support/vanishing boundary terms. Rearranging yields (b).
+\end{proof}
+
+\begin{proof}[Proof of Theorem]
+Define the joint density of $(X,\theta)$ (w.r.t.\ $\mu\otimes d\theta$) by
+\[
+m(x,\theta) := p_\theta(x)\pi(\theta),
+\]
+and write $\E_\pi[\cdot]$ for expectation under this joint law:
+\[
+\E_\pi[h(X,\theta)] := \iint h(x,\theta)\,p_\theta(x)\pi(\theta)\,d\mu(x)\,d\theta.
+\]
+Let
+\[
+U := \delta(X)-g(\theta),\qquad
+s_\theta(x):=\nabla_\theta\log p_\theta(x),\qquad
+\rho(\theta):=\nabla_\theta\log\pi(\theta),
+\]
+and define the \emph{Bayesian score}
+\[
+V := s_\theta(X)+\rho(\theta)=\nabla_\theta\log\big(p_\theta(X)\pi(\theta)\big).
+\]
+Note that $V(x,\theta)m(x,\theta) = \nabla_\theta m(x,\theta)$.
+
+\textbf{Step 1: Identify $\E_\pi[UV]$.}
+Using $V m=\nabla_\theta m$,
+\[
+\E_\pi[U V]
+= \iint (\delta(x)-g(\theta))\,\nabla_\theta\!\big(p_\theta(x)\pi(\theta)\big)\,d\mu(x)\,d\theta.
+\]
+Split into two terms:
+\[
+\E_\pi[UV]
+= \iint \delta(x)\,\nabla_\theta(p_\theta(x)\pi(\theta))\,d\mu\,d\theta
+- \iint g(\theta)\,\nabla_\theta(p_\theta(x)\pi(\theta))\,d\mu\,d\theta.
+\]
+Since $\delta(x)$ does not depend on $\theta$, part (a) of lemma gives the first term equals $0$ and part (b) gives
+\[
+\iint g(\theta)\,\nabla_\theta(p_\theta(x)\pi(\theta))\,d\mu\,d\theta
+= - \iint \nabla_\theta g(\theta)\,p_\theta(x)\pi(\theta)\,d\mu\,d\theta
+= -\int_\Theta \nabla g(\theta)\,\pi(\theta)\,d\theta.
+\]
+Hence
+\begin{equation}\label{eq:UV}
+\E_\pi[UV] = \int_\Theta \nabla g(\theta)\,\pi(\theta)\,d\theta.
+\end{equation}
+
+\textbf{Step 2: Identify $\E_\pi[VV^\top]$.} We expand
+\[
+\E_\pi[VV^\top]
+=\E_\pi[s_\theta(X)s_\theta(X)^\top] + \E_\pi[\rho(\theta)\rho(\theta)^\top]
++ \E_\pi[s_\theta(X)\rho(\theta)^\top] + \E_\pi[\rho(\theta)s_\theta(X)^\top].
+\]
+First,
+\[
+\E_\pi[s_\theta(X)s_\theta(X)^\top]
+= \int_\Theta \E_\theta[s_\theta(X)s_\theta(X)^\top]\ \pi(\theta)\,d\theta
+= \int_\Theta I(\theta)\,\pi(\theta)\,d\theta.
+\]
+Second, by definition,
+\[
+\E_\pi[\rho(\theta)\rho(\theta)^\top] = J(\pi).
+\]
+For the cross term, condition on $\theta$:
+\[
+\E_\pi[s_\theta(X)\rho(\theta)^\top]
+= \int_\Theta \Big(\E_\theta[s_\theta(X)]\Big)\rho(\theta)^\top\,\pi(\theta)\,d\theta.
+\]
+But $\E_\theta[s_\theta(X)]=0$ since
+\[
+\E_\theta[s_\theta(X)]
+=\int \nabla_\theta\log p_\theta(x)\,p_\theta(x)\,d\mu(x)
+=\int \nabla_\theta p_\theta(x)\,d\mu(x)
+=\nabla_\theta \int p_\theta(x)\,d\mu(x)
+=\nabla_\theta 1 = 0,
+\]
+so $\E_\pi[s_\theta(X)\rho(\theta)^\top]=0$ and similarly $\E_\pi[\rho(\theta)s_\theta(X)^\top]=0$. Therefore
+\begin{equation}\label{eq:VV}
+\E_\pi[VV^\top] = \int_\Theta I(\theta)\,\pi(\theta)\,d\theta + J(\pi).
+\end{equation}
+
+\textbf{Step 3: A quadratic lower bound via Cauchy--Schwarz.}
+For any $a\in\mathbb{R}^d$,
+\[
+0 \le \E_\pi\big[(U-a^\top V)^2\big]
+= \E_\pi[U^2] - 2a^\top \E_\pi[UV] + a^\top \E_\pi[VV^\top]a.
+\]
+Minimizing the right-hand side over $a$ gives the optimizer
+\[
+a^\star = \big(\E_\pi[VV^\top]\big)^{-1}\E_\pi[UV],
+\]
+and the minimal value equals
+\[
+\E_\pi[U^2] - \E_\pi[UV]^\top\big(\E_\pi[VV^\top]\big)^{-1}\E_\pi[UV]\ \ge\ 0.
+\]
+Hence
+\begin{equation}\label{eq:mainbound}
+\E_\pi[U^2] \ge \E_\pi[UV]^\top\big(\E_\pi[VV^\top]\big)^{-1}\E_\pi[UV].
+\end{equation}
+Finally, note that $\E_\pi[U^2]=r_\pi(\delta)$ by definition, and substitute
+\eqref{eq:UV}--\eqref{eq:VV} into \eqref{eq:mainbound} to obtain
+\[
+r_\pi(\delta)\ \ge\
+\Big(\int_\Theta \nabla g(\theta)\,\pi(\theta)\,d\theta\Big)^{\!\top}
+\Big(\int_\Theta I(\theta)\,\pi(\theta)\,d\theta + J(\pi)\Big)^{-1}
+\Big(\int_\Theta \nabla g(\theta)\,\pi(\theta)\,d\theta\Big),
+\]
+which is the claimed van--Trees inequality.
+\end{proof}
+\begin{remark}
+    Compared to the Cramer-Rao lower bound, we remove the assumption of unbiasedness by adding an extra $J(\pi)$ term.
+\end{remark}
+
+
+The Bayesian CRLB is a powerful tool for establishing lower bounds on the minimax risk over a local neighborhood of a parameter point $\theta_0$. 
+\begin{eg}
+    The \textbf{local minimax risk} is defined as:
+\[
+R_{\text{local-minimax}}(\theta_0, \varepsilon) = \inf_{\hat{\theta}_n} \sup_{|\theta - \theta_0| \leq \varepsilon} E_{\theta}[(\hat{\theta}_n - \theta)^2]
+\]
+This risk is bounded below by the Bayes risk for any prior $\pi$ supported on $[\theta_0 - \varepsilon, \theta_0 + \varepsilon]$.
+
+Consider a prior $\nu(x)$ on $[\theta_0 - \varepsilon, \theta_0 + \varepsilon]$ by scaling a base prior $\nu_0$ on $[-1, 1]$. If $\nu_0(x) = \cos^2(\frac{\pi x}{2})$ for $|x| \leq 1$, then $J(\nu_0) = \pi^2$. Scaling this to $\nu(x) = \frac{1}{\varepsilon} \nu_0\left(\frac{x - \theta_0}{\varepsilon}\right)$ gives $J(\nu) = \frac{\pi^2}{\varepsilon^2}$. Applying the Bayesian CRLB with this prior yields:
+\[
+R_{\text{local-minimax}}(\theta_0, \varepsilon) \geq \left( n \int I(\theta) \nu(\theta) d\theta + \frac{\pi^2}{\varepsilon^2} \right)^{-1}
+\]
+\end{eg}
+\begin{cor}[The Local Asymptotic Minimax (LAM) Theorem]
+    By letting the local neighborhood shrink as the sample size grows (e.g., $\varepsilon = c/\sqrt{n}$), we derive the famous Hájek-Le Cam asymptotic lower bound:
+\[
+\lim_{c \to \infty} \lim_{n \to \infty} \inf_{\hat{\theta}_n} \sup_{|\theta - \theta_0| \leq c/\sqrt{n}} E[n(\hat{\theta}_n - \theta)^2] \geq \frac{1}{I(\theta_0)}
+\]
+\end{cor}
+
+\subsection{Beyond Unbiased Estimators}
+Let us first introduce a motivating example.
+
+Consider a sample $X^{(1)}, \ldots, X^{(n)} \sim N_d(\mu, \Sigma)$ with $\Sigma=I_d$. Using the square loss $L(\mu, a)=\|\mu-a\|^2$ we easily show that the risk of any estimator $\widehat{\mu}_n$ admits the bias-variance decomposition
+\begin{align*}
+R\left(\mu, \widehat{\mu}_n\right)=\mathbb{E}\left\|\widehat{\mu}_n-\mathbb{E}\left[\widehat{\mu}_n\right]\right\|^2+\left\|\mathbb{E}\left[\widehat{\mu}_n\right]-\mu\right\|^2 .
+\end{align*}
+The MLE estimator of $\mu$ is the sample average $\bar{X}_n$. Its bias is zero, and its variance is
+\begin{align*}
+\mathbb{E}\left\|\frac{1}{n} \sum_i\left(X^{(i)}-\mu\right)\right\|^2=\frac{1}{n} \mathbb{E}\|\epsilon\|^2=\frac{d}{n} .
+\end{align*}
+
+In the special case when $n=1$, the MLE is $X$ which is an unbiased estimator with large variance $d$. Consider first as an alternative a simple linear estimator $\widehat{\mu}_C=C X$ with $C=\operatorname{diag}(c)$ diagonal and $c=\left(c_1, \ldots, c_d\right)$. In this case
+\begin{align*}
+R\left(\mu, \widehat{\mu}_C\right)=\sum_{i=1}^d\left(1-c_i\right)^2 \mu_i^2+\sum_{i=1}^d c_i^2 .
+\end{align*}
+
+
+Suppose we restrict ourselves to the hyperrectangular model class $\left|\mu_i\right| \leq \tau_i$. In this case we can easily find that the minimax risk is
+\begin{align*}
+\inf _{c \in \mathbb{R}^d} \sup _{-\tau \leq \mu \leq \tau} R\left(\mu, \widehat{\mu}_C\right)=\inf _c \sum_{i=1}^d\left(1-c_i\right)^2 \tau_i^2+\sum_{i=1}^d c_i^2=\sum_{i=1}^d \frac{\tau_i^2}{1+\tau_i^2}<d .
+\end{align*}
+
+
+This computation shows that for sparse model classes diagonal estimators $\widehat{\mu}_C$ may strictly dominate the MLE if $c$ is chosen carefully.
+
+In this section, we show a famous surprising result that the observation $X=\left(X_1, \ldots, X_d\right)$ is not an admissible estimator for the parameter $\mu=\left(\mu_1, \ldots, \mu_d\right)$ unless $d \leq 2$. We start introducing the Stein's Unbiased Risk Estimates (SURE).
+
+For a function $h: \mathbb{R}^d \rightarrow \mathbb{R}^d$ denote by $\mathrm{J} h(x)$ the Jacobian of $h$ at $x \in \mathbb{R}^d$, that is, the matrix of partial derivatives with
+\begin{align*}
+(J h(x))_{i j}=\frac{\partial h_i}{\partial x_j} .
+\end{align*}
+
+\begin{prop}
+    [Stein's Unbiased Risk Estimates (SURE)] Let $X_1, \ldots, X_d$ be independent, $X_i \sim N\left(\mu_i, 1\right)$. Consider an estimator $\widehat{\mu}(X)$ of $\mu= \left(\mu_1, \ldots, \mu_d\right)$ and let
+\begin{align*}
+h(x)=x-\widehat{\mu}(x) .
+\end{align*}
+
+Suppose that $h(x)$ satisfies
+\begin{enumerate}
+    \item $h$ is (weakly) differentiable,
+    \item $\mathbb{E}_\mu\|J h(X)\|<\infty$.
+\end{enumerate}
+Define
+\begin{align*}
+\hat{R}=d+\|h(X)\|^2-2 \operatorname{tr}(\operatorname{Jh}(X)) .
+\end{align*}
+Then
+\begin{align*}
+R(\mu, \widehat{\mu})=\mathbb{E}_\mu\|\widehat{\mu}(X)-\mu\|^2=\mathbb{E}_\mu R .
+\end{align*}
+\end{prop}
+
+We start with Stein's lemma.
+\begin{lem}[Stein's lemma] 
+Let $X \sim N\left(\mu, \sigma^2\right)$ and let $h: \mathbb{R} \rightarrow \mathbb{R}$ be differentiable with $\mathbb{E}\left|h^{\prime}(X)\right|<\infty$. Then
+\begin{align*}
+E[(X-\mu) h(X)]=\sigma^2 \mathbb{E} h^{\prime}(X) .
+\end{align*}
+\end{lem}
+
+
+\begin{proof}
+   First assume $\mu=0, \sigma^2=1$. In this case we equivalently show that $\mathbb{E}(X h(X))=\mathbb{E} h^{\prime}(X)$. Without loss of generality, assume $h(0)=0$. The proof is an application of integration by parts. We have
+\begin{align*}
+\left(h(x) e^{-x^2 / 2}\right)^{\prime}=h^{\prime}(x) e^{-x^2 / 2}-x h(x) e^{-x^2 / 2}
+\end{align*}
+and so
+\begin{align*}
+0=\mathbb{E} h^{\prime}(X)-\mathbb{E}(X h(X)),
+\end{align*}
+which establishes the result. The fact that we get zero on the left follows from the fact that $\lim _{x \rightarrow \pm \infty} h(x) e^{-x^2 / 2}=0$, which can be argued since $\mathbb{E}\left|h^{\prime}(X)\right|<+\infty$. Indeed, first note that
+\begin{align*}
+\left|h^{\prime}(t)\right| e^{-x^2 / 2} \mathbb{1}_{[0, x]}(t) \leq\left|h^{\prime}(t)\right| e^{-t^2 / 2}
+\end{align*}
+and the dominating function on the right is integrable by assumption. Thus, we can use the dominating convergence theorem
+\begin{align*}
+\begin{aligned}
+\lim _{x \rightarrow \pm \infty} h(x) e^{-x^2 / 2} & =\lim _{x \rightarrow \pm \infty} \int_0^x h^{\prime}(t) e^{-x^2 / 2} \mathrm{~d} t=\lim _{x \rightarrow \pm \infty} \int_{-\infty}^{\infty} h^{\prime}(t) e^{-x^2 / 2} \mathbb{1}_{[0, x]}(t)\d t \\
+& =\int_{-\infty}^{\infty} \lim _{x \rightarrow \pm \infty} h^{\prime}(t) e^{-x^2 / 2} \mathbb{1}_{[0, x]}(t) \mathrm{d} t=0 .
+\end{aligned}
+\end{align*}
+
+
+This establishes the result in the standard normal case. For general $\mu$ and $\sigma$ define $Z=(X-\mu) / \sigma \sim N(0,1)$. Define $\tilde{h}(z)=h(\mu+\sigma z)$. We have
+\begin{align*}
+\begin{aligned}
+\mathbb{E}[(X-\mu) h(X)] & =\sigma \mathbb{E}(Z h(\mu+\sigma Z))=\sigma \mathbb{E}(Z \tilde{h}(Z)) \\
+& =\sigma \mathbb{E} \tilde{h}^{\prime}(Z)=\sigma^2 \mathbb{E} h^{\prime}(\mu+\sigma Z)=\sigma^2 \mathbb{E} h^{\prime}(X),
+\end{aligned}
+\end{align*}
+where moving from the first to the second line we used the case $\mu=0, \sigma=1$ proved earlier. 
+\end{proof}
+
+We need another technical lemma.
+\begin{lem}
+    Let $X=\left(X_1, \ldots, X_d\right)$ be a random vector with independent entries, $X_i \sim N\left(\mu_i, 1\right)$. If $h: \mathbb{R}^d \rightarrow \mathbb{R}^d$ satisfies $\mathbb{E}\|J h(X)\|<\infty$. Then
+\begin{align*}
+\mathbb{E}\left((X-\mu)^{\top} h(X)\right)=\mathbb{E} \operatorname{tr}(\mathrm{J} h(X))
+\end{align*}
+\end{lem}
+
+
+\begin{proof}
+    Denote by $X_{\backslash i} \in \mathbb{R}^{d-1}$ the vector $X$ with $X_i$ removed. Using the first lemma, for every $i=1, \ldots, d$
+\begin{align*}
+\begin{aligned}
+\mathbb{E}\left(\left(X_i-\mu_i\right) h_i(X)\right) & =\mathbb{E}\left(\mathbb{E}\left[\left(X_i-\mu_i\right) h_i(X) \mid X_{\backslash i}\right]\right) \\
+& =\mathbb{E}\left(\mathbb{E}\left[\left.\frac{\partial h_i(X)}{\partial x_i} \right\rvert\, X_{\backslash i}\right]\right)=\mathbb{E}\left(\frac{\partial h_i(X)}{\partial x_i}\right) .
+\end{aligned}
+\end{align*}
+Summing over $i$ we get the result.
+\end{proof}
+
+Now the formula for the risk of Stein's Unbiased Risk Estimates follows easily.
+
+\begin{proof}
+    We have
+\begin{align*}
+\begin{array}{ll}
+R(\mu, \widehat{\mu}) & =\mathbb{E}\left((\widehat{\mu}(X)-\mu)^{\top}(\widehat{\mu}(X)-\mu)\right. \\
+& =\mathbb{E}\left((\widehat{\mu}(X)-X+X-\mu)^{\top}(\widehat{\mu}(X)-X+X-\mu)\right) \\
+& =\mathbb{E}\|h(X)\|^2-2 \mathbb{E}\left((X-\mu)^{\top} h(X)\right)+\mathbb{E}\|X-\mu\|^2 \\
+& =\mathbb{E}\|h(X)\|^2-2 \mathbb{E}(\operatorname{tr}(J h(X)))+\mathbb{E}\|X-\mu\|^2 \\
+& =\mathbb{E} \hat{r},
+\end{array}
+\end{align*}
+where the last equality follows because $\mathbb{E}\|X-\mu\|^2=d$, which follows because $X-\mu$ is standard normal.
+\end{proof}
+
+
+A natural estimator of $\mu$ is $X$ and it has constant risk $R(\mu, X)= \mathbb{E}\|X-\mu\|^2=d$. Although it is unbiased, the variance is large if $d$ is large. The James-Stein estimator of $\mu=\left(\mu_1, \ldots, \mu_d\right)$ is defined as
+\begin{align*}
+\delta_{J S}(X)=\left(1-\frac{d-2}{\|X\|^2}\right) X .
+\end{align*}
+which dominates the natural estimator when $d\ge3$.
+\begin{thm}
+    The risk of the James-Stein estimator is
+\begin{align*}
+R\left(\mu, \delta_{\mathrm{JS}}\right)=d-\mathbb{E}_\mu\left(\frac{d-2}{\|X\|}\right)^2 .
+\end{align*}
+In particular, the natural estimator is not admissible if $d \geq 3$.
+\end{thm}
+\begin{proof}
+    For the James-Stein estimator, the function $h$ in SURE is
+\begin{align*}
+h(x)=\frac{d-2}{\|x\|^2} x
+\end{align*}
+and so
+\begin{align*}
+\hat{R}=d+\frac{(d-2)^2}{\|X\|^2}-2 \operatorname{tr}(J h(X)) .
+\end{align*}
+The diagonal entries of the Jacobian have a simple form
+\begin{align*}
+\frac{\partial h_i}{\partial x_i}=\frac{d-2}{\|x\|^2}-2 \frac{d-2}{\|x\|^4} x_i^2,
+\end{align*}
+giving
+\begin{align*}
+\operatorname{tr}(J h(X))=\left(\frac{d-2}{\|X\|}\right)^2 \quad \text { and } \quad \hat{R}=d-\left(\frac{d-2}{\|X\|}\right)^2 .
+\end{align*}
+Therfore, if $d \geq 3$
+\begin{align*}
+R\left(\mu, \delta_{\mathrm{JS}}\right)=\mathbb{E}_\mu R=d-\mathbb{E}_\theta\left(\frac{d-2}{\|X\|}\right)^2<d=R(\mu, X)
+\end{align*}
+proving inadmissibility.
+\end{proof}
+
+
+It is interesting to study the risk of a general linear estimator $\widehat{\mu}_C= C X$ for an arbitrary square matrix $C$. To use SURE, note that $h(X)= \left(I_d-C\right) X$ and so $\mathrm{J} h(x)=\left(I_d-C\right)$ giving $\operatorname{tr}(\mathrm{J} h(x))=d-\operatorname{tr}(C)$.
+Therefore
+\begin{align*}
+R\left(\mu, \widehat{\mu}_C\right)=\mathbb{E}_\mu\left[d+\left\|\left(I_d-C\right) X\right\|^2-2 d+2 \operatorname{tr}(C)\right]=\mathbb{E}\left\|\left(C-I_d\right) X\right\|^2-d+2 \operatorname{tr}(C) .
+\end{align*}
+
+
+We formulate the following result without a proof.
+\begin{prop}
+    The linear estimator $\widehat{\mu}_C=C X$ is admissible if and only if
+    \begin{enumerate}
+        \item $C$ is symmetric,
+        \item the eigenvalues satisfy $0 \leq \rho_i(C) \leq 1$,
+        \item $\rho_i(C)=1$ for at most two $i$.
+    \end{enumerate}
+
+\end{prop}
+
+In many situations in the expression, $C=C(\lambda)$ depends on a regularization parameter $\lambda$ so one could find optimal $\lambda^*$ by minimizing the MSE over $\lambda$. One example is given by ridge regression. 
+
+\begin{eg}
+    In this case for some $Z \in \mathbb{R}^{d \times p}$
+\begin{align*}
+C=Z\left(Z^{\top} Z+\lambda I_d\right)^{-1} Z^{\top}
+\end{align*}
+and the corresponding estimator is obtained as $\widehat{\mu}_Z=Z \widehat{\beta}$ where $\widehat{\beta} \in \mathbb{R}^p$ is obtained by solving
+\begin{align*}
+\min _\beta \frac{1}{2}\|X-Z \beta\|^2+\frac{\lambda}{2}\|\beta\|^2, \quad \lambda>0 .
+\end{align*}
+\end{eg}
+
+\section{Lecture 4: Testing}
+
+We start with the basic framework of hypothesis testing.
+
+\begin{de}
+   Hypothesis testing is used to determine whether the underlying parameter $\theta$ is in some specific test. Given a parameter space $\Theta$, we consider two disjoint sets $\Theta_0$ and $\Theta_1$ with the following hypothesis:
+    \begin{itemize}
+            \item \textbf{Null Hypothesis:} $H_0: \theta \in \Theta_0$,
+            \item \textbf{Alternative Hypothesis:} $H_1: \theta \in \Theta_1$.
+    \end{itemize}
+   A test function is defined by a function $\phi(x)$ that maps the data to the interval $[0,1]$ that determines the outcome the test:
+    \[
+    \phi(x) = \begin{cases} 
+    1 & \text{reject } H_0 \\
+    \pi\in(0,1) & \text{reject $H_0$ with probability $\pi$} \\
+    0 & \text{do not reject } H_0 
+    \end{cases}
+    \]
+\end{de}
+\begin{de}
+    Let $\phi(X)$ be a test function, where $\phi(X) = 1$ means we reject the null hypothesis $(H_0)$ and $\phi(X) = 0$ means we do not reject it. We define
+\begin{itemize}
+    \item \textbf{Significance Level ($\alpha_{\phi}$):} The worst case of probability of a Type I error (rejecting $H_0$ when it is true).
+    $$\alpha_{\phi} = \sup_{\theta \in \Theta_0} \mathbb{E}_{\theta}[\phi(X)]$$
+    For a level-$\alpha$ test, we require $\alpha_{\phi} \le \alpha$ for a pre-specified $\alpha$ (e.g., $5\%$).
+    \item \textbf{Power ($\beta_{\phi}(\theta)$):} The probability of correctly rejecting the null hypothesis.
+    $$\beta_{\phi}(\theta) = \mathbb{E}_{\theta}[\phi(X)] \quad \text{for } \theta \in \Theta_1$$
+\end{itemize}
+\end{de}
+\begin{remark}
+    The goal is to keep $\alpha_{\phi} \le \alpha$ while maximizing $\beta_{\phi}$.
+\end{remark}
+\begin{de}
+    A test $\phi^{\star}$ is \textbf{Uniformly Most Powerful} ($\mathbf{UMP}$) (level-$\alpha$) if for any other level-$\alpha$ test $\phi$,
+$$\beta_{\phi^{\star}}(\theta) \ge \beta_{\phi}(\theta) \quad (\forall \theta \in \Theta_1).$$
+\end{de}
+\begin{remark}
+    A UMP test is not always achievable.
+\end{remark}
+
+\subsection{Simple Testing}
+\begin{de}
+    For a \textbf{Simple Testing Problem}, the parameter set of the null and alternative hypotheses are singleton:
+\begin{align*}
+    H_0: \theta \in \Theta_0 &= \{\theta_0\} \quad (\text{under distribution } P_0) \\
+    H_1: \theta \in \Theta_1 &= \{\theta_1\} \quad (\text{under distribution } P_1)
+\end{align*}
+\end{de}
+
+\begin{de}
+    The \textbf{Likelihood Ratio} is $L(X) = \frac{p_1(X)}{p_0(X)}$, where $p_i(x)$ is the density of the data under $P_i$.
+The \textbf{Likelihood Ratio Test} is defined as:
+$$
+\phi(X) =
+\begin{cases}
+    1 & L(X) > c, \\
+    \pi & L(X) = c, \\
+    0 & L(X) < c.
+\end{cases}
+$$
+\end{de}
+
+We now state and prove the famous Neyman-Pearson lemma, which claims that to find a UMP test, it suffices to consider likelihood ratio tests.
+\begin{lem}[Neyman-Pearson lemma]
+    Assuming $P_0, P_1$ have common support. Given $\alpha \in (0,1)$, there exists an LRT $\phi^{\star}$ such that $\alpha_{\phi^*}=\alpha$, and any LRT $\phi^*$ such that $\alpha_{\phi^*}=\alpha$ is an UMP.
+\end{lem}
+\begin{proof}
+   By picking $c$ and $\pi$ appropriately, we can make the likelihood ratio test $\phi^*$ a level-$\alpha$ test. Since $\phi^*$ maximizes
+   $$
+   \max_{\phi} \left\{ \mathbb{E}_1[\phi(X)] - c \mathbb{E}_0[\phi(X)] \right\}
+   $$
+   because $L(X)>c$ is equivalent to $p_1(X)>cp_0(X)$. For any other level-$\alpha$ test $\phi$, since $\phi^{\star}$ maximizes the objective, we have
+\[
+\mathbb{E}_1[\phi^{\star}] - c \mathbb{E}_0[\phi^{\star}]\ge \mathbb{E}_1[\phi] - c \mathbb{E}_0[\phi].
+\]
+Therefore,
+\begin{align*}
+    \mathbb{E}_1[\phi] \le \mathbb{E}_1[\phi^{\star}] + c (\underbrace{\mathbb{E}_0[\phi]}_{\le \alpha} - \underbrace{\mathbb{E}_0[\phi^{\star}]}_{= \alpha}) \le \mathbb{E}_1[\phi^{\star}]
+\end{align*}
+Since $\mathbb{E}_i[\phi] = \beta_{\phi}(\theta_i)$, this shows $\beta_{\phi^{\star}} \ge \beta_{\phi}$.
+\end{proof}
+
+\begin{remark}[Testing Lower Bound]
+    The function that we constructed in the proof
+     $$
+     \mathbb{E}_1[\phi(X)] - c \mathbb{E}_0[\phi(X)] 
+     $$
+     is related to the lower bound of the testing error. For instance, when $c=1$, the objective function relates the minimum probability of error to the total variation distance. For any test $\phi$,
+\begin{align*}
+    \text{Probability of Type I + Type II error}&=\mathbb{E}_0[\phi] + \mathbb{E}_1[1 - \phi] \\& = \int (p_0(x)\phi(x) + p_1(x)(1 - \phi(x))) d\mu(x) \\
+    &\ge \int \min(p_0(x), p_1(x)) d\mu(x)= 1 - d_{\text{TV}}(P_0, P_1)
+\end{align*}
+This minimum is achieved by the LRT with $c=1$.
+\end{remark}
+
+\begin{remark}
+    Choosing $c=1$ in the Neyman-Pearson objective yields $d_{\text{TV}}$. Choosing different values of $c$ leads to an asymmetric notion of distances/indistinguishability.
+\end{remark}
+\begin{eg}
+    Consider $X_1, \dots, X_n \sim N(\theta, 1)$ for testing $H_0: \theta=0$ vs. $H_1: \theta=\mu$. The TV distance between the $n$-sample distributions is:
+$$
+d_{\text{TV}}(P_1^{\otimes n}, P_0^{\otimes n}) \le \sqrt{\frac{1}{2} D_{\text{KL}}(P_1^{\otimes n} \| P_0^{\otimes n})} = \sqrt{\frac{n}{2} D_{\text{KL}}(P_1 \| P_0)}
+$$
+If $P_1 = N(\mu, 1)$ and $P_0 = N(0, 1)$, $D_{\text{KL}}(P_1 \| P_0) = \frac{\mu^2}{2}$.
+$$
+d_{\text{TV}}(P_1^{\otimes n}, P_0^{\otimes n}) \le \sqrt{\frac{n}{2} \cdot \frac{\mu^2}{2}} = \frac{\mu\sqrt{n}}{2}
+$$
+When $\mu = \frac{1}{\sqrt{n}}$, the testing lower bound is $1-\frac{1}{2}=\frac{1}{2}$.
+\end{eg}
+
+\begin{remark}
+    To prove testing lower bounds, we often compute an upper bound on $d_{\text{TV}}$.
+    The $\mathbf{d_{\text{TV}}}$ between two distributions $P_0$ and $P_1$ is defined as:
+$$
+d_{\text{TV}}(P_0, P_1) = \frac{1}{2} \int |p_1(x) - p_0(x)| d\mu(x)
+d_{\text{TV}}(P_0, P_1) = \sup_{\|f\|_{\infty} \le 1} |\mathbb{E}_1[f(X)] - \mathbb{E}_0[f(X)]|
+$$
+    The fundamental Pinsker's inequality relates $d_{\text{TV}}$ and the \textbf{Kullback-Leibler Divergence} ($D_{\text{KL}}$):
+    $$
+    d_{\text{TV}}(P, Q) \le \sqrt{\frac{1}{2} D_{\text{KL}}(P \| Q)}.
+    $$
+    where the Kullback-Leibler Divergence from $Q$ to $P$ is:
+$$
+D_{\text{KL}}(P \| Q) = \mathbb{E}_P \left[\log \frac{dP}{dQ}\right]
+$$
+    The benefit of using KL divergence is that it admits the following tensorization property: for i.i.d. samples $X_1, \dots, X_n$:
+$$
+D_{\text{KL}}(P^{\otimes n} \| Q^{\otimes n}) = \sum_{i=1}^n D_{\text{KL}}(P \| Q) = n D_{\text{KL}}(P \| Q)
+$$
+\end{remark}
+
+\begin{remark}
+We can study estimation lower bounds using a testing framework. The core idea is that if two probability distributions, $P_0$ and $P_1$, are difficult to distinguish, then any estimator for a parameter $g(\theta)$ that differs under these two distributions must have a high risk.
+\end{remark}
+
+\begin{lem}[Le Cam's Lemma]
+Let $\delta(X)$ be an estimator for $g(\theta)$. For any two points $\theta_0, \theta_1 \in \Theta$, the minimax risk is bounded below as follows:
+$$
+\inf_{\delta} \sup_{\theta \in \Theta} \mathbb{E}_{\theta}[(\delta(X) - g(\theta))^2] \ge \frac{(g(\theta_1) - g(\theta_0))^2}{8} \left(1 - d_{TV}(P_0, P_1)\right)
+$$
+where $P_0$ and $P_1$ are the distributions corresponding to $\theta_0$ and $\theta_1$, and $d_{TV}$ is the total variation distance.
+\end{lem}
+
+\begin{proof}
+Let $\delta$ be an arbitrary test. Then, we have
+\begin{align*}
+    \sup_{\theta \in \Theta} \mathbb{E}_{\theta}\left[(\delta(X) - g(\theta))^2\right]&\ge \frac{1}{2} \left( \mathbb{E}_{\theta_0}\left[(\delta(X) - g(\theta_0))^2\right] + \mathbb{E}_{\theta_1}\left[(\delta(X) - g(\theta_1))^2\right] \right)
+\end{align*}
+Let's convert the estimation problem into a simple testing problem. Consider a test
+\[
+\phi(X):=1_{\left\{\left|\delta(X)-g\left(\theta_1\right)\right| \leq\left|\delta(X)-g\left(\theta_0\right)\right|\right\}}
+\]
+Then the test $\delta$ make an error under $\theta_i$ implies that $|\delta(X)-g(\theta_i)|\ge\frac{1}{2} |g(\theta_0)-g(\theta_1)|$. Therefore, from the testing lower bound, we have
+\begin{align*}
+    \frac{1}{2} \left( \mathbb{E}_{\theta_0}\left[(\delta - g_0)^2\right] + \mathbb{E}_{\theta_1}\left[(\delta - g_1)^2\right] \right)&\ge \frac{|g(\theta_0)-g(\theta_1)|^2}{8}(\text{Probability of Type I + Type II error})\\
+    &\ge  \frac{|g(\theta_0)-g(\theta_1)|^2}{8}\left(1 - d_{\text{TV}}(P_0, P_1)\right).
+\end{align*}
+\end{proof}
+
+
+
+
+\subsection{One-sided and Two-sided Testing}
+
+We would like to generalize the conclusions in simple testing to one-sided and two-sided testing. A key property that facilitates the construction of optimal tests in these scenarios is the Monotone Likelihood Ratio (MLR).
+
+\begin{de}[Monotone Likelihood Ratio]
+A family of distributions $\{P_{\theta} : \theta \in \mathbb{R}\}$ with densities $p_{\theta}(x)$ has a \textbf{Monotone Likelihood Ratio (MLR)} in a statistic $T(X)$ if for any $\theta_1 < \theta_2$, the likelihood ratio
+$$
+\frac{p_{\theta_2}(x)}{p_{\theta_1}(x)}
+$$
+is a non-decreasing function of $T(x)$.
+\end{de}
+
+\begin{eg}
+    Consider a one-parameter exponential family with density:
+$$
+p_{\theta}(x) = \exp(\eta(\theta)T(x) - B(\theta))h(x)
+$$
+The likelihood ratio is:
+$$
+\frac{p_{\theta_2}(x)}{p_{\theta_1}(x)} = \exp\left( (\eta(\theta_2) - \eta(\theta_1))T(x) - (B(\theta_2) - B(\theta_1)) \right)
+$$
+If $\eta(\theta)$ is a monotone non-decreasing function of $\theta$, then for $\theta_1 < \theta_2$, we have $\eta(\theta_1) \le \eta(\theta_2)$. The exponent is a non-decreasing function of $T(x)$, and since $\exp(\cdot)$ is increasing, the entire ratio is non-decreasing in $T(x)$. Thus, the family has MLR in $T(X)$.
+\end{eg}
+
+The MLR property is the crucial condition in the Karlin-Rubin Theorem, which guarantees the existence of a Uniformly Most Powerful (UMP) test for one-sided hypotheses.
+\begin{thm}[Karlin-Rubin]
+Consider the one-sided hypothesis testing problem:
+$$
+H_0: \theta \le \theta_0 \quad \text{vs.} \quad H_1: \theta > \theta_0
+$$
+If the family of distributions $\{P_{\theta}\}$ has MLR in the statistic $T(X)$, then there exists a UMP test of size $\alpha$. This test, $\phi^*(x)$, is of the form:
+$$
+\phi^*(x) = 
+\begin{cases} 
+1 & \text{if } T(x) > c \\
+\gamma & \text{if } T(x) = c \\
+0 & \text{if } T(x) < c 
+\end{cases}
+$$
+where the constants $c$ and $\gamma \in [0, 1]$ are chosen to satisfy the size constraint:
+$$
+\sup_{\theta \le \theta_0} \mathbb{E}_{\theta}[\phi^*(X)] = \mathbb{E}_{\theta_0}[\phi^*(X)] = \alpha
+$$
+\end{thm}
+
+\begin{proof}
+The proof relies on the Neyman-Pearson Lemma. For any specific alternative $\theta_1 > \theta_0$, the test $\phi^*$ is the Likelihood Ratio Test (LRT) for the simple hypothesis problem $H_0': \theta = \theta_0$ vs. $H_1': \theta = \theta_1$. By the Neyman-Pearson Lemma, $\phi^*$ is the Most Powerful (MP) test for this simple problem. Since the form of the test (thresholding $T(X)$) does not depend on the specific choice of $\theta_1$ (as long as $\theta_1 > \theta_0$), the test is uniformly most powerful for all $\theta > \theta_0$.
+\end{proof}
+
+For two-sided hypothesis testing problems, such as $H_0: \theta = \theta_0$ vs. $H_1: \theta \neq \theta_0$, a Uniformly Most Powerful (UMP) test generally does not exist. A test that is optimal for alternatives $\theta > \theta_0$ is typically suboptimal for $\theta < \theta_0$. To find a meaningful "best" test in these situations, we can restrict our search to the class of \textbf{unbiased tests}.
+
+\begin{de}[Unbiased Test]
+A test $\phi$ with significance level $\alpha$ is \textbf{unbiased} if its power function, $P_{\phi}(\theta) = \mathbb{E}_{\theta}[\phi(X)]$, is never smaller than its size for any parameter in the alternative hypothesis. That is:
+$$
+P_{\phi}(\theta) \ge \alpha \quad \text{for all } \theta \in \Theta_1
+$$
+This ensures that the probability of correctly rejecting the null is always at least as large as the probability of a Type I error. For a test of $H_0: \theta = \theta_0$, this implies the power function has a minimum at $\theta_0$.
+\end{de}
+
+This concept is analogous to unbiased estimation, where we seek estimators $\hat{\theta}$ that are correct on average. The search for a Uniformly Most Powerful Unbiased (UMPU) test is the search for a test that is uniformly most powerful among all unbiased tests. Our focus for constructing such tests is typically on \textbf{exponential families}.
+
+For a multi-parameter exponential family, the probability density function is given by:
+$$
+p_{\eta}(x) = \exp(\eta \cdot T(x) - A(\eta)) \cdot h(x)
+$$
+where $\eta$ is the natural parameter vector and $T(X)$ is the vector of sufficient statistics.
+\begin{eg}
+    Consider the test $H_0: \eta = \eta_0$ vs. $H_1: \eta \neq \eta_0$. For a test to be unbiased, its power function $P_{\phi}(\eta) = \mathbb{E}_{\eta}[\phi(X)]$ must have a local minimum at $\eta = \eta_0$. Assuming we can differentiate under the integral sign, this implies:
+$$
+\left. \frac{d}{d\eta} \mathbb{E}_{\eta}[\phi(X)] \right|_{\eta=\eta_0} = 0
+$$
+For an exponential family, this derivative condition is equivalent to:
+$$
+\text{Cov}_{\eta_0}(T(X), \phi(X)) = \mathbb{E}_{\eta_0}\left[ (T(X) - \mathbb{E}_{\eta_0}[T(X)])\phi(X) \right] = 0
+$$
+To construct a two-sided test, we intuitively need two thresholds, $c_1$ and $c_2$. The proposed form of the test is:
+$$
+\phi^*(X) = 
+\begin{cases} 
+1 & \text{if } T(X) < c_1 \text{ or } T(X) > c_2 \\
+\gamma_i & \text{if } T(X) = c_i \text{ for } i=1,2 \\
+0 & \text{if } T(X) \in (c_1, c_2)
+\end{cases}
+$$
+The constants $c_1, c_2, \gamma_1, \gamma_2$ are found by solving the following two equations simultaneously:
+\begin{enumerate}
+    \item \textbf{Size constraint:} $\mathbb{E}_{\eta_0}[\phi^*(X)] = \alpha$
+    \item \textbf{Unbiasedness constraint:} $\mathbb{E}_{\eta_0}[T(X)(\phi^*(X) - \alpha)] = 0$.
+\end{enumerate}
+This motivates the following result, whose proof is omitted here.
+\end{eg}
+
+
+\begin{thm}
+Suppose $\eta_0$ is in the interior of the natural parameter space $\mathcal{H}$. For any $\alpha \in (0,1)$, there exists a test $\phi^*$ that satisfies the two equations above. Furthermore, this test $\phi^*$ is the UMPU test for $H_0: \eta = \eta_0$ vs. $H_1: \eta \neq \eta_0$. 
+\end{thm}
+
+\subsection{Minimax Testing}
+When the parameter $\theta$ is a vector of dimension $d \ge 2$, UMP or UMPU tests often do not exist. Consider testing $H_0: \theta = \theta_0$ vs. $H_1: \theta \neq \theta_0$ for $X \sim N(\theta, \sigma^2 I_d)$.
+
+For $d=2$, we could define different rejection regions. For example:
+\begin{itemize}
+    \item $\phi_1$: Reject $H_0$ when $\|X - \theta_0\|_2 > c_1$ (a circular rejection region).
+    \item $\phi_2$: Reject $H_0$ when $\|X - \theta_0\|_{\infty} > c_2$ (a square rejection region).
+\end{itemize}
+Neither test is uniformly more powerful than the other. Test $\phi_1$ will be more powerful for alternatives along the diagonals, while $\phi_2$ will be more powerful for alternatives along the axes. We cannot compare them uniformly.
+
+
+Since a uniformly optimal test may not exist, we can change the criterion for optimality. The minimax framework seeks a test that minimizes the worst-case risk. First, we redefine the hypotheses to ensure the null and alternative are well-separated.
+
+\begin{de}[Minimax Hypotheses]
+We test $H_0: \theta \in \Theta_0$ against a composite alternative that is separated by a distance $\epsilon$:
+$$
+H_1: \theta \in \Theta_1(\epsilon) = \{ \theta \in \Theta_1 : \text{dist}(\theta, \Theta_0) \ge \epsilon \}
+$$
+The distance $\epsilon > 0$ is a user's choice, representing the minimum signal strength of interest.
+\end{de}
+
+The risk of a test $\phi$ is defined as the sum of the maximum Type I and Type II error probabilities:
+$$
+R_{\epsilon}(\phi) = \sup_{\theta \in \Theta_0} \mathbb{E}_{\theta}[\phi(X)] + \sup_{\theta \in \Theta_1(\epsilon)} \mathbb{E}_{\theta}[1-\phi(X)]
+$$
+The objective in minimax testing is often to find the smallest possible separation $\epsilon$ that allows for a test $\phi^*$ to achieve a specified low risk level $\delta$. The intuition is to find the minimum signal strength required for reliable detection.
+
+\begin{eg}[Univariate Mean] Let $X_1, \dots, X_n \stackrel{iid}{\sim} N(\theta, 1)$. We test $H_0: \theta=0$ vs. $H_1: \theta \neq 0$. The minimum separation distance required to achieve a fixed risk level $\delta$ is:
+$$
+\epsilon_n^* = \frac{c}{\sqrt{n}}
+$$
+where $c$ is a constant that depends on the desired risk $\delta$.
+\end{eg} 
+
+
+We consider testing a hypothesis about the mean of a multivariate normal distribution. Let $X_1, \dots, X_n \stackrel{iid}{\sim} N(\theta, I_d)$, where $\theta \in \mathbb{R}^d$. The hypothesis testing problem is:
+$$
+H_0: \theta = 0 \quad \text{vs.} \quad H_1(\epsilon): \|\theta\|_2 \ge \epsilon
+$$
+This is a problem of detecting a signal of magnitude at least $\epsilon$ against the null hypothesis of no signal.
+
+A natural first guess for the detection boundary, $\epsilon_n$, might be based on the standard estimation error for $\theta$. The sample mean $\hat{\theta}_n = \frac{1}{n}\sum X_i$ has an expected squared error of $\mathbb{E}[\|\hat{\theta}_n - \theta\|_2^2] = d/n$. This suggests that we can only distinguish $\theta$ from $0$ when $\|\theta\|_2$ is larger than the "noise" level, perhaps leading to a conjecture that the minimax separation is $\epsilon_n \approx \sqrt{d/n}$. However, the actual rate is surprisingly faster.
+
+\begin{thm}
+The minimax testing radius for the multivariate Gaussian mean problem is
+$$
+\epsilon_n^* \asymp \frac{d^{1/4}}{\sqrt{n}}
+$$
+This means that for a constant $c_1$, if $\epsilon \le c_1 \frac{d^{1/4}}{\sqrt{n}}$, no test can reliably distinguish $H_0$ from $H_1(\epsilon)$ (the sum of errors is bounded below). Conversely, for a constant $C_1$, if $\epsilon \ge C_1 \frac{d^{1/4}}{\sqrt{n}}$, there exists a test that can reliably distinguish them (the sum of errors is bounded above).
+\end{thm}
+\begin{proof}
+The proof has two parts.
+
+\medskip
+
+\noindent\textbf{Part I: Upper bound / achievability.}
+
+Let \(Y=\frac1n\sum_{i=1}^n X_i\), then
+\(
+Y\sim N\left(\theta,\frac1n I_d\right).
+\)
+We use the statistic
+\(
+T=\|Y\|_2^2.
+\)
+Since the coordinates of $Y$ are independent, we have
+\begin{align*}
+\mathbb E_\theta[T]
+&=
+\sum_{j=1}^d \mathbb E_\theta[Y_j^2]
+=
+\sum_{j=1}^d\left(\frac1n+\theta_j^2\right)
+=
+\frac dn+\|\theta\|_2^2.\\
+\operatorname{Var}_\theta(T)
+&=
+\sum_{j=1}^d \operatorname{Var}_\theta(Y_j^2)
+=
+\sum_{j=1}^d\left(\frac{2}{n^2}+\frac{4\theta_j^2}{n}\right)
+=
+\frac{2d}{n^2}+\frac4n\|\theta\|_2^2.
+\end{align*}
+
+Fix $a\ge 1$ and define the test
+\[
+\phi_a(X)
+=
+\mathbf 1\left\{
+\|Y\|_2^2
+\ge
+\frac dn+a\frac{\sqrt{2d}}{n}
+\right\}.
+\]
+The threshold is the null mean plus $a$ null standard deviations.
+
+Under $H_0$, we have
+\[
+\mathbb E_0[T]=\frac dn,
+\qquad
+\operatorname{Var}_0(T)=\frac{2d}{n^2}.
+\]
+Hence, by Chebyshev's inequality,
+\[
+\mathbb P_0(\phi_a=1)
+=
+\mathbb P_0\left(
+T-\mathbb E_0[T]
+\ge
+a\sqrt{\operatorname{Var}_0(T)}
+\right)
+\le
+\frac1{a^2}.
+\]
+
+We now bound the Type II error. Write
+\(
+s=\|\theta\|_2^2,
+\qquad
+r=\frac{\sqrt d}{n}
+\). Then the threshold is
+\[
+\frac dn+a\frac{\sqrt{2d}}n
+=
+\frac dn+a\sqrt{2}\,r.
+\]
+Therefore,
+\[
+\mathbb P_\theta(\phi_a=0)
+=
+\mathbb P_\theta\left(
+T
+<
+\frac dn+a\sqrt2\,r
+\right)
+=
+\mathbb P_\theta\left(
+T-\mathbb E_\theta[T]
+<
+a\sqrt2\,r-s
+\right).
+\]
+If $s>a\sqrt2\,r$, then Chebyshev's inequality gives
+\[
+\mathbb P_\theta(\phi_a=0)
+\le
+\frac{\operatorname{Var}_\theta(T)}{(s-a\sqrt2\,r)^2}
+=
+\frac{\frac{2d}{n^2}+\frac4n s}{(s-a\sqrt2\,r)^2}.
+\]
+Since $r=\sqrt d/n$, this may be written as
+\[
+\mathbb P_\theta(\phi_a=0)
+\le
+\frac{2r^2+\frac4n s}{(s-a\sqrt2\,r)^2}.
+\]
+
+Now assume
+\[
+s=\|\theta\|_2^2 \ge K_a r,
+\qquad
+K_a:=8a^2.
+\]
+For $s>a\sqrt2\,r$, the function
+\[
+s\mapsto
+\frac{2r^2+\frac4n s}{(s-a\sqrt2\,r)^2}
+\]
+is decreasing. Therefore,
+\[
+\mathbb P_\theta(\phi_a=0)
+\le
+\frac{2r^2+\frac4n K_a r}{(K_a r-a\sqrt2\,r)^2}.
+\]
+Using $d\ge 1$ and $K_a=8a^2$, we obtain
+\[
+\frac{2r^2+\frac4n K_a r}{(K_a r-a\sqrt2\,r)^2}
+=
+\frac{2+\frac{4K_a}{\sqrt d}}{(K_a-a\sqrt2)^2}
+\le
+\frac{2+4K_a}{(K_a-a\sqrt2)^2}\le
+\frac1{a^2}.
+\]
+Thus, we have shown that
+\[
+\|\theta\|_2^2
+\ge
+8a^2\frac{\sqrt d}{n} \implies 
+\mathbb P_\theta(\phi_a=0)\le \frac1{a^2}.
+\]
+
+Combining the two bounds, we have
+\[
+\epsilon
+\ge
+2\sqrt2\,a\,\frac{d^{1/4}}{\sqrt n} \implies R_\epsilon(\phi_a)
+\le
+\frac1{a^2}+\frac1{a^2}
+=
+\frac2{a^2},
+\]
+This proves the upper bound.
+
+\medskip
+
+\noindent\textbf{Part II: Lower bound / impossibility.}
+
+We now show that no test can succeed when $\epsilon$ is smaller than a constant multiple of $d^{1/4}/\sqrt n$.
+
+Let \(
+\delta=\frac{\epsilon}{\sqrt d}.
+\)
+Consider the prior $\pi$ that is uniform on the hypercube
+\[
+\Theta_\epsilon
+=
+\left\{
+\theta^\omega=\delta \omega:
+\omega=(\omega_1,\dots,\omega_d)\in\{-1,+1\}^d
+\right\}.
+\]
+Every point in this prior satisfies
+\[
+\|\theta^\omega\|_2^2
+=
+\sum_{j=1}^d \delta^2
+=
+d\delta^2
+=
+\epsilon^2,
+\]
+so the prior is supported on the sphere $\{\|\theta\|_2=\epsilon\}$.
+
+Let $P_\theta$ denote the joint law of $X_1,\dots,X_n$ under parameter $\theta$, and let
+\[
+P_\pi=\int P_\theta\,d\pi(\theta)
+\]
+be the corresponding mixture distribution.
+
+For any test $\phi$, by the definition of total variation distance,
+\begin{align*}
+\mathbb P_0(\phi=1)
++
+\sup_{\|\theta\|_2=\epsilon}\mathbb P_\theta(\phi=0)
+&\ge
+\mathbb P_0(\phi=1)
++
+\mathbb P_\pi(\phi=0)\\
+&=
+1-\left(\mathbb P_\pi(\phi=1)-\mathbb P_0(\phi=1)\right)\ge
+1-\|P_\pi-P_0\|_{\mathrm{TV}}.
+\end{align*}
+Taking the infimum over all tests,
+\[
+\inf_\phi
+\left\{
+\mathbb P_0(\phi=1)
++
+\sup_{\|\theta\|_2=\epsilon}\mathbb P_\theta(\phi=0)
+\right\}
+\ge
+1-\|P_\pi-P_0\|_{\mathrm{TV}}.
+\]
+Thus, it remains to show that $P_\pi$ and $P_0$ are close in total variation.
+
+We bound total variation by the chi-square divergence:
+\[
+\|P_\pi-P_0\|_{\mathrm{TV}}
+=
+\frac12\mathbb E_0\left|\frac{dP_\pi}{dP_0}-1\right|
+\le
+\frac12
+\left(
+\mathbb E_0\left[
+\left(\frac{dP_\pi}{dP_0}-1\right)^2
+\right]
+\right)^{1/2}.
+\]
+Hence
+\[
+\|P_\pi-P_0\|_{\mathrm{TV}}
+\le
+\frac12\sqrt{\chi^2(P_\pi\|P_0)}.
+\]
+
+We now compute $\chi^2(P_\pi\|P_0)$. For a fixed $\theta$, the likelihood ratio between $P_\theta$ and $P_0$ is
+\[
+L_\theta(X)
+=
+\frac{dP_\theta}{dP_0}(X)
+=
+\exp\left(
+\theta^\top\sum_{i=1}^n X_i
+-
+\frac n2\|\theta\|_2^2
+\right).
+\]
+Equivalently, since $Y=n^{-1}\sum_{i=1}^n X_i$ and $\theta^\omega=\delta\omega$,
+\[
+L_\theta(X)
+=
+\exp\left(
+n\theta^\top Y
+-
+\frac n2\|\theta\|_2^2
+\right)=
+\exp\left(
+n\delta\,\omega^\top Y
+-
+\frac n2\epsilon^2
+\right).
+\]
+The likelihood ratio of the mixture is
+\[
+L_\pi(X)
+=
+\frac{dP_\pi}{dP_0}(X)
+=
+2^{-d}\sum_{\omega\in\{-1,+1\}^d} L_\omega(X).
+\]
+Therefore,
+\[
+\mathbb E_0[L_\pi^2]
+=
+2^{-2d}
+\sum_{\omega,\omega'}
+\mathbb E_0[L_\omega L_{\omega'}].
+\]
+Under $P_0$, $Y\sim N(0,n^{-1}I_d)$. Hence, for fixed $\omega,\omega'$,
+\[
+\mathbb E_0[L_\omega L_{\omega'}]
+=
+\exp\left(
+n\delta^2 \omega^\top\omega'
+\right).
+\]
+Indeed, this follows from the Gaussian moment generating function.
+
+Thus,
+\[
+\mathbb E_0[L_\pi^2]
+=
+2^{-2d}
+\sum_{\omega,\omega'}
+\exp\left(
+n\delta^2 \sum_{j=1}^d \omega_j\omega_j'
+\right).
+\]
+For independent uniformly distributed signs $\omega,\omega'$, each product
+$\omega_j\omega_j'$ is again a uniform sign. Therefore,
+\[
+\mathbb E_0[L_\pi^2]
+=
+\left(
+\frac{e^{n\delta^2}+e^{-n\delta^2}}2
+\right)^d
+\]
+Since $\delta^2=\epsilon^2/d$, using the elemenetary inequality $(e^x + e^{-x})/2 \le e^{x^2/2}$, we obtain
+\[
+\chi^2(P_\pi\|P_0)
+=
+\mathbb E_0[L_\pi^2]-1
+\le
+\exp\left(
+\frac d2\left(\frac{n\epsilon^2}{d}\right)^2
+\right)-1
+=
+\exp\left(
+\frac{n^2\epsilon^4}{2d}
+\right)-1..
+\]
+Choose $c_1>0$ small enough, we have
+\[
+\epsilon
+\le
+c_1\frac{d^{1/4}}{\sqrt n} \implies \frac{n^2\epsilon^4}{2d}
+\le
+\frac{c_1^4}{2}\implies \chi^2(P_\pi\|P_0)\le \frac49
+\]
+Therefore,
+\[
+\|P_\pi-P_0\|_{\mathrm{TV}}
+\le
+\frac12\sqrt{\frac49}
+=
+\frac13.
+\]
+and hence,
+\[
+\inf_\phi
+\left\{
+\mathbb P_0(\phi=1)
++
+\sup_{\|\theta\|_2=\epsilon}\mathbb P_\theta(\phi=0)
+\right\}
+\ge
+1-\frac13
+=
+\frac23.
+\]
+Since the sphere $\{\|\theta\|_2=\epsilon\}$ is contained in the alternative
+$\{\|\theta\|_2\ge \epsilon\}$, the same lower bound also holds for the composite alternative
+$H_1(\epsilon):\|\theta\|_2\ge \epsilon$.
+
+Combining the upper and lower bounds, we obtain
+\[
+\epsilon_n^*\asymp \frac{d^{1/4}}{\sqrt n}.
+\]
+\end{proof}
+
+
+
+

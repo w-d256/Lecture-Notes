@@ -1,0 +1,2697 @@
+\chapter{Concentration of Measures}
+\section{Lecture 20: Generalization and Transformations}
+
+
+We first motivate why we care about the concentration inequalities:
+
+The main themes are:
+\begin{enumerate}[label=(\arabic*)]
+    \item concentration bounds imply consistency and stochastic rates;
+    \item sub-Gaussian and sub-exponential classes encode useful tail behavior;
+    \item Bernstein-type inequalities control sums and sample means;
+    \item bounded differences give concentration for functions of independent samples.
+\end{enumerate}
+
+\begin{prop}[Consistency and stochastic rates]
+Let $\hat\theta_n$ be an estimator of $\theta$.
+
+\begin{enumerate}[label=(\alph*)]
+    \item Suppose that for every $t>0$,
+    \[
+    \pr\bigl(|\hat\theta_n-\theta|>t\bigr)\le a_n(t),
+    \qquad a_n(t)\to 0 \text{ as } n\to\infty.
+    \]
+    Then $\hat\theta_n \to \theta$ in probability.
+
+    \item Suppose further that there exists a deterministic sequence $r_n\to\infty$ such that for every $M>0$,
+    \[
+    \pr\bigl(r_n|\hat\theta_n-\theta|>M\bigr)
+    \le a_n(M/r_n)\to 0.
+    \]
+    Then
+    \[
+    r_n(\hat\theta_n-\theta)=O_p(1).
+    \]
+\end{enumerate}
+\end{prop}
+
+\begin{proof}
+For (a), fix $t>0$. By assumption,
+\[
+\pr\bigl(|\hat\theta_n-\theta|>t\bigr)\le a_n(t)\to 0,
+\]
+which is exactly convergence in probability.
+
+For (b), fix $M>0$. Then
+\[
+\pr\bigl(|r_n(\hat\theta_n-\theta)|>M\bigr)
+=
+\pr\bigl(|\hat\theta_n-\theta|>M/r_n\bigr)
+\le a_n(M/r_n).
+\]
+By assumption, this tends to $0$ for each fixed $M$, which is the definition of $O_p(1)$.
+\end{proof}
+
+\begin{remark}
+A concentration inequality is a \emph{non-asymptotic} form of error control.  
+Consistency says the estimation error vanishes; a sharper concentration bound says \emph{how fast} and with \emph{what tail behavior}.
+\end{remark}
+
+
+
+\begin{prop}[Equivalent characterizations of sub-Gaussianity]
+For a centered random variable $X$, the following are equivalent up to universal constants:
+\begin{enumerate}[label=(\roman*)]
+    \item There exists $K_1>0$ such that
+    \[
+    \E e^{\lambda X}\le \exp\!\left(\frac{K_1^2\lambda^2}{2}\right)
+    \qquad \forall \lambda\in\R.
+    \]
+    \item There exists $K_2>0$ such that
+    \[
+    \pr(|X|>t)\le 2e^{-t^2/K_2^2}
+    \qquad \forall t\ge 0.
+    \]
+    \item There exists $K_3>0$ such that
+    \[
+    (\E |X|^p)^{1/p}\le K_3\sqrt{p}
+    \qquad \forall p\ge 1.
+    \]
+    \item There exists $K_4>0$ such that
+    \[
+    \E \exp(X^2/K_4^2)\le 2.
+    \]
+\end{enumerate}
+\end{prop}
+\begin{proof}
+Assume throughout that $\E X=0$ when discussing condition \emph{(i)}.
+If $X$ is not centred, then one should replace $X$ by $X-\E X$ in \emph{(i)}.
+
+\medskip
+\noindent
+\textbf{(i)$\Rightarrow$(ii).}
+Fix $t>0$ and $\lambda>0$. By Markov's inequality and the condition \emph{(i)},
+\[
+\pr(X>t)
+=
+\pr\bigl(e^{\lambda X}>e^{\lambda t}\bigr)
+\le
+e^{-\lambda t}\E e^{\lambda X}\le\exp\!\left(-\lambda t+\frac{K_1^2\lambda^2}{2}\right).
+\]
+The right-hand side is minimized at
+\[
+\lambda=\frac{t}{K_1^2},
+\]
+and substituting this value gives
+\[
+\pr(X>t)\le \exp\!\left(-\frac{t^2}{2K_1^2}\right).
+\]
+Applying the same argument to $-X$ and the union bound gives
+\[
+\pr(|X|>t)
+\le
+2\exp\!\left(-\frac{t^2}{2K_1^2}\right).
+\]
+Thus \emph{(ii)} holds with $K_2=\sqrt{2}\,K_1$.
+
+\medskip
+\noindent
+\textbf{(ii)$\Rightarrow$(iii).}
+Let $p\ge 1$. By Tonelli's theorem,
+\begin{align*}
+\mathbb{E}|X|^p&=\mathbb{E} \int_0^{\infty} \mathbf{1}_{\{s<|X|^p\}} d s=\int_0^{\infty} \mathbb{P}(|X|^p>s) d s\\
+&=\int_0^{\infty} \mathbb{P}\left(|X|>s^{1 / p}\right) d s
+\end{align*}
+Now make the change of variables
+\begin{align*}
+s=t^p, \quad d s=p t^{p-1} d t
+\end{align*}
+we then have
+\begin{align*}
+\mathbb{E}|X|^p=\int_0^{\infty} p t^{p-1} \mathbb{P}(|X|>t) d t
+\end{align*}
+By \emph{(ii)},
+\[
+\E |X|^p
+\le
+2p\int_0^\infty t^{p-1}e^{-t^2/K_2^2}\,dt.
+\]
+Make the change of variable
+\[
+u=\frac{t^2}{K_2^2},
+\qquad
+t=K_2\sqrt{u},
+\qquad
+dt=\frac{K_2}{2}u^{-1/2}\,du.
+\]
+Then
+\begin{align*}
+\E |X|^p
+&\le
+2p\int_0^\infty (K_2\sqrt{u})^{p-1}e^{-u}\frac{K_2}{2}u^{-1/2}\,du \\
+&=
+pK_2^p\int_0^\infty u^{p/2-1}e^{-u}\,du \\
+&=
+pK_2^p\,\Gamma\!\left(\frac p2\right)
+=
+2K_2^p\,\Gamma\!\left(\frac p2+1\right).
+\end{align*}
+Now use the standard bound
+\[
+\Gamma(r+1)\le (Cr)^r,
+\qquad r\ge \frac12,
+\]
+for some universal constant $C>0$. With $r=p/2$ this gives
+\[
+\E |X|^p
+\le
+2K_2^p \left(C\frac p2\right)^{p/2}
+\le
+(C'K_2\sqrt p)^p
+\]
+for another universal constant $C'$. Taking $p$th roots,
+\[
+(\E |X|^p)^{1/p}\le C'K_2\sqrt p.
+\]
+Thus \emph{(iii)} holds with $K_3\le C'K_2$.
+
+\medskip
+\noindent
+\textbf{(iii)$\Rightarrow$(iv).}
+Expand the exponential into its power series:
+\[
+\E e^{X^2/L^2}
+=
+\sum_{m=0}^\infty \frac{\E X^{2m}}{m!\,L^{2m}}.
+\]
+By \emph{(iii)}, with $p=2m$,
+\[
+(\E |X|^{2m})^{1/(2m)}\le K_3\sqrt{2m},
+\]
+hence
+\[
+\E X^{2m}\le (K_3\sqrt{2m})^{2m}=K_3^{2m}(2m)^m.
+\]
+Therefore
+\[
+\frac{\E X^{2m}}{m!\,L^{2m}}
+\le
+\frac{K_3^{2m}(2m)^m}{m!\,L^{2m}}.
+\]
+Choose
+\[
+L=2\sqrt e\,K_3.
+\]
+Then
+\[
+L^{2m}=(4eK_3^2)^m,
+\]
+so
+\[
+\frac{\E X^{2m}}{m!\,L^{2m}}
+\le
+\frac{(2m)^m}{m!(4e)^m}
+=
+\frac{1}{m!}\left(\frac{m}{2e}\right)^m.
+\]
+Using Stirling's lower bound
+\[
+m!\ge \left(\frac me\right)^m,
+\]
+we obtain
+\[
+\frac{\E X^{2m}}{m!\,L^{2m}}
+\le 2^{-m}.
+\]
+Hence
+\[
+\E e^{X^2/L^2}
+\le
+\sum_{m=0}^\infty 2^{-m}
+=2.
+\]
+So \emph{(iv)} holds with
+\[
+K_4\le 2\sqrt e\,K_3.
+\]
+
+\medskip
+\noindent
+\textbf{(iv)$\Rightarrow$(ii).}
+For any $t\ge 0$, Markov's inequality gives
+\[
+\pr(|X|>t)
+=
+\pr\!\left(e^{X^2/K_4^2}>e^{t^2/K_4^2}\right)
+\le
+e^{-t^2/K_4^2}\E e^{X^2/K_4^2}.
+\]
+By \emph{(iv)},
+\[
+\pr(|X|>t)\le 2e^{-t^2/K_4^2}.
+\]
+Thus \emph{(ii)} holds with $K_2\le K_4$.
+
+\medskip
+\noindent
+\textbf{(iii)$\Rightarrow$(i).}
+This is the step where centring matters. Let $X'$ be an independent copy of $X$.
+Since $\E X=0$, Jensen's inequality gives
+\[
+e^{\lambda X}
+=
+e^{\lambda(X-\E X')}
+\le
+\E_{X'} e^{\lambda(X-X')}.
+\]
+Taking expectation in $X$,
+\[
+\E e^{\lambda X}\le \E e^{\lambda(X-X')}.
+\]
+Set
+\[
+Y:=X-X'.
+\]
+Then $Y$ is symmetric, so all odd moments of $Y$ vanish, and therefore
+\[
+\E e^{\lambda Y}
+=
+\sum_{m=0}^\infty \frac{\lambda^{2m}\E Y^{2m}}{(2m)!}.
+\]
+By Minkowski's inequality and \emph{(iii)},
+\[
+(\E |Y|^{2m})^{1/(2m)}
+\le
+(\E |X|^{2m})^{1/(2m)}+(\E |X'|^{2m})^{1/(2m)}
+\le
+2K_3\sqrt{2m}.
+\]
+Hence
+\[
+\E Y^{2m}\le (2K_3\sqrt{2m})^{2m}=(8K_3^2m)^m.
+\]
+Also,
+\[
+(2m)! = (1\cdots m)(m+1\cdots 2m)\ge m!\,m^m.
+\]
+Thus
+\[
+\frac{\lambda^{2m}\E Y^{2m}}{(2m)!}
+\le
+\frac{\lambda^{2m}(8K_3^2m)^m}{m!\,m^m}
+=
+\frac{(8K_3^2\lambda^2)^m}{m!}.
+\]
+Summing over $m$,
+\[
+\E e^{\lambda Y}
+\le
+\sum_{m=0}^\infty \frac{(8K_3^2\lambda^2)^m}{m!}
+=
+\exp(8K_3^2\lambda^2).
+\]
+Therefore
+\[
+\E e^{\lambda X}
+\le
+\exp(8K_3^2\lambda^2)
+=
+\exp\!\left(\frac{(4K_3)^2\lambda^2}{2}\right).
+\]
+So \emph{(i)} holds with
+\[
+K_1\le 4K_3.
+\]
+
+Combining the implications above shows that the four conditions are equivalent up to universal
+constant factors.
+\end{proof}
+
+\begin{remark}
+Sub-Gaussianity means that $X$ behaves, from the point of view of tails and moments, like a Gaussian random variable.  
+The four formulations say the same thing in different languages: mgf, tails, moments, and Orlicz norms.
+\end{remark}
+
+We now state a one-sided version of the sub-exponential random variables.
+
+\begin{de}[One-sided Bernstein condition / sub-exponential behavior]
+A centered random variable $X$ satisfies the \emph{one-sided Bernstein condition} with parameters $(\sigma^2,c)$ if
+\[
+\E e^{\lambda X}
+\le
+\exp\!\left(\frac{\sigma^2\lambda^2}{2(1-c\lambda)}\right),
+\qquad 0\le \lambda < \frac1c.
+\]
+When a corresponding two-sided version also holds for $-X$, one says that $X$ is \emph{sub-exponential}.
+\end{de}
+
+\begin{prop}[Equivalent characterizations of sub-exponentiality]
+For a centered random variable $X$, the following are equivalent up to universal constants:
+\begin{enumerate}[label=(\roman*)]
+    \item $X$ satisfies a two-sided Bernstein mgf bound.
+    \item There exists $K_1>0$ such that
+    \[
+    \pr(|X|>t)\le 2e^{-t/K_1},
+    \qquad t\ge 0.
+    \]
+    \item There exists $K_2>0$ such that
+    \[
+    (\E |X|^p)^{1/p}\le K_2 p,
+    \qquad p\ge 1.
+    \]
+    \item There exists $K_3>0$ such that
+    \[
+    \E e^{|X|/K_3}\le 2.
+    \]
+\end{enumerate}
+\end{prop}
+
+\begin{proof}[Proof sketch]
+The proof parallels the sub-Gaussian case.
+
+\textbf{(i)$\Rightarrow$(ii):} use Chernoff with the Bernstein mgf control.
+
+\textbf{(ii)$\Rightarrow$(iii):} integrate the tail:
+\[
+\E |X|^p
+=
+\int_0^\infty p t^{p-1}\pr(|X|>t)\,dt
+\le
+2p\int_0^\infty t^{p-1}e^{-t/K_1}\,dt
+=
+2p! K_1^p.
+\]
+Thus $(\E |X|^p)^{1/p}\le C K_1 p$.
+
+\textbf{(iii)$\Rightarrow$(iv):} expand $\E e^{|X|/L}$ into a power series and choose $L$ large.
+
+\textbf{(iv)$\Rightarrow$(ii):} apply Markov:
+\[
+\pr(|X|>t)\le e^{-t/K_3}\E e^{|X|/K_3}\le 2e^{-t/K_3}.
+\]
+\end{proof}
+
+\begin{cor}[Square of a sub-Gaussian variable is sub-exponential]
+If $X$ is sub-Gaussian, then $X^2$ is sub-exponential.
+\end{cor}
+
+\begin{proof}
+If $X$ is sub-Gaussian, then
+\[
+\E e^{X^2/K^2}\le 2
+\]
+for some $K>0$. This is exactly an exponential-integrability condition for $X^2$.
+\end{proof}
+
+The one-sided Bernstein condition results in a corresponding concentration inequality.
+\begin{thm}[Bernstein upper-tail bound]
+Let $X$ be a random variable satisfying the one-sided Bernstein condition with parameters $(\sigma^2,c)$:
+\[
+\E e^{\lambda(X-\E X)}
+\le
+\exp\!\left(\frac{\sigma^2\lambda^2}{2(1-c\lambda)}\right),
+\qquad 0\le \lambda<\frac1c.
+\]
+Then for every $\varepsilon\ge 0$,
+\[
+\pr(X-\E X\ge \varepsilon)
+\le
+\exp\!\left(-\frac{\varepsilon^2}{2(\sigma^2+c\varepsilon)}\right).
+\]
+Equivalently, for every $\delta\in(0,1)$,
+\[
+\pr\!\left(
+X-\E X
+\ge
+\sqrt{2\sigma^2\log(1/\delta)}+c\log(1/\delta)
+\right)
+\le \delta.
+\]
+\end{thm}
+
+\begin{proof}
+By Chernoff's bound, for any $0\le \lambda<1/c$,
+\[
+\pr(X-\E X\ge \varepsilon)
+\le
+e^{-\lambda\varepsilon}\E e^{\lambda(X-\E X)}
+\le
+\exp\!\left(
+-\lambda\varepsilon+\frac{\sigma^2\lambda^2}{2(1-c\lambda)}
+\right).
+\]
+Choose
+\[
+\lambda=\frac{\varepsilon}{\sigma^2+c\varepsilon}.
+\]
+Then $0\le \lambda<1/c$, and
+\[
+1-c\lambda = 1-\frac{c\varepsilon}{\sigma^2+c\varepsilon}
+= \frac{\sigma^2}{\sigma^2+c\varepsilon}.
+\]
+Substituting gives
+\[
+-\lambda\varepsilon+\frac{\sigma^2\lambda^2}{2(1-c\lambda)}
+=
+-\frac{\varepsilon^2}{\sigma^2+c\varepsilon}
++\frac{\varepsilon^2}{2(\sigma^2+c\varepsilon)}
+=
+-\frac{\varepsilon^2}{2(\sigma^2+c\varepsilon)}.
+\]
+Hence
+\[
+\pr(X-\E X\ge \varepsilon)
+\le
+\exp\!\left(-\frac{\varepsilon^2}{2(\sigma^2+c\varepsilon)}\right).
+\]
+
+For the high-probability form, let $u=\log(1/\delta)$ and set
+\[
+\varepsilon=\sqrt{2\sigma^2u}+cu.
+\]
+Then
+\[
+\frac{\varepsilon^2}{2(\sigma^2+c\varepsilon)}\ge u,
+\]
+so the first inequality implies
+\[
+\pr(X-\E X\ge \varepsilon)\le e^{-u}=\delta.
+\]
+\end{proof}
+
+\begin{remark}
+Bernstein's inequality interpolates between two regimes:
+\[
+\varepsilon \ll \sigma^2/c
+\quad \Rightarrow \quad
+\exp\!\left(-\frac{\varepsilon^2}{2\sigma^2}\right)
+\quad \text{(Gaussian regime),}
+\]
+and
+\[
+\varepsilon \gg \sigma^2/c
+\quad \Rightarrow \quad
+\exp\!\left(-\frac{\varepsilon}{2c}\right)
+\quad \text{(exponential regime).}
+\]
+\end{remark}
+Similar to the sub-exponential setting, the Bernstein condition is invariant under scaling and convex combinations.
+
+\begin{prop}[Bernstein condition is preserved under nonnegative weighted sums]
+Let $X_1,\dots,X_n$ be independent centered random variables, and suppose that each $X_i$ satisfies
+\[
+\E e^{\lambda X_i}
+\le
+\exp\!\left(\frac{\sigma_i^2\lambda^2}{2(1-c_i\lambda)}\right),
+\qquad 0\le \lambda<1/c_i.
+\]
+Let $a_i\ge 0$ and define
+\[
+S=\sum_{i=1}^n a_i X_i.
+\]
+Then $S$ satisfies a one-sided Bernstein condition with parameters
+\[
+\sigma_S^2=\sum_{i=1}^n a_i^2\sigma_i^2,
+\qquad
+c_S=\max_{1\le i\le n} a_i c_i.
+\]
+\end{prop}
+
+\begin{proof}
+By independence,
+\[
+\E e^{\lambda S}
+=
+\prod_{i=1}^n \E e^{\lambda a_i X_i}
+\le
+\prod_{i=1}^n
+\exp\!\left(\frac{a_i^2\sigma_i^2\lambda^2}{2(1-a_i c_i\lambda)}\right).
+\]
+If $0\le \lambda<1/c_S$, then $1-a_i c_i\lambda\ge 1-c_S\lambda$ for all $i$, so
+\[
+\E e^{\lambda S}
+\le
+\exp\!\left(
+\sum_{i=1}^n
+\frac{a_i^2\sigma_i^2\lambda^2}{2(1-c_S\lambda)}
+\right)
+=
+\exp\!\left(
+\frac{\sigma_S^2\lambda^2}{2(1-c_S\lambda)}
+\right).
+\]
+\end{proof}
+
+\begin{cor}[Bernstein inequality for sample means]
+Let $X_1,\dots,X_n$ be i.i.d.\ with mean $\mu$, and assume that $X_1-\mu$ satisfies the one-sided Bernstein condition with parameters $(\sigma^2,c)$. Then
+\[
+\bar X_n-\mu
+=
+\frac1n\sum_{i=1}^n (X_i-\mu)
+\]
+satisfies the one-sided Bernstein condition with parameters
+\[
+\frac{\sigma^2}{n},
+\qquad
+\frac{c}{n}.
+\]
+Hence, for all $\varepsilon\ge 0$,
+\[
+\pr(\bar X_n-\mu\ge \varepsilon)
+\le
+\exp\!\left(
+-\frac{n\varepsilon^2}{2(\sigma^2+c\varepsilon)}
+\right).
+\]
+Equivalently, for every $\delta\in(0,1)$,
+\[
+\pr\!\left(
+\bar X_n-\mu
+\ge
+\sqrt{\frac{2\sigma^2\log(1/\delta)}{n}}
++
+\frac{c\log(1/\delta)}{n}
+\right)\le \delta.
+\]
+\end{cor}
+
+\begin{proof}
+Apply the previous proposition with $a_i=1/n$. Then
+\[
+\sigma_S^2
+=
+n\cdot \frac{\sigma^2}{n^2}
+=
+\frac{\sigma^2}{n},
+\qquad
+c_S
+=
+\frac{c}{n}.
+\]
+Now apply Bernstein's upper-tail bound.
+\end{proof}
+
+\begin{cor}[Bounded observations: Bernstein and Hoeffding forms]
+Let $X_1,\dots,X_n$ be i.i.d.\ with mean $\mu$.
+
+\begin{enumerate}[label=(\alph*)]
+    \item If $X_i-\mu\le c$ almost surely, then
+    \[
+    \pr(\bar X_n-\mu\ge \varepsilon)
+    \le
+    \exp\!\left(
+    -\frac{n\varepsilon^2}{2(\var(X_1)+c\varepsilon)}
+    \right).
+    \]
+
+    \item If $X_i\in[a,b]$ almost surely, then Hoeffding's inequality gives
+    \[
+    \pr(\bar X_n-\mu\ge \varepsilon)
+    \le
+    \exp\!\left(
+    -\frac{2n\varepsilon^2}{(b-a)^2}
+    \right).
+    \]
+\end{enumerate}
+\end{cor}
+
+\begin{proof}
+Part (a) follows from the standard fact that bounded upper support implies a Bernstein-type mgf bound. Part (b) is Hoeffding's inequality.
+\end{proof}
+
+\begin{remark}
+Hoeffding's inequality uses only boundedness. Bernstein's inequality uses both boundedness and variance, so it is often sharper when the variance is much smaller than the squared range.
+\end{remark}
+
+\section{Lecture 21: Concentration of other types}
+\subsection{The bounded difference inequality}
+We demonstrate that a function that is bounded in each of its coordinates also give rise to the concentration inequalities.
+\begin{de}[Bounded differences property]
+A function $f:\mathcal{X}^n\to\R$ satisfies the bounded differences property with constants $L_1,\dots,L_n$ if for every pair
+$x=(x_1,\dots,x_n)$ and $x'=(x_1',\dots,x_n')$ that differ only in the $i$th coordinate,
+\[
+|f(x)-f(x')|\le L_i.
+\]
+\end{de}
+
+\begin{thm}[McDiarmid's inequality]
+Let $X_1,\dots,X_n$ be independent random variables and define
+\[
+Z=f(X_1,\dots,X_n),
+\]
+where $f$ satisfies bounded differences with constants $L_1,\dots,L_n$. Then for all $t\ge 0$,
+\[
+\pr(Z-\E Z\ge t)
+\le
+\exp\!\left(
+-\frac{2t^2}{\sum_{i=1}^n L_i^2}
+\right),
+\]
+and therefore
+\[
+\pr(|Z-\E Z|\ge t)
+\le
+2\exp\!\left(
+-\frac{2t^2}{\sum_{i=1}^n L_i^2}
+\right).
+\]
+Equivalently, $Z-\E Z$ is sub-Gaussian with variance proxy
+\[
+\frac14 \sum_{i=1}^n L_i^2.
+\]
+\end{thm}
+
+\begin{proof}[Proof sketch]
+Define the Doob martingale
+\[
+M_i=\E[Z\mid X_1,\dots,X_i],\qquad i=0,\dots,n,
+\]
+with $M_0=\E Z$ and $M_n=Z$. Then
+\[
+Z-\E Z = \sum_{i=1}^n (M_i-M_{i-1}).
+\]
+Changing only $X_i$ can change $f$ by at most $L_i$, so each martingale increment is almost surely bounded by $L_i$ in absolute value. Applying the Azuma--Hoeffding inequality to the martingale gives
+\[
+\pr(Z-\E Z\ge t)
+\le
+\exp\!\left(-\frac{2t^2}{\sum_i L_i^2}\right).
+\]
+Applying the same argument to $-Z$ yields the two-sided version.
+\end{proof}
+
+\begin{remark}
+If no single observation can change the statistic very much, then the statistic is sharply concentrated around its mean.
+\end{remark}
+
+
+\begin{eg}[Kernel density estimation in $L^1$]
+Let $X_1,\dots,X_n$ be i.i.d., let $K\ge 0$ be a kernel with $\int K(u)\,du=1$, and define
+\[
+\hat f_n(x)=\frac{1}{nh}\sum_{i=1}^n K\!\left(\frac{x-X_i}{h}\right).
+\]
+Set
+\[
+Z=\int_{\R} \bigl|\hat f_n(x)-\E \hat f_n(x)\bigr|\,dx.
+\]
+Then
+\[
+\pr\bigl(|Z-\E Z|\ge t\bigr)\le 2e^{-nt^2/2}.
+\]
+\end{eg}
+
+\begin{proof}
+If only $X_i$ is replaced by $X_i'$, then the estimator changes by
+\[
+\Delta_i(x)
+=
+\frac{1}{nh}
+\left[
+K\!\left(\frac{x-X_i}{h}\right)-K\!\left(\frac{x-X_i'}{h}\right)
+\right].
+\]
+Hence
+\[
+\int |\Delta_i(x)|\,dx
+\le
+\frac{1}{nh}\int K\!\left(\frac{x-X_i}{h}\right)\,dx
++
+\frac{1}{nh}\int K\!\left(\frac{x-X_i'}{h}\right)\,dx
+=
+\frac{2}{n}.
+\]
+So $Z$ satisfies bounded differences with $L_i=2/n$. Therefore
+\[
+\sum_{i=1}^n L_i^2 = n\cdot \frac{4}{n^2}=\frac{4}{n}.
+\]
+Applying McDiarmid's inequality gives
+\[
+\pr(|Z-\E Z|\ge t)
+\le
+2\exp\!\left(-\frac{2t^2}{4/n}\right)
+=
+2e^{-nt^2/2}.
+\]
+\end{proof}
+
+\begin{remark}
+Although the KDE is a function of all data points, each observation contributes only order $1/n$ in $L^1$, so the global estimator concentrates.
+\end{remark}
+
+\begin{eg}[Uniform deviation of the empirical measure]
+Let $\mathcal{A}$ be a collection of measurable sets and define
+\[
+\mathbb{P}_n(A)=\frac1n\sum_{i=1}^n \1_{\{X_i\in A\}},
+\qquad
+P(A)=\pr(X\in A).
+\]
+Consider
+\[
+Z=\sup_{A\in\mathcal{A}} |\mathbb{P}_n(A)-P(A)|.
+\]
+Then
+\[
+\pr(|Z-\E Z|\ge t)\le 2e^{-2nt^2},
+\]
+and consequently, with probability at least $1-\delta$,
+\[
+Z\le \E Z+\sqrt{\frac{\log(2/\delta)}{2n}}.
+\]
+\end{eg}
+
+\begin{proof}
+If only the $i$th sample point is changed, then for every fixed $A$,
+\[
+\left|
+\frac{1}{n}\sum_{j=1}^n \1_{\{X_j\in A\}}
+-
+\frac{1}{n}\sum_{j=1}^n \1_{\{X_j'\in A\}}
+\right|
+\le \frac{1}{n}.
+\]
+Taking the supremum over $A\in\mathcal{A}$ preserves this bound, so $L_i=1/n$ for all $i$. Hence
+\[
+\sum_{i=1}^n L_i^2 = n\cdot \frac{1}{n^2}=\frac1n.
+\]
+McDiarmid gives
+\[
+\pr(|Z-\E Z|\ge t)
+\le
+2\exp\!\left(-\frac{2t^2}{1/n}\right)
+=
+2e^{-2nt^2}.
+\]
+Set the right-hand side equal to $\delta$ and solve for $t$ to obtain the stated high-probability bound.
+\end{proof}
+
+\begin{remark}
+The oscillation of the empirical measure over a whole class $\mathcal A$ is still controlled because changing one observation can alter every empirical probability by at most $1/n$.
+\end{remark}
+
+These tools are the standard bridge from probability inequalities to non-asymptotic statistics. They naturally generalize to the following result:
+\begin{prop}[Concentration of bounded $U$-statistics]
+Let $g:\mathcal X\times \mathcal X\to \R$ be symmetric and bounded:
+\[
+\|g\|_\infty \le b.
+\]
+Given i.i.d.\ $X_1,\dots,X_n$, define the order-$2$ $U$-statistic
+\[
+U_n
+=
+\frac{1}{\binom{n}{2}}
+\sum_{1\le i<j\le n} g(X_i,X_j).
+\]
+Then
+\[
+\E U_n = \E g(X_1,X_2),
+\]
+and for every $t\ge 0$,
+\[
+\pr\bigl(|U_n-\E U_n|\ge t\bigr)
+\le
+2\exp\!\left(-\frac{n t^2}{8b^2}\right).
+\]
+\end{prop}
+
+\begin{proof}
+Unbiasedness is immediate by symmetry:
+\[
+\E U_n
+=
+\frac{1}{\binom{n}{2}}
+\sum_{1\le i<j\le n}\E g(X_i,X_j)
+=
+\E g(X_1,X_2).
+\]
+
+To prove concentration, write $U_n=f(X_1,\dots,X_n)$. Replace only $X_i$ by $X_i'$. Then only the $(n-1)$ pairs involving index $i$ can change, so
+\[
+|f(x)-f(x')|
+\le
+\frac{n-1}{\binom{n}{2}}\cdot 2b
+=
+\frac{4b}{n}.
+\]
+Thus McDiarmid's inequality applies with $L_i=4b/n$ for all $i$. Since
+\[
+\sum_{i=1}^n L_i^2
+=
+n\cdot \frac{16b^2}{n^2}
+=
+\frac{16b^2}{n},
+\]
+we obtain
+\[
+\pr(|U_n-\E U_n|\ge t)
+\le
+2\exp\!\left(
+-\frac{2t^2}{16b^2/n}
+\right)
+=
+2\exp\!\left(-\frac{nt^2}{8b^2}\right).
+\]
+\end{proof}
+
+
+\begin{prop}[Bounded empirical-process suprema]
+Let $\mathcal F$ be a class of measurable functions such that
+\[
+\sup_{f\in\mathcal F}\|f\|_\infty \le b.
+\]
+Given i.i.d.\ $X_1,\dots,X_n$, define
+\[
+Z
+=
+\|\mathbb P_n-P\|_{\mathcal F}
+:=
+\sup_{f\in\mathcal F}
+\left|
+\frac1n\sum_{i=1}^n f(X_i)-\E f(X_1)
+\right|.
+\]
+Then for every $t\ge 0$,
+\[
+\pr(Z\ge \E Z+t)
+\le
+\exp\!\left(-\frac{nt^2}{2b^2}\right).
+\]
+Equivalently, with probability at least $1-\delta$,
+\[
+Z
+\le
+\E Z + b\sqrt{\frac{2\log(1/\delta)}{n}}.
+\]
+\end{prop}
+
+\begin{proof}
+Write $Z=f(X_1,\dots,X_n)$. If only $X_i$ is replaced by $X_i'$, then for each fixed $f\in\mathcal F$,
+\[
+\left|
+\frac1n\sum_{j=1}^n f(X_j) - \frac1n\sum_{j=1}^n f(X_j')
+\right|
+\le
+\frac1n |f(X_i)-f(X_i')|
+\le
+\frac{2b}{n}.
+\]
+Taking the supremum over $f\in\mathcal F$ preserves the same bound:
+\[
+|Z(x)-Z(x')|\le \frac{2b}{n}.
+\]
+Thus McDiarmid applies with $L_i=2b/n$. Therefore
+\[
+\pr(Z\ge \E Z+t)
+\le
+\exp\!\left(
+-\frac{2t^2}{n(2b/n)^2}
+\right)
+=
+\exp\!\left(-\frac{nt^2}{2b^2}\right).
+\]
+Solving $\exp(-nt^2/(2b^2))=\delta$ yields the stated high-probability form.
+\end{proof}
+
+\begin{remark}
+Even though $Z$ is a supremum over a possibly huge class $\mathcal F$, one observation still changes every empirical average by at most $2b/n$, which is enough for concentration.
+\end{remark}
+
+\subsection{Concentration of Lipschitz functions}
+We demonstrate that Gaussian variables demonstrate sub-Gaussianity under Lipschitz transformations, which is quite generaly and admits many interesting applications.
+
+\begin{thm}[Gaussian log-Sobolev inequality]
+Let $\gamma_d$ denote the standard Gaussian measure on $\mathbb{R}^d$,
+\[
+d\gamma_d(x)=(2\pi)^{-d/2}e^{-\|x\|_2^2/2}\,dx.
+\]
+Then for every smooth function $g:\mathbb{R}^d\to\mathbb{R}$ such that $e^g$ and $|\nabla g|^2e^g$
+are integrable with respect to $\gamma_d$,
+\[
+\Ent_{\gamma_d}(e^g)
+:=
+\int e^g g\,d\gamma_d
+-
+\Bigl(\int e^g\,d\gamma_d\Bigr)
+\log\Bigl(\int e^g\,d\gamma_d\Bigr)
+\le
+\frac12\int |\nabla g|^2e^g\,d\gamma_d.
+\]
+Equivalently, for every smooth positive function $u$,
+\[
+\Ent_{\gamma_d}(u)
+\le
+\frac12\int \frac{|\nabla u|^2}{u}\,d\gamma_d.
+\]
+\end{thm}
+
+\begin{proof}
+Let $(P_t)_{t\ge 0}$ be the Ornstein--Uhlenbeck semigroup, defined by
+\[
+P_t f(x)
+=
+\mathbb{E}\Bigl[f\bigl(e^{-t}x+\sqrt{1-e^{-2t}}\,Z\bigr)\Bigr],
+\qquad Z\sim N(0,I_d).
+\]
+Its generator is
+\[
+Lf=\Delta f-x\cdot \nabla f,
+\]
+and $\gamma_d$ is invariant under $P_t$, i.e.
+\[
+\int P_t f\,d\gamma_d=\int f\,d\gamma_d.
+\]
+Moreover, $P_t f\to \int f\,d\gamma_d$ as $t\to\infty$ for sufficiently integrable $f$.
+
+We first recall the Gaussian integration by parts identity:
+for smooth $f,h$ with sufficient decay,
+\[
+\int f\,Lh\,d\gamma_d
+=
+-\int \nabla f\cdot \nabla h\,d\gamma_d.
+\]
+Indeed, writing $d\gamma_d(x)=\rho(x)\,dx$ with
+\[
+\rho(x)=(2\pi)^{-d/2}e^{-\|x\|_2^2/2},
+\qquad \nabla \rho(x)=-x\rho(x),
+\]
+we compute
+\[
+\int f\,Lh\,d\gamma_d
+=
+\int f(\Delta h-x\cdot \nabla h)\rho\,dx
+=
+-\int \nabla(f\rho)\cdot \nabla h\,dx-\int f\,x\cdot \nabla h\,\rho\,dx,
+\]
+and the terms involving $x\cdot \nabla h$ cancel, leaving
+\[
+\int f\,Lh\,d\gamma_d
+=
+-\int \rho\,\nabla f\cdot \nabla h\,dx
+=
+-\int \nabla f\cdot \nabla h\,d\gamma_d.
+\]
+
+Now let $u>0$ be smooth, and define
+\[
+F(t):=\Ent_{\gamma_d}(P_tu).
+\]
+Since $P_t$ preserves the Gaussian integral,
+\[
+\int P_tu\,d\gamma_d=\int u\,d\gamma_d=:m,
+\]
+and therefore
+\[
+F(t)=\int P_tu\log(P_tu)\,d\gamma_d-m\log m.
+\]
+Differentiating in $t$,
+\[
+F'(t)
+=
+\int \partial_t(P_tu)\log(P_tu)\,d\gamma_d
++
+\int \partial_t(P_tu)\,d\gamma_d.
+\]
+The second term vanishes because $\int P_tu\,d\gamma_d$ is constant in $t$, and
+$\partial_t P_tu=LP_tu$, so
+\[
+F'(t)=\int LP_tu\,\log(P_tu)\,d\gamma_d.
+\]
+Applying the Gaussian integration by parts identity with
+$f=\log(P_tu)$ and $h=P_tu$, we obtain
+\[
+F'(t)
+=
+-\int \nabla \log(P_tu)\cdot \nabla(P_tu)\,d\gamma_d
+=
+-\int \frac{|\nabla P_tu|^2}{P_tu}\,d\gamma_d.
+\]
+Hence $F'(t)\le 0$, and integrating from $0$ to $\infty$ gives
+\[
+\Ent_{\gamma_d}(u)
+=
+\int_0^\infty \int \frac{|\nabla P_tu|^2}{P_tu}\,d\gamma_d\,dt,
+\]
+since $P_tu\to m$ as $t\to\infty$ and constants have zero entropy.
+
+It remains to bound the integrand. By differentiating the Mehler formula under the expectation,
+\[
+\nabla P_tu = e^{-t}P_t(\nabla u).
+\]
+Therefore,
+\[
+\frac{|\nabla P_tu|^2}{P_tu}
+=
+e^{-2t}\frac{|P_t(\nabla u)|^2}{P_tu}.
+\]
+By Cauchy--Schwarz under the probability kernel defining $P_t$,
+\[
+|P_t(\nabla u)|^2
+\le
+P_t\!\left(\frac{|\nabla u|^2}{u}\right)P_tu,
+\]
+and thus
+\[
+\frac{|\nabla P_tu|^2}{P_tu}
+\le
+e^{-2t}P_t\!\left(\frac{|\nabla u|^2}{u}\right).
+\]
+Integrating with respect to $\gamma_d$ and using invariance of $\gamma_d$,
+\[
+\int \frac{|\nabla P_tu|^2}{P_tu}\,d\gamma_d
+\le
+e^{-2t}\int P_t\!\left(\frac{|\nabla u|^2}{u}\right)\,d\gamma_d
+=
+e^{-2t}\int \frac{|\nabla u|^2}{u}\,d\gamma_d.
+\]
+Substituting into the entropy representation,
+\[
+\Ent_{\gamma_d}(u)
+\le
+\int_0^\infty e^{-2t}\,dt
+\int \frac{|\nabla u|^2}{u}\,d\gamma_d
+=
+\frac12\int \frac{|\nabla u|^2}{u}\,d\gamma_d.
+\]
+
+Finally, taking $u=e^g$, we have
+\[
+\nabla u=e^g\nabla g,
+\qquad
+\frac{|\nabla u|^2}{u}=|\nabla g|^2e^g,
+\]
+so
+\[
+\Ent_{\gamma_d}(e^g)\le \frac12\int |\nabla g|^2e^g\,d\gamma_d.
+\]
+This proves the claim.
+\end{proof}
+
+\begin{cor}[Sub-Gaussian mgf bound for Lipschitz functions]
+Let $X\sim N(0,I_d)$, and let $f:\mathbb{R}^d\to\mathbb{R}$ be $L$-Lipschitz. Then
+\[
+\mathbb{E}\exp\!\bigl(\lambda(f(X)-\mathbb{E}f(X))\bigr)
+\le
+\exp\!\left(\frac{\lambda^2L^2}{2}\right),
+\qquad \lambda\in\mathbb{R}.
+\]
+\end{cor}
+
+\begin{proof}
+Assume first that $f$ is smooth. Define
+\[
+M(t):=\mathbb{E}e^{tf(X)},
+\qquad
+\psi(t):=\log M(t).
+\]
+Applying the Gaussian log-Sobolev inequality with $g=tf$, we get
+\[
+\Ent_{\gamma_d}(e^{tf})
+\le
+\frac{t^2}{2}\int |\nabla f|^2e^{tf}\,d\gamma_d
+\le
+\frac{t^2L^2}{2}\,\mathbb{E}e^{tf(X)}.
+\]
+On the other hand,
+\[
+\Ent_{\gamma_d}(e^{tf})
+=
+\mathbb{E}[tf(X)e^{tf(X)}]-M(t)\log M(t)
+=
+M(t)\bigl(t\psi'(t)-\psi(t)\bigr).
+\]
+Hence
+\[
+t\psi'(t)-\psi(t)\le \frac{t^2L^2}{2}.
+\]
+For $t\neq 0$,
+\[
+\left(\frac{\psi(t)}{t}\right)'
+=
+\frac{t\psi'(t)-\psi(t)}{t^2}
+\le
+\frac{L^2}{2}.
+\]
+Integrating from $0$ to $\lambda>0$,
+\[
+\frac{\psi(\lambda)}{\lambda}
+-
+\lim_{t\downarrow 0}\frac{\psi(t)}{t}
+\le
+\frac{\lambda L^2}{2}.
+\]
+Since
+\[
+\lim_{t\downarrow 0}\frac{\psi(t)}{t}
+=
+\psi'(0)
+=
+\mathbb{E}f(X),
+\]
+it follows that
+\[
+\psi(\lambda)\le \lambda \mathbb{E}f(X)+\frac{\lambda^2L^2}{2},
+\]
+or equivalently,
+\[
+\mathbb{E}e^{\lambda(f(X)-\mathbb{E}f(X))}
+\le
+e^{\lambda^2L^2/2},
+\qquad \lambda\ge 0.
+\]
+Applying the same argument to $-f$ yields the same estimate for $\lambda<0$.
+
+For a merely Lipschitz $f$, one may approximate $f$ by smooth mollifications $f_\varepsilon$,
+apply the estimate to $f_\varepsilon$, and then pass to the limit using dominated convergence.
+\end{proof}
+
+
+\begin{thm}[Gaussian concentration for Lipschitz functions]
+Let $X\sim N(0,I_m)$ and let $f:\R^m\to \R$ be $L$-Lipschitz. Then
+\[
+f(X)-\E f(X)
+\]
+is sub-Gaussian with variance proxy $L^2$. In particular,
+\[
+\pr\bigl(|f(X)-\E f(X)|\ge t\bigr)
+\le
+2\exp\!\left(-\frac{t^2}{2L^2}\right),
+\qquad t\ge 0.
+\]
+\end{thm}
+
+\begin{proof}[Proof sketch]
+The log-Sobolev inequality gives
+\[
+\E \exp\!\bigl(\lambda(f(X)-\E f(X))\bigr)
+\le
+\exp\!\left(\frac{\lambda^2L^2}{2}\right),
+\qquad \lambda\in\R.
+\]
+Then Chernoff's bound gives
+\[
+\pr(f(X)-\E f(X)\ge t)
+\le
+\inf_{\lambda>0}
+\exp\!\left(-\lambda t+\frac{\lambda^2L^2}{2}\right).
+\]
+Optimizing at $\lambda=t/L^2$ yields
+\[
+\pr(f(X)-\E f(X)\ge t)\le e^{-t^2/(2L^2)}.
+\]
+Apply the same bound to $-f$ and combine.
+\end{proof}
+
+\begin{remark}
+For Gaussian inputs, Lipschitz observables behave as if they were one-dimensional Gaussians. The only parameter that matters is the Lipschitz constant.
+\end{remark}
+
+This result is powerful and has the following important corollaries:
+
+\begin{cor}[Concentration of the Euclidean norm]
+Let $X\sim N(0,I_n)$ and define
+\[
+f(x)=\frac{\norm{x}_2}{\sqrt n}.
+\]
+Then $f$ is $1/\sqrt n$-Lipschitz, and hence for every $t\ge 0$,
+\[
+\pr\left(
+\left|
+\frac{\norm{X}_2}{\sqrt n}
+-
+\E \frac{\norm{X}_2}{\sqrt n}
+\right|
+\ge t
+\right)
+\le
+2\exp\!\left(-\frac{nt^2}{2}\right).
+\]
+\end{cor}
+
+\begin{proof}
+By the reverse triangle inequality,
+\[
+\left|
+\frac{\norm{x}_2}{\sqrt n}
+-
+\frac{\norm{y}_2}{\sqrt n}
+\right|
+\le
+\frac{\norm{x-y}_2}{\sqrt n}.
+\]
+Hence $f$ is $1/\sqrt n$-Lipschitz. Apply the Gaussian concentration theorem.
+\end{proof}
+
+\begin{cor}[Upper-tail bound for $\chi_n^2$]
+Let $Y=\norm{X}_2^2\sim \chi_n^2$. Then for every $t\ge 0$,
+\[
+\pr\!\left(
+\frac{Y}{n}\ge 1+2t+t^2
+\right)
+\le
+\exp\!\left(-\frac{nt^2}{2}\right).
+\]
+\end{cor}
+
+\begin{proof}
+Since $\E \norm{X}_2\le \sqrt{\E \norm{X}_2^2}=\sqrt n$, the one-sided version of the previous result yields
+\[
+\pr\left(\frac{\norm{X}_2}{\sqrt n}\ge 1+t\right)
+\le
+\exp\!\left(-\frac{nt^2}{2}\right).
+\]
+Squaring the event gives
+\[
+\left\{
+\frac{\norm{X}_2}{\sqrt n}\ge 1+t
+\right\}
+=
+\left\{
+\frac{Y}{n}\ge (1+t)^2
+\right\}
+=
+\left\{
+\frac{Y}{n}\ge 1+2t+t^2
+\right\}.
+\]
+\end{proof}
+
+\begin{remark}
+Concentration of $\sqrt{Y}$ is often easier than concentration of $Y$ itself, because the square root is Lipschitz when there is a large deviation to the mean.
+\end{remark}
+
+\begin{cor}[Concentration of Gaussian order statistics]
+Let $X_1,\dots,X_n$ be i.i.d.\ $N(0,1)$, and let
+\[
+X_{(1)}\le X_{(2)}\le \cdots \le X_{(n)}
+\]
+be the order statistics. Then for each $k\in\{1,\dots,n\}$,
+\[
+\pr\bigl(|X_{(k)}-\E X_{(k)}|\ge t\bigr)
+\le
+2\exp\!\left(-\frac{t^2}{2}\right),
+\qquad t\ge 0.
+\]
+\end{cor}
+
+\begin{proof}
+It is a standard fact that the sorting map is non-expansive in $\ell_2$: if $x_{(k)}$ and $y_{(k)}$ denote the $k$th order statistics of $x$ and $y$, then
+\[
+|x_{(k)}-y_{(k)}|\le \norm{x-y}_2.
+\]
+Thus the function $f_k(x)=x_{(k)}$ is $1$-Lipschitz. Apply the Gaussian concentration theorem.
+\end{proof}
+
+\begin{remark}[Main idea]
+Although order statistics are highly nonlinear, each individual order statistic is still a Lipschitz functional of the sample.
+\end{remark}
+
+
+\begin{cor}[Concentration of singular values]
+Let $W\in \R^{n\times d}$ have i.i.d.\ $N(0,1)$ entries, and let
+\[
+\sigma_1(W)\ge \sigma_2(W)\ge \cdots \ge \sigma_{\min(n,d)}(W)\ge 0
+\]
+be its singular values. Then for every $k$ and every $t\ge 0$,
+\[
+\pr\left(
+\left|
+\sigma_k\!\left(\frac{W}{\sqrt n}\right)
+-
+\E \sigma_k\!\left(\frac{W}{\sqrt n}\right)
+\right|
+\ge t
+\right)
+\le
+2\exp\!\left(-\frac{nt^2}{2}\right).
+\]
+\end{cor}
+
+\begin{proof}
+By Weyl's inequality,
+\[
+|\sigma_k(A)-\sigma_k(B)|\le \norm{A-B}_{\op}\le \norm{A-B}_F.
+\]
+Hence the map $A\mapsto \sigma_k(A)$ is $1$-Lipschitz with respect to the Frobenius norm. Therefore
+\[
+A\mapsto \sigma_k(A/\sqrt n)
+\]
+is $1/\sqrt n$-Lipschitz. Since $W$ is a standard Gaussian vector in $\R^{nd}$ after vectorization, the Gaussian concentration theorem applies.
+\end{proof}
+
+\begin{remark}
+This is one of the most useful ways to get concentration for random matrices: identify the matrix quantity of interest as a Lipschitz function of the entries.
+\end{remark}
+
+\begin{lem}[Whitened covariance error]
+Let $X_1,\dots,X_n\in \R^d$ be i.i.d.\ $N(0,\Sigma)$, and let
+\[
+\widehat\Sigma=\frac1n\sum_{i=1}^n X_iX_i^\top.
+\]
+Write
+\[
+X_i=\Sigma^{1/2}W_i,
+\qquad
+W_i\sim N(0,I_d).
+\]
+If $W\in \R^{n\times d}$ has rows $W_i^\top$, then
+\[
+\Sigma^{-1/2}(\widehat\Sigma-\Sigma)\Sigma^{-1/2}
+=
+\frac1n W^\top W-I_d.
+\]
+Consequently,
+\[
+\norm{\Sigma^{-1/2}(\widehat\Sigma-\Sigma)\Sigma^{-1/2}}_{\op}
+=
+\sup_{v\in S^{d-1}}
+\left|
+\frac1n\sum_{i=1}^n \bigl((v^\top W_i)^2-1\bigr)
+\right|.
+\]
+\end{lem}
+
+\begin{proof}
+Using $X_i=\Sigma^{1/2}W_i$,
+\[
+\widehat\Sigma
+=
+\frac1n\sum_{i=1}^n \Sigma^{1/2}W_iW_i^\top\Sigma^{1/2}
+=
+\Sigma^{1/2}\left(\frac1n W^\top W\right)\Sigma^{1/2}.
+\]
+Subtract $\Sigma=\Sigma^{1/2}I_d\Sigma^{1/2}$ and whiten:
+\[
+\Sigma^{-1/2}(\widehat\Sigma-\Sigma)\Sigma^{-1/2}
+=
+\frac1nW^\top W-I_d.
+\]
+For a symmetric matrix $A$,
+\[
+\norm{A}_{\op}
+=
+\sup_{v\in S^{d-1}} |v^\top A v|.
+\]
+Applying this with $A=\frac1n W^\top W-I_d$ gives
+\[
+v^\top A v
+=
+\frac1n\sum_{i=1}^n (v^\top W_i)^2 - 1.
+\]
+\end{proof}
+
+\begin{remark}
+For each fixed $v$, the random variable $(v^\top W_i)^2-1$ is sub-exponential, so the fixed-direction fluctuations are easy. The hard part is the supremum over all $v\in S^{d-1}$, which is handled by empirical-process methods or by an $\varepsilon$-net argument.
+\end{remark}
+
+\section{Lecture 22: Applications in regression}
+\subsection{The Gaussian sequence model and Hard thresholding}
+
+\begin{de}[Gaussian sequence model]
+The Gaussian sequence model is defined by the observations
+\[
+Y_j=\mu_j+\varepsilon_j,
+\qquad j=1,\dots,d,\qquad \varepsilon_j \overset{\mathrm{iid}}{\sim} N\!\left(0,\frac{\sigma^2}{n}\right).
+\]
+\end{de}
+
+\begin{lem}[Bias-variance decomposition of the risk]
+For any estimator $\widehat\mu=\widehat\mu(Y)\in \R^d$,
+\[
+\E \norm{\widehat\mu-\mu}_2^2
+=
+\norm{\E\widehat\mu-\mu}_2^2
++
+\tr\!\bigl(\Cov(\widehat\mu)\bigr).
+\]
+\end{lem}
+
+\begin{proof}
+Write
+\[
+\widehat\mu-\mu
+=
+(\widehat\mu-\E\widehat\mu)+(\E\widehat\mu-\mu).
+\]
+Squaring and taking expectations,
+\[
+\E \norm{\widehat\mu-\mu}_2^2
+=
+\E \norm{\widehat\mu-\E\widehat\mu}_2^2
++
+\norm{\E\widehat\mu-\mu}_2^2
++
+2\E\left\langle \widehat\mu-\E\widehat\mu,\E\widehat\mu-\mu\right\rangle.
+\]
+The cross term is zero because $\E(\widehat\mu-\E\widehat\mu)=0$. Also,
+\[
+\E \norm{\widehat\mu-\E\widehat\mu}_2^2
+=
+\tr(\Cov(\widehat\mu)).
+\]
+\end{proof}
+
+\begin{cor}[Risk of the naive estimator]
+For the estimator $\widehat\mu=Y$,
+\[
+\E \norm{Y-\mu}_2^2
+=
+\sum_{j=1}^d \E \varepsilon_j^2
+=
+\frac{\sigma^2 d}{n}.
+\]
+\end{cor}
+
+\begin{proof}
+Since $Y-\mu=\varepsilon$ and the coordinates are independent with variance $\sigma^2/n$,
+\[
+\E \norm{Y-\mu}_2^2
+=
+\sum_{j=1}^d \var(\varepsilon_j)
+=
+d\frac{\sigma^2}{n}.
+\]
+\end{proof}
+
+
+Assume now that $\mu$ is sparse, with support
+\[
+S_\mu:=\{j:\mu_j\neq 0\},
+\qquad s:=|S_\mu|.
+\]
+
+\begin{prop}[Oracle estimator when the support is known]
+If the support $S_\mu$ were known, the oracle estimator
+\[
+\widehat\mu^{\,\mathrm{or}}_j
+=
+Y_j \1_{\{j\in S_\mu\}}
+\]
+would satisfy
+\[
+\E \norm{\widehat\mu^{\,\mathrm{or}}-\mu}_2^2
+=
+\frac{\sigma^2 s}{n}.
+\]
+\end{prop}
+
+\begin{proof}
+If $j\in S_\mu$, then $\widehat\mu^{\,\mathrm{or}}_j-\mu_j=Y_j-\mu_j=\varepsilon_j$.
+If $j\notin S_\mu$, then $\mu_j=0$ and $\widehat\mu^{\,\mathrm{or}}_j=0$, so the error is zero.
+Hence
+\[
+\E \norm{\widehat\mu^{\,\mathrm{or}}-\mu}_2^2
+=
+\sum_{j\in S_\mu}\E \varepsilon_j^2
+=
+\frac{\sigma^2 s}{n}.
+\]
+\end{proof}
+
+\begin{remark}
+This is the ideal benchmark.
+If we knew exactly which coordinates were nonzero, we would only estimate those $s$ coordinates and ignore the rest.
+The risk would then scale like $s/n$ instead of $d/n$.
+Since usually $s\ll d$, this can be a dramatic improvement.
+The real task is therefore to imitate this oracle behavior without knowing the support.
+\end{remark}
+To estimate the support, we applying hard thresholding that uses the observed magnitude $|Y_j|$ as a proxy for whether $\mu_j$ is nonzero.
+
+\begin{de}[Hard-thresholding estimator]
+For $\tau\ge 0$, define
+\[
+\widehat\mu^\tau_j
+=
+Y_j \1_{\{|Y_j|\ge \tau\}},
+\qquad j=1,\dots,d.
+\]
+\end{de}
+
+
+A convenient event is
+\[
+E_1
+:=
+\left\{
+\max_{1\le j\le d} |\varepsilon_j|
+\le \tau_0
+\right\},
+\qquad
+\tau_0
+=
+\sigma \sqrt{\frac{2\log(2d/\delta)}{n}}.
+\]
+
+\begin{remark}
+The event $E_1$ says that \emph{all} noise coordinates are simultaneously bounded by $\tau_0$.
+The logarithmic term appears because we are controlling the maximum over $d$ coordinates, not just one coordinate.
+This is the usual multiple-comparison price.
+\end{remark}
+
+The following lemma gives a clean high-probability event on which the rest of the argument becomes deterministic.
+Once we know that every noise coordinate is at most $\tau_0$, we can compare $Y_j$ and $\mu_j$ coordinate by coordinate.
+
+\begin{lem}[Uniform noise control]
+For the choice above,
+\[
+\pr(E_1)\ge 1-\delta.
+\]
+\end{lem}
+
+\begin{proof}
+By the Gaussian tail bound,
+\[
+\pr(|\varepsilon_j|>\tau_0)
+\le
+2\exp\!\left(-\frac{n\tau_0^2}{2\sigma^2}\right)
+=
+2\exp\!\left(-\log\frac{2d}{\delta}\right)
+=
+\frac{\delta}{d}.
+\]
+Apply the union bound:
+\[
+\pr(E_1^c)
+=
+\pr\left(\max_{1\le j\le d}|\varepsilon_j|>\tau_0\right)
+\le
+\sum_{j=1}^d \pr(|\varepsilon_j|>\tau_0)
+\le
+d\cdot \frac{\delta}{d}
+=
+\delta.
+\]
+\end{proof}
+
+
+\begin{prop}[Coordinatewise oracle inequality for hard thresholding]
+Let $\widehat\mu^{2\tau_0}$ be the hard-threshold estimator with threshold $2\tau_0$. On the event $E_1$,
+\[
+\norm{\widehat\mu^{2\tau_0}-\mu}_2^2
+\le
+9\sum_{j=1}^d \min\{\mu_j^2,\tau_0^2\}.
+\]
+Therefore, with probability at least $1-\delta$,
+\[
+\norm{\widehat\mu^{2\tau_0}-\mu}_2^2
+\le
+9\sum_{j=1}^d \min\{\mu_j^2,\tau_0^2\}.
+\]
+\end{prop}
+
+\begin{proof}
+We work on $E_1$, so that $|\varepsilon_j|\le \tau_0$ for all $j$. We consider three cases.
+
+\medskip
+\noindent
+\textbf{Case 1:} $|\mu_j|\le \tau_0$.
+
+Then
+\[
+|Y_j|
+\le
+|\mu_j|+|\varepsilon_j|
+\le
+\tau_0+\tau_0
+=
+2\tau_0.
+\]
+Hence $\widehat\mu^{2\tau_0}_j=0$, so
+\[
+(\widehat\mu^{2\tau_0}_j-\mu_j)^2
+=
+\mu_j^2
+=
+\min\{\mu_j^2,\tau_0^2\}
+\le
+9\min\{\mu_j^2,\tau_0^2\}.
+\]
+
+\medskip
+\noindent
+\textbf{Case 2:} $|\mu_j|>3\tau_0$.
+
+Then
+\[
+|Y_j|
+\ge
+|\mu_j|-|\varepsilon_j|
+>
+3\tau_0-\tau_0
+=
+2\tau_0,
+\]
+so $\widehat\mu^{2\tau_0}_j=Y_j$. Therefore
+\[
+(\widehat\mu^{2\tau_0}_j-\mu_j)^2
+=
+\varepsilon_j^2
+\le
+\tau_0^2
+\le
+9\min\{\mu_j^2,\tau_0^2\}.
+\]
+
+\medskip
+\noindent
+\textbf{Case 3:} $\tau_0<|\mu_j|\le 3\tau_0$.
+
+In this regime,
+\[
+\widehat\mu^{2\tau_0}_j-\mu_j
+=
+-\mu_j \1_{\{|Y_j|<2\tau_0\}}
++
+\varepsilon_j \1_{\{|Y_j|\ge 2\tau_0\}}.
+\]
+Hence
+\[
+(\widehat\mu^{2\tau_0}_j-\mu_j)^2
+\le
+\mu_j^2 \vee \varepsilon_j^2
+\le
+(3\tau_0)^2
+=
+9\tau_0^2
+=
+9\min\{\mu_j^2,\tau_0^2\}.
+\]
+
+Summing the three bounds over $j=1,\dots,d$ proves the claim.
+\end{proof}
+
+\begin{remark}
+The reason that we threshold at $2\tau_0$ is that on the event $E_1$, a pure-noise coordinate satisfies $|Y_j|=|\varepsilon_j|\le \tau_0$, so it stays below $2\tau_0$ and gets removed; on the other hand, a sufficiently strong signal with $|\mu_j|>3\tau_0$ must satisfy
+\[
+|Y_j|\ge |\mu_j|-|\varepsilon_j|>2\tau_0,
+\]
+so it survives thresholding. Thus $2\tau_0$ creates a safety gap between noise-only coordinates and clearly nonzero coordinates.
+\end{remark}
+
+\begin{remark}
+The magnitude of the bound
+\[
+\sum_{j=1}^d \min\{\mu_j^2,\tau_0^2\}
+\]
+has the following interpretations:
+\begin{itemize}
+    \item if $\mu_j$ is very small, the contribution is $\mu_j^2$, meaning it is cheap to ignore that coordinate;
+    \item if $\mu_j$ is large, the contribution is only $\tau_0^2$, meaning the error is essentially bounded by the noise level.
+\end{itemize}
+So the estimator behaves almost like an oracle: it discards weak coordinates and keeps strong ones.
+\end{remark}
+
+\begin{remark}[Main idea]
+The estimator behaves like an oracle up to a logarithmic threshold. Small coordinates are discarded, large coordinates are kept, and only the middle region requires a rough bound.
+\end{remark}
+
+\begin{cor}[Sparse high-probability rate]
+If $\|\mu\|_0=s$, then with probability at least $1-\delta$,
+\[
+\norm{\widehat\mu^{2\tau_0}-\mu}_2^2
+\le
+9s\tau_0^2
+=
+18\,\frac{\sigma^2 s}{n}\log\!\left(\frac{2d}{\delta}\right).
+\]
+\end{cor}
+
+\begin{proof}
+If $\|\mu\|_0=s$, then only $s$ coordinates are nonzero, so
+\[
+\sum_{j=1}^d \min\{\mu_j^2,\tau_0^2\}
+\le
+s\tau_0^2.
+\]
+Now apply the previous proposition.
+\end{proof}
+
+\begin{remark}
+This is the standard sparse recovery rate in this model.
+Compared with the oracle rate $\sigma^2 s/n$, the extra factor $\log d$ is the cost of not knowing the support in advance and having to search among $d$ possible coordinates.
+\end{remark}
+
+
+\begin{cor}[Exact support recovery under a beta-min condition]
+Assume
+\[
+\min_{j\in S_\mu} |\mu_j| > 3\tau_0.
+\]
+Then on the event $E_1$,
+\[
+\supp(\widehat\mu^{2\tau_0})=\supp(\mu).
+\]
+In particular, this holds with probability at least $1-\delta$.
+\end{cor}
+
+\begin{proof}
+If $j\in S_\mu$, then $|\mu_j|>3\tau_0$, so on $E_1$,
+\[
+|Y_j|
+\ge
+|\mu_j|-|\varepsilon_j|
+>
+3\tau_0-\tau_0
+=
+2\tau_0.
+\]
+Hence $\widehat\mu^{2\tau_0}_j=Y_j\neq 0$.
+
+If $j\notin S_\mu$, then $\mu_j=0$, so on $E_1$,
+\[
+|Y_j|=|\varepsilon_j|\le \tau_0<2\tau_0.
+\]
+Hence $\widehat\mu^{2\tau_0}_j=0$.
+
+Thus the estimated and true supports coincide.
+\end{proof}
+
+\begin{remark}
+The condition
+\[
+\min_{j\in S_\mu} |\mu_j| > 3\tau_0
+\]
+is a \emph{beta-min condition}: every nonzero signal must be large enough to stand out from the noise.
+Without such a separation condition, exact support recovery is impossible in general, because very small nonzero coefficients are statistically indistinguishable from zero.
+\end{remark}
+
+\subsection{Soft thresholding and hyperparameter tuning}
+Instead of using hard-thresholds, we may also use soft-thresholds.
+\begin{de}[Soft-threshold map]
+For $\lambda\ge 0$, define
+\[
+\eta_\lambda(y)
+=
+\begin{cases}
+y-\lambda, & y>\lambda,\\[4pt]
+0, & |y|\le \lambda,\\[4pt]
+y+\lambda, & y<-\lambda.
+\end{cases}
+\]
+Coordinatewise, for $y=(y_1,\dots,y_d)$,
+\[
+\eta_\lambda(y)
+=
+\bigl(\eta_\lambda(y_1),\dots,\eta_\lambda(y_d)\bigr).
+\]
+\end{de}
+
+\begin{prop}[Soft thresholding is the lasso solution]
+For any $Y\in\R^d$ and $\lambda\ge 0$,
+\[
+\widehat\beta^\lambda
+:=
+\argmin_{\beta\in\R^d}
+\left\{
+\frac12 \norm{Y-\beta}_2^2 + \lambda \norm{\beta}_1
+\right\}
+\]
+is given coordinatewise by
+\[
+\widehat\beta^\lambda_j=\eta_\lambda(Y_j),
+\qquad j=1,\dots,d.
+\]
+\end{prop}
+
+\begin{proof}
+The objective is separable:
+\[
+\frac12 \norm{Y-\beta}_2^2+\lambda\norm{\beta}_1
+=
+\sum_{j=1}^d
+\left(
+\frac12 (Y_j-\beta_j)^2+\lambda |\beta_j|
+\right).
+\]
+Thus it suffices to solve the one-dimensional problem
+\[
+\min_{b\in\R}
+\left\{
+\frac12 (y-b)^2+\lambda |b|
+\right\}.
+\]
+
+If $b>0$, differentiate:
+\[
+-(y-b)+\lambda=0
+\quad\Longrightarrow\quad
+b=y-\lambda,
+\]
+which is admissible only when $y>\lambda$.
+
+If $b<0$, differentiate:
+\[
+-(y-b)-\lambda=0
+\quad\Longrightarrow\quad
+b=y+\lambda,
+\]
+which is admissible only when $y<-\lambda$.
+
+If $|y|\le \lambda$, then $b=0$ satisfies the subgradient optimality condition
+\[
+0\in -(y-0)+\lambda[-1,1].
+\]
+Hence the minimizer is exactly
+\[
+b=
+\begin{cases}
+y-\lambda, & y>\lambda,\\
+0, & |y|\le \lambda,\\
+y+\lambda, & y<-\lambda.
+\end{cases}
+\]
+Applying this coordinatewise completes the proof.
+\end{proof}
+
+
+\begin{remark}
+This proposition shows that soft thresholding is not just a heuristic denoising rule:
+it is exactly the solution of an $\ell_1$-penalized least-squares problem.
+So the lasso can be viewed as a principled optimization formulation of thresholding.
+\end{remark}
+
+
+Now we assume the mean of the noisy observations is identical:
+\[
+Y \sim N(\mu, I_n).
+\]
+For a weakly differentiable estimator $\hat\mu(Y)$, Stein's unbiased risk estimate is
+\[
+\widehat R
+=
+-n + \|Y-\hat\mu(Y)\|_2^2 + 2\,\diver \hat\mu(Y),
+\]
+where
+\[
+\diver \hat\mu(Y)=\sum_{i=1}^n \frac{\partial \hat\mu_i(Y)}{\partial Y_i}.
+\]
+Then
+\[
+\E_\mu[\widehat R]=\E_\mu\|\hat\mu(Y)-\mu\|_2^2.
+\]
+So $\widehat R$ is an unbiased estimator of the true risk. 
+For the soft-threshold estimator $\hat\mu^\lambda_i=\eta_\lambda(Y_i)$, we have
+\[
+Y_i-\eta_\lambda(Y_i)
+=
+\begin{cases}
+\lambda, & Y_i>\lambda,\\
+Y_i, & |Y_i|\le \lambda,\\
+-\lambda, & Y_i<-\lambda,
+\end{cases}
+\]
+hence
+\[
+\bigl(Y_i-\eta_\lambda(Y_i)\bigr)^2=\min\{Y_i^2,\lambda^2\}.
+\]
+Also,
+\[
+\frac{\partial}{\partial Y_i}\eta_\lambda(Y_i)=\1\{|Y_i|>\lambda\}
+\]
+away from the threshold points. Therefore,
+\[
+\widehat R(\lambda)
+=
+-n+\sum_{i=1}^n \min\{Y_i^2,\lambda^2\}
++2\sum_{i=1}^n \1\{|Y_i|>\lambda\}.
+\]
+Equivalently,
+\[
+\widehat R(\lambda)
+=
+\sum_{i=1}^n
+\left[
+1+\min\{Y_i^2,\lambda^2\}
+-2\1\{|Y_i|\le \lambda\}
+\right].
+\]
+Thus, one can choose
+\[
+\hat\lambda
+=
+\argmin_{\lambda\ge 0}\widehat R(\lambda),
+\]
+and then use $\hat\mu^{\hat\lambda}$ as the data-driven estimator. If $\widehat R(\lambda)$ is uniformly close to the true risk $R(\lambda)$ over a range of $\lambda$, then the selected $\hat\lambda$ behaves approximately like the oracle choice
+\[
+\lambda^\star=\argmin_{\lambda\ge 0} R(\lambda).
+\]
+So the SURE-selected estimator is asymptotically as good as the best estimator in the class.
+
+\subsection{Lasso in the regression model}
+Now we move to the regression model
+\[
+Y = X\beta^\star + \varepsilon,
+\]
+where $X\in\R^{n\times d}$ and $\beta^\star\in\R^d$. The least squares estimator is
+\[
+\hat\beta^{\mathrm{OLS}}
+=
+\argmin_{\beta\in\R^d}\|Y-X\beta\|_2^2.
+\]
+If $\mathrm{rank}(X)=d$ and $d\le n$, then
+\[
+\hat\beta^{\mathrm{OLS}}=(X^\top X)^{-1}X^\top Y.
+\]
+
+When $d>n$ or $\mathrm{rank}(X)<d$, the coefficient vector need not be unique, but the fitted values $X\hat\beta$ are unique.  
+Among all least-squares solutions, the minimum-norm solution is
+\[
+\hat\beta^{\mathrm{MN}} = X^+Y,
+\]
+where $X^+$ is the Moore--Penrose pseudoinverse.
+
+\begin{remark}
+Even when $\beta$ is not unique, the prediction $X\beta$ may still be uniquely determined by the convex objective.
+\end{remark}
+
+A general penalised estimator has the form
+\[
+\hat\beta
+=
+\argmin_{\beta\in\R^d}
+\left\{
+\|Y-X\beta\|_2^2 + \lambda\,\mathrm{pen}(\beta)
+\right\}.
+\]
+Typical penalties are:
+\[
+\ell_0:\ \|\beta\|_0,
+\qquad
+\ell_1:\ \|\beta\|_1,
+\qquad
+\ell_2:\ \|\beta\|_2^2.
+\]
+\begin{remark}
+    There is also a constrained form:
+\[
+\hat\beta_t
+=
+\argmin_{\beta\in\R^d}
+\|Y-X\beta\|_2^2
+\quad\text{subject to}\quad
+\mathrm{pen}(\beta)\le t.
+\]
+For convex penalties, the penalized and constrained formulations are closely related.
+\end{remark}
+
+
+The lasso estimator is
+\[
+\hat\beta
+=
+\argmin_{\beta\in\R^d}
+\left\{
+\frac{1}{2}\|Y-X\beta\|_2^2 + \lambda\|\beta\|_1
+\right\}.
+\]
+Geometrically, the $\ell_1$ ball has corners, and these corners encourage sparse solutions. Because $\|\beta\|_1$ is not differentiable at $0$, optimality is expressed by subgradients:
+\[
+X^\top(Y-X\hat\beta)=\lambda s,
+\qquad
+s\in\partial\|\hat\beta\|_1.
+\]
+Coordinatewise,
+\[
+s_j=
+\begin{cases}
+\sign(\hat\beta_j), & \hat\beta_j\neq 0,\\
+[-1,1], & \hat\beta_j=0.
+\end{cases}
+\]
+
+Hence:
+\begin{itemize}[leftmargin=2em]
+    \item if $\hat\beta_j\neq 0$, then $X_j^\top(Y-X\hat\beta)=\lambda\sign(\hat\beta_j)$;
+    \item if $\hat\beta_j=0$, then $|X_j^\top(Y-X\hat\beta)|\le \lambda$.
+\end{itemize}
+
+
+\begin{prop}
+Consider the lasso problem
+\[
+\hat\beta \in \arg\min_{\beta\in\mathbb{R}^p}
+\left\{
+\frac12\|y-X\beta\|_2^2+\lambda\|\beta\|_1
+\right\},
+\qquad \lambda>0.
+\]
+Then the following hold:
+\begin{enumerate}
+    \item the fitted value $X\hat\beta$ is unique;
+    \item the coefficient vector $\hat\beta$ need not be unique in general;
+    \item the subgradient vector $s\in\partial \|\hat\beta\|_1$ associated with an optimum is unique.
+\end{enumerate}
+\end{prop}
+
+\begin{proof}
+Write
+\[
+f(\beta)=\frac12\|y-X\beta\|_2^2+\lambda\|\beta\|_1.
+\]
+
+\medskip
+\noindent
+\textbf{Uniqueness of the fitted value.}
+Suppose $\hat\beta^{(1)}$ and $\hat\beta^{(2)}$ are two minimizers. Since $f$ is convex, for any $t\in[0,1]$,
+\[
+f\bigl(t\hat\beta^{(1)}+(1-t)\hat\beta^{(2)}\bigr)
+\le
+t f(\hat\beta^{(1)})+(1-t)f(\hat\beta^{(2)}),
+\]
+and the right-hand side equals the minimum value of $f$.
+Hence equality must hold. Subtracting the convex function $\lambda\|\beta\|_1$ from the inequality yields that
+\[
+\left\|y-X\bigl(t\hat\beta^{(1)}+(1-t)\hat\beta^{(2)}\bigr)\right\|_2^2\ge t\left\|y-X\hat\beta^{(1)}\right\|_2^2+(1-t)\left\|y-X\hat\beta^{(2)}\right\|_2^2
+\]
+The strict convexity of the map
+\[
+u\mapsto \frac12\|y-u\|_2^2
+\]
+then implies that
+\[
+X\hat\beta^{(1)} = X\hat\beta^{(2)}.
+\]
+Thus all minimizers have the same fitted value, so $X\hat\beta$ is unique.
+
+\medskip
+\noindent
+\textbf{Uniqueness of the subgradient vector.}
+By the optimality condition for the lasso, $\hat\beta$ is optimal if and only if
+\[
+0 \in -X^\top(y-X\hat\beta)+\lambda\,\partial\|\hat\beta\|_1.
+\]
+Equivalently, there exists $s\in\partial\|\hat\beta\|_1$ such that
+\[
+X^\top(y-X\hat\beta)=\lambda s.
+\]
+Therefore,
+\[
+s=\frac{1}{\lambda}X^\top \left(y-X\hat \beta\right)
+\]
+is also unique. Thus the subgradient vector associated with any optimum is unique. This completes the proof.
+\end{proof}
+\begin{remark}
+    We can also show that for all selection sets $E$ where $X$ has full rank on $E$, it admits a unique $\hat{\beta}$, i.e., for nice selection sets, Lasso only selects but does not estimate. Let $E=\supp(\hat\beta)$ and $\mathrm{rank}(X_E)=|E|$. Then any lasso solution satisfies
+\[
+\hat\beta_{E^c}=0,
+\qquad
+X_E^\top(Y-X_E\hat\beta_E)=\lambda s_E.
+\]
+Therefore,
+\[
+\hat\beta_E
+=
+(X_E^\top X_E)^+\bigl(X_E^\top Y-\lambda s_E\bigr)+v,
+\qquad
+v\in\nullsp(X_E).
+\]
+Since $\mathrm{rank}(X_E)=|E|$ implies $v=0$, we know that $\hat\beta$ is unique.
+\end{remark}
+
+
+\begin{remark}
+    A sufficient condition for uniqueness is that the columns of $X$ are in \emph{general position}.  
+Informally, this means that no signed column lies in the affine span of too few other signed columns.  
+When the entries of $X$ come from a continuous distribution, the general position condition holds almost surely.
+\end{remark}
+
+\begin{prop}[Sparse support of a lasso solution]
+For any $\lambda>0$, there exists a lasso solution with at most $n$ nonzero coefficients.
+\end{prop}
+
+This reflects the fact that the lasso chooses a sparse representation even when $d\gg n$.
+
+\subsection{Hyperparameter tuning in Lasso}
+
+To decide the hyperparameter $\lambda$, we need to evaluate the performance of the estimator $\hat{\beta}$. There are several different notions of error for $\hat\beta$:
+\begin{enumerate}[leftmargin=2em]
+    \item \textbf{In-sample prediction risk}
+    \[
+    \E\left[\frac1n\|X\hat\beta-X\beta^\star\|_2^2\right].
+    \]
+
+    \item \textbf{Estimation risk}
+    \[
+    \E\|\hat\beta-\beta^\star\|_2^2.
+    \]
+
+    \item \textbf{Out-of-sample prediction risk}
+    for a new covariate vector $X_0$,
+    \[
+    \E\bigl[(X_0^\top\hat\beta-X_0^\top\beta^\star)^2\bigr].
+    \]
+\end{enumerate}
+Usually, the in-sample prediction error is the easiest to analyse, since it depends only on the observed design matrix. \begin{prop}
+Consider the normalised lasso
+\[
+\hat\beta
+=
+\argmin_{\beta\in\R^d}
+\left\{
+\frac{1}{2n}\|Y-X\beta\|_2^2 + \lambda\|\beta\|_1
+\right\},
+\]
+under the model
+\[
+Y=X\beta^\star+\varepsilon.
+\]
+Let
+\[
+\Delta=\hat\beta-\beta^\star,
+\]
+and define the event
+\[
+\mathcal E_\lambda
+=
+\left\{
+\left\|\frac{1}{n}X^\top\varepsilon\right\|_\infty
+\le \frac{\lambda}{2}
+\right\}.
+\]
+Then on the event \(\mathcal E_\lambda\),
+\[
+\frac{1}{n}\|X\hat\beta-X\beta^\star\|_2^2
+=
+\frac{1}{n}\|X\Delta\|_2^2
+\le
+3\lambda\|\beta^\star\|_1.
+\]
+In particular, this is a slow-rate oracle inequality for the in-sample prediction risk.
+
+Moreover, if the columns of \(X\) satisfy
+\[
+\frac{1}{n}\|X_j\|_2^2\le 1,
+\qquad j=1,\dots,d,
+\]
+and the noise is sub-Gaussian with scale parameter \(\sigma\), then with high probability
+\[
+\left\|\frac{1}{n}X^\top\varepsilon\right\|_\infty
+\lesssim
+\sigma\sqrt{\frac{\log(d/\delta)}{n}}.
+\]
+Hence a natural choice is
+\[
+\lambda \asymp \sigma \sqrt{\frac{\log(d/\delta)}{n}},
+\]
+for which
+\[
+\frac{1}{n}\|X\hat\beta-X\beta^\star\|_2^2
+\lesssim
+\sigma\|\beta^\star\|_1\sqrt{\frac{\log d}{n}},
+\]
+up to universal constants.
+\end{prop}
+
+\begin{proof}
+By optimality of \(\hat\beta\),
+\[
+\frac{1}{2n}\|Y-X\hat\beta\|_2^2+\lambda\|\hat\beta\|_1
+\le
+\frac{1}{2n}\|Y-X\beta^\star\|_2^2+\lambda\|\beta^\star\|_1.
+\]
+Substituting \(Y=X\beta^\star+\varepsilon\) and writing \(\Delta=\hat\beta-\beta^\star\), we obtain
+\[
+\frac{1}{2n}\|\varepsilon-X\Delta\|_2^2+\lambda\|\hat\beta\|_1
+\le
+\frac{1}{2n}\|\varepsilon\|_2^2+\lambda\|\beta^\star\|_1.
+\]
+Expanding the square and cancelling \(\|\varepsilon\|_2^2/(2n)\) gives
+\[
+\frac{1}{2n}\|X\Delta\|_2^2
+\le
+\frac{1}{n}\varepsilon^\top X\Delta
++\lambda\bigl(\|\beta^\star\|_1-\|\hat\beta\|_1\bigr).
+\]
+Using Hölder's inequality,
+\[
+\frac{1}{n}\varepsilon^\top X\Delta
+\le
+\left\|\frac{1}{n}X^\top\varepsilon\right\|_\infty \|\Delta\|_1.
+\]
+Therefore,
+\[
+\frac{1}{2n}\|X\Delta\|_2^2
+\le
+\left\|\frac{1}{n}X^\top\varepsilon\right\|_\infty \|\Delta\|_1
++\lambda\bigl(\|\beta^\star\|_1-\|\hat\beta\|_1\bigr).
+\]
+On the event \(\mathcal E_\lambda\),
+\[
+\frac{1}{2n}\|X\Delta\|_2^2
+\le
+\frac{\lambda}{2}\|\Delta\|_1
++\lambda\bigl(\|\beta^\star\|_1-\|\hat\beta\|_1\bigr).
+\]
+Now apply the triangle inequality,
+\[
+\|\Delta\|_1=\|\hat\beta-\beta^\star\|_1\le \|\hat\beta\|_1+\|\beta^\star\|_1.
+\]
+Substituting this into the previous bound yields
+\[
+\frac{1}{2n}\|X\Delta\|_2^2
+\le
+\frac{\lambda}{2}\bigl(\|\hat\beta\|_1+\|\beta^\star\|_1\bigr)
++\lambda\bigl(\|\beta^\star\|_1-\|\hat\beta\|_1\bigr).
+\]
+After collecting terms,
+\[
+\frac{1}{2n}\|X\Delta\|_2^2
+\le
+\frac{3\lambda}{2}\|\beta^\star\|_1-\frac{\lambda}{2}\|\hat\beta\|_1
+\le
+\frac{3\lambda}{2}\|\beta^\star\|_1.
+\]
+Multiplying by \(2\), we conclude that
+\[
+\frac{1}{n}\|X\Delta\|_2^2
+\le
+3\lambda\|\beta^\star\|_1.
+\]
+Since \(X\Delta=X\hat\beta-X\beta^\star\), this proves the desired slow-rate prediction bound.
+
+For the choice of \(\lambda\), note that if \(\|X_j\|_2^2/n\le 1\) for all \(j\) and the noise is sub-Gaussian with scale \(\sigma\), then standard maximal inequalities imply that, with high probability,
+\[
+\left\|\frac{1}{n}X^\top\varepsilon\right\|_\infty
+\lesssim
+\sigma\sqrt{\frac{\log(d/\delta)}{n}}.
+\]
+Thus taking
+\[
+\lambda \asymp \sigma \sqrt{\frac{\log(d/\delta)}{n}}
+\]
+ensures that the event \(\mathcal E_\lambda\) holds with high probability, and hence
+\[
+\frac{1}{n}\|X\hat\beta-X\beta^\star\|_2^2
+\lesssim
+\sigma\|\beta^\star\|_1\sqrt{\frac{\log d}{n}}.
+\]
+\end{proof}
+
+\begin{remark}
+This slow-rate bound does not require sparsity of \(\beta^\star\) or a strong structural condition on the design matrix \(X\). Its conclusion is only for prediction:
+\[
+\frac{1}{n}\|X\hat\beta-X\beta^\star\|_2^2
+\lesssim
+\lambda\|\beta^\star\|_1.
+\]
+It does not by itself imply a corresponding bound on \(\|\hat\beta-\beta^\star\|_1\) or \(\|\hat\beta-\beta^\star\|_2\).
+\end{remark}
+
+To obtain a sharper bound, we need stronger assumptions.
+
+\begin{prop}
+Suppose the spare model is given by
+\[
+Y=X\beta^\star+\varepsilon,\qquad S^\star=\operatorname{supp}(\beta^\star),
+\qquad |S^\star|=s.
+\]
+and let the lasso estimator be defined by
+\[
+\hat\beta \in \arg\min_{\beta\in\mathbb{R}^d}
+\left\{
+\frac{1}{2n}\|Y-X\beta\|_2^2+\lambda\|\beta\|_1
+\right\}.
+\]
+Define the estimation error
+\[
+\Delta=\hat\beta-\beta^\star,
+\]
+and the event
+\[
+\mathcal E_\lambda
+=
+\left\{
+\left\|\frac{1}{n}X^\top\varepsilon\right\|_\infty\le \frac{\lambda}{2}
+\right\}.
+\]
+Assume moreover that the restricted eigenvalue condition holds: there exists \(\kappa>0\) such that
+\[
+\frac{1}{n}\|Xu\|_2^2 \ge \kappa \|u\|_2^2
+\qquad \text{for all } u\in C_3(S^\star),
+\]
+where
+\[
+C_3(S^\star)
+=
+\left\{
+u\in\mathbb{R}^d:
+\|u_{(S^\star)^c}\|_1\le 3\|u_{S^\star}\|_1
+\right\}.
+\]
+
+Then on the event \(\mathcal E_\lambda\), one has
+\[
+\Delta\in C_3(S^\star),
+\]
+and
+\[
+\|\Delta\|_2 \le \frac{3\sqrt{s}\lambda}{\kappa},
+\qquad
+\|\Delta\|_1 \le \frac{12 s\lambda}{\kappa},
+\qquad
+\frac{1}{n}\|X\Delta\|_2^2 \le \frac{9 s\lambda^2}{\kappa}.
+\]
+In particular, if
+\[
+\lambda \asymp \sigma \sqrt{\frac{\log d}{n}},
+\]
+then
+\[
+\frac{1}{n}\|X\hat\beta-X\beta^\star\|_2^2
+\lesssim
+\frac{\sigma^2 s\log d}{n},
+\]
+up to universal constants and the restricted eigenvalue factor.
+\end{prop}
+
+\begin{proof}
+Since \(\hat\beta\) minimizes the lasso objective and \(\beta^\star\) is feasible for comparison,
+\[
+\frac{1}{2n}\|Y-X\hat\beta\|_2^2+\lambda\|\hat\beta\|_1
+\le
+\frac{1}{2n}\|Y-X\beta^\star\|_2^2+\lambda\|\beta^\star\|_1.
+\]
+Using \(Y=X\beta^\star+\varepsilon\) and \(\Delta=\hat\beta-\beta^\star\), this becomes
+\[
+\frac{1}{2n}\|\varepsilon-X\Delta\|_2^2+\lambda\|\hat\beta\|_1
+\le
+\frac{1}{2n}\|\varepsilon\|_2^2+\lambda\|\beta^\star\|_1,
+\]
+hence
+\[
+\frac{1}{2n}\|X\Delta\|_2^2
+\le
+\frac{1}{n}\varepsilon^\top X\Delta+\lambda\|\beta^\star\|_1-\lambda\|\hat\beta\|_1.
+\]
+On the event \(\mathcal E_\lambda\),
+\[
+\frac{1}{n}\varepsilon^\top X\Delta
+\le
+\left\|\frac{1}{n}X^\top\varepsilon\right\|_\infty \|\Delta\|_1
+\le
+\frac{\lambda}{2}\|\Delta\|_1.
+\]
+Therefore
+\[
+\frac{1}{2n}\|X\Delta\|_2^2
+\le
+\frac{\lambda}{2}\|\Delta\|_1+\lambda\|\beta^\star\|_1-\lambda\|\hat\beta\|_1.
+\]
+Because \(\beta^\star_{(S^\star)^c}=0\), we have
+\[
+\|\beta^\star\|_1-\|\hat\beta\|_1
+=
+\|\beta^\star_{S^\star}\|_1-\|\hat\beta_{S^\star}\|_1-\|\hat\beta_{(S^\star)^c}\|_1
+\le
+\|\Delta_{S^\star}\|_1-\|\Delta_{(S^\star)^c}\|_1.
+\]
+Substituting this into the previous inequality gives
+\[
+\frac{1}{2n}\|X\Delta\|_2^2
+\le
+\frac{\lambda}{2}\bigl(\|\Delta_{S^\star}\|_1+\|\Delta_{(S^\star)^c}\|_1\bigr)
++\lambda\|\Delta_{S^\star}\|_1
+-\lambda\|\Delta_{(S^\star)^c}\|_1.
+\]
+After collecting terms,
+\[
+\frac{1}{2n}\|X\Delta\|_2^2
+\le
+\frac{3\lambda}{2}\|\Delta_{S^\star}\|_1
+-
+\frac{\lambda}{2}\|\Delta_{(S^\star)^c}\|_1.
+\]
+Rearranging yields
+\[
+\frac{1}{2n}\|X\Delta\|_2^2
++
+\frac{\lambda}{2}\|\Delta_{(S^\star)^c}\|_1
+\le
+\frac{3\lambda}{2}\|\Delta_{S^\star}\|_1.
+\]
+In particular,
+\[
+\|\Delta_{(S^\star)^c}\|_1\le 3\|\Delta_{S^\star}\|_1,
+\]
+so
+\[
+\Delta\in C_3(S^\star).
+\]
+
+Now apply the restricted eigenvalue condition:
+\[
+\frac{1}{n}\|X\Delta\|_2^2\ge \kappa \|\Delta\|_2^2.
+\]
+On the other hand, from the basic inequality above,
+\[
+\frac{1}{n}\|X\Delta\|_2^2
+\le
+3\lambda \|\Delta_{S^\star}\|_1
+\le
+3\lambda \sqrt{s}\,\|\Delta\|_2.
+\]
+Combining these gives
+\[
+\kappa \|\Delta\|_2^2
+\le
+3\lambda \sqrt{s}\,\|\Delta\|_2,
+\]
+and therefore
+\[
+\|\Delta\|_2 \le \frac{3\sqrt{s}\lambda}{\kappa}.
+\]
+Since \(\Delta\in C_3(S^\star)\),
+\[
+\|\Delta\|_1
+=
+\|\Delta_{S^\star}\|_1+\|\Delta_{(S^\star)^c}\|_1
+\le
+4\|\Delta_{S^\star}\|_1
+\le
+4\sqrt{s}\,\|\Delta\|_2
+\le
+\frac{12 s\lambda}{\kappa}.
+\]
+Finally,
+\[
+\frac{1}{n}\|X\Delta\|_2^2
+\le
+3\lambda \sqrt{s}\,\|\Delta\|_2
+\le
+\frac{9 s\lambda^2}{\kappa}.
+\]
+
+If now \(\lambda\asymp \sigma \sqrt{\log d/n}\), then
+\[
+\frac{1}{n}\|X\hat\beta-X\beta^\star\|_2^2
+=
+\frac{1}{n}\|X\Delta\|_2^2
+\lesssim
+\frac{\sigma^2 s\log d}{n},
+\]
+up to universal constants and the restricted eigenvalue factor.
+\end{proof}
+
+\begin{remark}
+    This is the standard fast-rate prediction bound for the lasso. Under sparsity and a restricted eigenvalue condition, the prediction error scales as
+\[
+\frac{\sigma^2 s\log d}{n},
+\]
+which is substantially sharper than the slower approximation-type bounds that hold without such structural assumptions.
+
+\end{remark}
+
+
+\begin{remark}
+    Prediction consistency is weaker than exact variable-selection consistency. To recover the support $S^\star$ exactly, one usually needs:
+\begin{itemize}[leftmargin=2em]
+    \item a design condition stronger than RE, often an irrepresentable-type condition;
+    \item a \emph{beta-min} condition ensuring that the nonzero coefficients are large enough:
+    \[
+    \min_{j\in S^\star} |\beta_j^\star|
+    \quad\text{must dominate the estimation error level.}
+    \]
+\end{itemize}
+
+Thus, exact support recovery is much harder than obtaining a small prediction error.
+\end{remark}
+
+\begin{remark}[Choosing the tuning parameter in practice]
+    Two standard strategies were emphasized:
+\begin{enumerate}[leftmargin=2em]
+    \item \textbf{SURE}, when a Gaussian sequence-model approximation is appropriate.
+    \item \textbf{Cross-validation}, especially in regression problems where prediction performance is the main criterion.
+\end{enumerate}
+
+The tuning parameter controls the amount of regularization:
+\begin{itemize}[leftmargin=2em]
+    \item too small $\lambda$ gives instability and overfitting;
+    \item too large $\lambda$ gives excessive shrinkage and underfitting.
+\end{itemize}
+\end{remark}
+
+
+
+
+
+
+
+More generally, if the true regression function is not exactly linear, say
+\[
+Y=f^\star + \varepsilon,
+\]
+and we fit the constrained lasso
+\[
+\hat\beta_t
+=
+\argmin_{\|\beta\|_1\le t}\frac1n\|Y-X\beta\|_2^2,
+\]
+then one can show an approximation-type bound of the form
+\[
+\frac1n\|X\hat\beta_t-f^\star\|_2^2
+\lesssim
+\inf_{\|\beta\|_1\le t}\frac1n\|X\beta-f^\star\|_2^2
++
+\sigma t\sqrt{\frac{\log d}{n}}.
+\]
+So the lasso trades off approximation error and stochastic error.
+
+\begin{remark}[Connection to nonparametric regression]
+   A useful way to connect nonparametric regression with high-dimensional linear methods is through a basis expansion. Let $Z_i\in\R$ be a scalar input, and choose basis functions
+\[
+\phi_1,\phi_2,\dots,\phi_m.
+\]
+Define the feature vector
+\[
+X_i = \bigl(\phi_1(Z_i),\phi_2(Z_i),\dots,\phi_m(Z_i)\bigr)\in\R^m.
+\]
+Then any function represented in this basis has the form
+\[
+f_\beta(z)=\sum_{j=1}^m \beta_j \phi_j(z),
+\]
+and the regression model becomes
+\[
+Y_i = f_0(Z_i)+\varepsilon_i
+\approx X_i^\top \beta + \varepsilon_i.
+\]
+
+This converts a function-estimation problem into a linear regression problem in a possibly high-dimensional dictionary.  
+If the function is well approximated by only a few basis coefficients, then sparse methods such as the Lasso are natural. 
+\end{remark}
+
+However, Lasso can still give an oracle inequality in this case.
+
+\begin{prop}
+Assume the data obey
+\[
+Y=f^\star+\varepsilon \in \mathbb{R}^n,
+\]
+where \(f^\star\in\mathbb{R}^n\) is an arbitrary regression signal and
+\(\varepsilon\in\mathbb{R}^n\) is a noise vector. Let
+\[
+\hat\beta_t \in \arg\min_{\|\beta\|_1\le t}\frac{1}{n}\|Y-X\beta\|_2^2,
+\]
+where \(X\in\mathbb{R}^{n\times d}\) is the design matrix.
+
+Then for every \(t\ge 0\), with probability at least \(1-c_1 d^{-c_2}\),
+\[
+\frac{1}{n}\|X\hat\beta_t-f^\star\|_2^2
+\le
+\inf_{\|\beta\|_1\le t}\frac{1}{n}\|X\beta-f^\star\|_2^2
++
+C\,\sigma t\sqrt{\frac{\log d}{n}},
+\]
+provided that the columns of \(X\) are normalized so that
+\[
+\frac{1}{n}\|X_j\|_2^2\le 1,\qquad j=1,\dots,d,
+\]
+and the noise coordinates are mean-zero sub-Gaussian with scale parameter \(\sigma\).
+\end{prop}
+
+\begin{proof}
+Since \(\hat\beta_t\) minimizes the constrained empirical risk over the set
+\(\{\beta:\|\beta\|_1\le t\}\), for every \(\beta\) with \(\|\beta\|_1\le t\),
+\[
+\frac{1}{n}\|Y-X\hat\beta_t\|_2^2
+\le
+\frac{1}{n}\|Y-X\beta\|_2^2.
+\]
+Substituting \(Y=f^\star+\varepsilon\), we get
+\[
+\frac{1}{n}\|f^\star+\varepsilon-X\hat\beta_t\|_2^2
+\le
+\frac{1}{n}\|f^\star+\varepsilon-X\beta\|_2^2.
+\]
+Expanding both sides and cancelling the common term \(\|\varepsilon\|_2^2/n\) yields
+\[
+\frac{1}{n}\|X\hat\beta_t-f^\star\|_2^2
+\le
+\frac{1}{n}\|X\beta-f^\star\|_2^2
++
+\frac{2}{n}\varepsilon^\top X(\hat\beta_t-\beta).
+\]
+Using Hölder's inequality,
+\[
+\frac{2}{n}\varepsilon^\top X(\hat\beta_t-\beta)
+\le
+2\left\|\frac{1}{n}X^\top\varepsilon\right\|_\infty
+\|\hat\beta_t-\beta\|_1.
+\]
+Since both \(\hat\beta_t\) and \(\beta\) belong to the \(\ell_1\)-ball of radius \(t\),
+\[
+\|\hat\beta_t-\beta\|_1
+\le
+\|\hat\beta_t\|_1+\|\beta\|_1
+\le
+2t.
+\]
+Therefore,
+\[
+\frac{1}{n}\|X\hat\beta_t-f^\star\|_2^2
+\le
+\frac{1}{n}\|X\beta-f^\star\|_2^2
++
+4t\left\|\frac{1}{n}X^\top\varepsilon\right\|_\infty.
+\]
+Taking the infimum over all \(\beta\) with \(\|\beta\|_1\le t\), we obtain the deterministic bound
+\[
+\frac{1}{n}\|X\hat\beta_t-f^\star\|_2^2
+\le
+\inf_{\|\beta\|_1\le t}
+\frac{1}{n}\|X\beta-f^\star\|_2^2
++
+4t\left\|\frac{1}{n}X^\top\varepsilon\right\|_\infty.
+\]
+It remains to control the stochastic term. Under the column normalization, \(\|X_j\|_2^2/n\le 1\) and the sub-Gaussian assumption on \(\varepsilon\), a standard maximal inequality gives
+\[
+\left\|\frac{1}{n}X^\top\varepsilon\right\|_\infty
+\le
+C'\sigma\sqrt{\frac{\log d}{n}}
+\]
+with probability at least \(1-c_1 d^{-c_2}\). Substituting this estimate into the previous display gives
+\[
+\frac{1}{n}\|X\hat\beta_t-f^\star\|_2^2
+\le
+\inf_{\|\beta\|_1\le t}
+\frac{1}{n}\|X\beta-f^\star\|_2^2
++
+C\,\sigma t\sqrt{\frac{\log d}{n}},
+\]
+for a universal constant \(C>0\). This proves the claim.
+\end{proof}
+
+\begin{remark}
+The bound shows that the constrained lasso balances two effects:
+\begin{itemize}
+    \item the \emph{approximation error}
+    \[
+    \inf_{\|\beta\|_1\le t}\frac{1}{n}\|X\beta-f^\star\|_2^2,
+    \]
+    which measures how well the true regression function can be approximated by a linear predictor with \(\ell_1\)-norm at most \(t\);
+    \item the \emph{stochastic error}
+    \[
+    \sigma t\sqrt{\frac{\log d}{n}},
+    \]
+    which grows with the size of the feasible set.
+\end{itemize}
+Hence larger values of \(t\) reduce approximation error but increase stochastic error, while smaller values of \(t\) do the reverse.
+\end{remark}
+
+

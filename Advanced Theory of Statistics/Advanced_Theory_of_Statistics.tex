@@ -1,0 +1,187 @@
+\documentclass[12pt,oneside]{book}
+\pagestyle{plain}
+\usepackage{graphicx}
+\linespread{1.2}
+\usepackage[export]{adjustbox}
+\graphicspath{ {./images/} }
+\title{{\Large{\textbf{Advanced Theory of Statistics}}}}
+\author{Wei Chen}
+\date{\today}
+\usepackage{array}
+\usepackage[inline,shortlabels]{enumitem}
+\setlist[enumerate,1]{label=(\alph*)., ref=\alph*}
+\usepackage[T1]{fontenc}
+\usepackage{mathpazo}
+\usepackage{hyperref}
+\usepackage{bbm}
+
+\hypersetup{hypertex=true, 
+colorlinks=true,
+linkcolor=blue,
+anchorcolor=blue,
+citecolor=blue}
+\pagestyle{plain}
+\usepackage[title, titletoc]{appendix}
+\usepackage[english]{babel}
+\usepackage{graphicx}
+\usepackage{framed}
+\usepackage[normalem]{ulem}
+\usepackage{indentfirst}
+\usepackage[normalem]{ulem} % For underlining
+\usepackage{amsmath,amsthm,amssymb}
+%\usepackage{pifont} %For unusual symbols
+%\usepackage{mathdots} %For unusual combinations of dots
+\usepackage{wrapfig}
+\usepackage{mathrsfs}
+\usepackage[inline,shortlabels]{enumitem}
+\setlist{topsep=2pt,itemsep=2pt,parsep=0pt,partopsep=0pt}
+\usepackage[dvipsnames]{xcolor}
+\usepackage[a4paper, top=0.5in,bottom=0.2in, left=0.5in, right=0.5in, footskip=0.3in, includefoot]{geometry}
+\usepackage[most]{tcolorbox}
+\usepackage{tikz,tikz-3dplot,tikz-cd,tkz-tab,tkz-euclide,pgf,pgfplots}
+\pgfplotsset{compat=newest}
+\usepackage{multicol}
+\usepackage[bottom,multiple]{footmisc} %ensures footnotes are at the bottom of the page, and separates footnotes by a comma if they are adjacent
+\usepackage[nameinlink]{cleveref} %nameinlink ensures that the entire element is clickable in the pdf, not just the number
+\newcommand{\remind}[1]{\textcolor{red}{\textbf{#1}}} %To remind me of unfinished work to fix later
+\newcommand{\hide}[1]{} %To hide large blocks of code without using % symbols
+
+
+\usepackage{mathtools}
+% Common paired delimiters
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+\newcommand{\inner}[2]{\left\langle #1, #2 \right\rangle}
+\DeclarePairedDelimiter{\paren}{(}{)}      % parentheses
+\DeclarePairedDelimiter{\brackets}{[}{]}   % square brackets
+\DeclarePairedDelimiter{\braces}{\lbrace}{\rbrace} % curly braces
+\DeclarePairedDelimiter{\abs}{\lvert}{\rvert}      % absolute value
+\newcommand{\fat}{\operatorname{fat}}
+\newcommand{\ep}{\varepsilon}
+\newcommand{\vp}{\varphi}
+\newcommand{\lam}{\lambda}
+\newcommand{\Lam}{\Lambda}
+\newcommand{\floor}[1]{\ensuremath{\left\lfloor#1\right\rfloor}}
+\newcommand{\ceil}[1]{\ensuremath{\left\lceil#1\right\rceil}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Ent}{\operatorname{Ent}}
+\newcommand{\X}{\mathcal{X}}
+\newcommand{\VC}{\text{VC}}
+\newcommand{\sign}{\mathrm{sign}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\pr}{\mathbb{P}}
+\newcommand{\F}{\mathcal{F}}
+\newcommand{\A}{\mathcal{A}}
+\newcommand{\es}{\mathcal{S}}
+\newcommand{\diver}{\mathrm{div}}
+\newcommand{\nullsp}{\mathrm{Null}}
+\newcommand{\B}{\mathcal{B}}
+\newcommand{\M}{\mathcal{M}}
+\newcommand{\ra}{"$\Rightarrow$"}
+\newcommand{\la}{"$\Leftarrow$"}
+\newcommand{\bs}{\backslash}
+\newcommand{\Perp}{\mathrel{\perp\!\!\!\perp}}
+\newcommand{\e}{\varnothing}
+\newcommand{\D}{\mathbb{D}}
+\newcommand{\mt}[1]{\texorpdfstring{$#1$}{Text}}
+\newcommand{\1}{\mathbbm{1}}
+\newcommand{\ml}{\mathcal{L}}
+\newcommand{\ind}{\large{1}}
+\newcommand{\limit}[2]{\lim\limits_{#1 \rightarrow #2}}
+\newcommand{\ka}{\kappa}
+\newcommand{\wt}[1]{\widetilde{#1}}
+\newcommand{\indic}{{\large 1}}
+\newcommand{\prob}{\operatorname{Prob}}
+\newcommand{\eh}{\mathbb{H}}
+\newcommand{\G}{\mathcal{G}}
+\DeclareMathOperator{\var}{Var}
+\DeclareMathOperator{\Cov}{Cov}
+\newcommand{\op}{\mathrm{op}}
+\newcommand{\tr}{\mathrm{tr}}
+\DeclareMathOperator{\supp}{supp}
+\newcommand{\textblue}[1]{\textbf{\textcolor{blue}{#1}}}
+\renewcommand{\d}{\mathrm{d}}
+\newcommand{\argmin}{\operatornamewithlimits{argmin}}
+\newcommand{\argmax}{\operatornamewithlimits{argmax}}
+\newtheoremstyle{mystyle}{}{}{}{}{\sffamily\bfseries}{.}{ }{}
+\newtheoremstyle{cstyle}{}{}{}{}{\sffamily\bfseries}{.}{ }{\thmnote{#3}}
+\makeatletter
+\renewenvironment{proof}[1][\proofname] {\par\pushQED{\qed}{\normalfont\sffamily\bfseries\topsep6\p@\@plus6\p@\relax #1\@addpunct{.} }}{\popQED\endtrivlist\@endpefalse}
+\makeatother
+\theoremstyle{mystyle}{\newtheorem{de}{Definition}[section]}
+\theoremstyle{mystyle}{\newtheorem{prop}[de]{Proposition}}
+\theoremstyle{mystyle}{\newtheorem{thm}[de]{Theorem}}
+\theoremstyle{mystyle}{\newtheorem{lem}[de]{Lemma}}
+\theoremstyle{mystyle}{\newtheorem{cor}[de]{Corollary}}
+\theoremstyle{mystyle}{\newtheorem*{remark}{Remark}}
+
+\theoremstyle{mystyle}{\newtheorem*{eg}{Example}}
+\theoremstyle{cstyle}{\newtheorem*{cthm}{}}
+
+%Warning environment
+\newtheoremstyle{warn}{}{}{}{}{\normalfont}{}{ }{}
+\theoremstyle{warn}
+\newtheorem*{warning}{\warningsign{0.2}\relax}
+
+%Symbol for the warning environment, designed to be easily scalable
+\newcommand{\warningsign}[1]{\tikz[scale=#1,every node/.style={transform shape}]{\draw[-,line width={#1*0.8mm},red,fill=yellow,rounded corners={#1*2.5mm}] (0,0)--(1,{-sqrt(3)})--(-1,{-sqrt(3)})--cycle;
+\node at (0,-1) {\fontsize{48}{60}\selectfont\bfseries!};}}
+
+\tcolorboxenvironment{de}{boxrule=0pt,boxsep=0pt,colback={red!10},left=8pt,right=8pt,enhanced jigsaw, borderline west={2pt}{0pt}{red},sharp corners,before skip=10pt,after skip=10pt,breakable}
+\tcolorboxenvironment{prop}{boxrule=0pt,boxsep=0pt,colback={Orange!10},left=8pt,right=8pt,enhanced jigsaw, borderline west={2pt}{0pt}{Orange},sharp corners,before skip=10pt,after skip=10pt,breakable}
+\tcolorboxenvironment{thm}{boxrule=0pt,boxsep=0pt,colback={blue!10},left=8pt,right=8pt,enhanced jigsaw, borderline west={2pt}{0pt}{blue},sharp corners,before skip=10pt,after skip=10pt,breakable}
+\tcolorboxenvironment{lem}{boxrule=0pt,boxsep=0pt,colback={Cyan!10},left=8pt,right=8pt,enhanced jigsaw, borderline west={2pt}{0pt}{Cyan},sharp corners,before skip=10pt,after skip=10pt,breakable}
+\tcolorboxenvironment{cor}{boxrule=0pt,boxsep=0pt,colback={violet!10},left=8pt,right=8pt,enhanced jigsaw, borderline west={2pt}{0pt}{violet},sharp corners,before skip=10pt,after skip=10pt,breakable}
+\tcolorboxenvironment{proof}{boxrule=0pt,boxsep=0pt,blanker,borderline west={2pt}{0pt}{CadetBlue!80!white},left=8pt,right=8pt,sharp corners,before skip=10pt,after skip=10pt,breakable}
+\tcolorboxenvironment{remark}{boxrule=0pt,boxsep=0pt,blanker,borderline west={2pt}{0pt}{Green},left=8pt,right=8pt,before skip=10pt,after skip=10pt,breakable}
+\tcolorboxenvironment{eg}
+{boxrule=0pt,boxsep=0pt,blanker,borderline west={2pt}{0pt}{Black},left=8pt,right=8pt,sharp corners,before skip=10pt,after skip=10pt,breakable}
+\tcolorboxenvironment{cthm}{boxrule=0pt,boxsep=0pt,colback={gray!10},left=8pt,right=8pt,enhanced jigsaw, borderline west={2pt}{0pt}{gray},sharp corners,before skip=10pt,after skip=10pt,breakable}
+
+%align and align* environments with inline size
+\newenvironment{talign}{\let\displaystyle\textstyle\align}{\endalign}
+\newenvironment{talign*}{\let\displaystyle\textstyle\csname align*\endcsname}{\endalign}
+
+\usepackage[explicit]{titlesec}
+\titleformat{\chapter}{\fontsize{22}{26}\normalfont\bfseries}{Chapter \thechapter}{22pt}{\uline{#1}}
+\titleformat{\section}{\fontsize{18}{30}\selectfont\bfseries}{\thesection}{16pt}{#1}
+\titleformat{\subsection}{\fontsize{14}{18}\sffamily\bfseries}{\thesubsection}{12pt}{#1}
+\titleformat{\subsubsection}{\fontsize{10}{12}\sffamily\large\bfseries}{\thesubsubsection}{8pt}{#1}
+
+\titlespacing*{\section}{0pt}{5pt}{5pt}
+\titlespacing*{\subsection}{0pt}{5pt}{5pt}
+\titlespacing*{\subsubsection}{0pt}{5pt}{5pt}
+
+%\newcommand{\sectionbreak}{\clearpage} %Start every section on a new page
+
+\newcommand{\Disp}{\displaystyle}
+\newcommand{\qe}{\hfill\(\bigtriangledown\)}
+\DeclareMathAlphabet\mathbfcal{OMS}{cmsy}{b}{n}
+\setlength{\parindent}{0.2in}
+\setlength{\parskip}{0pt}
+\setlength{\columnseprule}{0pt}
+
+\begin{document}
+
+	\maketitle
+	\allowdisplaybreaks
+	\pagenumbering{roman}
+	\setcounter{page}{1}
+	\begin{center}
+		\text{\Large\textbf{Preface}}
+    \end{center}
+    This is the lecture note of the year course \emph{Advanced Theory of Statistics} taught by Professor Wenlong Mou in the first half and Professor Xin Bing in the second half in academic year 2025-26 at University of Toronto. The note is later revised with the support of ChatGPT. Details missing from the presentations are complemented according to my understandings and thus may contain unavoidable errors and mistakes.
+    
+    
+	\tableofcontents
+	\clearpage
+    \pagenumbering{arabic}
+    \include{Chapter 1}
+    \include{Chapter 2}
+    \include{Chapter 3}
+    \include{Chapter 4}
+    \include{Chapter 5}
+    \include{Chapter 6}
+\end{document}

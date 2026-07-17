@@ -1,0 +1,703 @@
+\chapter{Nonparametric Estimation}
+\section{Lecture 9: Gaussian Complexity and its (Sub)optimality}
+\subsection{Nonparametric Estimation and Gaussian Complexity}
+Given samples $X_1, X_2, \dots, X_n \overset{i.i.d.}{\sim} p^* \in \mathcal{P}$, the goal is to estimate the true density $p^*$ under a specific metric based on the observed pairs $(X_i, Y_i)_{i=1}^n$. The target function is the conditional expectation:
+$$ f^*(x) = \E[Y_i | X_i = x], \quad \text{where } f^* \in \mathcal{F}. $$
+To simplify, we consider the \textbf{fixed design} setting where $x_1, \dots, x_n$ are deterministic. The model is:
+$$ Y_i = f^*(x_i) + \varepsilon_i, \quad \varepsilon_i \overset{i.i.d.}{\sim} \mathcal{N}(0,1). $$
+This is essentially an $n$-dimensional vector recovery problem.
+
+The Maximum Likelihood Estimator (MLE) under Gaussian noise is equivalent to the Least Squares estimator:
+$$ \hat{f}_n := \operatorname*{argmin}_{f \in \mathcal{F}} \left\{ \frac{1}{n} \sum_{i=1}^n (Y_i - f(x_i))^2 \right\} $$
+\begin{remark}
+This optimization is efficiently computable when the function class $\mathcal{F}$ is convex. In literature, convexity can sometimes be relaxed to star-convexity.
+\end{remark}
+
+
+Let $Y = (Y_i)_{i=1}^n$ be the observation vector in $\R^n$. The set of possible values for $f$ on the design points is $\mathcal{F}([x_i])$. The estimator $\hat{f}_n$ is the projection of $Y$ onto this convex set. The \textbf{First-order optimality condition} states:
+$$ \frac{1}{n} \sum_{i=1}^n (Y_i - \hat{f}_n(x_i)) (f'(x_i) - \hat{f}_n(x_i)) \leq 0, \quad \forall f' \in \mathcal{F}. $$
+Geometrically, the angle between the residual vector and any vector pointing into the set from $\hat{f}_n$ is obtuse.
+
+Substituting $f'$ with $f^*$ in the optimality condition and rearranging terms, we derive the ''Basic Inequality''. Starting from:
+$$ \frac{1}{n} \inner{Y - \hat{f}_n}{f^* - \hat{f}_n} \leq 0 $$
+Substituting $Y_i = f^*(x_i) + \varepsilon_i$, we get:
+$$ \frac{1}{n} \sum_{i=1}^n \left[ (f^* - \hat{f}_n)(x_i) \right]^2 \leq \frac{1}{n} \sum_{i=1}^n (\hat{f}_n - f^*)(x_i) \cdot \varepsilon_i $$
+Let $\hat{\Delta}_n = \hat{f}_n - f^*$ and define the empirical norm $\|f\|_n = \sqrt{\frac{1}{n} \sum f(x_i)^2}$. We have:
+$$ \|\hat{\Delta}_n\|_n^2 \leq \inner{\hat{\Delta}_n}{\varepsilon}_n $$
+
+\begin{remark}
+    Applying Cauchy-Schwarz ($\inner{\hat{\Delta}_n}{\varepsilon}_n \leq \|\hat{\Delta}_n\|_n \|\varepsilon\|_n$) leads to a naive bound because $\|\varepsilon\|_n = O(1)$, which does not vanish as $n \to \infty$.
+\end{remark}
+
+
+To improve the bound, we utilize the fact that $\hat{\Delta}_n \in \mathcal{F}^*$, where $\mathcal{F}^* = \{ f - f^* : f \in \mathcal{F} \}$. We bound the inner product uniformly over the class:
+$$ \inner{\hat{\Delta}_n}{\varepsilon}_n \leq \sup_{h \in \mathcal{F}^*, \|h\|_n \leq \|\hat{\Delta}_n\|_n} \frac{1}{n} \sum_{i=1}^n \varepsilon_i h(x_i) $$
+
+\begin{de}[Gaussian Complexity] Let $r>0$. The \textbf{Gaussian complexity} of a the function class $\F^*$ is defined as
+$$ G_n(r) := \E \left[ \sup_{h \in \mathcal{F}^*, \|h\|_n \leq r} \left| \frac{1}{n} \sum_{i=1}^n \varepsilon_i h(x_i) \right| \right] $$
+where $\varepsilon_i$ are i.i.d. standard normal random variables.
+\end{de}
+
+We face a ``chicken-and-egg'' problem: we are bounding $\|\hat{\Delta}_n\|_n$ using a quantity that depends on $\|\hat{\Delta}_n\|_n$. Similar to what we have done in the Rademader case, we also have the following localization bound on the error:
+
+\begin{thm}[Critical Radius Bound]
+Suppose $G_n(r) \leq \phi_n(r)$ such that the growth condition holds:
+$$ \phi_n(cr) \leq c^\alpha \phi_n(r) \quad \text{for some } \alpha < 2. $$
+If $\delta_n$ solves the fixed point equation $\delta_n^2 = \phi_n(\delta_n)$, then with high probability:
+$$ \|\hat{f}_n - f^*\|_n \leq C \cdot \delta_n $$
+\end{thm}
+
+\begin{proof}
+We start from the bounds
+$$ 
+\|\hat{\Delta}_n\|_n^2\le \inner{\hat{\Delta}_n}{\varepsilon}_n \leq \sup_{h \in \mathcal{F}^*, \|h\|_n \leq \|\hat{\Delta}_n\|_n} \frac{1}{n} \sum_{i=1}^n \varepsilon_i h(x_i) 
+$$
+and apply a peeling argument. Note that for any $M$,
+\[
+\pr \paren*{\|\hat{\Delta}_n\|_n>2^M\delta_n}=\sum_{j\ge M}\pr\paren*{2^{j+1}\delta_n\ge\|\hat{\Delta}_n\|_n>2^j\delta_n}\le \sum_{j\ge M} \frac{G_n(2^{j+1}\delta_n)}{2^{2j}\delta_n^2}\le \delta^{\alpha-2}\sum_{j\ge M}2^{(\alpha-2)j}
+\]
+Note that $\alpha<2$, we can pick $M$ large to make this probability sufficiently small and conclude.
+
+
+\end{proof}
+\begin{remark}
+   We can easily verify the growth condition on local Gaussian complexity if we assume that the function class $\F$ is convex (can be weakened to star-convexity), which is usually the case in nonparametric estimation. By convexity (or star-convexity), for $f \in \mathcal{F}^* \cap B(cr)$, we have $\frac{f}{c} \in \mathcal{F}^* \cap B(r)$. This implies:
+$$ \E \left[ \sup_{f \in \mathcal{F}^* \cap B(cr)} \inner{\varepsilon}{f}_n \right] \leq c \E \left[ \sup_{f \in \mathcal{F}^* \cap B(r)} \inner{\varepsilon}{f}_n \right] $$
+Thus, Gaussian complexity grows sub-linearly ($\alpha \leq 1$), satisfying the growth condition.
+\end{remark}
+
+
+To bound the Gaussian complexity, note that the moment generating function of a Rademacher variable is bounded by the MGF of $\mathcal{N}(0,1)$. Therefore, we can follow the same lines of previous proofs for Rademacher complexity to prove Dudley's entropy integral bound on Gaussian complexity.
+
+\begin{thm}[Dudley's entropy integral, the Gaussian case] Let $r>0$, then we have
+$$ G_n(r) \leq \frac{C}{\sqrt{n}} \int_0^r \sqrt{\log N(\delta; \mathcal{F}^* \cap B_n(r), \|\cdot\|_n)} \, d\delta $$
+\end{thm}
+
+\begin{eg}
+    Consider the class of one-dimensional Lipschitz functions:
+\[
+\mathcal{F} = \{ f: [0,1] \to [0,1] \mid |f(x) - f(y)| \leq |x-y|, \forall x,y \}.
+\]
+Using Rudelson-Vershynin results involving the fat-shattering dimension ($fat_{c\delta}$):
+\[
+N(\delta; \mathcal{F}^* \cap B_n(r), \|\cdot\|_n) \leq N(\delta; \tilde{\mathcal{F}}, \|\cdot\|_n) \leq \exp\left( c \cdot fat_{c\delta}(\tilde{\mathcal{F}}) \right).
+\]
+From previous results, we know $fat_{c\delta}(\tilde{\mathcal{F}}) \leq c'/\delta$. Applying this to the integral:
+\[
+G_n(r) \leq \frac{c}{\sqrt{n}} \int_0^r \sqrt{\frac{c'}{\delta}} \, d\delta \leq c \sqrt{\frac{r}{n}}.
+\]
+To find the critical radius $r_n$, we solve for the fixed point $r^2 \sim G_n(r)$:
+\[
+r^2 = c \sqrt{\frac{r}{n}} \implies r^{3/2} \sim n^{-1/2} \implies r_n \asymp n^{-1/3}.
+\]
+Thus, with high probability (w.h.p.):
+\[
+\|\hat{f}_n - f^*\|_n \lesssim n^{-1/3}.
+\]
+\end{eg}
+
+
+
+
+\begin{de}
+    Let $\beta > 0$ with $\beta = k + \gamma$, where $k \in \mathbb{N}$ and $\gamma \in (0,1]$. The Hölder class $\Sigma(\beta, L)$ is defined as:
+\[
+\Sigma(\beta, L) := \left\{ f: [0,1]^d \to [0,1] \;\middle|\; \begin{aligned} &\forall \alpha \text{ (multi-index) s.t. } |\alpha|=k, \\ &|\partial^\alpha f(x) - \partial^\alpha f(y)| \leq L \|x-y\|^\gamma, \\ &\forall x,y \in [0,1]^d \end{aligned} \right\}
+\]
+where a multi-index $\alpha = (\alpha_1, \dots, \alpha_d)$ has magnitude $|\alpha| = \sum \alpha_i$, and $\partial^\alpha f = \frac{\partial^{|\alpha|} f}{\partial x_1^{\alpha_1} \dots \partial x_d^{\alpha_d}}$.
+\end{de}
+
+\begin{thm}[Metric Entropy of Hölder Classes]
+    For any finitely-supported measure $Q$, we have
+\[
+\log N(\epsilon; \Sigma(\beta, L), \|\cdot\|_{L_2(Q)}) \leq c \left( \frac{1}{\epsilon} \right)^{d/\beta}.
+\]
+where the constants $c_1, c_2$ may depend on $(d, \beta)$.
+\end{thm}
+
+
+\begin{remark}
+    Substituting the entropy bound into the complexity integral:
+\[
+G_n(r) \leq \frac{c}{\sqrt{n}} \int_0^r \left( \frac{1}{\delta} \right)^{\frac{d}{2\beta}} \, d\delta.
+\]
+The behavior of this integral depends heavily on the exponent $\frac{d}{2\beta}$:
+
+    \textbf{Case 1: $\beta > d/2$ (The "Donsker" Regime)}
+The integral converges at 0. Picking $r_0 = 0$:
+\[
+G_n(r) \leq \frac{c}{\sqrt{n}} \int_0^r \delta^{-\frac{d}{2\beta}} \, d\delta \leq \frac{c'}{\sqrt{n}} r^{1 - \frac{d}{2\beta}}.
+\]
+Solving for the rate $r_n^2 = G_n(r_n)$:
+\[
+r_n^2 = \frac{r_n^{1 - \frac{d}{2\beta}}}{\sqrt{n}} \implies r_n^{1 + \frac{d}{2\beta}} = n^{-1/2} \implies r_n \asymp n^{-\frac{\beta}{d+2\beta}}.
+\]
+This is the \textbf{optimal rate}.
+
+\textbf{Case 2: $\beta < d/2$ (The "Non-Donsker" Regime)}
+The integral $\int_0^r \delta^{-d/2\beta} d\delta$ diverges as $\delta \to 0$. To avoid divergence, we use the trivial bound $N(\delta) \leq (c/\delta)^n$ for very small $\delta$. We split the integral at a truncation point $r_0$:
+\[
+G_n(r) \leq r_0 + \frac{c}{\sqrt{n}} \int_{r_0}^r \delta^{-\frac{d}{2\beta}} \, d\delta \leq r_0 + \frac{c}{\sqrt{n}} \left( r_0^{1-\frac{d}{2\beta}} - r^{1-\frac{d}{2\beta}} \right).
+\]
+Dominant term approximation:
+\[
+G_n(r) \leq r_0 + \frac{c}{\sqrt{n}} r_0^{1 - \frac{d}{2\beta}}.
+\]
+We choose $r_0 = n^{-\beta/d}$ to balance terms, yielding:
+\[
+G_n(r) \leq c \cdot n^{-\beta/d}.
+\]
+Solving for the rate $r_n^2 = G_n(r_n)$:
+\[
+r_n^2 = n^{-\beta/d} \implies r_n = n^{-\frac{\beta}{2d}}.
+\]
+\begin{remark}
+    This rate is \textbf{suboptimal}. 
+\end{remark}
+\textbf{Case 3: $\beta = d/2$ (Boundary Case)} Using the split as in Case 2, we have
+\[
+G_n(r) \leq r_0 + \frac{c}{\sqrt{n}} \int_{r_0}^r \delta^{-\frac{d}{2\beta}} \, d\delta \leq r_0 + \frac{c}{\sqrt{n}} \left( \log r-\log r_0 \right).
+\]
+Choosing $r_0=n^{-1/2}$ gives 
+\[
+G_n(r)\le c\cdot \frac{r\log n}{\sqrt{n}}
+\]
+When $n$ is large, we solve for the rate $r_n^2 = G_n(r_n)$ and obtain logarithmic factors:
+\[
+r_n = (\log n)^{1/2} \cdot n^{-1/4}.
+\]
+\end{remark}
+
+
+\subsection{Sub-optimality of the Entropy Bound}
+If we plot the rate exponent versus $\beta$:
+\begin{itemize}
+    \item For $\beta > d/2$: The rate is $n^{-\frac{\beta}{d+2\beta}}$, which is optimal.
+    \item For $\beta \leq d/2$: The rate achieved by standard methods derived here is $n^{-\frac{\beta}{2d}}$ that is suboptimal.
+\end{itemize}
+\begin{remark}
+    The regime $\beta \le d/2$ is often referred to as the \textbf{Non-Donsker} regime. Divergent entropy integrals are usually a strong indicator of the suboptimality of the least squares method.
+\end{remark}
+\begin{remark}
+    \begin{itemize}
+    \item The \textbf{optimal rate} for Hölder classes is \textit{always} $n^{-\frac{\beta}{d+2\beta}}$.
+    \item For Hölder classes, (constrained) least squares methods often fail to achieve the optimal rate in the Non-Donsker regime. Conversely, methods such as projection or local polynomials lead to optimal rates.
+    \item The construction of optimal estimators in the Non-Donsker regime can be ad-hoc.
+\end{itemize}
+\end{remark}
+
+We consider the estimation of a function $f^*$ belonging to a Sobolev class $\mathcal{F} = S(\beta, L)$ with smoothness parameter $\beta \in \mathbb{N}^+$ and radius $L > 0$:
+\begin{de}
+    The Sobolev class $S(\beta, L)$ is defined by the bound on the $L^2$ norm of the derivatives:
+\begin{equation*}
+    S(\beta, L) = \left\{ f : [0,1]^d \to \mathbb{R} \;\Bigg|\; \sum_{|\alpha| \le \beta} \int_{[0,1]^d} |\partial^\alpha f(x)|^2 dx \le L^2 \right\}
+\end{equation*}
+\end{de}
+
+
+\begin{remark}
+    Let $\{ \varphi_j \}$ be a Fourier basis in $[0, 1]^d$. The smoothness condition can be characterized by the decay of Fourier coefficients:
+\begin{equation*}
+    \sum_{z \in \mathbb{Z}^d} \langle f, \varphi_z \rangle_{L^2}^2 \cdot |z|^{2\beta} \le L^2
+\end{equation*}
+\end{remark}
+
+We observe the function on a discrete grid: the design points $x_\alpha = \frac{\alpha}{m}$, where $\alpha = (\alpha_1, \alpha_2, \dots, \alpha_d) \in [m]^d$ and the total sample size is $n = m^d$.
+
+Let $\varphi_1, \varphi_2, \dots, \varphi_n$ denote the "Discrete Fourier Basis," which forms an orthonormal basis of $(\mathbb{R}^n, \|\cdot\|_n)$. The target function class $\mathcal{F}$ is defined in terms of discrete coefficients $c_j$:
+\begin{equation*}
+    \mathcal{F} = \left\{ f = \sum_{j=1}^n c_j \varphi_j \;\Bigg|\; \sum_{j=1}^n c_j^2 \cdot j^{2\beta/d} \le L^2 \right\}
+\end{equation*}
+
+We know that the constrained least squares is suboptimal for $\mathcal{F}$ when $\beta < d/2$. Instead, we use a truncation strategy in the Fourier domain.
+
+\begin{enumerate}
+    \item Observe data vector $Y \in \mathbb{R}^n$.
+    \item Compute empirical Fourier coefficients:
+    \begin{equation*}
+        \hat{c}_j = \langle Y, \varphi_j \rangle_n \quad \text{for } j=1, \dots, n
+    \end{equation*}
+    \item Construct the estimator by keeping only the first $N$ frequencies ($N < n$):
+    \begin{equation*}
+        \hat{f}_n = \sum_{j=1}^N \hat{c}_j \varphi_j
+    \end{equation*}
+\end{enumerate}
+
+
+We analyze the Mean Squared Error (MSE) using the bias-variance decomposition. Let $c_j^*$ be the true coefficients of $f^*$.
+\begin{align*}
+    \mathbb{E}\left[ \|\hat{f}_n - f^*\|_n^2 \right] = \frac{1}{n} \sum_{j=1}^N \mathbb{E}\left[ |\hat{c}_j - c_j^*|^2 \right] + \frac{1}{n} \sum_{j=N+1}^n (c_j^*)^2 = \underbrace{\frac{N}{n}}_{\text{Variance}} + \underbrace{\sum_{j=N+1}^n (c_j^*)^2}_{\text{Squared Bias}}
+\end{align*}
+We bound the bias term using the Sobolev condition :
+\begin{align*}
+    \sum_{j=N+1}^n (c_j^*)^2 = \sum_{j=N+1}^n \frac{j^{2\beta/d}}{j^{2\beta/d}} (c_j^*)^2\le \frac{1}{(N+1)^{2\beta/d}} \underbrace{\sum_{j=N+1}^n j^{2\beta/d} (c_j^*)^2}_{\le L^2} \le \frac{L^2}{N^{2\beta/d}}
+\end{align*}
+Thus, the total risk bound is:
+\begin{equation*}
+    \mathbb{E}\left[ \|\hat{f}_n - f^*\|_n^2 \right] \le \frac{N}{n} + \frac{L^2}{N^{2\beta/d}}
+\end{equation*}
+To find the optimal cutoff $N$, we balance the variance and bias terms:
+\begin{equation*}
+    \frac{N}{n} \approx \frac{1}{N^{2\beta/d}} \implies N^{1 + \frac{2\beta}{d}} \approx n
+\end{equation*}
+Solving for $N$, we have $N = n^{\frac{d}{2\beta + d}}$. Plugging this choice of $N$ back into the risk bound yields the convergence rate $r_n$:
+\begin{equation*}
+    \text{MSE Rate} \le \frac{n^{\frac{d}{2\beta+d}}}{n} = n^{\frac{d - (2\beta+d)}{2\beta+d}} = n^{-\frac{2\beta}{2\beta+d}}
+\end{equation*}
+Therefore, the rate of convergence (for the squared error) is: $r_n = n^{-\frac{2\beta}{2\beta+d}}$.
+
+
+\textbf{Question:} How do we relate the empirical risk $\frac{1}{n} \sum (\hat f_n - f^*)(X_i)^2$ to the population risk $\norm{\hat f_n - f^*}_{L^2(\mathbb{P})}^2$?
+
+We define a local process modulus $Z_n(r)$ to bound the difference between the empirical and population norms:
+\[
+Z_n(r) := \E \left[ \sup_{\substack{h \in \F^* \\ \norm{h}_{L^2(\mathbb{P})} \le r}} \left| (P_n - P)h^2 \right| \right]
+\]
+where $\F^* = \{ f - f^* : f \in \F \}$ is the error class (shifted function class).
+
+Expanding this definition:
+\begin{align*}
+Z_n(r) &= \E \left[ \sup \left| \frac{1}{n}\sum_{i=1}^n h(X_i)^2 - \E[h(X)^2] \right| \right] \\
+&\le 2 \cdot \E \left[ \sup \left| \frac{1}{n}\sum_{i=1}^n \xi_i h(X_i)^2 \right| \right] \quad \text{(via Symmetrization)}
+\end{align*}
+where $\xi_i$ are independent Rademacher random variables.
+
+Once we can bound $Z_n(r)$, we have:
+\[
+r_n^2 = \norm{\hat f_n - f^*}_{L^2(\mathbb{P})}^2 \le \frac{1}{n} \sum_{i=1}^n \varepsilon_i (\hat f_n - f^*)(X_i) + Z_n(\norm{\hat f_n - f^*}_{L^2})
+\]
+Bounding the noise term using the suprema over the class:
+\[
+\le \E \left[ \sup_{\substack{h \in \F \\ \norm{h}_2 \le r_n}} \left| \frac{1}{n} \sum \varepsilon_i h(X_i) \right| \right] + Z_n(r_n)
+\]
+This holds with high probability (w.h.p.).
+
+To handle the $h^2$ term inside the supremum, we utilize the Lipschitz property of the square function. Assume that the function class is uniformly bounded:
+\[
+\forall f \in \F, \quad \norm{f}_\infty \le M
+\]
+The mapping $x \mapsto x^2$ is $2M$-Lipschitz on the domain $[-M, M]$. Using the \textbf{Contraction Principle} (Ledoux-Talagrand), we have:
+\[
+\E \left[ \sup_{h \in \F^*(r)} \left| \frac{1}{n} \sum_{i=1}^n \xi_i h^2(X_i) \right| \right] \le 2M \cdot \E \left[ \sup_{h \in \F^*(r)} \left| \frac{1}{n} \sum_{i=1}^n \xi_i h(X_i) \right| \right]
+\]
+Applying previous arguments yields specific bounds for the estimator.
+\begin{remark}
+    \begin{itemize}
+    \item \textbf{Concentration:} To improve the failure probability bounds, one should use concentration inequalities for the supremum of empirical processes (e.g., Talagrand's concentration inequality).
+    \item \textbf{Loose Bounds:} The contraction-based bound derived here is \textbf{not tight}.
+    \item \textbf{Small Noise Regime:} Consider the case where:
+    \[
+    Y_i = f^*(X_i) + \varepsilon_i, \quad \varepsilon_i \overset{iid}{\sim} \mathcal{N}(0, \sigma^2)
+    \]
+    When $\sigma$ is small (high signal, low noise), or even when $\sigma = 0$, we expect \textit{faster rates} of convergence. However, the contraction arguments above do not achieve these faster rates.
+    \item \textbf{Reference:} To achieve tight bounds in these regimes, one must use geometry-dependent arguments, such as the \textbf{"Small Ball Method"} (cf. Mendelson, 2012).
+\end{itemize}
+\end{remark}
+
+
+
+
+
+
+\section{Lecture 10: Kernel Density Estimation}
+
+\subsection{Standard Kerner Density Estimators}
+
+Let $X_1, X_2, \dots, X_n \overset{iid}{\sim} p^*$ on $\R$. We wish to estimate the density $p^*$.
+Common approaches include:
+\begin{itemize}
+    \item \textbf{MLE:} $\hat{p} = \text{argmax}_{p \in \mathcal{P}} \frac{1}{n} \sum \log p(X_i)$. (Requires empirical process theory).
+    \item \textbf{Skeleton Estimators:} Theoretically nice (Scheffé sets), but computationally infeasible.
+    \item \textbf{Local Methods:} Smoothing via kernels.
+\end{itemize}
+
+The Kernel Density Estimator is defined as:
+\[
+\hat p_n(x) = \frac{1}{nh} \sum_{i=1}^n K\left( \frac{x - X_i}{h} \right)
+\]
+where $K$ is a kernel function satisfying $\int_{\R} K(x) dx = 1$, and $h > 0$ is the bandwidth.
+
+Consider a fixed point $x_0$ and a standard kernel (e.g., boxcar $K = \frac{1}{2}\mathbb{1}_{[-1,1]}$).
+\begin{align*}
+\text{Var}(\hat p_n(x_0)) &= \frac{1}{h^2 n} \text{Var}\left( K\left( \frac{X-x_0}{h} \right) \right) \\
+&\le \frac{1}{h^2 n} \int K^2 \left( \frac{y-x_0}{h} \right) p(y) dy \\
+&\approx \frac{p(x_0)}{nh} \int K^2(u) du
+\end{align*}
+Thus, the variance is of order $O(\frac{1}{nh})$.
+
+Assume $p$ is H\"older continuous with exponent $\beta \in (0, 1]$ and constant $L$: $|p(x) - p(y)| \le L|x-y|^\beta$.
+\[
+\E[\hat p_n(x_0)] - p(x_0) = \frac{1}{h} \int K\left( \frac{y-x_0}{h} \right) (p(y) - p(x_0)) dy
+\]
+By change of variables $y = x_0 + uh$:
+\[
+\text{Bias}(x_0) = \int K(u) (p(x_0 + uh) - p(x_0)) du \le L h^\beta \int |K(u)| \cdot |u|^\beta du
+\]
+Thus, $|\text{Bias}(x_0)| \le C \cdot h^\beta$.
+
+The Mean Squared Error (MSE) is then bounded by:
+\[
+\text{MSE}(x_0) \le \frac{C_1}{nh} + C_2 h^{2\beta}
+\]
+Optimizing with respect to $h$, we know that \textbf{optimal bandwidth} $=h_n \asymp n^{-\frac{1}{2\beta+1}}$ and the \textbf{optimal MSE} $\asymp n^{-\frac{2\beta}{2\beta+1}}$. For dimension $d$, the rate becomes $n^{-\frac{2\beta}{2\beta+d}}$.
+
+If the density $p$ is smoother (e.g., $\beta = \ell + \gamma$, with $\ell \in \mathbb{N}$), we use Taylor expansion:
+\[
+p(x_0 + uh) - p(x_0) = \sum_{j=1}^{\ell} \frac{p^{(j)}(x_0)}{j!} (uh)^j + \frac{p^{(\ell)}(x_0 + \tau uh)}{\ell!} (uh)^\ell
+\]
+To achieve better bias rates, we need the lower order terms in the integral $\int K(u) (\dots) du$ to vanish.
+
+\begin{de}
+    A kernel $K$ is of order $\ell$ if:
+\[
+\int u^j K(u) du = 0 \quad \text{for } j=1, 2, \dots, \ell-1.
+\]
+\end{de}
+\begin{remark}
+    To satisfy this for $\ell \ge 2$, $K$ must take negative values. We can construct such kernels using an orthonormal basis on $L^2([-1, 1])$, such as Legendre polynomials $(\varphi_k)_{k=0}^\infty$.
+\[
+K(u) = \sum_{m=0}^\ell \varphi_m(0)\varphi_m(u) \cdot \mathbb{1}_{u \in [-1, 1]}
+\]
+Using an $\ell$-th order kernel, the bias improves to $|\text{Bias}(x_0)| \le C h^\beta$, recovering the optimal rate $n^{-\frac{2\beta}{2\beta+1}}$ for $\beta > 1$.
+\end{remark}
+
+We now analyze the Mean Integrated Squared Error (MISE): $\E \int (\hat p_n(x) - p(x))^2 dx$. Assume $p$ belongs to a Sobolev class $W^{\beta, 2}$, such that $\int (p^{(\beta)}(x))^2 dx \le L^2$. The integrated variance is estimated as
+\[
+\int \text{Var}(\hat p_n(x)) dx = \frac{1}{nh} \int \text{Var}\left( K\left( \frac{X-x}{h} \right) \right) dx \le \frac{1}{nh} \int K^2(u) du
+\]
+Using a kernel of order $\beta-1$, the bias term $b(x)$ is given by
+\[
+b(x) = \int K(u) \frac{(uh)^\beta}{\beta!} \int_0^1 (1-\tau)^{\beta-1} p^{(\beta)}(x + \tau uh) d\tau du
+\]
+and can be bounded via the \textbf{generalized Minkowski inequality}:
+\[
+\left( \int \left| \int g(x, u) du \right|^2 dx \right)^{1/2} \le \int \left( \int |g(x, u)|^2 dx \right)^{1/2} du
+\]
+Applying this to the bias expression yields:
+\[
+\int b(x)^2 dx \le h^{2\beta} \left[ \int |K(u)| |u|^\beta \left( \int_{\R} \int_0^1 (p^{(\beta)}(x+\tau uh))^2 d\tau dx \right)^{1/2} du \right]^2
+\]
+Since $\int (p^{(\beta)}(z))^2 dz \le L^2$, this simplifies to:
+\[
+\int b(x)^2 dx \le C \cdot L^2 \cdot h^{2\beta}
+\]
+By optimizing over $h$, we obtain the rate $n^{-\frac{2\beta}{2\beta+1}}$.
+
+\subsection{The Nadaraya-Watson Estimator}
+We consider the fixed design regression problem:
+$$ Y_i = f^*(x_i) + \varepsilon_i, \quad i=1, \dots, n $$
+where $x_i$ are deterministic design points (e.g., equispaced on $[0,1]$), and $\varepsilon_i$ are independent random errors satisfying:
+$$ \mathbb{E}[\varepsilon_i] = 0, \quad \text{Var}(\varepsilon_i) \le \sigma^2 $$
+Our goal is to estimate the regression function $f^*(x)$. We made the following assumption:
+
+\textbf{Assumption:} Let $f^* \in \Sigma(\beta, L)$ for $0 < \beta \le 1$. That is:
+$$ |f^*(x) - f^*(y)| \le L |x - y|^\beta $$
+and the kernel $K$ is non-negative and supported on $[-1, 1]$.
+
+We start with the Nadaraya-Watson (NW) estimator, which is a "local" estimator defined as:
+$$ \hat{f}_n(x) = \frac{\sum_{i=1}^n Y_i K\left( \frac{x_i - x}{h} \right)}{\sum_{i=1}^n K\left( \frac{x_i - x}{h} \right)} $$
+where $K$ is a kernel function and $h$ is the bandwidth. For analysis, it is convenient to define the weights $W_{n,i}(x)$:
+$$ W_{n,i}(x) = \frac{K\left( \frac{x_i - x}{h} \right)}{\sum_{j=1}^n K\left( \frac{x_j - x}{h} \right)} $$
+Thus, the estimator can be written as a linear function of the responses $Y$:
+$$ \hat{f}_n(x) = \sum_{i=1}^n W_{n,i}(x) Y_i $$
+Note that by definition, $\sum_{i=1}^n W_{n,i}(x) = 1$. We analyze the Mean Squared Error (MSE) at a point $x_0$:
+$$ \text{MSE}(x_0) = \mathbb{E}[(\hat{f}_n(x_0) - f^*(x_0))^2] = \text{Bias}^2(x_0) + \text{Var}(\hat{f}_n(x_0)) $$
+
+
+
+\textbf{Proof of Bias Bound:}
+The bias is given by $b(x_0) = \mathbb{E}[\hat{f}_n(x_0)] - f^*(x_0)$.
+\begin{align*}
+b(x_0) &= \sum_{i=1}^n W_{n,i}(x_0) f^*(x_i) - f^*(x_0) \\
+&= \sum_{i=1}^n W_{n,i}(x_0) f^*(x_i) - \sum_{i=1}^n W_{n,i}(x_0)  f^*(x_0) \\
+&= \sum_{i=1}^n W_{n,i}(x_0) (f^*(x_i) - f^*(x_0))
+\end{align*}
+Taking the absolute value:
+$$ |b(x_0)| \le \sum_{i=1}^n |W_{n,i}(x_0)| \cdot |f^*(x_i) - f^*(x_0)| $$
+Since $K$ is supported on $[-1, 1]$, $W_{n,i}(x_0)$ is non-zero only if $|\frac{x_i - x_0}{h}| \le 1 \implies |x_i - x_0| \le h$. Using the Hölder condition:
+$$ |b(x_0)| \le \sum_{i=1}^n W_{n,i}(x_0) \cdot L |x_i - x_0|^\beta \le L h^\beta \sum_{i=1}^n W_{n,i}(x_0) = L h^\beta $$
+Thus, the squared bias is bounded by $L^2 h^{2\beta}$.
+
+The variance at $x_0$ is:
+$$ \sigma^2(x_0) = \text{Var}\left( \sum_{i=1}^n W_{n,i}(x_0) Y_i \right) = \sum_{i=1}^n W_{n,i}^2(x_0) \text{Var}(Y_i) \le \sigma^2 \sum_{i=1}^n W_{n,i}^2(x_0) $$
+We can bound the sum of squares using the maximum weight:
+$$ \sum_{i=1}^n W_{n,i}^2(x_0) \le \left( \max_i |W_{n,i}(x_0)| \right) \underbrace{\sum_{i=1}^n W_{n,i}(x_0)}_{=1} = \max_i |W_{n,i}(x_0)| $$
+
+\begin{eg}[Box Kernel with Equispaced Design]
+Let $K(u) = \frac{1}{2} \mathbb{I}(|u| \le 1)$ and $x_i = i/n$.
+The denominator of the weights approximates the density of points:
+$$ \sum_{j=1}^n K\left( \frac{x_j - x_0}{h} \right) = \frac{1}{2} \cdot \#\{j : |x_j - x_0| \le h\} $$
+For equispaced points, the number of points in $[x_0 - h, x_0 + h]$ is approximately $2nh$. Thus, for any $i$ in the window:
+$$ W_{n,i}(x_0) \approx \frac{1/2}{1/2 \cdot 2nh} = \frac{1}{2nh} $$
+Therefore:
+$$ \sigma^2(x_0) \le \frac{\sigma^2}{nh} $$
+Combining bias and variance:
+$$ \text{MSE}(x_0) \le L^2 h^{2\beta} + \frac{C \sigma^2}{nh} $$
+To find the optimal bandwidth $h_n$, we balance the two terms:
+$$ h^{2\beta} \asymp \frac{1}{nh} \implies h^{2\beta+1} \asymp n^{-1} \implies h_n \asymp n^{-\frac{1}{2\beta+1}} $$
+Substituting this back gives the optimal minimax rate:
+$$ \text{MSE}(x_0) \asymp n^{-\frac{2\beta}{2\beta+1}} $$
+\end{eg}
+
+\subsection{Generalization to Local Polynomial Estimators}
+The Nadaraya-Watson estimator corresponds to locally fitting a constant. For smoother functions $(\beta > 1)$, this suffers from boundary bias and cannot adapt to higher-order curvature. We generalize this to Local Polynomial Regression:
+
+Instead of finding a constant $\theta$, we approximate $f(x_i)$ near $x$ using a Taylor expansion of order $\ell$ (where $\ell \ge \lfloor \beta \rfloor$):
+$$ f(x_i) \approx f(x) + f'(x)(x_i - x) + \frac{f''(x)}{2!} (x_i - x)^2 + \dots + \frac{f^{(\ell)}(x)}{\ell!} (x_i - x)^\ell $$
+We estimate the parameter vector $\boldsymbol{\theta} = [f(x), f'(x), \dots, f^{(\ell)}(x)]^\top$ by minimizing the weighted least squares:
+$$ \hat{\boldsymbol{\theta}}(x) = \operatorname*{argmin}_{\boldsymbol{\theta} \in \mathbb{R}^{\ell+1}} \sum_{i=1}^n \left( Y_i - \sum_{j=0}^\ell \theta_j \frac{(x_i - x)^j}{j!} \right)^2 K\left( \frac{x_i - x}{h} \right) $$
+
+The solution is a weighted least squares estimator. Define the matrix $B_{n,x}$:
+$$ B_{n,x} = \frac{1}{nh} \sum_{i=1}^n U\left(\frac{x_i - x}{h}\right) U\left(\frac{x_i - x}{h}\right)^\top K\left( \frac{x_i - x}{h} \right) $$
+The weights for LPR are explicitly given by:
+$$ W_{n,i}(x) = \frac{1}{nh} e_1^\top B_{n,x}^{-1} U\left(\frac{x_i - x}{h}\right) K\left(\frac{x_i - x}{h}\right) $$
+
+The variance is $\sigma^2 \sum W_{n,i}^2(x) \le \sigma^2 \max |W_{n,i}(x)|$. We bound the max weight.
+Assuming the design is regular enough such that the discrete sum converges to the integral, $B_{n,x} \succeq \lambda_0 I$ for large $n$.
+$$ |W_{n,i}(x)| \le \frac{1}{nh} \|e_1\| \cdot \|B_{n,x}^{-1}\|_{op} \cdot \left\| U\left(\frac{x_i - x}{h}\right) \right\|_2 \cdot |K(\cdot)| $$
+Since $U(t)$ contains terms bounded on the compact support of $K$, $\|U\|_2 \le C$. Thus:
+$$ \max_i |W_{n,i}(x)| \le \frac{C}{\lambda_0 nh} \implies \text{Var}(\hat{f}_n(x)) = O\left(\frac{1}{nh}\right) $$
+
+We need the following lemma for analysis of the bias term:
+\begin{lem}[Polynomial Reproduction]
+For any polynomial $Q$ of degree $\ell$, the LPR weights satisfy:
+$$ \sum_{i=1}^n W_{n,i}(x) Q(x_i) = Q(x) $$
+Consequently, $\sum_{i=1}^n W_{n,i}(x) (x_i - x)^k = 0$ for $k=1, \dots, \ell$.
+\end{lem}
+
+\textbf{Bias Proof for $\beta > 1$:}
+Using the Taylor expansion with Lagrange remainder for $f^*$:
+$$ f^*(x_i) = f^*(x) + \sum_{k=1}^\ell \frac{f^{(k)}(x)}{k!} (x_i - x)^k + \frac{f^{(\ell)}(x_i^*)}{\ell!} (x_i - x)^\ell $$
+Wait, strict expansion to order $\ell$ leaves a remainder related to Hölder class. Let's express $f^*(x_i)$ as the polynomial part $P_{x}(x_i)$ plus residual $R(x_i)$ where $|R(x_i)| \le L |x_i - x|^\beta$:
+$$ b(x) = \sum_{i=1}^n W_{n,i}(x) f^*(x_i) - f^*(x) $$
+Substitute $f^*(x_i) = P_x(x_i) + R(x_i)$. By the Lemma, $\sum W_{n,i}(x) P_x(x_i) = P_x(x) = f^*(x)$.
+$$ b(x) = \underbrace{\left( \sum W_{n,i}(x) P_x(x_i) - f^*(x) \right)}_{0} + \sum_{i=1}^n W_{n,i}(x) R(x_i) $$
+Thus, the bias is determined solely by the remainder term:
+$$ |b(x)| \le \sum_{i=1}^n |W_{n,i}(x)| \cdot L |x_i - x|^\beta \le L h^\beta \sum |W_{n,i}(x)| $$
+Since $\sum |W_{n,i}|$ is bounded (by properties of the inverse matrix $B_{n,x}^{-1}$), we have:
+$$ \text{Bias}^2(x) = O(h^{2\beta}) $$
+
+Combining the variance $O((nh)^{-1})$ and squared bias $O(h^{2\beta})$, LPR achieves the rate $n^{-\frac{2\beta}{2\beta+1}}$ for any $\beta > 0$.
+
+
+\section{Lecture 11: Minimax Lower bounds}
+\subsection{Sub-optimality of KDE}
+In parametric estimation, MLE is often asymptotically efficient (achieving the Cramér-Rao lower bound). For KDE, can we achieve a specific asymptotic constant?
+
+\begin{remark}
+     For a class like $S(2, L)$ (Sobolev class with second derivatives), the minimax rate is $n^{-4/5}$.
+\begin{itemize}
+    \item For a \textit{fixed} density $p$ as $n \to \infty$, the error is asymptotically dominated by the variance term if $h$ is chosen small enough.
+    \item However, for the \textbf{minimax risk} (worst case over the class), the "hardest" density depends on $n$.
+    \item Every specific density is asymptotically "easier" than the worst-case density in the class (super-efficiency phenomenon).
+\end{itemize}
+\end{remark}
+
+
+
+
+We now justify the minimax rate. Recall that the variance can be expressed as 
+$$ \int \text{Var}(\hat{p}_n(x)) dx = \frac{1}{nh} R(K) + o\left(\frac{1}{nh}\right) $$
+
+The bias is $b(x) = \mathbb{E}[\hat{p}_n(x)] - p(x)$.
+$$ b(x) = \int \frac{1}{h} K\left(\frac{x-y}{h}\right) p(y) dy - p(x) $$
+Let $y = x - uh$, so $dy = -h du$.
+$$ b(x) = \int K(u) p(x - uh) du - p(x) = \int K(u) [p(x - uh) - p(x)] du $$
+To analyze the second-order behavior, we use the Taylor expansion of $p(x-uh)$ around $x$ with the integral form of the remainder:
+$$ p(x - uh) = p(x) - uh p'(x) + \int_0^1 (1-\tau) \frac{d^2}{d\tau^2} p(x - \tau u h) d\tau $$
+Using the chain rule, $\frac{d^2}{d\tau^2} p(x - \tau u h) = (-uh)^2 p''(x - \tau u h) = u^2 h^2 p''(x - \tau u h)$.
+Thus:
+$$ p(x - uh) - p(x) = -uh p'(x) + h^2 u^2 \int_0^1 (1-\tau) p''(x - \tau u h) d\tau $$
+Substituting this back into the bias equation:
+$$ b(x) = -h p'(x) \int u K(u) du + h^2 \int u^2 K(u) \left[ \int_0^1 (1-\tau) p''(x - \tau u h) d\tau \right] du $$
+The linear term vanishes because $K$ is a second-order kernel. We define an approximation $\tilde{b}(x)$ by replacing the shifted second derivative with $p''(x)$:
+$$ \tilde{b}(x) = h^2 \left( \int u^2 K(u) du \right) \left( \int_0^1 (1-\tau) d\tau \right) p''(x) $$
+Since $\int_0^1 (1-\tau) d\tau = \frac{1}{2}$, we have:
+$$ \tilde{b}(x) = \frac{1}{2} h^2 \kappa_2 p''(x) $$
+
+
+We aim to show that $\int b^2(x) dx \approx \int \tilde{b}^2(x) dx$.
+First, the squared norm of the approximation is:
+$$ \int \tilde{b}^2(x) dx = \frac{h^4}{4} \kappa_2^2 \int (p''(x))^2 dx = \frac{h^4}{4} \kappa_2^2 R(p'') $$
+
+To prove rigor, we must show the error goes to zero: $\int |b(x) - \tilde{b}(x)|^2 dx \to 0$ faster than $h^4$ (or specifically that the ratio goes to 1).
+$$ b(x) - \tilde{b}(x) = h^2 \int u^2 K(u) \int_0^1 (1-\tau) [p''(x - \tau u h) - p''(x)] d\tau du $$
+By the Generalized Minkowski Inequality (integral form), the $L^2$ norm satisfies:
+$$ \|b - \tilde{b}\|_2 \le h^2 \int |u^2 K(u)| \int_0^1 (1-\tau) \|p''(\cdot - \tau u h) - p''(\cdot)\|_2 d\tau du $$
+
+For any function $g \in L^2$, the translation map is continuous in $L^2$. That is, $\|g(\cdot + \delta) - g(\cdot)\|_2 \to 0$ as $\delta \to 0$.
+Since $\tau \in [0,1]$ and $u$ is fixed in the integration (weighted by $K(u)$ which decays), the shift $\tau u h \to 0$ as $h \to 0$.
+Therefore, $\|p''(\cdot - \tau u h) - p''(\cdot)\|_2 = o(1)$.
+This implies $\|b - \tilde{b}\|_2 = o(h^2)$, and thus:
+$$ \int b^2(x) dx = \frac{h^4}{4} \kappa_2^2 R(p'') + o(h^4) $$
+
+Combining the bias and variance:
+$$ \text{AMISE}(h) = \frac{R(K)}{nh} + \frac{h^4}{4} \kappa_2^2 R(p'') $$
+Minimizing this with respect to $h$ yields the optimal bandwidth:
+$$ h_{opt} = \left[ \frac{R(K)}{n \kappa_2^2 R(p'')} \right]^{1/5} \sim n^{-1/5} $$
+Substituting $h_{opt}$ back gives the optimal rate $O(n^{-4/5})$.
+
+\subsection{Minimax Lower Bound for H\"older Class}
+We prove that no estimator can achieve a faster rate than $n^{-\frac{2\beta}{2\beta+1}}$ over $\Sigma(\beta, L)$. 
+\begin{proof}
+    We use Le Cam's two-point method.
+
+We construct two hypotheses $f_0, f_1 \in \Sigma(\beta, L)$:
+\begin{itemize}
+    \item $H_0: f_0(x) = 0$
+    \item $H_1: f_1(x) = \psi \cdot K_0\left( \frac{x - x_0}{h} \right)$
+\end{itemize}
+where $K_0$ is a smooth bump function supported on $[-1, 1]$, and $\psi$ is a scaling factor.
+To ensure $f_1 \in \Sigma(\beta, L)$, we require the $\ell$-th derivative to satisfy the Hölder condition. The derivatives scale as:
+$$ |f_1^{(\ell)}(x)| \propto \psi h^{-\ell} $$
+The Hölder condition requires $\psi h^{-\ell} \cdot h^{\ell-\beta} \lesssim L \implies \psi \lesssim L h^\beta$.
+We choose $\psi = c L h^\beta$ for a small constant $c$.
+
+By Le Cam's Lemma, the minimax risk is lower bounded by:
+$$ \inf_{\hat{f}} \sup_{f \in \Sigma} \mathbb{E} [(\hat{f}(x_0) - f(x_0))^2] \ge \frac{(f_0(x_0) - f_1(x_0))^2}{8} \left( 1 - D_{TV}(P_0, P_1) \right) $$
+The squared separation is $(f_1(x_0) - f_0(x_0))^2 = \psi^2 \asymp h^{2\beta}$.
+We bound the TV distance using KL divergence:
+$$ D_{KL}(P_0 || P_1) = \frac{1}{2\sigma^2} \sum_{i=1}^n (f_1(x_i) - 0)^2 \approx \frac{n}{2\sigma^2} \int f_1^2(x) dx $$
+$$ \int f_1^2(x) dx = \psi^2 \int K_0^2\left(\frac{x-x_0}{h}\right) dx = \psi^2 h \|K_0\|_2^2 \asymp h^{2\beta} \cdot h = h^{2\beta+1} $$
+Thus, $D_{KL} \asymp n h^{2\beta+1}$. To make the errors indistinguishable (e.g., $D_{TV} \le 1/2$), we require $D_{KL} \le C$, which implies:
+$$ n h^{2\beta+1} \asymp 1 \implies h \asymp n^{-\frac{1}{2\beta+1}} $$
+Substituting this $h$ into the separation $\psi^2$:
+$$ \text{Minimax Risk} \gtrsim h^{2\beta} \asymp n^{-\frac{2\beta}{2\beta+1}} $$
+\end{proof}
+
+\subsection{Lepski's Method}
+We aim to construct a single estimator $\hat{f}_n$ that is simultaneously optimal for all smoothness parameters $\beta$. Ideally, for all $\beta$ and all $f^* \in \Sigma(\beta, L)$, we want the Mean Squared Error (MSE) at a point $x_0$ to satisfy:
+\[
+MSE(x_0) = \E[(\hat{f}_n(x_0) - f^*(x_0))^2] \lesssim n^{-\frac{2\beta}{2\beta+1}}
+\]
+This capability is desirable because $f^*$ may exhibit different smoothness levels at different locations $x_0$, allowing the estimator to adapt to local regularity.
+
+Surprisingly, perfect adaptation is not possible without an additional cost. The following theorem demonstrates that a logarithmic penalty is unavoidable.
+
+\noindent\begin{thm}[Lepski's Lower Bound]
+Suppose $0 < \beta_1 < \alpha < \beta_2 \leq 1$. Define the rates for the rougher class ($\beta_1$) and the smoother class ($\alpha$) as follows:
+\[
+r_1^2(n) = \left( \frac{\log n}{n} \right)^{\frac{2\beta_1}{2\beta_1+1}}, \quad r_2^2(n) = \left( \frac{1}{n} \right)^{\frac{2\alpha}{2\alpha+1}}
+\]
+Then, for any estimator $\hat{f}_n$, the following minimax lower bound holds for some constant $C > 0$:
+\[
+\inf_{\hat{f}_n} \sup_{i \in \{1, 2\}} \sup_{f^* \in \Sigma(\beta_i, L)} \frac{\E[(\hat{f}_n(x_0) - f^*(x_0))^2]}{r_i^2(n)} \geq C
+\]
+\end{thm}
+\noindent \textbf{Interpretation:} This is an \textit{asymmetric lower bound}. It implies that if we wish to estimate the easier (smoother) class at a rate faster than the minimax rate of the harder (rougher) class, we must "pay" a logarithmic factor in the rate for the harder class.
+
+\begin{proof}
+    We define two specific functions centered at the point of interest $x_0$:
+\begin{enumerate}
+    \item \textbf{Hypothesis 2 (Smooth):} Let $f_2^* \in \Sigma(\beta_2, L)$. We choose the zero function:
+    \[
+    f_2^*(x) = 0
+    \]
+    \item \textbf{Hypothesis 1 (Rough):} Let $f_1^* \in \Sigma(\beta_1, L)$. We construct a "bump" function using a kernel $K$:
+    \[
+    f_1^*(x) = \psi \cdot K\left( \frac{x - x_0}{h} \right)
+    \]
+\end{enumerate}
+where $h$ is the bandwidth and $\psi$ is the amplitude. From the asymmetric two-point lemma, the minimax risk is lower bounded by the separation distance weighted by the error probability. Specifically, we examine the ratio:
+\[
+\frac{\E [|\hat{f}_n(x_0) - f_i^*(x_0)|^2]}{r_i(n)^2}
+\]
+The lemma implies a bound related to the separation at $x_0$:
+\[
+\text{Risk} \gtrsim \frac{(f_1^*(x_0) - f_2^*(x_0))^2}{8 r_1(n)^2} \left\{ 1 - \frac{r_2^2(n)}{r_1^2(n)} \left( 1 + \chi^2(P_{f_1} || P_{f_2}) \right) \right\}
+\]
+Here, the separation is determined by the amplitude $\psi$ at $x_0$ (since $K(0)=1$ typically, $f_1^*(x_0) = \psi$). Thus $(f_1^*(x_0) - f_2^*(x_0))^2 = \psi^2$.
+
+
+To obtain a contradiction or a valid bound, we need the term in the curly braces to be strictly positive (e.g., $< 1/2$). This requires:
+\[
+\frac{r_2^2(n)}{r_1^2(n)} \left( 1 + \chi^2(P_{f_1} || P_{f_2}) \right) < \frac{1}{2}
+\]
+Since $r_2$ (smooth rate) decays faster than $r_1$ (rough rate), the ratio $\frac{r_2^2(n)}{r_1^2(n)}$ is very small ($1/\text{poly}(n)$). Therefore, we only need the divergence $\chi^2(P_{f_1} || P_{f_2})$ to be bounded by a polynomial in $n$ (rather than exponential).
+For the symmetric version, we would typically require $D_{KL}(P_{f_1} || P_{f_2}) \leq \frac{1}{2}$, but here the asymmetry allows for larger divergence.
+
+We choose the bandwidth $h$ and amplitude $\psi$ to satisfy the smoothness condition $f_1^* \in \Sigma(\beta_1, L)$ and the divergence constraint:
+\[
+h = C_0 \left( \frac{\log n}{n} \right)^{\frac{1}{2\beta_1 + 1}}, \quad \psi = C' h^{\beta_1}
+\]
+With these choices, the separation is $\psi^2 \asymp h^{2\beta_1} \asymp \left( \frac{\log n}{n} \right)^{\frac{2\beta_1}{2\beta_1+1}}$, which matches $r_1^2(n)$.
+Substituting these into the divergence calculation ensures $\chi^2(\cdot) \leq \text{poly}(n)$, completing the proof that the rate cannot be faster than $r_1^2(n)$ (which includes the log factor) when we also demand high performance on the smooth class.
+\end{proof}
+
+The lower bound proves we \textit{must} pay a log factor. To actually achieve this adaptive rate, we use \textbf{Lepski's Method}.
+\begin{itemize}
+    \item \textbf{Key Observation:} For each candidate $\beta$, let $h_\beta$ be the optimal bandwidth.
+    \item Let $\hat{f}_{h_\beta}(x_0)$ be the estimator using bandwidth $h_\beta$.
+    \item The method involves comparing estimators across a grid of bandwidths and selecting the largest bandwidth where the estimators do not differ significantly from those with smaller bandwidths.
+\end{itemize}
+
+Lepski's method provides a selection rule to choose an estimator from a family of estimators ordered by their bandwidths (or assumed smoothness).
+
+\textbf{Step I: Discretization}
+Since we cannot search over continuous $\beta$, we discretize the search space $[\beta_{\min}, \beta_{\max}]$.
+
+\begin{de}[The Grid $\mathcal{B}$]
+Let $\mathcal{B} = \{ \beta_1, \beta_2, \dots, \beta_N \}$ be a grid of candidate smoothness parameters such that:
+\[
+\beta_{\min} = \beta_1 < \beta_2 < \dots < \beta_N = \beta_{\max}
+\]
+where the grid size is $N \approx \log n$. The spacing is chosen to be uniform, typically $\beta_j - \beta_{j-1} = \frac{1}{\log n}$.
+\end{de}
+
+\noindent \textbf{Justification:} This discretization is sufficiently fine because the convergence rates do not change distinctively within intervals of size $1/\log n$. Specifically:
+\[
+n^{-\frac{2\beta_j}{2\beta_j+1}} \approx n^{-\frac{2\beta_{j-1}}{2\beta_{j-1}+1}}
+\]
+within polynomial factors relevant to the sample size.
+
+\noindent \textbf{Step II: The Selection Rule}
+For each $\beta \in \mathcal{B}$, let $\hat{f}_{h_\beta}$ be the estimator constructed using bandwidth $h_\beta \asymp (\frac{\log n}{n})^{\frac{1}{2\beta+1}}$.
+
+We define the adaptive estimator $\hat{\beta}$ by selecting the largest smoothness (largest $\beta$, smallest variance, largest bias) that is not statistically distinguishable from the rougher estimates (smaller $\beta$, larger variance, smaller bias).
+
+\begin{de}[Lepski's Estimator]
+The selected smoothness $\hat{\beta}$ is:
+\[
+\hat{\beta} = \max \left\{ \beta \in \mathcal{B} : \forall \beta' \in \mathcal{B}, \beta' < \beta, \quad \abs{\hat{f}_{h_{\beta'}}(x_0) - \hat{f}_{h_\beta}(x_0)} \leq C_0 \psi_{n}(\beta') \right\}
+\]
+where $\psi_{n}(\beta')$ is the threshold associated with the standard deviation of the rougher estimator:
+\[
+\psi_{n}(\beta') \asymp \left( \frac{\log n}{n} \right)^{\frac{\beta'}{2\beta'+1}} \approx \sqrt{\frac{\log n}{n h_{\beta'}}}
+\]
+The final estimator is $\hat{f}_{\text{Lepski}}(x_0) := \hat{f}_{h_{\hat{\beta}}}(x_0)$.
+\end{de}
+
+The adaptive estimator achieves the optimal rate for the unknown $\beta^*$, paying only a logarithmic penalty factor for the adaptation.
+
+\begin{thm}[Oracle Inequality]
+Let $f^*$ have true smoothness $\beta^* \in [\beta_{\min}, \beta_{\max}]$. Then:
+\[
+\E \left[ \abs{\hat{f}_{\text{Lepski}}(x_0) - f^*(x_0)}^2 \right] \leq C \left( \frac{\log n}{n} \right)^{\frac{2\beta^*}{2\beta^*+1}}
+\]
+\end{thm}
+
+\begin{proof}
+    The risk is decomposed based on the event where the selected $\hat{\beta}$ falls relative to the true $\beta^*$
+\[
+\E \abs{\hat{f}_{\hat{\beta}} - f^*}^2 = \sum_{j=1}^N \E \left[ \abs{\hat{f}_{\beta_j} - f^*}^2 \mathbb{I}(\hat{\beta} = \beta_j) \right]
+\]
+
+We split the sum into two regimes:
+
+\noindent\textbf{Case 1: $j \geq j^*$ (Over-smoothing)}
+Here, we selected a smoothness $\beta_j$ greater than or equal to the truth $\beta^*$. By the construction of the set in Lepski's rule, if $\beta_j$ was selected, it implies that it satisfied the intersection condition with all $\beta' < \beta_j$. Specifically, it satisfied the condition with $\beta_{j^*}$ (the truth).
+\[
+\abs{\hat{f}_{\beta_j} - \hat{f}_{\beta_{j^*}}} \leq C \psi_n(\beta_{j^*})
+\]
+Using the triangle inequality:
+\[
+\abs{\hat{f}_{\beta_j} - f^*} \leq \underbrace{\abs{\hat{f}_{\beta_j} - \hat{f}_{\beta_{j^*}}}}_{\leq \text{Threshold}} + \underbrace{\abs{\hat{f}_{\beta_{j^*}} - f^*}}_{\text{Oracle Risk}}
+\]
+The first term is dominated by $\psi_n(\beta')$ by the definition of $\hat \beta$, and the second term is bounded by the risk of the true parameter.
+
+\textbf{Case 2: $j < j^*$ (Under-smoothing)}
+Here, we selected a smoothness lower than the truth (high variance, low bias). This event $\hat{\beta} = \beta_j < \beta^*$ occurs only if the selection rule rejected the true $\beta^*$.
+This implies that for some comparison, the noise term was large enough to violate the threshold. Since the estimators are based on sums of independent variables, we can control this probability using \textbf{concentration inequalities} (e.g., Bernstein or Gaussian tail bounds).
+
+The probability of choosing $j < j^*$ decays polynomially in $n$, making the expected risk contribution from this regime negligible compared to the oracle rate.
+\end{proof}
