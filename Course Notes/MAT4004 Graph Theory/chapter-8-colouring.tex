@@ -1,0 +1,225 @@
+\chapter{Graph Colouring}
+
+\section{Vertex colourings}
+
+\begin{notedefinition}
+Let $G=(V,E)$ be a graph.  A \emph{proper vertex colouring} is a map
+$c\colon V\to S$ such that $c(u)\ne c(v)$ whenever $uv\in E$.  If
+$|S|=k$, it is a \emph{$k$-colouring}.  The least such $k$ is the
+\emph{chromatic number} $\chi(G)$.
+\end{notedefinition}
+
+\begin{notetheorem}[Four-Colour Theorem]
+Every planar graph is $4$-colourable.
+\end{notetheorem}
+
+\begin{notetheorem}[Five-Colour Theorem]
+Every planar graph is $5$-colourable.
+\end{notetheorem}
+\begin{proof}
+Suppose a counterexample $G$ has as few vertices as possible, and fix a plane
+embedding.  By Corollary~7.5, choose a vertex $v$ with $\deg(v)\le5$.  By
+minimality, $G-v$ has a $5$-colouring.  If at most four colours occur on
+$N(v)$, an unused colour extends the colouring to $v$.
+
+It remains to consider $\deg(v)=5$ with all five colours appearing.  List the
+neighbours $v_1,v_2,v_3,v_4,v_5$ in cyclic order around $v$, with
+$c(v_i)=i$.  Let $H_{ij}$ be the subgraph induced by vertices of colours $i$
+and $j$.
+
+If $v_1$ and $v_3$ lie in different components of $H_{13}$, interchange
+colours $1$ and $3$ in the component containing $v_1$.  Colour $1$ is then
+absent from $N(v)$ and may be assigned to $v$.
+
+Otherwise there is a $1$--$3$ Kempe path from $v_1$ to $v_3$.  Together with
+$v v_1$ and $v v_3$, it forms a closed curve separating $v_2$ from $v_4$.
+Hence no $2$--$4$ Kempe path joins $v_2$ to $v_4$.  Interchanging colours
+$2$ and $4$ in the component containing $v_2$ frees colour $2$ for $v$.
+Both cases contradict the choice of $G$.
+\end{proof}
+\begin{notetheorem}[greedy colouring]
+For every graph $G$,
+\[
+  \chi(G)\le\Delta(G)+1.
+\]
+\end{notetheorem}
+\begin{proof}
+Order the vertices arbitrarily and colour them one at a time.  When a vertex
+is reached, at most $\Delta(G)$ colours are forbidden by already coloured
+neighbours, so one of $\Delta(G)+1$ colours remains available.
+\end{proof}
+
+\begin{notelemma}[Brooks ordering lemma]
+Let $G$ be a connected graph with maximum degree $\Delta\ge3$.  If $G$ is
+neither complete nor an odd cycle, then its vertices can be ordered so that
+\begin{itemize}
+  \item two nonadjacent vertices $a,b$ are coloured first with the same
+        colour;
+  \item every later vertex except the final one has a neighbour still
+        uncoloured when it is coloured;
+  \item the final vertex is adjacent to both $a$ and $b$.
+\end{itemize}
+\end{notelemma}
+\begin{proof}[Proof sketch]
+For a $2$-connected graph that is neither complete nor a cycle, one can choose
+vertices $a,b$ at distance two such that $G-\{a,b\}$ is connected; let $v$ be
+a common neighbour.  Take a spanning tree of $G-\{a,b\}$ rooted at $v$ and
+order its vertices from leaves toward the root.  This gives the required
+ordering.  If $G$ has a cut-vertex, apply the same construction successively
+to end blocks, permuting colour names at the shared cut-vertex.  Complete end
+blocks cannot have order $\Delta+1$, because their cut-vertex has an
+additional neighbour outside the block.  This standard block reduction leaves
+only complete graphs and odd cycles as the exceptional connected graphs.
+\end{proof}
+
+\begin{notetheorem}[Brooks's Theorem]
+If a connected graph $G$ is neither complete nor an odd cycle, then
+\[
+  \chi(G)\le\Delta(G).
+\]
+\end{notetheorem}
+\begin{proof}
+The assertion is immediate for $\Delta(G)\le2$.  For $\Delta\ge3$, use the
+ordering from the lemma.  Give the nonadjacent vertices $a,b$ the same colour.
+Colour the remaining vertices greedily in the prescribed order using
+$\Delta$ colours.  Every nonfinal vertex has an uncoloured neighbour, so at
+most $\Delta-1$ colours are forbidden.  At the final vertex, the two
+neighbours $a,b$ use the same colour, so again at most $\Delta-1$ distinct
+colours appear.  Thus the colouring succeeds with $\Delta$ colours.
+\end{proof}
+\section{Edge colourings}
+
+\begin{notedefinition}
+A \emph{proper edge colouring} is a map $c\colon E(G)\to S$ such that edges
+sharing a vertex receive different colours.  The least possible number of
+colours is the \emph{chromatic index} $\chi'(G)$.
+\end{notedefinition}
+
+\begin{noteremark}
+Every colour class in a proper edge colouring is a matching, and
+\[
+  \chi'(G)\ge\Delta(G).
+\]
+A graph is $2$-edge-colourable exactly when each nontrivial component is a
+path or an even cycle.
+\end{noteremark}
+
+\begin{notelemma}[Vizing fan extension lemma]
+Let $G$ be simple, let $uv$ be an uncoloured edge, and suppose all other edges
+have been properly coloured with $\Delta(G)+1$ colours.  By rotating colours
+on a maximal fan centred at $u$ and, if necessary, interchanging two colours
+along a maximal alternating Kempe chain, the colouring can be extended to
+$uv$.
+\end{notelemma}
+\begin{proof}[Proof sketch]
+Build a maximal fan
+$v=v_0,v_1,\dots,v_k$ at $u$, where the colour on $uv_i$ is missing at an
+earlier fan vertex.  Let $\alpha$ be missing at $u$ and let $\beta$ be missing
+at $v_k$.  Consider the maximal $\alpha$--$\beta$ alternating chain through
+$v_k$.  If it avoids $u$, swap $\alpha$ and $\beta$ on that chain and rotate
+the fan, making one colour free at both ends of the uncoloured edge.  If it
+reaches $u$, the defining missing colours of the fan locate an earlier fan
+vertex at which a second Kempe interchange followed by a shorter fan rotation
+has the same effect.  Maximality of the fan guarantees that one of these two
+operations applies.  All operations preserve properness because they merely
+swap colours on a two-coloured component or move a missing colour along the
+fan.
+\end{proof}
+
+\begin{notetheorem}[Vizing's Theorem]
+For every simple graph $G$,
+\[
+  \Delta(G)\le\chi'(G)\le\Delta(G)+1.
+\]
+\end{notetheorem}
+\begin{proof}
+The lower bound is immediate at a vertex of maximum degree.  For the upper
+bound, induct on $|E(G)|$.  Remove an edge $uv$ and colour $G-uv$ with
+$\Delta(G)+1$ colours by induction.  The Vizing fan extension lemma extends
+this colouring to $uv$.
+\end{proof}
+
+\begin{noteremark}
+Simple graphs with $\chi'(G)=\Delta(G)$ are called \emph{class 1}; those with
+$\chi'(G)=\Delta(G)+1$ are \emph{class 2}.  The theorem is false in this form
+for multigraphs, where more than $\Delta+1$ colours may be needed.
+\end{noteremark}
+\begin{notetheorem}[K\H{o}nig's Line-Colouring Theorem]
+If $G$ is bipartite, then
+\[
+  \chi'(G)=\Delta(G).
+\]
+\end{notetheorem}
+\begin{proof}
+Let $\Delta=\Delta(G)$.  Add dummy vertices so that the two bipartition
+classes have the same size, and then add edges between deficient vertices
+until every vertex has degree $\Delta$.  Parallel edges may be used in this
+auxiliary bipartite multigraph $R$; the total degree deficit is the same on
+both sides, so the process terminates.
+
+Every regular bipartite multigraph has a perfect matching by Hall's theorem.
+Remove one perfect matching from $R$; the remaining graph is
+$(\Delta-1)$-regular.  Repeating decomposes $E(R)$ into $\Delta$ perfect
+matchings.  Give each matching its own colour and restrict the colouring to
+$G$.  Thus $\chi'(G)\le\Delta$, while the reverse inequality always holds.
+\end{proof}
+\section{Exercises and extremal examples}
+
+\begin{noteexercise}
+Suppose every two odd cycles of a graph $G$ have a common vertex.  Then
+$G$ is $5$-colourable.
+\end{noteexercise}
+\begin{proof}
+If $G$ has no odd cycle, it is bipartite and hence $2$-colourable.  Otherwise
+fix an odd cycle $C$.  Every odd cycle meets $C$, so $G-V(C)$ has no odd cycle
+and is bipartite.  Colour $G-V(C)$ with two colours and colour $C$ with three
+new colours.  Since the two colour sets are disjoint, this is a proper
+$5$-colouring of $G$.
+\end{proof}
+\begin{noteexercise}
+For the complete graph $K_n$,
+\[
+  \chi'(K_n)=
+  \begin{cases}
+    n-1,& n\text{ even},\\
+    n,& n\text{ odd}.
+  \end{cases}
+\]
+\end{noteexercise}
+\begin{proof}
+The lower bound $\chi'(K_n)\ge n-1$ is the degree bound.  If $n$ is odd, each
+matching contains at most $(n-1)/2$ edges, while
+$|E(K_n)|=n(n-1)/2$; therefore at least $n$ colours are needed.
+
+For odd $n$, label the vertices by $\mathbb Z_n$ and colour the edge $ij$ by
+$i+j\pmod n$.  At a fixed vertex $i$, the values $i+j$ are distinct as
+$j$ varies, so this is a proper $n$-edge-colouring.
+
+For even $n=2m$, label the vertices by
+$\{\infty\}\cup\mathbb Z_{2m-1}$.  For each
+$c\in\mathbb Z_{2m-1}$, let
+\[
+  M_c
+  :=\{\infty c\}
+    \cup\bigl\{(c+i)(c-i):1\le i\le m-1\bigr\},
+\]
+with arithmetic modulo $2m-1$.  Each $M_c$ is a perfect matching, and the
+$2m-1$ matchings partition $E(K_{2m})$.  Assigning one colour to each $M_c$
+gives an $(n-1)$-edge-colouring.
+\end{proof}
+\begin{noteexercise}
+Let $G$ have $n$ vertices and let $\overline G$ be its complement.  Then
+\[
+  \chi(G)\,\chi(\overline G)\ge n.
+\]
+\end{noteexercise}
+\begin{proof}
+Choose proper colourings
+$p\colon V(G)\to[\chi(G)]$ and
+$q\colon V(G)\to[\chi(\overline G)]$.  Assign each vertex the ordered pair
+$(p(v),q(v))$.  Distinct vertices cannot receive the same pair: if they did,
+they would be nonadjacent in $G$ because their $p$-colours agree and
+nonadjacent in $\overline G$ because their $q$-colours agree, which is
+impossible.  The assignment is injective, so the number of available pairs is
+at least $n$.
+\end{proof}

@@ -1,0 +1,283 @@
+\chapter{Network Flows}
+
+\section{Networks, flows, and cuts}
+
+\begin{notedefinition}
+A \emph{network} is a quadruple
+\[
+  N=(D,c,s,t),
+\]
+where $D=(V,A)$ is a finite directed graph, $c\colon A\to\R_{\ge0}$ is the
+\emph{capacity function}, and $s,t\in V$ are distinct vertices called the
+\emph{source} and the \emph{sink}.
+
+For $X\subseteq V$ and a function $g\colon A\to\R$, put
+\[
+\begin{aligned}
+  \delta^+(X)&:=\{xy\in A:x\in X,\ y\notin X\},\\
+  \delta^-(X)&:=\{xy\in A:x\notin X,\ y\in X\},\\
+  g_{\out}(X)&:=\sum_{e\in\delta^+(X)}g(e),
+  &g_{\inflow}(X)&:=\sum_{e\in\delta^-(X)}g(e).
+\end{aligned}
+\]
+For a single vertex $v$, we abbreviate $g_{\out}(\{v\})$ and
+$g_{\inflow}(\{v\})$ to $g_{\out}(v)$ and $g_{\inflow}(v)$.
+\end{notedefinition}
+
+\begin{notedefinition}
+A \emph{flow} in $N$ is a function $f\colon A\to\R_{\ge0}$ satisfying
+\begin{enumerate}
+  \item $0\le f(e)\le c(e)$ for every $e\in A$;
+  \item $f_{\inflow}(v)=f_{\out}(v)$ for every $v\in V\setminus\{s,t\}$.
+\end{enumerate}
+The second condition is called \emph{flow conservation}.  The \emph{value} of
+$f$ is
+\[
+  \val(f):=f_{\out}(s)-f_{\inflow}(s).
+\]
+The zero function is the \emph{zero flow}.
+\end{notedefinition}
+
+\begin{notedefinition}
+A flow is \emph{maximum} if its value is at least the value of every other
+flow in the same network.
+\end{notedefinition}
+
+\begin{notetheorem}
+Let $f$ be a flow in $N=(D,c,s,t)$.  If $S\subseteq V$ satisfies
+$s\in S$ and $t\notin S$, then
+\[
+  f_{\out}(S)-f_{\inflow}(S)=\val(f).
+\]
+In particular,
+\[
+  \val(f)=f_{\inflow}(t)-f_{\out}(t).
+\]
+\end{notetheorem}
+\begin{proof}
+Summing $f_{\out}(v)-f_{\inflow}(v)$ over $v\in S$ cancels every arc whose
+two ends lie in $S$.  The uncancelled terms are exactly the arcs leaving or
+entering $S$, so
+\[
+  f_{\out}(S)-f_{\inflow}(S)
+  =\sum_{v\in S}\bigl(f_{\out}(v)-f_{\inflow}(v)\bigr).
+\]
+All summands vanish by flow conservation except the one at $s$, which is
+$\val(f)$.  Taking $S=V\setminus\{t\}$ gives the second identity.
+\end{proof}
+\begin{notedefinition}
+An $(s,t)$-\emph{cut} is a partition $V=S\dot\cup T$ with $s\in S$ and
+$t\in T$.  We write the cut as $[S,T]$ and define its capacity by
+\[
+  c[S,T]:=c_{\out}(S)=\sum_{e\in\delta^+(S)}c(e).
+\]
+A cut of minimum capacity is a \emph{minimum cut}.
+\end{notedefinition}
+
+\begin{notetheorem}[weak duality]
+For every flow $f$ and every $(s,t)$-cut $[S,T]$,
+\[
+  \val(f)\le c[S,T].
+\]
+\end{notetheorem}
+\begin{proof}
+By Theorem~5.1 and the capacity constraints,
+\[
+  \val(f)=f_{\out}(S)-f_{\inflow}(S)
+  \le f_{\out}(S)
+  \le c_{\out}(S)=c[S,T].
+\]
+\end{proof}
+\section{Augmenting paths and residual networks}
+
+\begin{notedefinition}
+Let
+\[
+  P=(v_0,v_1,\dots,v_k),\qquad v_0=s,\quad v_k=t,
+\]
+be a path in the underlying undirected graph of $D$.  For each step
+$v_{i-1}v_i$, call it
+\begin{itemize}
+  \item \emph{forward} if $v_{i-1}v_i\in A$, with residual capacity
+        $c(v_{i-1}v_i)-f(v_{i-1}v_i)$;
+  \item \emph{backward} if $v_iv_{i-1}\in A$, with residual capacity
+        $f(v_iv_{i-1})$.
+\end{itemize}
+The residual capacity of $P$ is the minimum of these quantities.  If it is
+positive, $P$ is an $f$-\emph{augmenting path}.  Augmenting by $\varepsilon$
+means adding $\varepsilon$ to every forward arc of $P$ and subtracting
+$\varepsilon$ from every backward arc.
+\end{notedefinition}
+
+\begin{noteremark}
+An augmenting path records exactly where more flow can be pushed forward and
+where existing flow can be cancelled and rerouted backward.
+\end{noteremark}
+
+\begin{notetheorem}
+For a flow $f$ in a network $N$, the following are equivalent.
+\begin{enumerate}
+  \item $f$ is a maximum flow.
+  \item There is no $f$-augmenting path from $s$ to $t$.
+  \item There is an $(s,t)$-cut $[S,T]$ such that
+        $c[S,T]=\val(f)$.
+\end{enumerate}
+\end{notetheorem}
+\begin{proof}
+If an augmenting path has residual capacity $\varepsilon>0$, augmenting along
+it preserves the capacity constraints and flow conservation and increases the
+flow value by $\varepsilon$.  Thus (1) implies (2).
+
+Assume (2).  Form the residual digraph $D_f$: for each arc $xy\in A$, include
+$xy$ when $c(xy)-f(xy)>0$, and include $yx$ when $f(xy)>0$.  Let $S$ be the
+vertices reachable from $s$ in $D_f$, and let $T=V\setminus S$.  Since there
+is no augmenting path, $t\in T$.  If $xy\in A$ has $x\in S$, $y\in T$, then
+its forward residual capacity is zero, so $f(xy)=c(xy)$.  If $yx\in A$ has
+$x\in S$, $y\in T$, then its backward residual capacity is zero, so
+$f(yx)=0$.  Therefore
+\[
+\begin{aligned}
+  \val(f)
+  &=f_{\out}(S)-f_{\inflow}(S)\\
+  &=\sum_{e\in\delta^+(S)}c(e)-0
+   =c[S,T],
+\end{aligned}
+\]
+and (3) holds.
+
+Finally, (3) implies (1) by weak duality: every flow $g$ satisfies
+$\val(g)\le c[S,T]=\val(f)$.
+\end{proof}
+\begin{notetheorem}[Max-Flow Min-Cut Theorem]
+In every finite network, the maximum value of a flow equals the minimum
+capacity of an $(s,t)$-cut.
+\end{notetheorem}
+\begin{proof}
+A maximum flow exists because the feasible flows form a nonempty compact
+polytope and the value is continuous.  Apply Theorem~5.3 to such a flow.
+Weak duality gives the reverse inequality, so equality follows.
+\end{proof}
+
+\begin{notealgorithm}[Ford--Fulkerson]
+Start with the zero flow.  While an augmenting path $P$ exists, augment by the
+full residual capacity of $P$.  When no augmenting path remains, return the
+current flow.
+\end{notealgorithm}
+
+\begin{notetheorem}
+If every capacity is an integer, Ford--Fulkerson terminates after finitely many
+augmentations and returns an integer-valued maximum flow.  In particular,
+every network with integer capacities has an integer-valued maximum flow.
+\end{notetheorem}
+\begin{proof}
+Starting from the zero flow, every residual capacity and every augmentation
+amount is an integer.  Each augmentation increases the flow value by at least
+$1$.  Weak duality bounds that value by the capacity of any fixed cut, so only
+finitely many augmentations are possible.  At termination Theorem~5.3 gives a
+maximum flow.
+\end{proof}
+
+\begin{noteremark}
+For arbitrary real capacities, a poor choice of augmenting paths can lead to an
+infinite sequence of augmentations.  The integer-capacity hypothesis is what
+makes the elementary termination argument valid.
+\end{noteremark}
+
+\begin{notedefinition}
+The \emph{residual digraph} $D_f$ of a flow $f$ has vertex set $V(D)$ and,
+for every original arc $xy$, contains
+\begin{itemize}
+  \item a forward residual arc $xy$ of capacity $c(xy)-f(xy)$ when this is
+        positive;
+  \item a backward residual arc $yx$ of capacity $f(xy)$ when this is
+        positive.
+\end{itemize}
+Parallel residual arcs may occur.  An augmenting path is precisely a directed
+$s$--$t$ path in $D_f$.
+\end{notedefinition}
+\section{Applications}
+
+\begin{noteapplication}[vertex-disjoint paths by vertex splitting]
+Let $G$ be an undirected graph and let $u,v$ be distinct nonadjacent vertices.
+Construct a network as follows.
+\begin{enumerate}
+  \item Keep $u$ as the source and $v$ as the sink.
+  \item Replace every vertex $x\in V(G)\setminus\{u,v\}$ by two vertices
+        $x^-$ and $x^+$ and the arc $x^-x^+$ of capacity $1$.
+  \item For every edge $xy\in E(G)$, add arcs that represent traversal in
+        both directions: from the output copy of one end to the input copy of
+        the other.  Give these arcs a capacity larger than $|V(G)|$, or simply
+        capacity $\infty$.
+\end{enumerate}
+Then the value of a maximum flow equals the maximum number of internally
+vertex-disjoint $u$--$v$ paths.  By Max-Flow Min-Cut, it also equals the
+minimum size of a $u$--$v$ vertex separator.
+\end{noteapplication}
+\begin{proof}
+Every integral unit of flow determines a $u$--$v$ route.  The capacity-one arc
+$x^-x^+$ permits at most one route to use an internal vertex $x$.  Conversely,
+a family of internally disjoint paths gives an integral flow by sending one
+unit along each corresponding route.  All finite minimum cuts can therefore
+be chosen among the split arcs, and their capacities count deleted vertices.
+\end{proof}
+
+\begin{noteremark}
+Taking the minimum over all relevant pairs $u,v$ recovers the vertex
+connectivity $\kappa(G)$.  Adjacent pairs require the usual harmless
+modification that forbids the direct edge from bypassing an internal
+separator.
+\end{noteremark}
+\begin{noteapplication}[baseball elimination]
+Suppose teams $1,\dots,n$ have current wins $w_i$, and let $r_{ij}$ be the
+number of remaining games between teams $i$ and $j$.  To test whether team
+$n$ can still finish tied for first, put
+\[
+  W:=w_n+\sum_{i<n}r_{in},
+\]
+its largest possible final number of wins.  If some $w_i>W$, team $n$ is
+already eliminated.  Otherwise build a network with
+\begin{itemize}
+  \item a game vertex $x_{ij}$ for every $1\le i<j<n$;
+  \item a team vertex $y_i$ for every $i<n$;
+  \item arcs $s x_{ij}$ of capacity $r_{ij}$;
+  \item arcs $x_{ij}y_i$ and $x_{ij}y_j$ of infinite capacity;
+  \item arcs $y_i t$ of capacity $W-w_i$.
+\end{itemize}
+Team $n$ is not eliminated if and only if a maximum flow saturates every arc
+leaving $s$.
+\end{noteapplication}
+\begin{proof}
+A unit sent from $x_{ij}$ to $y_i$ assigns one remaining game between $i$ and
+$j$ as a win for team $i$.  Saturating all source arcs assigns every remaining
+game not involving team $n$, while the capacity $W-w_i$ prevents team $i$
+from exceeding team $n$'s best possible total.  The correspondence is
+reversible.
+\end{proof}
+\begin{notedefinition}[circulation with demands]
+Let $D=(V,A)$ have capacities $c\colon A\to\R_{\ge0}$ and demands
+$d\colon V\to\R$.  Interpret $d(v)>0$ as net demand and $d(v)<0$ as net
+supply.  A \emph{circulation satisfying $d$} is a function
+$f\colon A\to\R_{\ge0}$ such that
+\[
+  f(e)\le c(e)\quad(e\in A),
+  \qquad
+  f_{\inflow}(v)-f_{\out}(v)=d(v)\quad(v\in V).
+\]
+Necessarily $\sum_{v\in V}d(v)=0$.
+\end{notedefinition}
+
+\begin{noteapplication}[reducing circulation to maximum flow]
+Assume $\sum_v d(v)=0$.  Add a super-source $s$ and a super-sink $t$.
+For each supply vertex $v$ with $d(v)<0$, add $sv$ of capacity $-d(v)$.
+For each demand vertex $v$ with $d(v)>0$, add $vt$ of capacity $d(v)$.
+Retain all original arcs and capacities.  A feasible circulation exists if
+and only if a maximum $s$--$t$ flow saturates every arc leaving $s$ (and hence
+every arc entering $t$).
+\end{noteapplication}
+\begin{proof}
+Given a feasible circulation, append the prescribed amounts on the new arcs.
+The demand equation becomes ordinary flow conservation at every original
+vertex, so the resulting flow saturates all source arcs.  Conversely, delete
+the new arcs from any flow that saturates them.  Flow conservation then gives
+$f_{\inflow}(v)-f_{\out}(v)=d(v)$ at each original vertex.
+\end{proof}

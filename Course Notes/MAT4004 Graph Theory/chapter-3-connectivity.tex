@@ -1,0 +1,129 @@
+\chapter{Connectivity}
+
+\section{Vertex and edge connectivity}
+
+\begin{notedefinition}
+A set $X\subseteq V(G)$ is a \emph{separating set} if $G-X$ has more components than $G$.  A separating set consisting of one vertex is a \emph{cut-vertex}.
+\end{notedefinition}
+
+\begin{notedefinition}
+The vertex connectivity $\kappa(G)$ is the least integer $k$ for which there is a set $X$ of $k$ vertices such that $G-X$ is disconnected or has at most one vertex.  The graph is $k$-connected if $\kappa(G)\ge k$.
+\end{notedefinition}
+
+\begin{noteremark}
+\[
+  \kappa(G)=0
+  \quad\Longleftrightarrow\quad
+  G\text{ is disconnected or }|V(G)|=1,
+\]
+and $\kappa(K_n)=n-1$.  Every connected graph with at least two vertices is $1$-connected.  A graph is $k$-connected if and only if it is $m$-connected for every $m\le k$.
+\end{noteremark}
+
+\begin{notedefinition}
+The edge connectivity $\lambda(G)$ is the least integer $k$ for which there is a set $F$ of $k$ edges such that $G-F$ is disconnected or has only one vertex.  The graph is $k$-edge-connected if $\lambda(G)\ge k$.
+\end{notedefinition}
+
+\begin{notetheorem}
+Let $G$ be connected and let $F$ be an edge cut.  Then $G-F$ has exactly two components.  Moreover, for every $e=uv\in F$, the vertices $u$ and $v$ lie in different components of $G-F$.
+\end{notetheorem}
+\begin{proof}
+Fix $e\in F$.  Minimality of $F$ implies that $G-(F\setminus\{e\})$ is connected, and $e$ is a bridge of that graph.  The bridge theorem therefore implies that deleting $e$ produces exactly two components with $u$ and $v$ on opposite sides.  The resulting graph is precisely $G-F$.
+\end{proof}
+\begin{notetheorem}[Whitney's inequalities]
+For every nontrivial simple graph $G$,
+\[
+  \kappa(G)\le\lambda(G)\le\delta(G).
+\]
+\end{notetheorem}
+\begin{proof}
+Deleting all edges incident with a minimum-degree vertex disconnects that vertex from the rest, so $\lambda(G)\le\delta(G)$.  Deleting all neighbours of such a vertex also disconnects it (or leaves a graph with at most one vertex), so $\kappa(G)\le\delta(G)$.
+
+It remains to prove $\kappa(G)\le\lambda(G)$.  The claim is immediate when $G$ is disconnected.  Let $F$ be a minimum edge cut of a connected graph, and let $A,B$ be the two components of $G-F$.  If one component is a singleton $\{v\}$, then
+\[
+  \lambda(G)=\deg(v)\ge\delta(G),
+\]
+so $\lambda(G)=\delta(G)$ and $\kappa(G)\le\lambda(G)$.
+
+Assume $|A|,|B|\ge2$, and fix $e=uv\in F$ with $u\in A$ and $v\in B$.  For each edge of $F\setminus\{e\}$ choose one endpoint different from $u$ and $v$, and let $S$ be the set of chosen endpoints.  Then $|S|\le|F|-1$.  In $G-S$, the only possible edge between $A-S$ and $B-S$ is $uv$.  If $G-S$ is disconnected, then $S$ is already a vertex cut.  Otherwise $uv$ is a bridge of $G-S$; deleting $u$ or $v$ (choosing the end that does not remove an entire side) disconnects the graph.  Thus $G$ has a vertex cut of size at most $|S|+1\le|F|$.
+\end{proof}
+\section{Menger's theorem}
+
+\begin{notedefinition}
+Let $A,B\subseteq V(G)$.
+\begin{itemize}
+  \item An $(A,B)$-path has one end in $A$, one end in $B$, and no internal vertex in $A\cup B$.
+  \item An $(A,B)$-separator is a set $S\subseteq V(G)$ such that $G-S$ contains no $(A,B)$-path.  A path of length $0$ at a vertex of $A\cap B$ is allowed, so every separator contains $A\cap B$.
+  \item An $(A,B)$-connector is a set of pairwise vertex-disjoint $(A,B)$-paths.
+\end{itemize}
+\end{notedefinition}
+
+\begin{notetheorem}[Menger's theorem, vertex form]
+For every finite graph $G$ and all $A,B\subseteq V(G)$, the maximum size of an $(A,B)$-connector equals the minimum size of an $(A,B)$-separator.
+\end{notetheorem}
+\begin{proof}
+Every separator must meet every path in a connector, so the minimum separator size is at least the maximum connector size.
+
+For the reverse inequality, use the vertex-splitting reduction to integral max flow.  Replace each vertex $x$ by an arc $x^-x^+$ of capacity $1$, replace every edge $xy$ by the two arcs $x^+y^-$ and $y^+x^-$ of sufficiently large capacity, add a source joined to $a^-$ for $a\in A$, and join $b^+$ to a sink for $b\in B$.  Give the source and sink arcs sufficiently large capacity, except that vertices in $A\cap B$ are handled by their compulsory length-$0$ paths.  Integral flows correspond exactly to families of vertex-disjoint $(A,B)$-paths, while finite cuts correspond exactly to vertex separators.  The max-flow min-cut theorem, proved in Chapter~5, gives equality.
+\end{proof}
+\begin{notedefinition}
+For distinct vertices $u,v$, two $u$--$v$ paths are \emph{internally disjoint} if their vertex sets intersect only in $\{u,v\}$.
+\end{notedefinition}
+
+\begin{notecorollary}
+If $u$ and $v$ are distinct nonadjacent vertices, then the minimum size of a $u$--$v$ separator equals the maximum number of internally disjoint $u$--$v$ paths.
+\end{notecorollary}
+
+\begin{notecorollary}
+A graph with at least two vertices is $k$-connected if and only if every two distinct vertices are joined by $k$ internally disjoint paths.
+\end{notecorollary}
+
+\begin{notetheorem}
+A graph with at least three vertices is $2$-connected if and only if every two vertices lie on a common cycle.
+\end{notetheorem}
+\begin{proof}
+Two internally disjoint $u$--$v$ paths have a union containing a cycle through $u$ and $v$.  Conversely, the two arcs of a cycle through $u,v$ are internally disjoint $u$--$v$ paths.
+\end{proof}
+
+\begin{notetheorem}[edge form of Menger]
+For distinct vertices $u,v$, the minimum size of an edge set whose deletion destroys all $u$--$v$ paths equals the maximum number of pairwise edge-disjoint $u$--$v$ paths.
+\end{notetheorem}
+
+\begin{notetheorem}
+A graph with at least two vertices is $k$-edge-connected if and only if every two distinct vertices are joined by $k$ edge-disjoint paths.
+\end{notetheorem}
+\section{Cubic graphs}
+
+\begin{notedefinition}
+For $S,T\subseteq V(G)$, write $[S,T]$ for the set of edges with one end in $S$ and the other in $T$.  An edge cut has the form $[S,\overline S]$ for a nonempty proper subset $S\subset V(G)$.
+\end{notedefinition}
+
+\begin{notetheorem}
+If $G$ is $3$-regular, then
+\[
+  \kappa(G)=\lambda(G).
+\]
+\end{notetheorem}
+\begin{proof}
+Whitney's inequalities give $\kappa(G)\le\lambda(G)\le3$.
+
+If $\lambda(G)=0$, then both connectivities are $0$.  If $\lambda(G)=1$, a bridge exists.  Removing an endpoint on a nontrivial side of the bridge disconnects $G$, so $\kappa(G)=1$.
+
+Suppose $\lambda(G)=2$.  If $G$ had a cut-vertex $v$, then the three edges incident with $v$ would be distributed among at least two components of $G-v$; some component would receive only one of them, and that edge would be a bridge.  Hence $\kappa(G)\ne1$, so $\kappa(G)=2$.
+
+Finally suppose $\lambda(G)=3$ and, for contradiction, $\kappa(G)=2$.  Let $\{u,v\}$ be a vertex cut.  Every component of $G-\{u,v\}$ sends at least three edges to $\{u,v\}$, because $\lambda(G)=3$.  Since $u$ and $v$ have only six incident edge slots in total, there are exactly two components, $uv\notin E(G)$, and each component sends exactly three edges to $\{u,v\}$.  Neither component can send all three edges to the same one of $u,v$, since that would make the other cut vertex a cut-vertex and force a bridge.  Thus each component has a $1$--$2$ distribution.  The distributions are opposite on the two components.  Deleting the two edges that are unique at their respective cut vertices separates the graph into two parts, producing a $2$-edge cut, contrary to $\lambda(G)=3$.  Therefore $\kappa(G)=3$.
+\end{proof}
+\begin{noteexercise}[Fan lemma]
+For a simple graph $G$, prove that the following are equivalent:
+\begin{enumerate}
+  \item $G$ is $k$-connected;
+  \item $|V(G)|>k$, and for every $v\in V(G)$ and every $S\subseteq V(G)\setminus\{v\}$ with $|S|\ge k$, there are $k$ paths from $v$ to $S$ that intersect only at $v$.
+\end{enumerate}
+\end{noteexercise}
+\begin{proof}
+Assume $G$ is $k$-connected.  Add a new vertex $x$ adjacent to every vertex of $S$.  Any $v$--$x$ separator in the new graph has size at least $k$: deleting fewer than $k$ vertices leaves $G$ connected and leaves at least one vertex of $S$.  Menger's theorem gives $k$ internally disjoint $v$--$x$ paths.  Deleting $x$ yields the required $v$--$S$ fan, with distinct endpoints in $S$.
+
+Conversely, suppose the fan condition holds but $X$ is a separating set with $|X|<k$.  Choose $v$ in one component of $G-X$ and $w$ in another.  Choose a $k$-set $S$ containing $X\cup\{w\}$ and not containing $v$.  A $k$-fan from $v$ to $S$ has one path ending at every vertex of $S$.  The path ending at $w$ must pass through some $x\in X$; it then meets the distinct path ending at $x$, contradicting that the fan paths intersect only at $v$.
+\end{proof}
+\begin{noteremark}[References recorded in the source]
+D.~B.~West, \emph{Introduction to Graph Theory}, Chapter~4; R.~J.~Wilson, \emph{Introduction to Graph Theory}, Sections~2.1 and~6.2; \emph{Graph Theory with Applications}, Chapter~3; R.~Diestel, \emph{Graph Theory}, Chapter~3.
+\end{noteremark}

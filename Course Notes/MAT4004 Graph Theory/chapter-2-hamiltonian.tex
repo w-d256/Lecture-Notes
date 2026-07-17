@@ -1,0 +1,238 @@
+\chapter{Hamiltonian Graphs and Digraphs}
+
+\section{Hamiltonian cycles and closure}
+
+\begin{notedefinition}
+A \emph{Hamiltonian path} is a path containing every vertex of $G$.  A \emph{Hamiltonian cycle} is a cycle containing every vertex.  A graph is \emph{Hamiltonian} if it has a Hamiltonian cycle and \emph{semi-Hamiltonian} if it has a Hamiltonian path but no Hamiltonian cycle.
+\end{notedefinition}
+
+\begin{notetheorem}
+If $G$ is Hamiltonian, then for every nonempty $S\subseteq V(G)$,
+\[
+  \comp{G-S}\le |S|.
+\]
+\end{notetheorem}
+\begin{proof}
+Let $C$ be a Hamiltonian cycle.  Deleting $k=|S|$ vertices from a cycle leaves at most $k$ path components.  Since $C-S$ is a spanning subgraph of $G-S$, adding the remaining edges of $G-S$ cannot increase the number of components.
+\end{proof}
+
+\begin{notedefinition}
+For $F\subseteq\binom{V(G)}2$, the graph $G+F$ has vertex set $V(G)$ and edge set $E(G)\cup F$.  We write $G+uv$ when $F=\{uv\}$.
+\end{notedefinition}
+
+\begin{notedefinition}
+Let $G$ have $n$ vertices.  Starting with $G_0=G$, repeatedly add an edge $uv$ between nonadjacent vertices whenever
+\[
+  \deg_{G_i}(u)+\deg_{G_i}(v)\ge n.
+\]
+Stop when no such pair remains.  The terminal graph is the \emph{Hamiltonian closure} of $G$, denoted $\cl(G)$.
+\end{notedefinition}
+\begin{notetheorem}
+The Hamiltonian closure of a graph is unique; it does not depend on the order in which eligible edges are added.
+\end{notetheorem}
+\begin{proof}
+Call a supergraph $H$ of $G$ \emph{closed} if every nonedge $uv$ of $H$ satisfies $\deg_H(u)+\deg_H(v)<n$.  A terminal graph produced by the procedure is closed.
+
+Let $K$ be any closed supergraph of $G$.  We show inductively that every edge added during any closure sequence belongs to $K$.  Suppose the current graph $H$ is contained in $K$ and $uv$ is eligible in $H$.  If $uv\notin E(K)$, then
+\[
+  \deg_K(u)+\deg_K(v)\ge \deg_H(u)+\deg_H(v)\ge n,
+\]
+contradicting that $K$ is closed.  Thus $uv\in E(K)$.  Hence every terminal graph is contained in every closed supergraph of $G$, and two terminal graphs contain one another.
+\end{proof}
+
+\begin{notelemma}[Ore's edge-addition lemma]
+Let $G$ have $n$ vertices, and let $u,v$ be nonadjacent with
+\[
+  \deg_G(u)+\deg_G(v)\ge n.
+\]
+Then $G$ is Hamiltonian if and only if $G+uv$ is Hamiltonian.
+\end{notelemma}
+\begin{proof}
+Only the reverse implication needs proof.  Let $C$ be a Hamiltonian cycle in $G+uv$.  If $C$ does not use $uv$, then $C\subseteq G$.  Otherwise deleting $uv$ from $C$ gives a Hamiltonian path
+\[
+  P=v_1v_2\cdots v_n,
+  \qquad v_1=u,
+  \quad v_n=v.
+\]
+Define
+\[
+  A=\{i:uv_{i+1}\in E(G)\},
+  \qquad
+  B=\{i:v_iv\in E(G)\},
+\]
+where $1\le i\le n-1$.  We have $|A|=\deg(u)$ and $|B|=\deg(v)$.  Since $|A|+|B|\ge n>n-1$, the sets intersect.  Choose $i\in A\cap B$.  Then
+\[
+  v_1v_2\cdots v_i v_n v_{n-1}\cdots v_{i+1}v_1
+\]
+is a Hamiltonian cycle in $G$.
+\end{proof}
+\begin{notetheorem}[Bondy--Chv\'atal]
+A graph $G$ is Hamiltonian if and only if $\cl(G)$ is Hamiltonian.
+\end{notetheorem}
+\begin{proof}
+Apply Lemma~2.3 after each edge addition in a closure sequence.
+\end{proof}
+
+\begin{notecorollary}
+If $|V(G)|\ge3$ and $\cl(G)$ is complete, then $G$ is Hamiltonian.
+\end{notecorollary}
+
+\begin{notetheorem}[Ore's theorem]
+Let $G$ have $n\ge3$ vertices.  If
+\[
+  \deg(u)+\deg(v)\ge n
+\]
+for every nonadjacent pair $u,v$, then $G$ is Hamiltonian.
+\end{notetheorem}
+\begin{proof}
+Every nonedge is eligible, so $\cl(G)=K_n$.  Apply Corollary~2.5.
+\end{proof}
+
+\begin{notetheorem}[Dirac's theorem]
+If $G$ has $n\ge3$ vertices and $\delta(G)\ge n/2$, then $G$ is Hamiltonian.
+\end{notetheorem}
+\begin{proof}
+Every nonadjacent pair has degree sum at least $n$, so Ore's theorem applies.
+\end{proof}
+
+\begin{notetheorem}[Chv\'atal's degree-sequence condition]
+Let $G$ have $n\ge3$ vertices and nondecreasing degree sequence
+\[
+  d_1\le d_2\le\cdots\le d_n.
+\]
+Suppose that for every integer $i<n/2$,
+\[
+  d_i\le i\quad\Longrightarrow\quad d_{n-i}\ge n-i.
+\]
+Then $G$ is Hamiltonian.
+\end{notetheorem}
+\begin{proof}
+It is enough to show that $H=\cl(G)$ is complete.  The Chv\'atal condition is preserved when edges are added, so $H$ has the same property.  Suppose $H$ is not complete.  Choose a nonedge $uv$ maximizing $\deg_H(u)+\deg_H(v)$, with $\deg_H(u)\le\deg_H(v)$, and put $i=\deg_H(u)$.  Since $H$ is closed,
+\[
+  2i\le\deg_H(u)+\deg_H(v)\le n-1,
+\]
+so $i<n/2$.
+
+Every nonneighbour of $v$ has degree at most $i$, by maximality of the chosen degree sum.  Since $v$ has at least $i$ nonneighbours, $d_i(H)\le i$.  Likewise every nonneighbour of $u$ has degree at most $\deg_H(v)\le n-1-i$; together with $u$, this gives at least $n-i$ vertices of degree at most $n-1-i$.  Hence
+\[
+  d_{n-i}(H)\le n-i-1<n-i,
+\]
+contradicting the degree-sequence hypothesis.  Thus $H$ is complete, and Bondy--Chv\'atal gives the result.
+\end{proof}
+\section{Tournaments and kernels}
+
+\begin{notedefinition}
+A digraph is a pair $D=(V,A)$, where $A$ is a set of ordered pairs of distinct vertices, called \emph{arcs}.  We write $uv$ for the arc $(u,v)$.  A directed walk, path, or cycle follows the directions of its arcs.  The underlying graph is obtained by forgetting all directions.  The digraph is \emph{connected} if its underlying graph is connected and \emph{strongly connected} if every ordered pair of vertices is joined by a directed path.  A \emph{tournament} is an orientation of a complete graph: for each pair $u\ne v$, exactly one of $uv$ and $vu$ is an arc.
+\end{notedefinition}
+
+\begin{notetheorem}
+Every tournament has a directed Hamiltonian path.
+\end{notetheorem}
+\begin{proof}
+Use induction on $n=|V(D)|$.  Let
+\[
+  P=v_1v_2\cdots v_{n-1}
+\]
+be a directed Hamiltonian path in the tournament obtained by deleting $x$.  If $xv_1$ is an arc, place $x$ first; if $v_{n-1}x$ is an arc, place $x$ last.  Otherwise there is a first index $i$ such that $xv_{i+1}$ is an arc.  By minimality, $v_ix$ is an arc, and
+\[
+  v_1\cdots v_i x v_{i+1}\cdots v_{n-1}
+\]
+is a directed Hamiltonian path.
+\end{proof}
+\begin{notetheorem}[Camion's theorem for tournaments]
+Every strongly connected tournament with at least three vertices has a directed Hamiltonian cycle.
+\end{notetheorem}
+\begin{proof}
+Let $C$ be a longest directed cycle.  Suppose that $R=V(D)\setminus V(C)$ is nonempty.  If some $x\in R$ has an in-neighbour and an out-neighbour on $C$, then two consecutive vertices $v_i,v_{i+1}$ of $C$ satisfy
+\[
+  v_i x,\; xv_{i+1}\in A(D),
+\]
+and $x$ can be inserted into $C$, a contradiction.  Therefore every $x\in R$ either dominates all of $C$ or is dominated by all of $C$.
+
+Let
+\[
+  A=\{x\in R:C\to x\},
+  \qquad
+  B=\{x\in R:x\to C\}.
+\]
+Strong connectivity implies that both sets are nonempty and that some arc goes from $A$ to $B$: take a directed path from a vertex of $A$ to $C$ and look at the first transition from $A$ to $B$.  Choose $a\in A$, $b\in B$ with $ab\in A(D)$.  Replacing any arc $v_iv_{i+1}$ of $C$ by
+\[
+  v_i\to a\to b\to v_{i+1}
+\]
+creates a longer directed cycle, again a contradiction.  Hence $C$ is spanning.
+\end{proof}
+\begin{notedefinition}
+A set $K\subseteq V(D)$ is a \emph{kernel} if it is independent and every vertex in $V(D)\setminus K$ has an outgoing arc to a vertex of $K$.
+\end{notedefinition}
+
+\begin{notetheorem}[Richardson]
+Every finite digraph with no directed odd cycle has a kernel.
+\end{notetheorem}
+\begin{proof}
+We use induction on $|V(D)|$.  First suppose $D$ is strongly connected.  Fix a root $r$.  Because every directed closed walk decomposes into directed cycles, every directed closed walk has even length.  Consequently, any two directed $r$--$v$ paths have the same parity: append a directed $v$--$r$ path to both and compare the resulting closed walks.  Partition the vertices according to that parity.  Every arc goes between the two parts, so the underlying graph is bipartite.  Since strong connectivity gives every vertex positive outdegree, either part is a kernel.
+
+Now suppose $D$ is not strongly connected.  Let $C$ be a sink strongly connected component and let $K_C$ be a kernel of $D[C]$.  Let
+\[
+  X=\{x\notin C:\text{ some arc }xk\text{ has }k\in K_C\}.
+\]
+By induction, the induced digraph $D-(C\cup X)$ has a kernel $K'$.  Then $K_C\cup K'$ is independent: no arc leaves the sink component $C$, and a vertex of $K'$ has no arc to $K_C$ by the definition of $X$.  Vertices in $C\setminus K_C$ are absorbed by $K_C$, vertices in $X$ are absorbed by $K_C$, and all remaining vertices are absorbed by $K'$.  Thus $K_C\cup K'$ is a kernel of $D$.
+\end{proof}
+\begin{notedefinition}
+The \emph{split} of a digraph $D$ is the bipartite graph with parts
+\[
+  V^+=\{v^+:v\in V(D)\},
+  \qquad
+  V^-=\{v^-:v\in V(D)\},
+\]
+and with edge $u^+v^-$ for every arc $uv$ of $D$.
+\end{notedefinition}
+\section{Eulerian digraphs and applications}
+
+\begin{notetheorem}
+A finite digraph $D$ is Eulerian if and only if
+\[
+  d^+(v)=d^-(v)\qquad\text{for every }v\in V(D)
+\]
+and its underlying graph has at most one nontrivial component.
+\end{notetheorem}
+\begin{proof}
+The conditions are necessary because an Eulerian circuit enters and leaves each vertex equally often and contains every nonisolated vertex.
+
+Conversely, begin at any nonisolated vertex and follow unused outgoing arcs.  At any vertex other than the start, the number of used incoming arcs exceeds the number of used outgoing arcs by one, so equality of indegree and outdegree guarantees an unused outgoing arc.  Thus the trail closes.  If unused arcs remain, connectedness of the nontrivial underlying component gives a vertex on the current circuit incident with an unused arc.  Build another closed directed trail there and splice it into the circuit.  Repetition yields an Eulerian circuit.
+\end{proof}
+
+\begin{noteapplication}[de Bruijn cycles]
+For $n\ge1$, form the digraph whose vertices are the binary strings of length $n-1$ and whose arcs are the binary strings $a_1\cdots a_n$, directed from $a_1\cdots a_{n-1}$ to $a_2\cdots a_n$.  Every vertex has indegree and outdegree $2$, and the underlying graph has one nontrivial component.  An Eulerian circuit therefore lists all $2^n$ binary strings of length $n$ exactly once as consecutive cyclic blocks.  Such a cyclic word is a binary de Bruijn cycle of order $n$.
+\end{noteapplication}
+\begin{notedefinition}[King]
+A vertex $v$ of a digraph is a \emph{king} if every vertex is reachable from $v$ by a directed path of length at most two.
+\end{notedefinition}
+
+\begin{noteproposition}[Landau]
+Every tournament has a king.
+\end{noteproposition}
+\begin{proof}
+Choose a vertex $v$ of maximum outdegree.  Let $u$ be a vertex not dominated by $v$, so $u\to v$.  If no out-neighbour $w$ of $v$ satisfies $w\to u$, then $u$ dominates $v$ and every out-neighbour of $v$.  Hence
+\[
+  d^+(u)\ge d^+(v)+1,
+\]
+a contradiction.  Thus $v\to w\to u$ for some $w$, and $v$ is a king.
+\end{proof}
+\begin{notetheorem}[double-tree bound]
+Let $G$ be a complete weighted graph whose weights are nonnegative and satisfy the triangle inequality
+\[
+  w(xz)\le w(xy)+w(yz).
+\]
+If $T$ is a minimum spanning tree and $C^*$ is a minimum-weight Hamiltonian cycle, then there is a Hamiltonian cycle $C$ such that
+\[
+  w(C)\le2w(T)\le2w(C^*).
+\]
+\end{notetheorem}
+\begin{proof}
+Duplicate every edge of $T$.  The resulting connected multigraph has all degrees even, so it has an Eulerian circuit $W$ of weight $2w(T)$.  Traverse $W$ and shortcut every visit to a vertex already seen, retaining only the first occurrence of each vertex before returning to the start.  Completeness supplies every shortcut edge, and the triangle inequality ensures that shortcutting never increases total weight.  The result is a Hamiltonian cycle $C$ with $w(C)\le2w(T)$.
+
+Deleting any edge from $C^*$ gives a spanning tree, so $w(T)\le w(C^*)$.
+\end{proof}
+\begin{noteremark}[References recorded in the source]
+D.~B.~West, \emph{Introduction to Graph Theory}, Section~7.2; R.~J.~Wilson, \emph{Introduction to Graph Theory}, Section~2.3; \emph{Graph Theory with Applications}, Section~4.2; R.~Diestel, \emph{Graph Theory}, Chapter~10.
+\end{noteremark}

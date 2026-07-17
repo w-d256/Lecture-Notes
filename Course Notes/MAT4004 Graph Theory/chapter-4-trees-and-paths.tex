@@ -1,0 +1,239 @@
+\chapter{Trees}
+
+\section{Trees and spanning trees}
+
+\begin{notedefinition}
+A graph is \emph{acyclic} if it contains no cycle.  An acyclic graph is a \emph{forest}; a connected forest is a \emph{tree}.  A vertex of degree one in a forest is a \emph{leaf}.
+\end{notedefinition}
+
+\begin{notetheorem}
+Let $T$ be a graph with $n$ vertices.  The following statements are equivalent.
+\begin{enumerate}
+  \item $T$ is a tree.
+  \item $T$ is acyclic and has $n-1$ edges.
+  \item $T$ is connected and has $n-1$ edges.
+  \item $T$ is connected and every edge is a bridge.
+  \item Every two vertices are joined by a unique path.
+  \item $T$ is acyclic, and $T+uv$ contains exactly one cycle for every nonedge $uv$.
+\end{enumerate}
+\end{notetheorem}
+\begin{proof}
+A longest path in a nontrivial tree has leaf endpoints.  Removing a leaf and its incident edge leaves a smaller tree, so induction gives $|E(T)|=n-1$.  Thus (a) implies (b).
+
+If an acyclic graph has components of orders $n_1,\ldots,n_k$, each component is a tree and has $n_i-1$ edges; hence it has $n-k$ edges in total.  Therefore (b) implies $k=1$, giving (c).
+
+Every connected $n$-vertex graph has at least $n-1$ edges: start with one vertex and expose the remaining vertices along paths from the initial set, adding at least one new edge for every new vertex.  If a connected graph with exactly $n-1$ edges contained a cycle, deleting one cycle edge would leave a connected graph with only $n-2$ edges.  Hence (c) implies (a).
+
+In a connected graph, an edge is a bridge exactly when it lies on no cycle, so (a) and (d) are equivalent.  A connected graph has two distinct $u$--$v$ paths exactly when their union contains a cycle, giving the equivalence with (e).  Finally, in an acyclic graph the unique $u$--$v$ path, together with a new edge $uv$, creates exactly one cycle; this proves the equivalence with (f).
+\end{proof}
+
+\begin{notecorollary}
+Every tree with at least two vertices has at least two leaves.
+\end{notecorollary}
+\begin{proof}
+Let $P=v_0v_1\cdots v_m$ be a longest path.  Any neighbour of $v_0$ outside $P$ would extend the path, and any second neighbour on $P$ would create a cycle.  Thus $\deg(v_0)=1$.  Similarly $\deg(v_m)=1$.
+\end{proof}
+\begin{notedefinition}
+A subgraph $H$ of $G$ is \emph{spanning} if $V(H)=V(G)$.  A spanning subgraph that is a tree is a \emph{spanning tree}.
+\end{notedefinition}
+
+\begin{notetheorem}
+Every connected graph contains a spanning tree.
+\end{notetheorem}
+\begin{proof}
+Choose a tree $T\subseteq G$ with as many vertices as possible.  If $T$ is not spanning, connectedness gives an edge $uv$ with $u\in V(T)$ and $v\notin V(T)$.  Then $T+uv$ is a larger tree, a contradiction.  Hence $T$ spans $G$.
+\end{proof}
+
+\begin{noteremark}[Equivalent deletion proof]
+Repeatedly delete one edge from a cycle.  Such a deletion does not disconnect the graph.  The finite process ends with a connected acyclic spanning subgraph, hence a spanning tree.
+\end{noteremark}
+\begin{notetheorem}[spanning-tree exchange]
+Let $T$ and $T'$ be distinct spanning trees of $G$.  For every $e\in E(T)\setminus E(T')$, there is an edge $e'\in E(T')\setminus E(T)$ such that
+\[
+  T-e+e'
+\]
+is a spanning tree.
+\end{notetheorem}
+\begin{proof}
+The graph $T-e$ has exactly two components, with vertex sets $A$ and $B$.  The unique path in $T'$ between the ends of $e$ must cross from $A$ to $B$, so it contains an edge $e'\in[A,B]$.  This edge is not in $T$, since $e$ is the only edge of $T$ crossing that cut.  Adding $e'$ reconnects the two components of $T-e$ without creating a cycle.
+\end{proof}
+\section{Minimum spanning trees}
+
+\begin{notedefinition}
+Let $G$ have an edge-weight function $w:E(G)\to\mathbb R$.  The weight of a subgraph $H$ is
+\[
+  w(H)=\sum_{e\in E(H)}w(e).
+\]
+A \emph{minimum spanning tree} (MST) is a spanning tree of minimum total weight.
+\end{notedefinition}
+
+\begin{notealgorithm}[Kruskal]
+For a connected weighted graph $G$:
+\begin{enumerate}
+  \item Start with the spanning forest $T=(V(G),\varnothing)$.
+  \item Repeatedly choose a minimum-weight edge joining two different components of $T$, and add it to $T$.
+  \item Stop after $n-1$ edges have been selected.
+\end{enumerate}
+The output is an MST.
+\end{notealgorithm}
+\begin{proof}
+Maintain the invariant that the selected forest $T_i$ is contained in some MST $M_i$.  The invariant is trivial initially.  Let $e$ be the next selected edge.  If $e\in M_i$, do nothing.  Otherwise $M_i+e$ contains a cycle.  That cycle contains an edge $f\notin T_i$ crossing between two components of $T_i$.  Kruskal's choice gives $w(e)\le w(f)$, so
+\[
+  M_{i+1}=M_i-f+e
+\]
+is again an MST and contains $T_i+e$.  At termination the selected graph itself is a spanning tree contained in an MST, so it is an MST.
+\end{proof}
+\begin{notealgorithm}[Prim]
+For a connected weighted graph $G$:
+\begin{enumerate}
+  \item Choose a root $v_0$, set $W=\{v_0\}$, and let $T$ have no edges.
+  \item While $W\ne V(G)$, choose a minimum-weight edge $uv$ with $u\in W$ and $v\notin W$; add $uv$ to $T$ and add $v$ to $W$.
+\end{enumerate}
+The output is an MST.
+\end{notealgorithm}
+\begin{proof}
+Again maintain an MST $M$ containing the current tree $T$.  If the selected edge $e$ is not in $M$, then $M+e$ contains a cycle.  This cycle contains another edge $f$ crossing the cut $(W,V\setminus W)$.  Since Prim selected a lightest crossing edge, $w(e)\le w(f)$, and $M-f+e$ is an MST containing the enlarged $T$.  At the end, $T$ is spanning and therefore is an MST.
+\end{proof}
+\section{Shortest paths}
+
+\begin{notedefinition}
+Let $D=(V,A)$ be a digraph with arc weights $w:A\to\mathbb R$.  The weight of a directed path is the sum of its arc weights.  The distance $d(u,v)$ is the minimum weight of a directed $u$--$v$ path, or $\infty$ if no such path exists.  If a negative directed cycle is reachable from $u$ and can reach $v$, then the infimum is $-\infty$; throughout the finite-distance results below, such a cycle is excluded.
+\end{notedefinition}
+
+\begin{notealgorithm}[Dijkstra]
+Assume all arc weights are nonnegative and choose a source $s$.
+\begin{enumerate}
+  \item Set $W=\varnothing$, $\ell(s)=0$, and $\ell(v)=\infty$ for $v\ne s$.
+  \item While $W\ne V$, choose $x\in V\setminus W$ with minimum $\ell(x)$, add $x$ to $W$, and for every arc $xy$ set
+  \[
+    \ell(y)\leftarrow\min\{\ell(y),\ell(x)+w(xy)\}.
+  \]
+\end{enumerate}
+When the algorithm ends, $\ell(v)=d(s,v)$ for every $v$.
+\end{notealgorithm}
+\begin{proof}
+We prove that whenever a vertex $x$ is added to $W$, its label is final: $\ell(x)=d(s,x)$.  Suppose all earlier vertices satisfy the claim.  A finite label is always the weight of an $s$--$x$ walk, so $\ell(x)\ge d(s,x)$.
+
+Let $P$ be a shortest $s$--$x$ path, and let $y$ be its first vertex outside the old set $W$, with predecessor $z\in W$.  By induction, $\ell(z)=d(s,z)$, so relaxation of $zy$ gave
+\[
+  \ell(y)\le d(s,z)+w(zy)=d(s,y)\le d(s,x),
+\]
+where the last inequality uses nonnegative weights on the remaining part of $P$.  Since $x$ was chosen with minimum label outside $W$,
+\[
+  \ell(x)\le\ell(y)\le d(s,x).
+\]
+Thus equality holds.
+\end{proof}
+
+\begin{noteremark}[Running time]
+A direct array implementation uses $O(|V|^2+|A|)$ operations.  With a binary heap the usual bound is $O((|V|+|A|)\log|V|)$.  Nonnegativity, not strict positivity, is the required hypothesis; negative arcs invalidate the greedy finalization step.
+\end{noteremark}
+\begin{notedefinition}
+For sets $S_1,\ldots,S_k$, their disjoint union is
+\[
+  S_1\sqcup\cdots\sqcup S_k
+  =\{(x,i):x\in S_i,\ 1\le i\le k\}.
+\]
+\end{notedefinition}
+
+\begin{notetheorem}
+The multiset of arcs of any directed $u$--$v$ walk can be written as the disjoint union of the arcs of a directed $u$--$v$ path and the arcs of zero or more directed cycles.
+\end{notetheorem}
+\begin{proof}
+If the walk has no repeated vertex, it is already a path.  Otherwise choose two occurrences of the same vertex with no repeated vertex between them.  The intervening segment is a directed cycle.  Delete that segment and apply induction to the shorter $u$--$v$ walk.
+\end{proof}
+\begin{notetheorem}[triangle inequality]
+If $D$ has no negative directed cycle, then for all vertices $x,y,z$,
+\[
+  d(x,y)\le d(x,z)+d(z,y),
+\]
+with the usual conventions for $\infty$.
+\end{notetheorem}
+\begin{proof}
+Concatenate a shortest $x$--$z$ path with a shortest $z$--$y$ path.  The resulting walk decomposes into an $x$--$y$ path and directed cycles.  Every directed cycle has nonnegative weight, so the path has weight at most the concatenated walk.
+\end{proof}
+\begin{notealgorithm}[Bellman--Ford]
+Let $D=(V,A)$ have no negative cycle reachable from a source $s$.
+\begin{enumerate}
+  \item Set $\ell(s)=0$ and $\ell(v)=\infty$ for $v\ne s$.
+  \item Repeat $|V|-1$ times: for every arc $uv\in A$, perform the relaxation
+  \[
+    \ell(v)\leftarrow\min\{\ell(v),\ell(u)+w(uv)\}.
+  \]
+\end{enumerate}
+Then $\ell(v)=d(s,v)$ for all $v$.
+\end{notealgorithm}
+\begin{proof}
+Let $d_i(s,v)$ be the minimum weight of an $s$--$v$ path using at most $i$ arcs.  After the $i$th full pass,
+\[
+  \ell(v)\le d_i(s,v).
+\]
+Indeed, for a shortest path with at most $i$ arcs, its prefix has at most $i-1$ arcs, and when the final arc is processed its relaxation gives the desired bound.
+
+Every finite label is the weight of an $s$--$v$ walk.  By Theorem~4.5 and the absence of negative cycles, such a walk has weight at least $d(s,v)$.  Hence $\ell(v)\ge d(s,v)$ at every stage.  A shortest path can be chosen simple and therefore has at most $|V|-1$ arcs.  Thus
+\[
+  d_{|V|-1}(s,v)=d(s,v),
+\]
+and the two inequalities force equality after the final pass.
+\end{proof}
+\begin{notetheorem}
+Let $P$ be a shortest $s$--$u$ path, and let $v$ be the predecessor of $u$ on $P$.  Then the $s$--$v$ subpath of $P$ is a shortest $s$--$v$ path.
+\end{notetheorem}
+\begin{proof}
+If a lighter $s$--$v$ path existed, concatenate it with the arc $vu$.  The resulting $s$--$u$ walk would be lighter than $P$.  Removing any directed cycles cannot increase its weight, so it would contain a lighter $s$--$u$ path, a contradiction.
+\end{proof}
+
+\begin{notecorollary}
+Every subpath of a shortest path is shortest between its own endpoints.
+\end{notecorollary}
+\begin{notetheorem}[negative-cycle test]
+After the usual $|V|-1$ Bellman--Ford passes, perform one additional full pass.  If a negative directed cycle is reachable from $s$, then at least one label decreases.
+\end{notetheorem}
+\begin{proof}
+Let $C=v_0v_1\cdots v_{m-1}v_0$ be a reachable negative cycle.  After $|V|-1$ passes, every vertex of $C$ has a finite label.  Suppose no label decreased during the extra pass.  Then for every $i$ (indices modulo $m$),
+\[
+  \ell(v_{i+1})\le\ell(v_i)+w(v_iv_{i+1}).
+\]
+Summing gives
+\[
+  0\le w(C),
+\]
+contradicting that $C$ is negative.
+\end{proof}
+\section{Cut and cycle properties of minimum spanning trees}
+
+\begin{notetheorem}
+If all edge weights of a connected graph are distinct, then its MST is unique.
+\end{notetheorem}
+\begin{proof}
+Suppose $T$ and $T'$ are distinct MSTs, and choose the minimum-weight edge $e\in E(T)\triangle E(T')$; without loss, $e\in T\setminus T'$.  Adding $e$ to $T'$ creates a cycle containing an edge $f\in T'\setminus T$.  By the choice of $e$ and distinctness of weights, $w(e)<w(f)$.  Then $T'-f+e$ is a lighter spanning tree, a contradiction.
+\end{proof}
+
+\begin{notetheorem}[cut property]
+Let $S$ be a nonempty proper subset of $V(G)$.  If an edge $e\in[S,V\setminus S]$ has strictly smaller weight than every other edge crossing the cut, then every MST contains $e$.
+\end{notetheorem}
+\begin{proof}
+Let $T$ be an MST not containing $e$.  Adding $e$ creates a cycle, which contains another cut edge $f$.  Then $w(e)<w(f)$ and $T-f+e$ is a lighter spanning tree, a contradiction.
+\end{proof}
+
+\begin{notetheorem}[cycle property]
+If an edge $e$ is the unique maximum-weight edge on a cycle $C$, then no MST contains $e$.
+\end{notetheorem}
+\begin{proof}
+If an MST $T$ contained $e$, then $T-e$ would have two components.  The remainder of $C$ contains an edge $f$ crossing between them, with $w(f)<w(e)$.  Thus $T-e+f$ would be a lighter spanning tree.
+\end{proof}
+\begin{notetheorem}
+Let $T$ be an MST of a connected graph $G$, and suppose $v_0$ is a leaf of $T$.
+\begin{enumerate}
+  \item $G-v_0$ is connected.
+  \item $T-v_0$ is an MST of $G-v_0$.
+\end{enumerate}
+\end{notetheorem}
+\begin{proof}
+For vertices $x,y\ne v_0$, the unique $x$--$y$ path in $T$ cannot use the leaf $v_0$ internally.  Hence it lies in $T-v_0$, proving that $G-v_0$ is connected and that $T-v_0$ is a spanning tree.
+
+Let $e_0$ be the edge of $T$ incident with $v_0$.  If $G-v_0$ had a spanning tree $T'$ lighter than $T-v_0$, then $T'+e_0$ would be a spanning tree of $G$ with weight smaller than $T$, a contradiction.
+\end{proof}
+\begin{noteremark}[References recorded in the source]
+\emph{Graph Theory with Applications}, Chapter~2; D.~B.~West, \emph{Introduction to Graph Theory}, Chapter~2; R.~J.~Wilson, \emph{Introduction to Graph Theory}, Chapter~3; additional source notes cite GTM~173, Chapters~1, 3, and~10.
+\end{noteremark}

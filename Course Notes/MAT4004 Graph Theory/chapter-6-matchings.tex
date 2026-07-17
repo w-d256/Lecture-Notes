@@ -1,0 +1,496 @@
+\chapter{Matchings}
+
+\section{Basic definitions and augmenting paths}
+
+\begin{notedefinition}
+Let $G=(V,E)$ be a graph.
+\begin{itemize}
+  \item A \emph{matching} is a set $M\subseteq E$ whose edges have pairwise
+        disjoint endpoint sets.
+  \item A matching is \emph{maximal} if no edge can be added to it, and
+        \emph{maximum} if it has largest possible cardinality.
+  \item A vertex incident with an edge of $M$ is \emph{saturated} by $M$;
+        otherwise it is \emph{unsaturated} or \emph{exposed}.
+  \item A \emph{perfect matching} saturates every vertex.
+\end{itemize}
+The maximum size of a matching is denoted $\nu(G)$.
+\end{notedefinition}
+
+\begin{notedefinition}
+Let $M$ be a matching.  A path is \emph{$M$-alternating} if its edges
+alternate between $M$ and $E\setminus M$.  It is \emph{$M$-augmenting} if
+both endpoints are unsaturated by $M$.  Every augmenting path has odd length.
+\end{notedefinition}
+
+\begin{notedefinition}
+For sets $A$ and $B$, their \emph{symmetric difference} is
+\[
+  A\triangle B=(A\setminus B)\cup(B\setminus A).
+\]
+\end{notedefinition}
+\begin{notetheorem}
+If $G$ is connected and $\Delta(G)\le2$, then $G$ is a path or a cycle.
+\end{notetheorem}
+\begin{proof}
+If every vertex has degree $2$, start at any vertex and follow unused edges.
+Because the graph is finite and no vertex permits branching, the first repeat
+closes a cycle.  Connectedness then forces that cycle to contain every vertex.
+
+Otherwise $G$ has a vertex $v$ of degree at most $1$.  Starting from $v$ and
+extending a path as far as possible produces no repeated vertex, since a repeat
+would create a cycle and leave no available edge through which the path could
+have entered or left it.  If a vertex lay outside the resulting maximal path,
+connectedness would give an edge from the path to the outside and hence a
+further extension.  Thus the path contains all vertices.
+\end{proof}
+
+\begin{notetheorem}[Berge's Theorem]
+A matching $M$ is maximum if and only if there is no $M$-augmenting path.
+\end{notetheorem}
+\begin{proof}
+If $P$ is $M$-augmenting, then
+\[
+  M':=M\triangle E(P)
+\]
+is a matching and $|M'|=|M|+1$, so $M$ is not maximum.
+
+Conversely, suppose a matching $N$ satisfies $|N|>|M|$.  In the spanning
+subgraph with edge set $M\triangle N$, every vertex has degree at most $2$.
+Its components are therefore paths and even cycles whose edges alternate
+between $M$ and $N$.  Since $N$ has more edges overall, some path component
+contains one more edge of $N$ than of $M$.  That path starts and ends with
+$N$-edges, so both endpoints are unsaturated by $M$; it is an
+$M$-augmenting path.
+\end{proof}
+
+\begin{noteremark}
+Berge's theorem turns maximum matching into a search problem: repeatedly find
+an augmenting path and take the symmetric difference.  In bipartite graphs,
+this search can also be implemented as a network-flow computation.
+\end{noteremark}
+\section{Hall's theorem and its consequences}
+
+\begin{notedefinition}
+A graph is \emph{$k$-regular} if every vertex has degree $k$.  It is
+\emph{regular} if it is $k$-regular for some $k\ge0$.
+\end{notedefinition}
+
+\begin{noteproposition}
+If $k\ge1$, every $k$-regular bipartite graph $G=(X,Y;E)$ satisfies
+$|X|=|Y|$.
+\end{noteproposition}
+\begin{proof}
+Counting edges from both sides gives
+\[
+  k|X|=\sum_{x\in X}\deg(x)=|E|
+  =\sum_{y\in Y}\deg(y)=k|Y|.
+\]
+\end{proof}
+
+\begin{notetheorem}
+Every $k$-regular bipartite graph with $k\ge1$ has a perfect matching.
+\end{notetheorem}
+\begin{proof}
+This follows from Hall's theorem below.  For $S\subseteq X$, count the edges
+between $S$ and $N(S)$:
+\[
+  k|S|
+  =e(S,N(S))
+  \le k|N(S)|.
+\]
+Thus $|S|\le|N(S)|$, so there is a matching saturating $X$.  Since
+$|X|=|Y|$, it is perfect.
+\end{proof}
+\begin{notedefinition}
+For $S\subseteq V(G)$, the \emph{neighbourhood} of $S$ is
+\[
+  N(S):=\{v\in V(G):uv\in E(G)\text{ for some }u\in S\}.
+\]
+A matching is \emph{$S$-saturating} if it saturates every vertex of $S$.
+\end{notedefinition}
+
+\begin{notetheorem}[Hall's Marriage Theorem]
+Let $G=(X,Y;E)$ be bipartite.  There is a matching saturating $X$ if and only
+if
+\[
+  |S|\le|N(S)|\qquad\text{for every }S\subseteq X.
+\]
+\end{notetheorem}
+\begin{proof}
+Necessity is immediate: distinct vertices of $S$ must be matched to distinct
+vertices of $N(S)$.
+
+For sufficiency, induct on $|X|$.  The result is trivial when $|X|=1$.
+Assume $|X|>1$.
+
+First suppose every nonempty proper subset $S\subsetneq X$ satisfies the
+strict inequality $|N(S)|\ge|S|+1$.  Choose an edge $xy$.  In
+$G-\{x,y\}$, for every $S\subseteq X\setminus\{x\}$,
+\[
+  |N_{G-\{x,y\}}(S)|\ge |N_G(S)|-1\ge |S|.
+\]
+Induction gives a matching saturating $X\setminus\{x\}$, and adding $xy$
+finishes.
+
+Otherwise choose a nonempty proper $S\subsetneq X$ with $|N(S)|=|S|$.
+Hall's condition holds in the induced bipartite graph $G[S,N(S)]$, so by
+induction it has a matching saturating $S$.  It also holds in
+$G[X\setminus S,Y\setminus N(S)]$: for $R\subseteq X\setminus S$,
+\[
+  |N(R)\setminus N(S)|
+  =|N(R\cup S)|-|N(S)|
+  \ge |R\cup S|-|S|=|R|.
+\]
+Induction gives a matching saturating $X\setminus S$.  The two matchings are
+vertex-disjoint, and their union saturates $X$.
+\end{proof}
+\begin{noteapplication}
+Theorem~6.4 is an immediate application of Hall's theorem: every
+$k$-regular bipartite graph with $k\ge1$ has a perfect matching.
+\end{noteapplication}
+
+\begin{notedefinition}
+Let $S_1,\dots,S_n$ be finite sets.  A \emph{system of distinct
+representatives} is a choice of elements $x_i\in S_i$ such that
+$x_1,\dots,x_n$ are pairwise distinct.
+\end{notedefinition}
+
+\begin{notetheorem}[Hall's theorem for set systems]
+The family $(S_1,\dots,S_n)$ has a system of distinct representatives if and
+only if
+\[
+  |I|\le\left|\bigcup_{i\in I}S_i\right|
+  \qquad\text{for every }I\subseteq\{1,\dots,n\}.
+\]
+\end{notetheorem}
+\begin{proof}
+Build a bipartite graph whose left vertices are the indices $1,\dots,n$ and
+whose right vertices are the elements appearing in the sets, joining $i$ to
+$x$ exactly when $x\in S_i$.  A matching saturating the left side is exactly
+a system of distinct representatives, and Hall's condition becomes the
+displayed inequality.
+\end{proof}
+\begin{notedefinition}
+An $m\times n$ \emph{Latin rectangle} is an $m\times n$ matrix with entries
+from an $n$-element symbol set such that no symbol is repeated in any row or
+column.  A Latin square is an $n\times n$ Latin rectangle.
+\end{notedefinition}
+
+\begin{notetheorem}
+Every $m\times n$ Latin rectangle can be extended to an $n\times n$ Latin
+square by adding $n-m$ rows.
+\end{notetheorem}
+\begin{proof}
+To add one row, form a bipartite graph whose left side consists of the $n$
+columns and whose right side consists of the $n$ symbols.  Join column $j$ to
+symbol $a$ exactly when $a$ has not yet appeared in column $j$.  Every column
+is missing $n-m$ symbols.  Every symbol has appeared once in each of the $m$
+rows, hence in $m$ distinct columns, so it too has degree $n-m$.  The graph is
+regular bipartite and therefore has a perfect matching.  Put in each column
+the symbol assigned by this matching.  This creates a new valid row.  Repeat
+until $n$ rows have been obtained.
+\end{proof}
+\section{Doubly stochastic matrices}
+
+\begin{notedefinition}
+A square matrix is \emph{doubly stochastic} if all entries are nonnegative and
+every row sum and every column sum is $1$.  A \emph{permutation matrix} is a
+$0$--$1$ matrix with exactly one $1$ in every row and every column.
+\end{notedefinition}
+
+\begin{notedefinition}
+A \emph{convex combination} of objects $v_1,\dots,v_k$ in a real vector space
+is an expression
+\[
+  \lambda_1v_1+\cdots+\lambda_kv_k,
+  \qquad
+  \lambda_i\ge0,
+  \quad
+  \sum_{i=1}^k\lambda_i=1.
+\]
+\end{notedefinition}
+
+\begin{notetheorem}
+Every convex combination of permutation matrices is doubly stochastic.
+\end{notetheorem}
+\begin{proof}
+Nonnegativity is preserved, and each row or column sum is the corresponding
+convex combination of $1$'s, hence equals $1$.
+\end{proof}
+
+\begin{notetheorem}[Birkhoff--von Neumann Theorem]
+Every doubly stochastic matrix is a convex combination of permutation
+matrices.
+\end{notetheorem}
+\begin{proof}
+Let $A=(a_{ij})$ be doubly stochastic.  Form the support graph with a row
+vertex $r_i$, a column vertex $c_j$, and an edge $r_ic_j$ whenever
+$a_{ij}>0$.  For any set $S$ of row vertices, all mass in those rows lies in
+$N(S)$, so
+\[
+  |S|=\sum_{r_i\in S}\sum_j a_{ij}
+  \le\sum_{c_j\in N(S)}\sum_i a_{ij}=|N(S)|.
+\]
+Hall's theorem gives a perfect matching, hence a permutation matrix $P$ whose
+$1$-entries occur at positive entries of $A$.
+
+Let $\mu$ be the minimum selected entry.  If $\mu=1$, then the row and column
+sum conditions force $A=P$.  Otherwise
+\[
+  B:=\frac{A-\mu P}{1-\mu}
+\]
+is again doubly stochastic and has fewer positive entries than $A$.  Induction
+on the number of positive entries writes $B$ as a convex combination of
+permutation matrices, and
+\[
+  A=\mu P+(1-\mu)B
+\]
+gives the required representation.
+\end{proof}
+\section{Vertex covers and stable matchings}
+
+\begin{notedefinition}
+A \emph{vertex cover} is a set $C\subseteq V(G)$ incident with every edge.
+The minimum size of a vertex cover is denoted $\tau(G)$.
+\end{notedefinition}
+
+\begin{notetheorem}[K\H{o}nig--Egerv\'ary Theorem]
+For every bipartite graph $G$,
+\[
+  \nu(G)=\tau(G).
+\]
+\end{notetheorem}
+\begin{proof}
+Every vertex cover meets every edge of a matching, so $\nu(G)\le\tau(G)$.
+For the reverse inequality, let $G=(X,Y;E)$ and let $M$ be a maximum matching.
+Let $U\subseteq X$ be the vertices unsaturated by $M$, and let $Z$ be the set
+of vertices reachable from $U$ by $M$-alternating paths that begin with an
+edge outside $M$.  Put $Z_X=Z\cap X$ and $Z_Y=Z\cap Y$.
+
+There is no augmenting path, so every vertex of $Z_Y$ is matched.  Its matched
+partner lies in $Z_X\setminus U$, and this gives a bijection
+$Z_Y\leftrightarrow Z_X\setminus U$.  Hence
+\[
+  |Z_Y|=|Z_X|-|U|.
+\]
+Now
+\[
+  C:=(X\setminus Z_X)\cup Z_Y
+\]
+is a vertex cover.  Indeed, an edge from a vertex of $Z_X$ to a vertex outside
+$Z_Y$ would extend an alternating reachability path.  Finally,
+\[
+  |C|=|X|-|Z_X|+|Z_Y|=|X|-|U|=|M|.
+\]
+Thus $\tau(G)\le|C|=\nu(G)$.
+\end{proof}
+
+\begin{noteremark}
+Under the standard matching-to-flow reduction, the minimum vertex cover in
+K\H{o}nig's theorem corresponds to a minimum cut.
+\end{noteremark}
+\begin{notedefinition}
+Let $G=K_{n,n}$ with bipartition $(X,Y)$.  Suppose every vertex has a strict
+ranking of the opposite part.  A perfect matching $M$ is \emph{stable} if
+there is no unmatched pair $xy$ such that $x$ prefers $y$ to its partner in
+$M$ and $y$ prefers $x$ to its partner in $M$.
+\end{notedefinition}
+
+\begin{notetheorem}
+Every such preference instance has a stable perfect matching.
+\end{notetheorem}
+
+\begin{notealgorithm}[Gale--Shapley]
+Initially everyone is unmatched.  While some $x\in X$ is unmatched and has
+not proposed to every vertex of $Y$, let $x$ propose to the most-preferred
+vertex $y$ to whom it has not yet proposed.  The vertex $y$ keeps the better
+of its current proposer and $x$, rejecting the other.  When no proposal is
+possible, return the held pairs.
+\end{notealgorithm}
+\begin{proof}[Correctness]
+No ordered pair is considered twice, so the algorithm stops after at most
+$n^2$ proposals.  Once a vertex of $Y$ receives a proposal, it remains matched
+and can only replace its partner by a more-preferred one.  If some $x\in X$
+were unmatched at termination, it would have proposed to every $y\in Y$; all
+$n$ vertices of $Y$ would then be holding proposals from the remaining
+$n-1$ vertices of $X$, which is impossible.  Thus the returned matching is
+perfect.
+
+Suppose an unmatched pair $xy$ blocked the returned matching.  Since $x$
+prefers $y$ to its final partner, $x$ proposed to $y$ earlier.  At that time
+$y$ rejected $x$, immediately or later, for a partner it preferred.  Because
+$y$ only trades upward, it prefers its final partner to $x$, a contradiction.
+\end{proof}
+\begin{noteremark}
+The bipartite hypothesis is essential for this formulation.  Stable matching
+in general graphs is a different problem and requires a different algorithm.
+\end{noteremark}
+\section{The Tutte--Berge formula}
+
+\begin{notedefinition}
+For $S\subseteq V(G)$, let $\odd(G-S)$ be the number of odd-order components
+of $G-S$, and define
+\[
+  \deficiency(S):=\odd(G-S)-|S|.
+\]
+\end{notedefinition}
+
+\begin{notelemma}[deficiency lemma]
+Every finite graph $G$ has a set $S\subseteq V(G)$ and a maximum matching $M$
+such that
+\begin{itemize}
+  \item every even component of $G-S$ has a perfect matching;
+  \item every odd component of $G-S$ has a matching missing exactly one
+        vertex;
+  \item $M$ matches the vertices of $S$ to distinct odd components of
+        $G-S$.
+\end{itemize}
+Consequently, $M$ misses exactly $\odd(G-S)-|S|$ vertices.
+\end{notelemma}
+\begin{proof}[Proof sketch]
+Choose $S$ so that $\deficiency(S)$ is maximum and, subject to this, $|S|$ is
+maximum.  A standard alternating-path argument shows that every even
+component of $G-S$ is factorable, every odd component is factor-critical, and
+the bipartite incidence graph between $S$ and the odd components satisfies
+Hall's condition.  Match $S$ into distinct odd components, use a near-perfect
+matching in each selected odd component that leaves the attachment vertex
+free, and use perfect or near-perfect matchings in all remaining components.
+If any of these assertions failed, an alternating-path exchange would either
+increase the deficiency or enlarge $S$ without decreasing it, contradicting
+the choice of $S$.
+\end{proof}
+
+\begin{notetheorem}[Tutte--Berge Formula]
+If $G$ has $n\ge1$ vertices, then
+\[
+  \nu(G)
+  =\frac12\min_{S\subseteq V(G)}
+    \bigl(n+|S|-\odd(G-S)\bigr)
+  =\frac12\left(n-
+    \max_{S\subseteq V(G)}\deficiency(S)\right).
+\]
+\end{notetheorem}
+\begin{proof}
+Let $M$ be any matching and $S\subseteq V(G)$.  At most $|S|$ odd components
+of $G-S$ can send an $M$-edge to $S$.  Every remaining odd component contains
+an exposed vertex.  Hence
+\[
+  n-2|M|\ge \odd(G-S)-|S|,
+\]
+or equivalently
+\[
+  |M|\le\frac12\bigl(n+|S|-\odd(G-S)\bigr).
+\]
+This proves the upper bound for every $S$.  The deficiency lemma supplies a
+set $S$ and a matching that misses exactly $\odd(G-S)-|S|$ vertices, so
+its size is
+\[
+  \frac12\bigl(n+|S|-\odd(G-S)\bigr).
+\]
+The upper bound is therefore attained.
+\end{proof}
+
+\begin{notecorollary}[Tutte's 1-Factor Theorem]
+A graph $G$ has a perfect matching if and only if
+\[
+  \odd(G-S)\le|S|
+  \qquad\text{for every }S\subseteq V(G).
+\]
+\end{notecorollary}
+\begin{proof}
+By the Tutte--Berge formula, $\nu(G)=|V(G)|/2$ exactly when
+$\deficiency(S)\le0$ for every $S\subseteq V(G)$, which is precisely the
+displayed condition.
+\end{proof}
+\section{Exercises and further consequences}
+
+\begin{noteexercise}
+Let $G$ be bipartite.  Then $G$ has a perfect matching if and only if
+\[
+  \alpha(G)=\frac{|V(G)|}{2},
+\]
+where $\alpha(G)$ is the maximum size of an independent set.
+\end{noteexercise}
+\begin{proof}
+If $M$ is perfect, an independent set contains at most one endpoint of each
+edge of $M$, so $\alpha(G)\le|V|/2$.  Either bipartition class is independent,
+so equality holds.
+
+Conversely, the complement of a vertex cover is independent and conversely,
+so $\alpha(G)+\tau(G)=|V|$.  If $\alpha(G)=|V|/2$, then
+$\tau(G)=|V|/2$.  K\H{o}nig's theorem gives
+$\nu(G)=\tau(G)=|V|/2$, hence a perfect matching.
+\end{proof}
+
+\begin{noteexercise}
+Every bipartite graph $G$ with at least one edge has a matching of size at
+least
+\[
+  \frac{|E(G)|}{\Delta(G)}.
+\]
+\end{noteexercise}
+\begin{proof}
+Let $C$ be a minimum vertex cover.  Since every vertex of $C$ is incident with
+at most $\Delta(G)$ edges,
+\[
+  |E(G)|\le\Delta(G)|C|.
+\]
+By K\H{o}nig's theorem, $|C|=\nu(G)$.
+\end{proof}
+\begin{noteexercise}
+Let $T$ be a tree.
+\begin{enumerate}
+  \item If $T$ has a perfect matching, then it is unique.
+  \item The tree $T$ has a perfect matching if and only if
+        \[
+          \odd(T-v)=1\qquad\text{for every }v\in V(T).
+        \]
+\end{enumerate}
+\end{noteexercise}
+\begin{proof}
+For (1), if $M$ and $M'$ were distinct perfect matchings, every component of
+$M\triangle M'$ would be an even cycle, impossible in a tree.
+
+For (2), suppose $M$ is perfect and remove $v$.  Exactly one component of
+$T-v$ contains the vertex matched to $v$; that component has odd order, while
+every other component is perfectly matched internally and has even order.
+Thus $\odd(T-v)=1$.
+
+Conversely, assume the displayed condition and induct on $|V(T)|$.  The case
+$|V(T)|=2$ is immediate.  Choose a leaf $x$ and let $y$ be its neighbour.
+The singleton $\{x\}$ is an odd component of $T-y$; because
+$\odd(T-y)=1$, every other component $C_1,\dots,C_k$ of $T-y$ has even
+order.
+
+For $u\in V(C_i)$, all vertices outside $C_i$ lie in one connected part of
+$T-u$ attached through $y$, and that outside part has even order.  Joining it
+to the relevant component of $C_i-u$ therefore does not change the parity of
+that component.  Consequently
+\[
+  \odd(C_i-u)=\odd(T-u)=1
+  \qquad (u\in V(C_i)).
+\]
+Each $C_i$ is smaller than $T$, so induction gives a perfect matching in every
+$C_i$.  Together with the edge $xy$, these matchings form a perfect matching
+of $T$.
+\end{proof}
+\begin{noteexercise}[Petersen's Theorem]
+Every bridgeless $3$-regular graph has a perfect matching.
+\end{noteexercise}
+\begin{proof}
+By Tutte's theorem it suffices to prove
+$\odd(G-S)\le|S|$ for every $S\subseteq V(G)$.  Let $C$ be an odd component
+of $G-S$.  Degree counting gives
+\[
+  3|V(C)|=2|E(C)|+|[V(C),S]|,
+\]
+so the cut $[V(C),S]$ has odd size.  It cannot have size $1$, since that edge
+would be a bridge.  Hence every odd component sends at least three edges to
+$S$.  Therefore
+\[
+  3\odd(G-S)
+  \le |[S,V(G)\setminus S]|
+  \le 3|S|,
+\]
+and Tutte's condition follows.
+\end{proof}

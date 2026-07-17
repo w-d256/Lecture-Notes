@@ -1,0 +1,203 @@
+\chapter{Planar Graphs}
+
+\section{Embeddings and Euler's formula}
+
+\begin{notedefinition}
+An \emph{embedding} of a graph $G$ in the plane assigns distinct points to
+vertices and simple arcs to edges so that an arc has precisely its two
+endpoints at the corresponding vertices and two edge-arcs meet only at a
+common endpoint.  A graph is \emph{planar} if it has such an embedding, and a
+particular embedded copy is a \emph{plane graph}.
+\end{notedefinition}
+
+\begin{noteremark}[terminology]
+The connected regions of the complement of a plane graph are its
+\emph{faces}.  Exactly one face is unbounded.  The boundary walk of a face may
+repeat an edge when that edge is a bridge.  Counting boundary occurrences,
+every edge is incident with two face-sides, and therefore
+\[
+  \sum_{F}\deg(F)=2|E(G)|.
+\]
+\end{noteremark}
+\begin{notetheorem}[Euler's Formula]
+Let $G$ be a connected plane graph with $n$ vertices, $m$ edges, and $f$
+faces.  Then
+\[
+  n-m+f=2.
+\]
+\end{notetheorem}
+\begin{proof}
+Induct on $m$.  If $G$ is a tree, then $m=n-1$ and there is one face, so the
+formula holds.  Otherwise $G$ has an edge $e$ on a cycle.  Such an edge is not
+a bridge, so $G-e$ remains connected.  Deleting $e$ merges the two faces
+incident with it; thus $n$ is unchanged while $m$ and $f$ both decrease by
+$1$.  The value of $n-m+f$ is therefore unchanged, and induction completes
+the proof.
+\end{proof}
+
+\begin{notecorollary}
+If a plane graph has $n$ vertices, $m$ edges, $f$ faces, and $k$ connected
+components, then
+\[
+  n-m+f=k+1.
+\]
+\end{notecorollary}
+\begin{proof}
+Apply Euler's formula to each component, placing all components in the same
+unbounded face.  Equivalently, add $k-1$ noncrossing edges joining the
+components and apply Theorem~7.1.
+\end{proof}
+\begin{notecorollary}
+Let $G$ be a simple connected planar graph with $n\ge3$ vertices and $m$
+edges.
+\begin{enumerate}
+  \item $m\le3n-6$.
+  \item If $G$ contains no triangle, then $m\le2n-4$.
+\end{enumerate}
+\end{notecorollary}
+\begin{proof}
+In any plane embedding, every face has boundary length at least $3$, so
+\[
+  2m=\sum_F\deg(F)\ge3f.
+\]
+Using $f=2-n+m$ gives $m\le3n-6$.
+
+If $G$ is triangle-free, every face boundary has length at least $4$; hence
+$2m\ge4f$, and Euler's formula gives $m\le2n-4$.
+\end{proof}
+
+\begin{notecorollary}
+The graphs $K_5$ and $K_{3,3}$ are not planar.
+\end{notecorollary}
+\begin{proof}
+For $K_5$, $n=5$ and $m=10>3n-6=9$.  The graph $K_{3,3}$ is triangle-free
+with $n=6$ and $m=9>2n-4=8$.
+\end{proof}
+
+\begin{notecorollary}
+Every simple planar graph has a vertex of degree at most $5$.
+\end{notecorollary}
+\begin{proof}
+For $n\le2$ the statement is immediate.  For $n\ge3$, if every vertex had
+degree at least $6$, then
+\[
+  2m=\sum_{v\in V(G)}\deg(v)\ge6n,
+\]
+whereas $m\le3n-6$ gives $2m\le6n-12$, a contradiction.
+\end{proof}
+\section{Maximal planar graphs and triangulations}
+
+\begin{notedefinition}
+A simple planar graph is \emph{maximal planar} if adding an edge between any
+two nonadjacent vertices makes the graph nonplanar.
+\end{notedefinition}
+
+\begin{notedefinition}
+A plane embedding is a \emph{triangulation} if the boundary of every face is
+a $3$-cycle.
+\end{notedefinition}
+
+\begin{notetheorem}
+Let $G$ be a simple planar graph with $n\ge3$ vertices and $m$ edges.  The
+following are equivalent.
+\begin{enumerate}
+  \item $G$ is maximal planar.
+  \item Every plane embedding of $G$ is a triangulation.
+  \item $m=3n-6$.
+\end{enumerate}
+\end{notetheorem}
+\begin{proof}
+Assume $G$ is maximal planar.  It is connected; otherwise an edge could be
+added between two components.  It has no bridge and no cut-vertex, since in
+either case vertices occurring consecutively on a nontriangular face could be
+joined without a crossing.  Hence every face boundary is a cycle.  If some
+face had length at least $4$, two nonconsecutive boundary vertices could be
+joined through the interior of that face, contradicting maximality.  Thus
+every embedding is a triangulation.
+
+If every face is a triangle, then $2m=3f$.  Together with Euler's formula this
+gives $m=3n-6$.
+
+Finally, if $m=3n-6$, adding any missing edge would produce a simple graph on
+$n$ vertices with $3n-5$ edges, contradicting Corollary~7.3.  Hence $G$ is
+maximal planar.
+\end{proof}
+\section{Subdivisions and minors}
+
+\begin{notedefinition}
+To \emph{subdivide} an edge $uv$ means to replace it by a path $uwv$ through
+a new vertex $w$.  A graph obtained by a sequence of edge subdivisions is a
+\emph{subdivision} of the original graph.
+\end{notedefinition}
+
+\begin{noteremark}
+Planarity is preserved in both directions under subdivision.  Every subgraph
+of a planar graph is planar.  Consequently, a planar graph cannot contain a
+subdivision of $K_5$ or $K_{3,3}$.
+\end{noteremark}
+
+\begin{notetheorem}[Kuratowski's Theorem]
+A graph is planar if and only if it contains no subgraph that is a subdivision
+of $K_5$ or $K_{3,3}$.
+\end{notetheorem}
+\begin{proof}[Comment on the proof]
+The easy direction follows from the preceding remark and the nonplanarity of
+$K_5$ and $K_{3,3}$.  The converse is the substantive content of
+Kuratowski's theorem; it does not follow merely from closure of planarity
+under subgraphs and subdivisions.  The source's one-line argument established
+only the easy direction, so the difficult converse is recorded here as the
+named theorem rather than given an incomplete proof.
+\end{proof}
+\begin{notedefinition}
+To \emph{contract} an edge $xy$ means to identify $x$ and $y$, retaining all
+incident edges and then deleting any loops; parallel edges may be kept or
+merged when discussing simple minors.  A graph $H$ is a \emph{minor} of $G$
+if $H$ can be obtained from $G$ by vertex deletions, edge deletions, and edge
+contractions.
+\end{notedefinition}
+
+\begin{notetheorem}[Wagner's Theorem]
+A graph is planar if and only if it has neither $K_5$ nor $K_{3,3}$ as a
+minor.
+\end{notetheorem}
+\begin{proof}
+Deleting or contracting an edge in a planar embedding preserves planarity,
+so a planar graph has no nonplanar minor.  In particular, it has neither
+$K_5$ nor $K_{3,3}$ as a minor.
+
+Conversely, if $G$ is nonplanar, Kuratowski's theorem gives a subgraph $H$
+that is a subdivision of $K_5$ or $K_{3,3}$.  Delete all material outside
+$H$, then contract the internally vertex-disjoint paths that replaced the
+original edges.  This produces $K_5$ or $K_{3,3}$ as a minor of $G$.
+\end{proof}
+\section{Questions from the source}
+
+\begin{noteexercise}
+If $G$ contains a subdivision of a graph $H$, then $G$ contains $H$ as a
+minor.
+\end{noteexercise}
+\begin{proof}
+Delete all edges and vertices outside the subdivision and contract each
+subdivided path to a single edge.
+\end{proof}
+
+\begin{noteexercise}
+The converse of Exercise~7.9 is false: a graph may contain $K_5$ as a minor
+without containing a subdivision of $K_5$.
+\end{noteexercise}
+\begin{proof}
+Start with $K_5$ on vertices $z,a,b,c,d$.  Split $z$ into adjacent vertices
+$x$ and $y$, join $x$ to $a,b$, join $y$ to $c,d$, and retain all six edges
+among $a,b,c,d$.  Contracting $xy$ recovers $K_5$, so $K_5$ is a minor.
+However, only $a,b,c,d$ have degree at least $4$, while a subdivision of
+$K_5$ requires five branch vertices of degree at least $4$.  Hence no such
+subdivision exists.
+\end{proof}
+
+\begin{noteexercise}
+The Petersen graph is nonplanar.
+\end{noteexercise}
+\begin{proof}
+The Petersen graph has $n=10$, $m=15$, is bridgeless, and has girth $5$.  In a planar embedding, every face would therefore have boundary length at least $5$, so $2m\ge5f$.  Euler's
+formula gives $f=2-n+m=7$, whence $30=2m\ge35$, a contradiction.
+\end{proof}

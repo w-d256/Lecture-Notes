@@ -1,0 +1,323 @@
+\chapter{Definitions and Eulerian Graphs}
+
+\section{Basic terminology}
+
+\begin{notedefinition}
+A finite simple undirected graph is a pair $G=(V,E)$, where $V$ is a finite set and
+\[
+  E\subseteq \binom{V}{2}.
+\]
+The elements of $V$ are \emph{vertices} and the elements of $E$ are \emph{edges}.  We write $V(G)$ and $E(G)$ when the graph must be named explicitly.  An edge with ends $v,w$ is denoted $vw$ or $wv$.  If $vw\in E(G)$, then $v$ and $w$ are \emph{adjacent}; each is a \emph{neighbour} of the other.  The degree $\deg_G(v)$ is the number of edges incident with $v$.
+\end{notedefinition}
+
+\begin{notetheorem}[Handshaking lemma]
+For every finite graph $G=(V,E)$,
+\[
+  \sum_{v\in V}\deg_G(v)=2|E|.
+\]
+\end{notetheorem}
+\begin{proof}
+Count vertex--edge incidences in two ways.  Every edge contributes one incidence at each of its two ends.
+\end{proof}
+
+\begin{notecorollary}
+Every finite graph has an even number of odd-degree vertices.
+\end{notecorollary}
+\begin{proof}
+The sum of all degrees is even, so the number of odd summands is even.
+\end{proof}
+
+\begin{notedefinition}
+A \emph{multigraph} is a triple $(V,E,\varphi)$, where $V$ and $E$ are sets and
+\[
+  \varphi:E\longrightarrow \bigl\{\{u,v\}:u,v\in V\bigr\}
+\]
+assigns two ends to every edge.  If $\varphi(e)=\{v,v\}$, then $e$ is a \emph{loop}.  Distinct edges having the same pair of ends are \emph{parallel}.
+\end{notedefinition}
+\begin{notedefinition}
+Let $G=(V,E)$.
+\begin{itemize}
+  \item A \emph{walk} is a sequence $v_0,e_1,v_1,\ldots,e_m,v_m$ with $e_i=v_{i-1}v_i$.  Its length is $m$.
+  \item A walk with no repeated edge is a \emph{trail}.
+  \item A walk with no repeated vertex is a \emph{path}.
+  \item A walk is \emph{closed} if $v_0=v_m$.
+  \item A closed trail is a \emph{circuit}.
+  \item A closed walk of length at least three in which $v_0,\ldots,v_{m-1}$ are distinct is a \emph{cycle}.
+\end{itemize}
+\end{notedefinition}
+
+\begin{notedefinition}
+The minimum and maximum degrees of $G$ are
+\[
+  \delta(G)=\min_{v\in V(G)}\deg_G(v),
+  \qquad
+  \Delta(G)=\max_{v\in V(G)}\deg_G(v).
+\]
+\end{notedefinition}
+
+\begin{notetheorem}
+If $\delta(G)\ge 2$, then $G$ contains a cycle.
+\end{notetheorem}
+\begin{proof}
+Choose $v_0\in V(G)$.  Having chosen $v_0,\ldots,v_i$, choose a neighbour $v_{i+1}$ of $v_i$ different from $v_{i-1}$; this is possible because $\deg(v_i)\ge2$.  Since $G$ is finite, some vertex eventually repeats.  At the first repetition, say $v_k=v_j$ with $j<k$, the vertices $v_j,v_{j+1},\ldots,v_{k-1}$ are distinct.  Hence
+\[
+  v_jv_{j+1}\cdots v_{k-1}v_j
+\]
+is a cycle.
+\end{proof}
+\begin{notedefinition}
+A graph $H$ is a \emph{subgraph} of $G$ if $V(H)\subseteq V(G)$ and $E(H)\subseteq E(G)$.  For $X\subseteq V(G)$, the \emph{induced subgraph} $G[X]$ has vertex set $X$ and all edges of $G$ with both ends in $X$.
+
+A graph is \emph{connected} if every two vertices are joined by a path.  A \emph{component} is a maximal connected subgraph.
+\end{notedefinition}
+
+\begin{notedefinition}
+An \emph{isomorphism} from $G$ to $H$ is a bijection $f:V(G)\to V(H)$ such that
+\[
+  uv\in E(G)\quad\Longleftrightarrow\quad f(u)f(v)\in E(H).
+\]
+If such a map exists, then $G$ and $H$ are \emph{isomorphic}, written $G\cong H$.
+\end{notedefinition}
+
+\begin{notedefinition}
+For vertices $v,w$ in a connected graph $G$, the distance $d_G(v,w)$ is the length of a shortest $v$--$w$ path.  If no such path exists, set $d_G(v,w)=\infty$.
+\end{notedefinition}
+
+\begin{notedefinition}
+A set $X\subseteq V(G)$ is \emph{independent} if no two vertices of $X$ are adjacent.  A graph is \emph{bipartite} if its vertex set can be partitioned into two independent sets $A$ and $B$; we write $G=(A,B)$.  The complete bipartite graph with parts of sizes $s$ and $t$ is denoted $K_{s,t}$.
+\end{notedefinition}
+\begin{notetheorem}
+A graph is bipartite if and only if it contains no odd cycle.
+\end{notetheorem}
+\begin{proof}
+If $G=(A,B)$ is bipartite, every walk alternates between $A$ and $B$, so every cycle has even length.
+
+Conversely, it is enough to treat one connected component at a time.  Fix a root $r$ and set
+\[
+  A=\{v:d(r,v)\text{ is even}\},
+  \qquad
+  B=\{v:d(r,v)\text{ is odd}\}.
+\]
+Suppose an edge $uv$ has both ends in the same set.  Let $P_u$ and $P_v$ be shortest paths from $r$ to $u$ and $v$, and let $x$ be their last common vertex.  The two tails from $x$ to $u$ and $v$ are internally disjoint and have lengths of the same parity.  Together with $uv$ they form an odd cycle, a contradiction.  Thus $A$ and $B$ are independent, and $G$ is bipartite.
+\end{proof}
+\section{Eulerian graphs and bridges}
+
+\begin{notedefinition}
+A trail containing every edge of $G$ is an \emph{Eulerian trail}.  A closed Eulerian trail is an \emph{Eulerian circuit}.  A graph is \emph{Eulerian} if it has an Eulerian circuit and \emph{semi-Eulerian} if it has an Eulerian trail but no Eulerian circuit.
+\end{notedefinition}
+
+\begin{notedefinition}
+For $F\subseteq E(G)$, the graph $G-F$ is obtained by deleting the edges in $F$.  For $S\subseteq V(G)$, the graph $G-S$ is obtained by deleting the vertices in $S$ and every edge incident with them.
+\end{notedefinition}
+
+\begin{notetheorem}[Euler's theorem]
+A connected graph $G$ is Eulerian if and only if every vertex has even degree.
+\end{notetheorem}
+\begin{proof}
+In an Eulerian circuit, every visit to a vertex uses one entering and one leaving edge, so every degree is even.
+
+Conversely, assume every degree is even.  Start at any vertex and follow unused edges until no continuation is possible.  The trail cannot stop at a vertex different from its starting vertex, because at every other visited vertex the used incident edges occur in entering--leaving pairs.  Hence the trail is closed.  If it does not yet contain every edge, connectedness gives a vertex of the circuit incident with an unused edge.  Starting there produces another closed trail, which can be spliced into the first.  Repeating this finite process yields an Eulerian circuit.
+\end{proof}
+
+\begin{notecorollary}
+A connected graph with at least two vertices is semi-Eulerian if and only if it has exactly two odd-degree vertices.  Every Eulerian trail starts at one odd vertex and ends at the other.
+\end{notecorollary}
+\begin{proof}
+In any trail, all internal vertices use incident edges in pairs; only the two ends can have odd degree.  Conversely, if $u$ and $v$ are the only odd vertices, add one extra edge $uv$ (allowing a parallel edge if necessary).  The resulting multigraph is Eulerian.  Deleting the added edge from an Eulerian circuit leaves an Eulerian trail from $u$ to $v$.
+\end{proof}
+
+\begin{notedefinition}
+A set $F\subseteq E(G)$ is a \emph{disconnecting set} if $G-F$ has more components than $G$.  A minimal nonempty disconnecting set is an \emph{edge cut}.  An edge $e$ is a \emph{bridge} if $\{e\}$ is an edge cut.
+\end{notedefinition}
+
+\begin{notelemma}
+If there is a walk between two vertices, then there is a path between them.
+\end{notelemma}
+\begin{proof}
+Repeatedly delete the segment between two consecutive occurrences of a repeated vertex.  The process terminates with a walk having no repeated vertices.
+\end{proof}
+
+\begin{notedefinition}
+The complement $\overline G$ of a simple graph $G$ has vertex set $V(G)$ and
+\[
+  uv\in E(\overline G)
+  \quad\Longleftrightarrow\quad
+  u\ne v\text{ and }uv\notin E(G).
+\]
+A clique in $G$ is an independent set in $\overline G$; equivalently, it is a set of pairwise adjacent vertices.
+\end{notedefinition}
+\begin{notetheorem}
+Let $G$ be connected and let $e=uv\in E(G)$.
+\begin{enumerate}
+  \item The edge $e$ is a bridge if and only if it lies on no cycle.
+  \item If $e$ is a bridge, then $G-e$ has exactly two components, one containing $u$ and one containing $v$.
+\end{enumerate}
+\end{notetheorem}
+\begin{proof}
+If $e$ lies on a cycle, the rest of that cycle still joins $u$ to $v$ after $e$ is removed; replacing every use of $e$ by this alternate path shows that $G-e$ remains connected.  Thus $e$ is not a bridge.
+
+Conversely, if $e$ is not a bridge, then $G-e$ contains a $u$--$v$ path.  Adding $e$ to that path produces a cycle containing $e$.
+
+Now assume $e$ is a bridge.  The vertices $u$ and $v$ lie in different components of $G-e$.  For any vertex $x$, choose an $x$--$u$ path in $G$.  If it avoids $e$, then $x$ lies in the $u$-component of $G-e$; if it uses $e$, the portion before or after $e$ places $x$ in the $v$-component.  Hence there are exactly two components.
+\end{proof}
+\begin{notedefinition}
+A proper vertex colouring is a map $c:V(G)\to S$ such that adjacent vertices receive different colours.  The chromatic number $\chi(G)$ is the minimum size of a colour set admitting a proper colouring.
+\end{notedefinition}
+
+\begin{notetheorem}
+If every vertex of a connected graph $G$ has even degree, then $G$ has no bridge.
+\end{notetheorem}
+\begin{proof}
+Suppose $e=uv$ were a bridge, and let $A$ be the component of $G-e$ containing $u$.  In the graph $G[A]$, the vertex $u$ has odd degree and every other vertex has even degree.  This contradicts the handshaking lemma.
+\end{proof}
+
+\begin{notealgorithm}[Fleury's algorithm]
+Let $G$ be connected and all its degrees even.
+\begin{enumerate}
+  \item Choose a starting vertex $v_0$.
+  \item At the current vertex, traverse an unused incident edge that is not a bridge of the current unused-edge graph whenever such an edge exists.  Use a bridge only when it is the sole available continuation.
+  \item Delete each traversed edge from the unused-edge graph and continue until no edge remains.
+\end{enumerate}
+The resulting closed trail is an Eulerian circuit.
+\end{notealgorithm}
+\begin{proof}
+At every stage, all vertices of the unused-edge graph have even degree except possibly the starting vertex and the current vertex, which have odd degree when they are distinct.  Consequently the current vertex cannot become stranded away from the start.  Moreover, the rule against crossing a bridge preserves the component containing all unused edges that can still be reached from the current position; a bridge is used only when no unused edge would be abandoned on the current side.  Hence the process returns to $v_0$ only after all edges have been used.  Since the graph is finite, the algorithm terminates and produces an Eulerian circuit.
+\end{proof}
+\section{Further definitions and elementary structure}
+
+\begin{notedefinition}
+\begin{itemize}
+  \item $G$ is \emph{self-complementary} if $G\cong\overline G$.
+  \item The \emph{girth} $g(G)$ is the length of a shortest cycle; an acyclic graph has infinite girth.
+  \item An automorphism is an isomorphism $G\to G$.  A graph is \emph{vertex-transitive} if its automorphism group acts transitively on $V(G)$.
+  \item The union $G_1\cup\cdots\cup G_k$ has vertex set $\bigcup_iV(G_i)$ and edge set $\bigcup_iE(G_i)$.
+  \item If $G$ and $H$ have disjoint vertex sets, their \emph{join} $G+H$ is obtained from $G\cup H$ by adding every edge between $V(G)$ and $V(H)$.
+  \item A graph is $H$-free if it has no induced subgraph isomorphic to $H$.
+  \item A nonnegative integer sequence is \emph{graphic} if it is the degree sequence of a simple graph.
+\end{itemize}
+\end{notedefinition}
+\begin{notetheorem}
+The complete graph $K_n$ is the union of $k$ bipartite spanning subgraphs if and only if $n\le 2^k$.
+\end{notetheorem}
+\begin{proof}
+Assume first that $n\le2^k$.  Label the vertices by distinct binary strings of length $k$.  For each coordinate $i$, let $H_i$ contain every edge whose endpoints differ in coordinate $i$.  The graph $H_i$ is bipartite, with parts given by bit $0$ and bit $1$.  Any two distinct strings differ in some coordinate, so every edge of $K_n$ lies in at least one $H_i$.
+
+Conversely, suppose $K_n=H_1\cup\cdots\cup H_k$ with each $H_i$ bipartite.  Add isolated vertices to each $H_i$ if necessary and choose a bipartition $(A_i,B_i)$.  Give a vertex $v$ the binary string whose $i$th bit records whether $v\in A_i$ or $v\in B_i$.  Distinct vertices must receive distinct strings: their edge belongs to some $H_i$, where they lie on opposite sides.  Hence $n\le2^k$.
+\end{proof}
+
+\begin{notetheorem}
+If every vertex of a simple graph $G$ has degree at least $k$, then $G$ contains a path of length at least $k$.  If $k\ge2$, then $G$ also contains a cycle of length at least $k+1$.
+\end{notetheorem}
+\begin{proof}
+Let $P=v_0v_1\cdots v_m$ be a longest path.  Every neighbour of $v_0$ lies on $P$, so $m\ge\deg(v_0)\ge k$.  Let $v_i$ be the neighbour of $v_0$ with largest index.  At least $k$ distinct neighbours occur among $v_1,\ldots,v_i$, so $i\ge k$.  Therefore
+\[
+  v_0v_1\cdots v_iv_0
+\]
+is a cycle of length $i+1\ge k+1$.
+\end{proof}
+\begin{notetheorem}
+Let $G$ be a connected nontrivial graph with exactly $2k$ odd-degree vertices.  The minimum number of trails whose edge sets partition $E(G)$ is $\max\{k,1\}$.
+\end{notetheorem}
+\begin{proof}
+Every trail has either zero or two odd endpoints.  Thus $k$ trails are necessary to account for $2k$ odd vertices; a nontrivial graph needs at least one trail.
+
+For the upper bound when $k\ge1$, pair the odd vertices and add one auxiliary edge for each pair.  All degrees become even, so the resulting connected multigraph has an Eulerian circuit.  Deleting the $k$ auxiliary edges breaks that circuit into at most $k$ trails covering the original edges.  When $k=0$, one Eulerian circuit suffices.
+\end{proof}
+
+\begin{notetheorem}[Havel--Hakimi]
+Let $d=(d_1,\ldots,d_n)$ be a nonincreasing sequence of nonnegative integers with $d_1\le n-1$.  Let $d'$ be obtained by deleting $d_1$, subtracting $1$ from the next $d_1$ entries, and reordering.  Then $d$ is graphic if and only if $d'$ is graphic.
+\end{notetheorem}
+\begin{proof}
+If $d'$ is realized by a graph on $v_2,\ldots,v_n$, add a new vertex $v_1$ adjacent to the $d_1$ vertices whose degrees were reduced.
+
+Conversely, take a realization of $d$ and let $v_1$ have degree $d_1$.  Among all such realizations, choose one in which $v_1$ is adjacent to as many as possible of $v_2,\ldots,v_{d_1+1}$.  If $v_1v_i$ is missing for some $i\le d_1+1$, then $v_1v_j$ is present for some $j>d_1+1$.  Since $\deg(v_i)\ge\deg(v_j)$, there is a vertex $x$ adjacent to $v_i$ but not to $v_j$.  Replacing the edges $v_1v_j$ and $v_ix$ by $v_1v_i$ and $v_jx$ is a valid $2$-switch and increases the chosen number, a contradiction.  Thus $v_1$ is adjacent to $v_2,\ldots,v_{d_1+1}$, and deleting $v_1$ realizes $d'$.
+\end{proof}
+\begin{notedefinition}[2-switch]
+If $xy$ and $uv$ are edges of a simple graph while $xu$ and $yv$ are nonedges, replacing $xy,uv$ by $xu,yv$ is a \emph{$2$-switch}.  It preserves every vertex degree.
+\end{notedefinition}
+
+\begin{notetheorem}
+Two simple graphs on the same labelled vertex set have the same degree at every vertex if and only if one can be transformed into the other by a sequence of $2$-switches.
+\end{notetheorem}
+\begin{proof}
+A $2$-switch preserves all degrees.  Conversely, colour the edges of $G-H$ red and the edges of $H-G$ blue.  At each vertex the red and blue degrees are equal, so the symmetric difference decomposes into closed even alternating trails.  On a shortest nontrivial alternating trail, an appropriate pair of red edges can be switched to two blue edges; shortestness guarantees that the inserted pair is absent from the current graph.  This strictly decreases $|E(G)\triangle E(H)|$.  Induction completes the transformation.
+\end{proof}
+\begin{notedefinition}
+The eccentricity of $v$ is $\max_x d(v,x)$.  A vertex is \emph{central} if its eccentricity is minimum.  The radius and diameter are
+\[
+  \rad(G)=\min_v\max_x d(v,x),
+  \qquad
+  \diam(G)=\max_{u,v}d(u,v).
+\]
+For every connected graph,
+\[
+  \rad(G)\le\diam(G)\le2\rad(G).
+\]
+\end{notedefinition}
+
+\begin{noteproposition}
+Every graph containing a cycle satisfies
+\[
+  g(G)\le2\diam(G)+1.
+\]
+\end{noteproposition}
+\begin{proof}
+Let $C=v_0v_1\cdots v_{g-1}v_0$ be a shortest cycle.  The shorter arc of $C$ between any two of its vertices is a shortest path in $G$, for otherwise a shortcut would create a shorter cycle.  Hence
+\[
+  \left\lfloor\frac g2\right\rfloor\le\diam(G),
+\]
+which is equivalent to the stated bound.
+\end{proof}
+
+\begin{noteproposition}
+If $G$ has radius at most $k$ and maximum degree at most $d\ge3$, then
+\[
+ |V(G)|\le 1+d\sum_{i=0}^{k-1}(d-1)^i
+ =\frac{d(d-1)^k-2}{d-2}
+ <\frac d{d-2}(d-1)^k.
+\]
+\end{noteproposition}
+\begin{proof}
+Choose a central vertex $v_0$ and let $S_i=\{v:d(v_0,v)=i\}$.  Then $|S_0|=1$, $|S_1|\le d$, and, for $i\ge1$, every vertex of $S_i$ has at most $d-1$ neighbours in $S_{i+1}$.  Thus $|S_i|\le d(d-1)^{i-1}$ for $i\ge1$.  Summing through distance $k$ gives the bound.
+\end{proof}
+\section{Selected exercises}
+
+\begin{noteexercise}
+Let $G$ be connected and let $F$ be an edge cut.  Prove that:
+\begin{enumerate}
+  \item $G-F$ has exactly two components;
+  \item for every $e=uv\in F$, the vertices $u$ and $v$ lie in different components of $G-F$.
+\end{enumerate}
+\end{noteexercise}
+\begin{proof}
+Fix $e\in F$.  By minimality of the edge cut, $G-(F\setminus\{e\})$ is connected, and $e$ is a bridge of that graph.  Theorem~1.8 therefore shows that deleting $e$ leaves exactly two components.  But
+\[
+  \bigl(G-(F\setminus\{e\})\bigr)-e=G-F,
+\]
+so both claims follow.
+\end{proof}
+\begin{noteexercise}
+For a connected graph $G$, prove that $G$ is bipartite if and only if, for every fixed vertex $r$, no two adjacent vertices have the same distance from $r$.
+\end{noteexercise}
+\begin{proof}
+If $G$ is bipartite, the parity of $d(r,v)$ records the side of the bipartition containing $v$, so adjacent vertices have opposite parities and hence different distances.
+
+Conversely, suppose $G$ is not bipartite and choose a shortest odd cycle
+\[
+  C=v_0v_1\cdots v_{2k}v_0.
+\]
+The two vertices $v_k$ and $v_{k+1}$ are adjacent.  We claim that both have distance $k$ from $v_0$.  The cycle gives paths of length $k$ to each.  If, say, a shorter $v_0$--$v_k$ path existed, combining it with one of the two arcs of $C$ would yield an odd cycle shorter than $C$.  Thus
+\[
+  d(v_0,v_k)=d(v_0,v_{k+1})=k,
+\]
+contradicting the stated distance property.
+\end{proof}
+\begin{noteexercise}
+Show that every graph $G$ has a map $\alpha:V(G)\to\{0,1\}$ such that, at every vertex $v$, at least half of the edges incident with $v$ join vertices receiving different values.
+\end{noteexercise}
+\begin{proof}
+Choose a partition $V(G)=A\sqcup B$ maximizing the number of crossing edges.  If a vertex $v\in A$ had fewer than half of its incident edges crossing to $B$, moving $v$ to $B$ would increase the cut size, a contradiction.  The same argument applies to vertices of $B$.  Set $\alpha=0$ on $A$ and $\alpha=1$ on $B$.
+\end{proof}
+\begin{noteremark}[References recorded in the source]
+D.~B.~West, \emph{Introduction to Graph Theory}, Chapter~1; R.~J.~Wilson, \emph{Introduction to Graph Theory}, Chapter~1 and Section~2.2; \emph{Graph Theory with Applications}, Chapter~1 and Section~4.2; R.~Diestel, \emph{Graph Theory}, Chapter~1.
+\end{noteremark}

@@ -1,0 +1,73 @@
+\documentclass[11pt,oneside]{book}
+\usepackage{notes-preamble}
+
+\allowdisplaybreaks
+\setcounter{secnumdepth}{2}
+\setcounter{tocdepth}{2}
+\emergencystretch=3em
+
+% Automatically numbered environments, with one shared counter per section.
+\theoremstyle{mystyle}
+\newtheorem{notedefinition}{Definition}[section]
+\newtheorem{noteproposition}[notedefinition]{Proposition}
+\newtheorem{notetheorem}[notedefinition]{Theorem}
+\newtheorem{notelemma}[notedefinition]{Lemma}
+\newtheorem{notecorollary}[notedefinition]{Corollary}
+\newtheorem{noteapplication}[notedefinition]{Application}
+\newtheorem{noteexercise}[notedefinition]{Exercise}
+\newtheorem{notealgorithm}[notedefinition]{Algorithm}
+\newtheorem*{noteremark}{Remark}
+\newtheorem{noteexample}[notedefinition]{Example}
+
+\tcolorboxenvironment{notedefinition}{boxrule=0pt,boxsep=0pt,colback=red!10,left=8pt,right=8pt,enhanced jigsaw,borderline west={2pt}{0pt}{red},sharp corners,before skip=10pt,after skip=10pt,breakable}
+\tcolorboxenvironment{noteproposition}{boxrule=0pt,boxsep=0pt,colback=Orange!10,left=8pt,right=8pt,enhanced jigsaw,borderline west={2pt}{0pt}{Orange},sharp corners,before skip=10pt,after skip=10pt,breakable}
+\tcolorboxenvironment{notetheorem}{boxrule=0pt,boxsep=0pt,colback=blue!10,left=8pt,right=8pt,enhanced jigsaw,borderline west={2pt}{0pt}{blue},sharp corners,before skip=10pt,after skip=10pt,breakable}
+\tcolorboxenvironment{notelemma}{boxrule=0pt,boxsep=0pt,colback=Cyan!10,left=8pt,right=8pt,enhanced jigsaw,borderline west={2pt}{0pt}{Cyan},sharp corners,before skip=10pt,after skip=10pt,breakable}
+\tcolorboxenvironment{notecorollary}{boxrule=0pt,boxsep=0pt,colback=violet!10,left=8pt,right=8pt,enhanced jigsaw,borderline west={2pt}{0pt}{violet},sharp corners,before skip=10pt,after skip=10pt,breakable}
+\tcolorboxenvironment{noteapplication}{boxrule=0pt,boxsep=0pt,colback=Orange!8,left=8pt,right=8pt,enhanced jigsaw,borderline west={2pt}{0pt}{Orange},sharp corners,before skip=10pt,after skip=10pt,breakable}
+\tcolorboxenvironment{noteexercise}{boxrule=0pt,boxsep=0pt,colback=gray!8,left=8pt,right=8pt,enhanced jigsaw,borderline west={2pt}{0pt}{gray},sharp corners,before skip=10pt,after skip=10pt,breakable}
+\tcolorboxenvironment{notealgorithm}{boxrule=0pt,boxsep=0pt,colback=yellow!12,left=8pt,right=8pt,enhanced jigsaw,borderline west={2pt}{0pt}{Goldenrod},sharp corners,before skip=10pt,after skip=10pt,breakable}
+\tcolorboxenvironment{noteremark}{boxrule=0pt,boxsep=0pt,blanker,borderline west={2pt}{0pt}{Green},left=8pt,right=8pt,before skip=10pt,after skip=10pt,breakable}
+\tcolorboxenvironment{noteexample}{boxrule=0pt,boxsep=0pt,blanker,borderline west={2pt}{0pt}{Black},left=8pt,right=8pt,before skip=10pt,after skip=10pt,breakable}
+
+\newcommand{\comp}[1]{c\!\left(#1\right)}
+\newcommand{\odd}{\operatorname{odd}}
+\newcommand{\rad}{\operatorname{rad}}
+\newcommand{\diam}{\operatorname{diam}}
+\newcommand{\girth}{\operatorname{girth}}
+\newcommand{\val}{\operatorname{val}}
+\newcommand{\deficiency}{\operatorname{def}}
+\newcommand{\cl}{\operatorname{cl}}
+\newcommand{\dist}{\operatorname{dist}}
+\newcommand{\out}{\operatorname{out}}
+\newcommand{\inflow}{\operatorname{in}}
+\newcommand{\supp}{\operatorname{supp}}
+\newcommand{\Nzero}{\mathbb{N}_0}
+
+\title{\Huge \textbf{Graph Theory}}
+\author{Wei Chen}
+\date{16 July 2026}
+
+\begin{document}
+\maketitle
+	\allowdisplaybreaks
+	\pagenumbering{roman}
+	\setcounter{page}{1}
+	\begin{center}
+		\Large\textbf{Preface}
+    \end{center}~\
+    This is a lecture note of the course \text{Graph Theory} taught in 2021 Spring by Prof. Mario Huang at the Chinese University of Hong Kong, Shenzhen. Most of the content is based on
+the presentation of the instructor and written down in my understanding, so there are unavoidable mistakes and typos in the note. The note is later revised and updated using ChatGPT. Topics of the note include: Eulerian and Hamiltonian graphs, connectivity, trees and paths, network flows, matchings, planar graphs, and graph colouring. 
+	\newpage
+	\tableofcontents
+  \pagenumbering{arabic}
+\input{chapter-1-eulerian}
+\input{chapter-2-hamiltonian}
+\input{chapter-3-connectivity}
+\input{chapter-4-trees-and-paths}
+\input{chapter-5-network-flows}
+\input{chapter-6-matchings}
+\input{chapter-7-planar-graphs}
+\input{chapter-8-colouring}
+
+\end{document}
