@@ -1,5 +1,9 @@
 \chapter{Hilbert Spaces}
 
+Throughout the complex case, inner products are taken linear in the first
+variable and conjugate linear in the second.  All formulas below use this
+convention.
+
 \section{Orthogonality and direct sums}
 
 \begin{noteproposition}[Orthogonal density criterion]
@@ -31,6 +35,32 @@ is a closed linear subspace.  In a Hilbert space,
 \]
 Moreover, $S\cap S^\perp=\{0\}$ whenever $S$ is a subspace.
 \end{noteproposition}
+
+\begin{proof}
+For each fixed $s\in S$, the map $x\mapsto\inner{x}{s}$ is continuous and
+linear (or conjugate linear, according to the chosen convention).  Hence
+\[
+  S^\perp=\bigcap_{s\in S}\Ker\bigl(x\mapsto\inner{x}{s}\bigr)
+\]
+is a closed linear subspace.  Orthogonality to $S$ is equivalent, by linearity
+and continuity, to orthogonality to $\overline{\Span S}$, proving the first
+identity.
+
+Put $M=\overline{\Span S}$.  Clearly $M\subseteq M^{\perp\perp}$.  If
+$x\notin M$, the projection theorem gives
+\[
+  x=P_Mx+(x-P_Mx),
+  \qquad 0\ne x-P_Mx\in M^\perp.
+\]
+Thus $x$ is not orthogonal to every element of $M^\perp$, because
+\[
+  \inner{x}{x-P_Mx}=\|x-P_Mx\|^2\ne0.
+\]
+Hence $x\notin M^{\perp\perp}$ and $M^{\perp\perp}=M$.  Finally, if
+$x\in S\cap S^\perp$ and $S$ is a subspace, then
+$\|x\|^2=\inner{x}{x}=0$, so $x=0$.
+\end{proof}
+
 \begin{notetheorem}[Orthogonal direct-sum theorem]
 Let $M$ be a closed linear subspace of a Hilbert space $H$.  Then
 \[
@@ -45,12 +75,29 @@ Thus every $x\in H$ has a unique decomposition
 \]
 \end{notetheorem}
 
+\begin{proof}
+Apply the projection theorem to the closed convex set $M$.  For $x\in H$, let
+$y=P_Mx$.  Since $M$ is a linear subspace, the variational inequality may be
+tested with $y\pm v$ and, over $\mathbb C$, with $y\pm iv$, where $v\in M$.
+It follows that
+\[
+  \inner{x-y}{v}=0\qquad(v\in M),
+\]
+so $x-y\in M^\perp$.  Hence $H=M+M^\perp$.
+
+The sum is direct: if $z\in M\cap M^\perp$, then
+$\|z\|^2=\inner{z}{z}=0$.  Thus the decomposition is unique.  Equivalently,
+if $x=y_1+z_1=y_2+z_2$ with $y_i\in M$ and $z_i\in M^\perp$, then
+$y_1-y_2=z_2-z_1\in M\cap M^\perp=\{0\}$.
+\end{proof}
+
 \section{Inner products and projections}
 
 \begin{notedefinition}
 An inner product on a real vector space is a symmetric positive-definite
 bilinear form.  On a complex vector space it is a positive-definite
-sesquilinear form, conjugate linear in one variable and linear in the other.
+sesquilinear form, linear in the first variable and conjugate linear in the
+second.
 The induced norm is
 \[
   \|x\|=\sqrt{\inner{x}{x}}.
@@ -71,6 +118,7 @@ and the parallelogram identity
 Conversely, a norm comes from an inner product if and only if it satisfies the
 parallelogram identity; the inner product is recovered by polarization.
 \end{noteproposition}
+
 \begin{notetheorem}[Projection theorem]
 Let $K$ be a nonempty closed convex subset of a Hilbert space $H$.  For every
 $f\in H$ there is a unique $u\in K$ satisfying
@@ -116,6 +164,7 @@ If $u_1,u_2$ both satisfy the variational inequalities, use $v=u_2$ in the
 first and $v=u_1$ in the second; adding gives
 $\|u_1-u_2\|^2\le0$.
 \end{proof}
+
 \begin{noteproposition}[Nonexpansiveness of metric projection]
 For every nonempty closed convex $K\subseteq H$,
 \[
@@ -151,6 +200,7 @@ case, $u\pm iv$ for $v\in M$, so it reduces to orthogonality.  Uniqueness of
 the orthogonal decomposition gives linearity.  Nonexpansiveness gives the norm
 bound.
 \end{proof}
+
 \section{Riesz representation}
 
 \begin{notetheorem}[Riesz representation theorem]
@@ -176,6 +226,7 @@ belongs to $M$, hence is orthogonal to $z$.  Therefore
 which has the required form.  Cauchy--Schwarz gives
 $\|\ell\|\le\|y\|$, while testing at $x=y/\|y\|$ gives equality.
 \end{proof}
+
 \section{Orthogonal sums and orthonormal bases}
 
 \begin{notedefinition}
@@ -236,6 +287,7 @@ This yields Bessel's bound and convergence.  The limit lies in $E$, and the
 difference from $u$ is orthogonal to every $E_n$, hence to $E$; it is
 therefore $P_Eu$.
 \end{proof}
+
 \begin{notedefinition}
 A sequence $(e_n)$ is an \emph{orthonormal basis} of $H$ if
 \[
@@ -261,13 +313,59 @@ a unique $u\in H$ satisfying
 \]
 \end{notetheorem}
 
+\begin{proof}
+Apply the theorem on mutually orthogonal subspaces to
+$E_n=\Span\{e_n\}$.  The orthogonal projection onto $E_n$ is
+\[
+  P_nu=\inner{u}{e_n}e_n
+\]
+for the convention in which the first variable is linear.  Since the closed
+linear span of the $e_n$ is all of $H$, the preceding projection theorem gives
+\[
+  u=\sum_{n=1}^\infty P_nu
+   =\sum_{n=1}^\infty\inner{u}{e_n}e_n
+\]
+in norm, and its norm identity is precisely Parseval's formula.
+
+Conversely, let $(a_n)\in\ell^2$ and put $v_n=a_ne_n$.  The vectors $v_n$ are
+orthogonal and
+\[
+  \sum_n\|v_n\|^2=\sum_n|a_n|^2<\infty.
+\]
+The orthogonal-series lemma therefore gives a vector
+$u=\sum_na_ne_n\in H$ and
+\[
+  \|u\|^2=\sum_n|a_n|^2.
+\]
+Continuity of the inner product and orthonormality yield
+$\inner{u}{e_k}=a_k$.  If another vector has the same coefficients, its
+difference from $u$ is orthogonal to every $e_k$ and hence to their dense
+linear span; the orthogonal density criterion makes that difference zero.
+\end{proof}
+
 \begin{notetheorem}
 Every separable Hilbert space has a countable orthonormal basis.
 \end{notetheorem}
 
 \begin{proof}
-Choose a countable dense set, discard vectors already in the span of their
-predecessors, and apply the Gram--Schmidt process.  The resulting orthonormal
-sequence has dense linear span because it spans the same finite-dimensional
-spaces at each stage as the retained dense sequence.
+Let $(x_n)$ be a countable dense subset of $H$.  Starting with the first
+nonzero $x_n$, discard each later vector that already belongs to the span of
+the retained predecessors.  This leaves a finite or countable linearly
+independent sequence $(y_n)$ whose linear span contains every $x_n$ and is
+therefore dense in $H$.
+
+Apply Gram--Schmidt:
+\[
+  z_n=y_n-\sum_{k<n}\inner{y_n}{e_k}e_k,
+  \qquad
+  e_n=\frac{z_n}{\|z_n\|}.
+\]
+Linear independence ensures $z_n\ne0$.  Inductively, the $e_n$ are
+orthonormal and
+\[
+  \Span\{e_1,\ldots,e_n\}
+  =\Span\{y_1,\ldots,y_n\}.
+\]
+Thus their total linear span is dense in $H$, so they form an orthonormal
+basis.
 \end{proof}

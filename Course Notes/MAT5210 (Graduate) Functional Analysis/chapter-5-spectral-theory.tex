@@ -42,6 +42,7 @@ The inverse has graph obtained from $\Graph(T-\lambda I)$ by interchanging the
 two coordinates, so it is closed.  Its domain is all of the Banach space $X$;
 the closed graph theorem makes it bounded.
 \end{proof}
+
 \begin{notetheorem}[Neumann series]
 Let $A\in\Bop{X}{X}$ with $\|A\|<1$.  Then $I-A$ is invertible and
 \[
@@ -84,6 +85,7 @@ $|\lambda|>\|T\|$, then
 \]
 is invertible by the Neumann series.
 \end{proof}
+
 \begin{notetheorem}[Resolvent identity]
 For $\lambda,\mu\in\rho(T)$,
 \[
@@ -97,6 +99,7 @@ In particular, the resolvents commute.
 Use $A^{-1}-B^{-1}=A^{-1}(B-A)B^{-1}$ with
 $A=T-\lambda I$ and $B=T-\mu I$.
 \end{proof}
+
 \begin{notetheorem}
 For every bounded operator on a nonzero complex Banach space, the spectrum is
 nonempty and compact.
@@ -113,6 +116,7 @@ $\|R_\lambda(T)\|\le(|\lambda|-\|T\|)^{-1}$, so this entire function tends to
 zero at infinity.  Liouville's theorem makes it identically zero.  Since
 functionals separate points, $R_\lambda(T)=0$, impossible for an inverse.
 \end{proof}
+
 \begin{notedefinition}
 For $T\in\Bop{X}{X}$, the \emph{spectral radius} is
 \[
@@ -121,10 +125,34 @@ For $T\in\Bop{X}{X}$, the \emph{spectral radius} is
 \end{notedefinition}
 
 \begin{noteproposition}
-If $\lambda\in\rho(T)$, then $R_\lambda(T)$ commutes with $T$.  More generally,
+Let $T\in\Bop{X}{X}$.  If $\lambda\in\rho(T)$, then $R_\lambda(T)$ commutes
+with $T$.  More generally,
 $R_\lambda(T)$ commutes with every bounded operator that commutes with $T$.
 Consequently, all resolvents commute with one another.
 \end{noteproposition}
+
+\begin{proof}
+From
+\[
+  (T-\lambda I)R_\lambda(T)
+  =R_\lambda(T)(T-\lambda I)=I
+\]
+we obtain
+\[
+  TR_\lambda(T)=I+\lambda R_\lambda(T)
+  =R_\lambda(T)T.
+\]
+Now let $S\in\Bop{X}{X}$ commute with $T$.  Then $S$ commutes with
+$T-\lambda I$, and hence
+\[
+  (T-\lambda I)SR_\lambda(T)
+  =S(T-\lambda I)R_\lambda(T)=S.
+\]
+Applying $R_\lambda(T)$ on the left gives
+$SR_\lambda(T)=R_\lambda(T)S$.  Taking
+$S=R_\mu(T)$ proves that any two resolvents commute.
+\end{proof}
+
 \section{Spectral mapping and the spectral radius formula}
 
 \begin{notetheorem}[Polynomial spectral mapping theorem]
@@ -152,6 +180,7 @@ $(T-\lambda I)$ would have both a bounded left inverse and a bounded right
 inverse obtained by combining $q(T)$ with that inverse, hence would itself be
 invertible.  This contradicts $\lambda\in\sigma(T)$.
 \end{proof}
+
 \begin{noteproposition}[Linear independence of eigenvectors]
 Eigenvectors corresponding to distinct eigenvalues are linearly independent.
 \end{noteproposition}
@@ -193,11 +222,12 @@ $\limsup_n\|T^n\|^{1/n}\le R$.  Letting $R\downarrow r(T)$ gives the reverse
 inequality.  The equality with the infimum follows from submultiplicativity of
 $\|T^n\|$ and Fekete's lemma applied to $\log\|T^n\|$.
 \end{proof}
+
 \section{Compact operators}
 
 \begin{notedefinition}
-A bounded linear operator $T\colon X\to Y$ is compact if it maps bounded sets
-to relatively compact sets.  Equivalently, for every bounded sequence
+A linear map $T\colon X\to Y$ is compact if it maps bounded sets to relatively
+compact sets.  Equivalently, for every bounded sequence
 $(x_n)$ in $X$, the sequence $(Tx_n)$ has a convergent subsequence in $Y$.
 \end{notedefinition}
 
@@ -217,19 +247,55 @@ A linear map $T\colon X\to Y$ is compact if and only if every bounded sequence
 $(x_n)$ has a subsequence $(x_{n_k})$ for which $(Tx_{n_k})$ converges.
 \end{notetheorem}
 
+\begin{proof}
+If $T$ maps bounded sets to relatively compact sets and $(x_n)$ is bounded,
+then all $Tx_n$ lie in a set with compact closure, so a subsequence converges.
+
+Conversely, let $B\subseteq X$ be bounded.  Every sequence in $T(B)$ has the
+form $(Tx_n)$ with $x_n\in B$, and therefore has a convergent subsequence.
+Thus $T(B)$ is relatively sequentially compact.  To pass to the closure, let
+$(y_n)\subseteq\overline{T(B)}$ and choose $z_n\in T(B)$ with
+$\|y_n-z_n\|<1/n$.  A subsequence of $(z_n)$ converges, and the corresponding
+subsequence of $(y_n)$ has the same limit.  Hence $\overline{T(B)}$ is
+sequentially compact.  In a metric space, sequential compactness and
+compactness are equivalent, so $\overline{T(B)}$ is compact and $T$ is
+compact.
+\end{proof}
+
 \begin{notetheorem}
-Every finite-rank operator is compact.  If $Y$ is Banach, then
+Every bounded finite-rank operator is compact.  If $Y$ is Banach, then
 $\Kop{X}{Y}$ is closed in $\Bop{X}{Y}$ for the operator norm.
 \end{notetheorem}
 
 \begin{proof}
 A bounded set in a finite-dimensional range is relatively compact.  For the
 closure statement, let $T_n\to T$ in operator norm with each $T_n$ compact.
-Given a bounded sequence, successively choose subsequences on which
-$T_1,T_2,\ldots$ converge and take the diagonal subsequence.  Uniform
-operator-norm approximation then makes the image under $T$ Cauchy.  Completeness
-of $Y$ gives convergence.
+Let $(x_j)$ be bounded, say $\|x_j\|\le M$.  Compactness of $T_1$ gives a
+subsequence on which $T_1x_j$ converges.  From that subsequence choose one on
+which $T_2x_j$ converges, and continue.  If $(y_j)$ is the diagonal
+subsequence, then for every fixed $n$ the sequence $(T_ny_j)$ converges.
+
+Fix $\varepsilon>0$ and choose $n$ so large that
+\[
+  2M\|T-T_n\|<\frac{2\varepsilon}{3}.
+\]
+For sufficiently large $j,k$,
+\(
+  \|T_ny_j-T_ny_k\|<\varepsilon/3
+\), and hence
+\[
+\begin{aligned}
+  \|Ty_j-Ty_k\|
+   &\le \|(T-T_n)y_j\|
+       +\|T_ny_j-T_ny_k\|
+       +\|(T_n-T)y_k\|\\
+   &<\varepsilon.
+\end{aligned}
+\]
+Thus $(Ty_j)$ is Cauchy and converges because $Y$ is Banach.  The sequential
+criterion proves that $T$ is compact.
 \end{proof}
+
 \begin{notedefinition}
 A metric-space subset $B$ is \emph{totally bounded} if, for every
 $\varepsilon>0$, it is covered by finitely many balls of radius
@@ -241,6 +307,36 @@ A metric space is compact if and only if it is complete and totally bounded.
 Every totally bounded set is separable, and every subset of a totally bounded
 set is totally bounded.
 \end{notelemma}
+
+\begin{proof}
+Suppose first that $M$ is compact.  Compact metric spaces are complete.  For
+each $\varepsilon>0$, the open cover
+\(
+  \{B(x,\varepsilon):x\in M\}
+\)
+has a finite subcover, so $M$ is totally bounded.
+
+Conversely, assume that $M$ is complete and totally bounded, and let
+$(x_n)$ be a sequence in $M$.  Cover $M$ by finitely many balls of radius
+$2^{-1}$.  One of them contains infinitely many terms; retain that
+subsequence.  Cover $M$ by finitely many balls of radius $2^{-2}$ and retain
+an infinite subsequence lying in one of them.  Continuing in this way and
+taking the diagonal subsequence $(x_{n_k})$, we have
+\[
+  d(x_{n_j},x_{n_k})\le 2^{1-m}
+  \qquad(j,k\ge m),
+\]
+because both points lie in the same ball of radius $2^{-m}$.  Thus the
+diagonal subsequence is Cauchy and converges in $M$ by completeness.  Hence
+$M$ is sequentially compact, and therefore compact.
+
+If $B$ is totally bounded, choose for each $n$ a finite $1/n$-net $F_n$.
+The countable set $\bigcup_nF_n$ is dense in $B$, so $B$ is separable.  If
+$A\subseteq B$, a finite $\varepsilon/2$-net for $B$ gives a finite
+$\varepsilon$-net for $A$ after discarding balls that miss $A$ and choosing
+one point of $A$ from each remaining ball.  Thus every subset of a totally
+bounded set is totally bounded.
+\end{proof}
 
 \begin{notetheorem}
 If $T\colon X\to Y$ is compact, then $\Ran(T)$ is separable.
@@ -262,44 +358,96 @@ if $T$ maps the unit ball of $D$ to a totally bounded subset of $Y$.
 \end{notetheorem}
 
 \begin{proof}
-For a bounded sequence $(x_n)\subset X$, approximate each $x_n$ by
-$d_n\in D$ so closely that $\|x_n-d_n\|\to0$, while keeping $(d_n)$ bounded.
-Total boundedness gives a subsequence for which $Td_n$ is Cauchy.  Since
-$\|\widetilde Tx_n-Td_n\|\to0$, the corresponding $\widetilde Tx_n$ is
-Cauchy and converges in $Y$.
+First construct the extension.  If $x\in X$, choose $d_k\in D$ with
+$d_k\to x$.  Since $T$ is bounded,
+\[
+  \|Td_k-Td_\ell\|\le\|T\|\,\|d_k-d_\ell\|,
+\]
+so $(Td_k)$ is Cauchy and converges in the Banach space $Y$.  Define
+$\widetilde Tx=\lim_kTd_k$.  The estimate above shows that this value is
+independent of the approximating sequence, and it also gives linearity,
+$\|\widetilde T\|=\|T\|$, and uniqueness.
+
+Now let $(x_n)$ be bounded, say $\|x_n\|\le M$.  Choose $d_n\in D$ with
+\[
+  \|x_n-d_n\|<\frac1n.
+\]
+Then $\|d_n\|\le M+1$ for all large $n$.  The set
+$T((M+1)B_D)$ is totally bounded because it is a scalar multiple of
+$T(B_D)$.  Hence $(Td_n)$ has a Cauchy subsequence $(Td_{n_k})$.  Moreover,
+\[
+  \|\widetilde Tx_{n_k}-Td_{n_k}\|
+  \le\|T\|\,\|x_{n_k}-d_{n_k}\|\longrightarrow0.
+\]
+Thus $(\widetilde Tx_{n_k})$ is Cauchy and converges in $Y$.  By the
+sequential criterion, $\widetilde T$ is compact.
 \end{proof}
+
 \begin{notetheorem}[Schauder theorem]
 A bounded linear operator $T\colon X\to Y$ is compact if and only if
 $T^*\colon Y^*\to X^*$ is compact.
 \end{notetheorem}
 
 \begin{proof}
-Assume $T$ is compact.  To show that $T^*(B_{Y^*})$ is totally bounded, fix
-$\varepsilon>0$ and choose a finite $\varepsilon$-net
-$Tx_1,\ldots,Tx_m$ for $T(B_X)$.  Define
+Assume first that $T$ is compact.  Fix $\varepsilon>0$.  Since
+$T(B_X)$ is totally bounded, choose $x_1,\ldots,x_m\in B_X$ such that for
+every $x\in B_X$ there is $j$ with
+\[
+  \|Tx-Tx_j\|<\varepsilon.
+\]
+Consider the finite-dimensional coordinate map
 \[
   A\colon Y^*\to\mathbb K^m,
   \qquad A(y^*)=(y^*(Tx_1),\ldots,y^*(Tx_m)).
 \]
-The bounded set $A(B_{Y^*})$ has a finite net.  If $y^*,z^*$ have close
-$A$-coordinates, then for each $x\in B_X$, choosing $x_j$ with
-$\|Tx-Tx_j\|<\varepsilon$ gives
-\[
- |(T^*y^*-T^*z^*)(x)|
- \le |(y^*-z^*)(Tx_j)|+2\varepsilon.
-\]
-Thus a finite net in the coordinate image yields a finite multiple of
-$\varepsilon$-net for $T^*(B_{Y^*})$.
+The set $A(B_{Y^*})$ is bounded in $\mathbb K^m$, hence totally bounded.
+Choose $y_1^*,\ldots,y_N^*\in B_{Y^*}$ so that their coordinate vectors form
+an $\varepsilon$-net for $A(B_{Y^*})$ in the supremum norm.
 
-Applying the proved implication to $T^*$ shows that $T^{**}$ is compact.  The
-canonical embeddings satisfy $T^{**}J_X=J_YT$, and $J_X,J_Y$ are isometries.
-Hence $T$ is compact.
+Given $y^*\in B_{Y^*}$, choose $k$ with
+\[
+  |(y^*-y_k^*)(Tx_j)|<\varepsilon
+  \qquad(1\le j\le m).
+\]
+For $x\in B_X$, choose $j$ as above.  Since
+$\|y^*-y_k^*\|\le2$,
+\[
+\begin{aligned}
+ |(T^*y^*-T^*y_k^*)(x)|
+  &=|(y^*-y_k^*)(Tx)|\\
+  &\le |(y^*-y_k^*)(Tx_j)|
+       +2\|Tx-Tx_j\|\\
+  &<3\varepsilon.
+\end{aligned}
+\]
+Taking the supremum over $x\in B_X$ gives
+$\|T^*y^*-T^*y_k^*\|<3\varepsilon$.  Thus $T^*(B_{Y^*})$ is totally bounded;
+its closure is complete in the Banach space $X^*$, hence compact.  Therefore
+$T^*$ is compact.
+
+Conversely, if $T^*$ is compact, the implication just proved shows that
+$T^{**}$ is compact.  The canonical embeddings satisfy
+\[
+  T^{**}J_X=J_YT.
+\]
+If $(x_n)$ is bounded in $X$, compactness of $T^{**}$ gives a subsequence for
+which $J_YTx_{n_k}$ converges in $Y^{**}$.  Because $J_Y(Y)$ is closed and
+$J_Y$ is an isometry, $(Tx_{n_k})$ converges in $Y$.  Hence $T$ is compact.
 \end{proof}
+
 \begin{notelemma}[Ideal property]
 For normed spaces $X,Y$, compact operators form a two-sided operator ideal:
 if $T\in\Kop{X}{Y}$ and $A,B$ are bounded with compatible domains, then
 $ATB$ is compact.
 \end{notelemma}
+
+\begin{proof}
+Let $(x_n)$ be bounded.  Since $B$ is bounded, $(Bx_n)$ is bounded; compactness
+of $T$ gives a subsequence for which $(TBx_{n_k})$ converges.  Continuity of
+$A$ then makes $(ATBx_{n_k})$ converge.  The sequential criterion proves that
+$ATB$ is compact.
+\end{proof}
+
 \section{The spectrum of a compact operator}
 
 \begin{notetheorem}[Riesz spectral theorem for compact operators]
@@ -315,27 +463,51 @@ Then:
 \end{notetheorem}
 
 \begin{proof}
-For finite dimensionality, the identity on
-$N_\lambda=\Ker(T-\lambda I)$ equals $\lambda^{-1}T|_{N_\lambda}$ and is
-compact, so $N_\lambda$ is finite dimensional.
-
-Fix $\varepsilon>0$.  If there were infinitely many distinct eigenvalues
-$|\lambda_n|\ge\varepsilon$, choose unit eigenvectors $x_n$ inductively so
-that $x_n$ has distance at least $1/2$ from
-$M_{n-1}=\Span\{x_1,\ldots,x_{n-1}\}$.  Since $M_{n-1}$ is invariant under
-$T$, for $m<n$ one obtains
+For $\lambda\ne0$, put $N_\lambda=\Ker(T-\lambda I)$.  On this subspace,
+$T=\lambda I$, so
 \[
- \|Tx_n-Tx_m\|
- =\|\lambda_nx_n-\lambda_mx_m\|
- \ge c\varepsilon
+  I_{N_\lambda}=\lambda^{-1}T|_{N_\lambda}
 \]
-for an absolute $c>0$, contradicting compactness.  Hence only finitely many
-eigenvalues lie outside every disk about $0$, proving countability and the
-accumulation assertion.
+is compact.  The identity on a normed space is compact only in finite
+dimension; hence $N_\lambda$ is finite dimensional.
 
-The remaining claim---that every nonzero spectral value is an eigenvalue---is
-a consequence of the Fredholm alternative proved below.
+Fix $\varepsilon>0$ and suppose that there are infinitely many distinct
+eigenvalues $\lambda_n$ with $|\lambda_n|\ge\varepsilon$.  Let
+\[
+  M_n=\Span\{v_1,\ldots,v_n\},
+  \qquad Tv_j=\lambda_jv_j,
+\]
+where $v_j\ne0$.  Eigenvectors for distinct eigenvalues are linearly
+independent, so $M_{n-1}\subsetneq M_n$.  Riesz's lemma gives
+$x_n\in M_n$ with
+\[
+  \|x_n\|=1,
+  \qquad \dist(x_n,M_{n-1})>\frac12.
+\]
+The subspaces $M_n$ are $T$-invariant, and
+\[
+  (T-\lambda_nI)x_n\in M_{n-1}.
+\]
+For $m<n$, also $Tx_m\in M_m\subseteq M_{n-1}$.  Therefore
+\[
+  Tx_n-Tx_m=\lambda_nx_n-z_{m,n}
+  \qquad\text{for some }z_{m,n}\in M_{n-1},
+\]
+and hence
+\[
+  \|Tx_n-Tx_m\|
+  =|\lambda_n|\left\|x_n-\frac{z_{m,n}}{\lambda_n}\right\|
+  >\frac{\varepsilon}{2}.
+\]
+Thus $(Tx_n)$ has no Cauchy subsequence, contradicting compactness of $T$.
+Only finitely many eigenvalues can therefore satisfy $|\lambda|\ge\varepsilon$.
+Taking $\varepsilon=1/k$ proves countability of the nonzero eigenvalues and
+shows that only $0$ can be an accumulation point.
+
+The remaining assertion---that every nonzero spectral value is an
+eigenvalue---follows from the Fredholm alternative proved below.
 \end{proof}
+
 \begin{noteproposition}
 Let $T$ be compact and $\lambda\ne0$.  Then $\Ran(T-\lambda I)$ is closed.
 \end{noteproposition}
@@ -353,6 +525,7 @@ then converges to some $x\in M$ with $\|x\|=1$ and $Sx=0$, contradicting
 $M\cap N=\{0\}$.  A bounded-below operator has closed range, and
 $\Ran S=\Ran(T-\lambda I)$.
 \end{proof}
+
 \begin{notetheorem}[Stabilization and Riesz decomposition]
 Let $T$ be compact and $\lambda\ne0$.  There is $m\ge1$ such that
 \[
@@ -367,20 +540,97 @@ and
 \]
 \end{notetheorem}
 
-\begin{proof}[Proof sketch]
-If the kernels increased strictly forever, Riesz's lemma would supply unit
-vectors $x_n$ in successive kernels separated from their predecessors.  The
-identity
+\begin{proof}
+Write
 \[
-  Tx_n=\lambda x_n+(T-\lambda I)x_n
+  S=T-\lambda I,
+  \qquad
+  N_n=\Ker S^n,
+  \qquad
+  R_n=\Ran S^n,
 \]
-and invariance of the earlier kernels would then make $(Tx_n)$ uniformly
-separated, contradicting compactness.  Applying the same argument to the
-adjoint, together with annihilator identities, yields stabilization of the
-ranges.  At the first common stabilization index, the intersection of the
-kernel and range is zero and the quotient dimensions show that their sum is
-all of $X$.
+with $N_0=\{0\}$ and $R_0=X$.  The spaces $N_n$ are closed.  The ranges are
+closed as well: by the binomial formula,
+\[
+  S^n=(-\lambda)^nI+K_n,
+\]
+where $K_n$ is a finite sum of positive powers of the compact operator $T$ and
+is therefore compact.  The earlier closed-range proposition applies to
+$S^n$ because $(-\lambda)^n\ne0$.
+
+\emph{Stabilization of the kernels.}
+Suppose, contrary to the claim, that
+$N_{n-1}\subsetneq N_n$ for every $n\ge1$.  Riesz's lemma gives
+$x_n\in N_n$ such that
+\[
+  \|x_n\|=1,
+  \qquad
+  \dist(x_n,N_{n-1})>\frac12.
+\]
+If $n>m$, then $x_m\in N_m\subseteq N_{n-1}$,
+$Sx_n\in N_{n-1}$, and $Tx_m=(S+\lambda I)x_m\in N_m\subseteq N_{n-1}$.
+Consequently
+\[
+  Tx_n-Tx_m
+  =\lambda x_n+Sx_n-Tx_m
+  =\lambda x_n-z_{m,n}
+\]
+for some $z_{m,n}\in N_{n-1}$.  Hence
+\[
+  \|Tx_n-Tx_m\|
+  =|\lambda|\left\|x_n-\frac{z_{m,n}}{\lambda}\right\|
+  >\frac{|\lambda|}{2}.
+\]
+This contradicts compactness of $T$.  Thus $N_r=N_{r+1}$ for some $r$.
+Once equality occurs it persists: if $N_r=N_{r+1}$ and
+$x\in N_{r+2}$, then $Sx\in N_{r+1}=N_r$, so
+$x\in N_{r+1}=N_r$; induction gives $N_r=N_{r+k}$ for all $k\ge1$.
+
+\emph{Stabilization of the ranges.}
+Suppose that $R_n\supsetneq R_{n+1}$ for every $n\ge0$.  Since the $R_n$ are
+closed, Riesz's lemma gives $x_n\in R_n$ such that
+\[
+  \|x_n\|=1,
+  \qquad
+  \dist(x_n,R_{n+1})>\frac12.
+\]
+For $n>m$, the descending-chain relation gives
+$x_n\in R_n\subseteq R_{m+1}$.  Also $Sx_m\in R_{m+1}$ and
+$Tx_n=(S+\lambda I)x_n\in R_n\subseteq R_{m+1}$.  Therefore
+\[
+  Tx_m-Tx_n=\lambda x_m-z_{m,n}
+  \qquad(z_{m,n}\in R_{m+1}),
+\]
+so
+\[
+  \|Tx_m-Tx_n\|>\frac{|\lambda|}{2},
+\]
+again contradicting compactness.  Hence $R_s=R_{s+1}$ for some $s$, and then
+$R_s=R_{s+k}$ for every $k\ge1$.
+
+This is the null-space/range argument appearing in the handwritten proof.  To
+make its final step explicit, choose
+\[
+  m\ge\max\{r,s,1\}.
+\]
+Then $N_m=N_{2m}$ and $R_m=R_{2m}$.  Given $x\in X$, the vector $S^mx$ lies
+in $R_m=R_{2m}$, so there is $z\in X$ with
+\[
+  S^mx=S^{2m}z.
+\]
+Thus
+\[
+  x=(x-S^mz)+S^mz,
+\]
+where $x-S^mz\in N_m$ and $S^mz\in R_m$.  Therefore $X=N_m+R_m$.
+If $x\in N_m\cap R_m$, write $x=S^my$.  Then
+$0=S^mx=S^{2m}y$, so $y\in N_{2m}=N_m$ and hence $x=S^my=0$.  The sum is
+direct, proving
+\[
+  X=N_m\oplus R_m.
+\]
 \end{proof}
+
 \section{Fredholm alternative}
 
 \begin{notelemma}[Biorthogonal vectors]
@@ -397,6 +647,7 @@ surjective; otherwise a nonzero functional on $\mathbb K^n$ annihilating
 $Q(X)$ would give a nontrivial linear relation among the $f_i$.  Choose
 $x_j$ with $Qx_j=e_j$.
 \end{proof}
+
 \begin{notetheorem}[Fredholm alternative]
 Let $T\in\Kop{X}{X}$ and let $\lambda\ne0$.  Put
 $S=\lambda I-T$.  Then:
@@ -419,25 +670,78 @@ spectral parameter is conjugated according to the inner-product convention.
 \end{notetheorem}
 
 \begin{proof}
-The range of $S$ is closed.  If $S$ is injective but not surjective, the
-strictly decreasing closed ranges
-$X\supsetneq\Ran S\supsetneq\Ran S^2\supsetneq\cdots$ would contradict the
-range stabilization theorem.  If $S$ is surjective but not injective, the
-strictly increasing kernels
-$\Ker S\subsetneq\Ker S^2\subsetneq\cdots$ would contradict kernel
-stabilization.  Thus injectivity and surjectivity are equivalent, and the
-bounded inverse theorem gives boundedness of the inverse.
+Since $S=\lambda I-T$ differs only by a sign from $T-\lambda I$, the
+closed-range and stabilization results above apply to $S$ and all its powers.
 
-The annihilator identity
+We first follow the null-space/range argument of the notes.  If $S$ is
+injective and $\Ran S\ne X$, then every inclusion
 \[
-  \overline{\Ran S}=\preann{\Ker S^*}
+  X\supseteq\Ran S\supseteq\Ran S^2\supseteq\cdots
 \]
-and closedness of $\Ran S$ give the solvability criterion for $Sx=y$.
-Applying the same result to $S^*$ and using Schauder's theorem gives the dual
-criterion.  Finally, biorthogonal vectors and the two solvability criteria show
-that neither $\Ker S$ nor $\Ker S^*$ can have larger dimension than the other;
-hence their finite dimensions are equal.
+is strict.  Indeed, if $\Ran S^n=\Ran S^{n+1}$ for some $n\ge1$ and
+$y\in\Ran S^{n-1}$, then $Sy\in\Ran S^n=\Ran S^{n+1}$, so
+$Sy=S(S^nz)$ for some $z$; injectivity gives $y=S^nz\in\Ran S^n$.
+Repeating this backward would yield $X=\Ran S$, a contradiction.  The strict
+chain contradicts range stabilization.  Hence injectivity implies
+surjectivity.
+
+Conversely, suppose $S$ is surjective but has $0\ne x_1\in\Ker S$.  Choose
+recursively $x_{n+1}$ with $Sx_{n+1}=x_n$.  Then
+\[
+  x_n\in\Ker S^n\setminus\Ker S^{n-1},
+\]
+so the kernels increase strictly forever, contradicting kernel stabilization.
+Thus surjectivity implies injectivity.  If either condition holds, $S$ is a
+bounded bijection of Banach spaces and the bounded inverse theorem gives
+$S^{-1}\in\Bop{X}{X}$.
+
+We next compute the dimensions.  Choose $m$ from the Riesz decomposition and
+write
+\[
+  X=N_m\oplus R_m,
+  \qquad N_m=\Ker S^m,
+  \qquad R_m=\Ran S^m.
+\]
+The space $N_m$ is finite dimensional, because
+$S^m=cI+K$ with $c\ne0$ and $K$ compact.  Since the ranges have stabilized,
+$S(R_m)=R_m$; the direct-sum relation also shows that $S|_{R_m}$ is injective.
+Moreover,
+\[
+  \Ran S=S(N_m)\oplus R_m.
+\]
+Consequently,
+\[
+\begin{aligned}
+  \operatorname{codim}\Ran S
+   &=\dim N_m-\dim S(N_m)\\
+   &=\dim\Ker(S|_{N_m})
+    =\dim\Ker S.
+\end{aligned}
+\]
+Because $\Ran S$ is closed,
+\[
+  \Ker S^*=(\Ran S)^\perp
+\]
+is naturally the dual of the finite-dimensional quotient
+$X/\Ran S$.  Therefore
+\[
+  \dim\Ker S^*=\operatorname{codim}\Ran S=\dim\Ker S<\infty.
+\]
+
+Finally, the standard annihilator identities give
+\[
+  \Ran S=\preann{\Ker S^*}
+\]
+because $\Ran S$ is closed.  Hence $Sx=y$ is solvable exactly when
+$f(y)=0$ for every $f\in\Ker S^*$.  By Schauder's theorem, $T^*$ is compact,
+so $S^*=\lambda I-T^*$ also has closed range.  The dual annihilator identity
+then gives
+\[
+  \Ran S^*=(\Ker S)^\perp,
+\]
+which is precisely the stated solvability criterion for $S^*f=g$.
 \end{proof}
+
 \begin{notecorollary}
 Every nonzero spectral value of a compact operator is an eigenvalue.
 \end{notecorollary}
@@ -447,6 +751,7 @@ If $\lambda\ne0$ and $\lambda I-T$ were injective, the Fredholm alternative
 would make it surjective and hence invertible.  Thus a nonzero point of the
 spectrum must have nontrivial kernel.
 \end{proof}
+
 \section{Arzelà--Ascoli and integral operators}
 
 \begin{notetheorem}[Arzelà--Ascoli theorem]

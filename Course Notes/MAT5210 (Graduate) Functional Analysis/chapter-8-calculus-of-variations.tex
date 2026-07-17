@@ -36,13 +36,26 @@ Then
 \]
 Thus the minimizer is the metric projection $P_K^ac$ in the Hilbert norm
 $\|\cdot\|_a$.  Existence, uniqueness, and nonexpansiveness follow from the
-projection theorem.  Since
+projection theorem.  To make the dependence on the right-hand side explicit,
+let $c_i$ be the Riesz representative of $\ell_i$ with respect to $a$.  Then
+\[
+  \|c_1-c_2\|_a^2
+  =(\ell_1-\ell_2)(c_1-c_2)
+  \le \|\ell_1-\ell_2\|_{V^*}\,\|c_1-c_2\|.
+\]
+Coercivity gives $\|w\|\le\alpha^{-1/2}\|w\|_a$, and hence
 \[
   \|c_1-c_2\|_a
-  \le\alpha^{-1/2}\|\ell_1-\ell_2\|_{V^*}
+  \le \alpha^{-1/2}\|\ell_1-\ell_2\|_{V^*}.
 \]
-up to the norm-equivalence constants, the solution map is Lipschitz.  If $K$ is
-a subspace, the orthogonal projection is linear.
+Writing $u_i=P_K^ac_i$ and using nonexpansiveness of the projection once more,
+\[
+  \|u_1-u_2\|
+  \le \alpha^{-1/2}\|u_1-u_2\|_a
+  \le \alpha^{-1}\|\ell_1-\ell_2\|_{V^*}.
+\]
+Thus the solution map is Lipschitz.  If $K$ is a subspace, the orthogonal
+projection is linear, so $\ell\mapsto u$ is linear as well.
 \end{proof}
 
 \begin{notecorollary}[Variational inequality]
@@ -69,6 +82,7 @@ Let $t\downarrow0$.  Conversely, expanding $J(v)-J(u)$ and using the
 inequality gives nonnegativity.  If $K$ is a subspace, test with
 $u\pm v$ to obtain equality.
 \end{proof}
+
 \begin{noteremark}
 The first variation of
 $J(v)=\frac12a(v,v)-\ell(v)$ in the direction $w$ is
@@ -80,14 +94,16 @@ $J(v+w)-J(v)$ is second order.  Quadratic minimization on a subspace therefore
 produces a linear variational equation, while nonlinear functionals generally
 produce nonlinear Euler--Lagrange equations.
 \end{noteremark}
+
 \section{Lax--Milgram and Stampacchia}
 
 \begin{notetheorem}[Lax--Milgram lemma]
-Let $H$ be a real or complex Hilbert space and let
-$a\colon H\times H\to\mathbb K$ be a continuous bilinear or sesquilinear form.
+Let $H$ be a real Hilbert space and let
+$a\colon H\times H\to\mathbb R$ be a continuous bilinear form, not
+necessarily symmetric.
 Assume coercivity:
 \[
-  \operatorname{Re}a(v,v)\ge\alpha\|v\|^2
+  a(v,v)\ge\alpha\|v\|^2
   \qquad(v\in H)
 \]
 for some $\alpha>0$.  Then, for every $\ell\in H^*$, there is a unique
@@ -111,29 +127,29 @@ Riesz representation defines a bounded operator $A\in\Bop{H}{H}$ by
 Coercivity gives
 \[
   \alpha\|u\|^2
-  \le\operatorname{Re}\inner{Au}{u}
+  \le\inner{Au}{u}
   \le\|Au\|\,\|u\|,
 \]
 so $A$ is injective, bounded below, and has closed range.  If
-$y\perp\Ran(A)$, then $A^*y=0$ and
+$y\perp\Ran(A)$, then $Ay\in\Ran(A)$ and therefore
 \[
   \alpha\|y\|^2
-  \le\operatorname{Re}a(y,y)
-  =\operatorname{Re}\inner{Ay}{y}
-  =\operatorname{Re}\inner{y}{A^*y}=0,
+  \le a(y,y)
+  =\inner{Ay}{y}
+  =0.
 \]
-so $y=0$.  Thus the range is dense and closed, hence all of $H$.  Solve
+Thus $y=0$.  Therefore the range is dense and closed, hence all of $H$.  Solve
 $Au=f$, where $f$ is the Riesz representative of $\ell$.  The estimate follows
 from the lower bound.
 \end{proof}
 
 \begin{notetheorem}[Stampacchia variational inequality]
-Let $H$ be a Hilbert space, let $K\subseteq H$ be nonempty, closed, and convex,
-and let $a\colon H\times H\to\mathbb K$ be continuous and coercive.  For every
+Let $H$ be a real Hilbert space, let $K\subseteq H$ be nonempty, closed, and
+convex, and let $a\colon H\times H\to\mathbb R$ be continuous and coercive.
+For every
 $\ell\in H^*$ there is a unique $u\in K$ such that
 \[
-  \operatorname{Re}a(u,v-u)
-  \ge\operatorname{Re}\ell(v-u)
+  a(u,v-u)\ge\ell(v-u)
   \qquad(v\in K).
 \]
 The solution depends Lipschitz continuously on $\ell$.
@@ -145,22 +161,51 @@ $\rho>0$, define
 \[
   \Phi(u)=P_K(u-\rho(Au-f)).
 \]
-Using nonexpansiveness of $P_K$, continuity of $A$, and coercivity, one finds
-for sufficiently small $\rho>0$ that
-\[
+For $u,v\in H$, nonexpansiveness of $P_K$ gives
+\begin{align*}
   \|\Phi(u)-\Phi(v)\|^2
-  \le\bigl(1-2\rho\alpha+\rho^2\|A\|^2\bigr)\|u-v\|^2.
+  &\le
+  \|(u-v)-\rho A(u-v)\|^2 \\
+  &=\|u-v\|^2
+    -2\rho\inner{A(u-v)}{u-v}
+    +\rho^2\|A(u-v)\|^2 \\
+  &\le
+  \bigl(1-2\rho\alpha+\rho^2\|A\|^2\bigr)\|u-v\|^2.
+\end{align*}
+Choose $0<\rho<2\alpha/\|A\|^2$.  The number
+$q^2=1-2\rho\alpha+\rho^2\|A\|^2$ then satisfies $0\le q<1$, so $\Phi$ is a
+contraction and has a unique fixed point $u\in K$.
+
+It remains to identify the fixed-point equation.  For $z\in H$, the
+characterization of the metric projection says
+\[
+  u=P_Kz
+  \quad\Longleftrightarrow\quad
+  \inner{z-u}{v-u}\le0
+  \quad(v\in K).
 \]
-Thus $\Phi$ is a contraction and has a unique fixed point $u\in K$.  The
-projection characterization of this fixed point is exactly the variational
-inequality.  Comparing the inequalities for two right-hand sides and using
-coercivity gives
+Taking $z=u-\rho(Au-f)$ shows that $u=\Phi(u)$ if and only if
+\[
+  \inner{Au-f}{v-u}\ge0
+  \qquad(v\in K),
+\]
+which is precisely the stated variational inequality.
+
+Finally, let $u_i$ correspond to $\ell_i$.  Testing the inequality for $u_1$
+with $v=u_2$ and that for $u_2$ with $v=u_1$, then adding, gives
 \[
   \alpha\|u_1-u_2\|^2
-  \le\|\ell_1-\ell_2\|\,\|u_1-u_2\|,
+  \le (\ell_1-\ell_2)(u_1-u_2)
+  \le\|\ell_1-\ell_2\|\,\|u_1-u_2\|.
 \]
-which proves Lipschitz dependence.
+After cancelling $\|u_1-u_2\|$ when it is nonzero, one obtains
+\[
+  \|u_1-u_2\|
+  \le\frac1\alpha\|\ell_1-\ell_2\|,
+\]
+which proves the claimed Lipschitz dependence.
 \end{proof}
+
 \section{Test functions and weak derivatives}
 
 \begin{notedefinition}
@@ -183,6 +228,7 @@ $D^\alpha u$ if
   \qquad(\varphi\in\mathcal D(\Omega)).
 \]
 \end{notedefinition}
+
 \section{Distributions}
 
 \begin{notedefinition}
@@ -213,6 +259,7 @@ $T_n\in\mathcal D'(\Omega)$ converges distributionally to $T$ if
   \qquad(\varphi\in\mathcal D(\Omega)).
 \]
 \end{noteremark}
+
 \begin{noteproposition}[Regular distributions]
 Every $u\in L^1_{\mathrm{loc}}(\Omega)$ defines a distribution
 $T_u$ by
@@ -226,10 +273,27 @@ The map $u\mapsto T_u$ is injective modulo equality almost everywhere.
 If $\supp\varphi\subseteq K$, then
 \[
   |T_u(\varphi)|
-  \le\|u\|_{L^1(K)}\|\varphi\|_{L^\infty(K)}.
+  \le\|u\|_{L^1(K)}\|\varphi\|_{L^\infty(K)},
 \]
-If $T_u=0$, testing against mollified cutoffs and using the fundamental lemma
-of the calculus of variations gives $u=0$ almost everywhere.
+so $T_u$ is a distribution of order zero on each compact set.
+
+To prove injectivity, suppose $T_u=0$.  Fix a ball
+$B(x_0,2r)\Subset\Omega$ and a standard mollifier $\rho_\varepsilon$ with
+$0<\varepsilon<r$.  For every $x\in B(x_0,r)$, the function
+\[
+  y\longmapsto\rho_\varepsilon(x-y)
+\]
+belongs to $C_c^\infty(B(x_0,2r))$.  Hence
+\[
+  (u*\rho_\varepsilon)(x)
+  =\int_\Omega u(y)\rho_\varepsilon(x-y)\,\dd y
+  =T_u\bigl(\rho_\varepsilon(x-\cdot)\bigr)
+  =0.
+\]
+Local approximation by mollifiers gives
+$u*\rho_\varepsilon\to u$ in $L^1(B(x_0,r))$, so $u=0$ almost everywhere on
+$B(x_0,r)$.  Since such balls cover $\Omega$, $u=0$ almost everywhere on
+$\Omega$.  Thus $u\mapsto T_u$ is injective modulo almost-everywhere equality.
 \end{proof}
 
 \begin{noteexample}[Dirac delta]
@@ -250,14 +314,34 @@ $\psi_k(x)=\psi(k(x-a))$.  Then $\delta_a(\psi_k)=1$, whereas
 \]
 by absolute continuity of the Lebesgue integral, a contradiction.
 \end{proof}
+
 \begin{notedefinition}[Distributional derivatives]
 For $T\in\mathcal D'(\Omega)$ and a multi-index $\alpha$, define
 \[
   D^\alpha T(\varphi)
   =(-1)^{|\alpha|}T(D^\alpha\varphi).
 \]
-Then $D^\alpha T$ is again a distribution.
 \end{notedefinition}
+
+\begin{proof}[Continuity of the derivative]
+Let $K\Subset\Omega$ and suppose that on test functions supported in $K$ the
+distribution $T$ satisfies an estimate of order $m_K$.  Since
+$\supp(D^\alpha\varphi)\subseteq\supp\varphi$, we have
+\[
+\begin{aligned}
+  |D^\alpha T(\varphi)|
+  &=|T(D^\alpha\varphi)| \\
+  &\le C_K
+      \max_{|\beta|\le m_K}
+      \sup_{x\in K}|D^{\alpha+\beta}\varphi(x)| \\
+  &\le C_K
+      \max_{|\gamma|\le m_K+|\alpha|}
+      \sup_{x\in K}|D^\gamma\varphi(x)|.
+\end{aligned}
+\]
+Thus $D^\alpha T$ is a distribution, of local order at most
+$m_K+|\alpha|$ on $K$.
+\end{proof}
 
 \begin{noteproposition}
 If $u\in C^{|\alpha|}(\Omega)$, then

@@ -13,18 +13,46 @@ reflexive.
 \end{notetheorem}
 
 \begin{proof}
-Clarkson's inequalities give, for $2\le p<\infty$,
+Let $f,g\in L^p(\Omega)$ with $\|f\|_p,\|g\|_p\le1$ and
+$\|f-g\|_p\ge\varepsilon$.  When $2\le p<\infty$, Clarkson's inequality is
 \[
  \left\|\frac{f+g}{2}\right\|_p^p
  +\left\|\frac{f-g}{2}\right\|_p^p
- \le \frac{\|f\|_p^p+\|g\|_p^p}{2},
+ \le \frac{\|f\|_p^p+\|g\|_p^p}{2}\le1.
 \]
-and the dual Clarkson inequality gives the corresponding estimate for
-$1<p\le2$.  If $\|f\|_p,\|g\|_p\le1$ and $\|f-g\|_p\ge\varepsilon$, these
-inequalities bound $\|(f+g)/2\|_p$ by $1-\delta_p(\varepsilon)$ for some
-positive $\delta_p(\varepsilon)$.  Thus $L^p$ is uniformly convex, and the
-Milman--Pettis theorem yields reflexivity.
+Consequently,
+\[
+  \left\|\frac{f+g}{2}\right\|_p^p
+  \le 1-\left(\frac{\varepsilon}{2}\right)^p,
+\]
+and hence
+\[
+  \left\|\frac{f+g}{2}\right\|_p
+  \le 1-\delta_p(\varepsilon),
+  \qquad
+  \delta_p(\varepsilon)
+  :=1-\left(1-(\varepsilon/2)^p\right)^{1/p}>0.
+\]
+
+For $1<p\le2$, put $q=p'=p/(p-1)$.  The second Clarkson inequality reads
+\[
+  \|f+g\|_p^q+\|f-g\|_p^q
+  \le 2\bigl(\|f\|_p^p+\|g\|_p^p\bigr)^{q/p}.
+\]
+After division by $2^q$, the assumptions $\|f\|_p,\|g\|_p\le1$ give
+\[
+  \left\|\frac{f+g}{2}\right\|_p^q
+  +\left\|\frac{f-g}{2}\right\|_p^q\le1.
+\]
+Thus the same argument, now with exponent $q$, gives
+\[
+  \left\|\frac{f+g}{2}\right\|_p
+  \le \left(1-(\varepsilon/2)^q\right)^{1/q}<1.
+\]
+This is uniform convexity.  The Milman--Pettis theorem therefore implies that
+$L^p(\Omega)$ is reflexive.
 \end{proof}
+
 \begin{notetheorem}[Riesz representation for $L^p$]
 Let $1<p<\infty$.  For each $g\in L^{p'}(\Omega)$, the formula
 \[
@@ -42,23 +70,52 @@ isometrically.
 \end{notetheorem}
 
 \begin{proof}
-Hölder's inequality gives $\|T_g\|\le\|g\|_{p'}$.  Taking
+For $g\in L^{p'}(\Omega)$, Hölder's inequality gives
 \[
-  f=\frac{|g|^{p'-2}\overline g}{\|g\|_{p'}^{p'-1}}
+  |T_g(f)|\le\|f\|_p\|g\|_{p'},
+  \qquad f\in L^p(\Omega),
 \]
-(with the evident real-valued version) gives equality when $g\ne0$.
-
-Let $J\colon L^{p'}\to(L^p)^*$ be $Jg=T_g$.  It is an isometry, so its range
-is closed.  If $\Phi\in(L^p)^{**}$ annihilates $J(L^{p'})$, reflexivity of
-$L^p$ gives $\Phi=J_{L^p}f$ for some $f\in L^p$, and then
+so $\|T_g\|\le\|g\|_{p'}$.  If $g\ne0$, define
 \[
-  0=\Phi(Jg)=\int_\Omega f g\,\dd x
+  f_g(x)=
+  \frac{|g(x)|^{p'-2}\overline{g(x)}}{\|g\|_{p'}^{p'-1}},
+\]
+with the value $0$ where $g=0$.  Since $(p'-1)p=p'$, one has
+$\|f_g\|_p=1$, and
+\[
+  T_g(f_g)
+  =\frac{1}{\|g\|_{p'}^{p'-1}}
+    \int_\Omega |g|^{p'}\,\dd x
+  =\|g\|_{p'}.
+\]
+Thus $\|T_g\|=\|g\|_{p'}$.
+
+Let
+\[
+  J\colon L^{p'}(\Omega)\longrightarrow (L^p(\Omega))^*,
+  \qquad Jg=T_g.
+\]
+The map $J$ is an isometry, so $J(L^{p'})$ is norm closed.  Suppose that
+$\Phi\in(L^p)^{**}$ annihilates this range.  Since $L^p$ is reflexive, there is
+$f\in L^p$ such that $\Phi=J_{L^p}f$.  Therefore
+\[
+  0=\Phi(Jg)=Jg(f)=\int_\Omega fg\,\dd x
   \qquad(g\in L^{p'}).
 \]
-Choosing the usual truncations of $|f|^{p-2}\overline f$ gives $f=0$.
-Therefore $J(L^{p'})$ has zero annihilator and is weakly dense; since it is a
-closed linear subspace, it equals $(L^p)^*$.
+Taking
+\[
+  g=|f|^{p-2}\overline f
+\]
+(with value $0$ at the zeros of $f$) is legitimate because
+$|g|^{p'}=|f|^p$.  It gives
+\[
+  0=\int_\Omega |f|^p\,\dd x,
+\]
+so $f=0$.  Hence the annihilator of $J(L^{p'})$ in $(L^p)^{**}$ is trivial.
+A proper closed linear subspace of a normed space has a nonzero annihilator by
+Hahn--Banach; therefore $J(L^{p'})=(L^p)^*$.
 \end{proof}
+
 \begin{notetheorem}[The endpoint duality theorem]
 For a $\sigma$-finite measure space, and in particular for Lebesgue measure on
 $\Omega\subseteq\mathbb R^d$,
@@ -69,16 +126,91 @@ isometrically through the same pairing
 $T_g(f)=\int_\Omega fg$.
 \end{notetheorem}
 
-\begin{proof}[Proof sketch]
-Hölder's inequality gives the isometric embedding
-$L^\infty\hookrightarrow(L^1)^*$.  Given $T\in(L^1)^*$, define the signed or
-complex measure $\nu(A)=T(\one_A)$ on sets of finite measure.  It is absolutely
-continuous with respect to Lebesgue measure and satisfies
-$|\nu(A)|\le\|T\|\,|A|$.  Radon--Nikodym gives a density
-$g\in L^\infty$ with $\|g\|_\infty\le\|T\|$, and density of simple functions
-then yields $T(f)=\int fg$.  The reverse norm inequality follows by testing on
-sets where $|g|$ is close to its essential supremum.
+\begin{proof}
+For $g\in L^\infty(\Omega)$, Hölder's inequality gives
+\[
+  \left|\int_\Omega fg\,\dd x\right|
+  \le\|f\|_1\|g\|_\infty,
+\]
+so $g\mapsto T_g$ is a linear contraction from $L^\infty$ into $(L^1)^*$.
+We first prove surjectivity and then verify that the norm is preserved.
+
+Let $T\in(L^1(\Omega))^*$.  Since the measure space is $\sigma$-finite, choose
+measurable sets
+\[
+  E_1\subseteq E_2\subseteq\cdots,
+  \qquad \mu(E_n)<\infty,
+  \qquad \bigcup_{n=1}^\infty E_n=\Omega.
+\]
+For a measurable set $A\subseteq E_n$, define
+\[
+  \nu_n(A)=T(\one_A).
+\]
+If $(A_k)$ are pairwise disjoint subsets of $E_n$, then
+\[
+  \one_{\cup_{k=1}^m A_k}\longrightarrow
+  \one_{\cup_{k=1}^\infty A_k}
+  \quad\text{in }L^1
+\]
+because the omitted tail has measure tending to zero.  Continuity of $T$
+therefore shows that $\nu_n$ is countably additive.  Moreover,
+\[
+  |\nu_n(A)|\le\|T\|\,\|\one_A\|_1
+  =\|T\|\,\mu(A),
+\]
+so $\nu_n\ll\mu|_{E_n}$.  The Radon--Nikodym theorem gives a measurable
+function $g_n$ on $E_n$ such that
+\[
+  \nu_n(A)=\int_A g_n\,\dd\mu
+  \qquad(A\subseteq E_n\text{ measurable}).
+\]
+The displayed domination implies $|g_n|\le\|T\|$ almost everywhere.  Indeed,
+if $|g_n|>\|T\|+\varepsilon$ on a set of positive measure, restricting to a
+subset on which the complex phase of $g_n$ lies in a sufficiently short arc
+(and using the sign in the real case) would contradict
+$|\nu_n(A)|\le\|T\|\mu(A)$.
+
+For $m>n$, the measures represented by $g_m$ and $g_n$ agree on every subset
+of $E_n$.  Uniqueness in the Radon--Nikodym theorem gives
+$g_m=g_n$ almost everywhere on $E_n$.  The functions therefore patch to a
+measurable $g$ on $\Omega$ satisfying
+\[
+  \|g\|_\infty\le\|T\|.
+\]
+If $s$ is a simple function supported in some $E_n$, linearity gives
+\[
+  T(s)=\int_\Omega sg\,\dd\mu.
+\]
+Such simple functions are dense in $L^1(\Omega)$.  If $s_k\to f$ in $L^1$,
+then
+\[
+  T(s_k)\to T(f)
+  \quad\text{and}\quad
+  \int s_kg\to\int fg,
+\]
+so $T(f)=\int fg$ for every $f\in L^1$.
+
+It remains to prove equality of norms.  We already know
+$\|T_g\|\le\|g\|_\infty$.  Put $M=\|g\|_\infty$ and let $\varepsilon>0$.
+If $M>0$, the set $\{|g|>M-\varepsilon\}$ has positive measure.  Its
+intersection with some $E_n$ contains a measurable subset $A$ with
+$0<\mu(A)<\infty$.  Define
+\[
+  f=\frac{\one_A\,\overline{\operatorname{sgn}g}}{\mu(A)},
+  \qquad
+  \operatorname{sgn}g=
+  \begin{cases}g/|g|,&g\ne0,\\0,&g=0.\end{cases}
+\]
+Then $\|f\|_1=1$ and
+\[
+  |T_g(f)|
+  =\frac1{\mu(A)}\int_A|g|\,\dd\mu
+  \ge M-\varepsilon.
+\]
+Letting $\varepsilon\downarrow0$ yields $\|T_g\|\ge M$.  Hence the
+identification is isometric.
 \end{proof}
+
 \begin{noteremark}
 Except in the finite-dimensional case (equivalently, when the measure algebra
 has only finitely many atoms), $L^1(\Omega)$ is not reflexive.  Indeed, if it
@@ -87,6 +219,7 @@ fails on every genuinely infinite measure algebra.  Likewise
 $L^\infty(\Omega)$ is nonreflexive except in the same finite-dimensional
 situation.
 \end{noteremark}
+
 \section{Separability and dense classes}
 
 \begin{notetheorem}
@@ -99,22 +232,70 @@ Finite linear combinations, with rational coefficients, of indicators of
 rectangles with rational endpoints form a countable set.  Simple-function
 approximation and regularity of Lebesgue measure show that this set is dense in
 $L^p$ for $p<\infty$.  For $L^\infty$, choose infinitely many pairwise
-measurably distinguishable sets $A_\alpha$ such that
-$\|\one_{A_\alpha}-\one_{A_\beta}\|_\infty=1$ whenever $\alpha\ne\beta$;
-there are uncountably many such indicators, so no countable set can be dense.
+measurably distinguishable sets.  More explicitly, for $t\in\mathbb R$ let
+\[
+  A_t=(-\infty,t)\times\mathbb R^{d-1}.
+\]
+If $s\ne t$, then $A_s\triangle A_t$ has positive measure, and therefore
+\[
+  \|\one_{A_s}-\one_{A_t}\|_\infty=1.
+\]
+Thus $L^\infty(\mathbb R^d)$ contains an uncountable $1$-separated set and
+cannot be separable.
 \end{proof}
+
 \begin{notetheorem}
 For $1\le p<\infty$, $C_c(\mathbb R^d)$ and $C_c^\infty(\mathbb R^d)$ are
 dense in $L^p(\mathbb R^d)$.
 \end{notetheorem}
 
 \begin{proof}
-First approximate by compactly supported simple functions, then use regularity
-of Lebesgue measure and Urysohn-type cutoff functions to approximate their
-indicators by functions in $C_c$.  Mollification of a compactly supported
-continuous function gives $C_c^\infty$ functions converging uniformly, hence
-in $L^p$.
+Fix $f\in L^p(\mathbb R^d)$ and $\varepsilon>0$.  Truncating first in space and
+then in size gives
+\[
+  f_{R,M}=\one_{B(0,R)}\max\{-M,\min\{f,M\}\}
+\]
+in the real case, with the analogous radial truncation in the complex case,
+such that $\|f-f_{R,M}\|_p<\varepsilon/3$ for large $R$ and $M$.  The bounded,
+finite-support function $f_{R,M}$ can be approximated in $L^p$ by a simple
+function
+\[
+  s=\sum_{j=1}^m a_j\one_{E_j},
+\]
+where every $E_j$ is measurable, bounded, and has finite measure.
+
+It remains to approximate one indicator.  By inner and outer regularity of
+Lebesgue measure, for any $\eta>0$ there are a compact set $K\subseteq E$ and
+an open bounded set $O\supseteq E$ such that
+\[
+  |O\setminus K|<\eta.
+\]
+Choose $\phi\in C_c(\mathbb R^d)$ with
+\[
+  0\le\phi\le1,
+  \qquad \phi=1\text{ on }K,
+  \qquad \supp\phi\subseteq O.
+\]
+For instance, one may use the distance functions to $K$ and to
+$\mathbb R^d\setminus O$.  Since $\one_E$ and $\phi$ can differ only on
+$O\setminus K$,
+\[
+  \|\one_E-\phi\|_p^p\le |O\setminus K|<\eta.
+\]
+Choosing the errors for the finitely many $E_j$ sufficiently small produces
+$v\in C_c(\mathbb R^d)$ with $\|s-v\|_p<\varepsilon/3$.  This proves density
+of $C_c$.
+
+Finally let $\rho_\delta$ be a mollifier.  If $v\in C_c$, then
+$\rho_\delta*v\in C_c^\infty$, its support stays in a fixed compact set for
+small $\delta$, and uniform continuity gives
+\[
+  \|\rho_\delta*v-v\|_\infty\longrightarrow0.
+\]
+The fixed finite support then gives convergence in $L^p$.  Combining the three
+approximations proves density of $C_c^\infty$ as well.
 \end{proof}
+
 \section{Convolution and mollifiers}
 
 \begin{notetheorem}[Young's convolution inequality]
@@ -130,8 +311,22 @@ is defined for almost every $x$, belongs to $L^p$, and satisfies
 \end{notetheorem}
 
 \begin{proof}
-For $p=1$ and $p=\infty$, use Tonelli's theorem and the essential-supremum
-bound.  For $1<p<\infty$, Hölder's inequality with respect to the measure
+For $p=1$, Tonelli's theorem and translation invariance give
+\[
+\begin{aligned}
+  \|f*g\|_1
+  &\le\int_{\mathbb R^d}\int_{\mathbb R^d}
+       |f(x-y)|\,|g(y)|\,\dd y\,\dd x\\
+  &=\|f\|_1\|g\|_1.
+\end{aligned}
+\]
+For $p=\infty$, for almost every $x$,
+\[
+  |(f*g)(x)|
+  \le\int |f(x-y)|\,|g(y)|\,\dd y
+  \le\|g\|_\infty\|f\|_1.
+\]
+For $1<p<\infty$, Hölder's inequality with respect to the measure
 $|f(x-y)|\dd y$ gives
 \[
  |(f*g)(x)|^p
@@ -149,6 +344,31 @@ then $f*g\in C^k$ wherever the convolution is defined, and
   \qquad(|\alpha|\le k).
 \]
 \end{noteproposition}
+
+\begin{proof}
+Fix a compact set $K\subset\mathbb R^d$.  If $x\in K$ and
+$f(x-y)\ne0$, then
+\[
+  y\in x-\supp f\subseteq K-\supp f,
+\]
+which is compact.  Thus all relevant values of $g$ lie in one fixed compact
+set on which $g$ is integrable.  For a coordinate vector $e_j$,
+\[
+  \frac{(f*g)(x+he_j)-(f*g)(x)}{h}
+  =\int_{\mathbb R^d}
+     \frac{f(x+he_j-y)-f(x-y)}{h}\,g(y)\,\dd y.
+\]
+For small $h$, the difference quotient is supported in one fixed compact set
+and is bounded there by a constant multiple of $|g(y)|$, by the mean-value
+theorem.  Dominated convergence therefore gives
+\[
+  \partial_j(f*g)(x)=((\partial_jf)*g)(x).
+\]
+The same domination, now applied to differences of the last integral, gives
+continuity in $x$.  Iterating the argument proves the formula for every
+$|\alpha|\le k$.
+\end{proof}
+
 \begin{notedefinition}
 A sequence $(\rho_n)$ is an \emph{approximate identity} or a sequence of
 \emph{mollifiers} if
@@ -183,6 +403,7 @@ and uniform continuity makes the right-hand side tend uniformly to zero.  The
 $L^p$ statement follows by approximating $f$ by a function in $C_c$, using
 Young's inequality for the two error terms.
 \end{proof}
+
 \begin{notecorollary}[Vanishing weak gradient]
 Let $\Omega\subseteq\mathbb R^d$ be open and connected, and let
 $u\in L^1_{\mathrm{loc}}(\Omega)$.  If
@@ -195,10 +416,31 @@ then $u$ is almost everywhere equal to a constant on $\Omega$.
 \end{notecorollary}
 
 \begin{proof}
-On every ball $B$ compactly contained in $\Omega$, mollification gives smooth
-functions $u_\varepsilon$ with $\nabla u_\varepsilon=0$ on a slightly smaller
-ball.  Hence each $u_\varepsilon$ is constant there.  Passing to the
-$L^1_{\mathrm{loc}}$ limit shows that $u$ is almost everywhere constant on
-that ball.  Overlapping balls propagate the same constant throughout each
-connected component; connectedness gives a single constant on $\Omega$.
+Fix a ball $B(x_0,2r)\Subset\Omega$ and extend $u$ arbitrarily outside
+$B(x_0,2r)$ for the purpose of convolution.  For
+$0<\varepsilon<r$, put $u_\varepsilon=\rho_\varepsilon*u$ on
+$B(x_0,r)$.  For $1\le j\le d$ and $x\in B(x_0,r)$,
+\[
+  \partial_j u_\varepsilon(x)
+  =\int u(y)\,\partial_j\rho_\varepsilon(x-y)\,\dd y=0,
+\]
+because $y\mapsto\rho_\varepsilon(x-y)$ is a test function supported in
+$B(x_0,2r)$.  Hence $u_\varepsilon$ is constant on the connected ball
+$B(x_0,r)$; write this constant as $c_\varepsilon$.
+
+Choose a smaller ball $B_0\Subset B(x_0,r)$ of positive measure.  Since
+$u_\varepsilon\to u$ in $L^1(B_0)$, the constants $(c_\varepsilon)$ form a
+Cauchy net:
+\[
+  |B_0|\,|c_\varepsilon-c_\delta|
+  =\|c_\varepsilon-c_\delta\|_{L^1(B_0)}
+  \le\|u_\varepsilon-u\|_{L^1(B_0)}
+     +\|u-u_\delta\|_{L^1(B_0)}.
+\]
+Thus $c_\varepsilon\to c$, and $u=c$ almost everywhere on $B_0$, hence on
+$B(x_0,r)$ by the same $L^1$ convergence.  We have proved local constancy on
+every compactly contained ball.  Along a finite chain of overlapping balls,
+the constants agree on intersections of positive measure.  Since an open
+connected subset of $\mathbb R^d$ is path connected by polygonal chains of
+balls, one constant propagates throughout $\Omega$.
 \end{proof}

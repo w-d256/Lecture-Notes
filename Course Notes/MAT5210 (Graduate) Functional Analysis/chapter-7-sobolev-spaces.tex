@@ -40,6 +40,7 @@ closed: if $u_n\to u$ and $u_n'\to v$ in $L^p$, then for every test function
 Completeness, separability, and reflexivity therefore follow from the
 corresponding product-space properties of $L^p$.
 \end{proof}
+
 \begin{notetheorem}[One-dimensional fundamental theorem]
 Let $u\in W^{1,p}(I)$.  There is an absolutely continuous representative
 $\widetilde u$ such that
@@ -83,6 +84,7 @@ a compactly supported smooth function.  Therefore
 which says that the distribution defined by $f$ is the constant
 $c=\int f\psi$.
 \end{proof}
+
 \begin{noteproposition}[Dual characterization of a weak derivative]
 Let $u\in L^p(I)$ and $1<p\le\infty$.  Then $u\in W^{1,p}(I)$ if and only
 if there is $C>0$ such that
@@ -110,6 +112,7 @@ variation.  It does not by itself force that measure to have an $L^1$
 density.  This is why the theorem is stated for $p>1$ (and for $p=\infty$ via
 $(L^1)^*=L^\infty$).
 \end{noteremark}
+
 \begin{noteremark}
 For $p=1$, the absolutely continuous representative is exactly the classical
 one: a function belongs to $W^{1,1}(I)$ precisely when it is almost everywhere
@@ -133,6 +136,7 @@ absolutely continuous, differentiable almost everywhere, and its derivative
 is bounded by its Lipschitz constant.  Integration by parts then identifies
 that derivative as the weak derivative.
 \end{proof}
+
 \begin{notetheorem}[Difference-quotient criterion on $\mathbb R$]
 Let $1<p<\infty$ and $u\in L^p(\mathbb R)$.  Then $u\in W^{1,p}(\mathbb R)$
 if and only if there is $C>0$ such that
@@ -160,6 +164,7 @@ For $p=1$, the analogous uniform translation bound characterizes bounded
 variation rather than $W^{1,1}$, so the endpoint cannot be inserted without
 an additional absolute-continuity condition.
 \end{proof}
+
 \section{Extension and smooth approximation}
 
 \begin{notetheorem}[Extension from an interval]
@@ -177,14 +182,55 @@ For a bounded interval, $Eu$ may be chosen with support in a fixed bounded
 neighbourhood of $I$.
 \end{notetheorem}
 
-\begin{proof}[Construction]
-For a half-line, reflect across the endpoint on a short adjacent interval and
-then multiply by a fixed smooth cutoff.  Reflection preserves the $L^p$ norms
-of both the function and its weak derivative up to a fixed factor.  For a
-bounded interval, reflect across both endpoints, use a partition of unity near
-the two ends, and multiply by a cutoff supported in a slightly larger
-interval.  The product rule gives the stated bound.
+\begin{proof}
+The construction in the notes is reflection.  We give it explicitly.  For
+$I=(0,\infty)$, use the absolutely continuous representative and set
+\[
+  (Eu)(x)=u(|x|),
+  \qquad x\in\mathbb R.
+\]
+Then, almost everywhere,
+\[
+  (Eu)'(x)=
+  \begin{cases}
+    u'(x),&x>0,\\
+    -u'(-x),&x<0,
+  \end{cases}
+\]
+and hence, for $p<\infty$,
+\[
+  \|Eu\|_p^p=2\|u\|_p^p,
+  \qquad
+  \|(Eu)'\|_p^p=2\|u'\|_p^p.
+\]
+The corresponding supremum-norm estimates hold when $p=\infty$.  Translation
+handles every half-line, while $I=\mathbb R$ needs no extension.
+
+For a bounded interval, an affine change of variables reduces the problem to
+$I=(0,1)$.  Define on $(-1,2)$
+\[
+  v(x)=
+  \begin{cases}
+    u(-x),&-1<x<0,\\
+    u(x),&0\le x\le1,\\
+    u(2-x),&1<x<2.
+  \end{cases}
+\]
+The one-dimensional fundamental theorem shows that $v\in W^{1,p}(-1,2)$,
+with derivative obtained by changing signs on the reflected pieces, and
+\[
+  \|v\|_{W^{1,p}(-1,2)}\le C\|u\|_{W^{1,p}(0,1)}.
+\]
+Choose $\eta\in C_c^\infty(-1,2)$ with $\eta=1$ on $[0,1]$, and set
+$Eu=\eta v$ on $(-1,2)$ and $Eu=0$ elsewhere.  The product rule gives
+\[
+  (Eu)'=\eta'v+\eta v'
+\]
+and hence the required bound.  Every operation is linear, and the support is
+contained in the fixed compact set $\supp\eta$.  Undoing the affine change of
+variables completes the construction for an arbitrary bounded interval.
 \end{proof}
+
 \begin{notelemma}[Mollification of Sobolev functions]
 Let $u\in W^{1,p}(\mathbb R)$ and let $\rho\in C_c^\infty(\mathbb R)$.  Then
 \[
@@ -215,16 +261,44 @@ mollifying, and restricting.
 \end{notetheorem}
 
 \begin{proof}
-Let $\rho_n$ be mollifiers.  Then
+We first work on $\mathbb R$.  Choose $\chi\in C_c^\infty(\mathbb R)$ with
+$0\le\chi\le1$, $\chi=1$ on $[-1,1]$, and $\supp\chi\subset[-2,2]$, and put
+$\chi_R(x)=\chi(x/R)$.  Then
 \[
-  \rho_n*u\to u,
+  \chi_Ru\longrightarrow u
+  \quad\text{in }L^p,
   \qquad
-  \rho_n*u'\to u'
+  \chi_Ru'\longrightarrow u'
+  \quad\text{in }L^p
 \]
-in $L^p$, so $\rho_n*u\to u$ in $W^{1,p}$.  Multiplying by cutoffs that tend
-to one produces compact support while the product-rule error tends to zero.
-For an interval, first apply the bounded extension operator.
+by dominated convergence.  Moreover,
+\[
+  (\chi_Ru)'=\chi_Ru'+\chi_R'u,
+  \qquad
+  \|\chi_R'u\|_p\le\frac{\|\chi'\|_\infty}{R}\|u\|_p\longrightarrow0.
+\]
+Thus $\chi_Ru\to u$ in $W^{1,p}$, and each $\chi_Ru$ has compact support.
+
+Now fix a compactly supported $v\in W^{1,p}(\mathbb R)$.  For mollifiers
+$\rho_\varepsilon$, the convolution lemma gives
+\[
+  (\rho_\varepsilon*v)'=\rho_\varepsilon*v',
+\]
+and the $L^p$ approximate-identity theorem gives
+\[
+  \rho_\varepsilon*v\to v,
+  \qquad
+  \rho_\varepsilon*v'\to v'
+\]
+in $L^p$.  Hence $\rho_\varepsilon*v\to v$ in $W^{1,p}$; for small
+$\varepsilon$ the convolutions are still compactly supported.  A diagonal
+choice of $R$ and $\varepsilon$ proves density of $C_c^\infty(\mathbb R)$.
+
+For a general interval, extend $u$ by the preceding extension theorem,
+approximate the extension by smooth functions on $\mathbb R$, and restrict
+back to $I$.
 \end{proof}
+
 \section{One-dimensional Sobolev embeddings}
 
 \begin{notetheorem}[Sobolev embedding on an interval]
@@ -245,28 +319,78 @@ If $I$ is bounded, then
 \end{notetheorem}
 
 \begin{proof}
-For $1<p<\infty$, apply the fundamental theorem to
-$G(u)=|u|^{p-1}u$ (or a smooth approximation in the complex case):
+Let $L=|I|$.  We use the absolutely continuous representative of $u$.
+First suppose $1\le p<\infty$.  Since $|u|^p$ is integrable, there is a point
+$y\in\overline I$ such that
 \[
-  |u(x)|^p
-  \le p\int_I|u|^{p-1}|u'|+\frac1{|I|}\|u\|_p^p,
+  |u(y)|^p\le \frac1L\|u\|_p^p.
 \]
-and Hölder's inequality gives the stated $L^\infty$ estimate.  The endpoint
-$p=1$ follows directly from
-$|u(x)|\le |I|^{-1}\|u\|_1+\|u'\|_1$, and $p=\infty$ is immediate.
+For $p=1$, the fundamental theorem immediately gives, for every
+$x\in\overline I$,
+\[
+  |u(x)|
+  \le |u(y)|+\int_I|u'(t)|\,\dd t
+  \le \frac1L\|u\|_1+\|u'\|_1.
+\]
+Now let $1<p<\infty$.  The function $|u|^p$ is absolutely continuous and,
+almost everywhere,
+\[
+  \left|\frac{\dd}{\dd t}|u(t)|^p\right|
+  \le p|u(t)|^{p-1}|u'(t)|;
+\]
+in the complex case this follows from
+$\frac{\dd}{\dd t}|u|^p
+ =p|u|^{p-2}\operatorname{Re}(\overline u\,u')$ at points where $u\ne0$,
+with the usual continuous interpretation at $u=0$.  Therefore
+\[
+\begin{aligned}
+  |u(x)|^p
+  &\le |u(y)|^p
+       +p\int_I|u|^{p-1}|u'| \\
+  &\le \frac1L\|u\|_p^p
+       +p\|u\|_p^{p-1}\|u'\|_p.
+\end{aligned}
+\]
+Young's inequality,
+$p a^{p-1}b\le(p-1)a^p+b^p$, now yields
+\[
+  \|u\|_\infty^p
+  \le \left(\frac1L+p-1\right)\|u\|_p^p+\|u'\|_p^p,
+\]
+which is the desired continuous embedding.  For $p=\infty$ the conclusion is
+immediate from the definition of the $W^{1,\infty}$ norm.
 
-For $p>1$, a bounded set in $W^{1,p}(I)$ is uniformly bounded and satisfies
+Let next $I$ be bounded.  If $1<p<\infty$, Hölder's inequality and the
+fundamental theorem give
 \[
   |u(x)-u(y)|
-  \le\|u'\|_p|x-y|^{1/p'},
+  \le \int_x^y|u'(t)|\,\dd t
+  \le \|u'\|_p|x-y|^{1/p'}.
 \]
-so Arzelà--Ascoli gives compactness in $C(\overline I)$.  For $p=1$, use the
-extension operator.  A bounded family is bounded in both $L^1$ and
-$L^\infty$, and translations satisfy
-$\|u(\cdot+h)-u\|_1\le C|h|$.  The Fréchet--Kolmogorov compactness criterion
-gives relative compactness in $L^1$; interpolation with the uniform
-$L^\infty$ bound yields relative compactness in $L^2$.
+For $p=\infty$ the same estimate holds with exponent one.  Thus a bounded set
+in $W^{1,p}(I)$ is uniformly bounded and equicontinuous on $\overline I$;
+Arzelà--Ascoli gives relative compactness in $C(\overline I)$.
+
+For $p=1$, extend each function by the bounded extension operator to one fixed
+bounded interval containing $\overline I$.  A bounded family is uniformly
+bounded in both $L^1$ and $L^\infty$, and the fundamental theorem gives the
+uniform translation estimate
+\[
+  \|u(\cdot+h)-u\|_1\le |h|\,\|u'\|_1
+\]
+(up to a harmless fixed constant caused by the extension).  The
+Fréchet--Kolmogorov criterion therefore gives relative compactness in $L^1$.
+If $u_n\to u$ in $L^1$ along a subsequence and
+$\sup_n\|u_n\|_\infty\le M$, pass once more to a subsequence converging
+almost everywhere.  Then $|u|\le M$ almost everywhere, so
+\[
+  \|u_n-u\|_2^2
+  \le \|u_n-u\|_\infty\|u_n-u\|_1
+  \le 2M\|u_n-u\|_1\longrightarrow0.
+\]
+Hence the embedding into $L^2(I)$ is compact.
 \end{proof}
+
 \begin{notecorollary}[Decay on an unbounded interval]
 Let $I$ be unbounded and let $1\le p<\infty$.  If $u\in W^{1,p}(I)$, then its
 continuous representative satisfies
@@ -277,9 +401,37 @@ at every infinite endpoint of $I$.
 \end{notecorollary}
 
 \begin{proof}
-Approximate $u$ in $W^{1,p}(I)$ by compactly supported smooth functions.  The
-Sobolev $L^\infty$ estimate makes this approximation uniform, so $u$ is a
-uniform limit of functions vanishing at infinity.
+We prove the assertion at a right-hand infinite endpoint; the left-hand case
+is identical after reflection.
+
+Suppose first that $p=1$.  For $x>y$ in $I$, the fundamental theorem gives
+\[
+  |u(x)-u(y)|\le\int_y^x|u'(t)|\,\dd t.
+\]
+Because $u'\in L^1(I)$, the right-hand side tends to zero uniformly when
+$x,y\to+\infty$.  Hence $u(x)$ has a finite limit $L$ at the endpoint.  If
+$L\ne0$, then $|u(x)|\ge |L|/2$ on a tail of infinite length, contradicting
+$u\in L^1(I)$.  Thus $L=0$.
+
+Now let $1<p<\infty$.  Hölder's inequality gives the global modulus of
+continuity
+\[
+  |u(x)-u(y)|
+  \le \|u'\|_{L^p(I)}|x-y|^{1/p'}.
+\]
+Thus $u$ is uniformly continuous.  If $u(x)$ did not tend to zero, there
+would be an $\varepsilon>0$ and a sequence $x_n\to+\infty$ with
+$|u(x_n)|\ge\varepsilon$.  Uniform continuity supplies $\delta>0$ such that
+$|u(x)-u(x_n)|<\varepsilon/2$ whenever $|x-x_n|<\delta$.  Passing to a
+subsequence, the intervals
+$(x_n-\delta/2,x_n+\delta/2)$ are pairwise disjoint and contained in $I$.
+On each of them $|u|\ge\varepsilon/2$, so
+\[
+  \int_I|u|^p
+  \ge \sum_n \delta\left(\frac\varepsilon2\right)^p
+  =\infty,
+\]
+a contradiction.  Therefore $u(x)\to0$.
 \end{proof}
 
 \begin{noteremark}
@@ -288,6 +440,7 @@ $W^{1,p}(I)\hookrightarrow L^\infty(I)$ is not compact.  Translates of one
 fixed nonzero compactly supported smooth function are bounded in $W^{1,p}$ but
 have no uniformly convergent subsequence.
 \end{noteremark}
+
 \section{Product and chain rules}
 
 \begin{noteproposition}[One-dimensional differentiation rules]
@@ -304,7 +457,8 @@ Let $1\le p\le\infty$.
           =u(b)v(b)-u(a)v(a)-\int_a^buv'
         \]
         holds for bounded $I=(a,b)$.
-  \item If $G\in C^1(\mathbb R)$, $G(0)=0$, and $G'$ is bounded, then
+  \item If $u$ is real valued, $G\in C^1(\mathbb R)$,
+        $G(0)=0$, and $G'$ is bounded, then
         $G\circ u\in W^{1,p}(I)$ and
         \[
           (G\circ u)'=(G'\circ u)u'.
@@ -313,12 +467,33 @@ Let $1\le p\le\infty$.
 \end{noteproposition}
 
 \begin{proof}
-Use smooth approximation in $W^{1,p}$ together with the one-dimensional
-$L^\infty$ embedding on bounded subintervals.  The classical identities hold
-for the approximants, and the products converge in $L^p$.  For the chain rule,
-first handle bounded $G'$ directly and pass to the limit; local truncation
-handles the corresponding local version.
+Take the absolutely continuous representatives furnished by the
+one-dimensional fundamental theorem.  On every compact subinterval, the
+classical product rule for absolutely continuous functions gives
+\[
+  (uv)'=u'v+uv'
+  \quad\text{almost everywhere}.
+\]
+The assumption $u,v\in L^\infty$ makes both terms on the right belong to
+$L^p(I)$, while $uv\in L^p(I)$.  Thus the local identity is a global weak
+identity, and $uv\in W^{1,p}(I)$.  If $I=(a,b)$ is bounded, the product $uv$
+is absolutely continuous on $[a,b]$, so the ordinary fundamental theorem gives
+\[
+  \int_a^b(u'v+uv')\,\dd x=u(b)v(b)-u(a)v(a),
+\]
+which is the stated integration-by-parts formula.
+
+For the chain rule, assume $u$ is real valued, as in the statement.  Since
+$G'$ is bounded and $G(0)=0$, the mean-value theorem gives
+$|G(s)|\le\|G'\|_\infty|s|$, so $G\circ u\in L^p(I)$.  The composition of an
+absolutely continuous function with a $C^1$ Lipschitz function is absolutely
+continuous, and the classical chain rule holds almost everywhere:
+\[
+  (G\circ u)'=(G'\circ u)u'.
+\]
+The right-hand side belongs to $L^p$, proving the Sobolev chain rule.
 \end{proof}
+
 \section{Higher-order spaces, traces, and negative norms}
 
 \begin{notedefinition}
@@ -344,7 +519,7 @@ For $1\le p<\infty$,
 \end{notedefinition}
 
 \begin{notetheorem}[Trace characterization]
-Let $I=(a,b)$ be bounded.  Then
+Let $I=(a,b)$ be bounded and let $1\le p<\infty$.  Then
 \[
   W_0^{1,p}(I)
   =\{u\in W^{1,p}(I):u(a)=u(b)=0\},
@@ -353,13 +528,69 @@ where the boundary values are taken from the continuous representative.
 \end{notetheorem}
 
 \begin{proof}
-Trace continuity follows from the Sobolev embedding, so every limit of compactly
-supported smooth functions has zero endpoint values.  Conversely, if $u$ has
-zero endpoints, multiply it by cutoffs that equal one away from successively
-smaller endpoint intervals.  The zero trace and the fundamental theorem make
-the cutoff errors tend to zero in $W^{1,p}$; mollification then gives
-$C_c^\infty$ approximation.
+The Sobolev estimate makes the trace map
+\[
+  u\longmapsto(u(a),u(b))
+\]
+continuous on $W^{1,p}(I)$.  Every function in $C_c^\infty(I)$ has zero trace,
+so the closure of that space is contained in the right-hand side.
+
+Conversely, let $u\in W^{1,p}(I)$ with $u(a)=u(b)=0$.  Choose smooth cutoffs
+$\eta_\varepsilon$ such that
+\[
+  0\le\eta_\varepsilon\le1,
+  \qquad
+  \eta_\varepsilon=0
+  \text{ when }\dist(x,\partial I)\le\varepsilon,
+  \qquad
+  \eta_\varepsilon=1
+  \text{ when }\dist(x,\partial I)\ge2\varepsilon,
+\]
+and $|\eta_\varepsilon'|\le C/\varepsilon$.  Put
+$u_\varepsilon=\eta_\varepsilon u$.  The $L^p$ tails of $u$ and $u'$ near the
+endpoints tend to zero, so
+\[
+  (1-\eta_\varepsilon)u\to0,
+  \qquad
+  (1-\eta_\varepsilon)u'\to0
+  \quad\text{in }L^p.
+\]
+It remains to control $\eta_\varepsilon'u$.  Near $a$, the zero trace and the
+fundamental theorem give
+\[
+  |u(x)|\le\int_a^x|u'(t)|\,\dd t.
+\]
+If $p>1$, Hölder's inequality yields
+\[
+  |u(x)|^p
+  \le (x-a)^{p-1}\int_a^{a+2\varepsilon}|u'(t)|^p\,\dd t,
+\]
+
+after which integration over $(a,a+2\varepsilon)$ gives
+\[
+  \int_a^{a+2\varepsilon}
+       |\eta_\varepsilon'(x)u(x)|^p\,\dd x
+  \le C\int_a^{a+2\varepsilon}|u'(t)|^p\,\dd t\longrightarrow0.
+\]
+For $p=1$, Fubini gives the endpoint estimate explicitly:
+\[
+\begin{aligned}
+  \int_a^{a+2\varepsilon}|\eta_\varepsilon'(x)u(x)|\,\dd x
+  &\le \frac C\varepsilon
+       \int_a^{a+2\varepsilon}\int_a^x|u'(t)|\,\dd t\,\dd x \\
+  &=\frac C\varepsilon
+       \int_a^{a+2\varepsilon}(a+2\varepsilon-t)|u'(t)|\,\dd t \\
+  &\le 2C\int_a^{a+2\varepsilon}|u'(t)|\,\dd t
+  \longrightarrow0.
+\end{aligned}
+\]
+The endpoint $b$ is identical.  Hence $u_\varepsilon\to u$ in $W^{1,p}$.
+Each $u_\varepsilon$ has compact support in $I$; mollifying at a scale smaller
+than its distance from the boundary gives elements of $C_c^\infty(I)$
+converging to it in $W^{1,p}$.  A diagonal sequence proves the reverse
+inclusion.
 \end{proof}
+
 \begin{notetheorem}[Poincaré inequality]
 For a bounded interval $I$ and $1\le p<\infty$, there is $C_I>0$ such that
 \[
@@ -377,6 +608,7 @@ For the continuous representative and $u(a)=0$,
 \]
 Hölder's inequality and integration in $x$ give the result.
 \end{proof}
+
 \begin{notedefinition}
 For $m\ge1$, $W_0^{m,p}(I)$ is the closure of $C_c^\infty(I)$ in
 $W^{m,p}(I)$.  For $1<p<\infty$, the dual of $W_0^{1,p}(I)$ is denoted
@@ -418,6 +650,7 @@ $(f_0,f_1)\in L^{p'}\times L^{p'}$.  Conversely, Hölder's inequality makes
 every such formula continuous.  On a bounded interval, use the derivative
 embedding $u\mapsto u'$ and Poincaré's inequality instead.
 \end{proof}
+
 \section{Sobolev spaces in several variables}
 
 \begin{notedefinition}
@@ -452,16 +685,65 @@ $H^1(\Omega)$ is Hilbert under
 \end{noteproposition}
 
 \begin{proof}
-Use the closed graph of
-$u\mapsto(u,\partial_1u,\ldots,\partial_Nu)$ in a finite product of $L^p$
-spaces, exactly as in one dimension.
+Equip
+\[
+  E_p=L^p(\Omega)^{N+1}
+\]
+with the product norm corresponding to the displayed Sobolev norm, and define
+\[
+  J\colon W^{1,p}(\Omega)\longrightarrow E_p,
+  \qquad
+  Ju=(u,\partial_1u,\ldots,\partial_Nu).
+\]
+The map $J$ is an isometry onto its range.  We show that this range is closed.
+Suppose
+\[
+  Ju_n\longrightarrow(u,g_1,\ldots,g_N)
+  \quad\text{in }E_p.
+\]
+For every $\varphi\in C_c^\infty(\Omega)$ and every $i$,
+\[
+\begin{aligned}
+  \int_\Omega u\,\partial_i\varphi\,\dd x
+  &=\lim_{n\to\infty}
+      \int_\Omega u_n\,\partial_i\varphi\,\dd x \\
+  &=-\lim_{n\to\infty}
+      \int_\Omega(\partial_i u_n)\varphi\,\dd x
+   =-\int_\Omega g_i\varphi\,\dd x.
+\end{aligned}
+\]
+Thus $u\in W^{1,p}(\Omega)$ and $\partial_i u=g_i$, so the limit lies in
+$J(W^{1,p}(\Omega))$.  Since $E_p$ is Banach, its closed subspace
+$J(W^{1,p}(\Omega))$ is Banach, and therefore so is $W^{1,p}(\Omega)$.
+
+For $1\le p<\infty$, the space $L^p(\Omega)$ is separable; hence the finite
+product $E_p$ and its closed subspace $J(W^{1,p})$ are separable.  For
+$1<p<\infty$, $L^p(\Omega)$ is reflexive, so the finite product $E_p$ and its
+closed subspace are reflexive.  Finally, for $p=2$ the displayed inner product
+induces a norm equivalent to the chosen $W^{1,2}$ norm.  Completeness just
+proved therefore makes $H^1(\Omega)$ a Hilbert space.
 \end{proof}
+
 \begin{noteproposition}[Closedness of weak differentiation]
 Suppose $u_n\to u$ in $L^p(\Omega)$ and
 $\partial_i u_n\to g_i$ in $L^p(\Omega)$ for every $i$.  Then
 $u\in W^{1,p}(\Omega)$ and $\partial_i u=g_i$.  The same conclusion holds
 when all convergences are weak in the corresponding $L^p$ spaces.
 \end{noteproposition}
+
+\begin{proof}
+For $\varphi\in C_c^\infty(\Omega)$, strong convergence gives
+\[
+  \int_\Omega u\,\partial_i\varphi
+  =\lim_n\int_\Omega u_n\,\partial_i\varphi
+  =-\lim_n\int_\Omega(\partial_i u_n)\varphi
+  =-\int_\Omega g_i\varphi.
+\]
+The same computation is valid under weak convergence, because
+$\partial_i\varphi$ and $\varphi$ belong to the appropriate dual $L^{p'}$
+space (with the usual endpoint interpretation).  This is exactly the
+definition of the weak derivative.
+\end{proof}
 
 \begin{notedefinition}
 For open sets $\omega,\Omega\subseteq\mathbb R^N$, the notation
@@ -483,6 +765,28 @@ is smooth on $\omega$ and
 \]
 \end{notelemma}
 
+\begin{proof}
+Choose $\varepsilon<\dist(\omega,\partial\Omega)$.  For $x\in\omega$, the
+integral defining $u_\varepsilon(x)$ uses only values of $u$ inside $\Omega$.
+Differentiation of convolution makes $u_\varepsilon$ smooth.  To identify the
+derivative, take $\varphi\in C_c^\infty(\omega)$ and use Fubini:
+\[
+\begin{aligned}
+  \int_\omega u_\varepsilon\,\partial_i\varphi
+   &=\int_\Omega u(y)
+      \left(\int_\omega\rho_\varepsilon(x-y)
+                    \partial_i\varphi(x)\,\dd x\right)\dd y\\
+   &=-\int_\Omega \partial_i u(y)
+      \left(\int_\omega\rho_\varepsilon(x-y)
+                    \varphi(x)\,\dd x\right)\dd y\\
+   &=-\int_\omega(\rho_\varepsilon*\partial_i u)(x)
+                    \varphi(x)\,\dd x.
+\end{aligned}
+\]
+Thus the two smooth functions have the same distributional derivative and are
+equal pointwise.
+\end{proof}
+
 \begin{notetheorem}[Meyers--Serrin density theorem]
 Let $1\le p<\infty$.  Then
 \[
@@ -494,13 +798,63 @@ $C_c^\infty(\Omega)$ is dense only in the smaller space
 $W_0^{1,p}(\Omega)$, not in all of $W^{1,p}(\Omega)$.
 \end{notetheorem}
 
-\begin{proof}[Proof sketch]
-Choose an exhaustion $\Omega_1\Subset\Omega_2\Subset\cdots$ and a smooth
-partition of unity subordinate to annular pieces.  Mollify each localized
-piece at a scale smaller than its distance from the boundary and choose the
-scales so that the sum of the $W^{1,p}$ errors is finite and tends to zero.
-On $\mathbb R^N$, first cut off at large radius and then mollify.
+\begin{proof}
+Fix $u\in W^{1,p}(\Omega)$ and $\varepsilon>0$.  Choose an exhaustion by open
+sets
+\[
+  \Omega_1\Subset\Omega_2\Subset\cdots\Subset\Omega,
+  \qquad
+  \bigcup_{j=1}^\infty\Omega_j=\Omega.
+\]
+Set
+\[
+  U_1=\Omega_2,
+  \qquad
+  U_j=\Omega_{j+1}\setminus\overline{\Omega_{j-1}}
+  \quad(j\ge2).
+\]
+This is a locally finite open cover of $\Omega$.  Let $(\psi_j)$ be a smooth
+partition of unity subordinate to it, chosen so that
+$\supp\psi_j\Subset U_j$.  By the product rule,
+\[
+  u_j:=\psi_j u\in W^{1,p}(\Omega)
+\]
+and $u_j$ has compact support in $\Omega$.  Moreover,
+$u=\sum_j u_j$, locally finitely, together with the corresponding identity for
+weak derivatives.
+
+Extend each $u_j$ by zero to $\mathbb R^N$.  Choose
+$\delta_j>0$ smaller than the distance from $\supp u_j$ to
+$\partial\Omega$ and so small that
+\[
+  \|\rho_{\delta_j}*u_j-u_j\|_{W^{1,p}(\mathbb R^N)}
+  <\varepsilon 2^{-j}.
+\]
+The scales may also be chosen so that the enlarged supports remain a locally
+finite family.  Define
+\[
+  v=\sum_{j=1}^\infty\rho_{\delta_j}*u_j.
+\]
+The sum is locally finite, so $v\in C^\infty(\Omega)$.  Since the series of
+errors is absolutely summable in $W^{1,p}$,
+\[
+  \|v-u\|_{W^{1,p}(\Omega)}
+  \le\sum_{j=1}^\infty
+      \|\rho_{\delta_j}*u_j-u_j\|_{W^{1,p}(\mathbb R^N)}
+  <\varepsilon.
+\]
+This proves density on an arbitrary open set.
+
+When $\Omega=\mathbb R^N$, choose cutoffs
+$\chi_R(x)=\chi(x/R)$.  Then
+\[
+  \chi_Ru\to u\quad\text{in }W^{1,p}(\mathbb R^N),
+\]
+because the tails of $u$ and $\nabla u$ tend to zero and
+$\|u\nabla\chi_R\|_p\le C R^{-1}\|u\|_p$.  Mollifying the compactly supported
+functions $\chi_Ru$ gives approximants in $C_c^\infty(\mathbb R^N)$.
 \end{proof}
+
 \begin{notetheorem}[Distribution and translation criteria]
 Let $1<p<\infty$ and $u\in L^p(\mathbb R^N)$.  The following are equivalent:
 \begin{enumerate}
@@ -520,6 +874,45 @@ Let $1<p<\infty$ and $u\in L^p(\mathbb R^N)$.  The following are equivalent:
 For $p=1$, the analogous bounded distributional-derivative or translation
 condition characterizes $BV$, not necessarily $W^{1,1}$.
 \end{notetheorem}
+
+\begin{proof}
+If $u\in W^{1,p}$, Hölder's inequality gives (ii) with
+$C_i=\|\partial_i u\|_p$.  Conversely, under (ii) the functional
+\[
+  \varphi\longmapsto-\int u\,\partial_i\varphi
+\]
+is bounded on the dense subspace $C_c^\infty\subset L^{p'}$.  Hahn--Banach and
+$L^p$ duality give $g_i\in L^p$ representing it, so
+$g_i=\partial_i u$ weakly.  Thus (i) and (ii) are equivalent.
+
+For smooth $u$, the fundamental theorem along the segment from $x$ to $x+h$
+gives
+\[
+  u(x+h)-u(x)=\int_0^1 h\cdot\nabla u(x+th)\,\dd t.
+\]
+Minkowski's inequality and translation invariance yield
+\[
+  \|u(\cdot+h)-u\|_p
+  \le |h|\sum_{i=1}^N\|\partial_i u\|_p.
+\]
+Meyers--Serrin approximation passes this estimate to every
+$u\in W^{1,p}$, proving (i)$\Rightarrow$(iii).
+
+Finally, assume (iii), fix a coordinate vector $e_i$, and let
+$\varphi\in C_c^\infty$.  A change of variables gives
+\[
+  \int u(x)\frac{\varphi(x-te_i)-\varphi(x)}{t}\,\dd x
+  =\int\frac{u(x+te_i)-u(x)}{t}\varphi(x)\,\dd x.
+\]
+The right-hand side has absolute value at most $C\|\varphi\|_{p'}$.  Letting
+$t\to0$ gives
+\[
+  \left|\int u\,\partial_i\varphi\right|
+  \le C\|\varphi\|_{p'},
+\]
+which is (ii).
+\end{proof}
+
 \begin{noteproposition}[Differentiation rules in $\mathbb R^N$]
 Let $1\le p\le\infty$.
 \begin{enumerate}
@@ -528,7 +921,8 @@ Let $1\le p\le\infty$.
         \[
           \partial_i(uv)=u\,\partial_i v+v\,\partial_i u.
         \]
-  \item If $G\in C^1(\mathbb R)$, $G(0)=0$, and $G'$ is bounded, then
+  \item If $u$ is real valued, $G\in C^1(\mathbb R)$,
+        $G(0)=0$, and $G'$ is bounded, then
         $G\circ u\in W^{1,p}(\Omega)$ and
         \[
           \partial_i(G\circ u)=(G'\circ u)\partial_i u.
@@ -546,6 +940,69 @@ Let $1\le p\le\infty$.
         $\eta u\in W^{1,p}(\Omega)$ and the product rule holds.
 \end{enumerate}
 \end{noteproposition}
+
+\begin{proof}
+For $p=\infty$, Sobolev functions have locally Lipschitz representatives; the
+product, chain, and coordinate-change formulas then follow from the classical
+almost-everywhere rules for Lipschitz functions.  We therefore give the
+approximation argument for $1\le p<\infty$.
+
+All statements are local, so fix $\omega\Subset\Omega$ and mollify inside a
+slightly larger open set.  For the product rule, choose smooth
+$u_n,v_n$ with
+\[
+  u_n\to u,
+  \quad v_n\to v
+  \quad\text{in }W^{1,p}(\omega)
+\]
+and almost everywhere, while
+$\|u_n\|_\infty\le\|u\|_\infty$ and
+$\|v_n\|_\infty\le\|v\|_\infty$.  The classical identity
+\[
+  \partial_i(u_nv_n)=u_n\partial_i v_n+v_n\partial_i u_n
+\]
+passes to $L^p$.  For example,
+\[
+\begin{aligned}
+ \|u_n\partial_i v_n-u\partial_i v\|_p
+ &\le\|u_n\|_\infty
+       \|\partial_i v_n-\partial_i v\|_p
+     +\|(u_n-u)\partial_i v\|_p,
+\end{aligned}
+\]
+and the second term tends to zero by dominated convergence.  This proves (i)
+on $\omega$, hence on $\Omega$.
+
+For (ii), $G$ is Lipschitz because $G'$ is bounded, and $G(0)=0$ gives
+$G(u)\in L^p$.  For smooth approximants $u_n$,
+\[
+  \partial_iG(u_n)=G'(u_n)\partial_i u_n.
+\]
+Now $G(u_n)\to G(u)$ in $L^p$, while
+\[
+\begin{aligned}
+ \|G'(u_n)\partial_i u_n-G'(u)\partial_i u\|_p
+ &\le\|G'\|_\infty
+       \|\partial_i u_n-\partial_i u\|_p\\
+ &\quad+
+   \|(G'(u_n)-G'(u))\partial_i u\|_p,
+\end{aligned}
+\]
+and the last term tends to zero by dominated convergence.  Closedness of weak
+differentiation gives the chain rule.
+
+For (iii), first take smooth $u$.  The classical chain rule gives the stated
+formula, and the change-of-variables theorem plus boundedness of
+$D\Phi$ and $D\Phi^{-1}$ gives
+\[
+  \|u\circ\Phi\|_{W^{1,p}(\Omega')}
+  \le C_\Phi\|u\|_{W^{1,p}(\Omega)}.
+\]
+Approximate a general $u$ by smooth Sobolev functions and pass to the limit in
+this estimate.  Assertion (iv) follows from (i) on a neighbourhood of
+$\supp\eta$; compact support then makes all terms globally $L^p$.
+\end{proof}
+
 \begin{notedefinition}
 For an integer $m\ge1$, a multi-index $\alpha$, and $1\le p\le\infty$,
 \[

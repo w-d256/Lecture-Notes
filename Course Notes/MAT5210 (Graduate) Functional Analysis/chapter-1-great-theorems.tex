@@ -20,23 +20,93 @@ then there is a linear functional $\widetilde f\colon X\to\mathbb R$ such that
 \end{notetheorem}
 
 \begin{proof}
-Partially order the set of dominated linear extensions $(Z,g)$ of $(Y,f)$ by
-extension.  Every chain has the upper bound obtained by taking the union of its
-domains and functionals, so Zorn's lemma gives a maximal extension $(M,g)$.
-If $M\ne X$, choose $x_0\notin M$.  An extension to $M+\mathbb Rx_0$ has the
-form
+We follow the maximal-extension argument indicated by the Zorn-lemma
+discussion in the source.  Let $\mathscr P$ be the set of pairs $(Z,g)$ such
+that
 \[
-  g_\alpha(m+t x_0)=g(m)+t\alpha.
+  Y\subseteq Z\subseteq X,\qquad
+  Z\text{ is a linear subspace},\qquad
+  g\colon Z\to\mathbb R\text{ is linear},
 \]
-The domination condition is equivalent to
+and
 \[
- \sup_{m\in M}\bigl(g(m)-p(m-x_0)\bigr)
- \le \alpha \le
- \inf_{m\in M}\bigl(p(m+x_0)-g(m)\bigr).
+  g|_Y=f,\qquad g(z)\le p(z)\quad(z\in Z).
 \]
-Sublinearity of $p$ shows that the left endpoint is no larger than the right
-one.  Choosing such an $\alpha$ contradicts maximality.  Hence $M=X$.
+Order $\mathscr P$ by extension:
+\[
+  (Z_1,g_1)\preccurlyeq(Z_2,g_2)
+  \quad\Longleftrightarrow\quad
+  Z_1\subseteq Z_2\ \text{ and }\ g_2|_{Z_1}=g_1.
+\]
+The pair $(Y,f)$ belongs to $\mathscr P$, so $\mathscr P$ is nonempty.
+
+Let $\mathscr C\subseteq\mathscr P$ be a chain and set
+\[
+  Z_{\mathscr C}=\bigcup_{(Z,g)\in\mathscr C}Z.
+\]
+Because the members of the chain are totally ordered by inclusion,
+$Z_{\mathscr C}$ is a linear subspace.  For $z\in Z_{\mathscr C}$ choose
+$(Z,g)\in\mathscr C$ with $z\in Z$ and define
+\[
+  g_{\mathscr C}(z)=g(z).
+\]
+This is well defined: if $z$ lies in two members of the chain, one extends
+the other and the two functionals agree on the smaller domain.  The same
+chain argument shows that $g_{\mathscr C}$ is linear, extends $f$, and
+satisfies $g_{\mathscr C}\le p$.  Thus every chain has an upper bound, and
+Zorn's lemma gives a maximal pair $(M,g)$.
+
+Suppose that $M\ne X$ and choose $x_0\in X\setminus M$.  Every linear
+extension of $g$ to $M+\mathbb R x_0$ has the form
+\[
+  g_\alpha(m+t x_0)=g(m)+t\alpha
+  \qquad(m\in M,\ t\in\mathbb R)
+\]
+for some $\alpha\in\mathbb R$.  Define
+\[
+  L=\sup_{m\in M}\bigl(g(m)-p(m-x_0)\bigr),
+  \qquad
+  U=\inf_{m\in M}\bigl(p(m+x_0)-g(m)\bigr).
+\]
+For arbitrary $m,n\in M$,
+\[
+\begin{aligned}
+  g(m)+g(n)
+   &=g(m+n)
+    \le p(m+n)\\
+   &\le p(m-x_0)+p(n+x_0),
+\end{aligned}
+\]
+so
+\[
+  g(m)-p(m-x_0)\le p(n+x_0)-g(n).
+\]
+Taking the supremum in $m$ and the infimum in $n$ gives $L\le U$.  Choose
+$\alpha\in[L,U]$.
+
+If $t>0$, then, with $m/t\in M$,
+\[
+\begin{aligned}
+  g_\alpha(m+t x_0)
+   &=t\left(g(m/t)+\alpha\right)\\
+   &\le t\left(g(m/t)+p(m/t+x_0)-g(m/t)\right)\\
+   &=p(m+t x_0).
+\end{aligned}
+\]
+If $t<0$, write $t=-s$ with $s>0$.  Since $\alpha\ge L$,
+\[
+\begin{aligned}
+  g_\alpha(m-sx_0)
+   &=s\left(g(m/s)-\alpha\right)\\
+   &\le s\,p(m/s-x_0)
+    =p(m-sx_0).
+\end{aligned}
+\]
+The case $t=0$ is the original domination on $M$.  Thus
+$(M+\mathbb R x_0,g_\alpha)$ is a proper extension of $(M,g)$, contradicting
+maximality.  Therefore $M=X$ and $g$ is the required extension.
 \end{proof}
+
 \begin{notecorollary}[Norm-preserving Hahn--Banach extension]
 Let $X$ be a normed space, let $Y\subseteq X$ be a linear subspace, and let
 $f\in Y^*$.  There is $\widetilde f\in X^*$ satisfying
@@ -48,9 +118,41 @@ $f\in Y^*$.  There is $\widetilde f\in X^*$ satisfying
 \end{notecorollary}
 
 \begin{proof}
-Apply Hahn--Banach with $p(x)=\|f\|\,\|x\|$.  The domination gives
-$\|\widetilde f\|\le\|f\|$, while restriction to $Y$ gives the reverse
-inequality.
+If the scalar field is real, apply the preceding theorem with
+$p(x)=\|f\|\,\|x\|$.  Since this sublinear function is symmetric, domination
+of both $x$ and $-x$ gives
+\[
+  |\widetilde f(x)|\le \|f\|\,\|x\|,
+\]
+and therefore $\|\widetilde f\|\le\|f\|$.  Restriction to $Y$ gives the
+reverse inequality.
+
+For completeness, suppose that $X$ is complex.  Regard $X$ and $Y$ as real
+spaces and put $h=\operatorname{Re}f$.  The real theorem gives a real-linear
+extension $\widetilde h$ satisfying
+\[
+  |\widetilde h(x)|\le\|f\|\,\|x\|.
+\]
+Define
+\[
+  \widetilde f(x)=\widetilde h(x)-i\widetilde h(ix).
+\]
+Then $\widetilde f(ix)=i\widetilde f(x)$, so $\widetilde f$ is complex linear,
+and on $Y$ one has
+\[
+  \widetilde f(y)
+  =\operatorname{Re}f(y)-i\operatorname{Re}f(iy)
+  =f(y).
+\]
+For $|\zeta|=1$,
+\[
+  \operatorname{Re}\bigl(\zeta\widetilde f(x)\bigr)
+  =\widetilde h(\zeta x)
+  \le\|f\|\,\|x\|.
+\]
+Taking the supremum over unimodular $\zeta$ yields
+$|\widetilde f(x)|\le\|f\|\,\|x\|$.  Again restriction gives equality of
+the norms.
 \end{proof}
 
 \begin{noteremark}[A useful uniqueness criterion]
@@ -62,6 +164,7 @@ normalization.  The converse is not automatic from the one-line argument in
 the source and is therefore not asserted here without an additional global
 unique-extension hypothesis.
 \end{noteremark}
+
 \begin{noteproposition}[Norming functionals]
 Let $X$ be a normed space and let $x\in X\setminus\{0\}$.  There is
 $f_x\in X^*$ such that
@@ -79,7 +182,19 @@ Define $g(tx)=t\|x\|$ on $\operatorname{span}\{x\}$.  Then $\|g\|=1$ and a
 norm-preserving Hahn--Banach extension gives $f_x$.  Apply this to $x-y$ for
 the separation statement.
 \end{proof}
+
 \section{Geometric separation}
+
+The order inequalities in this section are stated for real normed spaces.  In
+a complex normed space one applies the result to the underlying real space and
+then writes the resulting bounded real-linear functional $h$ as
+\[
+  h=\operatorname{Re}f,
+  \qquad
+  f(x)=h(x)-ih(ix),
+\]
+with $f$ complex linear.  Thus the corresponding complex statements use
+$\operatorname{Re}f$ in place of $f$.
 
 \begin{notelemma}[Minkowski functional]
 Let $X$ be a normed space and let $C\subseteq X$ be open and convex with
@@ -96,20 +211,57 @@ Then $p_C$ is finite and sublinear.  Moreover, for some $M>0$,
 \end{notelemma}
 
 \begin{proof}
-Choose $r>0$ with $B(0,r)\subseteq C$.  Then $x\in tC$ for every
-$t>\|x\|/r$, so $p_C(x)\le\|x\|/r$.  Positive homogeneity follows directly
-from the definition.  If $a>p_C(x)$ and $b>p_C(y)$, then $x/a,y/b\in C$ and
-convexity yields
+Because $C$ is open and contains $0$, there is $r>0$ such that
+$B(0,r)\subseteq C$.  For $x\ne0$ and every $t>\|x\|/r$, we have
+$\|x/t\|<r$, hence $x/t\in C$ and therefore $x\in tC$.  Consequently,
+\[
+  0\le p_C(x)\le \frac{\|x\|}{r},
+\]
+and the same inequality is trivial for $x=0$.
+
+For $\lambda>0$,
+\[
+\begin{aligned}
+  p_C(\lambda x)
+   &=\inf\{t>0:\lambda x\in tC\}\\
+   &=\inf\{\lambda s:s>0,\ x\in sC\}
+    =\lambda p_C(x).
+\end{aligned}
+\]
+Also $p_C(0)=0$, so positive homogeneity holds for every $\lambda\ge0$.
+
+To prove subadditivity, fix $\varepsilon>0$.  By the definition of the
+infimum choose $a,b>0$ such that
+\[
+  x\in aC,\quad y\in bC,\quad
+  a<p_C(x)+\varepsilon,\quad b<p_C(y)+\varepsilon.
+\]
+Then $x/a,y/b\in C$, and convexity gives
 \[
   \frac{x+y}{a+b}
-   =\frac{a}{a+b}\frac{x}{a}+
-     \frac{b}{a+b}\frac{y}{b}\in C.
+   =\frac{a}{a+b}\frac{x}{a}
+    +\frac{b}{a+b}\frac{y}{b}\in C.
 \]
-Letting $a\downarrow p_C(x)$ and $b\downarrow p_C(y)$ proves subadditivity.
-Finally, openness and convexity give $C=\{p_C<1\}$.
+Thus
+\[
+  p_C(x+y)\le a+b
+  <p_C(x)+p_C(y)+2\varepsilon.
+\]
+Letting $\varepsilon\downarrow0$ proves subadditivity.
+
+Finally, if $x\in C$, continuity of $s\mapsto sx$ and openness of $C$ give
+$s>1$ sufficiently close to $1$ with $sx\in C$.  Hence
+$x\in s^{-1}C$ and $p_C(x)\le s^{-1}<1$.  Conversely, if $p_C(x)<1$, choose
+$t\in(p_C(x),1)$ with $x\in tC$.  Writing $x=tc$ with $c\in C$, convexity
+of $C$ and $0\in C$ imply $tc\in C$.  Therefore
+\[
+  C=\{x\in X:p_C(x)<1\}.
+\]
 \end{proof}
+
 \begin{notelemma}[Separation of an open convex set and a point]
-Let $C\subseteq X$ be open and convex and let $x_0\notin C$.  Then there are
+Let $X$ be a real normed space, let $C\subseteq X$ be open and convex, and let
+$x_0\notin C$.  Then there are
 $f\in X^*\setminus\{0\}$ and $\alpha\in\mathbb R$ such that
 \[
   f(x)<\alpha=f(x_0)\qquad(x\in C).
@@ -117,15 +269,38 @@ $f\in X^*\setminus\{0\}$ and $\alpha\in\mathbb R$ such that
 \end{notelemma}
 
 \begin{proof}
-Translate so that $0\in C$.  Let $p_C$ be the Minkowski functional and define
-$g(tx_0)=t$ on $\operatorname{span}\{x_0\}$.  Since $p_C(x_0)\ge1$, one
-checks that $g\le p_C$ on this line; for negative $t$ this follows from
-$g(tx_0)\le0\le p_C(tx_0)$.  Hahn--Banach gives $f\le p_C$ on $X$.  Thus
-$f(x_0)=1$ and $f(x)<1$ for $x\in C$.
+Choose $c_0\in C$ and replace $C$ by $C-c_0$ and $x_0$ by $x_0-c_0$.
+After this translation, $0\in C$ and still $x_0\notin C$.  Let $p_C$ be the
+Minkowski functional of the translated set.  Since $C=\{p_C<1\}$,
+$p_C(x_0)\ge1$.
+
+Define
+\[
+  g(t x_0)=t
+  \qquad(t\in\mathbb R)
+\]
+on $\operatorname{span}\{x_0\}$.  For $t\ge0$,
+\[
+  p_C(t x_0)=t p_C(x_0)\ge t=g(t x_0),
+\]
+whereas for $t<0$ we have $g(t x_0)<0\le p_C(t x_0)$.  Thus $g\le p_C$ on
+its domain.  Hahn--Banach gives a linear extension $f$ with $f\le p_C$ on
+$X$ and $f(x_0)=1$.
+
+The norm estimate for $p_C$ also proves continuity: for every $x\in X$,
+\[
+  |f(x)|\le\max\{p_C(x),p_C(-x)\}\le M'\|x\|.
+\]
+Hence $f\in X^*$.  If $x\in C$, then
+\[
+  f(x)\le p_C(x)<1=f(x_0).
+\]
+Undoing the translation gives the required strict separation, with
+$\alpha=f(x_0)$.
 \end{proof}
 
 \begin{notetheorem}[Geometric Hahn--Banach separation]
-Let $A,B$ be nonempty disjoint convex subsets of a normed space $X$.
+Let $A,B$ be nonempty disjoint convex subsets of a real normed space $X$.
 
 \begin{enumerate}
   \item If $A$ is open, then there are $f\in X^*\setminus\{0\}$ and
@@ -145,16 +320,67 @@ Let $A,B$ be nonempty disjoint convex subsets of a normed space $X$.
 \end{notetheorem}
 
 \begin{proof}
-For the first assertion, $A-B$ is open and convex and does not contain $0$.
-Separating $0$ from $A-B$ gives $f(a-b)<0$, hence
-$\sup_A f\le\inf_B f$, with strict inequality on the open side.
+For the first assertion, put
+\[
+  C=A-B=\{a-b:a\in A,\ b\in B\}.
+\]
+The set $C$ is convex and open, and $0\notin C$.  Apply the preceding lemma
+to $C$ and the point $0$.  After changing the sign of the functional if
+necessary, we obtain $f\in X^*\setminus\{0\}$ such that
+\[
+  f(a-b)<0
+  \qquad(a\in A,\ b\in B).
+\]
+Hence $f(a)<f(b)$ for all $a\in A$ and $b\in B$, and
+\[
+  -\infty<\sup_{a\in A}f(a)
+  \le\inf_{b\in B}f(b)<\infty.
+\]
+Let $\alpha=\sup_A f$.  Since $A$ is open, no point of $A$ can maximize the
+nonzero functional $f$: for $a\in A$, choose $h$ with $f(h)>0$; then
+$a+th\in A$ for sufficiently small $t>0$ and $f(a+th)>f(a)$.  Therefore
+\[
+  f(a)<\alpha\le f(b)
+  \qquad(a\in A,\ b\in B).
+\]
 
-For the second assertion, $A-B$ is closed because $B$ is compact, and
-$0\notin A-B$.  Hence $B(0,r)\cap(A-B)=\varnothing$ for some $r>0$.  Apply
-the first assertion to the open ball and the convex set $A-B$.  The resulting
-functional is bounded away from zero on $A-B$, which gives the stated strict
-gap after rescaling and changing sign if necessary.
+For the second assertion, $A-B$ is closed.  Indeed, if
+$a_n-b_n\to z$, compactness of $B$ gives a subsequence $b_{n_k}\to b\in B$;
+then $a_{n_k}\to z+b\in A$, because $A$ is closed, and so $z\in A-B$.
+Since $0\notin A-B$, choose $r>0$ with
+\[
+  B(0,r)\cap(A-B)=\varnothing.
+\]
+Apply the first part to the open convex set $B(0,r)$ and the convex set
+$A-B$.  There are $g\in X^*\setminus\{0\}$ and $\beta\in\mathbb R$ such
+that
+\[
+  g(u)<\beta\le g(a-b)
+  \qquad(\|u\|<r,\ a\in A,\ b\in B).
+\]
+Taking the supremum over the open ball gives
+\[
+  r\|g\|\le g(a-b)
+  \qquad(a\in A,\ b\in B).
+\]
+Set $f=-g$ and $\delta=r\|g\|>0$.  Then
+\[
+  f(a)+\delta\le f(b)
+  \qquad(a\in A,\ b\in B),
+\]
+so $\sup_Af+\delta\le\inf_Bf$.  With
+\[
+  \varepsilon=\frac\delta2,
+  \qquad
+  \alpha=\frac12\left(\sup_Af+\inf_Bf\right),
+\]
+we obtain
+\[
+  f(a)+\varepsilon\le\alpha\le f(b)
+  \qquad(a\in A,\ b\in B).
+\]
 \end{proof}
+
 \section{Baire category and uniform boundedness}
 
 \begin{notedefinition}
@@ -173,6 +399,23 @@ For a subset $A$ of a topological space $X$, the following are equivalent:
 \end{enumerate}
 \end{notelemma}
 
+\begin{proof}
+Assume first that $\overline A=X$, and let $O\subseteq X$ be nonempty and
+open.  Choose $x\in O$.  Since $x\in\overline A$, every neighbourhood of
+$x$, in particular $O$, meets $A$.  Thus (1) implies (2).
+
+If (2) holds and $\operatorname{int}(X\setminus A)$ were nonempty, that
+interior would be a nonempty open set disjoint from $A$, contradicting (2).
+Hence (2) implies (3).
+
+Finally, the elementary identity
+\[
+  X\setminus\overline A=\operatorname{int}(X\setminus A)
+\]
+shows that (3) is equivalent to $X\setminus\overline A=\varnothing$, that is,
+$\overline A=X$.  This proves (3) implies (1) and completes the equivalence.
+\end{proof}
+
 \begin{notetheorem}[Baire category theorem]
 Every nonempty complete metric space is of the second category.  Equivalently:
 \begin{enumerate}
@@ -183,19 +426,47 @@ Every nonempty complete metric space is of the second category.  Equivalently:
 \end{notetheorem}
 
 \begin{proof}
-Let $(U_n)$ be open dense subsets of a complete metric space $X$, and let
-$O\subseteq X$ be nonempty and open.  Choose a closed ball
-$\overline B(x_1,r_1)\subseteq O\cap U_1$.  Inductively choose
+We prove the open-dense formulation, following the nested-ball construction
+in the source but using closed balls so that the limiting point is retained.
+Let $(U_n)_{n\ge1}$ be open and dense, and let $O\subseteq X$ be nonempty
+and open.  Since $O\cap U_1$ is nonempty and open, choose $x_1\in X$ and
+$0<r_1<1$ such that
+\[
+  \overline B(x_1,r_1)\subseteq O\cap U_1.
+\]
+Inductively, once $\overline B(x_n,r_n)$ has been chosen, the set
+$B(x_n,r_n)\cap U_{n+1}$ is nonempty and open.  Choose
+$x_{n+1}\in X$ and
+\[
+  0<r_{n+1}<\min\left\{\frac{r_n}{2},\frac1{n+1}\right\}
+\]
+with
 \[
   \overline B(x_{n+1},r_{n+1})
-  \subseteq B(x_n,r_n)\cap U_{n+1},
-  \qquad 0<r_{n+1}\le \tfrac12r_n.
+  \subseteq B(x_n,r_n)\cap U_{n+1}.
 \]
-Then $(x_n)$ is Cauchy.  If $x_n\to x$, the closed-ball nesting gives
-$x\in\overline B(x_n,r_n)\subseteq U_n$ for every $n$, and also $x\in O$.
-Thus $O\cap\bigcap_nU_n\ne\varnothing$, so the intersection is dense.
-Taking complements gives the closed-set formulation.
+The closed balls are nested and $r_n\to0$.  If $m>n$, then
+$x_m\in\overline B(x_n,r_n)$, so $d(x_m,x_n)\le r_n$.  Thus $(x_n)$ is
+Cauchy.  Completeness gives $x_n\to x\in X$.
+
+For every fixed $n$, all $x_m$ with $m\ge n$ lie in the closed ball
+$\overline B(x_n,r_n)$, hence
+\[
+  x\in\overline B(x_n,r_n)\subseteq U_n.
+\]
+Also $x\in\overline B(x_1,r_1)\subseteq O$.  Consequently,
+\[
+  O\cap\bigcap_{n=1}^{\infty}U_n\ne\varnothing.
+\]
+Since every nonempty open set meets the intersection, $\bigcap_nU_n$ is
+dense.
+
+If $F_n$ is closed with empty interior, then $U_n=X\setminus F_n$ is open
+and dense.  The preceding result says that $\bigcap_nU_n$ is dense, so its
+complement $\bigcup_nF_n$ has empty interior.  This is the closed-set
+formulation and proves the category theorem.
 \end{proof}
+
 \begin{noteexample}
 A normed space with a countably infinite Hamel basis cannot be complete: it is
 the union of the finite-dimensional spans of the first $n$ basis vectors, each
@@ -217,21 +488,40 @@ then
 \end{notetheorem}
 
 \begin{proof}
-Set
+For $n\in\mathbb N$, define
 \[
-  F_n=\{x\in X:\sup_{i\in I}\|T_i x\|\le n\}.
+  F_n
+  =\{x\in X:\|T_i x\|\le n\text{ for every }i\in I\}
+  =\bigcap_{i\in I}T_i^{-1}\bigl(\overline B_Y(0,n)\bigr).
 \]
-Each $F_n$ is closed and $X=\bigcup_nF_n$.  Baire's theorem gives
-$x_0\in X$ and $r>0$ with $B(x_0,r)\subseteq F_N$ for some $N$.  If
-$\|h\|<r$, then $x_0\pm h\in F_N$, and therefore
+Each $F_n$ is closed.  Pointwise boundedness says that every $x\in X$ lies
+in some $F_n$, so $X=\bigcup_nF_n$.  Baire's theorem gives
+$N\in\mathbb N$, $x_0\in X$, and $r>0$ such that
 \[
+  B(x_0,r)\subseteq F_N.
+\]
+
+To move the estimate to the origin, take $h\in X$ with $\|h\|<r$.  Both
+$x_0+h$ and $x_0-h$ lie in $F_N$, and therefore, for every $i\in I$,
+\[
+\begin{aligned}
   2\|T_i h\|
-  =\|T_i(x_0+h)-T_i(x_0-h)\|
-  \le2N.
+   &=\|T_i(x_0+h)-T_i(x_0-h)\|\\
+   &\le\|T_i(x_0+h)\|+\|T_i(x_0-h)\|
+    \le2N.
+\end{aligned}
 \]
-Taking $h=(r/2)x$ with $\|x\|\le1$ gives
-$\|T_i x\|\le2N/r$ uniformly in $i$.
+Hence $\|T_i h\|\le N$ for all $\|h\|<r$, uniformly in $i$.
+If $\|x\|\le1$, put $h=(r/2)x$.  Then
+\[
+  \|T_i x\|=\frac2r\|T_i h\|\le\frac{2N}{r}.
+\]
+Taking the supremum over the unit ball gives
+\[
+  \sup_{i\in I}\|T_i\|\le\frac{2N}{r}<\infty.
+\]
 \end{proof}
+
 \begin{notetheorem}[Banach--Steinhaus pointwise-limit theorem]
 Let $X$ be Banach, let $Y$ be normed, and let
 $T_n\in\Bop{X}{Y}$.  Suppose $T_nx$ converges for every $x\in X$, and define
@@ -264,6 +554,7 @@ $\{J_b:b\in B\}$ is pointwise bounded on the Banach space $X^*$, so uniform
 boundedness gives $\sup_{b\in B}\|J_b\|<\infty$.  Hahn--Banach gives
 $\|J_b\|=\|b\|$, and the result follows.
 \end{proof}
+
 \section{Open mapping, bounded inverse, and equivalent norms}
 
 \begin{notedefinition}
@@ -277,24 +568,86 @@ $T$ is an open map.
 \end{notetheorem}
 
 \begin{proof}
-It is enough to show that $T(B_X)$ contains a neighbourhood of $0$.  Since
+We retain the four steps of the handwritten proof.
+
+\emph{Step 1: obtain interior in the closure of an image.}
+Surjectivity gives
 \[
-  Y=\bigcup_{n=1}^{\infty}T(nB_X),
+  Y=\bigcup_{n=1}^{\infty}T(nB_X)
+   \subseteq\bigcup_{n=1}^{\infty}\overline{T(nB_X)}.
 \]
-Baire's theorem gives $n$ such that $\overline{T(nB_X)}$ has nonempty
-interior.  Taking differences shows that, for some $\delta>0$,
+Thus the closed sets $\overline{T(nB_X)}$ cover the Banach space $Y$.
+Baire's theorem yields $n_0\in\mathbb N$, $y_0\in Y$, and $r>0$ such that
+\[
+  B_Y(y_0,r)\subseteq\overline{T(n_0B_X)}.
+\]
+
+\emph{Step 2: center the ball at the origin.}
+Let $\|z\|<r$.  Since $y_0$ and $y_0+z$ both lie in the displayed ball,
+choose $x_k,u_k\in n_0B_X$ with
+\[
+  Tx_k\to y_0+z,
+  \qquad
+  Tu_k\to y_0.
+\]
+Then $T(x_k-u_k)\to z$ and $x_k-u_k\in2n_0B_X$.  Hence
+\[
+  B_Y(0,r)\subseteq\overline{T(2n_0B_X)}.
+\]
+After scaling, there is $\delta>0$ such that
 \[
   B_Y(0,\delta)\subseteq\overline{T(B_X)}.
 \]
-After rescaling, assume $B_Y(0,1)\subseteq\overline{T(B_X)}$.  Given
-$y\in B_Y(0,1/2)$, choose inductively $x_k\in2^{-k}B_X$ so that
+For the correction argument we normalize this to
 \[
-  \left\|y-T\sum_{j=1}^{k}x_j\right\|<2^{-k-1}.
+  B_Y(0,1)\subseteq\overline{T(B_X)}.
 \]
-The series $\sum_kx_k$ converges to some $x$ with $\|x\|<1$, and continuity
-of $T$ gives $Tx=y$.  Thus $B_Y(0,1/2)\subseteq T(B_X)$.  Translation and
-scaling now show that every open set has open image.
+
+\emph{Step 3: remove the closure by successive corrections.}
+Let $\|y\|<1/2$ and set $r_0=y$.  We construct $x_k\in X$ such that
+\[
+  \|x_k\|<2^{-k},
+  \qquad
+  r_k=y-T\sum_{j=1}^kx_j,
+  \qquad
+  \|r_k\|<2^{-k-1}.
+\]
+Suppose $r_{k-1}$ is known and $\|r_{k-1}\|<2^{-k}$.  Then
+$2^kr_{k-1}\in B_Y(0,1)$.  By the closure inclusion, choose $u_k\in B_X$
+such that
+\[
+  \|2^kr_{k-1}-Tu_k\|<\frac12.
+\]
+Set $x_k=2^{-k}u_k$.  Then $\|x_k\|<2^{-k}$ and
+\[
+  \|r_{k-1}-Tx_k\|<2^{-k-1},
+\]
+which is exactly the desired estimate for $r_k$.
+
+Because $\sum_k\|x_k\|<1$, the series $\sum_kx_k$ converges in $X$ to some
+$x\in B_X$.  Moreover, $r_k\to0$, so continuity of $T$ gives
+\[
+  Tx=T\left(\sum_{k=1}^{\infty}x_k\right)
+     =\lim_{k\to\infty}T\sum_{j=1}^kx_j
+     =y.
+\]
+Therefore $B_Y(0,1/2)\subseteq T(B_X)$.  Undoing the normalization, there is
+$c>0$ such that
+\[
+  B_Y(0,c)\subseteq T(B_X).
+\]
+
+\emph{Step 4: pass to an arbitrary open set.}
+Let $O\subseteq X$ be open and let $y=Tx\in T(O)$.  Choose
+$\varepsilon>0$ with $x+\varepsilon B_X\subseteq O$.  Then
+\[
+  T(x+\varepsilon B_X)
+  =y+\varepsilon T(B_X)
+  \supseteq B_Y(y,\varepsilon c).
+\]
+Thus every point of $T(O)$ is an interior point, and $T(O)$ is open.
 \end{proof}
+
 \begin{notecorollary}[Bounded inverse theorem]
 A bounded bijective linear map between Banach spaces has a bounded inverse.
 \end{notecorollary}
@@ -325,6 +678,7 @@ bijective---then the bounded inverse theorem gives a constant $C$ such that
 The bijectivity hypothesis is essential; it does not follow merely from the
 formula for $L$.
 \end{noteexample}
+
 \begin{notetheorem}[Equivalence of complete norms]
 Let $\|\cdot\|_1$ and $\|\cdot\|_2$ be norms making the same vector space $X$
 Banach.  If
@@ -342,6 +696,7 @@ Thus the two norms are equivalent and induce the same topology.
 The identity map $(X,\|\cdot\|_1)\to(X,\|\cdot\|_2)$ is a bounded bijection
 between Banach spaces.  Apply the bounded inverse theorem.
 \end{proof}
+
 \section{Closed operators and the closed graph theorem}
 
 \begin{notedefinition}
@@ -363,25 +718,53 @@ is not complete.  For example,
 \]
 is closed when both spaces use the supremum norm, but it is unbounded.
 \end{noteremark}
+
 \begin{notetheorem}[Banach closed graph theorem]
 Let $X$ and $Y$ be Banach spaces.  An everywhere-defined linear map
 $T\colon X\to Y$ is bounded if and only if it is closed.
 \end{notetheorem}
 
 \begin{proof}
-Only the closed-to-bounded direction needs proof.  Equip $X$ with the graph
-norm
+If $T$ is bounded and $x_n\to x$ while $Tx_n\to y$, then continuity gives
+$Tx_n\to Tx$ and hence $y=Tx$.  Thus bounded operators are closed.
+
+Conversely, suppose $T$ is closed and equip $X$ with the graph norm
 \[
   \|x\|_T=\|x\|_X+\|Tx\|_Y.
 \]
-Closedness of $T$ implies that $(X,\|\cdot\|_T)$ is complete.  The identity
-map
+We first check the completeness assertion used in the source.  If $(x_n)$ is
+Cauchy in $\|\cdot\|_T$, then $(x_n)$ is Cauchy in $X$ and $(Tx_n)$ is
+Cauchy in $Y$.  Since both spaces are Banach, there are $x\in X$ and $y\in Y$
+with
 \[
-  (X,\|\cdot\|_T)\longrightarrow(X,\|\cdot\|_X)
+  x_n\to x,
+  \qquad
+  Tx_n\to y.
 \]
-is a bounded bijection, so its inverse is bounded.  Hence
-$\|x\|_T\le C\|x\|_X$, and therefore $\|Tx\|_Y\le(C-1)\|x\|_X$.
+Closedness gives $y=Tx$, and therefore
+\[
+  \|x_n-x\|_T
+  =\|x_n-x\|_X+\|Tx_n-Tx\|_Y\longrightarrow0.
+\]
+Hence $(X,\|\cdot\|_T)$ is Banach.
+
+The identity map
+\[
+  I\colon(X,\|\cdot\|_T)\longrightarrow(X,\|\cdot\|_X)
+\]
+is a bounded bijection because $\|x\|_X\le\|x\|_T$.  By the bounded inverse
+theorem, its inverse is bounded: there is $C>0$ such that
+\[
+  \|x\|_T\le C\|x\|_X
+  \qquad(x\in X).
+\]
+In particular,
+\[
+  \|Tx\|_Y\le\|x\|_T\le C\|x\|_X,
+\]
+so $T$ is bounded.
 \end{proof}
+
 \begin{notetheorem}[Everywhere-defined symmetric maps]
 Let $H$ be a real Hilbert space and let $T\colon H\to H$ be a map satisfying
 \[
@@ -394,21 +777,44 @@ $\inner{Tx}{y}=\inner{x}{Ty}$ is imposed.
 \end{notetheorem}
 
 \begin{proof}
-For $x_1,x_2,y\in H$ and scalars $a,b$,
+We first prove linearity without assuming continuity.  For
+$x_1,x_2,y\in H$,
 \[
- \inner{T(ax_1+bx_2)-aTx_1-bTx_2}{y}
- =\inner{ax_1+bx_2}{Ty}-a\inner{x_1}{Ty}-b\inner{x_2}{Ty}=0.
+\begin{aligned}
+  \inner{T(x_1+x_2)-Tx_1-Tx_2}{y}
+   &=\inner{x_1+x_2}{Ty}
+     -\inner{x_1}{Ty}
+     -\inner{x_2}{Ty}\\
+   &=0.
+\end{aligned}
 \]
-Thus $T$ is linear.  If $x_n\to x$ and $Tx_n\to z$, then for every $y\in H$,
+Since a vector orthogonal to every $y$ is zero,
+$T(x_1+x_2)=Tx_1+Tx_2$.  If $\alpha$ is a scalar and the inner product is
+linear in the first variable, then
 \[
+\begin{aligned}
+  \inner{T(\alpha x)-\alpha Tx}{y}
+   &=\inner{\alpha x}{Ty}-\alpha\inner{x}{Ty}=0
+   \qquad(y\in H).
+\end{aligned}
+\]
+Thus $T(\alpha x)=\alpha Tx$, and $T$ is linear.  With the opposite
+inner-product convention the same computation is made in the other variable.
+
+Now suppose $x_n\to x$ and $Tx_n\to z$.  For each $y\in H$,
+\[
+\begin{aligned}
   \inner{z}{y}
-  =\lim_n\inner{Tx_n}{y}
-  =\lim_n\inner{x_n}{Ty}
-  =\inner{x}{Ty}
-  =\inner{Tx}{y}.
+   &=\lim_{n\to\infty}\inner{Tx_n}{y}\\
+   &=\lim_{n\to\infty}\inner{x_n}{Ty}\\
+   &=\inner{x}{Ty}
+    =\inner{Tx}{y}.
+\end{aligned}
 \]
-Hence $z=Tx$, so $T$ is closed.  The closed graph theorem gives boundedness.
+Hence $z=Tx$, so $T$ is closed.  The closed graph theorem now applies to the
+everywhere-defined linear operator $T$ and shows that $T$ is bounded.
 \end{proof}
+
 \section{Adjoints, compact maps, and closed ranges}
 
 \begin{notedefinition}
